@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import home1 from '../components/home1'
+import Home from '../components/home'
 import searchpage from '../components/routes/search/searchpage'
 import artist from '../components/routes/search/artist'
 
@@ -11,7 +11,7 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: home
+      component: Home
     },
     {
       path: '/s/:source/:query',
