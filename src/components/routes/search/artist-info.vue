@@ -2,12 +2,15 @@
   <div class="artist-info">
       <div class="row">
         <div class="pull-left">
+
           <img :src="info.img"/>
           <h2>{{ info.title }}</h2>
           <h4>{{ info.created }}</h4>
+          <p>
+            <h4>{{ info.description }}</h4>
+          </p>
       </div>
       <div>
-        <h4>{{ info.description }}</h4>
       </div>
     </div>
   </div>
@@ -50,6 +53,9 @@ export default {
 }
 .artist-info h2,h4{
   margin-left: 20px;
+  display: inline-block;
+}
+p{
   display: inline-block;
 }
 </style>

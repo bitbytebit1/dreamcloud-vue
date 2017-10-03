@@ -56,6 +56,9 @@ export default {
   computed: {
     artistID: function () {
       return '#/a/' + this.song.source + '/' + this.song.artistID
+    },
+    img: function () {
+      return this.song.posterLarge
     }
   },
   methods: {

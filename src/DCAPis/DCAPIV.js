@@ -104,7 +104,7 @@ const DCAPIPlug = {
                 resp.data[idx].permalink_url, // mp32:
                 img, // poster:
                 img2, // posterLarge:
-                'Soundcloud', // source:
+                'SoundCloud', // source:
                 resp.data[idx].title, // title:
                 resp.data[idx].id // trackID:
               )
@@ -213,7 +213,7 @@ const DCAPIPlug = {
           mp32: mp32,
           poster: poster,
           posterLarge: posterLarge,
-          source: 'YouTube',
+          source: source,
           title: title,
           trackID: trackID
         })
