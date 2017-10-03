@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import home from '@/components/home'
-import searchpage from '@/components/routes/search/searchpage'
-import artist from '@/components/routes/search/artist'
+import home from '../components/home'
+import searchpage from '../components/routes/search/searchpage'
+import artist from '../components/routes/search/artist'
 
 Vue.use(Router)
 
