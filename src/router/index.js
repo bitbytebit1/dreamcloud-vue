@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import home from '../components/home1'
+import home1 from '../components/home1'
 import searchpage from '../components/routes/search/searchpage'
 import artist from '../components/routes/search/artist'
 
