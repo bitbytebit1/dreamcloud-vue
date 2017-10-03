@@ -6,7 +6,9 @@
           <h2>{{ info.title }}</h2>
           <h4>{{ info.created }}</h4>
       </div>
-      <h4>{{ info.description }}</h4>
+      <div>
+        <h4>{{ info.description }}</h4>
+      </div>
     </div>
   </div>
 </template>
