@@ -10,9 +10,9 @@
 </template>
 
 <script>
-  import navbar from '@/components/navbar'
-  import dcAudio from '@/components/dcAudio'
-  import currentPlayist from '@/components/current-playlist'
+  import navbar from './components/navbar'
+  import dcAudio from './components/dcAudio'
+  import currentPlayist from './components/current-playlist'
   // import wavesurfercomp from '@/components/wavesurfer'
   export default {
     name: 'app',

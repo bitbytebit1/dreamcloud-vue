@@ -10,7 +10,7 @@
         <a class="navbar-brand hidden-xs" href="#">DreamCloud</a>
         <a class="navbar-brand visible-xs" href="#">DC</a>
         <div class="navbar-form pull-left">
-            <search></search>
+          <search></search>
         </div>
       </div>
       <div class="navbar-collapse collapse">
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import search from '@/components/search'
+import search from './search'
 export default {
   name: 'navbar',
   components: {
