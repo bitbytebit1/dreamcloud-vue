@@ -6,11 +6,12 @@
           <img :src="info.img"/>
           <h2>{{ artist }}</h2>
           <h4>{{ info.created }}</h4>
-          <p>
-            <h4>{{ info.description }}</h4>
-          </p>
+
       </div>
       <div>
+        <p>
+          <h4>{{ info.description }}</h4>
+        </p>
       </div>
     </div>
   </div>
