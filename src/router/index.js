@@ -20,7 +20,7 @@ export default new Router({
       props: true
     },
     {
-      path: '/a/:source/:artistID',
+      path: '/a/:source/:artist/:artistID/',
       name: 'artist',
       component: artist,
       props: true

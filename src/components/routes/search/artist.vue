@@ -4,7 +4,7 @@
       <!-- <img src="../../img/loading.gif"> -->
       Loading...
     </div>
-    <artist-info :artistID="artistID" :source="source">
+    <artist-info :artistID="artistID" :source="source" :artist="artist">
     </artist-info>
     <playlist :songs="searchResults"></playlist>
   </div>
@@ -14,7 +14,7 @@
 import artistInfo from './artist-info.vue'
 export default {
   name: 'artist',
-  props: ['source', 'artistID'],
+  props: ['source', 'artist', 'artistID'],
   components: {
     'artist-info': artistInfo
   },

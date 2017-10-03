@@ -4,7 +4,7 @@
         <div class="pull-left">
 
           <img :src="info.img"/>
-          <h2>{{ info.title }}</h2>
+          <h2>{{ artist }}</h2>
           <h4>{{ info.created }}</h4>
           <p>
             <h4>{{ info.description }}</h4>
@@ -18,7 +18,7 @@
 <script>
 export default {
   name: 'artist-info',
-  props: ['artistID', 'source'],
+  props: ['artistID', 'source', 'artist'],
   data () {
     return {
       msg: 'Welcome to the real Trinity',
