@@ -226,7 +226,21 @@ const DCAPIPlug = {
           })
         } else if (source.toLowerCase().indexOf('soundcloud') > -1) {
           return axios.get('http://api.soundcloud.com/tracks/' + trackID + '?client_id=' + DCAPI.sScKey).then(function (resp) {
-            console.log(resp)
+            resp = resp.data
+            DCAPI.pushResult(
+                resp.user.username, // artist:
+                resp.user_id, // artistID:
+                DCAPI.parseDate(resp.created_at), // created:
+                resp.description, // description:
+                DCAPI.secondstominutes(Math.floor(resp.duration / 1E3)), // duration:
+                resp.stream_url + '?client_id=' + DCAPI.sScKey, // mp3:
+                resp.permalink_url, // mp32:
+                resp.artwork_url.replace('i1', 'i2').replace('-large', '-t300x300'),
+                resp.artwork_url.replace('-large', '-t500x500'),
+                'Soundcloud', // source:
+                resp.title, // title:
+                resp.id // trackID:
+            )
             hCallback(DCAPI.aResults)
           })
         }
