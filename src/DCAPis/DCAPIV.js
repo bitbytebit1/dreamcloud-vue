@@ -203,6 +203,34 @@ const DCAPIPlug = {
           return axios.get('https://api.soundcloud.com/users/' + artistID + '?client_id=' + DCAPI.sScKey).then(hCallback)
         }
       },
+      getSongInfo: function (trackID, source, hCallback) {
+        DCAPI.aResults = []
+        if (source.toLowerCase().indexOf('youtube') > -1) {
+          return axios.get('https://www.googleapis.com/youtube/v3/videos?part=snippet&id=' + trackID + '&key=' + DCAPI.sYtKey).then(function (resp) {
+            resp = resp.data.items[0]
+            DCAPI.pushResult(
+                resp.snippet.channelTitle, // artist:
+                resp.snippet.channelId, // artistID:
+                DCAPI.parseDate(resp.snippet.publishedAt), // created:
+                resp.snippet.description, // description:
+                '', // duration:
+                'http://dream.tribe.nu/r3/off/?q=' + 'https://www.youtube.com/watch?v=' + resp.id, // mp3:
+                'https://www.youtube.com/watch?v=' + resp.id, // mp32:
+                resp.snippet.thumbnails.high.url, // poster:
+                resp.snippet.thumbnails.high.url, // posterLarge:
+                'YouTube', // source:
+                resp.snippet.title, // title:
+                resp.id // trackID:
+            )
+            hCallback(DCAPI.aResults)
+          })
+        } else if (source.toLowerCase().indexOf('soundcloud') > -1) {
+          return axios.get('http://api.soundcloud.com/tracks/' + trackID + '?client_id=' + DCAPI.sScKey).then(function (resp) {
+            console.log(resp)
+            hCallback(DCAPI.aResults)
+          })
+        }
+      },
       pushResult: function (artist, artistID, created, description, duration, mp3, mp32, poster, posterLarge, source, title, trackID) {
         DCAPI.aResults.push({
           artist: artist,
