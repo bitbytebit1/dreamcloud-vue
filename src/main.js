@@ -7,6 +7,7 @@ import router from './router'
 import playlist from './components/playlist.vue'
 import DCAPIPlug from '././DCAPIs/DCAPIV.js'
 import DCPlayerPlug from '././DCAPIs/DCPlayer.js'
+import UtilsPlug from '././DCAPIs/Utils.js'
 import VueLazyload from 'vue-lazyload'
 
 Vue.use(VueLazyload, {
@@ -14,6 +15,7 @@ Vue.use(VueLazyload, {
   loading: '//dream.tribe.nu/r3/pix/loading.gif',
   attempt: 1
 })
+Vue.use(UtilsPlug)
 Vue.use(DCAPIPlug)
 Vue.use(DCPlayerPlug)
 Vue.component('playlist', playlist)
