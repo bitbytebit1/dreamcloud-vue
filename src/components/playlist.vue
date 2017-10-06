@@ -1,6 +1,9 @@
 <template>
   <div id="search-results" class="container-fluid">
     <div class="row">
+      <div class="well">
+        <button class="btn btn-primary" @click='sort'>Sort Date</button>
+      </div>
       <playlist-item
         v-for="(song, index) in songs"
         v-bind:song="song"
@@ -32,6 +35,9 @@ export default {
     },
     setIframeSrc: function (sURL) {
       this.iframeSrc = sURL
+    },
+    sort: function () {
+      this.songs.sort(this.$DCAPI.sortDate)
     }
   }
 }
