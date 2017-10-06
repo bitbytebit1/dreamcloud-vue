@@ -5,10 +5,13 @@
 
           <img :src="info.img"/>
           <h2>{{ artist }}</h2>
-          <h4>{{ info.created }}</h4>
+          <h4 v-if="info.last_modified">{{ info.created }}</h4>
+          <h4 v-if="info.last_modified">{{ info.last_modified }}</h4>
+          <h4 v-if="info.followers_count">{{ info.followers_count }}</h4>
+          <h4 v-if="info.track_count">{{ info.track_count }}</h4>
 
       </div>
-      <div>
+      <div v-if="info.description">
         <p>
           <h4>{{ info.description }}</h4>
         </p>
@@ -24,8 +27,10 @@ export default {
     return {
       msg: 'Welcome to the real Trinity',
       info: {
+        description: '',
         img: '',
-        title: ''
+        title: '',
+        last_modified: ''
       }
     }
   },
@@ -40,7 +45,13 @@ export default {
         self.info.description = response.data.items[0].snippet.description
         self.info.created = response.data.items[0].snippet.publishedAt
       } else if (self.source.toLowerCase().indexOf('soundcloud') > -1) {
-        console.log(response)
+        self.info.img = response.data.avatar_url
+        self.info.title = response.data.username
+        self.info.description = ''
+        self.info.created = ''
+        self.info.last_modified = response.data.last_modified
+        self.info.followers_count = response.data.followers_count
+        self.info.track_count = response.data.track_count
       }
     })
   }
