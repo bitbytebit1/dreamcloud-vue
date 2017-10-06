@@ -27,7 +27,7 @@ export default new Router({
       props: true
     },
     {
-      path: '/t/:source/:artist/:artistID/:trackID',
+      path: '/t/:source/:artist/:title/:trackID',
       name: 'song',
       component: song,
       props: true
