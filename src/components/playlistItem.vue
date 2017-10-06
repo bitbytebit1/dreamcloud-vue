@@ -8,7 +8,7 @@
     <div class="col-xs-12 caption caption-text">
       <div class="song-title" style="">{{song.title}}</div>
       <span class="song-duration">{{song.duration}}</span>
-      <span class="song-date">{{song.created}}</span>
+      <span class="song-date">{{date}}</span>
       <div>
           <a class="artist" :href="artistID">{{song.artist}}</a>
           <span id="unfollow-button" style="margin-left:10px" class="">
@@ -39,6 +39,9 @@ export default {
     },
     img: function () {
       return this.song.posterLarge
+    },
+    date: function () {
+      return this.$DCAPI.calcDate(new Date(), this.song.created)
     }
   },
   methods: {
