@@ -1,13 +1,15 @@
 <template>
   <div class="artist-info">
-      <div class="row-fluid">
-          <img :src="info.img" name="imageartist" width="120" height="120" class="media-object dp img-circle" />
-          <h2>{{ artist }}</h2>
-          <h4 v-if="info.last_modified">{{ info.created }}</h4>
-          <h4 v-if="info.last_modified">{{ info.last_modified }}</h4>
-          <h4 v-if="info.followers_count">{{ info.followers_count }}</h4>
-          <h4 v-if="info.track_count">{{ info.track_count }}</h4>
-          <h5 v-if="info.description" style="align: left;">{{ info.description }}</h5>
+    <img :src="info.img" class="media-object dp img-circle" style="display:inline-block"/>
+    <div style="display:inline-block">
+      <span class="lead text-left">{{ artist }}</span>
+      <br />
+      <span class="lead" v-if="info.last_modified">{{ info.created }}</span>
+      <span class="lead" v-if="info.last_modified">{{ info.last_modified }}</span>
+      <span class="lead" v-if="info.followers_count">{{ info.followers_count }}</span>
+      <span class="lead" v-if="info.track_count">{{ info.track_count }}</span>
+      <span class="lead" v-if="info.description" style="align: left;">{{ info.description }}</span>
+    </div>
     </div>
   </div>
 </template>
