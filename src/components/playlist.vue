@@ -8,6 +8,7 @@
         v-bind:key="index"
       >
       </playlist-item>
+      <iframe :src="iframeSrc"></iframe>
     </div>
   </div>
 </template>
@@ -21,12 +22,16 @@ export default {
   },
   data () {
     return {
-      msg: 'Welcome to the playlist Trinity'
+      msg: 'Welcome to the playlist Trinity',
+      iframeSrc: ''
     }
   },
   methods: {
     play: function (index) {
       this.$DCPlayer.setNPlay(this.songs, index)
+    },
+    setIframeSrc: function (sURL) {
+      this.iframeSrc = sURL
     }
   }
 }
@@ -35,5 +40,11 @@ export default {
 <style>
 img[lazy=loading] {
   background-image: url("./img/loading.gif");
+}
+#search-results{
+  margin-bottom: 10px
+}
+iframe{
+  display: none;
 }
 </style>
