@@ -12,15 +12,13 @@
 <script>
   import navbar from './components/navbar'
   import dcAudio from './components/dcAudio'
-  import currentPlayist from './components/current-playlist'
   // import wavesurfercomp from '@/components/wavesurfer'
   export default {
     name: 'app',
     components: {
       'navbar': navbar,
-      'dcAudio': dcAudio,
+      'dcAudio': dcAudio
       // 'wavesurfer-container': wavesurfercomp
-      'current-playist': currentPlayist
     },
     data () {
       return {
