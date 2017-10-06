@@ -34,6 +34,13 @@ export default new Router({
       component: song,
       props: true
     },
+    {
+      path: '/u/:user/',
+      name: 'userIndex',
+      component: userIndex,
+      props: true
+    },
+    {
       path: '/u/:user/:playlist',
       name: 'userPlaylist',
       component: userPlaylist,
