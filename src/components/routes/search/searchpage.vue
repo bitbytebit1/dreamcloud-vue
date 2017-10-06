@@ -3,7 +3,7 @@
     <div class="loading" v-if="loading">
       Loading...
     </div>
-    <playlist :songs="searchResults"></playlist>
+    <playlist v-if="!loading" :songs="searchResults"></playlist>
   </div>
 </template>
 
