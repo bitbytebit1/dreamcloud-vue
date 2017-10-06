@@ -261,6 +261,10 @@ const DCAPIPlug = {
         })
       },
       calcDate: function (a, b) {
+        if (typeof b !== Object) {
+          b = new Date(b)
+        }
+
         var c = Math.floor(a.getTime() - b.getTime())
         var d = Math.floor(c / 864E5)
         var m = Math.floor(d / 31)

@@ -7,6 +7,7 @@ import router from './router'
 import playlist from './components/playlist.vue'
 import DCAPIPlug from '././DCAPIs/DCAPIV.js'
 import DCPlayerPlug from '././DCAPIs/DCPlayer.js'
+import DCUserPlug from '././DCAPIs/DCUser.js'
 import UtilsPlug from '././DCAPIs/Utils.js'
 import VueLazyload from 'vue-lazyload'
 
@@ -16,6 +17,7 @@ Vue.use(VueLazyload, {
   attempt: 1
 })
 Vue.use(UtilsPlug)
+Vue.use(DCUserPlug)
 Vue.use(DCAPIPlug)
 Vue.use(DCPlayerPlug)
 Vue.component('playlist', playlist)

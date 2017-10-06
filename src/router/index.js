@@ -4,6 +4,8 @@ import Home from '../components/home'
 import searchpage from '../components/routes/search/searchpage'
 import artist from '../components/routes/search/artist'
 import song from '../components/routes/search/song'
+import userPlaylist from '../components/routes/search/user-playlist'
+import userIndex from '../components/routes/search/user-index'
 
 Vue.use(Router)
 
@@ -30,6 +32,11 @@ export default new Router({
       path: '/t/:source/:artist/:title/:trackID',
       name: 'song',
       component: song,
+      props: true
+    },
+      path: '/u/:user/:playlist',
+      name: 'userPlaylist',
+      component: userPlaylist,
       props: true
     }
   ]
