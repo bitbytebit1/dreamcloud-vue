@@ -51,9 +51,9 @@ export default {
     share: function () {
       if (this.$UTILS.isMobile) {
         this.$parent.setIframeSrc('')
-        this.$parent.setIframeSrc('whatsapp://send?text=' + encodeURIComponent('dc42.netlify.com/#/t/' + this.song.source + '/' + this.song.artist + '/' + this.song.artistID + '/' + this.song.trackID))
+        this.$parent.setIframeSrc('whatsapp://send?text=' + encodeURI('http://dc42.netlify.com/#/t/' + this.song.source + '/' + this.song.title + '/' + this.song.title + '/' + this.song.trackID))
       } else {
-        this.$UTILS.copyToClipboard('dc42.netlify.com/#/t/' + this.song.source + '/' + this.song.artist + '/' + this.song.artistID + '/trackID')
+        this.$UTILS.copyToClipboard('dc42.netlify.com/#/t/' + this.song.source + '/' + encodeURIComponent(this.song.artist) + '/' + encodeURIComponent(this.song.title) + '/' + this.song.trackID)
       }
     }
   }
