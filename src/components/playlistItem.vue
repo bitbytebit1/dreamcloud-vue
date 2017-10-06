@@ -2,7 +2,7 @@
   <div>
   <div class="song-container col-lg-3 col-sm-4 col-xs-12">
     <div v-on:click="play">
-      <img v-lazy="song.poster" class="poster img-responsive" alt="">
+      <img v-lazy="song.posterLarge" class="poster img-responsive" alt="">
     </div>
 
     <div class="col-xs-12 caption caption-text">
