@@ -69,7 +69,7 @@ const DCAPIPlug = {
               resp.data.data[idx].url, // mp32:
               resp.data.data[idx].pictures.large, // poster:
               resp.data.data[idx].pictures.extra_large, // posterLarge:
-              'Mixcloud', // source:
+              'MixCloud', // source:
               resp.data.data[idx].name, // title:
               '' // trackID:
             )

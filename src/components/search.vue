@@ -1,23 +1,23 @@
 <template>
-  <div id="search-buttons">
-    <input v-on:keyup='search' v-model='sQuery' class='form-control ui-autocomplete-input' placeholder='Search'>
-    <button v-on:click="btnclick('all')" type='button' class='btn btn-primary'>
+  <div id="search-buttons" class="form-group">
+    <input v-on:keyup.enter='search' v-model='sQuery' class='form-control ui-autocomplete-input' placeholder='Search'>
+    <button v-on:click="btnclick('All')" type='button' class='btn btn-primary'>
       <!-- <input type='checkbox'> -->
       <img src='./img/all.png'>
     </button>
-  <button v-on:click="btnclick('mixcloud')" type='button' class='btn btn-primary'>
+    <button v-on:click="btnclick('MixCloud')" type='button' class='btn btn-primary'>
       <!-- <input type='checkbox'> -->
       <img src='./img/mc.png'>
     </button>
-    <button v-on:click="btnclick('soundcloud')" type='button' class='btn btn-primary'>
+    <button v-on:click="btnclick('SoundCloud')" type='button' class='btn btn-primary'>
       <!-- <input type='checkbox'> -->
       <img src='./img/sc.png'>
     </button>
-    <button v-on:click="btnclick('youtube')" type='button' class='btn btn-primary'>
+    <button v-on:click="btnclick('YouTube')" type='button' class='btn btn-primary'>
       <!-- <input type='checkbox'> -->
       <img src='./img/yt.png'>
     </button>
-    <button v-on:click="btnclick('vimeo')" type='button' class='btn btn-primary'>
+    <button v-on:click="btnclick('Vimeo')" type='button' class='btn btn-primary'>
       <!-- <input type='checkbox'> -->
       <img src='./img/vm.png'>
     </button>

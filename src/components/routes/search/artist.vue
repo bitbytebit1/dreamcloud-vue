@@ -4,9 +4,9 @@
       <!-- <img src="../../img/loading.gif"> -->
       Loading...
     </div>
-    <artist-info :artistID="artistID" :source="source" :artist="artist">
+    <artist-info  v-if="!loading" :artistID="artistID" :source="source" :artist="artist">
     </artist-info>
-    <playlist :songs="searchResults"></playlist>
+    <playlist  v-if="!loading":songs="searchResults"></playlist>
   </div>
 </template>
 
