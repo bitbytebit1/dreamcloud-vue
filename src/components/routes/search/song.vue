@@ -10,7 +10,7 @@
 <script>
 export default {
   name: 'searchpage',
-  props: ['source', 'artist', 'artistID', 'trackID'],
+  props: ['source', 'artist', 'title', 'trackID'],
   data () {
     return {
       loading: false,
@@ -19,7 +19,6 @@ export default {
     }
   },
   created: function () {
-    console.log('song created')
     this.search(this.trackID, this.source)
   },
   // beforeRouteUpdate (to) {
@@ -27,8 +26,10 @@ export default {
   //   this.search(to.params.query, to.params.source)
   // },
   watch: {
-    '$route.params.query': '_search',
-    '$route.params.source': '_search'
+    '$route.params.source': '_search',
+    '$route.params.artist': '_search',
+    '$route.params.title': '_search',
+    '$route.params.trackID': '_search'
   },
   methods: {
     _search: function (sQuery, aSource) {
@@ -42,7 +43,6 @@ export default {
       let self = this
       self.searchResults = []
       this.$DCAPI.getSongInfo(sQuery, aSource, function (d) {
-        console.log(d)
         self.loading = false
         for (var i in d) {
           self.searchResults.push(d[i])
@@ -51,7 +51,6 @@ export default {
     }
   }
 }
-
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
