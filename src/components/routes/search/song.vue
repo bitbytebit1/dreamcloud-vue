@@ -10,7 +10,7 @@
 <script>
 export default {
   name: 'searchpage',
-  props: ['source', 'artist', 'artistID','trackID'],
+  props: ['source', 'artist', 'artistID', 'trackID'],
   data () {
     return {
       loading: false,
@@ -19,7 +19,8 @@ export default {
     }
   },
   created: function () {
-    this.search(this.query, this.source)
+    console.log('song created')
+    this.search(this.trackID, this.source)
   },
   // beforeRouteUpdate (to) {
   //   // console.log(to)
@@ -31,7 +32,7 @@ export default {
   },
   methods: {
     _search: function (sQuery, aSource) {
-      this.search(this.$route.params.query, this.$route.params.source)
+      this.search(this.$route.params.trackID, this.$route.params.source)
     },
     search: function (sQuery, aSource) {
       sQuery = sQuery || this.query
@@ -40,7 +41,8 @@ export default {
       this.loading = true
       let self = this
       self.searchResults = []
-      this.$DCAPI.searchInt(sQuery, 0, [aSource], '', function (d) {
+      this.$DCAPI.getSongInfo(sQuery, aSource, function (d) {
+        console.log(d)
         self.loading = false
         for (var i in d) {
           self.searchResults.push(d[i])

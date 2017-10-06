@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from '../components/home'
 import searchpage from '../components/routes/search/searchpage'
 import artist from '../components/routes/search/artist'
+import song from '../components/routes/search/song'
 
 Vue.use(Router)
 
@@ -23,6 +24,12 @@ export default new Router({
       path: '/a/:source/:artist/:artistID/',
       name: 'artist',
       component: artist,
+      props: true
+    },
+    {
+      path: '/t/:source/:artist/:artistID/:trackID',
+      name: 'song',
+      component: song,
       props: true
     }
   ]
