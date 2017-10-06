@@ -1,21 +1,13 @@
 <template>
   <div class="artist-info">
-      <div class="row">
-        <div class="pull-left">
-
-          <img :src="info.img"/>
+      <div class="row-fluid">
+          <img :src="info.img" name="imageartist" width="120" height="120" class="media-object dp img-circle" />
           <h2>{{ artist }}</h2>
           <h4 v-if="info.last_modified">{{ info.created }}</h4>
           <h4 v-if="info.last_modified">{{ info.last_modified }}</h4>
           <h4 v-if="info.followers_count">{{ info.followers_count }}</h4>
           <h4 v-if="info.track_count">{{ info.track_count }}</h4>
-
-      </div>
-      <div v-if="info.description">
-        <p>
-          <h4>{{ info.description }}</h4>
-        </p>
-      </div>
+          <h5 v-if="info.description" style="align: left;">{{ info.description }}</h5>
     </div>
   </div>
 </template>
@@ -61,7 +53,6 @@ export default {
 <style>
 .artist-info img{
   margin-left: 30px;
-  display: inline-block;
 }
 .artist-info h2,h4{
   margin-left: 20px;
@@ -69,5 +60,21 @@ export default {
 }
 p{
   display: inline-block;
+}
+.media{
+  box-shadow:0px 0px 4px -2px #000;
+  margin:10px 0;
+  padding:20px;
+}
+.dp{
+ border:4px solid #eee;
+ transition: all 0.2s ease-in-out;
+}
+.dp:hover{
+ border:0px solid #eee;
+  /*transform:rotate(360deg);
+  -ms-transform:rotate(360deg);  
+  -webkit-transform:rotate(360deg);  
+  -webkit-font-smoothing:antialiased;*/
 }
 </style>
