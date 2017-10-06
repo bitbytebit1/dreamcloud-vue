@@ -75,8 +75,8 @@ p{
 .dp:hover{
  border:0px solid #eee;
   /*transform:rotate(360deg);
-  -ms-transform:rotate(360deg);  
-  -webkit-transform:rotate(360deg);  
+  -ms-transform:rotate(360deg);
+  -webkit-transform:rotate(360deg);
   -webkit-font-smoothing:antialiased;*/
 }
 </style>
