@@ -49,8 +49,12 @@ export default {
       this.$parent.play(this.index)
     },
     share: function () {
-      console.log('dc42.netlify.com/#/a/' + this.song.source + '/' + this.song.artist + '/' + this.song.artistID + '/' + this.song.trackID)
-      this.$parent.setIframeSrc('whatsapp://send?text=http://dream.tribe.nu/r3/?url=' + encodeURIComponent(this.song.mp32))
+      if (this.$UTILS.isMobile) {
+        this.$parent.setIframeSrc('')
+        this.$parent.setIframeSrc('whatsapp://send?text=' + encodeURIComponent('dc42.netlify.com/#/t/' + this.song.source + '/' + this.song.artist + '/' + this.song.artistID + '/trackID'))
+      } else {
+        this.$UTILS.copyToClipboard('dc42.netlify.com/#/t/' + this.song.source + '/' + this.song.artist + '/' + this.song.artistID + '/trackID')
+      }
     }
   }
 }
