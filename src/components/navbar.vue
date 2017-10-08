@@ -3,7 +3,6 @@
     <div class="container-fluid">
       <div class="navbar-header">
         <a class="navbar-brand hidden-xs" href="#">DreamCloud</a>
-        <a class="navbar-brand visible-xs" href="#">DC</a>
         <div class="navbar-form pull-left">
           <search></search>
         </div>
