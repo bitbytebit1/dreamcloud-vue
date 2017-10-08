@@ -18,6 +18,7 @@
        <tbody>
          <tr v-for="entry in filteredData">
            <td v-for="key in columns">
+             {{entry}}
              {{entry[key]}}
            </td>
          </tr>
@@ -31,8 +32,7 @@ export default {
   name: 'grid',
   props: {
     data: Array,
-    columns: Array,
-    filterKey: String
+    columns: Array
   },
   data: function () {
     var sortOrders = {}
@@ -48,14 +48,12 @@ export default {
   computed: {
     filteredData: function () {
       var sortKey = this.sortKey
-      var filterKey = this.filterKey && this.filterKey.toLowerCase()
+      var filterKey = this.searchQuery && this.searchQuery.toLowerCase()
       var order = this.sortOrders[sortKey] || 1
       var data = this.data
       if (filterKey) {
         data = data.filter(function (row) {
-          return Object.keys(row).some(function (key) {
-            return String(row[key]).toLowerCase().indexOf(filterKey) > -1
-          })
+          return String(row).toLowerCase().indexOf(filterKey) > -1
         })
       }
       if (sortKey) {
