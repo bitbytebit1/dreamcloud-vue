@@ -26,11 +26,11 @@
 </template>
 <script>
 export default {
-  name: 'playlistItem',
+  name: 'playlistItemNormal',
   props: ['song', 'index'],
   data () {
     return {
-      msg: 'Welcome to the real PlaylistItem'
+      msg: 'Welcome to the real PlaylistItemNormal'
     }
   },
   computed: {

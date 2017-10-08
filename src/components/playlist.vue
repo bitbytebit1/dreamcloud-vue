@@ -3,30 +3,42 @@
     <div class="row">
       <div class="well">
         <button class="btn btn-primary" @click='sort'>Sort Date</button>
+        <button class="btn btn-primary" @click='toggleView'>Toggle Playlist View</button>
       </div>
-      <playlist-item
+      <playlistItemNormal v-if="!toggle"
         v-for="(song, index) in songs"
         v-bind:song="song"
         v-bind:index="index"
         v-bind:key="index"
       >
-      </playlist-item>
+      </playlistItemNormal>
+      <playlistItemList v-if="toggle"
+        v-for="(song, index) in songs"
+        v-bind:song="song"
+        v-bind:index="index"
+        v-bind:key="index"
+      >
+      </playlistItemList>
       <iframe :src="iframeSrc"></iframe>
     </div>
   </div>
 </template>
 <script>
-import playlistItem from './playlistItem.vue'
+import playlistItemNormal from './playlistItemNormal.vue'
+import playlistItemList from './playlistItemList.vue'
+
 export default {
   name: 'playlist',
   props: ['songs'],
   components: {
-    'playlistItem': playlistItem
+    'playlistItemNormal': playlistItemNormal,
+    'playlistItemList': playlistItemList
   },
   data () {
     return {
       msg: 'Welcome to the playlist Trinity',
-      iframeSrc: ''
+      iframeSrc: '',
+      toggle: false
     }
   },
   methods: {
@@ -38,6 +50,10 @@ export default {
     },
     sort: function () {
       this.songs.sort(this.$DCAPI.sortDate)
+    },
+    toggleView: function () {
+      if (!this.toggle) this.toggle = true
+      else this.toggle = false
     }
   }
 }
