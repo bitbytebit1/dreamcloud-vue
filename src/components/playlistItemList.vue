@@ -1,29 +1,26 @@
 <template>
-  <div>
-  <div class="song-container col-lg-3 col-sm-4 col-xs-12">
-    <div v-on:click="play">
-      <img v-lazy="song.posterLarge" class="poster img-responsive" alt="">
+ <tr style="bgcolor:#eee">
+  <td v-on:click="play">
+    <div class="song-title" style="text-align:left; margin-left:30px; margin-top:10px;">
+      <p v-if="this.index == this.$parent.playingIndex" style="color: Tomato">{{song.title}}</p>
+      <p v-else>{{song.title}}</p>
     </div>
-
-    <div class="col-xs-12 caption caption-text">
-      <div class="song-title" style="">{{song.title}}</div>
-      <span class="song-duration">{{song.duration}}</span>
-      <span class="song-date">{{date}}</span>
-      <div>
-          <a class="artist" :href="artistID">{{song.artist}}</a>
-          <span id="unfollow-button" style="margin-left:10px" class="">
-            <i class="glyphicon glyphicon-remove"></i></span>
-          <span id="save-song"><i class="glyphicon glyphicon-star-empty"></i></span>
-      </div>
-      <div class="btn-group">
-        <button type="button" v-on:click="share" class="btn btn-primary">Share</button>
-      </div>
-    </div>
-  </div>
-  <div v-if="index >= 2 && (index + 1) % 3 == 0" class=" clearfix visible-md-block"></div>
-  <div v-if="index >= 3 && (index + 1) % 4 == 0" class="clearfix visible-lg-block"></div>
-  </div>
+  </td>
+  <td v-on:click="play">
+    <img v-lazy="song.posterLarge" class="poster img-responsive" alt="" style="width: 30px; height: 30px;">
+  </td>
+  <td>
+    <a class="artist" :href="artistID">{{song.artist}}</a>
+  </td>
+  <td>
+    <span class="song-date">{{date}}</span>
+  </td>
+  <td>
+    <span class="song-duration">{{song.duration}}</span>
+  </td>
+ </tr>
 </template>
+
 <script>
 export default {
   name: 'playlistItemList',
@@ -60,6 +57,5 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
 </style>
