@@ -52,8 +52,7 @@ export default {
       this.songs.sort(this.$DCAPI.sortDate)
     },
     toggleView: function () {
-      if (!this.toggle) this.toggle = true
-      else this.toggle = false
+      this.toggle = !this.toggle
     }
   }
 }
