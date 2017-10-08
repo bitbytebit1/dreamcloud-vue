@@ -1,8 +1,8 @@
 <template>
-  <div class="artist-info">
-    <img :src="info.img" class="media-object dp img-circle" style="display:inline-block"/>
-    <div style="display:inline-block">
-      <span class="lead text-left">{{ artist }}</span>
+  <div class="row">
+    <img :src="info.img" class="img-fluid" style="display:inline-block; margin:20px;"/>
+    <div style="display:inline-block;width:40%">
+      <span class="lead text-left" style="text-decoration: underline;">{{ artist }}</span>
       <br />
       <span class="lead" v-if="info.last_modified">{{ info.created }}</span>
       <span class="lead" v-if="info.last_modified">{{ info.last_modified }}</span>
@@ -53,30 +53,4 @@ export default {
 </script>
 
 <style>
-.artist-info img{
-  margin-left: 30px;
-}
-.artist-info h2,h4{
-  margin-left: 20px;
-  display: inline-block;
-}
-p{
-  display: inline-block;
-}
-.media{
-  box-shadow:0px 0px 4px -2px #000;
-  margin:10px 0;
-  padding:20px;
-}
-.dp{
- border:4px solid #eee;
- transition: all 0.2s ease-in-out;
-}
-.dp:hover{
- border:0px solid #eee;
-  /*transform:rotate(360deg);
-  -ms-transform:rotate(360deg);
-  -webkit-transform:rotate(360deg);
-  -webkit-font-smoothing:antialiased;*/
-}
 </style>
