@@ -1,0 +1,3 @@
+export const SET_SONG_INDEX = 'SET_SONG_INDEX'
+export const NO_INDEX = 'NO_INDEX'
+export const INCREMENT_INDEX = 'INCREMENT_INDEX'

@@ -53,7 +53,7 @@ export default {
   },
   methods: {
     play: function (index) {
-      this.playingIndex = index
+      this.$store.dispatch('updateSongIndex', index)
       this.$DCPlayer.setNPlay(this.songs, index)
     },
     setIframeSrc: function (sURL) {
