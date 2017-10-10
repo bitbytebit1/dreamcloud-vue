@@ -1,8 +1,10 @@
 <template>
-  <div>
-    <h1>/u/{{user}}</h1>
-    <h2>{{aPlaylist}}</h2>
-    <gridComp :data="aPlaylist" :columns="['Name']" filter-key="searchQuery"></gridComp>
+  <div class="container">
+  <div class="row">
+      <h1>/u/{{user}}</h1>
+      <h2>{{aPlaylist}}</h2>
+      <gridComp style="width:100%" class="text-center" :data="['aDrive', 'aTest', 'wasd', 'waasd']" :columns="['Name']"></gridComp>
+    </div>
   </div>
 </template>
 <script>
@@ -45,7 +47,9 @@ export default {
   }
 }
 </script>
-
+.gridComp{
+  text-align: centre;
+}
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
 </style>
