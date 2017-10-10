@@ -22,7 +22,7 @@ const DCAPIPlug = {
         DCAPI.bRelated = bRelated
         DCAPI.sQuery = sQuery
         DCAPI.iPage = iPage
-        DCAPI.aSource = aSource[0] === 'all' ? ['mixcloud', 'soundcloud', 'youtube', 'vimeo'] : aSource
+        DCAPI.aSource = aSource[0].toLowerCase() === 'all' ? ['mixcloud', 'soundcloud', 'youtube', 'vimeo'] : aSource
         DCAPI.sArtist = sArtist
         DCAPI.hCallback = hCallback
         DCAPI.aResults = []
