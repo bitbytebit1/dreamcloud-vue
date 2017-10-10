@@ -1,9 +1,12 @@
 <template>
   <div id="app">
     <navbar></navbar>
-    <main>
-      <router-view></router-view>
-    </main>
+    <div class='container-fluid'>
+      <main>
+        <router-view></router-view>
+      </main>  
+    </div>
+
     <dcAudio :song="aSong"></dcAudio>
     <!-- <wavesurfer-container layout="modal"></wavesurfer-container> -->
   </div>
