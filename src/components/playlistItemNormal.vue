@@ -51,8 +51,8 @@ export default {
     },
     share: function () {
       if (this.$UTILS.isMobile) {
-        this.$parent.setIframeSrc('')
-        this.$parent.setIframeSrc('whatsapp://send?text=' + encodeURI('http://dc42.netlify.com/#/t/' + this.song.source + '/' + this.song.title + '/' + this.song.title + '/' + this.song.trackID))
+        this.$parent.setIframeSrc('') // double check if this works.
+        this.$parent.setIframeSrc('whatsapp://send?text=' + 'http://dc42.netlify.com/' + encodeURIComponent('#/t/' + this.song.source + '/' + this.song.title + '/' + this.song.title + '/' + this.song.trackID))
       } else {
         this.$UTILS.copyToClipboard('dc42.netlify.com/#/t/' + this.song.source + '/' + encodeURIComponent(this.song.artist) + '/' + encodeURIComponent(this.song.title) + '/' + this.song.trackID)
       }
