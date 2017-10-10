@@ -1,5 +1,6 @@
 /* eslint-disable */
 import axios from 'axios'
+import store from '../vuex'
 const DCPlayerPlug = {
   install (Vue, options) {
     var DCPlayer = {
@@ -69,6 +70,7 @@ const DCPlayerPlug = {
       next: function () {
         // Increment unless end of playlist.
         DCPlayer.iCurrent = (DCPlayer.iCurrent < DCPlayer.aPlaylist.length ? DCPlayer.iCurrent + 1 : 0)
+        store.commit('changeIndex', DCPlayer.iCurrent )
         DCPlayer.play(DCPlayer.aPlaylist[DCPlayer.iCurrent].mp32)
       }
     }

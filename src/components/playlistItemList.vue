@@ -2,8 +2,7 @@
  <tr style="bgcolor:#eee">
   <td v-on:click="play">
     <div class="song-title" style="text-align:left; margin-left:30px; margin-top:10px;">
-      <p v-if="this.index == this.songIndexNow" style="color: Tomato">{{song.title}}</p>
-      <p v-else>{{song.title}}</p>
+      <p v-bind:class="{ active: isPlaying }">{{song.title}}</p>
     </div>
   </td>
   <td v-on:click="play">
@@ -22,7 +21,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 
 export default {
   name: 'playlistItemList',
@@ -42,13 +40,12 @@ export default {
     date: function () {
       return this.$DCAPI.calcDate(new Date(), this.song.created)
     },
-    ...mapGetters({
-      songIndexNow: 'songIndex'
-    })
+    isPlaying: function () {
+      return this.$route.path === this.$store.getters.hash && this.index === this.$store.getters.index
+    }
   },
   methods: {
     play: function () {
-      console.log(this.songIndexNow)
       this.$parent.play(this.index)
     },
     share: function () {
@@ -64,4 +61,7 @@ export default {
 </script>
 
 <style>
+.active{
+  color: Tomato;
+}
 </style>
