@@ -10,6 +10,7 @@ import DCPlayerPlug from '././DCAPIs/DCPlayer.js'
 import DCUserPlug from '././DCAPIs/DCUser.js'
 import UtilsPlug from '././DCAPIs/Utils.js'
 import VueLazyload from 'vue-lazyload'
+import store from './vuex'
 
 Vue.use(VueLazyload, {
   preLoad: 1.6,
@@ -30,5 +31,6 @@ new Vue({
   el: '#app',
   router,
   template: '<App/>',
-  components: { App }
+  components: { App },
+  store
 })
