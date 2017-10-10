@@ -59,7 +59,7 @@ const DCAPIPlug = {
         }
         return axios.get(a).then(function (resp) {
           for (var idx in resp.data.data) {
-            DCAPI.aResults.push(
+            DCAPI.pushResult(
               resp.data.data[idx].user.name, // artist:
               resp.data.data[idx].user.username, // artistID:
               DCAPI.parseDate(resp.data.data[idx].created_time), // created:
