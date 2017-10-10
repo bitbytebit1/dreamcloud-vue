@@ -10,17 +10,17 @@
       <span class="song-duration">{{song.duration}}</span>
       <span class="song-date">{{date}}</span>
       <div>
-          <a class="artist" :href="artistID">{{song.artist}}</a>
-          <span id="unfollow-button" style="margin-left:10px" class="">
-            <i class="glyphicon glyphicon-remove"></i></span>
-          <span id="save-song"><i class="glyphicon glyphicon-star-empty"></i></span>
+        <a class="artist" :href="artistID">{{song.artist}}</a>
+        <span id="unfollow-button" style="margin-left:10px" class="">
+          <i class="glyphicon glyphicon-remove"></i></span>
+        <span id="save-song"><i class="glyphicon glyphicon-star-empty"></i></span>
       </div>
       <div class="btn-group">
         <button type="button" v-on:click="share" class="btn btn-primary">Share</button>
       </div>
     </div>
   </div>
-  <div v-if="index >= 2 && (index + 1) % 3 == 0" class=" clearfix visible-md-block"></div>
+  <div v-if="index >= 2 && (index + 1) % 3 == 0" class="clearfix visible-md-block"></div>
   <div v-if="index >= 3 && (index + 1) % 4 == 0" class="clearfix visible-lg-block"></div>
   </div>
 </template>
@@ -41,6 +41,7 @@ export default {
       return this.song.posterLarge
     },
     date: function () {
+      // I hate this new date... Volvo please fix.
       return this.$DCAPI.calcDate(new Date(), this.song.created)
     }
   },

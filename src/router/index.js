@@ -4,8 +4,8 @@ import Home from '../components/home'
 import searchpage from '../components/routes/search/searchpage'
 import artist from '../components/routes/search/artist'
 import song from '../components/routes/search/song'
-import userPlaylist from '../components/routes/search/user-playlist'
-import userIndex from '../components/routes/search/user-index'
+import userPlaylist from '../components/routes/user/user-playlist'
+import userIndex from '../components/routes/user/user-index'
 
 Vue.use(Router)
 
