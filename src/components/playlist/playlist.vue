@@ -70,7 +70,7 @@ export default {
 
 <style>
 img[lazy=loading] {
-  background-image: url("./img/loading.gif");
+  background-image: url("../img/loading.gif");
 }
 #search-results{
   margin-bottom: 10px

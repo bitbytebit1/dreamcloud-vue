@@ -3,23 +3,23 @@
     <input v-on:keyup.enter='search' v-model='sQuery' class='form-control ui-autocomplete-input' placeholder='Search'>
     <button v-on:click="btnclick('All')" type='button' class='btn btn-primary'>
       <!-- <input type='checkbox'> -->
-      <img src='./img/all.png'>
+      <img src='../img/all.png'>
     </button>
     <button v-on:click="btnclick('MixCloud')" type='button' class='btn btn-primary'>
       <!-- <input type='checkbox'> -->
-      <img src='./img/mc.png'>
+      <img src='../img/mc.png'>
     </button>
     <button v-on:click="btnclick('SoundCloud')" type='button' class='btn btn-primary'>
       <!-- <input type='checkbox'> -->
-      <img src='./img/sc.png'>
+      <img src='../img/sc.png'>
     </button>
     <button v-on:click="btnclick('YouTube')" type='button' class='btn btn-primary'>
       <!-- <input type='checkbox'> -->
-      <img src='./img/yt.png'>
+      <img src='../img/yt.png'>
     </button>
     <button v-on:click="btnclick('Vimeo')" type='button' class='btn btn-primary'>
       <!-- <input type='checkbox'> -->
-      <img src='./img/vm.png'>
+      <img src='../img/vm.png'>
     </button>
   </div>
 </template>
@@ -34,7 +34,7 @@ export default {
     }
   },
   methods: {
-    __search: function (sQuery, sSource = 'youtube') {
+    __search: function (sQuery, sSource = 'YouTube') {
       this.$router.push({name: 'searchPage', params: {query: this.sQuery, source: sSource}})
     },
     search: function () {

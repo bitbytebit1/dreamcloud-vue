@@ -10,7 +10,7 @@
 </template>
 
 <script>
-  import navbar from './components/navbar'
+  import navbar from './components/navbar/navbar'
   import dcAudio from './components/dcAudio'
   // import wavesurfercomp from '@/components/wavesurfer'
   export default {
