@@ -30,10 +30,10 @@ const DCAPIPlug = {
         for (var idx in DCAPI.aSource) {
           DCAPI.ajaxList.push(DCAPI.search(DCAPI.aSource[idx]))
         }
-        axios.all(DCAPI.ajaxList).then(function () {
+        return axios.all(DCAPI.ajaxList).then(function () {
           DCAPI.hCallback(DCAPI.aResults)
           DCAPI.aResults = []
-        })
+        }).catch(DCAPI.error)
       },
       search: function (source) {
         switch (source.toLowerCase()) {
@@ -117,6 +117,8 @@ const DCAPIPlug = {
       yt: function () {
         if (DCAPI.iPage === 0) {
           DCAPI.YTnextPageTokenString = ''
+        } else if (!DCAPI.nextPageToken) {
+          return DCAPI.error()
         } else {
           DCAPI.YTnextPageTokenString = '&pageToken=' + DCAPI.nextPageToken
         }
@@ -300,6 +302,9 @@ const DCAPIPlug = {
       },
       secondstominutes: function (time) {
         return DCAPI.str_pad_left(Math.floor(time / 60), '0', 2) + ':' + DCAPI.str_pad_left(time - Math.floor(time / 60) * 60, '0', 2)
+      },
+      error: function () {
+        DCAPI.hCallback([])
       }
     }
     Object.defineProperty(Vue.prototype, '$DCAPI', { value: DCAPI })
