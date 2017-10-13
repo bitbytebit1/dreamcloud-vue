@@ -16,9 +16,14 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '/home',
       name: 'home',
       component: Home
+    },
+    {
+      path: '/settings',
+      name: 'settings',
+      component: settings
     },
     {
       path: '/s/:source/:query',
