@@ -6,7 +6,7 @@
           height="220px"
         >
           <v-container grid-list-xs fill-height fluid>
-            <v-layout id="yodo" fill-height v-bind="binding">
+            <v-layout fill-height>
               <v-flex xs12 align-end flexbox>
                 <span class="headline white--text" v-text="song.title"></span>
                 <div class="artist white--text" v-text="song.artist"></div>

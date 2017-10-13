@@ -71,9 +71,6 @@ export default {
 </script>
 
 <style>
-img[lazy=loading] {
-  background-image: url("../img/loading.gif");
-}
 #search-results{
   margin-bottom: 10px
 }
