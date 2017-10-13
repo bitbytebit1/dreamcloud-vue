@@ -18,7 +18,7 @@ import('../node_modules/vuetify/dist/vuetify.min.css')
 
 Vue.use(VueLazyload, {
   preLoad: 1.6,
-  loading: '//dream.tribe.nu/r3/pix/loading.gif',
+  loading: 'http://dream.tribe.nu/r3/pix/loading.gif',
   attempt: 1
 })
 Vue.use(UtilsPlug)
@@ -28,6 +28,7 @@ Vue.use(DCPlayerPlug)
 Vue.component('playlist', playlist)
 
 Vue.config.productionTip = false
+router.replace('/home')
 
 /* eslint-disable no-new */
 new Vue({
