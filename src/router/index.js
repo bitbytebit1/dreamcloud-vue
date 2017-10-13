@@ -1,9 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '../components/home'
+import Home from '../components/routes/home/home'
+import settings from '../components/routes/settings/settings'
+
+import artist from '../components/routes/artist/artist'
+
 import searchpage from '../components/routes/search/searchpage'
-import artist from '../components/routes/search/artist'
 import song from '../components/routes/search/song'
+
 import userPlaylist from '../components/routes/user/user-playlist'
 import userIndex from '../components/routes/user/user-index'
 
