@@ -4,8 +4,8 @@
         <button class="btn btn-primary" @click='sort'>Sort Date</button>
         <button class="btn btn-primary" @click='toggleView'>Toggle Playlist View</button>
       </div>
-      <v-container fluid v-bind="{ [`grid-list-${_size}`]: true }">
-        <v-layout row wrap v-if="!toggle">
+      <v-container v-if="!toggle" fluid v-bind="{ [`grid-list-${_size}`]: true }">
+        <v-layout row wrap>  
           <playlistItemNormal
             v-for="(song, index) in songs"
             v-bind:song="song"
