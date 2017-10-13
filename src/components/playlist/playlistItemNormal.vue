@@ -1,5 +1,5 @@
 <template>
-    <v-flex xs3 flexbox>
+    <v-flex xs3 flexbox @click="play">
       <v-card>
         <v-card-media
           v-lazy:background-image="song.posterLarge"
