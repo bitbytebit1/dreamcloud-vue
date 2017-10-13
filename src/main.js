@@ -18,6 +18,7 @@ import('../node_modules/vuetify/dist/vuetify.min.css')
 
 Vue.use(VueLazyload, {
   preLoad: 1.6,
+  loading: '/static/img/loading.gif',
   attempt: 1
 })
 Vue.use(UtilsPlug)
