@@ -4,8 +4,8 @@
         <button class="btn btn-primary" @click='sort'>Sort Date</button>
         <button class="btn btn-primary" @click='toggleView'>Toggle Playlist View</button>
       </div>
-      <v-container grid-list-xl>
-        <v-layout xs4 row wrap v-if="!toggle">
+      <v-container fluid v-bind="{ [`grid-list-${_size}`]: true }">
+        <v-layout row wrap v-if="!toggle">
           <playlistItemNormal
             v-for="(song, index) in songs"
             v-bind:song="song"
@@ -50,6 +50,13 @@ export default {
       msg: 'Welcome to the playlist Trinity',
       iframeSrc: '',
       toggle: false
+    }
+  },
+  computed: {
+    _size: function () {
+      // returns xs to xl depending on view port.
+      // used to set padding around elements.
+      return this.$vuetify.breakpoint.name
     }
   },
   methods: {
