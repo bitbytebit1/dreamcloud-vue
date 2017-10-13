@@ -7,7 +7,7 @@ const DCAPIPlug = {
       sScKey: '***REMOVED***',
       sVimeoKey: '***REMOVED***',
       bRelated: '',
-      iResultLimt: 50,
+      iResultLimt: 48,
       sQuery: '',
       iPage: '',
       aSource: [],
