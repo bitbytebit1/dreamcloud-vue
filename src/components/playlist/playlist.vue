@@ -1,18 +1,21 @@
 <template>
-  <div id="search-results" class="container-fluid">
-    <div class="row">
+  <div>
       <div class="well">
         <button class="btn btn-primary" @click='sort'>Sort Date</button>
         <button class="btn btn-primary" @click='toggleView'>Toggle Playlist View</button>
       </div>
-      <playlistItemNormal v-if="toggle"
-        v-for="(song, index) in songs"
-        v-bind:song="song"
-        v-bind:index="index"
-        v-bind:key="index"
-      >
-      </playlistItemNormal>
-      <table v-if="!toggle" class="tablesorter table table-hover table-condensed sortable-table" style="border:1px;">
+      <v-container grid-list-xl>
+        <v-layout xs4 row wrap v-if="!toggle">
+          <playlistItemNormal
+            v-for="(song, index) in songs"
+            v-bind:song="song"
+            v-bind:index="index"
+            v-bind:key="index"
+          >
+          </playlistItemNormal>
+        </v-layout>
+      </v-container>
+      <table v-if="toggle" class="tablesorter table table-hover table-condensed sortable-table" style="border:1px;">
         <tr>
           <th><p class="text-center">Title</p></th>
           <th><p class="text-center">Bild</p></th>
@@ -30,7 +33,6 @@
       </table>
       <iframe :src="iframeSrc"></iframe>
     </div>
-  </div>
 </template>
 <script>
 import playlistItemNormal from './playlistItemNormal.vue'
