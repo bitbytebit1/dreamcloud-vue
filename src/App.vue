@@ -47,22 +47,23 @@
       </v-content>
     </main>
     <v-footer app fixed>
+      <dcAudio :song="aSong"></dcAudio>
     </v-footer>    
   </v-app>
 </template>
 
 <script>
-  import navbar from './components/navbar/navbar'
   import search from './components/navbar/search'
   import dcAudio from './components/dcAudio'
   export default {
     name: 'app',
     components: {
-      'navbar': navbar,
+      'search': search,
       'dcAudio': dcAudio
     },
     data () {
       return {
+        drawer: false,
         aSongs: [],
         aSong: []
       }
