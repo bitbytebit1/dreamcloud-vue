@@ -1,12 +1,12 @@
 <template>
-    <v-flex xs3 flexbox @click="play">
+    <v-flex xs12 sm4 xl3 flexbox @click="play">
       <v-card>
         <v-card-media
           v-lazy:background-image="song.posterLarge"
           height="220px"
         >
           <v-container grid-list-xs fill-height fluid>
-            <v-layout fill-height>
+            <v-layout id="yodo" fill-height v-bind="binding">
               <v-flex xs12 align-end flexbox>
                 <span class="headline white--text" v-text="song.title"></span>
                 <div class="artist white--text" v-text="song.artist"></div>
