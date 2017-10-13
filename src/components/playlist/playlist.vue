@@ -14,6 +14,7 @@
           >
           </playlistItemNormal>
         </v-layout>
+        <scroll-to-top></scroll-to-top>
       </v-container>
       <table v-if="toggle" class="tablesorter table table-hover table-condensed sortable-table" style="border:1px;">
         <tr>
@@ -37,16 +38,19 @@
 <script>
 import playlistItemNormal from './playlistItemNormal.vue'
 import playlistItemList from './playlistItemList.vue'
+import scrollToTop from '../misc/scroll-to-top.vue'
 
 export default {
   name: 'playlist',
   props: ['songs'],
   components: {
     'playlistItemNormal': playlistItemNormal,
-    'playlistItemList': playlistItemList
+    'playlistItemList': playlistItemList,
+    'scroll-to-top': scrollToTop
   },
   data () {
     return {
+      showScrollToTop: false,
       msg: 'Welcome to the playlist Trinity',
       iframeSrc: '',
       toggle: false
