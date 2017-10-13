@@ -1,41 +1,118 @@
 <template>
-  <div id="search-buttons" class="form-group">
-    <input v-on:keyup.enter='search' v-model='sQuery' class='form-control ui-autocomplete-input' placeholder='Search'>
-    <button v-on:click="btnclick('All')" type='button' class='btn btn-primary'>
-      <!-- <input type='checkbox'> -->
-      <img src='../img/all.png'>
-    </button>
-    <button v-on:click="btnclick('MixCloud')" type='button' class='btn btn-primary'>
-      <!-- <input type='checkbox'> -->
-      <img src='../img/mc.png'>
-    </button>
-    <button v-on:click="btnclick('SoundCloud')" type='button' class='btn btn-primary'>
-      <!-- <input type='checkbox'> -->
-      <img src='../img/sc.png'>
-    </button>
-    <button v-on:click="btnclick('YouTube')" type='button' class='btn btn-primary'>
-      <!-- <input type='checkbox'> -->
-      <img src='../img/yt.png'>
-    </button>
-    <button v-on:click="btnclick('Vimeo')" type='button' class='btn btn-primary'>
-      <!-- <input type='checkbox'> -->
-      <img src='../img/vm.png'>
-    </button>
-  </div>
+<span>
+  <v-toolbar-items>
+  <v-text-field 
+      style="max-height: 12px;"
+      v-on:keyup.enter='search' 
+      v-model='sQuery'
+      prepend-icon="search"
+      placeholder="Search" 
+      single-line> 
+    ></v-text-field>
+    <v-menu
+      :close-on-content-click="false"
+      :nudge-bottom="25"
+      open-on-hover
+    >
+      <v-btn color="dark blue" dark slot="activator">Clouds</v-btn>
+      <v-card>
+        <v-list>
+          <v-list-tile>
+            <img src='../img/All.png'>
+            <v-list-tile-action>
+              <v-switch @change="search" v-model="aSources.All" color="dark blue"></v-switch>
+            </v-list-tile-action>
+            <v-list-tile-title>All</v-list-tile-title>
+          </v-list-tile>
+
+          <v-list-tile>
+            <img src='../img/mc.png'>
+            <v-list-tile-action>
+              <v-switch @change="search" v-model="aSources.MixCloud" color="dark blue"></v-switch>
+            </v-list-tile-action>
+            <v-list-tile-title>Mixcloud</v-list-tile-title>
+          </v-list-tile>
+          
+          <v-list-tile>
+            <img src='../img/sc.png'>
+            <v-list-tile-action>
+              <v-switch @change="search" v-model="aSources.SoundCloud" color="dark blue"></v-switch>
+            </v-list-tile-action>
+            <v-list-tile-title>SoundCloud</v-list-tile-title>
+          </v-list-tile>
+
+          <v-list-tile>
+            <img src='../img/yt.png'>
+            <v-list-tile-action>
+              <v-switch @change="search" v-model="aSources.YouTube" color="dark blue"></v-switch>
+            </v-list-tile-action>
+            <v-list-tile-title>YouTube</v-list-tile-title>
+          </v-list-tile>
+
+          <v-list-tile>
+            <img src='../img/vm.png'>
+            <v-list-tile-action>
+              <v-switch @change="search" v-model="aSources.Vimeo" color="dark blue"></v-switch>
+            </v-list-tile-action>
+            <v-list-tile-title>Vimeo</v-list-tile-title>
+          </v-list-tile>
+        </v-list>
+      </v-card>
+    </v-menu>    
+  </v-toolbar-items>
+  </span>
 </template>
 
 <script>
 export default {
   name: 'search',
+  watch: {
+    'aSources.All': '_All',
+    'aSources.MixCloud': '_other',
+    'aSources.SoundCloud': '_other',
+    'aSources.YouTube': '_other',
+    'aSources.Vimeo': '_other'
+  },
   data () {
     return {
+      aSources: {All: true, MixCloud: true, SoundCloud: true, YouTube: true, Vimeo: true},
       sQuery: '',
       source: ''
     }
   },
+  computed: {
+    maSource: function () {
+      var self = this
+      var ret = []
+      if (this.aSources.all) {
+        return ['all']
+      }
+      Object.keys(this.aSources).forEach(function (key, index) {
+        if (self.aSources[key]) {
+          ret.push(key)
+        }
+      })
+      console.log(ret.join('-'))
+      return ret.join('-')
+    }
+  },
   methods: {
+    _All: function () {
+      if (!this.aSources.All && this.aSources.MixCloud && this.aSources.SoundCloud && this.aSources.YouTube && this.aSources.Vimeo) {
+        this.aSources.MixCloud = this.aSources.SoundCloud = this.aSources.YouTube = this.aSources.Vimeo = false
+      } else if (this.aSources.All && (!this.aSources.MixCloud || !this.aSources.SoundCloud || !this.aSources.YouTube || !this.aSources.Vimeo)) {
+        this.aSources.MixCloud = this.aSources.SoundCloud = this.aSources.YouTube = this.aSources.Vimeo = true
+      }
+    },
+    _other: function () {
+      if (!this.aSources.MixCloud || !this.aSources.SoundCloud || !this.aSources.YouTube || !this.aSources.Vimeo) {
+        this.aSources.All = false
+      } else {
+        this.aSources.All = true
+      }
+    },
     __search: function (sQuery, sSource = 'YouTube') {
-      this.$router.push({name: 'searchPage', params: {query: this.sQuery, source: sSource}})
+      this.$router.push({name: 'searchPage', params: {query: this.sQuery, source: this.maSource}})
     },
     search: function () {
       this.__search(this.query)
@@ -50,7 +127,9 @@ export default {
 
 <!-- Add 'scoped' attribute to limit CSS to this component only -->
 <style scoped>
-.navbar-form button img{
+img{
   height: 25px;
+  margin-right: 25px;
+  max-width: 25px;
 }
 </style>
