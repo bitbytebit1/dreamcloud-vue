@@ -19,16 +19,16 @@
           <v-btn icon>
             <v-icon>favorite</v-icon>
           </v-btn>
-          <v-btn icon @click="share">
+          <v-btn icon @click.stop="share">
             <v-icon>share</v-icon>
           </v-btn>
           <v-btn icon>
             <v-icon>file_download</v-icon>
           </v-btn>
-          <v-btn icon @click="play">
+          <v-btn icon @click.stop="play">
             <v-icon>play_circle_filled</v-icon>
           </v-btn>
-          <v-btn icon :href="artistID">
+          <v-btn icon @click.stop :href="artistID">
             <v-icon>person</v-icon>
           </v-btn>
           <v-btn icon target="_blank" :href="song.mp32">
