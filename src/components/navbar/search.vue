@@ -82,13 +82,12 @@ export default {
   },
   computed: {
     maSource: function () {
-      var self = this
       var ret = []
       if (this.aSources.all) {
         return ['all']
       }
-      Object.keys(this.aSources).forEach(function (key, index) {
-        if (self.aSources[key]) {
+      Object.keys(this.aSources).forEach((key, index) => {
+        if (this.aSources[key]) {
           ret.push(key)
         }
       })

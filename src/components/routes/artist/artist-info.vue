@@ -29,23 +29,21 @@ export default {
     }
   },
   mounted: function () {
-    // console.log('1', this.artistID)
-    var self = this
-    this.$DCAPI.getArtistInfo(this.artistID, self.source)
-    .then(function (response) {
-      if (self.source.toLowerCase().indexOf('youtube') > -1) {
-        self.info.img = response.data.items[0].snippet.thumbnails.default.url
-        self.info.title = response.data.items[0].snippet.title
-        self.info.description = response.data.items[0].snippet.description
-        self.info.created = response.data.items[0].snippet.publishedAt
-      } else if (self.source.toLowerCase().indexOf('soundcloud') > -1) {
-        self.info.img = response.data.avatar_url
-        self.info.title = response.data.username
-        self.info.description = ''
-        self.info.created = ''
-        self.info.last_modified = response.data.last_modified
-        self.info.followers_count = response.data.followers_count
-        self.info.track_count = response.data.track_count
+    this.$DCAPI.getArtistInfo(this.artistID, this.source)
+    .then((response) => {
+      if (this.source.toLowerCase().indexOf('youtube') > -1) {
+        this.info.img = response.data.items[0].snippet.thumbnails.default.url
+        this.info.title = response.data.items[0].snippet.title
+        this.info.description = response.data.items[0].snippet.description
+        this.info.created = response.data.items[0].snippet.publishedAt
+      } else if (this.source.toLowerCase().indexOf('soundcloud') > -1) {
+        this.info.img = response.data.avatar_url
+        this.info.title = response.data.username
+        this.info.description = ''
+        this.info.created = ''
+        this.info.last_modified = response.data.last_modified
+        this.info.followers_count = response.data.followers_count
+        this.info.track_count = response.data.track_count
       }
     })
   }

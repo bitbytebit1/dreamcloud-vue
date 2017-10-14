@@ -34,13 +34,12 @@ export default {
     search: function (sUser) {
       sUser = sUser || this.user
       this.loading = true
-      let self = this
-      self.searchResults = []
-      this.$DCUser.getUserIndex(sUser, function (d) {
-        self.loading = false
+      this.searchResults = []
+      this.$DCUser.getUserIndex(sUser, (d) => {
+        this.loading = false
         d = d.data
         for (var i in d) {
-          self.aPlaylist.push(d[i])
+          this.aPlaylist.push(d[i])
         }
       }, '')
     }

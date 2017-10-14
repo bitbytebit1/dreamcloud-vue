@@ -40,12 +40,11 @@ export default {
       aSource = aSource || this.source
       this.error = this.post = null
       this.loading = true
-      let self = this
-      self.searchResults = []
-      this.$DCAPI.getSongInfo(sQuery, aSource, function (d) {
-        self.loading = false
+      this.searchResults = []
+      this.$DCAPI.getSongInfo(sQuery, aSource, (d) => {
+        this.loading = false
         for (var i in d) {
-          self.searchResults.push(d[i])
+          this.searchResults.push(d[i])
         }
       }, '')
     }

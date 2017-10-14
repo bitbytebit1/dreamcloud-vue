@@ -61,21 +61,21 @@ export default {
       this.search(this.$route.params.query, this.splitSource)
     },
     search: function (sQuery, aSource, iPage = 0) {
-      var self = this
-      self.loading = !iPage                                       // If first page show loading
-      self._query = sQuery || self._query                           // If not param set use internal
-      self._source = aSource || self._source                        // If not  ”    ”   ”   ”
-      self.searchResults = !iPage ? [] : self.searchResults       // If first page clear search results array.
-      return self.$DCAPI.searchInt(self._query, iPage, self._source, '', function (d) {
-        self.loading = false
-        if (!d.length) {                                          // If no results stop infinite loading
-          self.$refs.infiniteLoading.stateChanger.complete()
+      // console.log(this)
+      this.loading = !iPage                                           // If first page show loading
+      this._query = sQuery || this._query                             // If not param set use internal
+      this._source = aSource || this._source                          // If not  ”    ”   ”   ”
+      this.searchResults = !iPage ? [] : this.searchResults           // If first page clear search results array.
+      return this.$DCAPI.searchInt(this._query, iPage, this._source, '', (d) => {
+        this.loading = false
+        if (!d.length) {                                              // If no results stop infinite loading
+          this.$refs.infiniteLoading.stateChanger.complete()
           // ^ This line may cause problems in the future
           // this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete');
           // ^ Proper way, but causes warning?
         }
         for (var i in d) {
-          self.searchResults.push(d[i])
+          this.searchResults.push(d[i])
         }
       }, '')
     }

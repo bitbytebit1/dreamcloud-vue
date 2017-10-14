@@ -46,21 +46,20 @@ export default {
       this.search(this.$route.params.artistID, this.$route.params.source)
     },
     search: function (artistID, source, iPage = 0) {
-      let self = this
-      self.loading = !iPage                                 // If first page show loading
-      self.artistID = artistID || self.artistID             // If not param set use internal
-      self.source = source || self.source                   // If not  ”    ”   ”   ”
-      self.searchResults = !iPage ? [] : self.searchResults // If first page clear search results array.
-      return self.$DCAPI.searchInt('', iPage, [self.source], self.artistID, function (d) {
-        self.loading = false
+      this.loading = !iPage                                 // If first page show loading
+      this.artistID = artistID || this.artistID             // If not param set use internal
+      this.source = source || this.source                   // If not  ”    ”   ”   ”
+      this.searchResults = !iPage ? [] : this.searchResults // If first page clear search results array.
+      return this.$DCAPI.searchInt('', iPage, [this.source], this.artistID, (d) => {
+        this.loading = false
         if (!d.length) {                                    // If no results stop infinite loading
-          self.$refs.infiniteLoading.stateChanger.complete()
+          this.$refs.infiniteLoading.stateChanger.complete()
           // ^ This line may cause problems in the future
-          // self.$refs.infiniteLoading.$emit('$InfiniteLoading:complete');
+          // this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete');
           // ^ Proper way, but causes warning?
         }
         for (var i in d) {
-          self.searchResults.push(d[i])
+          this.searchResults.push(d[i])
         }
       }, '')
     }

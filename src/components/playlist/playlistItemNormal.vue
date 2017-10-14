@@ -9,7 +9,8 @@
             <v-layout fill-height>
               <v-flex xs12 align-end flexbox>
                 <span class="headline white--text" v-text="song.title"></span>
-                <div class="artist white--text" v-text="song.artist"></div>
+                <br />
+                <span class="artist white--text" v-text="song.artist"></span>
               </v-flex>
             </v-layout>
           </v-container>
@@ -82,6 +83,7 @@ export default {
 <style>
 .headline, .artist{
     text-shadow: 2px 2px 8px grey;
+    /* background: rgba(0, 0, 0, .5); */
 }
 .card__media[lazy=loading] {
   background: center center / cover no-repeat;

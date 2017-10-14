@@ -30,13 +30,12 @@ export default {
       sPlaylist = sPlaylist || this.playlist
       this.error = this.post = null
       this.loading = true
-      let self = this
-      self.searchResults = []
-      this.$DCUser.getUserPlaylist(sUser, sPlaylist, function (d) {
-        self.loading = false
+      this.searchResults = []
+      this.$DCUser.getUserPlaylist(sUser, sPlaylist, (d) => {
+        this.loading = false
         d = d.data
         for (var i in d) {
-          self.aSongs.push(d[i])
+          this.aSongs.push(d[i])
         }
       }, '')
     }
