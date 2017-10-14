@@ -33,7 +33,7 @@ export default {
   methods: {
     play: function (index) {
       this.$store.commit('changeIndex', index)
-      this.$DCPlayer.play(index)
+      this.$DCPlayer.playIndex(index)
     }
   }
 }
