@@ -44,14 +44,20 @@ export default {
 .slide-fade-enter-active {
   transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
 }
+
 .slide-fade-leave-active {
   transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
 }
-.slide-fade-enter, .slide-fade-leave-to
-/* .slide-fade-leave-active below version 2.1.8 */ {
-  transform: translateX(10px);
+
+.slide-fade-enter{
+  transform: translateX(100px);
+}
+
+.slide-fade-leave-to{
+  transform: translateY(-100px);
   opacity: 0;
 }
+
 .slide-fade-move {
   transition: transform 1s;
 }
