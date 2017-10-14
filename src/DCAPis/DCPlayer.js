@@ -72,9 +72,9 @@ const DCPlayerPlug = {
       },
       next: function () {
         // Increment unless end of playlist.
-        DCPlayer.iCurrent = (DCPlayer.iCurrent < DCPlayer.aPlaylist.length ? DCPlayer.iCurrent + 1 : 0)
+        DCPlayer.iCurrent = (DCPlayer.iCurrent < DCPlayer.aPlaylist.length - 1 ? DCPlayer.iCurrent + 1 : 0)
         store.commit('changeIndex', DCPlayer.iCurrent )
-        DCPlayer.play_url(DCPlayer.aPlaylist[DCPlayer.iCurrent].mp32)
+        DCPlayer.play(DCPlayer.iCurrent)
       }
     }
     Object.defineProperty(Vue.prototype, '$DCPlayer', { value: DCPlayer })
