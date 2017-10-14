@@ -15,9 +15,13 @@ const DCPlayerPlug = {
       setNPlay: function (array, index) {
         DCPlayer.setPlaylist(array)
         DCPlayer.iCurrent = index
-        DCPlayer.play(array[index].mp32)
+        DCPlayer.play(index)
       },
-      play: function (sURL) {
+      play: function (index) {
+        DCPlayer.iCurrent = index
+        return DCPlayer.play_url(DCPlayer.aPlaylist[index].mp32)
+      },
+      play_url: function (sURL) {
         return DCPlayer.getAudio(sURL, function (resp) {
           DCPlayer.ePlayer().src = resp
           DCPlayer.ePlayer().play()
@@ -43,14 +47,13 @@ const DCPlayerPlug = {
         return ax
       },
       error: function (a) {
-        // console.log('error', a)
         this._error_count = this._error_count || 0
         if (this._error_count < 3) {
           this._error_count++
           console.log('Trying to play again', this._error_count)
           setTimeout(function () {
             // document.querySelector('#dc-audio').src = ''
-            DCPlayer.play(DCPlayer.aPlaylist[DCPlayer.iCurrent].mp32).then(function (resp) {
+            DCPlayer.play(DCPlayer.iCurrent).then(function (resp) {
               document.querySelector('#dc-audio').addEventListener('playing', function (){
                 this._error_count = 0;
               })
@@ -71,7 +74,7 @@ const DCPlayerPlug = {
         // Increment unless end of playlist.
         DCPlayer.iCurrent = (DCPlayer.iCurrent < DCPlayer.aPlaylist.length ? DCPlayer.iCurrent + 1 : 0)
         store.commit('changeIndex', DCPlayer.iCurrent )
-        DCPlayer.play(DCPlayer.aPlaylist[DCPlayer.iCurrent].mp32)
+        DCPlayer.play_url(DCPlayer.aPlaylist[DCPlayer.iCurrent].mp32)
       }
     }
     Object.defineProperty(Vue.prototype, '$DCPlayer', { value: DCPlayer })

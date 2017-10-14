@@ -1,24 +1,22 @@
 <template>
-    <v-container grid-list-sm>
-        <v-layout xs12 row wrap id="current-playlist">
-          <current-playlist-item
-          v-for="(song, index) in $store.getters.current_Playlist"
-          :song="song"
-          :index="index"
-          :key="index"
-          ></current-playlist-item>
-        </v-layout>
-    </v-container>
+  <v-container grid-list-sm>
+    <v-layout xs12 row wrap>
+      <transition-group name="slide-fade">
+        <current-playlist-item
+        v-for="(song, index) in aPlaylist"
+        :song="song"
+        :index="index"
+        :key="song.trackID"
+        ></current-playlist-item>
+      </transition-group>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
-import VueScrollTo from 'vue-scrollto'
 import item from './current-playlist-item'
 export default {
   name: 'current-playlist',
-  watch: {
-    '$store.getters.index': 'scrollToCurrent'
-  },
   data () {
     return {
       msg: 'Welcome to the real Trinity'
@@ -27,18 +25,14 @@ export default {
   components: {
     'current-playlist-item': item
   },
+  computed: {
+    aPlaylist: function () {
+      return this.$store.getters.current_Playlist.slice(this.$store.getters.index)
+    }
+  },
   methods: {
-    scrollToCurrent: function () {
-      var opt = {
-        container: '#current-playlist',
-        easing: 'ease-in',
-        x: false,
-        y: true
-      }
-      VueScrollTo.scrollTo('#s' + this.$store.getters.current_Index, 500, opt)
-      console.log('changed')
-    },
     play: function (index) {
+      this.$store.commit('changeIndex', index)
       this.$DCPlayer.play(index)
     }
   }
@@ -47,4 +41,18 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+.slide-fade-enter-active {
+  transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-leave-active {
+  transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active below version 2.1.8 */ {
+  transform: translateX(10px);
+  opacity: 0;
+}
+.slide-fade-move {
+  transition: transform 1s;
+}
 </style>
