@@ -3,18 +3,13 @@
   <div class="row">
       <h1>/u/{{user}}</h1>
       <h2>{{aPlaylist}}</h2>
-      <gridComp style="width:100%" class="text-center" :data="['aDrive', 'aTest', 'wasd', 'waasd']" :columns="['Name']"></gridComp>
     </div>
   </div>
 </template>
 <script>
-import gridComp from '../../grid-comp.vue'
 export default {
   name: 'userPlaylist',
   props: ['user'],
-  components: {
-    'gridComp': gridComp
-  },
   data () {
     return {
       aPlaylist: [],

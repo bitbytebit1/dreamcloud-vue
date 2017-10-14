@@ -5,7 +5,7 @@
 </template>
 <script>
 
-import navbar from '@/components/?'
+import x from '@/components/'
 export default {
   name: '?',
   components: {
@@ -19,6 +19,5 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
 </style>

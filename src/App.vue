@@ -63,7 +63,7 @@
 
 <script>
   import search from './components/navbar/search'
-  import dcAudio from './components/dcAudio'
+  import dcAudio from './components/player/dcAudio'
   import currentPlaylist from './components/current-playlist/current-playlist'
   export default {
     name: 'app',
