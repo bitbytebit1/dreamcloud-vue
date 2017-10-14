@@ -1,5 +1,5 @@
 import axios from 'axios'
-/* eslint-disable1 */
+// /* eslint-disable1 */
 const DCAPIPlug = {
   install (Vue, options) {
     var DCAPI = {
@@ -64,15 +64,15 @@ const DCAPIPlug = {
               resp[idx].user.name,                                  // artist:
               resp[idx].user.username,                              // artistID:
               DCAPI.parseDate(resp[idx].created_time),              // created:
-              '',                                                             // description:
+              '',                                                   // description:
               DCAPI.secondstominutes(resp[idx].audio_length),       // duration:
               'https://dream.tribe.nu/r3/off/?q=' + resp[idx].url,  // mp3:
               resp[idx].url,                                        // mp32:
               resp[idx].pictures.large,                             // poster:
               resp[idx].pictures.extra_large,                       // posterLarge:
-              'MixCloud',                                                     // source:
+              'MixCloud',                                           // source:
               resp[idx].name,                                       // title:
-              ''                                                              // trackID:
+              ''                                                    // trackID:
             )
           }
         })
@@ -104,9 +104,9 @@ const DCAPIPlug = {
                 DCAPI.secondstominutes(Math.floor(resp[idx].duration / 1E3)),  // duration:
                 resp[idx].stream_url + '?client_id=' + DCAPI.sScKey,           // mp3:
                 resp[idx].permalink_url,                                       // mp32:
-                img,                                                                // poster:
-                img2,                                                               // posterLarge:
-                'SoundCloud',                                                       // source:
+                img,                                                           // poster:
+                img2,                                                          // posterLarge:
+                'SoundCloud',                                                  // source:
                 resp[idx].title,                                               // title:
                 resp[idx].id                                                   // trackID:
               )
@@ -144,12 +144,12 @@ const DCAPIPlug = {
                 resp[idx].snippet.channelId,                     // artistID:
                 DCAPI.parseDate(resp[idx].snippet.publishedAt),  // created:
                 resp[idx].snippet.description,                   // description:
-                '',                                                         // duration:
-                'https://dream.tribe.nu/r3/off/?q=' + z,                    // mp3:
-                z,                                                          // mp32:
+                '',                                              // duration:
+                'https://dream.tribe.nu/r3/off/?q=' + z,         // mp3:
+                z,                                               // mp32:
                 resp[idx].snippet.thumbnails.high.url,           // poster:
                 resp[idx].snippet.thumbnails.high.url,           // posterLarge:
-                'YouTube',                                                  // source:
+                'YouTube',                                       // source:
                 resp[idx].snippet.title,                         // title:
                 resp[idx].id.videoId                             // trackID:
               )
@@ -172,17 +172,17 @@ const DCAPIPlug = {
           resp = resp.data.data
           for (var idx in resp) {
             DCAPI.pushResult(
-              resp[idx].user.name,                                    // artist:
-              resp[idx].user.uri.replace(/\/users\/(.*?)/ig, 'user'), // artistID:
-              DCAPI.parseDate(resp[idx].user.created_time),           // created:
-              resp[idx].description,                                  // description:
-              DCAPI.secondstominutes(resp[idx].duration),             // duration:
-              'https://dream.tribe.nu/r3/off/?q=' + resp[idx].link,   // mp3:
-              resp[idx].link,                                         // mp32:
-              resp[idx].pictures.sizes[2].link,                       // poster:
-              resp[idx].pictures.sizes[resp[idx].pictures.sizes.length - 1].link, // posterLarge:
-              'vimeo',                                                          // source:
-              resp[idx].name,                                         // title:
+              resp[idx].user.name,                                                  // artist:
+              resp[idx].user.uri.replace(/\/users\/(.*?)/ig, 'user'),               // artistID:
+              DCAPI.parseDate(resp[idx].user.created_time),                         // created:
+              resp[idx].description,                                                // description:
+              DCAPI.secondstominutes(resp[idx].duration),                           // duration:
+              'https://dream.tribe.nu/r3/off/?q=' + resp[idx].link,                 // mp3:
+              resp[idx].link,                                                       // mp32:
+              resp[idx].pictures.sizes[2].link,                                     // poster:
+              resp[idx].pictures.sizes[resp[idx].pictures.sizes.length - 1].link,   // posterLarge:
+              'vimeo',                                                              // source:
+              resp[idx].name,                                                       // title:
               '' // trackID:
             )
           }
@@ -215,18 +215,18 @@ const DCAPIPlug = {
           return axios.get('https://www.googleapis.com/youtube/v3/videos?part=snippet&id=' + trackID + '&key=' + DCAPI.sYtKey).then(function (resp) {
             resp = resp.data.items[0]
             DCAPI.pushResult(
-                resp.snippet.channelTitle, // artist:
-                resp.snippet.channelId, // artistID:
-                DCAPI.parseDate(resp.snippet.publishedAt), // created:
-                resp.snippet.description, // description:
-                '', // duration:
-                'http://dream.tribe.nu/r3/off/?q=' + 'https://www.youtube.com/watch?v=' + resp.id, // mp3:
-                'https://www.youtube.com/watch?v=' + resp.id, // mp32:
-                resp.snippet.thumbnails.high.url, // poster:
-                resp.snippet.thumbnails.high.url, // posterLarge:
-                'YouTube', // source:
-                resp.snippet.title, // title:
-                resp.id // trackID:
+                resp.snippet.channelTitle,                                                          // artist:
+                resp.snippet.channelId,                                                             // artistID:
+                DCAPI.parseDate(resp.snippet.publishedAt),                                          // created:
+                resp.snippet.description,                                                           // description:
+                '',                                                                                 // duration:
+                'http://dream.tribe.nu/r3/off/?q=' + 'https://www.youtube.com/watch?v=' + resp.id,  // mp3:
+                'https://www.youtube.com/watch?v=' + resp.id,                                       // mp32:
+                resp.snippet.thumbnails.high.url,                                                   // poster:
+                resp.snippet.thumbnails.high.url,                                                   // posterLarge:
+                'YouTube',                                                                          // source:
+                resp.snippet.title,                                                                 // title:
+                resp.id                                                                             // trackID:
             )
             hCallback(DCAPI.aResults)
           })
@@ -234,18 +234,18 @@ const DCAPIPlug = {
           return axios.get('http://api.soundcloud.com/tracks/' + trackID + '?client_id=' + DCAPI.sScKey).then(function (resp) {
             resp = resp.data
             DCAPI.pushResult(
-                resp.user.username, // artist:
-                resp.user_id, // artistID:
-                DCAPI.parseDate(resp.created_at), // created:
-                resp.description, // description:
-                DCAPI.secondstominutes(Math.floor(resp.duration / 1E3)), // duration:
-                resp.stream_url + '?client_id=' + DCAPI.sScKey, // mp3:
-                resp.permalink_url, // mp32:
-                resp.artwork_url.replace('i1', 'i2').replace('-large', '-t300x300'),
-                resp.artwork_url.replace('-large', '-t500x500'),
-                'Soundcloud', // source:
-                resp.title, // title:
-                resp.id // trackID:
+                resp.user.username,                                                     // artist:
+                resp.user_id,                                                           // artistID:
+                DCAPI.parseDate(resp.created_at),                                       // created:
+                resp.description,                                                       // description:
+                DCAPI.secondstominutes(Math.floor(resp.duration / 1E3)),                // duration:
+                resp.stream_url + '?client_id=' + DCAPI.sScKey,                         // mp3:
+                resp.permalink_url,                                                     // mp32:
+                resp.artwork_url.replace('i1', 'i2').replace('-large', '-t300x300'),    // poster:
+                resp.artwork_url.replace('-large', '-t500x500'),                        // posterLarge:
+                'Soundcloud',                                                           // source:
+                resp.title,                                                             // title:
+                resp.id                                                                 // trackID:
             )
             hCallback(DCAPI.aResults)
           })
