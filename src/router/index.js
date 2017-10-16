@@ -16,7 +16,8 @@ import userIndex from '../components/routes/user/user-index'
 import user from '@/components/firebase/user'
 import Login from '@/components/firebase/Login'
 import SignUp from '@/components/firebase/SignUp'
-import firebase from 'firebase'
+
+import {fb} from '@/plugins/Firebase.js'
 
 Vue.use(Router)
 
@@ -96,7 +97,7 @@ let router = new Router({
 
 router.beforeEach((to, from, next) => {
 
-  let currentUser = firebase.auth().currentUser;
+  let currentUser = fb.auth().currentUser;
   let requiresAuth = to.matched.some(record => record.meta.requiresAuth);
   
   if (requiresAuth && !currentUser ) next('login')

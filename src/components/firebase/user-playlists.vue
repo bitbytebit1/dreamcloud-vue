@@ -12,19 +12,22 @@
         <v-icon>keyboard_arrow_down</v-icon>
       </v-list-tile-action>
     </v-list-tile>
-    <v-list-tile v-for="subItem in item.items" v-bind:key="subItem.title" @click="">
-      <v-list-tile-content>
-        <v-list-tile-title>{{ subItem.title }}</v-list-tile-title>
-      </v-list-tile-content>
+    <v-list-tile v-for="subItem in playlist" v-bind:key="subItem['.key']" @click="">
       <v-list-tile-action>
-        <v-icon>{{ subItem.action }}</v-icon>
-      </v-list-tile-action>
+        <v-icon>music_note</v-icon>
+      </v-list-tile-action>      
+      <v-list-tile-content>
+        <v-list-tile-title>{{ subItem['.key'] }}</v-list-tile-title>
+      </v-list-tile-content>
     </v-list-tile>
   </v-list-group>
 </div>  
 </template>
 <script>
 /* eslint-disable */
+
+import {fb, db} from '@/plugins/Firebase.js'
+
 export default {
   name: 'user-playlists',
   data () {
@@ -33,7 +36,7 @@ export default {
         {
           active: true,
           action: 'library_music',
-          title: 'Attractions',
+          title: 'Playlists',
           items: [
             { title: 'List Item' }
           ]
@@ -42,11 +45,9 @@ export default {
       msg: 'Welcome to the real Trinity'
     }
   },
-  methods: {
-  },
-  computed: {
-    x: function () {
-
+  firebase: function () {
+    return {
+      playlist: db.ref('Playlists')
     }
   }
 }

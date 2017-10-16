@@ -1,3 +1,4 @@
+/* eslint-disable */
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
@@ -29,22 +30,14 @@ Vue.component('playlist', playlist)
 
 Vue.config.productionTip = false
 
-import firebase from 'firebase'
+import VueFire from 'vuefire'
+Vue.use(VueFire)
 
-// Initialize Firebase
-var config = {
-  apiKey: 'AIzaSyDSaKaRsDvmOicthSOJGvSF4iQC2ZprwFw',
-  authDomain: 'dreamcloud-3f276.firebaseapp.com',
-  databaseURL: 'https://dreamcloud-3f276.firebaseio.com',
-  projectId: 'dreamcloud-3f276',
-  storageBucket: 'dreamcloud-3f276.appspot.com',
-  messagingSenderId: '137974869044'
-}
-firebase.initializeApp(config)
+import {fb} from './plugins/Firebase.js'
 
 let app
 
-firebase.auth().onAuthStateChanged(function (user) {
+fb.auth().onAuthStateChanged(function (user) {
   if (!app) {
     app = new Vue({
       el: '#app',
