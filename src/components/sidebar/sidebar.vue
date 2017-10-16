@@ -1,6 +1,5 @@
 <template>
   <v-list dense>
-
     <v-list-tile :to="{path: `${loginPath}`}">
       <v-list-tile-action>
         <v-icon>person</v-icon>
@@ -17,32 +16,35 @@
         <v-list-tile-title>Settings</v-list-tile-title>
       </v-list-tile-content>
     </v-list-tile>
+    <user-playlists></user-playlists>
   </v-list>
 </template>
 <script>
 import firebase from 'firebase'
-
-// import x from '@/components/'
+import userPlaylists from '@/components/firebase/user-playlists'
 export default {
   name: 'sidebar',
-  // components: {
-  //   '?': ?
-  // },
+  components: {
+    'user-playlists': userPlaylists
+  },
   data () {
     return {
-      msg: 'Welcome to the real Trinity'
+      msg: 'Welcome to the real Trinity',
+      loggedIn: false
     }
   },
   computed: {
     loginPath: function () {
-      console.log()
-      console.log(1, firebase.auth().currentUser ? 'home' : 'login')
-      return firebase.auth().currentUser ? 'home' : 'login'
+      return this.loggedIn ? 'user' : 'login'
     },
     loginText: function () {
-      console.log(2, firebase.auth().currentUser ? 'home' : 'login')
-      return firebase.auth().currentUser ? 'Home' : 'Login'
+      return this.loggedIn ? 'User' : 'Login'
     }
+  },
+  mounted: function () {
+    firebase.auth().onAuthStateChanged((user) => {
+      this.loggedIn = !!user
+    })
   }
 }
 </script>

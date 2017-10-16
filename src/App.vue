@@ -28,7 +28,8 @@
       disable-route-watcher
       right
       
-      ><current-playlist></current-playlist></v-navigation-drawer>
+      ><current-playlist></current-playlist>
+      </v-navigation-drawer>
     <main>
       <v-content >
         <v-container fluid fill-height>

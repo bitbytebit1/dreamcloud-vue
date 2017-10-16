@@ -41,12 +41,17 @@ var config = {
   messagingSenderId: '137974869044'
 }
 firebase.initializeApp(config)
-console.log(firebase.User.prototype.reauthenticateWithCredential)
-/* eslint-disable no-new */
-new Vue({
-  el: '#app',
-  router,
-  template: '<App/>',
-  components: { App },
-  store
+
+let app
+
+firebase.auth().onAuthStateChanged(function (user) {
+  if (!app) {
+    app = new Vue({
+      el: '#app',
+      router,
+      template: '<App/>',
+      components: { App },
+      store
+    })
+  }
 })

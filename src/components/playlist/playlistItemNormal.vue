@@ -32,7 +32,7 @@
           <v-btn icon @click.stop :href="artistID">
             <v-icon>person</v-icon>
           </v-btn>
-          <v-btn icon target="_blank" :href="song.mp32">
+          <v-btn icon @click.stop target="_blank" :href="song.mp32">
             <v-icon>open_in_new</v-icon>
           </v-btn>
         </v-card-actions>

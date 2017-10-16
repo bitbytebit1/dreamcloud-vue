@@ -4,7 +4,7 @@
   </div>
 </template>
 <script>
-
+/* eslint-disable */
 import x from '@/components/'
 export default {
   name: '?',

@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
+    <h2>{{ msg }}</h2>
     <h2>Essential Links</h2>
     <ul>
       <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
@@ -24,7 +24,7 @@
 import firebase from 'firebase'
 
 export default {
-  name: 'hello',
+  name: 'user',
   data () {
     return {
       msg: 'Welcome to the Matrix Neo!'

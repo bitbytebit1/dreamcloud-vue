@@ -13,7 +13,7 @@ import userPlaylist from '../components/routes/user/user-playlist'
 import userIndex from '../components/routes/user/user-index'
 
 
-import Hello from '@/components/firebase/Hello'
+import user from '@/components/firebase/user'
 import Login from '@/components/firebase/Login'
 import SignUp from '@/components/firebase/SignUp'
 import firebase from 'firebase'
@@ -40,9 +40,9 @@ let router = new Router({
       component: SignUp
     },
     {
-      path: '/hello',
-      name: 'Hello',
-      component: Hello,
+      path: '/user',
+      name: 'user',
+      component: user,
       meta: {
         requiresAuth: true
       }
@@ -95,11 +95,11 @@ let router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
+
   let currentUser = firebase.auth().currentUser;
   let requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-  console.log("User logged in", !!firebase.auth().currentUser)
-  if (requiresAuth && !currentUser) next('login')
-  else if (!requiresAuth && currentUser) next('hello')
+  
+  if (requiresAuth && !currentUser ) next('login')
   else next()
 })
 export default router
