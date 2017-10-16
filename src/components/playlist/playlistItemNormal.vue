@@ -82,8 +82,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
 .headline, .artist{
-    text-shadow: 2px 2px 8px grey;
-    /* background: rgba(0, 0, 0, .5); */
+    text-shadow: 3px 3px 8px black;
+    /* background: rgba(0, 0, 0, .1); */
 }
 .card__media[lazy=loading] {
   background: center center / cover no-repeat;
