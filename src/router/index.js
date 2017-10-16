@@ -1,20 +1,40 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '../components/home'
+import Home from '../components/routes/home/home'
+import settings from '../components/routes/settings/settings'
+
+import artist from '../components/routes/artist/artist'
+
 import searchpage from '../components/routes/search/searchpage'
-import artist from '../components/routes/search/artist'
 import song from '../components/routes/search/song'
+
 import userPlaylist from '../components/routes/user/user-playlist'
 import userIndex from '../components/routes/user/user-index'
 
 Vue.use(Router)
 
 export default new Router({
+  scrollBehavior (to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return { x: 0, y: 0 }
+    }
+  },
   routes: [
     {
       path: '/',
+      redirect: '/home'
+    },
+    {
+      path: '/home',
       name: 'home',
       component: Home
+    },
+    {
+      path: '/settings',
+      name: 'settings',
+      component: settings
     },
     {
       path: '/s/:source/:query',

@@ -6,8 +6,42 @@ const DCPlayerPlug = {
     var DCPlayer = {
       aPlaylist: [],
       iCurrent: 0,
+      eAudio: '',
+      init: function () {
+        DCPlayer.bindMediaSesssion()
+      },
       ePlayer: function () {
         return document.getElementById('dc-audio')
+      },
+      next: function () {
+        // Increment unless end of playlist.
+        DCPlayer.iCurrent = (DCPlayer.iCurrent < DCPlayer.aPlaylist.length - 1 ? DCPlayer.iCurrent + 1 : 0)
+        DCPlayer.playIndex(DCPlayer.iCurrent)
+      },
+      pause: function () {
+        DCPlayer.eAudio.pause()
+      },
+      play: function () {
+        DCPlayer.eAudio.play()
+      },
+      previous: function () {
+        DCPlayer.iCurrent = (DCPlayer.iCurrent > 0 ? DCPlayer.iCurrent - 1 : 0)
+        store.commit('changeIndex', DCPlayer.iCurrent)
+        DCPlayer.play(DCPlayer.iCurrent)
+      },
+      playIndex: function (index) {
+        DCPlayer.iCurrent = index
+        store.commit('changeIndex', DCPlayer.iCurrent)        
+        return DCPlayer.play_url(DCPlayer.aPlaylist[index].mp32)
+      },
+      play_url: function (sURL) {
+        return DCPlayer.getAudio(sURL, function (resp) {
+          DCPlayer.eAudio.src = resp
+          DCPlayer.play()
+          // Not sure why but seems we have to rebind after src change?
+          DCPlayer.eAudio.addEventListener('ended', DCPlayer.next, false)
+          DCPlayer.eAudio.addEventListener('error', DCPlayer.error, false)
+        })
       },
       setPlaylist: function (array) {
         DCPlayer.aPlaylist = array
@@ -15,16 +49,13 @@ const DCPlayerPlug = {
       setNPlay: function (array, index) {
         DCPlayer.setPlaylist(array)
         DCPlayer.iCurrent = index
-        DCPlayer.play(array[index].mp32)
+        DCPlayer.playIndex(index)
       },
-      play: function (sURL) {
-        return DCPlayer.getAudio(sURL, function (resp) {
-          DCPlayer.ePlayer().src = resp
-          DCPlayer.ePlayer().play()
-          // Not sure why but seems we have to rebind after src change?
-          DCPlayer.ePlayer().addEventListener('ended', DCPlayer.next, false)
-          DCPlayer.ePlayer().addEventListener('error', DCPlayer.error, false)
-        })
+      seekBackward: function () {
+        DCPlayer.eAudio.currentTime -= 10
+      },
+      seekForward: function () {
+        DCPlayer.eAudio.currentTime += 10
       },
       getAudio: function (url, hCallback) {
         var ax = axios.get('https://www.saveitoffline.com/process/?type=audio&url=' + url)
@@ -43,19 +74,17 @@ const DCPlayerPlug = {
         return ax
       },
       error: function (a) {
-        // console.log('error', a)
         this._error_count = this._error_count || 0
         if (this._error_count < 3) {
           this._error_count++
           console.log('Trying to play again', this._error_count)
           setTimeout(function () {
-            // document.querySelector('#dc-audio').src = ''
-            DCPlayer.play(DCPlayer.aPlaylist[DCPlayer.iCurrent].mp32).then(function (resp) {
-              document.querySelector('#dc-audio').addEventListener('playing', function (){
-                this._error_count = 0;
+            DCPlayer.playIndex(DCPlayer.iCurrent).then(function (resp) {
+              DCPlayer.eAudio.addEventListener('playing', function () {
+                this._error_count = 0
               })
-              document.querySelector('#dc-audio').addEventListener('error', function () {
-                if(this._error_count == 4){
+              DCPlayer.eAudio.addEventListener('error', function () {
+                if (this._error_count === 4) {
                   this._error_count = 0
                   console.log('too may errors, next song')
                   DCPlayer.next()
@@ -67,13 +96,34 @@ const DCPlayerPlug = {
 
         }
       },
-      next: function () {
-        // Increment unless end of playlist.
-        DCPlayer.iCurrent = (DCPlayer.iCurrent < DCPlayer.aPlaylist.length ? DCPlayer.iCurrent + 1 : 0)
-        store.commit('changeIndex', DCPlayer.iCurrent )
-        DCPlayer.play(DCPlayer.aPlaylist[DCPlayer.iCurrent].mp32)
+      setMediaSession: function (song) {
+        if ('mediaSession' in navigator) {
+          navigator.mediaSession.metadata = new MediaMetadata({
+            title: song.title,
+            artist: song.artist,
+            artwork: [
+              { src: song.poster, sizes: '96x96', type: 'image/png' },
+              { src: song.poster, sizes: '128x128', type: 'image/png' },
+              { src: song.poster, sizes: '192x192', type: 'image/png' },
+              { src: song.poster, sizes: '256x256', type: 'image/png' },
+              { src: song.poster, sizes: '384x384', type: 'image/png' },
+              { src: song.poster, sizes: '512x512', type: 'image/png' }
+            ]
+          })
+        }
+      },
+      bindMediaSesssion: function () {
+        if ('mediaSession' in navigator) {
+          navigator.mediaSession.setActionHandler('play', DCPlayer.play)
+          navigator.mediaSession.setActionHandler('pause', DCPlayer.pause)
+          navigator.mediaSession.setActionHandler('seekbackward', DCPlayer.seekBackward)
+          navigator.mediaSession.setActionHandler('seekforward', DCPlayer.seekForward)
+          navigator.mediaSession.setActionHandler('previoustrack', DCPlayer.previous)
+          navigator.mediaSession.setActionHandler('nexttrack', DCPlayer.next)
+        }
       }
     }
+    DCPlayer.init()
     Object.defineProperty(Vue.prototype, '$DCPlayer', { value: DCPlayer })
   }
 }

@@ -1,18 +1,22 @@
 <template>
-  <div id="search-results" class="container-fluid">
-    <div class="row">
+  <div>
       <div class="well">
         <button class="btn btn-primary" @click='sort'>Sort Date</button>
         <button class="btn btn-primary" @click='toggleView'>Toggle Playlist View</button>
       </div>
-      <playlistItemNormal v-if="toggle"
-        v-for="(song, index) in songs"
-        v-bind:song="song"
-        v-bind:index="index"
-        v-bind:key="index"
-      >
-      </playlistItemNormal>
-      <table v-if="!toggle" class="tablesorter table table-hover table-condensed sortable-table" style="border:1px;">
+      <v-container v-if="!toggle" fluid v-bind="{ [`grid-list-${_size}`]: true }">
+        <v-layout row wrap>  
+          <playlistItemNormal
+            v-for="(song, index) in songs"
+            v-bind:song="song"
+            v-bind:index="index"
+            v-bind:key="index"
+          >
+          </playlistItemNormal>
+        </v-layout>
+        <scroll-to-top></scroll-to-top>
+      </v-container>
+      <table v-if="toggle" class="tablesorter table table-hover table-condensed sortable-table" style="border:1px;">
         <tr>
           <th><p class="text-center">Title</p></th>
           <th><p class="text-center">Bild</p></th>
@@ -30,24 +34,33 @@
       </table>
       <iframe :src="iframeSrc"></iframe>
     </div>
-  </div>
 </template>
 <script>
 import playlistItemNormal from './playlistItemNormal.vue'
 import playlistItemList from './playlistItemList.vue'
+import scrollToTop from '../misc/scroll-to-top.vue'
 
 export default {
   name: 'playlist',
   props: ['songs'],
   components: {
     'playlistItemNormal': playlistItemNormal,
-    'playlistItemList': playlistItemList
+    'playlistItemList': playlistItemList,
+    'scroll-to-top': scrollToTop
   },
   data () {
     return {
+      showScrollToTop: false,
       msg: 'Welcome to the playlist Trinity',
       iframeSrc: '',
       toggle: false
+    }
+  },
+  computed: {
+    _size: function () {
+      // returns xs to xl depending on view port.
+      // used to set padding around elements.
+      return this.$vuetify.breakpoint.name
     }
   },
   methods: {
@@ -69,9 +82,6 @@ export default {
 </script>
 
 <style>
-img[lazy=loading] {
-  background-image: url("../img/loading.gif");
-}
 #search-results{
   margin-bottom: 10px
 }

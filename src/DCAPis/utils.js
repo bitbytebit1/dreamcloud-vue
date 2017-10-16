@@ -2,7 +2,7 @@ const UtilsPlug = {
   install (Vue, options) {
     var Utils = {
       isMobile: window.matchMedia('only screen and (max-width: 760px)').matches,
-      copyToClipboard: function wasd (sText) {
+      copyToClipboard: function (sText) {
         var tmp = document.createElement('input')
         document.body.appendChild(tmp)
         tmp.value = sText

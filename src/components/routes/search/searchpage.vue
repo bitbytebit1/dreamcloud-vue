@@ -1,5 +1,5 @@
 <template>
-  <div class="search">
+  <div>
     <div class="loading" v-if="loading">    
       <infinite-loading spinner="waveDots"></infinite-loading>
     </div>
@@ -17,6 +17,8 @@ export default {
   props: ['query', 'source'],
   data () {
     return {
+      _query: '',
+      _source: '',
       loading: false,
       msg: 'Welcome to the search Neo',
       searchResults: []
@@ -25,8 +27,19 @@ export default {
   components: {
     InfiniteLoading
   },
+  computed: {
+    splitSource: function () {
+      if (this.source.length > 1) {
+        let tmp = this.source
+        return tmp.split('-')
+      }
+      return this.source
+    }
+  },
   created: function () {
-    this.search(this.query, this.source)
+    this._query = this.query
+    this._source = this.splitSource
+    this.search(this.query, this._source)
   },
   // beforeRouteUpdate (to) {
   //   // console.log(to)
@@ -38,29 +51,31 @@ export default {
   },
   methods: {
     infiniteHandler: function ($state) {
-      this.search(this.query, this.source, ++this.$DCAPI.iPage).then(function () {
+      console.log()
+      this.search(this._query, this._source, ++this.$DCAPI.iPage).then(function () {
         $state.loaded()
       })
     },
     _search: function (sQuery, aSource) {
-      this.search(this.$route.params.query, this.$route.params.source)
+      this._query = this.$route.params.source
+      this.search(this.$route.params.query, this.splitSource)
     },
     search: function (sQuery, aSource, iPage = 0) {
-      var self = this
-      self.loading = !iPage                                       // If first page show loading
-      self.query = sQuery || self.query                           // If not param set use internal
-      self.source = aSource || self.source                        // If not  ”    ”   ”   ”
-      self.searchResults = !iPage ? [] : self.searchResults       // If first page clear search results array.
-      return self.$DCAPI.searchInt(self.query, iPage, [self.source], '', function (d) {
-        self.loading = false
-        if (!d.length) {                                          // If no results stop infinite loading
-          self.$refs.infiniteLoading.stateChanger.complete()
+      // console.log(this)
+      this.loading = !iPage                                           // If first page show loading
+      this._query = sQuery || this._query                             // If not param set use internal
+      this._source = aSource || this._source                          // If not  ”    ”   ”   ”
+      this.searchResults = !iPage ? [] : this.searchResults           // If first page clear search results array.
+      return this.$DCAPI.searchInt(this._query, iPage, this._source, '', (d) => {
+        this.loading = false
+        if (!d.length) {                                              // If no results stop infinite loading
+          this.$refs.infiniteLoading.stateChanger.complete()
           // ^ This line may cause problems in the future
           // this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete');
           // ^ Proper way, but causes warning?
         }
         for (var i in d) {
-          self.searchResults.push(d[i])
+          this.searchResults.push(d[i])
         }
       }, '')
     }

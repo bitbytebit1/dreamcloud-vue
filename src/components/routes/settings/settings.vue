@@ -1,23 +1,20 @@
 <template>
-  <div class="?">
+  <div>
     <h1>{{ msg }}</h1>
   </div>
 </template>
 <script>
 
-import x from '@/components/'
 export default {
-  name: '?',
-  components: {
-    '?': ?
-  },
+  name: 'settings',
   data () {
     return {
-      msg: 'Welcome to the real Trinity'
+      msg: 'Welcome to the settings page'
     }
   }
 }
 </script>
 
+<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
 </style>

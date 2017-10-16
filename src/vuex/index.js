@@ -21,6 +21,9 @@ const store = new Vuex.Store({
     }
   },
   getters: {
+    current_Playlist: state => {
+      return state.current_Playlist
+    },
     index: state => {
       return state.current_Index
     },

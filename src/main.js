@@ -12,9 +12,13 @@ import UtilsPlug from '././DCAPIs/Utils.js'
 import VueLazyload from 'vue-lazyload'
 import store from './vuex'
 
+import Vuetify from 'vuetify'
+Vue.use(Vuetify)
+import('../node_modules/vuetify/dist/vuetify.min.css')
+
 Vue.use(VueLazyload, {
   preLoad: 1.6,
-  loading: '//dream.tribe.nu/r3/pix/loading.gif',
+  loading: '/static/img/loading.gif',
   attempt: 1
 })
 Vue.use(UtilsPlug)
@@ -22,7 +26,6 @@ Vue.use(DCUserPlug)
 Vue.use(DCAPIPlug)
 Vue.use(DCPlayerPlug)
 Vue.component('playlist', playlist)
-require('bootstrap/dist/css/bootstrap.css')
 
 Vue.config.productionTip = false
 
