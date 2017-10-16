@@ -15,6 +15,13 @@ export default {
     return {
       msg: 'Welcome to the real Trinity'
     }
+  },
+  methods: {
+  },
+  computed: {
+    x: function () {
+      
+    }
   }
 }
 </script>

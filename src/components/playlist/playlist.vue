@@ -16,7 +16,7 @@
         </v-layout>
         <scroll-to-top></scroll-to-top>
       </v-container>
-      <table v-if="toggle" class="tablesorter table table-hover table-condensed sortable-table" style="border:1px;">
+      <table v-if="toggle" class="table" style="width:100%;border:1px;">
         <tr>
           <th><p class="text-center">Title</p></th>
           <th><p class="text-center">Bild</p></th>

@@ -1,5 +1,5 @@
 import axios from 'axios'
-// /* eslint-disable1 */
+/* eslint-disable1 */
 const DCAPIPlug = {
   install (Vue, options) {
     var DCAPI = {

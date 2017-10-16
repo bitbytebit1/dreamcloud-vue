@@ -1,3 +1,4 @@
+/* eslint-disable */
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '../components/routes/home/home'
@@ -11,9 +12,15 @@ import song from '../components/routes/search/song'
 import userPlaylist from '../components/routes/user/user-playlist'
 import userIndex from '../components/routes/user/user-index'
 
+
+import Hello from '@/components/firebase/Hello'
+import Login from '@/components/firebase/Login'
+import SignUp from '@/components/firebase/SignUp'
+import firebase from 'firebase'
+
 Vue.use(Router)
 
-export default new Router({
+let router = new Router({
   scrollBehavior (to, from, savedPosition) {
     if (savedPosition) {
       return savedPosition
@@ -22,6 +29,24 @@ export default new Router({
     }
   },
   routes: [
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login
+    },
+    {
+      path: '/sign-up',
+      name: 'SignUp',
+      component: SignUp
+    },
+    {
+      path: '/hello',
+      name: 'Hello',
+      component: Hello,
+      meta: {
+        requiresAuth: true
+      }
+    },    
     {
       path: '/',
       redirect: '/home'
@@ -68,3 +93,14 @@ export default new Router({
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  let currentUser = firebase.auth().currentUser;
+  let requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+  // console.log(firebase.auth().currentUser)
+  if (requiresAuth && !currentUser) next('login')
+  else if (!requiresAuth && currentUser) next('hello')
+  else next()
+})
+export default router
+

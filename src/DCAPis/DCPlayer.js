@@ -27,7 +27,7 @@ const DCPlayerPlug = {
       previous: function () {
         DCPlayer.iCurrent = (DCPlayer.iCurrent > 0 ? DCPlayer.iCurrent - 1 : 0)
         store.commit('changeIndex', DCPlayer.iCurrent)
-        DCPlayer.play(DCPlayer.iCurrent)
+        DCPlayer.playIndex(DCPlayer.iCurrent)
       },
       playIndex: function (index) {
         DCPlayer.iCurrent = index
