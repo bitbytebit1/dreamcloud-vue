@@ -6,6 +6,7 @@ const DCPlayerPlug = {
     var DCPlayer = {
       aPlaylist: [],
       iCurrent: 0,
+      eAudio: '',
       init: function () {
         DCPlayer.bindMediaSesssion()
       },
@@ -18,10 +19,10 @@ const DCPlayerPlug = {
         DCPlayer.playIndex(DCPlayer.iCurrent)
       },
       pause: function () {
-        DCPlayer.ePlayer().pause()
+        DCPlayer.eAudio.pause()
       },
       play: function () {
-        DCPlayer.ePlayer().play()
+        DCPlayer.eAudio.play()
       },
       previous: function () {
         DCPlayer.iCurrent = (DCPlayer.iCurrent > 0 ? DCPlayer.iCurrent - 1 : 0)
@@ -35,11 +36,11 @@ const DCPlayerPlug = {
       },
       play_url: function (sURL) {
         return DCPlayer.getAudio(sURL, function (resp) {
-          DCPlayer.ePlayer().src = resp
+          DCPlayer.eAudio.src = resp
           DCPlayer.play()
           // Not sure why but seems we have to rebind after src change?
-          DCPlayer.ePlayer().addEventListener('ended', DCPlayer.next, false)
-          DCPlayer.ePlayer().addEventListener('error', DCPlayer.error, false)
+          DCPlayer.eAudio.addEventListener('ended', DCPlayer.next, false)
+          DCPlayer.eAudio.addEventListener('error', DCPlayer.error, false)
         })
       },
       setPlaylist: function (array) {
@@ -51,10 +52,10 @@ const DCPlayerPlug = {
         DCPlayer.playIndex(index)
       },
       seekBackward: function () {
-        DCPlayer.ePlayer().currentTime -= 10
+        DCPlayer.eAudio.currentTime -= 10
       },
       seekForward: function () {
-        DCPlayer.ePlayer().currentTime += 10
+        DCPlayer.eAudio.currentTime += 10
       },
       getAudio: function (url, hCallback) {
         var ax = axios.get('https://www.saveitoffline.com/process/?type=audio&url=' + url)
@@ -79,10 +80,10 @@ const DCPlayerPlug = {
           console.log('Trying to play again', this._error_count)
           setTimeout(function () {
             DCPlayer.playIndex(DCPlayer.iCurrent).then(function (resp) {
-              DCPlayer.ePlayer().addEventListener('playing', function () {
+              DCPlayer.eAudio.addEventListener('playing', function () {
                 this._error_count = 0
               })
-              DCPlayer.ePlayer().addEventListener('error', function () {
+              DCPlayer.eAudio.addEventListener('error', function () {
                 if (this._error_count === 4) {
                   this._error_count = 0
                   console.log('too may errors, next song')
