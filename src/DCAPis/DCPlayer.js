@@ -1,5 +1,6 @@
 /* eslint-disable */
 import axios from 'axios'
+import store from '../vuex'
 const DCPlayerPlug = {
   install (Vue, options) {
     var DCPlayer = {
@@ -28,7 +29,7 @@ const DCPlayerPlug = {
       getAudio: function (url, hCallback) {
         var ax = axios.get('https://www.saveitoffline.com/process/?type=audio&url=' + url)
         ax.then(function (resp) {
-          if (('data' in resp) && (resp.data !== 'Error: no_media_found')) {
+          if (('data' in resp) && (resp.data !== 'Error: no_media_found' && resp.data !== 'Error: daily_secondary_api_limit_reached')) {
             for (var i = 0; i < resp.data.urls.length; i++) {
               if (resp.data.urls[i].label.indexOf('audio') > -1 || resp.data.urls[i].label.indexOf('m4a') > -1) {
                 hCallback(resp.data.urls[i].id)
@@ -36,7 +37,7 @@ const DCPlayerPlug = {
               }
             }
           } else {
-            console.log('error??')
+            hCallback('//dream.tribe.nu/r3/off?q=' + url)
           }
         })
         return ax
@@ -44,7 +45,7 @@ const DCPlayerPlug = {
       error: function (a) {
         // console.log('error', a)
         this._error_count = this._error_count || 0
-        if (this._error_count < 5) {
+        if (this._error_count < 3) {
           this._error_count++
           console.log('Trying to play again', this._error_count)
           setTimeout(function () {
@@ -69,6 +70,7 @@ const DCPlayerPlug = {
       next: function () {
         // Increment unless end of playlist.
         DCPlayer.iCurrent = (DCPlayer.iCurrent < DCPlayer.aPlaylist.length ? DCPlayer.iCurrent + 1 : 0)
+        store.commit('changeIndex', DCPlayer.iCurrent )
         DCPlayer.play(DCPlayer.aPlaylist[DCPlayer.iCurrent].mp32)
       }
     }

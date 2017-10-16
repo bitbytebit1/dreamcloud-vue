@@ -45,7 +45,7 @@
 <script>
 /* eslint-disable */
 // https://codepen.io/arturiaweb/pen/Pjaeoy
-import WaveSurfer from "WaveSurfer"
+import WaveSurfer from "wavesurfer"
 export default {
   name: 'wavesurfer-container',
   props: ['layout'],

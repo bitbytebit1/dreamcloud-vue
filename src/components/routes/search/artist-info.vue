@@ -1,23 +1,30 @@
 <template>
-  <div class="artist-info">
-      <div class="row">
-        <div class="pull-left">
-          <img :src="info.img"/>
-        <h2>{{ info.title }}</h2>
-      </div>
+  <div class="row">
+    <img :src="info.img" class="img-fluid" style="display:inline-block; margin:20px;"/>
+    <div style="display:inline-block;width:40%">
+      <span class="lead text-left" style="text-decoration: underline;">{{ artist }}</span>
+      <br />
+      <span class="lead" v-if="info.last_modified">{{ info.created }}</span>
+      <span class="lead" v-if="info.last_modified">{{ info.last_modified }}</span>
+      <span class="lead" v-if="info.followers_count">{{ info.followers_count }}</span>
+      <span class="lead" v-if="info.track_count">{{ info.track_count }}</span>
+      <span class="lead" v-if="info.description" style="align: left;">{{ info.description }}</span>
+    </div>
     </div>
   </div>
 </template>
 <script>
 export default {
   name: 'artist-info',
-  props: ['artistID', 'source'],
+  props: ['artistID', 'source', 'artist'],
   data () {
     return {
       msg: 'Welcome to the real Trinity',
       info: {
+        description: '',
         img: '',
-        title: ''
+        title: '',
+        last_modified: ''
       }
     }
   },
@@ -32,7 +39,13 @@ export default {
         self.info.description = response.data.items[0].snippet.description
         self.info.created = response.data.items[0].snippet.publishedAt
       } else if (self.source.toLowerCase().indexOf('soundcloud') > -1) {
-        console.log(response)
+        self.info.img = response.data.avatar_url
+        self.info.title = response.data.username
+        self.info.description = ''
+        self.info.created = ''
+        self.info.last_modified = response.data.last_modified
+        self.info.followers_count = response.data.followers_count
+        self.info.track_count = response.data.track_count
       }
     })
   }
@@ -40,12 +53,4 @@ export default {
 </script>
 
 <style>
-.artist-info img{
-  margin-left: 30px;
-  display: inline-block;
-}
-.artist-info h2{
-  margin-left: 20px;
-  display: inline-block;
-}
 </style>

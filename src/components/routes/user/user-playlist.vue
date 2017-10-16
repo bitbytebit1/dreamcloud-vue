@@ -1,0 +1,49 @@
+<template>
+  <div>
+    <h1>/u/{{user}}/{{playlist}}</h1>
+    <playlist :songs="aSongs"></playlist>
+  </div>
+</template>
+<script>
+export default {
+  name: 'userPlaylist',
+  props: ['user', 'playlist'],
+  data () {
+    return {
+      aSongs: []
+    }
+  },
+  created: function () {
+    this.search(this.user, this.playlist)
+  },
+  watch: {
+    '$route.params.user': '_search',
+    '$route.params.playlist': '_search'
+  },
+  methods: {
+    _search: function () {
+      console.log('searching')
+      this.search(this.$route.params.user, this.$route.params.playlist)
+    },
+    search: function (sUser, sPlaylist) {
+      sUser = sUser || this.user
+      sPlaylist = sPlaylist || this.playlist
+      this.error = this.post = null
+      this.loading = true
+      let self = this
+      self.searchResults = []
+      this.$DCUser.getUserPlaylist(sUser, sPlaylist, function (d) {
+        self.loading = false
+        d = d.data
+        for (var i in d) {
+          self.aSongs.push(d[i])
+        }
+      }, '')
+    }
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style>
+</style>

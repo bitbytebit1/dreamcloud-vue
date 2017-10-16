@@ -1,26 +1,23 @@
 <template>
   <div id="app">
     <navbar></navbar>
-    <main>
-      <router-view></router-view>
-    </main>
+    <div id="master" class='container-fluid'>
+      <main>
+        <router-view></router-view>
+      </main>  
+    </div>
     <dcAudio :song="aSong"></dcAudio>
-    <!-- <wavesurfer-container layout="modal"></wavesurfer-container> -->
   </div>
 </template>
 
 <script>
-  import navbar from '@/components/navbar'
-  import dcAudio from '@/components/dcAudio'
-  import currentPlayist from '@/components/current-playlist'
-  // import wavesurfercomp from '@/components/wavesurfer'
+  import navbar from './components/navbar/navbar'
+  import dcAudio from './components/dcAudio'
   export default {
     name: 'app',
     components: {
       'navbar': navbar,
-      'dcAudio': dcAudio,
-      // 'wavesurfer-container': wavesurfercomp
-      'current-playist': currentPlayist
+      'dcAudio': dcAudio
     },
     data () {
       return {
@@ -46,5 +43,6 @@ body {
 main {
   text-align: center;
   margin-top: 64px;
+  margin-bottom: 60px;
 }
 </style>

@@ -22,7 +22,7 @@ const DCAPIPlug = {
         DCAPI.bRelated = bRelated
         DCAPI.sQuery = sQuery
         DCAPI.iPage = iPage
-        DCAPI.aSource = aSource[0] === 'all' ? ['mixcloud', 'soundcloud', 'youtube', 'vimeo'] : aSource
+        DCAPI.aSource = aSource[0].toLowerCase() === 'all' ? ['mixcloud', 'soundcloud', 'youtube', 'vimeo'] : aSource
         DCAPI.sArtist = sArtist
         DCAPI.hCallback = hCallback
         DCAPI.aResults = []
@@ -30,10 +30,10 @@ const DCAPIPlug = {
         for (var idx in DCAPI.aSource) {
           DCAPI.ajaxList.push(DCAPI.search(DCAPI.aSource[idx]))
         }
-        axios.all(DCAPI.ajaxList).then(function () {
+        return axios.all(DCAPI.ajaxList).then(function () {
           DCAPI.hCallback(DCAPI.aResults)
           DCAPI.aResults = []
-        })
+        }).catch(DCAPI.error)
       },
       search: function (source) {
         switch (source.toLowerCase()) {
@@ -53,25 +53,25 @@ const DCAPIPlug = {
       mc: function () {
         var a
         if (DCAPI.sArtist !== '') {
-          a = 'http://api.mixcloud.com/' + DCAPI.sArtist + '/cloudcasts?limit=12&offset=' + 8 * DCAPI.page + '&callback=?'
+          a = 'https://api.mixcloud.com/' + DCAPI.sArtist + '/cloudcasts?limit=12&offset=' + 8 * DCAPI.page + '&callback=?'
         } else {
-          a = 'http://api.mixcloud.com/search/?type=cloudcast&limit=12&q=' + DCAPI.sQuery + '&offset=' + 8 * DCAPI.iPage + '&callback=?'
+          a = 'https://api.mixcloud.com/search/?type=cloudcast&limit=12&q=' + DCAPI.sQuery + '&offset=' + 8 * DCAPI.iPage + '&callback=?'
         }
         return axios.get(a).then(function (resp) {
           for (var idx in resp.data.data) {
-            DCAPI.aResults.push(
-              resp.data.data[idx].user.name, // artist:
-              resp.data.data[idx].user.username, // artistID:
-              DCAPI.parseDate(resp.data.data[idx].created_time), // created:
-              '', // description:
-              DCAPI.secondstominutes(resp.data.data[idx].audio_length), // duration:
-              'http://dream.tribe.nu/r3/off/?q=' + resp.data.data[idx].url, // mp3:
-              resp.data.data[idx].url, // mp32:
-              resp.data.data[idx].pictures.large, // poster:
-              resp.data.data[idx].pictures.extra_large, // posterLarge:
-              'Mixcloud', // source:
-              resp.data.data[idx].name, // title:
-              '' // trackID:
+            DCAPI.pushResult(
+              resp.data.data[idx].user.name,                                  // artist:
+              resp.data.data[idx].user.username,                              // artistID:
+              DCAPI.parseDate(resp.data.data[idx].created_time),              // created:
+              '',                                                             // description:
+              DCAPI.secondstominutes(resp.data.data[idx].audio_length),       // duration:
+              'https://dream.tribe.nu/r3/off/?q=' + resp.data.data[idx].url,  // mp3:
+              resp.data.data[idx].url,                                        // mp32:
+              resp.data.data[idx].pictures.large,                             // poster:
+              resp.data.data[idx].pictures.extra_large,                       // posterLarge:
+              'MixCloud',                                                     // source:
+              resp.data.data[idx].name,                                       // title:
+              ''                                                              // trackID:
             )
           }
         })
@@ -81,9 +81,9 @@ const DCAPIPlug = {
         if (typeof (related) !== 'undefined') {
           a = 'https://api.soundcloud.com/tracks/' + DCAPI.sArtist + '/related?client_id=' + DCAPI.sScKey
         } else if (DCAPI.sArtist !== '') {
-          a = 'http://api.soundcloud.com/users/' + DCAPI.sArtist + '/tracks.json?&limit=12&offset=' + 12 * DCAPI.iPage + '&client_id=' + DCAPI.sScKey
+          a = 'https://api.soundcloud.com/users/' + DCAPI.sArtist + '/tracks.json?&limit=12&offset=' + 12 * DCAPI.iPage + '&client_id=' + DCAPI.sScKey
         } else {
-          a = 'http://api.soundcloud.com/tracks.json?q=' + encodeURIComponent(DCAPI.sQuery) + '&limit=12&offset=' + 12 * DCAPI.iPage + '&client_id=' + DCAPI.sScKey
+          a = 'https://api.soundcloud.com/tracks.json?q=' + encodeURIComponent(DCAPI.sQuery) + '&limit=12&offset=' + 12 * DCAPI.iPage + '&client_id=' + DCAPI.sScKey
         }
         return axios.get(a).then(function (resp) {
           try {
@@ -95,18 +95,18 @@ const DCAPIPlug = {
               img = resp.data[idx].artwork_url.replace('i1', 'i2').replace('-large', '-t300x300')
               img2 = resp.data[idx].artwork_url.replace('-large', '-t500x500')
               DCAPI.pushResult(
-                resp.data[idx].user.username, // artist:
-                resp.data[idx].user_id, // artistID:
-                DCAPI.parseDate(resp.data[idx].created_at), // created:
-                resp.data[idx].description, // description:
-                DCAPI.secondstominutes(Math.floor(resp.data[idx].duration / 1E3)), // duration:
-                resp.data[idx].stream_url + '?client_id=' + DCAPI.sScKey, // mp3:
-                resp.data[idx].permalink_url, // mp32:
-                img, // poster:
-                img2, // posterLarge:
-                'Soundcloud', // source:
-                resp.data[idx].title, // title:
-                resp.data[idx].id // trackID:
+                resp.data[idx].user.username,                                       // artist:
+                resp.data[idx].user_id,                                             // artistID:
+                DCAPI.parseDate(resp.data[idx].created_at),                         // created:
+                resp.data[idx].description,                                         // description:
+                DCAPI.secondstominutes(Math.floor(resp.data[idx].duration / 1E3)),  // duration:
+                resp.data[idx].stream_url + '?client_id=' + DCAPI.sScKey,           // mp3:
+                resp.data[idx].permalink_url,                                       // mp32:
+                img,                                                                // poster:
+                img2,                                                               // posterLarge:
+                'SoundCloud',                                                       // source:
+                resp.data[idx].title,                                               // title:
+                resp.data[idx].id                                                   // trackID:
               )
             }
           } catch (e) {
@@ -117,6 +117,8 @@ const DCAPIPlug = {
       yt: function () {
         if (DCAPI.iPage === 0) {
           DCAPI.YTnextPageTokenString = ''
+        } else if (!DCAPI.nextPageToken) {
+          return DCAPI.error()
         } else {
           DCAPI.YTnextPageTokenString = '&pageToken=' + DCAPI.nextPageToken
         }
@@ -134,18 +136,18 @@ const DCAPIPlug = {
             for (var idx in resp.data.items) {
               z = 'https://www.youtube.com/watch?v=' + resp.data.items[idx].id.videoId
               DCAPI.pushResult(
-                resp.data.items[idx].snippet.channelTitle, // artist:
-                resp.data.items[idx].snippet.channelId, // artistID:
-                DCAPI.parseDate(resp.data.items[idx].snippet.publishedAt), // created:
-                resp.data.items[idx].snippet.description, // description:
-                '', // duration:
-                'http://dream.tribe.nu/r3/off/?q=' + z, // mp3:
-                z, // mp32:
-                resp.data.items[idx].snippet.thumbnails.high.url, // poster:
-                resp.data.items[idx].snippet.thumbnails.high.url, // posterLarge:
-                'YouTube', // source:
-                resp.data.items[idx].snippet.title, // title:
-                resp.data.items[idx].id.videoId // trackID:
+                resp.data.items[idx].snippet.channelTitle,                  // artist:
+                resp.data.items[idx].snippet.channelId,                     // artistID:
+                DCAPI.parseDate(resp.data.items[idx].snippet.publishedAt),  // created:
+                resp.data.items[idx].snippet.description,                   // description:
+                '',                                                         // duration:
+                'https://dream.tribe.nu/r3/off/?q=' + z,                    // mp3:
+                z,                                                          // mp32:
+                resp.data.items[idx].snippet.thumbnails.high.url,           // poster:
+                resp.data.items[idx].snippet.thumbnails.high.url,           // posterLarge:
+                'YouTube',                                                  // source:
+                resp.data.items[idx].snippet.title,                         // title:
+                resp.data.items[idx].id.videoId                             // trackID:
               )
             }
             DCAPI.nextPageToken = resp.data.nextPageToken
@@ -166,17 +168,17 @@ const DCAPIPlug = {
         return axios.get(a).then(function (resp) {
           for (var idx in resp.data.data) {
             DCAPI.pushResult(
-              resp.data.data[idx].user.name, // artist:
+              resp.data.data[idx].user.name,                                    // artist:
               resp.data.data[idx].user.uri.replace(/\/users\/(.*?)/ig, 'user'), // artistID:
-              DCAPI.parseDate(resp.data.data[idx].user.created_time), // created:
-              resp.data.data[idx].description, // description:
-              DCAPI.secondstominutes(resp.data.data[idx].duration), // duration:
-              'http://dream.tribe.nu/r3/off/?q=' + resp.data.data[idx].link, // mp3:
-              resp.data.data[idx].link, // mp32:
-              resp.data.data[idx].pictures.sizes[2].link, // poster:
+              DCAPI.parseDate(resp.data.data[idx].user.created_time),           // created:
+              resp.data.data[idx].description,                                  // description:
+              DCAPI.secondstominutes(resp.data.data[idx].duration),             // duration:
+              'https://dream.tribe.nu/r3/off/?q=' + resp.data.data[idx].link,   // mp3:
+              resp.data.data[idx].link,                                         // mp32:
+              resp.data.data[idx].pictures.sizes[2].link,                       // poster:
               resp.data.data[idx].pictures.sizes[resp.data.data[idx].pictures.sizes.length - 1].link, // posterLarge:
-              'vimeo', // source:
-              resp.data.data[idx].name, // title:
+              'vimeo',                                                          // source:
+              resp.data.data[idx].name,                                         // title:
               '' // trackID:
             )
           }
@@ -200,7 +202,49 @@ const DCAPIPlug = {
         if (source.toLowerCase().indexOf('youtube') > -1) {
           return axios.get('https://www.googleapis.com/youtube/v3/channels?part=snippet&id=' + artistID + '&key=' + DCAPI.sYtKey).then(hCallback)
         } else if (source.toLowerCase().indexOf('soundcloud') > -1) {
-          return axios.get('http://api.soundcloud.com/users/' + artistID + '?client_id=' + DCAPI.sScKey).then(hCallback)
+          return axios.get('https://api.soundcloud.com/users/' + artistID + '?client_id=' + DCAPI.sScKey).then(hCallback)
+        }
+      },
+      getSongInfo: function (trackID, source, hCallback) {
+        DCAPI.aResults = []
+        if (source.toLowerCase().indexOf('youtube') > -1) {
+          return axios.get('https://www.googleapis.com/youtube/v3/videos?part=snippet&id=' + trackID + '&key=' + DCAPI.sYtKey).then(function (resp) {
+            resp = resp.data.items[0]
+            DCAPI.pushResult(
+                resp.snippet.channelTitle, // artist:
+                resp.snippet.channelId, // artistID:
+                DCAPI.parseDate(resp.snippet.publishedAt), // created:
+                resp.snippet.description, // description:
+                '', // duration:
+                'http://dream.tribe.nu/r3/off/?q=' + 'https://www.youtube.com/watch?v=' + resp.id, // mp3:
+                'https://www.youtube.com/watch?v=' + resp.id, // mp32:
+                resp.snippet.thumbnails.high.url, // poster:
+                resp.snippet.thumbnails.high.url, // posterLarge:
+                'YouTube', // source:
+                resp.snippet.title, // title:
+                resp.id // trackID:
+            )
+            hCallback(DCAPI.aResults)
+          })
+        } else if (source.toLowerCase().indexOf('soundcloud') > -1) {
+          return axios.get('http://api.soundcloud.com/tracks/' + trackID + '?client_id=' + DCAPI.sScKey).then(function (resp) {
+            resp = resp.data
+            DCAPI.pushResult(
+                resp.user.username, // artist:
+                resp.user_id, // artistID:
+                DCAPI.parseDate(resp.created_at), // created:
+                resp.description, // description:
+                DCAPI.secondstominutes(Math.floor(resp.duration / 1E3)), // duration:
+                resp.stream_url + '?client_id=' + DCAPI.sScKey, // mp3:
+                resp.permalink_url, // mp32:
+                resp.artwork_url.replace('i1', 'i2').replace('-large', '-t300x300'),
+                resp.artwork_url.replace('-large', '-t500x500'),
+                'Soundcloud', // source:
+                resp.title, // title:
+                resp.id // trackID:
+            )
+            hCallback(DCAPI.aResults)
+          })
         }
       },
       pushResult: function (artist, artistID, created, description, duration, mp3, mp32, poster, posterLarge, source, title, trackID) {
@@ -213,12 +257,16 @@ const DCAPIPlug = {
           mp32: mp32,
           poster: poster,
           posterLarge: posterLarge,
-          source: 'YouTube',
+          source: source,
           title: title,
           trackID: trackID
         })
       },
       calcDate: function (a, b) {
+        if (typeof b !== Object) {
+          b = new Date(b)
+        }
+
         var c = Math.floor(a.getTime() - b.getTime())
         var d = Math.floor(c / 864E5)
         var m = Math.floor(d / 31)
@@ -254,6 +302,9 @@ const DCAPIPlug = {
       },
       secondstominutes: function (time) {
         return DCAPI.str_pad_left(Math.floor(time / 60), '0', 2) + ':' + DCAPI.str_pad_left(time - Math.floor(time / 60) * 60, '0', 2)
+      },
+      error: function () {
+        DCAPI.hCallback([])
       }
     }
     Object.defineProperty(Vue.prototype, '$DCAPI', { value: DCAPI })
