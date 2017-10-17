@@ -26,7 +26,7 @@
 <script>
 /* eslint-disable */
 
-import {fb, db} from '@/plugins/Firebase.js'
+import {fb, db, DCFB} from '@/plugins/Firebase.js'
 
 export default {
   name: 'user-playlists',
@@ -47,8 +47,11 @@ export default {
   },
   firebase: function () {
     return {
-      playlist: db.ref('Playlists')
+      playlist: DCFB.playlists
     }
+  },
+  mounted: function () {
+    console.log('Mounted with', DCFB.UID, DCFB.playlists)
   }
 }
 </script>

@@ -33,11 +33,12 @@ Vue.config.productionTip = false
 import VueFire from 'vuefire'
 Vue.use(VueFire)
 
-import {fb} from './plugins/Firebase.js'
+import {fb, DCFB} from '@/plugins/Firebase.js'
 
 let app
 
 fb.auth().onAuthStateChanged(function (user) {
+  DCFB.init(user.uid)
   if (!app) {
     app = new Vue({
       el: '#app',

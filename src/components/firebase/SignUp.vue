@@ -9,20 +9,22 @@
 </template>
 
 <script>
-  import firebase from 'firebase'
+  /* eslint-disable */
+  import {fb, DCFB} from '@/plugins/Firebase.js'
   export default {
     name: 'signUp',
     data: function () {
       return {
-        email: '',
-        password: ''
+        email: 'w@w.com',
+        password: 'wasd123'
       }
     },
     methods: {
       signUp: function () {
-        firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(
+        fb.auth().createUserWithEmailAndPassword(this.email, this.password).then(
           (user) => {
-            this.$router.replace('hello')
+            DCFB.setUpUserAccount(user.uid)
+            this.$router.replace('user')
           },
           (err) => {
             alert('Oops. ' + err.message)
