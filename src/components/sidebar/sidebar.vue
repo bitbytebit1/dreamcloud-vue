@@ -16,12 +16,14 @@
         <v-list-tile-title>Settings</v-list-tile-title>
       </v-list-tile-content>
     </v-list-tile>
+
     <user-playlists></user-playlists>
+
   </v-list>
 </template>
 <script>
 import firebase from 'firebase'
-import userPlaylists from '@/components/firebase/user-playlists'
+import userPlaylists from '@/components/sidebar/user-playlists'
 export default {
   name: 'sidebar',
   components: {
@@ -35,7 +37,7 @@ export default {
   },
   computed: {
     loginPath: function () {
-      return this.loggedIn ? 'user' : 'login'
+      return this.loggedIn ? '/user' : '/login'
     },
     loginText: function () {
       return this.loggedIn ? 'User' : 'Login'

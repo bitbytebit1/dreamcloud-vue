@@ -1,48 +1,40 @@
 <template>
-  <div>
-    <h1>/u/{{user}}/{{playlist}}</h1>
-    <playlist :songs="aSongs"></playlist>
+  <div :index="playlist" :key="this.$route.params.user">
+    <h3>/u/{{user}}/{{playlist}}</h3>
+    <playlist :songs="aSongs1"></playlist>
   </div>
 </template>
 <script>
+import { DCFB } from '@/plugins/Firebase.js'
 export default {
   name: 'userPlaylist',
   props: ['user', 'playlist'],
-  data () {
-    return {
-      aSongs: []
-    }
+  watch: {
+    '$route.params.user': 'bind',
+    '$route.params.playlist': 'bind'
   },
   created: function () {
-    this.search(this.user, this.playlist)
+    this.bind()
   },
-  watch: {
-    '$route.params.user': '_search',
-    '$route.params.playlist': '_search'
+  data () {
+    return {
+      aSongs1: []
+    }
   },
   methods: {
-    _search: function () {
-      console.log('searching')
-      this.search(this.$route.params.user, this.$route.params.playlist)
-    },
-    search: function (sUser, sPlaylist) {
-      sUser = sUser || this.user
-      sPlaylist = sPlaylist || this.playlist
-      this.error = this.post = null
-      this.loading = true
-      this.searchResults = []
-      this.$DCUser.getUserPlaylist(sUser, sPlaylist, (d) => {
-        this.loading = false
-        d = d.data
-        for (var i in d) {
-          this.aSongs.push(d[i])
-        }
-      }, '')
+    bind: function () {
+      this.$bindAsArray('aSongs1', DCFB.getPlaylist(this.$route.params.user, this.$route.params.playlist))
     }
   }
+  // firebase: function () {
+  //   return {
+  //     aSongs: DCFB.getPlaylist(this.$route.params.user, this.$route.params.playlist)
+  //   }
+  // }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+
 </style>

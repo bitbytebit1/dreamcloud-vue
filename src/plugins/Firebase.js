@@ -46,10 +46,9 @@ class DCFB1 {
     this.playlists.child(id + '/songs').push(json)
   }
 
-  getPlaylist(name){
-    console.log(name)
-    // console.log(this.playlists.child(name))
-    return 'wasd'
+  getPlaylist(userId, playlistId){
+    console.log('getting playlist' , userId, playlistId)
+    return db.ref('users/' + userId + '/PlaylistsData/' + playlistId + '/songs')
   }
 }
 export let DCFB = new DCFB1()
