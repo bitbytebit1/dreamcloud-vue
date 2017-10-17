@@ -31,10 +31,11 @@ const DCPlayerPlug = {
       },
       playIndex: function (index) {
         DCPlayer.iCurrent = index
-        store.commit('changeIndex', DCPlayer.iCurrent)        
+        store.commit('changeIndex', DCPlayer.iCurrent)
         return DCPlayer.play_url(DCPlayer.aPlaylist[index].mp32)
       },
       play_url: function (sURL) {
+        return
         return DCPlayer.getAudio(sURL, function (resp) {
           DCPlayer.eAudio.src = resp
           DCPlayer.play()

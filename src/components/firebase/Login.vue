@@ -13,8 +13,7 @@
 </template>
 
 <script>
-  import firebase from 'firebase'
-
+  import {fb, DCFB} from '@/plugins/Firebase.js'
   export default {
     name: 'login',
     data: function () {
@@ -25,8 +24,9 @@
     },
     methods: {
       signIn: function () {
-        firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
+        fb.auth().signInWithEmailAndPassword(this.email, this.password).then(
           (user) => {
+            DCFB.init(user.uid)
             this.$router.replace('user')
           },
           (err) => {

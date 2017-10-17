@@ -1,7 +1,7 @@
 import firebase from 'firebase'
 // http://2ality.com/2014/09/es6-modules-final.html
 /* eslint-disable */
-var dummy = [{"artistID":"UC4MR4pqJYgk9mfr2iPwub7g","created":"2017-06-13T22:00:00.000Z","description":"https://cultmountain616.bandcamp.com/album/616sons Directed by AboveGround Shouts to Vikki Produced by Trellion & Sumgii.","duration":"","mp3":"https://dream.tribe.nu/r3/off/?q=https://www.youtube.com/watch?v=Rcp7PE44TE4","mp32":"https://www.youtube.com/watch?v=Rcp7PE44TE4","poster":"https://i.ytimg.com/vi/Rcp7PE44TE4/hqdefault.jpg","posterLarge":"https://i.ytimg.com/vi/Rcp7PE44TE4/hqdefault.jpg","source":"YouTube","title":"CULT MOUNTAIN - BRINK","trackID":"Rcp7PE44TE4"},{"artistID":"UC4MR4pqJYgk9mfr2iPwub7g","created":"2017-06-13T22:00:00.000Z","description":"https://cultmountain616.bandcamp.com/album/616sons Directed by AboveGround Shouts to Vikki Produced by Trellion & Sumgii.","duration":"","mp3":"https://dream.tribe.nu/r3/off/?q=https://www.youtube.com/watch?v=Rcp7PE44TE4","mp32":"https://www.youtube.com/watch?v=Rcp7PE44TE4","poster":"https://i.ytimg.com/vi/Rcp7PE44TE4/hqdefault.jpg","posterLarge":"https://i.ytimg.com/vi/Rcp7PE44TE4/hqdefault.jpg","source":"YouTube","title":"CULT MOUNTAIN - BRINK","trackID":"Rcp7PE44TE4"}]
+
 var config = {
   apiKey: 'AIzaSyDSaKaRsDvmOicthSOJGvSF4iQC2ZprwFw',
   authDomain: 'dreamcloud-3f276.firebaseapp.com',
@@ -18,19 +18,38 @@ class DCFB1 {
   constructor() {
     this.UID = ''
     this.playlists = ''
+    this.playlistRefs = ''
   }
 
   init(UID) {
     this.UID = UID
-    this.playlists = db.ref('users/' + UID + '/Playlists')    
+    this.playlists = db.ref('users/' + UID + '/PlaylistsData')
+    this.playlistsRefs = db.ref('users/' + UID + '/PlaylistsNames')
+    this.playlists.on("value", function(snapshot) {
+      var changedPost = snapshot.val();
+      console.log('snapshot', changedPost);
+    });    
   }
   
   setUpUserAccount(UID) {
     db.ref('users').set(UID)
   }
-  
-  addPlaylist (name, json) {
-    this.playlists.update({[name] : dummy})
+  createNewPlaylist(name, json){
+    //Create new playlist reference with id.
+    var nameRef = this.playlistsRefs.push(name)
+    //Using ID + name push new song.
+    this.playlists.child(nameRef.ref.key).set({'name': name})
+    this.playlists.child(nameRef.ref.key + '/songs').push(json)
+  }
+  addSongToPlaylist (id, json) {
+    console.log('adding to playlist')
+    this.playlists.child(id + '/songs').push(json)
+  }
+
+  getPlaylist(name){
+    console.log(name)
+    // console.log(this.playlists.child(name))
+    return 'wasd'
   }
 }
 export let DCFB = new DCFB1()

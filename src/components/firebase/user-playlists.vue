@@ -12,12 +12,12 @@
         <v-icon>keyboard_arrow_down</v-icon>
       </v-list-tile-action>
     </v-list-tile>
-    <v-list-tile v-for="subItem in playlist" v-bind:key="subItem['.key']" @click="">
+    <v-list-tile v-for="subItem in playlistRefs" v-bind:key="subItem['.key']" @click="getPlaylist">
       <v-list-tile-action>
         <v-icon>music_note</v-icon>
       </v-list-tile-action>      
       <v-list-tile-content>
-        <v-list-tile-title>{{ subItem['.key'] }}</v-list-tile-title>
+        <v-list-tile-title>{{ subItem['.value'] }}</v-list-tile-title>
       </v-list-tile-content>
     </v-list-tile>
   </v-list-group>
@@ -45,9 +45,14 @@ export default {
       msg: 'Welcome to the real Trinity'
     }
   },
+  methods: {
+    getPlaylist: function () {
+    }
+  },
   firebase: function () {
     return {
-      playlist: DCFB.playlists
+      playlist: DCFB.playlists,
+      playlistRefs: DCFB.playlistsRefs
     }
   },
   mounted: function () {

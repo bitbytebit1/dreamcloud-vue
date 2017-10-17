@@ -53,7 +53,7 @@ const DCAPIPlug = {
       mc: function () {
         var a
         if (DCAPI.sArtist !== '') {
-          a = 'https://api.mixcloud.com/' + DCAPI.sArtist + '/cloudcasts?limit=12&offset=' + 8 * DCAPI.page + '&callback=?'
+          a = 'https://api.mixcloud.com/' + DCAPI.sArtist + '/cloudcasts?limit=12&offset=' + 8 * (DCAPI.page > 0 ? DCAPI.page : 1)
         } else {
           a = 'https://api.mixcloud.com/search/?type=cloudcast&limit=12&q=' + DCAPI.sQuery + '&offset=' + 8 * DCAPI.iPage + '&callback=?'
         }

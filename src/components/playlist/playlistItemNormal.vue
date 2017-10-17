@@ -17,6 +17,9 @@
         </v-card-media>
         <v-card-actions v-bind:class="{ green: isPlaying }">
           <v-spacer></v-spacer>
+          
+          <add-to-playlist :song="song"></add-to-playlist>
+
           <v-btn icon>
             <v-icon>favorite</v-icon>
           </v-btn>
@@ -40,9 +43,13 @@
     </v-flex>
 </template>
 <script>
+import addToPlaylist from '@/components/playlist/add-to-playlist.vue'
 export default {
   name: 'playlistItemNormal',
   props: ['song', 'index'],
+  components: {
+    'add-to-playlist': addToPlaylist
+  },
   data () {
     return {
       msg: 'Welcome to the real PlaylistItemNormal'
@@ -64,6 +71,9 @@ export default {
     }
   },
   methods: {
+    addToPlaylist: function () {
+      console.log(123)
+    },
     play: function () {
       this.$parent.play(this.index)
     },
