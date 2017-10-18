@@ -1,7 +1,7 @@
 import firebase from 'firebase'
 // http://2ality.com/2014/09/es6-modules-final.html
+// https://www.firebase.com/docs/web/guide/saving-data.html
 /* eslint-disable */
-
 var config = {
   apiKey: 'AIzaSyDSaKaRsDvmOicthSOJGvSF4iQC2ZprwFw',
   authDomain: 'dreamcloud-3f276.firebaseapp.com',
@@ -25,16 +25,13 @@ class DCFB1 {
     this.UID = UID
     this.playlists = db.ref('users/' + UID + '/PlaylistsData')
     this.playlistsRefs = db.ref('users/' + UID + '/PlaylistsNames')
-    this.playlists.on("value", function(snapshot) {
-      var changedPost = snapshot.val();
-      console.log('snapshot', changedPost);
-    });    
   }
   
   setUpUserAccount(UID) {
     db.ref('users').set(UID)
   }
   createNewPlaylist(name, json){
+    delete json['.key']
     //Create new playlist reference with id.
     var nameRef = this.playlistsRefs.push(name)
     //Using ID + name push new song.
@@ -48,12 +45,11 @@ class DCFB1 {
   }
 
   addSongToPlaylist (id, json) {
-    console.log('adding to playlist')
+    delete json['.key']
     this.playlists.child(id + '/songs').push(json)
   }
 
   getPlaylist(userId, playlistId){
-    console.log('getting playlist' , userId, playlistId)
     return db.ref('users/' + userId + '/PlaylistsData/' + playlistId + '/songs')
   }
 }
