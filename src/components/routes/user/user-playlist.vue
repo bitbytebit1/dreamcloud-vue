@@ -1,6 +1,6 @@
 <template>
-  <div :index="playlist" :key="this.$route.params.user">
-    <h3>/u/{{user}}/{{playlist}}</h3>
+  <div :index="playlist" :key="this.$route.params.playlist">
+    <h3>{{name}}</h3>
     <playlist :songs="aSongs1"></playlist>
   </div>
 </template>
@@ -8,7 +8,7 @@
 import { DCFB } from '@/DCAPIs/DCFB.js'
 export default {
   name: 'userPlaylist',
-  props: ['user', 'playlist'],
+  props: ['user', 'playlist', 'name'],
   watch: {
     '$route.params.user': 'bind',
     '$route.params.playlist': 'bind'

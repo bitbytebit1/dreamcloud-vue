@@ -93,7 +93,7 @@ let router = new Router({
       props: true
     },
     {
-      path: '/u/:user/:playlist',
+      path: '/u/:user/:playlist/:name',
       name: 'userPlaylist',
       component: userPlaylist,
       props: true
