@@ -1,6 +1,6 @@
 <template>
   <v-menu offset-y lazy :close-on-content-click="false" v-model="menuOpen">
-    <v-btn icon slot="activator">
+    <v-btn icon slot="activator" @click.stop="yodo" >
       <v-icon>playlist_add</v-icon>
     </v-btn>
     <v-list>
@@ -21,18 +21,21 @@
 </template>
 <script>
 /* eslint-disable */
-import {fb, db, DCFB} from '@/plugins/Firebase.js'
+import {fb, db, DCFB} from '@/DCAPIs/DCFB.js'
 export default {
   name: 'add-to-playlist',
   props: ['song'],
   data () {
     return {
-      msg: 'Welcome to the real Trinity',
       playlistName: '',
       menuOpen: false
     }
   },
   methods: {
+    yodo: function () {
+      this.menuOpen = !this.menuOpen
+      console.log(1223)
+    },
     createNewPlaylist: function () {
      DCFB.createNewPlaylist(this.playlistName, this.song)
     },
