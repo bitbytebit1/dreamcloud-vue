@@ -14,7 +14,7 @@ export default {
     '$route.params.playlist': 'bind'
   },
   created: function () {
-    this.bind()
+    this.bind(this.user, this.playlist)
   },
   data () {
     return {
@@ -22,8 +22,11 @@ export default {
     }
   },
   methods: {
-    bind: function () {
+    bind: function (usr, plylist) {
       this.$bindAsArray('aSongs1', DCFB.getPlaylist(this.$route.params.user, this.$route.params.playlist))
+    },
+    _routChanged: function () {
+      this.bind(this.$route.params.user, this.$route.params.playlist)
     }
   }
   // firebase: function () {
