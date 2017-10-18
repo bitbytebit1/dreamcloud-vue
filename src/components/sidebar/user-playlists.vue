@@ -12,7 +12,7 @@
           <v-icon>keyboard_arrow_down</v-icon>
         </v-list-tile-action>
       </v-list-tile>
-      <v-list-tile class="playlist" :to="{path: '/u/' + UID + '/' + subItem['.key']}" v-for="subItem in playlistRefs" v-bind:key="subItem['.key']">
+      <v-list-tile class="playlist" active-class="blue lighten-1" :to="{path: '/u/' + UID + '/' + subItem['.key']}" v-for="subItem in playlistRefs" v-bind:key="subItem['.key']">
         <v-list-tile-action>
           <v-icon>music_note</v-icon>
         </v-list-tile-action>

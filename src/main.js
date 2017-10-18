@@ -38,7 +38,8 @@ import {fb, DCFB} from '@/DCAPIs/DCFB.js'
 let app
 
 fb.auth().onAuthStateChanged(function (user) {
-  DCFB.init(user.uid)
+  if(user)
+    DCFB.init(user.uid)
   if (!app) {
     app = new Vue({
       el: '#app',

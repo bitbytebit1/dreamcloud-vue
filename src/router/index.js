@@ -13,9 +13,10 @@ import userPlaylist from '../components/routes/user/user-playlist'
 import userIndex from '../components/routes/user/user-index'
 
 
-import user from '@/components/firebase/user'
-import Login from '@/components/firebase/Login'
-import SignUp from '@/components/firebase/SignUp'
+import user from '@/components/user-auth/user'
+import login from '@/components/user-auth/login'
+import signUp from '@/components/user-auth/signUp'
+import password from '@/components/user-auth/password-reset'
 
 import {fb} from '@/DCAPIs/DCFB.js'
 
@@ -31,14 +32,19 @@ let router = new Router({
   },
   routes: [
     {
+      path: '/password-reset',
+      name: 'password-reset',
+      component: password
+    },    
+    {
       path: '/login',
       name: 'Login',
-      component: Login
+      component: login
     },
     {
       path: '/sign-up',
-      name: 'SignUp',
-      component: SignUp
+      name: 'signUp',
+      component: signUp
     },
     {
       path: '/user',

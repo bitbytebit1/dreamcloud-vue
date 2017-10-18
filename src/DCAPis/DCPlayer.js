@@ -32,16 +32,20 @@ const DCPlayerPlug = {
       playIndex: function (index) {
         DCPlayer.iCurrent = index
         store.commit('changeIndex', DCPlayer.iCurrent)
-        return DCPlayer.play_url(DCPlayer.aPlaylist[index].mp32)
+        // if(DCPlayer.aPlaylist[index].source == 'SoundCloud')
+        //   return DCPlayer.setAudioSrc(DCPlayer.aPlaylist[index].mp3)
+        // else
+          return DCPlayer.play_url(DCPlayer.aPlaylist[index].mp32)
       },
       play_url: function (sURL) {
-        return DCPlayer.getAudio(sURL, function (resp) {
-          DCPlayer.eAudio.src = resp
-          DCPlayer.play()
-          // Not sure why but seems we have to rebind after src change?
-          DCPlayer.eAudio.addEventListener('ended', DCPlayer.next, false)
-          DCPlayer.eAudio.addEventListener('error', DCPlayer.error, false)
-        })
+        return DCPlayer.getAudio(sURL, DCPlayer.setAudioSrc)
+      },
+      setAudioSrc: function (sURL) {
+        DCPlayer.eAudio.src = sURL
+        DCPlayer.play()
+        // Not sure why but seems we have to rebind after src change?
+        DCPlayer.eAudio.addEventListener('ended', DCPlayer.next, false)
+        DCPlayer.eAudio.addEventListener('error', DCPlayer.error, false)
       },
       setPlaylist: function (array) {
         DCPlayer.aPlaylist = array
@@ -60,7 +64,13 @@ const DCPlayerPlug = {
       getAudio: function (url, hCallback) {
         var ax = axios.get('https://www.saveitoffline.com/process/?type=audio&url=' + url)
         ax.then(function (resp) {
-          if (('data' in resp) && (resp.data !== 'Error: no_media_found' && resp.data !== 'Error: daily_secondary_api_limit_reached')) {
+          console.log(resp)
+          if (('data' in resp) && 
+          (resp.data !== 'Error: no_media_found' && 
+          resp.data !== 'Error: daily_secondary_api_limit_reached') && 
+          resp.data !== 'Error: miss' &&
+          resp.data !== '') {
+
             for (var i = 0; i < resp.data.urls.length; i++) {
               if (resp.data.urls[i].label.indexOf('audio') > -1 || resp.data.urls[i].label.indexOf('m4a') > -1) {
                 hCallback(resp.data.urls[i].id)

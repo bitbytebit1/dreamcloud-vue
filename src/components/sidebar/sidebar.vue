@@ -1,6 +1,6 @@
 <template>
   <v-list dense>
-    <v-list-tile :to="{path: `${loginPath}`}">
+    <v-list-tile :to="{path: loginPath}">
       <v-list-tile-action>
         <v-icon>person</v-icon>
       </v-list-tile-action>
@@ -17,7 +17,7 @@
       </v-list-tile-content>
     </v-list-tile>
 
-    <user-playlists></user-playlists>
+    <user-playlists v-if="loggedIn"></user-playlists>
 
   </v-list>
 </template>
@@ -36,7 +36,7 @@ export default {
   },
   computed: {
     loginPath: function () {
-      return this.loggedIn ? '/user' : '/login'
+      return '/' + this.loginText.toLowerCase()
     },
     loginText: function () {
       return this.loggedIn ? 'User' : 'Login'
