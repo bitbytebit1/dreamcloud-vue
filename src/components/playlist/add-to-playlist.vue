@@ -37,13 +37,7 @@ export default {
      DCFB.createNewPlaylist(this.playlistName, this.song)
     },
     addToPlaylist: function (playlist) {
-      console.log('adding to playlist')
       DCFB.addSongToPlaylist(playlist['.key'], this.song)
-    }
-  },
-  computed: {
-    x: function () {
-
     }
   },
   firebase: function () {
