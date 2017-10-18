@@ -20,7 +20,6 @@ export default {
       _query: '',
       _source: '',
       loading: false,
-      msg: 'Welcome to the search Neo',
       searchResults: []
     }
   },

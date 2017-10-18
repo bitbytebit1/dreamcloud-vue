@@ -35,7 +35,6 @@ const DCPlayerPlug = {
         return DCPlayer.play_url(DCPlayer.aPlaylist[index].mp32)
       },
       play_url: function (sURL) {
-        return
         return DCPlayer.getAudio(sURL, function (resp) {
           DCPlayer.eAudio.src = resp
           DCPlayer.play()

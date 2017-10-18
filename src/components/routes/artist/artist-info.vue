@@ -19,7 +19,6 @@ export default {
   props: ['artistID', 'source', 'artist'],
   data () {
     return {
-      msg: 'Welcome to the real Trinity',
       info: {
         description: '',
         img: '',

@@ -25,7 +25,6 @@ export default {
   data () {
     return {
       loading: false,
-      msg: 'Welcome to the search Neo',
       searchResults: []
     }
   },

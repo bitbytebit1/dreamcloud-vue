@@ -31,7 +31,6 @@ export default {
   },
   data () {
     return {
-      msg: 'Welcome to the real Trinity',
       loggedIn: false
     }
   },

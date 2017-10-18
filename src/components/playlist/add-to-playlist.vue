@@ -1,6 +1,6 @@
 <template>
   <v-menu offset-y lazy :close-on-content-click="false" v-model="menuOpen">
-    <v-btn icon slot="activator" @click.stop="yodo" >
+    <v-btn icon slot="activator" @click.stop="menuOpen = !menuOpen" >
       <v-icon>playlist_add</v-icon>
     </v-btn>
     <v-list>
@@ -32,10 +32,6 @@ export default {
     }
   },
   methods: {
-    yodo: function () {
-      this.menuOpen = !this.menuOpen
-      console.log(1223)
-    },
     createNewPlaylist: function () {
      DCFB.createNewPlaylist(this.playlistName, this.song)
     },

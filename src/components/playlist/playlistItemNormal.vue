@@ -20,9 +20,6 @@
 
           <add-to-playlist :song="song"></add-to-playlist>
 
-          <v-btn icon>
-            <v-icon>favorite</v-icon>
-          </v-btn>
           <v-btn icon @click.stop="share">
             <v-icon>share</v-icon>
           </v-btn>
@@ -49,11 +46,6 @@ export default {
   props: ['song', 'index'],
   components: {
     'add-to-playlist': addToPlaylist
-  },
-  data () {
-    return {
-      msg: 'Welcome to the real PlaylistItemNormal'
-    }
   },
   computed: {
     artistID: function () {
