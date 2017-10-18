@@ -50,7 +50,7 @@ export default {
       progress: 0,
       eAudio: '',
       play_arrow: 'play_arrow',
-      volume: 0
+      volume: 10
     }
   },
   computed: {
