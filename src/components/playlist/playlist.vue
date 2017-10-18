@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-flex xl12 flexbox>
       <div class="well">
         <button class="btn btn-primary" @click='sort'>Sort Date</button>
         <button class="btn btn-primary" @click='toggleView'>Toggle Playlist View</button>
@@ -33,7 +33,7 @@
         </playlistItemList>
       </table>
       <iframe :src="iframeSrc"></iframe>
-    </div>
+  </v-flex>
 </template>
 <script>
 import playlistItemNormal from './playlistItemNormal.vue'
