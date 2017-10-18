@@ -9,6 +9,15 @@ const UtilsPlug = {
         tmp.select()
         document.execCommand('copy')
         tmp.remove()
+      },
+      downloadLink: function (sURL) {
+        var iframe = document.createElement('iframe')
+
+        iframe.style.display = 'none'
+        iframe.id = iframe.name = sURL
+        iframe.src = sURL
+
+        document.body.appendChild(iframe)
       }
     }
     Object.defineProperty(Vue.prototype, '$UTILS', { value: Utils })

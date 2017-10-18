@@ -17,7 +17,7 @@
         </v-card-media>
         <v-card-actions v-bind:class="{ green: isPlaying }">
           <v-spacer></v-spacer>
-          
+
           <add-to-playlist :song="song"></add-to-playlist>
 
           <v-btn icon>
@@ -26,7 +26,7 @@
           <v-btn icon @click.stop="share">
             <v-icon>share</v-icon>
           </v-btn>
-          <v-btn icon>
+          <v-btn icon @click.stop="download">
             <v-icon>file_download</v-icon>
           </v-btn>
           <v-btn icon @click.stop="play">
@@ -84,6 +84,12 @@ export default {
       } else {
         this.$UTILS.copyToClipboard('dc42.netlify.com/#/t/' + this.song.source + '/' + encodeURIComponent(this.song.artist) + '/' + encodeURIComponent(this.song.title) + '/' + this.song.trackID)
       }
+    },
+    download: function () {
+      this.$DCAPI.getAudio(this.song.mp32, (data) => {
+        console.log('got audio link, downloading!')
+        this.$UTILS.downloadLink(data)
+      })
     }
   }
 }
