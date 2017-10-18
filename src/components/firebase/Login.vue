@@ -13,7 +13,7 @@
 </template>
 
 <script>
-  import {fb, DCFB} from '@/plugins/Firebase.js'
+  import {fb, DCFB} from '@/DCAPIs/DCFB.js'
   export default {
     name: 'login',
     data: function () {

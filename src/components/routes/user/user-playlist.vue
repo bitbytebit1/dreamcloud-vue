@@ -5,7 +5,7 @@
   </div>
 </template>
 <script>
-import { DCFB } from '@/plugins/Firebase.js'
+import { DCFB } from '@/DCAPIs/DCFB.js'
 export default {
   name: 'userPlaylist',
   props: ['user', 'playlist'],

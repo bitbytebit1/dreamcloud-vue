@@ -17,7 +17,7 @@ import user from '@/components/firebase/user'
 import Login from '@/components/firebase/Login'
 import SignUp from '@/components/firebase/SignUp'
 
-import {fb} from '@/plugins/Firebase.js'
+import {fb} from '@/DCAPIs/DCFB.js'
 
 Vue.use(Router)
 

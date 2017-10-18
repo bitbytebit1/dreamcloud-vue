@@ -33,7 +33,7 @@ Vue.config.productionTip = false
 import VueFire from 'vuefire'
 Vue.use(VueFire)
 
-import {fb, DCFB} from '@/plugins/Firebase.js'
+import {fb, DCFB} from '@/DCAPIs/DCFB.js'
 
 let app
 

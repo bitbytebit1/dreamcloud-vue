@@ -8,7 +8,7 @@
 </template>
 <script>
 /* eslint-disable */
-import { DCFB } from '@/plugins/Firebase.js'
+import { DCFB } from '@/DCAPIs/DCFB.js'
 
 export default {
   name: 'delete-playlist-button',
@@ -30,7 +30,6 @@ export default {
   methods: {
     resetCounter: function () {
       if(!this.show){
-        console.log('hidden!')
         this.clicks = 0
       }
     },

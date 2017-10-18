@@ -26,7 +26,7 @@
 </template>
 <script>
 /* eslint-disable */
-import { DCFB } from '@/plugins/Firebase.js'
+import { DCFB } from '@/DCAPIs/DCFB.js'
 import deletePlaylistButton from '@/components/sidebar/delete-playlist-button'
 export default {
   name: 'user-playlists',
