@@ -16,9 +16,6 @@
       <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
       <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
     </ul>
-    <v-btn icon @click="addPlaylist('yodo!!!!')">
-      <v-icon>open_in_new</v-icon>
-    </v-btn>
     <button v-on:click="logout">Logout</button>
   </div>
 </template>
@@ -41,9 +38,6 @@ export default {
         this.$router.replace('login')
       })
       // console.log(DCFB)
-    },
-    addPlaylist: function (name) {
-       return DCFB.addPlaylist(name)
     }
   }
 }

@@ -6,8 +6,8 @@
       <input autocomplete="on" v-on:keyup.enter="signIn" type="password" v-model="password" placeholder="Password"><br>
       <v-btn type="submit" v-on:click="signIn">Sign In</v-btn>
     </form>
-    <p>You don't have an account? You can <router-link to="/sign-up">create one</router-link></br> 
-    <router-link to="/password-reset">Forgot your password?</router-link></p> </p>
+    <h5>You don't have an account? You can <router-link to="/sign-up">create one</router-link></h5>
+    <h5><router-link to="/password-reset">Forgot your password?</router-link></h5>
     
     <iframe id="remember" name="remember" class="hidden" src=""></iframe>
 
@@ -41,6 +41,23 @@
 </script>
 
 <style scoped>  /* "scoped" attribute limit the CSS to this component only */
+  .hidden{
+    display: none
+  }
+  .login {
+    margin-top: 40px;
+    width: 100%;
+  }
+  input {
+    margin: 10px 0;
+    width: 20%;
+    padding: 15px;
+  }
+  button {
+    margin-top: 20px;
+    width: 10%;
+    cursor: pointer;
+  }
   p {
     margin-top: 40px;
     font-size: 13px;
