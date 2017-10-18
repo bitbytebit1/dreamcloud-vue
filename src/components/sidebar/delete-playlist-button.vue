@@ -13,6 +13,9 @@ import { DCFB } from '@/plugins/Firebase.js'
 export default {
   name: 'delete-playlist-button',
   props: ['playlistId'],
+  watch: {
+    'show': 'resetCounter'
+  },
   data() {
     return {
       show: false,
@@ -25,6 +28,12 @@ export default {
     },
   },
   methods: {
+    resetCounter: function () {
+      if(!this.show){
+        console.log('hidden!')
+        this.clicks = 0
+      }
+    },
     deletePlaylist: function () {
       this.clicks++ 
       if(this.clicks == 2){
