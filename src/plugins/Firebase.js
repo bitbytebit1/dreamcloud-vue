@@ -41,6 +41,12 @@ class DCFB1 {
     this.playlists.child(nameRef.ref.key).set({'name': name})
     this.playlists.child(nameRef.ref.key + '/songs').push(json)
   }
+
+  deletePlaylist(playlistId){
+    this.playlistsRefs.child(playlistId).remove()
+    this.playlists.child(playlistId).remove()
+  }
+
   addSongToPlaylist (id, json) {
     console.log('adding to playlist')
     this.playlists.child(id + '/songs').push(json)
