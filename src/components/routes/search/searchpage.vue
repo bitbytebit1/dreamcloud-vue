@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="cont">
     <div class="loading" v-if="loading">    
       <infinite-loading spinner="waveDots"></infinite-loading>
     </div>
@@ -86,4 +86,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+.cont{
+  width: 100%
+}
 </style>
