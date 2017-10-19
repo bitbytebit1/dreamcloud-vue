@@ -1,15 +1,23 @@
 <template>
-    <v-btn @click="subscribe">Subscribe</v-btn>
+    <v-btn v-if="subscribed.length" @click="unsubscribe">Unsubscribe</v-btn>
+    <v-btn v-else @click="subscribe">Subscribe</v-btn>
 </template>
 <script>
-/* eslint-disable */
-import { DCFB } from '@/DCAPIs/DCFB.js'
+import {DCFB} from '@/DCAPIs/DCFB.js'
 export default {
   name: 'subscribe-button',
-  props: ['source', 'artist', 'artistID', 'img'],  
+  props: ['source', 'artist', 'artistID', 'img'],
   methods: {
     subscribe: function () {
-      DCFB.addSubscription(this.artist, this.source, this.artistID, this.img)
+      DCFB.subscriptionAdd(this.artist, this.source, this.artistID, this.img)
+    },
+    unsubscribe: function () {
+      DCFB.subscriptionDelete(this.artistID)
+    }
+  },
+  firebase: function () {
+    return {
+      subscribed: DCFB.subscriptions.child(this.artistID)
     }
   }
 }

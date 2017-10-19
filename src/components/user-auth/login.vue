@@ -1,5 +1,5 @@
 <template>
-  <div class="login">
+  <v-flex xl12 flexbox>
     <h3>Sign In</h3>
     <form target="remember" method="post" action="/content/blank">
       <input autocomplete="on" type="text" v-model="email" placeholder="Email"><br>
@@ -10,8 +10,7 @@
     <h5><router-link to="/password-reset">Forgot your password?</router-link></h5>
     
     <iframe id="remember" name="remember" class="hidden" src=""></iframe>
-
-  </div>
+  </v-flex>
 </template>
 
 <script>

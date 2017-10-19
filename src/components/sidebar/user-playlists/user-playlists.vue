@@ -28,11 +28,11 @@
 
 /* eslint-disable */
 import { DCFB } from '@/DCAPIs/DCFB.js'
-import deletePlaylistButton from '@/components/sidebar/user-playlists/delete-playlist-button'
+import playlistDeleteButton from '@/components/sidebar/user-playlists/delete-playlist-button'
 export default {
   name: 'user-playlists',
   components: {
-    'delete-playlist-button': deletePlaylistButton
+    'delete-playlist-button': playlistDeleteButton
   },
   data () {
     return {

@@ -33,11 +33,11 @@ class DCFB1 {
     db.ref('users').set(UID)
   }
 
-  addSubscription (name, source, id, img) {
+  subscriptionAdd (name, source, id, img) {
     this.subscriptions.update({[id]: {name: name, source: source, id: id, img: img}})
   }
 
-  deleteSubscription (id) {
+  subscriptionDelete (id) {
     this.subscriptions.child(id).remove()
   }
 
@@ -50,17 +50,17 @@ class DCFB1 {
     this.playlists.child(nameRef.ref.key + '/songs').push(json)
   }
 
-  deletePlaylist (playlistId) {
+  playlistDelete (playlistId) {
     this.playlistsRefs.child(playlistId).remove()
     this.playlists.child(playlistId).remove()
   }
 
-  addSongToPlaylist (id, json) {
+  playlistSongAdd (id, json) {
     delete json['.key']
     this.playlists.child(id + '/songs').push(json)
   }
 
-  getPlaylist (userId, playlistId) {
+  playlistGet (userId, playlistId) {
     return db.ref('users/' + userId + '/PlaylistsData/' + playlistId + '/songs')
   }
 }

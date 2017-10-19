@@ -1,5 +1,6 @@
 <template>
   <v-list dense>
+    
     <v-list-tile :to="{path: loginPath}">
       <v-list-tile-action>
         <v-icon>person</v-icon>
@@ -8,6 +9,7 @@
         <v-list-tile-title>{{loginText}}</v-list-tile-title>
       </v-list-tile-content>
     </v-list-tile>
+
     <v-list-tile :to="{path: '/settings'}">
       <v-list-tile-action>
         <v-icon>settings</v-icon>

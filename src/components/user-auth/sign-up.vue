@@ -1,11 +1,11 @@
 <template>
-  <div class="sign-up">
+  <v-flex xl12 flexbox>
     <p>Let's create a new account !</p>
     <input v-model="email" type="text" placeholder="Email"><br>
     <input v-model="password" type="password" placeholder="Password"><br>
     <button v-on:click="signUp">Sign Up</button>
     <span>or go back to <router-link to="/login">login</router-link>.</span>
-  </div>
+  </v-flex>
 </template>
 
 <script>

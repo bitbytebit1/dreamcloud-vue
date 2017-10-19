@@ -1,6 +1,6 @@
 <template>
     <v-tooltip color="red darken-1" :content-class="toolTipClass" v-model="show" top>
-      <v-btn icon slot="activator" @click.prevent="deleteSubscription">
+      <v-btn icon slot="activator" @click.prevent="subscriptionDelete">
         <v-icon color="grey lighten-1">delete</v-icon>
       </v-btn>
       <span>Click again to delete</span>
@@ -33,11 +33,11 @@ export default {
         this.clicks = 0
       }
     },
-    deleteSubscription: function () {
+    subscriptionDelete: function () {
       this.clicks++ 
       if(this.clicks == 2){
         console.log('deleteing', this.subscriptionID)
-        DCFB.deleteSubscription(this.subscriptionID)
+        DCFB.subscriptionDelete(this.subscriptionID)
       }
     }
   }

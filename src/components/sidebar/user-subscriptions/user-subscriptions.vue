@@ -54,7 +54,7 @@ export default {
     }
   },
   methods: {
-    deletePlaylist: function () {
+    playlistDelete: function () {
       console.log(123)
     }
   },

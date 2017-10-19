@@ -10,7 +10,7 @@
             v-for="(song, index) in songs"
             v-bind:song="song"
             v-bind:index="index"
-            v-bind:key="index"
+            v-bind:key="index" 
           >
           </playlistItemNormal>
         </v-layout>
