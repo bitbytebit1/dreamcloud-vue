@@ -9,7 +9,7 @@ export default {
   props: ['source', 'artist', 'artistID', 'img'],
   methods: {
     subscribe: function () {
-      DCFB.subsciptionAdd(this.artist, this.source, this.artistID, this.img)
+      DCFB.subscriptionAdd(this.artist, this.source, this.artistID, this.img)
     },
     unsubscribe: function () {
       DCFB.subscriptionDelete(this.artistID)

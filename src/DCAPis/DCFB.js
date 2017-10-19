@@ -33,7 +33,7 @@ class DCFB1 {
     db.ref('users').set(UID)
   }
 
-  subsciptionAdd (name, source, id, img) {
+  subscriptionAdd (name, source, id, img) {
     this.subscriptions.update({[id]: {name: name, source: source, id: id, img: img}})
   }
 
