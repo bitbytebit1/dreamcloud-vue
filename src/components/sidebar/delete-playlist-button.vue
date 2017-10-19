@@ -37,7 +37,6 @@ export default {
       this.clicks++ 
       if(this.clicks == 2){
         DCFB.deletePlaylist(this.playlistId)
-        console.log('deleting playlist')
       }
     }
   }

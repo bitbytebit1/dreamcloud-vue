@@ -32,9 +32,9 @@ const DCPlayerPlug = {
       playIndex: function (index) {
         DCPlayer.iCurrent = index
         store.commit('changeIndex', DCPlayer.iCurrent)
-        // if(DCPlayer.aPlaylist[index].source == 'SoundCloud')
-        //   return DCPlayer.setAudioSrc(DCPlayer.aPlaylist[index].mp3)
-        // else
+        if(DCPlayer.aPlaylist[index].source == 'SoundCloud')
+          return DCPlayer.setAudioSrc(DCPlayer.aPlaylist[index].mp3)
+        else
           return DCPlayer.play_url(DCPlayer.aPlaylist[index].mp32)
       },
       play_url: function (sURL) {
