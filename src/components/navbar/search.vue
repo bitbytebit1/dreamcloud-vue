@@ -14,11 +14,11 @@
       :nudge-bottom="25"
       open-on-hover
     >
-      <v-btn color="dark blue" dark slot="activator">Clouds</v-btn>
+      <v-btn icon dark slot="activator"><v-icon>cloud_circle</v-icon></v-btn>
       <v-card>
         <v-list>
           <v-list-tile>
-            <img src='../img/All.png'>
+            <!-- <img src='../img/All.png'> -->
             <v-list-tile-action>
               <v-switch @change="search" v-model="aSources.All" color="dark blue"></v-switch>
             </v-list-tile-action>
@@ -26,7 +26,7 @@
           </v-list-tile>
 
           <v-list-tile>
-            <img src='../img/mc.png'>
+            <!-- <img src='../img/mc.png'> -->
             <v-list-tile-action>
               <v-switch @change="search" v-model="aSources.MixCloud" color="dark blue"></v-switch>
             </v-list-tile-action>
@@ -34,7 +34,7 @@
           </v-list-tile>
           
           <v-list-tile>
-            <img src='../img/sc.png'>
+            <!-- <img src='../img/sc.png'> -->
             <v-list-tile-action>
               <v-switch @change="search" v-model="aSources.SoundCloud" color="dark blue"></v-switch>
             </v-list-tile-action>
@@ -42,7 +42,7 @@
           </v-list-tile>
 
           <v-list-tile>
-            <img src='../img/yt.png'>
+            <!-- <img src='../img/yt.png'> -->
             <v-list-tile-action>
               <v-switch @change="search" v-model="aSources.YouTube" color="dark blue"></v-switch>
             </v-list-tile-action>
@@ -50,7 +50,7 @@
           </v-list-tile>
 
           <v-list-tile>
-            <img src='../img/vm.png'>
+            <!-- <img src='../img/vm.png'> -->
             <v-list-tile-action>
               <v-switch @change="search" v-model="aSources.Vimeo" color="dark blue"></v-switch>
             </v-list-tile-action>
