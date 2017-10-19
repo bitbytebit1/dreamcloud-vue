@@ -18,16 +18,20 @@
     </v-list-tile>
 
     <user-playlists v-if="loggedIn"></user-playlists>
+    
+    <user-subscriptions v-if="loggedIn"></user-subscriptions>
 
   </v-list>
 </template>
 <script>
 import firebase from 'firebase'
 import userPlaylists from '@/components/sidebar/user-playlists/user-playlists'
+import userSubscriptions from '@/components/sidebar/user-subscriptions/user-subscriptions'
 export default {
   name: 'sidebar',
   components: {
-    'user-playlists': userPlaylists
+    'user-playlists': userPlaylists,
+    'user-subscriptions': userSubscriptions
   },
   data () {
     return {

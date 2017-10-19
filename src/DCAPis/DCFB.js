@@ -2,7 +2,7 @@ import firebase from 'firebase'
 // http://2ality.com/2014/09/es6-modules-final.html
 // https://www.firebase.com/docs/web/guide/saving-data.html
 // https://github.com/vuejs/vuefire/issues/18
-/* eslint-disable */
+// /* eslint-disable */
 var config = {
   apiKey: 'AIzaSyDSaKaRsDvmOicthSOJGvSF4iQC2ZprwFw',
   authDomain: 'dreamcloud-3f276.firebaseapp.com',
@@ -16,31 +16,41 @@ export const fb = firebase.initializeApp(config)
 export const db = firebase.database()
 
 class DCFB1 {
-  constructor() {
+  constructor () {
     this.UID = ''
     this.playlists = ''
     this.playlistRefs = ''
   }
 
-  init(UID) {
+  init (UID) {
     this.UID = UID
     this.playlists = db.ref('users/' + UID + '/PlaylistsData')
     this.playlistsRefs = db.ref('users/' + UID + '/PlaylistsNames')
+    this.subscriptions = db.ref('users/' + UID + '/Subscriptions')
   }
-  
-  setUpUserAccount(UID) {
+
+  setUpUserAccount (UID) {
     db.ref('users').set(UID)
   }
-  createNewPlaylist(name, json){
+
+  addSubscription (name, source, id) {
+    this.subscriptions.update({[id]: {name: name, source: source, id: id}})
+  }
+
+  deleteSubscription (id) {
+    this.subscriptions.child(id).remove()
+  }
+
+  createNewPlaylist (name, json) {
     delete json['.key']
-    //Create new playlist reference with id.
+    // Create new playlist reference with id.
     var nameRef = this.playlistsRefs.push(name)
-    //Using ID + name push new song.
+    // Using ID + name push new song.
     this.playlists.child(nameRef.ref.key).set({'name': name})
     this.playlists.child(nameRef.ref.key + '/songs').push(json)
   }
 
-  deletePlaylist(playlistId){
+  deletePlaylist (playlistId) {
     this.playlistsRefs.child(playlistId).remove()
     this.playlists.child(playlistId).remove()
   }
@@ -50,7 +60,7 @@ class DCFB1 {
     this.playlists.child(id + '/songs').push(json)
   }
 
-  getPlaylist(userId, playlistId){
+  getPlaylist (userId, playlistId) {
     return db.ref('users/' + userId + '/PlaylistsData/' + playlistId + '/songs')
   }
 }
