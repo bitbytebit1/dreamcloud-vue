@@ -1,8 +1,8 @@
 <template>
   <div class="sign-up">
     <p>Let's create a new account !</p>
-    <input type="text" placeholder="Email"><br>
-    <input type="password" placeholder="Password"><br>
+    <input v-model="email" type="text" placeholder="Email"><br>
+    <input v-model="password" type="password" placeholder="Password"><br>
     <button v-on:click="signUp">Sign Up</button>
     <span>or go back to <router-link to="/login">login</router-link>.</span>
   </div>
@@ -13,6 +13,12 @@
   import {fb, DCFB} from '@/DCAPIs/DCFB.js'
   export default {
     name: 'signUp',
+  data () {
+    return {
+      email: '',
+      password: ''
+    }
+  },
     methods: {
       signUp: function () {
         fb.auth().createUserWithEmailAndPassword(this.email, this.password).then(
