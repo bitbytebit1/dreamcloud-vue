@@ -14,14 +14,14 @@
           >
           </playlistItemNormal>
         </v-layout>
-        <scroll-to-top></scroll-to-top>
       </v-container>
         <v-container v-if="toggle" fluid>
           <playlistItemList
             v-bind:songs="songs"
           >
           </playlistItemList>
-        </v-container>
+      </v-container>
+      <scroll-to-top></scroll-to-top>
       <iframe :src="iframeSrc"></iframe>
   </v-flex>
 </template>
