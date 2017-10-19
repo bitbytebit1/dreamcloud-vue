@@ -18,7 +18,7 @@
           </v-btn>
         </div>
       </div>
-      <div id="right">
+      <div id="right" class="hidden-sm-and-down">
         <v-speed-dial hover>
           <v-btn slot="activator" fab hover>
             <v-icon>volume_up</v-icon>
@@ -36,8 +36,7 @@
       </div>
 
     </div>
-    <audio controls id="dc-audio">
-    </audio>
+    <audio controls id="dc-audio"></audio>
   </div>
 </template>
 

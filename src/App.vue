@@ -40,21 +40,21 @@
       </v-content>
     </main>
     <v-footer app fixed>
-      <dcAudio :song="aSong"></dcAudio>
+      <dc-audio :song="aSong"></dc-audio>
     </v-footer>    
   </v-app>
 </template>
 
 <script>
   import search from './components/navbar/search'
-  import dcAudio from './components/player/dcAudio'
+  import dcAudio from './components/player/dc-audio'
   import currentPlaylist from './components/current-playlist/current-playlist'
   import sidebar from '@/components/sidebar/sidebar'
   export default {
     name: 'app',
     components: {
       'search': search,
-      'dcAudio': dcAudio,
+      'dc-audio': dcAudio,
       'sidebar': sidebar,
       'current-playlist': currentPlaylist
     },
