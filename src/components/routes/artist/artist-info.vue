@@ -1,20 +1,30 @@
 <template>
   <!-- <div class='row'> -->
+  <v-container grid-list-md text-xs-center>
     <v-layout align-center row wrap slot='header'>
+      
       <v-flex xs12 lg2 >
         <v-avatar size='' slot='activator'>
           <img :src='info.img' class='img-fluid' style='display:inline-block; margin:20px;'/>
         </v-avatar>
       </v-flex>
-      <v-flex xs4 lg1 class='headline'>
+      
+      <v-flex xs4 lg4 class='headline text-xs-left'>
         <strong>{{ artist }}</strong>
       </v-flex>
-      <v-flex lg12>
-        <v-flex lg2>
-          <subscribe-button></subscribe-button>
+      
+      <v-flex lg6>
       </v-flex>
-    </v-flex>
+
+      <v-flex lg2>
+        <subscribe-button :artistID="artistID" :source="source" :artist="artist" :img="info.img"></subscribe-button>
+      </v-flex>
+      <v-flex xs11 lg8 class='text-xs-left'>
+        {{ info.description }}
+      </v-flex>
+
     </v-layout>
+  </v-container>
 
     <!-- <div style='display:inline-block;width:40%'>
       <span class='lead text-left' style='text-decoration: underline;'>{{ artist }}</span>
