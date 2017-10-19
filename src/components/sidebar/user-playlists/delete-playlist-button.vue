@@ -1,6 +1,6 @@
 <template>
     <v-tooltip color="red darken-1" :content-class="toolTipClass" v-model="show" top>
-      <v-btn icon slot="activator" @click.prevent="deletePlaylist">
+      <v-btn icon slot="activator" @click.prevent="playlistDelete">
         <v-icon color="grey lighten-1">delete</v-icon>
       </v-btn>
       <span>Click again to delete</span>
@@ -32,10 +32,10 @@ export default {
         this.clicks = 0
       }
     },
-    deletePlaylist: function () {
+    playlistDelete: function () {
       this.clicks++
       if (this.clicks === 2) {
-        DCFB.deletePlaylist(this.playlistId)
+        DCFB.playlistDelete(this.playlistId)
       }
     }
   }

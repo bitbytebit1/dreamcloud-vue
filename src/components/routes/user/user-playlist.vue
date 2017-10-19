@@ -23,7 +23,7 @@ export default {
   },
   methods: {
     bind: function (usr, plylist) {
-      this.$bindAsArray('aSongs1', DCFB.getPlaylist(this.$route.params.user, this.$route.params.playlist))
+      this.$bindAsArray('aSongs1', DCFB.playlistGet(this.$route.params.user, this.$route.params.playlist))
     },
     _routChanged: function () {
       this.bind(this.$route.params.user, this.$route.params.playlist)
@@ -31,7 +31,7 @@ export default {
   }
   // firebase: function () {
   //   return {
-  //     aSongs: DCFB.getPlaylist(this.$route.params.user, this.$route.params.playlist)
+  //     aSongs: DCFB.playlistGet(this.$route.params.user, this.$route.params.playlist)
   //   }
   // }
 }
