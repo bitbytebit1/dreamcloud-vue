@@ -1,5 +1,5 @@
 <template>
-  <div class="search">
+  <v-flex xl12 flexbox>
     <div class="loading" v-if="loading">
       <infinite-loading spinner="waveDots">
       </infinite-loading>
@@ -9,7 +9,7 @@
     <infinite-loading ref="infiniteLoading" v-if="!loading" @infinite="infiniteHandler" spinner="waveDots">
       <span slot="no-more">End of the line kiddo</span>
     </infinite-loading>
-  </div>
+  </v-flex>
 </template>
 
 <script>
@@ -25,7 +25,6 @@ export default {
   data () {
     return {
       loading: false,
-      msg: 'Welcome to the search Neo',
       searchResults: []
     }
   },
@@ -65,9 +64,4 @@ export default {
     }
   }
 }
-
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
-</style>

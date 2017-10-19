@@ -4,7 +4,7 @@
   </div>
 </template>
 <script>
-
+/* eslint-disable */
 import x from '@/components/'
 export default {
   name: '?',
@@ -13,7 +13,14 @@ export default {
   },
   data () {
     return {
-      msg: 'Welcome to the real Trinity'
+      x: 'deleteme?'
+    }
+  },
+  methods: {
+  },
+  computed: {
+    x: function () {
+      
     }
   }
 }

@@ -17,11 +17,6 @@
 import item from './current-playlist-item'
 export default {
   name: 'current-playlist',
-  data () {
-    return {
-      msg: 'Welcome to the real Trinity'
-    }
-  },
   components: {
     'current-playlist-item': item
   },

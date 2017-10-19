@@ -17,13 +17,13 @@
         </v-card-media>
         <v-card-actions v-bind:class="{ green: isPlaying }">
           <v-spacer></v-spacer>
-          <v-btn icon>
-            <v-icon>favorite</v-icon>
-          </v-btn>
+
+          <add-to-playlist :song="song"></add-to-playlist>
+
           <v-btn icon @click.stop="share">
             <v-icon>share</v-icon>
           </v-btn>
-          <v-btn icon>
+          <v-btn icon @click.stop="download">
             <v-icon>file_download</v-icon>
           </v-btn>
           <v-btn icon @click.stop="play">
@@ -32,7 +32,7 @@
           <v-btn icon @click.stop :href="artistID">
             <v-icon>person</v-icon>
           </v-btn>
-          <v-btn icon target="_blank" :href="song.mp32">
+          <v-btn icon @click.stop target="_blank" :href="song.mp32">
             <v-icon>open_in_new</v-icon>
           </v-btn>
         </v-card-actions>
@@ -40,13 +40,12 @@
     </v-flex>
 </template>
 <script>
+import addToPlaylist from '@/components/playlist/add-to-playlist.vue'
 export default {
   name: 'playlistItemNormal',
   props: ['song', 'index'],
-  data () {
-    return {
-      msg: 'Welcome to the real PlaylistItemNormal'
-    }
+  components: {
+    'add-to-playlist': addToPlaylist
   },
   computed: {
     artistID: function () {
@@ -64,6 +63,9 @@ export default {
     }
   },
   methods: {
+    addToPlaylist: function () {
+      console.log(123)
+    },
     play: function () {
       this.$parent.play(this.index)
     },
@@ -74,6 +76,12 @@ export default {
       } else {
         this.$UTILS.copyToClipboard('dc42.netlify.com/#/t/' + this.song.source + '/' + encodeURIComponent(this.song.artist) + '/' + encodeURIComponent(this.song.title) + '/' + this.song.trackID)
       }
+    },
+    download: function () {
+      this.$DCAPI.getAudio(this.song.mp32, (data) => {
+        console.log('got audio link, downloading!')
+        this.$UTILS.downloadLink(data)
+      })
     }
   }
 }

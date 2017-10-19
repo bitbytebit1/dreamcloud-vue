@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-flex xl12 flexbox>
       <div class="well">
         <button class="btn btn-primary" @click='sort'>Sort Date</button>
         <button class="btn btn-primary" @click='toggleView'>Toggle Playlist View</button>
@@ -16,7 +16,7 @@
         </v-layout>
         <scroll-to-top></scroll-to-top>
       </v-container>
-      <table v-if="toggle" class="tablesorter table table-hover table-condensed sortable-table" style="border:1px;">
+      <table v-if="toggle" class="table" style="width:100%;border:1px;">
         <tr>
           <th><p class="text-center">Title</p></th>
           <th><p class="text-center">Bild</p></th>
@@ -33,7 +33,7 @@
         </playlistItemList>
       </table>
       <iframe :src="iframeSrc"></iframe>
-    </div>
+  </v-flex>
 </template>
 <script>
 import playlistItemNormal from './playlistItemNormal.vue'

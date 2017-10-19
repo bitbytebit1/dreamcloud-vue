@@ -1,3 +1,4 @@
+/* eslint-disable */
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
@@ -29,11 +30,23 @@ Vue.component('playlist', playlist)
 
 Vue.config.productionTip = false
 
-/* eslint-disable no-new */
-new Vue({
-  el: '#app',
-  router,
-  template: '<App/>',
-  components: { App },
-  store
+import VueFire from 'vuefire'
+Vue.use(VueFire)
+
+import {fb, DCFB} from '@/DCAPIs/DCFB.js'
+
+let app
+
+fb.auth().onAuthStateChanged(function (user) {
+  if(user)
+    DCFB.init(user.uid)
+  if (!app) {
+    app = new Vue({
+      el: '#app',
+      router,
+      template: '<App/>',
+      components: { App },
+      store
+    })
+  }
 })

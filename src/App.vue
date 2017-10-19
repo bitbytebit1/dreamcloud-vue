@@ -7,24 +7,7 @@
       enable-resize-watcher
       app
       disable-route-watcher>
-      <v-list dense>
-        <v-list-tile :to="{path: '/home'}">
-          <v-list-tile-action>
-            <v-icon>dashboard</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>Home</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-list-tile :to="{path: '/settings'}">
-          <v-list-tile-action>
-            <v-icon>settings</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>Settings</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-      </v-list>
+    <sidebar></sidebar>
     </v-navigation-drawer>
 
     <v-toolbar app fixed clipped-left clipped-right>
@@ -45,7 +28,8 @@
       disable-route-watcher
       right
       
-      ><current-playlist></current-playlist></v-navigation-drawer>
+      ><current-playlist></current-playlist>
+      </v-navigation-drawer>
     <main>
       <v-content >
         <v-container fluid fill-height>
@@ -65,11 +49,13 @@
   import search from './components/navbar/search'
   import dcAudio from './components/player/dcAudio'
   import currentPlaylist from './components/current-playlist/current-playlist'
+  import sidebar from '@/components/sidebar/sidebar'
   export default {
     name: 'app',
     components: {
       'search': search,
       'dcAudio': dcAudio,
+      'sidebar': sidebar,
       'current-playlist': currentPlaylist
     },
     data () {

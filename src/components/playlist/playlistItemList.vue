@@ -25,11 +25,6 @@
 export default {
   name: 'playlistItemList',
   props: ['song', 'index'],
-  data () {
-    return {
-      msg: 'Welcome to the real PlaylistItemList'
-    }
-  },
   computed: {
     artistID: function () {
       return '#/a/' + this.song.source + '/' + this.song.artist + '/' + this.song.artistID

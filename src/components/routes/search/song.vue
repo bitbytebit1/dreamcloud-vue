@@ -1,10 +1,10 @@
 <template>
-  <div class="search">
+  <v-flex xl12 flexbox>
     <div class="loading" v-if="loading">
       Loading...
     </div>
     <playlist :songs="searchResults"></playlist>
-  </div>
+  </v-flex>
 </template>
 
 <script>
@@ -14,7 +14,6 @@ export default {
   data () {
     return {
       loading: false,
-      msg: 'Welcome to the search Neo',
       searchResults: []
     }
   },
@@ -51,7 +50,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
-</style>
