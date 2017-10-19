@@ -6,9 +6,10 @@
 import { DCFB } from '@/DCAPIs/DCFB.js'
 export default {
   name: 'subscribe-button',
+  props: ['source', 'artist', 'artistID', 'img'],  
   methods: {
     subscribe: function () {
-      DCFB.addSubscription(this.$parent.artist, this.$parent.source, this.$parent.artistID)
+      DCFB.addSubscription(this.artist, this.source, this.artistID, this.img)
     }
   }
 }

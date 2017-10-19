@@ -64,7 +64,6 @@ const DCPlayerPlug = {
       getAudio: function (url, hCallback) {
         var ax = axios.get('https://www.saveitoffline.com/process/?type=audio&url=' + url)
         ax.then(function (resp) {
-          console.log(resp)
           if (('data' in resp) && 
           (resp.data !== 'Error: no_media_found' && 
           resp.data !== 'Error: daily_secondary_api_limit_reached') && 

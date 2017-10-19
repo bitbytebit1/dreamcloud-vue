@@ -14,7 +14,9 @@
       </v-list-tile>
       <v-list-tile v-for="subItem in subscriptions" class="subscription" active-class="blue lighten-1" :to="{path: '/a/'  + subItem['source'] +  '/' + subItem['name'] +  '/' + subItem['id']}" v-bind:key="subItem['.key']">
         <v-list-tile-action>
-          <v-icon>music_note</v-icon>
+          <v-avatar size='32px' slot='activator'>
+            <img :src="subItem['img']"/>
+          </v-avatar>
         </v-list-tile-action>
         <v-list-tile-content>
           <v-list-tile-title>{{ subItem['name'] }}</v-list-tile-title>
