@@ -1,8 +1,8 @@
 <template>
-  <div :index="playlist" :key="this.$route.params.playlist">
+  <v-flex xs12 flexbox :index="playlist" :key="this.$route.params.playlist">
     <h3>{{name}}</h3>
     <playlist :songs="aSongs1"></playlist>
-  </div>
+  </v-flex>
 </template>
 <script>
 import { DCFB } from '@/DCAPIs/DCFB.js'
