@@ -7,7 +7,6 @@
     </v-tooltip>
 </template>
 <script>
-/* eslint-disable */
 import { DCFB } from '@/DCAPIs/DCFB.js'
 
 export default {
@@ -16,7 +15,7 @@ export default {
   watch: {
     'show': 'resetCounter'
   },
-  data() {
+  data () {
     return {
       show: false,
       clicks: 0
@@ -25,17 +24,17 @@ export default {
   computed: {
     toolTipClass: function () {
       return this.clicks > 0 ? '' : 'hidden'
-    },
+    }
   },
   methods: {
     resetCounter: function () {
-      if(!this.show){
+      if (!this.show) {
         this.clicks = 0
       }
     },
     deletePlaylist: function () {
-      this.clicks++ 
-      if(this.clicks == 2){
+      this.clicks++
+      if (this.clicks === 2) {
         DCFB.deletePlaylist(this.playlistId)
       }
     }

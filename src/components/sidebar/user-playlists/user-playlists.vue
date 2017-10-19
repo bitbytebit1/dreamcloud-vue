@@ -39,7 +39,7 @@ export default {
       UID: DCFB.UID,
       items: [
         {
-          active: true,
+          active: false,
           action: 'library_music',
           title: 'Playlists',
           items: [
@@ -47,11 +47,6 @@ export default {
           ]
         }
       ]
-    }
-  },
-  methods: {
-    deletePlaylist: function () {
-      console.log(123)
     }
   },
   firebase: function () {

@@ -13,7 +13,7 @@ export default {
   },
   data () {
     return {
-      msg: 'Welcome to the real Trinity'
+      x: 'deleteme?'
     }
   },
   methods: {
