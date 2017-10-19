@@ -163,9 +163,12 @@ export default {
 
 #middle {
   margin-left: 230px;
-  margin-right: 100px;
 }
-
+@media only screen and (min-width: 600px){
+  #middle {
+    margin-right: 100px;
+  }
+}
 #right {
   float: right;
 }
