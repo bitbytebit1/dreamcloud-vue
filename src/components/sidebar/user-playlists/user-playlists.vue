@@ -28,7 +28,7 @@
 
 /* eslint-disable */
 import { DCFB } from '@/DCAPIs/DCFB.js'
-import deletePlaylistButton from '@/components/sidebar/delete-playlist-button'
+import deletePlaylistButton from '@/components/sidebar/user-playlists/delete-playlist-button'
 export default {
   name: 'user-playlists',
   components: {

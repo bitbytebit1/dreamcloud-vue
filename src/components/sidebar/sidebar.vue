@@ -23,7 +23,7 @@
 </template>
 <script>
 import firebase from 'firebase'
-import userPlaylists from '@/components/sidebar/user-playlists'
+import userPlaylists from '@/components/sidebar/user-playlists/user-playlists'
 export default {
   name: 'sidebar',
   components: {
