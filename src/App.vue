@@ -11,10 +11,11 @@
     </v-navigation-drawer>
 
     <v-toolbar app fixed clipped-left clipped-right>
-      <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
-        <v-toolbar-side-icon @click.stop="drawerLeft = !drawerLeft"></v-toolbar-side-icon>
+      <v-toolbar-side-icon @click.stop="drawerLeft = !drawerLeft"></v-toolbar-side-icon>
+      <v-toolbar-title class="hidden-sm-and-down">
         DreamCloud
       </v-toolbar-title>
+      <v-spacer></v-spacer>
       <search></search>
       <v-spacer></v-spacer>
       <v-toolbar-side-icon @click.stop="drawerRight = !drawerRight"><v-icon large>playlist_play</v-icon></v-toolbar-side-icon>
