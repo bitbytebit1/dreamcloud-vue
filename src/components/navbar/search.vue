@@ -5,7 +5,6 @@
       style="max-height: 12px;"
       v-on:keyup.enter='search' 
       v-model='sQuery'
-      prepend-icon="search"
       placeholder="Search" 
       single-line> 
     ></v-text-field>

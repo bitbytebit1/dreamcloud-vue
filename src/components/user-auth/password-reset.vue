@@ -1,12 +1,12 @@
 <template>
   <v-container fluid>
     <v-layout row wrap justify-center align-center>
-      <v-flex xl6 flexbox>
-        
+      <v-flex xs12 sm12 lg12 flexbox>
         <h3>Reset your password</h3>
-        <br />
+      </v-flex>
+      <br />
+      <v-flex xs12 sm6 lg4 flexbox>
         <v-text-field required label="Email Address" v-model="email" :rules="[() =>  validateEmail() || 'Please enter a valid email']" validate-on-blur></v-text-field>
-        <br />
         <v-btn @click.prevent="reset">
           Reset
         </v-btn>

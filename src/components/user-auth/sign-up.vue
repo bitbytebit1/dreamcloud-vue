@@ -1,11 +1,32 @@
 <template>
-  <v-flex xl12 flexbox>
-    <p>Let's create a new account !</p>
-    <input v-model="email" type="text" placeholder="Email"><br>
-    <input v-model="password" type="password" placeholder="Password"><br>
-    <button v-on:click="signUp">Sign Up</button>
-    <span>or go back to <router-link to="/login">login</router-link>.</span>
-  </v-flex>
+  <v-container fluid>
+    <v-layout row wrap justify-center align-center>
+      <v-flex xs12 lg5 flexbox>
+        <v-flex xs12 flexbox>
+          <h3>Create account</h3>
+        </v-flex>
+        <v-flex xs12 flexbox>
+          <v-text-field
+            label="Email"
+            single-line
+            v-model="email"
+            autocomplete="on"
+            v-on:keyup.enter="signIn"
+          ></v-text-field>  
+          <v-text-field
+            label="Password"
+            single-line
+            v-model="password" 
+            autocomplete="on"
+            v-on:keyup.enter="signIn"
+            type="password"
+          ></v-text-field>    
+          <v-btn v-on:click="signUp">Sign Up</v-btn>
+          <span>or go back to <router-link to="/login">login</router-link>.</span>
+        </v-flex>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>

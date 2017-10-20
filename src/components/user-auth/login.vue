@@ -1,16 +1,36 @@
 <template>
-  <v-flex xl12 flexbox>
-    <h3>Sign In</h3>
-    <form target="remember" method="post" action="/content/blank">
-      <input autocomplete="on" type="text" v-model="email" placeholder="Email"><br>
-      <input autocomplete="on" v-on:keyup.enter="signIn" type="password" v-model="password" placeholder="Password"><br>
-      <v-btn type="submit" v-on:click="signIn">Sign In</v-btn>
-    </form>
-    <h5>You don't have an account? You can <router-link to="/sign-up">create one</router-link></h5>
-    <h5><router-link to="/password-reset">Forgot your password?</router-link></h5>
-    
-    <iframe id="remember" name="remember" class="hidden" src=""></iframe>
-  </v-flex>
+  <v-container fluid>
+    <v-layout row wrap justify-center align-center>
+      <v-flex xs12 lg6>
+        <v-flex xs12>
+          <h3>Sign In</h3>
+        </v-flex>
+        <v-flex xs12 sm6 offset-sm3>
+          <form target="remember" method="post" action="/content/blank">
+            <v-text-field
+              label="Email"
+              single-line
+              v-model="email"
+              autocomplete="on"
+              v-on:keyup.enter="signIn"
+            ></v-text-field>  
+            <v-text-field
+              label="Password"
+              single-line
+              v-model="password" 
+              autocomplete="on"
+              v-on:keyup.enter="signIn"
+              type="password"
+            ></v-text-field>
+            <v-btn type="submit" v-on:click="signIn">Sign In</v-btn>
+          </form>
+        </v-flex>
+        <h5>You don't have an account? You can <router-link to="/sign-up">create one</router-link></h5>
+        <h5><router-link to="/password-reset">Forgot your password?</router-link></h5>
+        <iframe id="remember" name="remember" class="hidden" src=""></iframe>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
