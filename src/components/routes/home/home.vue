@@ -1,15 +1,27 @@
 <template>
-  <div class="home">
-    <h1>{{ msg }}</h1>
-  </div>
+  <v-flex xs12>
+    <subscription v-for="sub in subscriptions" :index="sub['id']" :key="sub['id']"
+    :id="sub['id']" :name="sub['name']" :source="sub['source']">
+    </subscription>
+  </v-flex>
 </template>
 <script>
-
+/* eslint-disable */
+import { DCFB } from '@/DCAPIs/DCFB.js'
+import subscription from '@/components/routes/home/sub'
 export default {
   name: 'home',
+  components: {
+    'subscription': subscription
+  },
   data () {
     return {
       msg: 'Welcome to the real, Neo'
+    }
+  },
+  firebase: function () {
+    return {
+      subscriptions: DCFB.subscriptions
     }
   }
 }
