@@ -1,41 +1,54 @@
 <template>
   <v-flex xl12 flexbox>
-      <div class="well">
+      <div class="well" v-if="viewType.full">
         <button class="btn btn-primary" @click='sort'>Sort Date</button>
         <button class="btn btn-primary" @click='toggleView'>Toggle Playlist View</button>
       </div>
-      <v-container v-if="!toggle" fluid v-bind="{ [`grid-list-${_size}`]: true }">
+      <v-container v-if="!list" fluid v-bind="{ [`grid-list-${_size}`]: true }">
         <v-layout row wrap>  
-          <playlistItemNormal
+          <playlist-item-normal
             v-for="(song, index) in songs"
             v-bind:song="song"
             v-bind:index="index"
             v-bind:key="index" 
           >
-          </playlistItemNormal>
+          </playlist-item-normal>
         </v-layout>
       </v-container>
-        <v-container v-if="toggle" fluid>
-          <playlistItemList
+        <v-container v-if="list" fluid>
+          <playlist-item-list
             v-bind:songs="songs"
           >
-          </playlistItemList>
+          </playlist-item-list>
       </v-container>
       <scroll-to-top></scroll-to-top>
       <iframe :src="iframeSrc"></iframe>
   </v-flex>
 </template>
 <script>
-import playlistItemNormal from './playlistItemNormal.vue'
-import playlistItemList from './playlistItemList.vue'
+import playlistItemNormal from './playlist-item-normal.vue'
+import playlistItemList from './playlist-item-list.vue'
 import scrollToTop from '../misc/scroll-to-top.vue'
 
 export default {
   name: 'playlist',
-  props: ['songs'],
+  // props: ['songs'],
+  props: {
+    songs: {
+      type: [Array],
+      required: true
+    },
+    viewType: {
+      type: [Object],
+      default: function () {
+        return { full: true, list: true }
+      }
+    }
+  },
+
   components: {
-    'playlistItemNormal': playlistItemNormal,
-    'playlistItemList': playlistItemList,
+    'playlist-item-normal': playlistItemNormal,
+    'playlist-item-list': playlistItemList,
     'scroll-to-top': scrollToTop
   },
   data () {
@@ -43,7 +56,7 @@ export default {
       showScrollToTop: false,
       msg: 'Welcome to the playlist Trinity',
       iframeSrc: '',
-      toggle: true
+      list: this.viewType.list
     }
   },
   computed: {
