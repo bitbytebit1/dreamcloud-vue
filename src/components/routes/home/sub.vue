@@ -1,8 +1,17 @@
 <template>
   <v-flex xs12>
     <v-flex xs10 offset-xs1>
-      <h5 class="text-xs-left">{{ name }}</h5>
-      <playlist :view-type="{full: false, list: true}" :songs="aSongs"></playlist>  
+      <v-layout row wrap>
+        <v-flex xs12 lg2  >
+          <v-avatar size='45px' slot='activator'>
+            <img :src='img'/>
+          </v-avatar>
+        </v-flex>
+        <v-flex  lg2>
+          <h5 class="text-xs-left p-10">{{ name }}</h5>
+        </v-flex>
+      </v-layout>
+      <playlist :view-type="{full: false, list: false}" :songs="aSongs"></playlist>  
     </v-flex>
   </v-flex>
 </template>
@@ -12,7 +21,7 @@ import {DCAPIClass} from '@/DCAPIs/DCAPI.js'
 // (sQuery, iPage, aSource, sArtist, hCallback, bRelated, iLimit = 48)
 // var dcapi = 
 export default {
-  props: ['id', 'name', 'source'],
+  props: ['id', 'name', 'source', 'img'],
   name: 'home',
   data: function () {
     return {

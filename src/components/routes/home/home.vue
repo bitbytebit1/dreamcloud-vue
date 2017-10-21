@@ -1,7 +1,7 @@
 <template>
   <v-flex xs12>
     <subscription v-for="sub in subscriptions" :index="sub['id']" :key="sub['id']"
-    :id="sub['id']" :name="sub['name']" :source="sub['source']">
+    :id="sub['id']" :name="sub['name']" :source="sub['source']" :img="sub['img']">
     </subscription>
   </v-flex>
 </template>
