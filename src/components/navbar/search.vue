@@ -114,6 +114,7 @@ export default {
     },
     search: function () {
       if (this.$UTILS.isMobile) {
+        alert('hiding keyboard')
         document.activeElement.blur()
       }
       this.__search(this.query)
