@@ -113,10 +113,10 @@ export default {
       this.$router.push({name: 'searchPage', params: {query: this.sQuery, source: this.maSource}})
     },
     search: function () {
-      if (this.$UTILS.isMobile) {
-        alert('hiding keyboard')
-        document.activeElement.blur()
-      }
+      // if (this.$UTILS.isMobile) {
+      // }
+      alert('hiding keyboard')
+      document.activeElement.blur()
       this.__search(this.query)
     },
     btnclick: function (sSource) {
