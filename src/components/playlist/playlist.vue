@@ -41,7 +41,7 @@ export default {
     viewType: {
       type: [Object],
       default: function () {
-        return { full: true, list: true }
+        return { full: true, list: false }
       }
     }
   },
@@ -78,7 +78,7 @@ export default {
       this.songs.sort(this.$DCAPI.sortDate)
     },
     toggleView: function () {
-      this.toggle = !this.toggle
+      this.list = !this.list
     }
   }
 }
