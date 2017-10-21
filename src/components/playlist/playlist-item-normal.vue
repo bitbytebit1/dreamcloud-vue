@@ -59,7 +59,7 @@ export default {
       return this.$DCAPI.calcDate(new Date(), this.song.created)
     },
     isPlaying: function () {
-      return this.$route.path === this.$store.getters.hash && this.index === this.$store.getters.index
+      return this.$route.path === this.$store.getters.hash && this.song.mp32 === this.$store.getters.current_Playlist[this.$store.getters.index].mp32
     }
   },
   methods: {
