@@ -1,6 +1,6 @@
 import axios from 'axios'
 /* eslint-disable */
-export 
+export
 class DCAPIClass {
     constructor () {
       this.sYtKey = '***REMOVED***'

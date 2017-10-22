@@ -56,12 +56,15 @@ let router = new Router({
     },    
     {
       path: '/',
-      redirect: '/home'
+      redirect: '/home'      
     },
     {
       path: '/home',
       name: 'home',
-      component: Home
+      component: Home,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/settings',
