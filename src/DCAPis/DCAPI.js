@@ -12,21 +12,29 @@ class DCAPIClass {
       this.iPage = ''
       this.aSource = []
       this.sArtist = ''
-      this.hCallback = ''
+      this.aCallBack = []
       this.aResults = []
       this.ajaxList = []
       this.YTnextPageTokenString = ''
       this.nextPageToken = ''
     }
+    
+    uuidv4() {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+      });
+    }
 
     searchInt(sQuery, iPage, aSource, sArtist, hCallback, bRelated, iLimit = 48) {
+      var uid = this.uuidv4()
       this.iResultLimt = iLimit
       this.bRelated = bRelated
       this.sQuery = sQuery
       this.iPage = iPage
       this.aSource = aSource[0].toLowerCase() === 'all' ? ['mixcloud', 'soundcloud', 'youtube', 'vimeo'] : aSource
       this.sArtist = sArtist
-      this.hCallback = hCallback
+      this.aCallBack[uid] = hCallback
       this.aResults = []
       this.ajaxList = []
       var self = this
@@ -34,7 +42,7 @@ class DCAPIClass {
         this.ajaxList.push(this.search(this.aSource[idx]))
       }
       return axios.all(this.ajaxList).then(() => {
-        this.hCallback(this.aResults)
+        this.aCallBack[uid](this.aResults)
         this.aResults = [] 
       })
     }
