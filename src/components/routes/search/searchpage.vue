@@ -20,7 +20,8 @@ export default {
       _query: '',
       _source: '',
       loading: false,
-      searchResults: []
+      searchResults: [],
+      iPage: 0
     }
   },
   components: {
@@ -51,7 +52,7 @@ export default {
   methods: {
     infiniteHandler: function ($state) {
       console.log()
-      this.search(this._query, this._source, ++this.$DCAPI.iPage).then(function () {
+      this.search(this._query, this._source, ++this.iPage).then(function () {
         $state.loaded()
       })
     },

@@ -29,7 +29,8 @@ export default {
   data () {
     return {
       loading: false,
-      searchResults: []
+      searchResults: [],
+      iPage: 0
     }
   },
   created: function () {
@@ -41,7 +42,7 @@ export default {
   },
   methods: {
     infiniteHandler: function ($state) {
-      this.search(this.query, this.source, ++this.$DCAPI.iPage).then(function () {
+      this.search(this.query, this.source, ++this.iPage).then(function () {
         $state.loaded()
       })
     },
