@@ -48,7 +48,7 @@
         fb.auth().signInWithEmailAndPassword(this.email, this.password).then(
           (user) => {
             DCFB.init(user.uid)
-            this.$router.replace('user')
+            this.$router.replace('home')
           },
           (err) => {
             alert('Oops. ' + err.message)
