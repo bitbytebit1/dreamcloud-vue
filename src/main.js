@@ -5,11 +5,11 @@ import Vue from 'vue'
 // import Wavesurfer from 'Wavesurfer'
 import App from './App'
 import router from './router'
-import playlist from './components/playlist/playlist'
-import DCAPIPlug from './components/DCAPIs/DCAPI.js'
-import DCPlayerPlug from './components/DCAPIs/DCPlayer.js'
-import DCUserPlug from './components/DCAPIs/DCUser.js'
-import UtilsPlug from './components/DCAPIs/Utils.js'
+import playlist from '@/components/playlist/playlist'
+import DCAPIPlug from '@/components/DCAPIs/DCAPI.js'
+import DCPlayerPlug from '@/components/DCAPIs/DCPlayer.js'
+import DCUserPlug from '@/components/DCAPIs/DCUser.js'
+import UtilsPlug from '@/components/DCAPIs/Utils.js'
 import VueLazyload from 'vue-lazyload'
 import store from './vuex'
 
@@ -33,7 +33,7 @@ Vue.config.productionTip = false
 import VueFire from 'vuefire'
 Vue.use(VueFire)
 
-import {fb, DCFB} from './DCAPIs/DCFB.js'
+import {fb, DCFB} from '@/DCAPIs/DCFB.js'
 
 let app
 
