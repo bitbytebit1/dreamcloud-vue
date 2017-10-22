@@ -29,10 +29,6 @@ class DCFB1 {
     this.subscriptions = db.ref('users/' + UID + '/Subscriptions')
   }
 
-  setUpUserAccount (UID) {
-    db.ref('users').set(UID)
-  }
-
   subscriptionAdd (name, source, id, img) {
     this.subscriptions.update({[id]: {name: name, source: source, id: id, img: img}})
   }

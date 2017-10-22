@@ -44,7 +44,6 @@
       signUp: function () {
         fb.auth().createUserWithEmailAndPassword(this.email, this.password).then(
           (user) => {
-            DCFB.setUpUserAccount(user.uid)
             this.$router.replace('user')
           },
           (err) => {
