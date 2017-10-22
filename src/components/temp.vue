@@ -9,7 +9,7 @@ import x from '@/components/'
 export default {
   name: '?',
   components: {
-    '?': ?
+    '?': x
   },
   data () {
     return {

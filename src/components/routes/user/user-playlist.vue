@@ -26,6 +26,7 @@ export default {
       this.$bindAsArray('aSongs1', DCFB.playlistGet(this.$route.params.user, this.$route.params.playlist))
     },
     _routChanged: function () {
+      this.$unbind('aSongs1')
       this.bind(this.$route.params.user, this.$route.params.playlist)
     }
   }

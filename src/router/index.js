@@ -18,7 +18,7 @@ import login from '@/components/user-auth/login'
 import signUp from '@/components/user-auth/sign-up'
 import password from '@/components/user-auth/password-reset'
 
-import {fb} from '@/DCAPIs/DCFB.js'
+import {fb} from '../DCAPIs/DCFB.js'
 
 Vue.use(Router)
 
@@ -56,12 +56,15 @@ let router = new Router({
     },    
     {
       path: '/',
-      redirect: '/home'
+      redirect: '/home'      
     },
     {
       path: '/home',
       name: 'home',
-      component: Home
+      component: Home,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/settings',

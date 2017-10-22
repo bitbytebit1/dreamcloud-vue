@@ -1,5 +1,5 @@
 <template>
-  <v-menu offset-y lazy :close-on-content-click="false" v-model="menuOpen">
+  <v-menu offset-y lazy :close-on-content-click="false" v-model="menuOpen" class="mr-0 ml-0">
     <v-btn icon slot="activator" @click.stop="menuOpen = !menuOpen" >
       <v-icon>playlist_add</v-icon>
     </v-btn>

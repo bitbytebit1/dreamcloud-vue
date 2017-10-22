@@ -10,8 +10,9 @@
             right
             v-show="showScrollToTop"
             @click="scrollToTop"
+            class="scrollToTop"
         >
-            <v-icon>keyboard_arrow_up</v-icon>
+          <v-icon>keyboard_arrow_up</v-icon>
         </v-btn>
     </v-fab-transition>
 </template>
@@ -45,4 +46,14 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+@media only screen and (max-width: 599px){
+  .scrollToTop{
+    bottom: 75px !important
+  }
+}
+@media only screen and (min-width: 600px){
+  .scrollToTop{
+    right: 75px !important
+  }  
+}
 </style>

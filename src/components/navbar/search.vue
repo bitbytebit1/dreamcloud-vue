@@ -5,7 +5,6 @@
       style="max-height: 12px;"
       v-on:keyup.enter='search' 
       v-model='sQuery'
-      prepend-icon="search"
       placeholder="Search" 
       single-line> 
     ></v-text-field>
@@ -114,6 +113,9 @@ export default {
       this.$router.push({name: 'searchPage', params: {query: this.sQuery, source: this.maSource}})
     },
     search: function () {
+      if (this.$UTILS.isMobile) {
+        document.activeElement.blur()
+      }
       this.__search(this.query)
     },
     btnclick: function (sSource) {
