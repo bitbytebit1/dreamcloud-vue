@@ -8,12 +8,19 @@ class DCAPIClass {
     this.sVimeoKey = '***REMOVED***'
     this.YTnextPageTokenString = ''
     this.nextPageToken = ''
+    this.SCnextPageToken = ''
     this.aQuery = []
   }
 
   searchInt (sQuery, iPage, aSource, sArtist, hCallback, bRelated, iLimit = 48) {
-    var uid = Date.now()
-    this.aQuery[uid] = {aAjax: [], aResult: [], 
+    if (!iPage) {
+      this.SCnextPageToken = ''
+      this.nextPageToken = ''
+    }
+    let uid = Date.now()
+    this.aQuery[uid] = {
+      aAjax: [], 
+      aResult: [], 
       hCallback: hCallback, 
       iLimit: iLimit, 
       sQuery: sQuery, 
@@ -27,7 +34,7 @@ class DCAPIClass {
     }
     return axios.all(this.aQuery[uid].aAjax).then(() => {
       this.aQuery[uid].hCallback(this.aQuery[uid].aResult)
-      delete this.aQuery[uid] // Neccessary or does garbage collector take care of this?
+      // delete this.aQuery[uid] // Neccessary or does garbage collector take care of this?
     })
   }
 
@@ -78,17 +85,28 @@ class DCAPIClass {
 
   sc (uid) {
     var a
+    
     if (this.aQuery[uid].bRelated) {
-      a = 'https://api.soundcloud.com/tracks/' + this.aQuery[uid].sArtist + '/related?client_id=' + this.sScKey
+      a = 'https://api.soundcloud.com/tracks/' + this.aQuery[uid].sArtist + '/related?linked_partitioning=1&client_id=' + this.sScKey
     } else if (this.aQuery[uid].sArtist) {
-      a = 'https://api.soundcloud.com/users/' + this.aQuery[uid].sArtist + '/tracks.json?&limit=' + this.aQuery[uid].iLimit +'&offset=' + this.aQuery[uid].iLimit * this.aQuery[uid].iPage + '&client_id=' + this.sScKey
+      a = 'https://api.soundcloud.com/users/' + this.aQuery[uid].sArtist + '/tracks.json?linked_partitioning=1&limit=' + this.aQuery[uid].iLimit + '&client_id=' + this.sScKey
     } else {
-      a = 'https://api.soundcloud.com/tracks.json?q=' + encodeURIComponent(this.aQuery[uid].sQuery) + '&limit=12&offset=' + 12 * this.aQuery[uid].iPage + '&client_id=' + this.sScKey
+      a = 'https://api.soundcloud.com/tracks.json?linked_partitioning=1&q=' + encodeURIComponent(this.aQuery[uid].sQuery)  + '&client_id=' + this.sScKey + '&limit=' + this.aQuery[uid].iLimit
+    }
+    if(this.SCnextPageToken){
+      a = this.SCnextPageToken
+    } else if (!this.SCnextPageToken && this.aQuery[uid].iPage > 0) {
+      return
     }
     return axios.get(a).then((resp) => {
       try {
         var img, img2
-        resp = resp.data
+        if(resp.data.next_href){
+          this.SCnextPageToken = resp.data.next_href
+        } else {
+          this.SCnextPageToken = ''
+        }
+        resp = resp.data.collection
         for (var idx in resp) {
           if (!resp[idx].artwork_url) {
             resp[idx].artwork_url = resp[idx].user.avatar_url
@@ -329,6 +347,7 @@ class DCAPIClass {
   }
 
   error () {
+    console.log('!!!ERROR!!!')
     this.hCallback([])
   }
 }

@@ -1,18 +1,19 @@
 <template>
   <v-flex xs12>
-    <subscription v-for="sub in subscriptions" :index="sub['id']" :key="sub['id']"
-    :id="sub['id']" :name="sub['name']" :source="sub['source']" :img="sub['img']">
-    </subscription>
+    <subscriptions-all></subscriptions-all>
+    <!-- <subscription v-for="sub in subscriptions" :index="sub['id']" :key="sub['id']" :id="sub['id']" :name="sub['name']" :source="sub['source']" :img="sub['img']"></subscription> -->
   </v-flex>
 </template>
 <script>
 /* eslint-disable */
 import { DCFB } from '@/DCAPIs/DCFB.js'
 import subscription from '@/components/routes/home/sub'
+import subscriptionAll from '@/components/routes/home/sub2'
 export default {
   name: 'home',
   components: {
-    'subscription': subscription
+    'subscription': subscription,
+    'subscriptions-all': subscriptionAll
   },
   data () {
     return {
