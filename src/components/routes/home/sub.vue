@@ -1,6 +1,6 @@
 <template>
   <v-flex xs12 class="mt-3">
-    <v-flex xs12>
+    <v-flex xs12 lg12 >
       <v-layout row wrap>
         <v-flex xs12 lg2  >
           <v-avatar size='45px' slot='activator'>
@@ -25,13 +25,11 @@ export default {
   name: 'home',
   data: function () {
     return {
-      aSongs: [],
-      dcAPI: new DCAPIClass()
+      aSongs: []
     }
   },
   created: function () {
-    let wasd = this
-    this.dcAPI.searchInt(0, 0, [this.source], this.id, function(songs){wasd.aSongs = songs}, false, 4)
+    this.$DCAPI.searchInt(0, 0, [this.source], this.id, (songs)=>{this.aSongs = songs}, false, 4)
   }
 }
 </script>
