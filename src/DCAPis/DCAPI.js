@@ -87,11 +87,11 @@ class DCAPIClass {
     var a
     
     if (this.aQuery[uid].bRelated) {
-      a = 'https://api.soundcloud.com/tracks/' + this.aQuery[uid].sArtist + '/related?linked_partitioning=1&client_id=' + this.sScKey
+      a = 'https://api.soundcloud.com/tracks/' + this.aQuery[uid].sArtist + '/related?linked_partitioning=1&limit=100&client_id=' + this.sScKey
     } else if (this.aQuery[uid].sArtist) {
-      a = 'https://api.soundcloud.com/users/' + this.aQuery[uid].sArtist + '/tracks.json?linked_partitioning=1&limit=' + this.aQuery[uid].iLimit + '&client_id=' + this.sScKey
+      a = 'https://api.soundcloud.com/users/' + this.aQuery[uid].sArtist + '/tracks.json?linked_partitioning=1&limit=100&client_id=' + this.sScKey
     } else {
-      a = 'https://api.soundcloud.com/tracks.json?linked_partitioning=1&q=' + encodeURIComponent(this.aQuery[uid].sQuery)  + '&client_id=' + this.sScKey + '&limit=' + this.aQuery[uid].iLimit
+      a = 'https://api.soundcloud.com/tracks.json?linked_partitioning=1&q=' + encodeURIComponent(this.aQuery[uid].sQuery)  + '&client_id=' + this.sScKey + '&limit=100'
     }
     if(this.SCnextPageToken){
       a = this.SCnextPageToken
@@ -104,7 +104,7 @@ class DCAPIClass {
         if(resp.data.next_href){
           this.SCnextPageToken = resp.data.next_href
         } else {
-          this.SCnextPageToken = ''
+          this.SCnextPageToken = !1
         }
         resp = resp.data.collection
         for (var idx in resp) {
