@@ -1,14 +1,14 @@
 <template>
-  <v-flex xs12>
-    <v-flex xs10 offset-xs1>
+  <v-flex xs12 class="mt-3">
+    <v-flex xs12>
       <v-layout row wrap>
         <v-flex xs12 lg2  >
           <v-avatar size='45px' slot='activator'>
             <img :src='img'/>
           </v-avatar>
         </v-flex>
-        <v-flex  lg2>
-          <h5 class="text-xs-left p-10">{{ name }}</h5>
+        <v-flex lg2>
+          <h5 class="text-xs-center mt-2">{{ name }}</h5>
         </v-flex>
       </v-layout>
       <playlist :view-type="{full: false, list: false}" :songs="aSongs"></playlist>  
