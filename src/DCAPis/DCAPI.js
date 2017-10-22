@@ -11,15 +11,8 @@ class DCAPIClass {
     this.aQuery = []
   }
 
-  uuidv4 () {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8)
-      return v.toString(16)
-    })
-  }
-
   searchInt (sQuery, iPage, aSource, sArtist, hCallback, bRelated, iLimit = 48) {
-    var uid = this.uuidv4()
+    var uid = Date.now()
     this.aQuery[uid] = {aAjax: [], aResult: [], 
       hCallback: hCallback, 
       iLimit: iLimit, 
@@ -34,7 +27,7 @@ class DCAPIClass {
     }
     return axios.all(this.aQuery[uid].aAjax).then(() => {
       this.aQuery[uid].hCallback(this.aQuery[uid].aResult)
-      delete this.aQuery[uid]
+      delete this.aQuery[uid] // Neccessary or does garbage collector take care of this?
     })
   }
 
@@ -224,7 +217,7 @@ class DCAPIClass {
   }
 
   getSongInfo (trackID, source, hCallback) {
-    var uid = this.uuidv4()
+    var uid = Date.now()
     this.aQuery[uid] = {aResult: [], hCallback: hCallback}
 
     if (source.toLowerCase().indexOf('youtube') > -1) {
@@ -246,6 +239,7 @@ class DCAPIClass {
           resp.id                                                                             // trackID:
         )
         this.aQuery[uid].hCallback(this.aQuery[uid].aResult)
+        delete this.aQuery[uid]
       })
     } else if (source.toLowerCase().indexOf('soundcloud') > -1) {
       return axios.get('http://api.soundcloud.com/tracks/' + trackID + '?client_id=' + this.sScKey).then((resp) => {
@@ -266,6 +260,7 @@ class DCAPIClass {
           resp.id                                                                 // trackID:
         )
         this.aQuery[uid].hCallback(this.aQuery[uid].aResult)
+        delete this.aQuery[uid]
       })
     }
   }
