@@ -1,9 +1,6 @@
 <template>
   <v-flex xs12>
-    <playlist-item-list
-      v-bind:songs="aSongs"
-    >
-    </playlist-item-list>
+    <playlist :view-type="{full: true, list: false}" :songs="aSongs"></playlist>  
   </v-flex>
 </template>
 <script>
@@ -36,9 +33,9 @@ export default {
       (songs) =>{
         
         this.aSongs = this.aSongs.concat(songs)
-      }, false, 10)
+        console.log(this.aSongs)
+      }, false, 50)
     }
-    console.log(this.aSongs)
     
   },
   firebase: function () {
