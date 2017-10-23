@@ -6,8 +6,6 @@
 <script>
 /* eslint-disable */
 import {DCAPIClass} from '@/DCAPIs/DCAPI.js'
-// (sQuery, iPage, aSource, sArtist, hCallback, bRelated, iLimit = 48)
-// var dcapi = 
 import { DCFB } from '@/DCAPIs/DCFB.js'
 import playlist from '@/components/playlist/playlist'
 export default {
@@ -18,15 +16,11 @@ export default {
   data: function () {
     return {
       aSongs: []
-      // dcAPI: new DCAPIClass()
     }
   },
   created: function () {
-    // let wasd = this
-    // console.log(this.subscriptions)
     var results = [], idx = 0;
     for(var sub in this.subscriptions){
-      // console.log(this.subscriptions[sub])
       this.$DCAPI.searchInt(0 , 0, [this.subscriptions[sub].source], this.subscriptions[sub].id, 
       (songs) =>{
         this.aSongs = this.aSongs.concat(songs)

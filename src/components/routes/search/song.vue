@@ -24,10 +24,6 @@ export default {
   created: function () {
     this.search(this.trackID, this.source)
   },
-  // beforeRouteUpdate (to) {
-  //   // console.log(to)
-  //   this.search(to.params.query, to.params.source)
-  // },
   watch: {
     '$route.params.source': '_search',
     '$route.params.artist': '_search',
