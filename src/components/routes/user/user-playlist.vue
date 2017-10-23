@@ -1,5 +1,5 @@
 <template>
-  <v-flex xs12 flexbox :index="playlist" :key="this.$route.params.playlist">
+  <v-flex xs12 lg10 flexbox :key="this.$route.params.playlist">
     <h3>{{name}}</h3>
     <playlist :songs="aSongs1"></playlist>
   </v-flex>

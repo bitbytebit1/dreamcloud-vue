@@ -1,5 +1,5 @@
 <template>
-  <div class="cont">
+  <v-flex xs12 lg10 xl10 flexbox>
     <div class="loading" v-if="loading">    
       <infinite-loading spinner="waveDots"></infinite-loading>
     </div>
@@ -7,7 +7,7 @@
     <infinite-loading ref="infiniteLoading" v-if="!loading" @infinite="infiniteHandler" spinner="waveDots">    
       <span slot="no-more">End of the line kiddo</span>
     </infinite-loading>
-  </div>
+  </v-flex>
 </template>
 
 <script>
