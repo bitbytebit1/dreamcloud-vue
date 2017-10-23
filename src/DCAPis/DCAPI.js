@@ -67,9 +67,9 @@ class DCAPIClass {
           uid,
           resp[idx].user.name,                                  // artist:
           resp[idx].user.username,                              // artistID:
-          this.parseDate(resp[idx].created_time),              // created:
+          this.parseDate(resp[idx].created_time),               // created:
           '',                                                   // description:
-          this.secondstominutes(resp[idx].audio_length),       // duration:
+          this.secondstominutes(resp[idx].audio_length),        // duration:
           'https://dream.tribe.nu/r3/off/?q=' + resp[idx].url,  // mp3:
           resp[idx].url,                                        // mp32:
           resp[idx].pictures.large,                             // poster:
@@ -119,10 +119,10 @@ class DCAPIClass {
             uid,
             resp[idx].user.username,                                       // artist:
             resp[idx].user_id,                                             // artistID:
-            this.parseDate(resp[idx].created_at),                         // created:
+            this.parseDate(resp[idx].created_at),                          // created:
             resp[idx].description,                                         // description:
-            this.secondstominutes(Math.floor(resp[idx].duration / 1E3)),  // duration:
-            resp[idx].stream_url + '?client_id=' + this.sScKey,           // mp3:
+            this.secondstominutes(Math.floor(resp[idx].duration / 1E3)),   // duration:
+            resp[idx].stream_url + '?client_id=' + this.sScKey,            // mp3:
             resp[idx].permalink_url,                                       // mp32:
             img,                                                           // poster:
             img2,                                                          // posterLarge:
@@ -164,7 +164,7 @@ class DCAPIClass {
             uid,
             resp[idx].snippet.channelTitle,                  // artist:
             resp[idx].snippet.channelId,                     // artistID:
-            this.parseDate(resp[idx].snippet.publishedAt),  // created:
+            this.parseDate(resp[idx].snippet.publishedAt),   // created:
             resp[idx].snippet.description,                   // description:
             '',                                              // duration:
             'https://dream.tribe.nu/r3/off/?q=' + z,         // mp3:
@@ -198,9 +198,9 @@ class DCAPIClass {
           uid,
           resp[idx].user.name,                                                  // artist:
           resp[idx].user.uri.replace(/\/users\/(.*?)/ig, 'user'),               // artistID:
-          this.parseDate(resp[idx].user.created_time),                         // created:
+          this.parseDate(resp[idx].user.created_time),                          // created:
           resp[idx].description,                                                // description:
-          this.secondstominutes(resp[idx].duration),                           // duration:
+          this.secondstominutes(resp[idx].duration),                            // duration:
           'https://dream.tribe.nu/r3/off/?q=' + resp[idx].link,                 // mp3:
           resp[idx].link,                                                       // mp32:
           resp[idx].pictures.sizes[2].link,                                     // poster:
