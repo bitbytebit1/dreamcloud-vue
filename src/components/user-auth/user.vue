@@ -1,6 +1,5 @@
 <template>
   <v-flex xl12 flexbox>
-    <h2>{{ msg }}</h2>
     <h2>Essential Links</h2>
     <ul>
       <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
@@ -11,6 +10,7 @@
     </ul>
     <h2>Ecosystem</h2>
     <ul>
+      <li><a href="https://vuetifyjs.com/components/selects#select-view" target="_blank">vuetify</a></li>
       <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
       <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
       <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
