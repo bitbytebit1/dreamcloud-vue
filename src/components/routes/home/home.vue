@@ -1,7 +1,7 @@
 <template>
-  <v-flex xs12>
-    <subscriptions-all></subscriptions-all>
-    <!-- <subscription v-for="sub in subscriptions" :index="sub['id']" :key="sub['id']" :id="sub['id']" :name="sub['name']" :source="sub['source']" :img="sub['img']"></subscription> -->
+  <v-flex xs12 lg10>
+    <!-- <subscriptions-all></subscriptions-all> -->
+    <subscription v-for="sub in subscriptions" :index="sub['id']" :key="sub['id']" :id="sub['id']" :name="sub['name']" :source="sub['source']" :img="sub['img']"></subscription>
   </v-flex>
 </template>
 <script>

@@ -2,13 +2,13 @@
   <v-flex xs12 class="mt-3">
     <v-flex xs12 lg12 >
       <v-layout row wrap>
-        <v-flex xs12 lg2  >
+        <v-flex xs12 lg1  >
           <v-avatar size='45px' slot='activator'>
             <img :src='img'/>
           </v-avatar>
         </v-flex>
-        <v-flex lg2>
-          <h5 class="text-xs-center mt-2">{{ name }}</h5>
+        <v-flex lg11>
+          <h5 class="text-xs-left mt-2">{{ name }}</h5>
         </v-flex>
       </v-layout>
       <playlist :view-type="{full: false, list: false}" :songs="aSongs"></playlist>  
@@ -29,7 +29,7 @@ export default {
     }
   },
   created: function () {
-    this.$DCAPI.searchInt(0, 0, [this.source], this.id, (songs)=>{this.aSongs = songs}, false, 4)
+    this.$DCAPI.searchInt(0, 0, [this.source], this.id, (songs)=>{this.aSongs = songs}, false, 8)
   }
 }
 </script>

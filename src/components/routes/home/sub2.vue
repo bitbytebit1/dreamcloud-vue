@@ -31,10 +31,8 @@ export default {
       // console.log('Searching', this.subscriptions[sub].source, 'for', this.subscriptions[sub].name)
       this.$DCAPI.searchInt(0 , 0, [this.subscriptions[sub].source], this.subscriptions[sub].id, 
       (songs) =>{
-        
         this.aSongs = this.aSongs.concat(songs)
-        console.log(this.aSongs)
-      }, false, 50)
+      }, false, 8)
     }
     
   },
