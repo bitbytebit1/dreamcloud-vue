@@ -17,8 +17,8 @@ class DCAPIClass {
       this.SCnextPageToken = ''
       this.nextPageToken = ''
     }
-    let uid = Date.now()
-    this.aQuery[uid] = {
+    // let uid = performance.now()
+    let uid = this.aQuery.push({
       aAjax: [], 
       aResult: [], 
       hCallback: hCallback, 
@@ -27,14 +27,14 @@ class DCAPIClass {
       sArtist: sArtist,
       bRelated: bRelated,
       iPage: iPage
-    }
+    }) - 1
     aSource = aSource[0].toLowerCase() === 'all' ? ['mixcloud', 'soundcloud', 'youtube', 'vimeo'] : aSource
     for (var idx in aSource) {
       this.aQuery[uid].aAjax.push(this.search(aSource[idx], uid))
     }
     return axios.all(this.aQuery[uid].aAjax).then(() => {
       this.aQuery[uid].hCallback(this.aQuery[uid].aResult)
-      // delete this.aQuery[uid] // Neccessary or does garbage collector take care of this?
+      delete this.aQuery[uid]
     })
   }
 
@@ -105,6 +105,9 @@ class DCAPIClass {
           this.SCnextPageToken = resp.data.next_href
         } else {
           this.SCnextPageToken = ''
+        }
+        if(resp.data.collection.length < this.aQuery[uid].iLimit && this.SCnextPageToken){
+          console.log('Soundcloud fucked up... Call again...')
         }
         resp = resp.data.collection
         for (var idx in resp) {
