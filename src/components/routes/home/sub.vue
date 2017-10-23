@@ -7,33 +7,33 @@
             <img :src='img'/>
           </v-avatar>
         </v-flex>
+        
         <v-flex lg11>
           <h5 class="text-xs-left mt-2">{{ name }}</h5>
         </v-flex>
-        <v-flex xs12 v-if="loading">
-          <infinite-loading spinner="waveDots"></infinite-loading>
-        </v-flex>
+
+        
       </v-layout>
+      <loading :show="loading"></loading>
       <playlist :view-type="{full: false, list: false}" :songs="aSongs"></playlist>  
     </v-flex>
   </v-flex>
 </template>
 <script>
-import InfiniteLoading from 'vue-infinite-loading'
+import loading from '@/components/misc/loading'
 export default {
   props: ['id', 'name', 'source', 'img'],
   name: 'home',
   components: {
-    'infinite-loading': InfiniteLoading
+    'loading': loading
   },
   data: function () {
     return {
       aSongs: [],
-      loading: false
+      loading: true
     }
   },
   created: function () {
-    this.loading = true
     this.$DCAPI.searchInt(0, 0, [this.source], this.id, (songs) => {
       this.aSongs = songs
       this.loading = !1

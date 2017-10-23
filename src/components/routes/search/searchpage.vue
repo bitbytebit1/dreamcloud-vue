@@ -1,8 +1,8 @@
 <template>
   <v-flex xs12 lg10 xl10 flexbox>
-    <div class="loading" v-if="loading">    
-      <infinite-loading spinner="waveDots"></infinite-loading>
-    </div>
+
+    <loading :show="loading" spinner="waveDots"></loading>
+
     <playlist v-if="!loading" :songs="searchResults"></playlist>  
     <infinite-loading ref="infiniteLoading" v-if="!loading" @infinite="infiniteHandler" spinner="waveDots">    
       <span slot="no-more">End of the line kiddo</span>
@@ -12,6 +12,7 @@
 
 <script>
 import InfiniteLoading from 'vue-infinite-loading'
+import loading from '@/components/misc/loading'
 export default {
   name: 'searchpage',
   props: ['query', 'source'],
@@ -25,7 +26,8 @@ export default {
     }
   },
   components: {
-    InfiniteLoading
+    'infinite-loading': InfiniteLoading,
+    'loading': loading
   },
   computed: {
     splitSource: function () {
@@ -86,7 +88,4 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-.cont{
-  width: 100%
-}
 </style>

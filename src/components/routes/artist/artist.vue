@@ -1,11 +1,8 @@
 <template>
   <v-flex xs12 lg10 xl10 flexbox>
     
-    <div class="loading" v-if="loading">
-      <infinite-loading spinner="waveDots">
-      </infinite-loading>
-    </div>
-    
+    <loading :show="loading" spinner="waveDots"></loading>
+
     <artist-info v-if="!loading" :artistID="artistID" :source="source" :artist="artist"></artist-info>
 
     <playlist v-if="!loading" :songs="searchResults"></playlist>
@@ -17,6 +14,7 @@
 </template>
 
 <script>
+import loading from '@/components/misc/loading'
 import InfiniteLoading from 'vue-infinite-loading'
 import artistInfo from './artist-info.vue'
 export default {
@@ -24,11 +22,12 @@ export default {
   props: ['source', 'artist', 'artistID'],
   components: {
     'artist-info': artistInfo,
-    'infinite-loading': InfiniteLoading
+    'infinite-loading': InfiniteLoading,
+    'loading': loading
   },
   data () {
     return {
-      loading: false,
+      loading: true,
       searchResults: [],
       iPage: 0
     }
