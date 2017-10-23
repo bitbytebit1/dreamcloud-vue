@@ -1,5 +1,5 @@
 <template>
-  <v-app id="inspire" dark>
+  <v-app id="inspire" v-bind="theme">
     <v-navigation-drawer
       v-model="drawerLeft"
       clipped
@@ -63,6 +63,7 @@
     },
     data () {
       return {
+        theme: {dark: true, light: false},
         drawerLeft: false,
         drawerRight: true,
         aSongs: [],
