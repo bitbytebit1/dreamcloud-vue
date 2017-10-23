@@ -141,7 +141,7 @@ class DCAPIClass {
     if (this.aQuery[uid].iPage === 0) {
       this.YTnextPageTokenString = ''
     } else if (!this.nextPageToken) {
-      return this.error()
+      return this.error(uid)
     } else {
       this.YTnextPageTokenString = '&pageToken=' + this.nextPageToken
     }
@@ -348,9 +348,8 @@ class DCAPIClass {
     return this.str_pad_left(Math.floor(time / 60), '0', 2) + ':' + this.str_pad_left(time - Math.floor(time / 60) * 60, '0', 2)
   }
 
-  error () {
-    console.log('!!!ERROR!!!')
-    this.hCallback([])
+  error (uid) {
+    this.aQuery[uid].hCallback(this.aQuery[uid].aResult)
   }
 }
 
