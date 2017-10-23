@@ -6,9 +6,14 @@
 </template>
 <script>
 import { DCFB } from '@/DCAPIs/DCFB.js'
+import playlist from '@/components/playlist/playlist'
+
 export default {
   name: 'userPlaylist',
   props: ['user', 'playlist', 'name'],
+  components: {
+    'playlist': playlist
+  },
   watch: {
     '$route.params.user': 'bind',
     '$route.params.playlist': 'bind'

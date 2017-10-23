@@ -21,11 +21,13 @@
 </template>
 <script>
 import loading from '@/components/misc/loading'
+import playlist from '@/components/playlist/playlist'
 export default {
   props: ['id', 'name', 'source', 'img'],
   name: 'home',
   components: {
-    'loading': loading
+    'loading': loading,
+    'playlist': playlist
   },
   data: function () {
     return {

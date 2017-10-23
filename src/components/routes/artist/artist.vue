@@ -17,13 +17,16 @@
 import loading from '@/components/misc/loading'
 import InfiniteLoading from 'vue-infinite-loading'
 import artistInfo from './artist-info.vue'
+import playlist from '@/components/playlist/playlist'
+
 export default {
   name: 'artist',
   props: ['source', 'artist', 'artistID'],
   components: {
     'artist-info': artistInfo,
     'infinite-loading': InfiniteLoading,
-    'loading': loading
+    'loading': loading,
+    'playlist': playlist
   },
   data () {
     return {

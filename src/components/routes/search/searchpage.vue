@@ -13,6 +13,8 @@
 <script>
 import InfiniteLoading from 'vue-infinite-loading'
 import loading from '@/components/misc/loading'
+import playlist from '@/components/playlist/playlist'
+
 export default {
   name: 'searchpage',
   props: ['query', 'source'],
@@ -27,7 +29,8 @@ export default {
   },
   components: {
     'infinite-loading': InfiniteLoading,
-    'loading': loading
+    'loading': loading,
+    'playlist': playlist
   },
   computed: {
     splitSource: function () {

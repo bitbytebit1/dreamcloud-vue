@@ -5,7 +5,6 @@ import Vue from 'vue'
 // import Wavesurfer from 'Wavesurfer'
 import App from './App'
 import router from './router'
-import playlist from '@/components/playlist/playlist'
 import DCAPIPlug from '@/DCAPIs/DCAPI.js'
 import DCPlayerPlug from '@/DCAPIs/DCPlayer.js'
 import DCUserPlug from '@/DCAPIs/DCUser.js'
@@ -26,7 +25,7 @@ Vue.use(UtilsPlug)
 Vue.use(DCUserPlug)
 Vue.use(DCAPIPlug)
 Vue.use(DCPlayerPlug)
-Vue.component('playlist', playlist)
+
 
 Vue.config.productionTip = false
 
