@@ -60,7 +60,7 @@ export default {
   },
   firebase: function () {
     return {
-      subscriptions: DCFB.subscriptions
+      subscriptions: DCFB.subscriptions.orderByChild('name')
     }
   }
 }
