@@ -49,6 +49,7 @@
 </template>
 
 <script>
+  import { DCFB } from '@/DCAPIs/DCFB.js'
   import search from './components/navbar/search'
   import dcAudio from './components/player/dc-audio'
   import currentPlaylist from './components/current-playlist/current-playlist'
@@ -63,12 +64,23 @@
     },
     data () {
       return {
-        theme: {dark: true, light: false},
         drawerLeft: false,
         drawerRight: true,
         aSongs: [],
         aSong: []
       }
+    },
+    computed: {
+      theme: function () {
+        return this.$store.getters.theme
+      }
+    },
+    beforeCreate: function () {
+      DCFB.setting('Dark Theme').once('value', (snapshot) => {
+        if (snapshot.val() !== null) {
+          this.$store.commit('changeSetting', {'setting': 'Dark Theme', 'value': snapshot.val()})
+        }
+      })
     }
   }
 </script>
