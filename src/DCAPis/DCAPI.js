@@ -17,7 +17,6 @@ class DCAPIClass {
       this.SCnextPageToken = ''
       this.nextPageToken = ''
     }
-    // let uid = performance.now()
     let uid = this.aQuery.push({
       aAjax: [], 
       aResult: [], 
