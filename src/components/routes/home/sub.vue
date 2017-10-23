@@ -11,7 +11,6 @@
         <v-flex lg11>
           <h5 class="text-xs-left mt-2">{{ name }}</h5>
         </v-flex>
-
         
       </v-layout>
       <loading :show="loading"></loading>
@@ -39,7 +38,7 @@ export default {
     this.$DCAPI.searchInt(0, 0, [this.source], this.id, (songs) => {
       this.aSongs = songs
       this.loading = !1
-    }, false, 8)
+    }, false, 4)
   }
 }
 </script>
