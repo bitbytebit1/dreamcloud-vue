@@ -10,26 +10,34 @@
         <v-flex lg11>
           <h5 class="text-xs-left mt-2">{{ name }}</h5>
         </v-flex>
+        <v-flex xs12 v-if="loading">
+          <infinite-loading spinner="waveDots"></infinite-loading>
+        </v-flex>
       </v-layout>
       <playlist :view-type="{full: false, list: false}" :songs="aSongs"></playlist>  
     </v-flex>
   </v-flex>
 </template>
 <script>
-/* eslint-disable */
-import {DCAPIClass} from '@/DCAPIs/DCAPI.js'
-// (sQuery, iPage, aSource, sArtist, hCallback, bRelated, iLimit = 48)
-// var dcapi = 
+import InfiniteLoading from 'vue-infinite-loading'
 export default {
   props: ['id', 'name', 'source', 'img'],
   name: 'home',
+  components: {
+    'infinite-loading': InfiniteLoading
+  },
   data: function () {
     return {
-      aSongs: []
+      aSongs: [],
+      loading: false
     }
   },
   created: function () {
-    this.$DCAPI.searchInt(0, 0, [this.source], this.id, (songs)=>{this.aSongs = songs}, false, 8)
+    this.loading = true
+    this.$DCAPI.searchInt(0, 0, [this.source], this.id, (songs) => {
+      this.aSongs = songs
+      this.loading = !1
+    }, false, 8)
   }
 }
 </script>
