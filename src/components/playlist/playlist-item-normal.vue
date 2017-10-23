@@ -49,7 +49,7 @@ export default {
   },
   computed: {
     artistID: function () {
-      return '#/a/' + this.song.source + '/' + this.song.artist + '/' + this.song.artistID
+      return '#/a/' + this.song.source + '/' + encodeURIComponent(this.song.artist) + '/' + this.song.artistID
     },
     img: function () {
       return this.song.posterLarge

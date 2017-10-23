@@ -12,7 +12,7 @@
           <v-icon>keyboard_arrow_down</v-icon>
         </v-list-tile-action>
       </v-list-tile>
-      <v-list-tile v-for="subItem in subscriptions" class="subscription" active-class="blue lighten-1" :to="{path: '/a/'  + subItem['source'] +  '/' + subItem['name'] +  '/' + subItem['id']}" v-bind:key="subItem['.key']">
+      <v-list-tile v-for="subItem in subscriptions" class="subscription" active-class="blue lighten-1" :to="{path: '/a/'  + subItem['source'] +  '/' + encodeURIComponent(subItem['name']) +  '/' + subItem['id']}" v-bind:key="subItem['.key']">
         <v-list-tile-action>
           <v-avatar size='32px' slot='activator'>
             <img :src="subItem['img']"/>
