@@ -8,7 +8,10 @@ const store = new Vuex.Store({
   state: {
     current_Playlist: [],
     current_Index: -1,
-    current_Hash: ''
+    current_Hash: '',
+    settings: {
+      'Dark Theme': true
+    }
   },
   mutations: {
     setNPlay (state, payload) {
@@ -18,9 +21,23 @@ const store = new Vuex.Store({
     },
     changeIndex (state, payload) {
       state.current_Index = payload
+    },
+
+    changeSetting (state, payload) {
+      state.settings[payload.setting] = payload.value
+      // state.dark = payload
     }
   },
   getters: {
+
+    theme: state => {
+      if (state.settings['Dark Theme']) {
+        return {'dark': true}
+      } else {
+        return {'light': true}
+      }
+    },
+
     current_Playlist: state => {
       return state.current_Playlist
     },
