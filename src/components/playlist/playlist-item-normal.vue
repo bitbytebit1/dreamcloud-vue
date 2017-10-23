@@ -8,9 +8,9 @@
           <v-container grid-list-xs fill-height fluid>
             <v-layout fill-height>
               <v-flex xs12 align-end flexbox>
-                <span class="headline white--text" v-text="song.title"></span>
+                <span class="song-text main white--text" v-text="song.title"></span>
                 <br />
-                <span class="artist white--text" v-text="song.artist"></span>
+                <span class="song-text white--text" v-text="song.artist"></span>
               </v-flex>
             </v-layout>
           </v-container>
@@ -25,9 +25,6 @@
           </v-btn>
           <v-btn icon @click.stop="download">
             <v-icon>file_download</v-icon>
-          </v-btn>
-          <v-btn icon @click.stop="play">
-            <v-icon>play_circle_filled</v-icon>
           </v-btn>
           <v-btn icon @click.stop :href="artistID">
             <v-icon>person</v-icon>
@@ -89,9 +86,12 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-.headline, .artist{
-    text-shadow: 3px 3px 8px black;
-    /* background: rgba(0, 0, 0, .1); */
+.main{
+  font-size: 150%;
+}
+.song-text{
+    text-shadow: 4px 4px 8px black;
+    background: rgba(1, 1, 1, .1);
 }
 .card__media[lazy=loading] {
   background: center center / cover no-repeat;
