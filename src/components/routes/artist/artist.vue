@@ -1,5 +1,5 @@
 <template>
-  <v-flex xs12 xl12 flexbox>
+  <v-flex xs12 lg10 xl10 flexbox>
     
     <div class="loading" v-if="loading">
       <infinite-loading spinner="waveDots">
@@ -8,7 +8,7 @@
     
     <artist-info v-if="!loading" :artistID="artistID" :source="source" :artist="artist"></artist-info>
 
-    <playlist v-if="!loading":songs="searchResults"></playlist>
+    <playlist v-if="!loading" :songs="searchResults"></playlist>
     
     <infinite-loading ref="infiniteLoading" v-if="!loading" @infinite="infiniteHandler" spinner="waveDots">
       <span slot="no-more">End of the line kiddo</span>
