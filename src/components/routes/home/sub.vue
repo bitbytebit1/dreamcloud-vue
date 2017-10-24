@@ -2,7 +2,7 @@
   <v-flex xs12 class="mt-3">
     <v-flex xs12 lg12 >
       <v-layout row wrap>
-        <v-flex xs12 lg1  >
+        <v-flex xs12 lg1>
           <v-avatar size='45px' slot='activator'>
             <img :src='img'/>
           </v-avatar>

@@ -7,7 +7,7 @@
 
     <playlist v-if="!loading" :songs="searchResults"></playlist>
     
-    <infinite-loading ref="infiniteLoading" v-if="!loading" @infinite="infiniteHandler" spinner="waveDots">
+    <infinite-loading :distance="420" ref="infiniteLoading" v-if="!loading" @infinite="infiniteHandler" spinner="waveDots">
       <span slot="no-more">End of the line kiddo</span>
     </infinite-loading>
   </v-flex>

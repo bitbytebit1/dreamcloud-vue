@@ -4,8 +4,8 @@
     <loading :show="loading" spinner="waveDots"></loading>
 
     <playlist v-if="!loading" :songs="searchResults"></playlist>  
-    <infinite-loading ref="infiniteLoading" v-if="!loading" @infinite="infiniteHandler" spinner="waveDots">    
-      <span slot="no-more">End of the line kiddo</span>
+    <infinite-loading :distance="420" ref="infiniteLoading" v-if="!loading" @infinite="infiniteHandler" spinner="waveDots">    
+      <span slot="no-more">^^`</span>
     </infinite-loading>
   </v-flex>
 </template>
@@ -56,7 +56,6 @@ export default {
   },
   methods: {
     infiniteHandler: function ($state) {
-      console.log()
       this.search(this._query, this._source, ++this.iPage).then(function () {
         $state.loaded()
       })
@@ -74,10 +73,7 @@ export default {
       return this.$DCAPI.searchInt(this._query, iPage, this._source, '', (d) => {
         this.loading = false
         if (!d.length) {                                              // If no results stop infinite loading
-          this.$refs.infiniteLoading.stateChanger.complete()
-          // ^ This line may cause problems in the future
-          // this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete');
-          // ^ Proper way, but causes warning?
+          this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete')
         }
         for (var i in d) {
           this.searchResults.push(d[i])
