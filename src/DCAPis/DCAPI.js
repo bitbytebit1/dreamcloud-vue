@@ -17,7 +17,8 @@ class DCAPIClass {
       this.SCnextPageToken = ''
       this.nextPageToken = ''
     }
-    let uid = this.aQuery.push({
+    var uid = performance.now()
+    this.aQuery[uid] = {
       aAjax: [],
       aResult: [],
       sToken: 0,
@@ -27,7 +28,7 @@ class DCAPIClass {
       sArtist: sArtist,
       bRelated: bRelated,
       iPage: iPage
-    }) - 1
+    }
     aSource = aSource[0].toLowerCase() === 'all' ? ['mixcloud', 'soundcloud', 'youtube', 'vimeo'] : aSource
     for (var idx in aSource) {
       this.aQuery[uid].aAjax.push(this.search(aSource[idx], uid))
