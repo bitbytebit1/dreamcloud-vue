@@ -15,10 +15,13 @@
 
 <script>
 import item from './current-playlist-item'
+import vueNiceScrollbar from 'vue-nice-scrollbar'
+
 export default {
   name: 'current-playlist',
   components: {
-    'current-playlist-item': item
+    'current-playlist-item': item,
+    'vueNiceScrollbar': vueNiceScrollbar
   },
   computed: {
     aPlaylist: function () {
