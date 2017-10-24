@@ -13,10 +13,10 @@ import userPlaylist from '@/components/routes/user/user-playlist'
 import userIndex from '@/components/routes/user/user-index'
 
 
-import user from '@/components/user-auth/user'
-import login from '@/components/user-auth/login'
-import signUp from '@/components/user-auth/sign-up'
-import password from '@/components/user-auth/password-reset'
+import user from '@/components/routes/account/user'
+import login from '@/components/routes/account/login'
+import signUp from '@/components/routes/account/sign-up'
+import password from '@/components/routes/account/password-reset'
 
 import {fb} from '../DCAPIs/DCFB.js'
 
