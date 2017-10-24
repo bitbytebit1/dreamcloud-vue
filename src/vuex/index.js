@@ -10,7 +10,7 @@ const store = new Vuex.Store({
     current_Index: -1,
     current_Hash: '',
     settings: {
-      'Dark Theme': true
+      'Dark Theme': false
     }
   },
   mutations: {
