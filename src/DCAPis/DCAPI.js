@@ -18,11 +18,12 @@ class DCAPIClass {
       this.nextPageToken = ''
     }
     let uid = this.aQuery.push({
-      aAjax: [], 
-      aResult: [], 
-      hCallback: hCallback, 
-      iLimit: iLimit, 
-      sQuery: sQuery, 
+      aAjax: [],
+      aResult: [],
+      sToken: 0,
+      hCallback: hCallback,
+      iLimit: iLimit,
+      sQuery: sQuery,
       sArtist: sArtist,
       bRelated: bRelated,
       iPage: iPage
@@ -84,57 +85,63 @@ class DCAPIClass {
 
   sc (uid) {
     var a
-    
+
     if (this.aQuery[uid].bRelated) {
       a = 'https://api.soundcloud.com/tracks/' + this.aQuery[uid].sArtist + '/related?linked_partitioning=1&limit=' + this.aQuery[uid].iLimit + 'client_id=' + this.sScKey
     } else if (this.aQuery[uid].sArtist) {
       a = 'https://api.soundcloud.com/users/' + this.aQuery[uid].sArtist + '/tracks.json?linked_partitioning=1&limit=' + this.aQuery[uid].iLimit + '&client_id=' + this.sScKey
     } else {
-      a = 'https://api.soundcloud.com/tracks.json?linked_partitioning=1&limit=' + this.aQuery[uid].iLimit + '&q=' + encodeURIComponent(this.aQuery[uid].sQuery)  + '&client_id=' + this.sScKey
+      a = 'https://api.soundcloud.com/tracks.json?linked_partitioning=1&limit=' + this.aQuery[uid].iLimit + '&q=' + encodeURIComponent(this.aQuery[uid].sQuery) + '&client_id=' + this.sScKey
     }
-    if(this.SCnextPageToken){
-      a = this.SCnextPageToken
-    } else if (!this.SCnextPageToken && this.aQuery[uid].iPage > 0) {
+    if (this.aQuery[uid].sToken) {
+      a = this.aQuery[uid].sToken
+    } else if (!this.aQuery[uid].sToken && this.aQuery[uid].iPage > 0) {
       return
     }
-    return axios.get(a).then((resp) => {
-      try {
+    return new Promise((resolve, reject) => {
+      axios.get(a).then((resp) => {
         var img, img2
-        if(resp.data.next_href){
-          this.SCnextPageToken = resp.data.next_href
-        } else {
-          this.SCnextPageToken = ''
-        }
-        if((resp.data.collection.length < this.aQuery[uid].iLimit || this.aQuery[uid].aResult < this.aQuery[uid].iLimit) && this.SCnextPageToken){
-          console.log('Soundcloud fucked up... Call again...')
-          // sc(uid)
-        }
+        if (resp.data.next_href) {
+            this.aQuery[uid].sToken= resp.data.next_href
+          } else {
+            this.aQuery[uid].sToken= 0
+          }
+
         resp = resp.data.collection
         for (var idx in resp) {
-          if (!resp[idx].artwork_url) {
-            resp[idx].artwork_url = resp[idx].user.avatar_url
+            if (!resp[idx].artwork_url) {
+              resp[idx].artwork_url = resp[idx].user.avatar_url
+            }
+            img = resp[idx].artwork_url.replace('i1', 'i2').replace('-large', '-t300x300')
+            img2 = resp[idx].artwork_url.replace('-large', '-t500x500')
+            this.pushResult(
+              uid,
+              resp[idx].user.username,                                       // artist:
+              resp[idx].user_id,                                             // artistID:
+              this.parseDate(resp[idx].created_at),                          // created:
+              resp[idx].description,                                         // description:
+              this.secondstominutes(Math.floor(resp[idx].duration / 1E3)),   // duration:
+              resp[idx].stream_url + '?client_id=' + this.sScKey,            // mp3:
+              resp[idx].permalink_url,                                       // mp32:
+              img,                                                           // poster:
+              img2,                                                          // posterLarge:
+              'SoundCloud',                                                  // source:
+              resp[idx].title,                                               // title:
+              resp[idx].id                                                   // trackID:
+            )
           }
-          img = resp[idx].artwork_url.replace('i1', 'i2').replace('-large', '-t300x300')
-          img2 = resp[idx].artwork_url.replace('-large', '-t500x500')
-          this.pushResult(
-            uid,
-            resp[idx].user.username,                                       // artist:
-            resp[idx].user_id,                                             // artistID:
-            this.parseDate(resp[idx].created_at),                          // created:
-            resp[idx].description,                                         // description:
-            this.secondstominutes(Math.floor(resp[idx].duration / 1E3)),   // duration:
-            resp[idx].stream_url + '?client_id=' + this.sScKey,            // mp3:
-            resp[idx].permalink_url,                                       // mp32:
-            img,                                                           // poster:
-            img2,                                                          // posterLarge:
-            'SoundCloud',                                                  // source:
-            resp[idx].title,                                               // title:
-            resp[idx].id                                                   // trackID:
-          )
-        }
-      } catch (e) {
-        return
-      }
+        if (this.aQuery[uid].aResult.length < this.aQuery[uid].iLimit) {
+            // console.log('sc error', this.aQuery[uid].aResult.length, 'was looking for', this.aQuery[uid].iLimit)
+            this.sc(uid).then(() => {
+              resolve()
+            })
+          } else {
+            // console.log('sc success', this.aQuery[uid].aResult.length, 'was looking for', this.aQuery[uid].iLimit)
+            resolve()
+          }
+      }).catch((err) => {
+        reject(err)
+      })
     })
   }
 
@@ -154,7 +161,7 @@ class DCAPIClass {
     } else {
       a = 'https://www.googleapis.com/youtube/v3/search?part=snippet&order=date&maxResults=' + this.aQuery[uid].iLimit + '&type=video&channelId=' + this.aQuery[uid].sArtist + '&key=' + this.sYtKey + this.YTnextPageTokenString
     }
-    
+
     return axios.get(a).then((resp) => {
       var z = ''
       try {
