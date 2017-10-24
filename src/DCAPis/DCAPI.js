@@ -146,13 +146,7 @@ class DCAPIClass {
   }
 
   yt (uid) {
-    if (this.aQuery[uid].iPage === 0) {
-      this.YTnextPageTokenString = ''
-    } else if (!this.nextPageToken) {
-      return this.error(uid)
-    } else {
-      this.YTnextPageTokenString = '&pageToken=' + this.nextPageToken
-    }
+    this.YTnextPageTokenString =  this.nextPageToken ? '&pageToken=' + this.nextPageToken : ''
     var a
     if (this.aQuery[uid].bRelated) {
       a = 'https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=' + this.aQuery[uid].iLimit + '&relatedToVideoId=' + this.aQuery[uid].sArtist + '&type=video&key=' + this.sYtKey
