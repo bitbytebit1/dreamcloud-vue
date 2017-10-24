@@ -25,7 +25,6 @@ const store = new Vuex.Store({
 
     changeSetting (state, payload) {
       state.settings[payload.setting] = payload.value
-      // state.dark = payload
     }
   },
   getters: {

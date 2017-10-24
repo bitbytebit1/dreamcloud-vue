@@ -105,8 +105,9 @@ class DCAPIClass {
         } else {
           this.SCnextPageToken = ''
         }
-        if(resp.data.collection.length < this.aQuery[uid].iLimit && this.SCnextPageToken){
+        if((resp.data.collection.length < this.aQuery[uid].iLimit || this.aQuery[uid].aResult < this.aQuery[uid].iLimit) && this.SCnextPageToken){
           console.log('Soundcloud fucked up... Call again...')
+          // sc(uid)
         }
         resp = resp.data.collection
         for (var idx in resp) {
@@ -153,6 +154,7 @@ class DCAPIClass {
     } else {
       a = 'https://www.googleapis.com/youtube/v3/search?part=snippet&order=date&maxResults=' + this.aQuery[uid].iLimit + '&type=video&channelId=' + this.aQuery[uid].sArtist + '&key=' + this.sYtKey + this.YTnextPageTokenString
     }
+    
     return axios.get(a).then((resp) => {
       var z = ''
       try {
@@ -191,6 +193,7 @@ class DCAPIClass {
     } else {
       a = 'https://api.vimeo.com/users/' + this.aQuery[uid].sArtist + '/videos?page=' + (this.aQuery[uid].iPage + 1) + '&per_page=12&sort=date&access_token=' + this.sVimeoKey
     }
+
     return axios.get(a).then((resp) => {
       resp = resp.data.data
       for (var idx in resp) {
