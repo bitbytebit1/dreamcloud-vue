@@ -36,7 +36,7 @@ export default {
   },
   created: function () {
     this.$DCAPI.searchInt(0, 0, [this.source], this.id, (songs) => {
-      this.aSongs = songs
+      this.aSongs = songs.slice(0, 4)
       this.loading = !1
     }, false, 4)
   }
