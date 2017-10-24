@@ -1,7 +1,24 @@
 <template>
   <v-flex xs12 lg10>
-    <!-- <subscriptions-all></subscriptions-all> -->
-    <subscription v-for="sub in subscriptions" :index="sub['id']" :key="sub['id']" :id="sub['id']" :name="sub['name']" :source="sub['source']" :img="sub['img']"></subscription>
+    <v-tabs dark fixed centered>
+      <v-tabs-bar >
+        <v-tabs-slider class="yellow"></v-tabs-slider>
+        <v-tabs-item :href="'#latest'">
+          Latest
+        </v-tabs-item>
+        <v-tabs-item :href="'#channels'">
+          Channels
+        </v-tabs-item>        
+      </v-tabs-bar>
+      <v-tabs-items>
+        <v-tabs-content id='latest'>
+          <subscriptions-all></subscriptions-all>          
+        </v-tabs-content>
+        <v-tabs-content id='channels'>
+          <subscription v-for="sub in subscriptions" :index="sub['id']" :key="sub['id']" :id="sub['id']" :name="sub['name']" :source="sub['source']" :img="sub['img']"></subscription>
+        </v-tabs-content>        
+      </v-tabs-items>
+    </v-tabs> 
   </v-flex>
 </template>
 <script>
