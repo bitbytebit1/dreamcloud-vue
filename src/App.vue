@@ -1,5 +1,5 @@
 <template>
-  <v-app id="inspire" v-bind="theme">
+  <v-app id="inspire" v-bind="$store.getters.theme">
     <v-navigation-drawer
       v-model="drawerLeft"
       clipped
