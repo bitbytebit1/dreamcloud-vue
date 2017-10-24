@@ -24,13 +24,18 @@ class DCFB1 {
 
   init (UID) {
     this.UID = UID
+    this.settings = db.ref('users/' + UID + '/Settings')
     this.playlists = db.ref('users/' + UID + '/PlaylistsData')
     this.playlistsRefs = db.ref('users/' + UID + '/PlaylistsNames')
     this.subscriptions = db.ref('users/' + UID + '/Subscriptions')
   }
 
-  setUpUserAccount (UID) {
-    db.ref('users').set(UID)
+  setting (name) {
+    return this.settings.child(name)
+  }
+
+  settingChange (name, value) {
+    this.settings.child(name).set(value)
   }
 
   subscriptionAdd (name, source, id, img) {

@@ -8,6 +8,7 @@
 </template>
 
 <script>
+import playlist from '@/components/playlist/playlist'
 export default {
   name: 'searchpage',
   props: ['source', 'artist', 'title', 'trackID'],
@@ -17,13 +18,12 @@ export default {
       searchResults: []
     }
   },
+  components: {
+    'playlist': playlist
+  },
   created: function () {
     this.search(this.trackID, this.source)
   },
-  // beforeRouteUpdate (to) {
-  //   // console.log(to)
-  //   this.search(to.params.query, to.params.source)
-  // },
   watch: {
     '$route.params.source': '_search',
     '$route.params.artist': '_search',

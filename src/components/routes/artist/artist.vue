@@ -1,35 +1,38 @@
 <template>
-  <v-flex xs12 xl12 flexbox>
+  <v-flex xs12 lg10 xl10 flexbox>
     
-    <div class="loading" v-if="loading">
-      <infinite-loading spinner="waveDots">
-      </infinite-loading>
-    </div>
-    
+    <loading :show="loading" spinner="waveDots"></loading>
+
     <artist-info v-if="!loading" :artistID="artistID" :source="source" :artist="artist"></artist-info>
 
-    <playlist v-if="!loading":songs="searchResults"></playlist>
+    <playlist v-if="!loading" :songs="searchResults"></playlist>
     
-    <infinite-loading ref="infiniteLoading" v-if="!loading" @infinite="infiniteHandler" spinner="waveDots">
+    <infinite-loading :distance="420" ref="infiniteLoading" v-if="!loading" @infinite="infiniteHandler" spinner="waveDots">
       <span slot="no-more">End of the line kiddo</span>
     </infinite-loading>
   </v-flex>
 </template>
 
 <script>
+import loading from '@/components/misc/loading'
 import InfiniteLoading from 'vue-infinite-loading'
 import artistInfo from './artist-info.vue'
+import playlist from '@/components/playlist/playlist'
+
 export default {
   name: 'artist',
   props: ['source', 'artist', 'artistID'],
   components: {
     'artist-info': artistInfo,
-    'infinite-loading': InfiniteLoading
+    'infinite-loading': InfiniteLoading,
+    'loading': loading,
+    'playlist': playlist
   },
   data () {
     return {
-      loading: false,
-      searchResults: []
+      loading: true,
+      searchResults: [],
+      iPage: 0
     }
   },
   created: function () {
@@ -41,7 +44,7 @@ export default {
   },
   methods: {
     infiniteHandler: function ($state) {
-      this.search(this.query, this.source, ++this.$DCAPI.iPage).then(function () {
+      this.search(this.query, this.source, ++this.iPage).then(function () {
         $state.loaded()
       })
     },

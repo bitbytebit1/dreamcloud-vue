@@ -1,18 +1,33 @@
 <template>
   <div>
-    <v-list-group v-for="item in items" :value="item.active" v-bind:key="item.title">
-      <v-list-tile slot="item" @click="item.active = !item.active">
+    <v-list-group :value="active">
+      <v-list-tile slot="item" @click="active = !active">
         <v-list-tile-action>
-          <v-icon>{{ item.action }}</v-icon>
+          <v-icon>people</v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
-          <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+          <v-list-tile-title>Subscriptions</v-list-tile-title>
         </v-list-tile-content>
         <v-list-tile-action>
           <v-icon>keyboard_arrow_down</v-icon>
         </v-list-tile-action>
       </v-list-tile>
-      <v-list-tile v-for="subItem in subscriptions" class="subscription" active-class="blue lighten-1" :to="{path: '/a/'  + subItem['source'] +  '/' + subItem['name'] +  '/' + subItem['id']}" v-bind:key="subItem['.key']">
+        
+      <v-divider></v-divider>
+      
+      <v-list-tile>
+        <v-list-tile-action>
+          <v-icon>toc</v-icon>
+        </v-list-tile-action>
+        
+        <v-list-tile-content>
+          <v-list-tile-title>Overview</v-list-tile-title>
+        </v-list-tile-content>
+      </v-list-tile>
+
+      <v-divider></v-divider>
+
+      <v-list-tile v-for="subItem in subscriptions" class="subscription" active-class="blue lighten-1" :to="{path: '/a/'  + subItem['source'] +  '/' + encodeURIComponent(subItem['name']) +  '/' + subItem['id']}" v-bind:key="subItem['.key']">
         <v-list-tile-action>
           <v-avatar size='32px' slot='activator'>
             <img :src="subItem['img']"/>
@@ -24,8 +39,6 @@
         <delete-user-subscription :subscriptionID="subItem['id']" class="delete"></delete-user-subscription>
       </v-list-tile>
     </v-list-group>
-    
-    
   </div>
 </template>
 
@@ -41,16 +54,7 @@ export default {
   data () {
     return {
       UID: DCFB.UID,
-      items: [
-        {
-          active: false,
-          action: 'people',
-          title: 'Subscriptions',
-          items: [
-            { title: 'List Item' }
-          ]
-        }
-      ]
+      active: true
     }
   },
   methods: {
@@ -60,7 +64,7 @@ export default {
   },
   firebase: function () {
     return {
-      subscriptions: DCFB.subscriptions
+      subscriptions: DCFB.subscriptions.orderByChild('name')
     }
   }
 }

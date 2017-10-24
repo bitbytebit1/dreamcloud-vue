@@ -1,5 +1,5 @@
 <template>
-  <v-flex xl12 flexbox>
+  <v-flex flexbox>
       <div class="well" v-if="viewType.full">
         <button class="btn btn-primary" @click='sort'>Sort Date</button>
         <button class="btn btn-primary" @click='toggleView'>Toggle Playlist View</button>

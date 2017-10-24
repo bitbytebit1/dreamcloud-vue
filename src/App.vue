@@ -1,5 +1,5 @@
 <template>
-  <v-app id="inspire" dark>
+  <v-app id="inspire" v-bind="$store.getters.theme">
     <v-navigation-drawer
       v-model="drawerLeft"
       clipped
@@ -49,6 +49,7 @@
 </template>
 
 <script>
+  import { DCFB } from '@/DCAPIs/DCFB.js'
   import search from './components/navbar/search'
   import dcAudio from './components/player/dc-audio'
   import currentPlaylist from './components/current-playlist/current-playlist'
@@ -68,6 +69,18 @@
         aSongs: [],
         aSong: []
       }
+    },
+    computed: {
+      theme: function () {
+        return this.$store.getters.theme
+      }
+    },
+    beforeCreate: function () {
+      DCFB.setting('Dark Theme').once('value', (snapshot) => {
+        if (snapshot.val() !== null) {
+          this.$store.commit('changeSetting', {'setting': 'Dark Theme', 'value': snapshot.val()})
+        }
+      })
     }
   }
 </script>

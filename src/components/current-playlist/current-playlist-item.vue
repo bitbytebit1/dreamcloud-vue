@@ -33,5 +33,11 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
+<style scoped>
+.card__media[lazy=loading] {
+  background: center center / cover no-repeat;
+}
+.card__media[lazy=loaded] {
+  background: center center / cover no-repeat;
+}
 </style>

@@ -3,7 +3,6 @@
         <v-btn
             color="blue"
             fab
-            dark
             small
             fixed
             bottom

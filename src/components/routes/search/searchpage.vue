@@ -1,17 +1,20 @@
 <template>
-  <div class="cont">
-    <div class="loading" v-if="loading">    
-      <infinite-loading spinner="waveDots"></infinite-loading>
-    </div>
+  <v-flex xs12 lg10 xl10 flexbox>
+
+    <loading :show="loading" spinner="waveDots"></loading>
+
     <playlist v-if="!loading" :songs="searchResults"></playlist>  
-    <infinite-loading ref="infiniteLoading" v-if="!loading" @infinite="infiniteHandler" spinner="waveDots">    
-      <span slot="no-more">End of the line kiddo</span>
+    <infinite-loading :distance="420" ref="infiniteLoading" v-if="!loading" @infinite="infiniteHandler" spinner="waveDots">    
+      <span slot="no-more">^^`</span>
     </infinite-loading>
-  </div>
+  </v-flex>
 </template>
 
 <script>
 import InfiniteLoading from 'vue-infinite-loading'
+import loading from '@/components/misc/loading'
+import playlist from '@/components/playlist/playlist'
+
 export default {
   name: 'searchpage',
   props: ['query', 'source'],
@@ -20,11 +23,14 @@ export default {
       _query: '',
       _source: '',
       loading: false,
-      searchResults: []
+      searchResults: [],
+      iPage: 0
     }
   },
   components: {
-    InfiniteLoading
+    'infinite-loading': InfiniteLoading,
+    'loading': loading,
+    'playlist': playlist
   },
   computed: {
     splitSource: function () {
@@ -50,8 +56,7 @@ export default {
   },
   methods: {
     infiniteHandler: function ($state) {
-      console.log()
-      this.search(this._query, this._source, ++this.$DCAPI.iPage).then(function () {
+      this.search(this._query, this._source, ++this.iPage).then(function () {
         $state.loaded()
       })
     },
@@ -68,10 +73,7 @@ export default {
       return this.$DCAPI.searchInt(this._query, iPage, this._source, '', (d) => {
         this.loading = false
         if (!d.length) {                                              // If no results stop infinite loading
-          this.$refs.infiniteLoading.stateChanger.complete()
-          // ^ This line may cause problems in the future
-          // this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete');
-          // ^ Proper way, but causes warning?
+          this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete')
         }
         for (var i in d) {
           this.searchResults.push(d[i])
@@ -85,7 +87,4 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-.cont{
-  width: 100%
-}
 </style>

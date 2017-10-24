@@ -1,37 +1,44 @@
 <template>
-  <v-flex xs12>
-    <v-flex xs10 offset-xs1>
+  <v-flex xs12 class="mt-3">
+    <v-flex xs12 lg12 >
       <v-layout row wrap>
-        <v-flex xs12 lg2  >
+        <v-flex xs12 lg1>
           <v-avatar size='45px' slot='activator'>
             <img :src='img'/>
           </v-avatar>
         </v-flex>
-        <v-flex  lg2>
-          <h5 class="text-xs-left p-10">{{ name }}</h5>
+        
+        <v-flex lg11>
+          <h5 class="text-xs-left mt-2">{{ name }}</h5>
         </v-flex>
+        
       </v-layout>
+      <loading :show="loading"></loading>
       <playlist :view-type="{full: false, list: false}" :songs="aSongs"></playlist>  
     </v-flex>
   </v-flex>
 </template>
 <script>
-/* eslint-disable */
-import {DCAPIClass} from '@/DCAPIs/DCAPI.js'
-// (sQuery, iPage, aSource, sArtist, hCallback, bRelated, iLimit = 48)
-// var dcapi = 
+import loading from '@/components/misc/loading'
+import playlist from '@/components/playlist/playlist'
 export default {
   props: ['id', 'name', 'source', 'img'],
   name: 'home',
+  components: {
+    'loading': loading,
+    'playlist': playlist
+  },
   data: function () {
     return {
       aSongs: [],
-      dcAPI: new DCAPIClass()
+      loading: true
     }
   },
   created: function () {
-    let wasd = this
-    this.dcAPI.searchInt(0, 0, [this.source], this.id, function(songs){wasd.aSongs = songs}, false, 4)
+    this.$DCAPI.searchInt(0, 0, [this.source], this.id, (songs) => {
+      this.aSongs = songs.slice(0, 4)
+      this.loading = !1
+    }, false, 4)
   }
 }
 </script>
