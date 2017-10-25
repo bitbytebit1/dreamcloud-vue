@@ -74,7 +74,7 @@ export default {
   },
   data () {
     return {
-      aSources: {All: false, MixCloud: false, SoundCloud: false, YouTube: true, Vimeo: false},
+      aSources: {All: true, MixCloud: false, SoundCloud: false, YouTube: false, Vimeo: false},
       sQuery: '',
       source: ''
     }
