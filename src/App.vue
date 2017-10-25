@@ -7,7 +7,7 @@
       enable-resize-watcher
       app
       disable-route-watcher>
-    <sidebar></sidebar>
+    <sidebar @close="closeLeft"></sidebar>
     </v-navigation-drawer>
 
     <v-toolbar app fixed clipped-left clipped-right>
@@ -28,7 +28,6 @@
       app
       disable-route-watcher
       right
-      
       ><current-playlist></current-playlist>
       </v-navigation-drawer>
     <main>
@@ -68,6 +67,13 @@
         drawerRight: true,
         aSongs: [],
         aSong: []
+      }
+    },
+    methods: {
+      closeLeft: function () {
+        if (this.$UTILS.isMobile) {
+          this.drawerLeft = false
+        }
       }
     },
     computed: {

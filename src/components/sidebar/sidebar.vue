@@ -31,9 +31,9 @@
     </v-list-tile>
 
 
-    <user-playlists v-if="loggedIn"></user-playlists>
+    <user-playlists @close="close" v-if="loggedIn"></user-playlists>
     
-    <user-subscriptions v-if="loggedIn"></user-subscriptions>
+    <user-subscriptions @close="close" v-if="loggedIn"></user-subscriptions>
 
   </v-list>
 </template>
@@ -50,6 +50,11 @@ export default {
   data () {
     return {
       loggedIn: false
+    }
+  },
+  methods: {
+    close: function () {
+      this.$emit('close', 'left')
     }
   },
   computed: {
