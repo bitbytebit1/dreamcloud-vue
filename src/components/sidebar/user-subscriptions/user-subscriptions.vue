@@ -15,7 +15,7 @@
         
       <v-divider></v-divider>
       
-      <v-list-tile>
+      <v-list-tile :to="{path: '/subs/overview'}">
         <v-list-tile-action>
           <v-icon>toc</v-icon>
         </v-list-tile-action>
