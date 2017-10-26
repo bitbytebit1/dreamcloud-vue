@@ -6,8 +6,9 @@
       persistent
       enable-resize-watcher
       app
-      disable-route-watcher>
-    <sidebar @close="closeLeft"></sidebar>
+      disable-route-watcher
+    >
+      <sidebar @closeLeft="closeLeft"></sidebar>
     </v-navigation-drawer>
 
     <v-toolbar app fixed clipped-left clipped-right>
@@ -20,7 +21,8 @@
       <v-spacer></v-spacer>
       <v-toolbar-side-icon @click.stop="drawerRight = !drawerRight"><v-icon large>playlist_play</v-icon></v-toolbar-side-icon>
     </v-toolbar>
-      <v-navigation-drawer
+
+    <v-navigation-drawer
       clipped
       persistent
       v-model="drawerRight"
@@ -28,8 +30,9 @@
       app
       disable-route-watcher
       right
-      ><current-playlist></current-playlist>
-      </v-navigation-drawer>
+    >
+      <current-playlist></current-playlist>
+    </v-navigation-drawer>
     <main>
       <v-content >
         <v-container fluid fill-height>
