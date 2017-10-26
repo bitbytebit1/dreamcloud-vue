@@ -12,7 +12,9 @@ import song from '@/components/routes/search/song'
 import userPlaylist from '@/components/routes/user/user-playlist'
 import userIndex from '@/components/routes/user/user-index'
 
-import sub from '@/components/routes/user/sub'
+import latest from '@/components/routes/user/latest'
+
+import channels from '@/components/routes/user/subs/channels'
 
 import user from '@/components/routes/account/user'
 import login from '@/components/routes/account/login'
@@ -73,10 +75,15 @@ let router = new Router({
       component: settings
     },
     {
-      path: '/subs/overview',
-      name: 'sub',
-      component: sub
-    },    
+      path: '/subs/latest',
+      name: 'latest',
+      component: latest
+    },
+    {
+      path: '/subs/channels',
+      name: 'channels',
+      component: channels
+    },
     {
       path: '/s/:source/:query',
       name: 'searchPage',

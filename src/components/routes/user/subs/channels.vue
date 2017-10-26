@@ -1,6 +1,6 @@
 <template>
   <v-flex xs12 lg10>
-    <loading :show="loading" spinner="waveDots"></loading>
+    <!-- <loading :show="loading" spinner="waveDots"></loading> -->
 
     <subscription v-for="sub in subscriptions" :index="sub['id']" :key="sub['id']" :id="sub['id']" :name="sub['name']" :source="sub['source']" :img="sub['img']"></subscription>
   </v-flex>
@@ -20,7 +20,7 @@ export default {
   },
   data () {
     return {
-      loading: false
+      loading: true
     }
   },
   firebase: function () {

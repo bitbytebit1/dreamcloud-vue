@@ -147,7 +147,12 @@ class DCAPIClass {
   }
 
   yt (uid) {
+
     this.YTnextPageTokenString =  this.nextPageToken ? '&pageToken=' + this.nextPageToken : ''
+    if (!this.nextPageToken && this.aQuery[uid].iPage > 1) {
+      console.log('Skipping')
+      return
+    }
     var a
     if (this.aQuery[uid].bRelated) {
       a = 'https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=' + this.aQuery[uid].iLimit + '&relatedToVideoId=' + this.aQuery[uid].sArtist + '&type=video&key=' + this.sYtKey

@@ -15,13 +15,23 @@
         
       <v-divider></v-divider>
       
-      <v-list-tile :to="{path: '/subs/overview'}">
+      <v-list-tile :to="{path: '/subs/latest'}">
         <v-list-tile-action>
           <v-icon>toc</v-icon>
         </v-list-tile-action>
         
         <v-list-tile-content>
-          <v-list-tile-title>Overview</v-list-tile-title>
+          <v-list-tile-title>Latest</v-list-tile-title>
+        </v-list-tile-content>
+      </v-list-tile>
+
+      <v-list-tile :to="{path: '/subs/channels'}">
+        <v-list-tile-action>
+          <v-icon>toc</v-icon>
+        </v-list-tile-action>
+        
+        <v-list-tile-content>
+          <v-list-tile-title>Channels</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
       <v-divider></v-divider>
