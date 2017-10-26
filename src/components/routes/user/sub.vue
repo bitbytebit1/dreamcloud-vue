@@ -11,11 +11,11 @@
         </v-tabs-item>        
       </v-tabs-bar>
       <v-tabs-items>
-        <v-tabs-content  id='latest'>
+        <v-tabs-content id='latest' v-if="active == 'latest'">
           <subscriptions-all></subscriptions-all>           
         </v-tabs-content>
-        <v-tabs-content id='channels' v-if="active == 'channels'">                    
-          <!-- <subscription v-for="sub in subscriptions" :index="sub['id']" :key="sub['id']" :id="sub['id']" :name="sub['name']" :source="sub['source']" :img="sub['img']"></subscription> -->
+        <v-tabs-content id='channels' v-if="active == 'channels'">
+          <subscription v-for='sub in subscriptions' :index='sub['id']' :key='sub['id']' :id='sub['id']' :name='sub['name']' :source='sub['source']' :img='sub['img']'></subscription>
         </v-tabs-content>        
       </v-tabs-items>
     </v-tabs> 
@@ -23,9 +23,9 @@
 </template>
 <script>
 /* eslint-disable */
-import { DCFB } from '@/DCAPIs/DCFB.js'
-import subscription from '@/components/routes/home/sub'
-import subscriptionAll from '@/components/routes/home/sub2'
+import { DCFB } from '@/DCAPIs/DCFB.js';
+import subscription from '@/components/routes/home/sub';
+import subscriptionAll from '@/components/routes/home/sub2';
 export default {
   name: 'home',
   components: {
@@ -51,7 +51,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
-</style>
