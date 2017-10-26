@@ -51,7 +51,7 @@ export default {
   },
   methods: {
     closeLeftOnMobile: function () {
-      this.$emit('close', 'left')
+      this.$emit('closeLeft')
     }
   },
   firebase: function () {

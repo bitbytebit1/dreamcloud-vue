@@ -24,7 +24,6 @@
           <v-list-tile-title>Overview</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
-
       <v-divider></v-divider>
 
       <v-list-tile v-for="subItem in subscriptions" @click="closeLeftOnMobile" class="subscription" active-class="blue lighten-1" :to="{path: '/a/'  + subItem['source'] +  '/' + encodeURIComponent(subItem['name']) +  '/' + subItem['id']}" v-bind:key="subItem['.key']">
@@ -59,13 +58,7 @@ export default {
   },
   methods: {
     closeLeftOnMobile: function () {
-      // if (this.$UTILS.isMobile) {
-      this.$emit('close', 'left')
-      console.log('FINAL TEST')
-      // }
-    },
-    playlistDelete: function () {
-      console.log(123)
+      this.$emit('closeLeft')
     }
   },
   firebase: function () {
