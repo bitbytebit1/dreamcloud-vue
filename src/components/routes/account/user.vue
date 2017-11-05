@@ -16,6 +16,13 @@
       <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
       <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
     </ul>
+    <h2>Over View</h2>
+    <v-flex xl12>
+      <loading :show="loading" spinner="spinner"></loading>
+      Currently using {{usage}} of {{quota}}
+      <!-- <v-btn v-on:click="clear">Clear Storage</v-btn> -->
+    </v-flex>
+
     <v-btn v-on:click="logout">Logout</v-btn>
   </v-flex>
 </template>
@@ -23,19 +30,42 @@
 <script>
   /* eslint-disable */
 import { fb } from '@/DCAPIs/DCFB.js'
+import loading from '@/components/misc/loading.vue'
 
 export default {
   name: 'user',
+  components:{
+    'loading': loading
+  },
   // mixins: [DCFB],
   data () {
     return {
-      msg: 'Welcome to the Matrix Neo!'
+      msg: 'Welcome to the Matrix Neo!',
+      loading: true,
+      usage: 0,
+      quota: 0
     }
+  },
+  created: function () {
+    navigator.storage.estimate().then((a) => {
+      this.usage = this.$UTILS.formatBytes(a.usage)
+      this.quota = this.$UTILS.formatBytes(a.quota)
+      this.loading = false
+    })
+    
   },
   methods: {
     logout: function () {
       fb.auth().signOut().then(() => {
         this.$router.replace('login')
+      })
+    },
+    clear: function () {
+      caches.keys().then(function(names) {
+        console.log(names)
+          for (let name of names)
+              caches.delete(name)
+        console.log('cleared')
       })
     }
   }
