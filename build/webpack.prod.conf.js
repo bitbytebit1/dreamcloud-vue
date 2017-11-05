@@ -107,10 +107,33 @@ var webpackConfig = merge(baseWebpackConfig, {
       staticFileGlobs: ['dist/**/*.{js,html,css}'],
       minify: true,
       stripPrefix: 'dist/',
-      runtimeCaching: [{
-        urlPattern: new RegExp('saveitoffline'),
-        handler: 'cacheFirst'
-      }]
+      runtimeCaching: [
+      // Match MP3 links, store as cache first for 2 weeks
+      {
+        urlPattern: new RegExp('saveitoffline|sndcdn\.com|api\.soundcloud\.com\/tracks\/.+\/stream'),
+        handler: 'cacheFirst',
+        options: {
+          cache: {
+            maxEntries: 1000,
+            maxAgeSeconds: 1.21e+6,
+            name: 'mp3-cache',
+            debug: true
+          }
+        }
+      },
+      // Match search API links, store as cache first for 12 hours
+      { 
+        urlPattern: new RegExp('youtube\/v3\/search|api.mixcloud|api\.soundcloud\.com\/users|api\.soundcloud\.com\/tracks\\?'),
+        handler: 'cahceFirst',
+        options: {
+          cache: {
+            maxEntries: 100, // 
+            maxAgeSeconds: 43200,
+            name: 'search-cache',
+            debug: true
+          }
+        }
+      }    ]
     })
   ]
 })
