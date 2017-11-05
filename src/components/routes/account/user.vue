@@ -47,18 +47,33 @@ export default {
     }
   },
   created: function () {
-    if ('storage' in navigator && 'estimate' in navigator.storage) {
-      navigator.storage.estimate().then((a) => {
+      this.get_storage().then((a) => {
         this.loading = false
         this.usage = this.$UTILS.formatBytes(a.usage)
         this.quota = this.$UTILS.formatBytes(a.quota)
       })
-    } else {
-      this.usage = 'X'
-      this.quota = 'X'
-    }
   },
   methods: {
+    get_storage: function () {
+      if ('storage' in navigator && 'estimate' in navigator.storage) {
+        // We've got the real thing! Return its response.
+        return navigator.storage.estimate();
+      }
+
+      if ('webkitTemporaryStorage' in navigator &&
+          'queryUsageAndQuota' in navigator.webkitTemporaryStorage) {
+        // Return a promise-based wrapper that will follow the expected interface.
+        return new Promise(function(resolve, reject) {
+          navigator.webkitTemporaryStorage.queryUsageAndQuota(
+            function(usage, quota) {resolve({usage: usage, quota: quota})},
+            reject
+          );
+        });
+      }
+
+      // If we can't estimate the values, return a Promise that resolves with NaN.
+      return Promise.resolve({usage: NaN, quota: NaN});
+    },
     logout: function () {
       fb.auth().signOut().then(() => {
         this.$router.replace('login')
