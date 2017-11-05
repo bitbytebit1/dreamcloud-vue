@@ -124,16 +124,17 @@ var webpackConfig = merge(baseWebpackConfig, {
       // Match search API links, store as cache first for 12 hours
       { 
         urlPattern: new RegExp('youtube\/v3\/search|api.mixcloud|api\.soundcloud\.com\/users|api\.soundcloud\.com\/tracks\\?'),
-        handler: 'cahceFirst',
+        handler: 'cacheFirst',
         options: {
           cache: {
             maxEntries: 100, // 
-            maxAgeSeconds: 43200,
+            maxAgeSeconds: 43201,
             name: 'search-cache',
             debug: true
           }
         }
-      }    ]
+      }    
+    ]
     })
   ]
 })
