@@ -47,12 +47,16 @@ export default {
     }
   },
   created: function () {
-    navigator.storage.estimate().then((a) => {
-      this.usage = this.$UTILS.formatBytes(a.usage)
-      this.quota = this.$UTILS.formatBytes(a.quota)
-      this.loading = false
-    })
-    
+    if ('storage' in navigator && 'estimate' in navigator.storage) {
+      navigator.storage.estimate().then((a) => {
+        this.loading = false
+        this.usage = this.$UTILS.formatBytes(a.usage)
+        this.quota = this.$UTILS.formatBytes(a.quota)
+      })
+    } else {
+      this.usage = 'X'
+      this.quota = 'X'
+    }
   },
   methods: {
     logout: function () {
