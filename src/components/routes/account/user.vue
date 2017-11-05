@@ -16,10 +16,10 @@
       <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
       <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
     </ul>
-    <h2>Over View</h2>
+    <h2>Overview</h2>
     <v-flex xl12>
       <loading :show="loading" spinner="spinner"></loading>
-      Currently using {{usage}} of {{quota}}
+      Currently using {{usage}} of {{quota}} ({{percentage}}) %
       <!-- <v-btn v-on:click="clear">Clear Storage</v-btn> -->
     </v-flex>
 
@@ -43,14 +43,16 @@ export default {
       msg: 'Welcome to the Matrix Neo!',
       loading: true,
       usage: 0,
-      quota: 0
+      quota: 0,
+      percentage: 0
     }
   },
   created: function () {
-      this.get_storage().then((a) => {
+      this.get_storage().then((estimate) => {
         this.loading = false
-        this.usage = this.$UTILS.formatBytes(a.usage)
-        this.quota = this.$UTILS.formatBytes(a.quota)
+        this.usage = this.$UTILS.formatBytes(estimate.usage)
+        this.quota = this.$UTILS.formatBytes(estimate.quota)
+        this.percentage =  (estimate.usage / estimate.quota).toFixed(2);
       })
   },
   methods: {
