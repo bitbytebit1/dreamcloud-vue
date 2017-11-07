@@ -20,7 +20,7 @@
     <v-flex xl12>
       <loading :show="loading" spinner="spinner"></loading>
       Currently using {{usage}} of {{quota}} ({{percentage}}) %
-      <!-- <v-btn v-on:click="clear">Clear Storage</v-btn> -->
+      <v-btn v-on:click="clear">Clear Cache</v-btn>
     </v-flex>
 
     <v-btn v-on:click="logout">Logout</v-btn>
@@ -40,7 +40,6 @@ export default {
   // mixins: [DCFB],
   data () {
     return {
-      msg: 'Welcome to the Matrix Neo!',
       loading: true,
       usage: 0,
       quota: 0,
@@ -48,15 +47,18 @@ export default {
     }
   },
   created: function () {
-      this.get_storage().then((estimate) => {
+    this.get_storage_estimate()
+  },
+  methods: {
+    get_storage_estimate: function () {
+      this.get_storage_estimate_wrap().then((estimate) => {
         this.loading = false
         this.usage = this.$UTILS.formatBytes(estimate.usage)
         this.quota = this.$UTILS.formatBytes(estimate.quota)
         this.percentage =  (estimate.usage / estimate.quota).toFixed(2);
       })
-  },
-  methods: {
-    get_storage: function () {
+    },
+    get_storage_estimate_wrap: function () {
       if ('storage' in navigator && 'estimate' in navigator.storage) {
         // We've got the real thing! Return its response.
         return navigator.storage.estimate();
@@ -82,11 +84,11 @@ export default {
       })
     },
     clear: function () {
-      caches.keys().then(function(names) {
-        console.log(names)
-          for (let name of names)
-              caches.delete(name)
-        console.log('cleared')
+      caches.keys().then((names) => {
+        for (let name of names){
+          caches.delete(name)
+        }
+        this.get_storage_estimate()
       })
     }
   }
