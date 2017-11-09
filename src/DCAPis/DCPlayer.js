@@ -73,9 +73,10 @@ const DCPlayerPlug = {
             for (var i = 0; i < resp.data.urls.length; i++) {
               if (resp.data.urls[i].label.indexOf('audio') > -1 || resp.data.urls[i].label.indexOf('m4a') > -1) {
                 hCallback(resp.data.urls[i].id)
-                break
+                return
               }
             }
+            hCallback(resp.data.urls[resp.data.urls.length - 1].id)
           } else {
             hCallback('//dream.tribe.nu/r3/off?q=' + url)
           }
