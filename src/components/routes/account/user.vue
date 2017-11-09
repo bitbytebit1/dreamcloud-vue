@@ -19,7 +19,7 @@
     <h2>Overview</h2>
     <v-flex xl12>
       <loading :show="loading" spinner="spinner"></loading>
-      Currently using {{usage}} of {{quota}} ({{percentage}}) %
+      Currently using {{usage}} of {{quota}} ({{percentage}} %)
       <v-btn v-on:click="clear">Clear Cache</v-btn>
     </v-flex>
 

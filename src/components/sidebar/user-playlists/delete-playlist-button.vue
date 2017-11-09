@@ -1,5 +1,10 @@
 <template>
-    <v-tooltip color="red darken-1" :content-class="toolTipClass" v-model="show" top>
+    <v-tooltip 
+      color="red darken-1" 
+      :content-class="toolTipClass" 
+      v-model="show" 
+      top
+    >
       <v-btn icon slot="activator" @click.prevent="playlistDelete">
         <v-icon color="grey lighten-1">delete</v-icon>
       </v-btn>
@@ -23,7 +28,7 @@ export default {
   },
   computed: {
     toolTipClass: function () {
-      return this.clicks > 0 ? '' : 'hidden'
+      return this.clicks === 1 ? '' : 'hidden'
     }
   },
   methods: {

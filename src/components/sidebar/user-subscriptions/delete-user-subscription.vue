@@ -24,7 +24,7 @@ export default {
   },
   computed: {
     toolTipClass: function () {
-      return this.clicks > 0 ? '' : 'hidden'
+      return this.clicks === 1 ? '' : 'hidden'
     },
   },
   methods: {
