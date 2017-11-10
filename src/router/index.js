@@ -26,13 +26,6 @@ import {fb} from '../DCAPIs/DCFB.js'
 Vue.use(Router)
 
 let router = new Router({
-  scrollBehavior (to, from, savedPosition) {
-    if (savedPosition) {
-      return savedPosition
-    } else {
-      return { x: 0, y: 0 }
-    }
-  },
   routes: [
     {
       path: '/password-reset',
