@@ -12,7 +12,7 @@ class DCAPIClass {
     this.aQuery = []
   }
 
-  searchInt (sQuery, iPage, aSource, sArtist, hCallback, bRelated, iLimit = 30) {
+  searchInt (sQuery, iPage, aSource, sArtist, hCallback, bRelated, iLimit = 50) {
     if (!iPage) {
       this.SCnextPageToken = ''
       this.nextPageToken = ''
@@ -136,15 +136,16 @@ class DCAPIClass {
               resp[idx].id                                                   // trackID:
             )
           }
-        if (this.aQuery[uid].aResult.length < this.aQuery[uid].iLimit) {
-            // console.log('sc error', this.aQuery[uid].aResult.length, 'was looking for', this.aQuery[uid].iLimit)
+        if (this.aQuery[uid].aResult.length < this.aQuery[uid].iLimit && this.SCnextPageToken) {
+            console.log('sc error', this.aQuery[uid].aResult.length, 'was looking for', this.aQuery[uid].iLimit)
             this.sc(uid).then(() => {
+              this.aQuery[uid].aResult = this.uniqueArray(this.aQuery[uid].aResult)
               resolve()
             })
 
           } else {
             this.aQuery[uid].aResult = this.uniqueArray(this.aQuery[uid].aResult)
-            // console.log('sc success', this.aQuery[uid].aResult.length, 'was looking for', this.aQuery[uid].iLimit)
+            console.log('sc success', this.aQuery[uid].aResult.length, 'was looking for', this.aQuery[uid].iLimit)
             resolve()
           }
       }).catch((err) => {
@@ -380,9 +381,8 @@ class DCAPIClass {
   }
 }
 
-var DCAPIPlug = {
+export default {
   install (Vue, options) {
     Object.defineProperty(Vue.prototype, '$DCAPI', { value: new DCAPIClass() })
   }
 }
-export default DCAPIPlug

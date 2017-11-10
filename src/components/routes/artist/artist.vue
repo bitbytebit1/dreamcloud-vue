@@ -60,7 +60,7 @@ export default {
         if (!d.length) {                                    // If no results stop infinite loading
           this.$refs.infiniteLoading.stateChanger.complete()
           // ^ This line may cause problems in the future
-          // this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete');
+          // this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete')
           // ^ Proper way, but causes warning?
         }
         for (var i in d) {

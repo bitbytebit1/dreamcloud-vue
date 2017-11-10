@@ -1,7 +1,7 @@
 <template>
   <v-flex xs12 lg10 flexbox :key="this.$route.params.playlist">
     <h3>{{name}}</h3>
-    <playlist :songs="aSongs1"></playlist>
+    <playlist :songs="aSongs"></playlist>
   </v-flex>
 </template>
 <script>
@@ -15,23 +15,22 @@ export default {
     'playlist': playlist
   },
   watch: {
-    '$route.params.user': 'bind',
-    '$route.params.playlist': 'bind'
+    '$route.params': 'bind'
   },
   created: function () {
     this.bind(this.user, this.playlist)
   },
   data () {
     return {
-      aSongs1: []
+      aSongs: []
     }
   },
   methods: {
     bind: function (usr, plylist) {
-      this.$bindAsArray('aSongs1', DCFB.playlistGet(this.$route.params.user, this.$route.params.playlist))
+      this.$bindAsArray('aSongs', DCFB.playlistGet(this.$route.params.user, this.$route.params.playlist))
     },
     _routChanged: function () {
-      this.$unbind('aSongs1')
+      this.$unbind('aSongs')
       this.bind(this.$route.params.user, this.$route.params.playlist)
     }
   }

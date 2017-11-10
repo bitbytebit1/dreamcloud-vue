@@ -1,4 +1,4 @@
-const UtilsPlug = {
+export default {
   install (Vue, options) {
     var Utils = {
       isMobile: window.matchMedia('only screen and (max-width: 760px)').matches,
@@ -36,4 +36,3 @@ const UtilsPlug = {
     })
   }
 }
-export default UtilsPlug

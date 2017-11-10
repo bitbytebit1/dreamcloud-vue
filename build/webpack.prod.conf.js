@@ -109,32 +109,32 @@ var webpackConfig = merge(baseWebpackConfig, {
       stripPrefix: 'dist/',
       runtimeCaching: [
       // Match MP3 links, store as cache first for 2 weeks
-      {
-        urlPattern: new RegExp('saveitoffline|sndcdn\.com|api\.soundcloud\.com\/tracks\/.+\/stream'),
-        handler: 'cacheFirst',
-        options: {
-          cache: {
-            maxEntries: 1000,
-            maxAgeSeconds: 1.21e+6,
-            name: 'mp3-cache',
-            debug: true
+        {
+          urlPattern: new RegExp(/saveitoffline|sndcdn\.com|api\.soundcloud\.com\/tracks\/.+\/stream/),
+          handler: 'cacheFirst',
+          options: {
+            cache: {
+              maxEntries: 1000,
+              maxAgeSeconds: 1.21e+6,
+              name: 'mp3-cache',
+              debug: true
+            }
           }
-        }
-      },
+        },
       // Match search API links, store as cache first for 12 hours
-      { 
-        urlPattern: new RegExp('youtube\/v3\/search|api.mixcloud|api\.soundcloud\.com\/users|api\.soundcloud\.com\/tracks\\?'),
-        handler: 'cacheFirst',
-        options: {
-          cache: {
-            maxEntries: 100, // 
-            maxAgeSeconds: 43201,
-            name: 'search-cache',
-            debug: true
+        {
+          urlPattern: new RegExp(/youtube\/v3\/search|api.mixcloud|api\.soundcloud\.com\/users|api\.soundcloud\.com\/tracks\\?/),
+          handler: 'cacheFirst',
+          options: {
+            cache: {
+              maxEntries: 100,
+              maxAgeSeconds: 43201,
+              name: 'search-cache',
+              debug: true
+            }
           }
         }
-      }    
-    ]
+      ]
     })
   ]
 })

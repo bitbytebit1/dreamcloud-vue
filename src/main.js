@@ -7,7 +7,7 @@ import App from './App'
 import router from './router'
 import DCAPIPlug from '@/DCAPIs/DCAPI.js'
 import DCPlayerPlug from '@/DCAPIs/DCPlayer.js'
-import DCUserPlug from '@/DCAPIs/DCUser.js'
+// import DCUserPlug from '@/DCAPIs/DCUser.js'
 import UtilsPlug from '@/DCAPIs/Utils.js'
 import VueLazyload from 'vue-lazyload'
 import store from './vuex'
@@ -22,7 +22,7 @@ Vue.use(VueLazyload, {
   attempt: 1
 })
 Vue.use(UtilsPlug)
-Vue.use(DCUserPlug)
+// Vue.use(DCUserPlug)
 Vue.use(DCAPIPlug)
 Vue.use(DCPlayerPlug)
 
@@ -32,7 +32,7 @@ Vue.config.productionTip = false
 import VueFire from 'vuefire'
 Vue.use(VueFire)
 
-import {fb, DCFB} from '@/DCAPIs/DCFB.js'
+import { fb, DCFB } from '@/DCAPIs/DCFB.js'
 
 let app
 
