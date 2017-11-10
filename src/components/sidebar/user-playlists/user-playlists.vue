@@ -19,7 +19,9 @@
         <v-list-tile-content>
           <v-list-tile-title>{{ subItem['.value'] }}</v-list-tile-title>
         </v-list-tile-content>
-        <delete-playlist-button :playlistId="subItem['.key']" class="delete"></delete-playlist-button>
+        <span class="delete">
+          <delete-button @delete="playlistDelete" :id="subItem['.key']"></delete-button>
+        </span>
       </v-list-tile>
     </v-list-group>
   </div>
@@ -28,11 +30,11 @@
 
 /* eslint-disable */
 import { DCFB } from '@/DCAPIs/DCFB.js'
-import playlistDeleteButton from '@/components/sidebar/user-playlists/delete-playlist-button'
+import deleteButton from '@/components/misc/delete-button'
 export default {
   name: 'user-playlists',
   components: {
-    'delete-playlist-button': playlistDeleteButton
+    'delete-button': deleteButton
   },
   data () {
     return {
@@ -52,6 +54,9 @@ export default {
   methods: {
     closeLeftOnMobile: function () {
       this.$emit('closeLeft')
+    },
+    playlistDelete: function (playlistID) {
+      DCFB.playlistDelete(playlistID) 
     }
   },
   firebase: function () {
@@ -64,10 +69,10 @@ export default {
 
 <style>
 .delete {
-  display: none;
+  display: none!important
 }
 
-.playlist:hover .delete {
-  display: inherit;
+.router-link-exact-active .delete, .playlist:hover .delete {
+  display: inherit!important
 }
 </style>

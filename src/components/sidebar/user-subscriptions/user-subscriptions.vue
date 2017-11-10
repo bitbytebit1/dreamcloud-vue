@@ -45,7 +45,7 @@
         <v-list-tile-content>
           <v-list-tile-title>{{ subItem['name'] }}</v-list-tile-title>
         </v-list-tile-content>
-        <delete-user-subscription :subscriptionID="subItem['id']" class="delete"></delete-user-subscription>
+        <delete-button @delete="subscriptionDelete" :id="subItem['id']" class="delete"></delete-button>
       </v-list-tile>
     </v-list-group>
   </div>
@@ -54,11 +54,11 @@
 <script>
 
 import { DCFB } from '@/DCAPIs/DCFB.js'
-import deleteUserSubscription from '@/components/sidebar/user-subscriptions/delete-user-subscription'
+import deleteButton from '@/components/misc/delete-button'
 export default {
   name: 'user-playlists',
   components: {
-    'delete-user-subscription': deleteUserSubscription
+    'delete-button': deleteButton
   },
   data () {
     return {
@@ -67,6 +67,9 @@ export default {
     }
   },
   methods: {
+    subscriptionDelete: function (subID) {
+      DCFB.subscriptionDelete(subID)
+    },
     closeLeftOnMobile: function () {
       this.$emit('closeLeft')
     }
@@ -81,10 +84,9 @@ export default {
 
 <style>
 .delete {
-  display: none;
+  display: none!important
 }
-
-.subscription:hover .delete {
-  display: inherit;
+.router-link-exact-active .delete, .subscription:hover .delete {
+  display: inherit!important
 }
 </style>
