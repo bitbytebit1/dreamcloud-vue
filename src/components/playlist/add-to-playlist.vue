@@ -34,9 +34,11 @@ export default {
   methods: {
     createNewPlaylist: function () {
      DCFB.createNewPlaylist(this.playlistName, this.song)
+     this.menuOpen = false
     },
     addToPlaylist: function (playlist) {
       DCFB.playlistSongAdd(playlist['.key'], this.song)
+      this.menuOpen = false
     }
   },
   firebase: function () {
