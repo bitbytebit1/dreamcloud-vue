@@ -5,7 +5,7 @@
       v-model="show" 
       top
     >
-      <v-btn icon slot="activator" @click.prevent="playlistDelete">
+      <v-btn icon slot="activator" @click.stop="playlistDelete">
         <v-icon color="grey lighten-1">delete</v-icon>
       </v-btn>
       <span>Click again to delete</span>

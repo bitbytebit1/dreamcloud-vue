@@ -1,6 +1,6 @@
 <template>
     <v-tooltip color="red darken-1" :content-class="toolTipClass" v-model="show" top>
-      <v-btn icon slot="activator" @click.prevent="subscriptionDelete">
+      <v-btn icon slot="activator" @click.stop="subscriptionDelete">
         <v-icon color="grey lighten-1">delete</v-icon>
       </v-btn>
       <span>Click again to delete</span>
