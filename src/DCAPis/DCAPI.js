@@ -16,6 +16,7 @@ class DCAPIClass {
     if (!iPage) {
       this.SCnextPageToken = ''
       this.nextPageToken = ''
+      this.YTnextPageTokenString = ''
     }
     var uid = performance.now()
     this.aQuery[uid] = {
@@ -94,18 +95,22 @@ class DCAPIClass {
     } else {
       a = 'https://api.soundcloud.com/tracks.json?linked_partitioning=1&limit=' + this.aQuery[uid].iLimit + '&q=' + encodeURIComponent(this.aQuery[uid].sQuery) + '&client_id=' + this.sScKey
     }
-    if (this.aQuery[uid].sToken) {
-      a = this.aQuery[uid].sToken
-    } else if (!this.aQuery[uid].sToken && this.aQuery[uid].iPage > 0) {
+    if (this.SCnextPageToken) {
+      a = this.SCnextPageToken
+      // console.log('using sc token', this.SCnextPageToken)
+    } else if (!this.SCnextPageToken && this.aQuery[uid].iPage > 0) {
+      // console.log('sc no token, DIE', this.SCnextPageToken)
       return
     }
     return new Promise((resolve, reject) => {
       axios.get(a).then((resp) => {
         var img, img2
         if (resp.data.next_href) {
-            this.aQuery[uid].sToken= resp.data.next_href
+          // console.log('next token', resp.data.next_href)
+            this.SCnextPageToken = resp.data.next_href
+            this.SCnextPageToken = resp.data.next_href
           } else {
-            this.aQuery[uid].sToken= 0
+            this.SCnextPageToken = 0
           }
 
         resp = resp.data.collection
@@ -136,7 +141,9 @@ class DCAPIClass {
             this.sc(uid).then(() => {
               resolve()
             })
+
           } else {
+            this.aQuery[uid].aResult = this.uniqueArray(this.aQuery[uid].aResult)
             // console.log('sc success', this.aQuery[uid].aResult.length, 'was looking for', this.aQuery[uid].iLimit)
             resolve()
           }
@@ -147,11 +154,9 @@ class DCAPIClass {
   }
 
   yt (uid) {
-
     this.YTnextPageTokenString =  this.nextPageToken ? '&pageToken=' + this.nextPageToken : ''
-    if (!this.nextPageToken && this.aQuery[uid].iPage > 1) {
-      console.log('Skipping')
-      return
+    if (!this.YTnextPageTokenString && this.aQuery[uid].iPage > 1) {
+      return 
     }
     var a
     if (this.aQuery[uid].bRelated) {
@@ -352,6 +357,18 @@ class DCAPIClass {
 
   str_pad_left (string, pad, length) {
     return ((new Array(length + 1)).join(pad) + string).slice(-length)
+  }
+
+  uniqueArray (darray) {
+    var a = darray.concat()
+    for (var i = 0; i < a.length; i++) {
+      for (var j = i + 1; j < a.length; j++) {
+        if (a[i].mp32 === a[j].mp32) {
+          a.splice(j--, 1)
+        }
+      }
+    }
+    return a
   }
 
   secondstominutes (time) {
