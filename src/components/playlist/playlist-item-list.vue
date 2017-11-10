@@ -83,7 +83,7 @@ export default {
     },
     play: function (index) {
       this.$store.commit('setNPlay', {songs: this.aSongsFilter, current: index, path: this.$route.path})
-      this.$DCPlayer.setNPlay(this.songs, index)
+      this.$DCPlayer.setNPlay(this.aSongsFilter, index)
     },
     Share: function () {
       if (this.$UTILS.isMobile) {
