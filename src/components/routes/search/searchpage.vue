@@ -51,8 +51,7 @@ export default {
   //   this.search(to.params.query, to.params.source)
   // },
   watch: {
-    '$route.params.query': '_search',
-    '$route.params.source': '_search'
+    '$route.params': '_search'
   },
   methods: {
     infiniteHandler: function ($state) {

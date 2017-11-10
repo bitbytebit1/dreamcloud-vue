@@ -39,8 +39,7 @@ export default {
     this.search(this.artistID, this.source)
   },
   watch: {
-    '$route.params.artistID': '_search',
-    '$route.params.source': '_search'
+    '$route.params': '_search'
   },
   methods: {
     infiniteHandler: function ($state) {
