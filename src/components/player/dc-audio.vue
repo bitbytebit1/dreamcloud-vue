@@ -20,9 +20,8 @@
       </div>
       <div id="right" class="hidden-sm-and-down">
         <v-speed-dial hover>
-          <v-btn slot="activator" fab hover>
+          <v-btn @click="muted = !muted" slot="activator" fab hover>
             <v-icon>volume_up</v-icon>
-            <v-icon>close</v-icon>
           </v-btn>
           <div class="slider-wrapper">
             <input type="range" min="0" max="10"  @input="volumeChange" v-model="volume" step="1">
@@ -57,6 +56,16 @@ export default {
       return this.$store.getters.index > -1
       ? this.$store.getters.current_Playlist[this.$store.getters.index].posterLarge
       : '/static/img/loading.gif'
+    },
+    muted: {
+      // getter
+      get: function () {
+        return this.eAudio.muted
+      },
+      // setter
+      set: function (newValue) {
+        this.eAudio.muted = newValue
+      }
     }
   },
   methods: {

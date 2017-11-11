@@ -111,7 +111,7 @@ var webpackConfig = merge(baseWebpackConfig, {
       // Match MP3 links, store as cache first for 2 weeks
         {
           urlPattern: new RegExp(/saveitoffline|sndcdn\.com|api\.soundcloud\.com\/tracks\/.+\/stream/),
-          handler: 'cacheFirst',
+          handler: 'fastest',
           options: {
             cache: {
               maxEntries: 1000,
