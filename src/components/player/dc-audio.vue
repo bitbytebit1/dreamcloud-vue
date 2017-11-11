@@ -20,17 +20,18 @@
       </div>
       <div id="right" class="hidden-sm-and-down">
         <v-speed-dial hover>
-          <v-btn @click="muted = !muted" slot="activator" fab hover>
-            <v-icon>volume_up</v-icon>
+          <v-btn @click="toggleMute" slot="activator" fab hover>
+            <v-icon>{{volIcon}}</v-icon>
           </v-btn>
           <div class="slider-wrapper">
-            <input type="range" min="0" max="10"  @input="volumeChange" v-model="volume" step="1">
+            <input type="range" min="0" max="10" @input="volumeChange" v-model="volume" step="1">
           </div>
         </v-speed-dial>
       </div>
       <div id="middle">
         <div id="progress">
           <v-slider @input="changePos" v-model="progress" id="progress-slider" max="10000" hide-details></v-slider>
+          {{duration}}
         </div>
       </div>
 
@@ -40,6 +41,8 @@
 </template>
 
 <script>
+/* eslint-disable */
+
 export default {
   name: 'dcAudio',
   data () {
@@ -48,29 +51,31 @@ export default {
       progress: 0,
       eAudio: '',
       play_arrow: 'play_arrow',
-      volume: 10
+      volIcon: 'volume_up',
+      volume: 10,
+      duration: ''
     }
   },
   computed: {
     currentImage: function () {
+      // very hacky way to get the loading spinner to fire before the audio element fires
+      if (this.$store.getters.index > -1) {
+        this.loading()
+      }
       return this.$store.getters.index > -1
       ? this.$store.getters.current_Playlist[this.$store.getters.index].posterLarge
       : '/static/img/loading.gif'
-    },
-    muted: {
-      // getter
-      get: function () {
-        return this.eAudio.muted
-      },
-      // setter
-      set: function (newValue) {
-        this.eAudio.muted = newValue
-      }
     }
   },
   methods: {
+    toggleMute: function () {
+      this.eAudio.muted = !this.eAudio.muted
+      this.volIcon = this.eAudio.muted ? 'volume_off' : 5 < this.volume ? "volume_up" : 0 < this.volume ? "volume_down" : "volume_off"
+    },
     volumeChange: function (wasd) {
       this.eAudio.volume = this.volume / 10
+      this.volIcon = 5 < this.volume ? "volume_up" : 0 < this.volume ? "volume_down" : "volume_off"
+      !0 === this.eAudio.muted && (this.eAudio.muted = !1) // if muted then set not muted, could just set false
     },
     changePos: function (pos) {
       var time = Math.floor(Math.floor(pos / 100) * (this.eAudio.duration / 100))
@@ -89,6 +94,8 @@ export default {
       this.progress = Math.floor(((100 / this.eAudio.duration) * this.eAudio.currentTime) * 100)
     },
     playing: function (wasd) {
+      console.log(this.eAudio.duration.toFixed(0))
+      this.duration = this.secondsToDuration(this.eAudio.duration.toFixed(0))
       this.play_arrow = 'pause'
       this.bLoading = false
     },
@@ -103,6 +110,16 @@ export default {
     },
     previous: function () {
       this.$DCPlayer.previous()
+    },
+    secondsToDuration: function (ms) {
+      var seconds = parseInt(ms)
+      var hh = Math.floor(seconds / 3600)
+      var mm = Math.floor((seconds - (hh * 3600)) / 60)
+      var ss = seconds - (hh * 3600) - (mm * 60)
+      if (hh < 10) { hh = '0' + hh }
+      if (mm < 10) { mm = '0' + mm }
+      if (ss < 10) { ss = '0' + ss }
+      return hh + ':' + mm + ':' + ss
     }
   },
   mounted: function () {
