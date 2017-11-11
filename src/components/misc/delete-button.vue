@@ -1,5 +1,5 @@
 <template>
-  <v-btn class="_btn" @mouseleave="clicks = 0" :color="color" icon @click.stop="emitDelete">
+  <v-btn class="del-btn" @mouseleave="clicks = 0" :color="color" icon @click.stop="emitDelete">
     <v-icon>delete</v-icon>
   </v-btn>
 </template>
@@ -29,7 +29,7 @@ export default {
 </script>
 
 <style>
-._btn{
-  width: 36px!important
+.del-btn{
+  min-width: 36px!important
 }
 </style>
