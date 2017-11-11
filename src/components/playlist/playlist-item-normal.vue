@@ -5,12 +5,17 @@
           v-lazy:background-image="song.posterLarge"
           height="220px"
         >
+        <!-- v-if="availableOffline" -->
           <v-container grid-list-xs fill-height fluid>
             <v-layout fill-height>
               <v-flex xs12 align-end flexbox>
-                <span class="song-text main white--text" v-text="song.title"></span>
+                <v-btn v-if="availableOffline" class="offline" icon absolute :right="true"> 
+                  <v-icon color="green">offline_pin</v-icon>
+                </v-btn>
                 <br />
+                <span class="song-text main white--text" v-text="song.title"></span>
                 <span class="song-text white--text" v-text="song.artist"></span>
+                <br />
               </v-flex>
             </v-layout>
           </v-container>
@@ -44,6 +49,14 @@ export default {
   components: {
     'add-to-playlist': addToPlaylist
   },
+  data () {
+    return {
+      availableOffline: false
+    }
+  },
+  created: function () {
+    this.checkIfAvailableOffline()
+  },
   computed: {
     artistID: function () {
       return '#/a/' + this.song.source + '/' + encodeURIComponent(this.song.artist) + '/' + this.song.artistID
@@ -60,23 +73,32 @@ export default {
     }
   },
   methods: {
-    addToPlaylist: function () {
-      console.log(123)
+    checkIfAvailableOffline: function () {
+      var url = this.song.source === 'SoundCloud' ? this.song.mp3 : 'https://www.saveitoffline.com/process/?type=audio&url=' + this.song.mp32
+      window.caches.match(url).then((a) => {
+        // console.log(a)
+        this.availableOffline = a.ok === true
+      }).catch(() => {
+        this.availableOffline = false
+      })
     },
     play: function () {
       this.$parent.play(this.index)
+      setTimeout(() => {
+        this.checkIfAvailableOffline()
+      }, 1500)
     },
     share: function () {
       if (this.$UTILS.isMobile) {
         this.$parent.setIframeSrc('') // double check if this works.
         this.$parent.setIframeSrc('whatsapp://send?text=' + 'http://dc42.netlify.com/' + encodeURIComponent('#/t/' + this.song.source + '/' + this.song.title + '/' + this.song.title + '/' + this.song.trackID))
       } else {
-        this.$UTILS.copyToClipboard('dc42.netlify.com/#/t/' + this.song.source + '/' + encodeURIComponent(this.song.artist) + '/' + encodeURIComponent(this.song.title) + '/' + this.song.trackID)
+        this.$UTILS.copyToClipboard('offcloud.netlify.com/#/t/' + this.song.source + '/' + encodeURIComponent(this.song.artist) + '/' + encodeURIComponent(this.song.title) + '/' + this.song.trackID)
       }
     },
     download: function () {
       this.$DCAPI.getAudio(this.song.mp32, (data) => {
-        console.log('got audio link, downloading!')
+        // console.log('got audio link, downloading!')
         this.$UTILS.downloadLink(data)
       })
     }
@@ -98,5 +120,8 @@ export default {
 }
 .card__media[lazy=loaded] {
   background: center center / cover no-repeat;
+}
+.offline{
+  top: 0px
 }
 </style>
