@@ -1,10 +1,23 @@
 <template>
+  <v-card>
+    <v-card-title>
+      <v-spacer></v-spacer>
+      <v-text-field
+        append-icon="search"
+        label="Search"
+        single-line
+        hide-details
+        v-model="search"
+      ></v-text-field>
+    </v-card-title>
   <v-data-table
-      v-bind:headers="headers"
+      ref="reference"
+      class="elevation-24"
+      :rows-per-page-items='[25, 50, 75, { text: "All", value: -1 }]'
+      :headers="headers"
       :items="songs"
-      hide-actions
-      class="elevation-1"
-      :v-model="test"
+      :search="search"
+      :pagination.sync="pagination"
     >
     <template slot="items" slot-scope="props" class="active">
       <td @click="play(props.index)" :class="tdClass(props.item.mp32)"><img v-lazy="props.item.poster" height="35px" /></td>
@@ -21,13 +34,14 @@
         <v-icon>more_vert</v-icon>
       </v-btn>
       <v-list>
-        <v-list-tile v-for="action in actions" :key="action.title" @click="action.func">
-          <v-list-tile-title>{{ action.title }}</v-list-tile-title>
+        <v-list-tile v-for="(action, index) in actions" :key="action.title" @click="action.func(props.index)">
+          <v-list-tile-title>{{ action.title}}</v-list-tile-title>
         </v-list-tile>
       </v-list>
     </v-menu></td>
     </template>
   </v-data-table>
+  </v-card>
 </template>
 
 <script>
@@ -37,8 +51,13 @@ export default {
   props: ['songs'],
   data () {
     return {
-      actions: [{'title': 'Share', func: this.Share}],
-      test: [],
+      pagination: {
+        sortBy: 'created',
+        rowsPerPage: 50,
+        descending: true
+      },
+      search: '',
+      actions: [{'title': 'Share', func: this.share}],
       today: new Date(),
       headers: [
         {
@@ -56,13 +75,13 @@ export default {
   },
   computed: {
     aSongsFilter: function () {
-      return this.$children[0].filteredItems
+      return this.$refs.reference.filteredItems.length ? this.$refs.reference.filteredItems : this.songs
     },
     artistID: function () {
       return '#/a/' + this.song.source + '/' + this.song.artist + '/' + this.song.artistID
     },
     img: function () {
-      return this.song.posterLarge
+      return this.song.poster
     }
   },
   methods: {
@@ -82,15 +101,17 @@ export default {
       return this.$DCAPI.calcDate(this.today, date)
     },
     play: function (index) {
+      // console.log(this.aSongsFilter)
       this.$store.commit('setNPlay', {songs: this.aSongsFilter, current: index, path: this.$route.path})
       this.$DCPlayer.setNPlay(this.aSongsFilter, index)
     },
-    Share: function () {
+    share: function (index) {
+      console.log(this.songs[index])
       if (this.$UTILS.isMobile) {
         this.$parent.setIframeSrc('')
-        this.$parent.setIframeSrc('whatsapp://send?text=' + encodeURI('http://dc42.netlify.com/#/t/' + this.song.source + '/' + this.song.title + '/' + this.song.title + '/' + this.song.trackID))
+        this.$parent.setIframeSrc('whatsapp://send?text=' + 'http://offcloud.netlify.com/#/t/' + this.songs[index].source + '/' + encodeURIComponent(this.songs[index].title) + '/' + this.songs[index].trackID)
       } else {
-        this.$UTILS.copyToClipboard('dc42.netlify.com/#/t/' + this.song.source + '/' + encodeURIComponent(this.song.artist) + '/' + encodeURIComponent(this.song.title) + '/' + this.song.trackID)
+        this.$UTILS.copyToClipboard('offcloud.netlify.com/#/t/' + this.songs[index].source + '/' + encodeURIComponent(this.songs[index].artist) + '/' + encodeURIComponent(this.songs[index].title) + '/' + this.songs[index].trackID)
       }
     }
   }
