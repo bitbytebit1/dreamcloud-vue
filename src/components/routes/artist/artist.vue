@@ -8,7 +8,7 @@
     <playlist v-if="!loading" :songs="searchResults"></playlist>
     
     <infinite-loading :distance="420" ref="infiniteLoading" v-if="!loading" @infinite="infiniteHandler" spinner="waveDots">
-      <span slot="no-more">End of the line kiddo</span>
+      <span slot="no-more"></span>
     </infinite-loading>
   </v-flex>
 </template>
@@ -66,6 +66,7 @@ export default {
         for (var i in d) {
           this.searchResults.push(d[i])
         }
+        this.searchResults = this.$DCAPI.uniqueArray(this.searchResults)
       }, '')
     }
   }

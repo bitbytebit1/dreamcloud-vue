@@ -36,7 +36,7 @@
     <main>
       <v-content >
         <v-container fluid fill-height>
-          <v-layout justify-center align-center>
+          <v-layout justify-center >
             <transition name="fade" mode="out-in">
               <router-view></router-view>
             </transition>

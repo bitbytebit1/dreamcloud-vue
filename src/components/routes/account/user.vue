@@ -10,7 +10,8 @@
     </ul>
     <h2>Ecosystem</h2>
     <ul>
-      <li><a href="https://vuetifyjs.com/components/selects#select-view" target="_blank">vuetify</a></li>
+      <li><a href="https://vuetifyjs.com/components/data-tables" target="_blank">vuetify</a></li>
+      <li><a href="https://material.io" target="_blank">material.io</a></li>
       <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
       <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
       <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>

@@ -137,7 +137,7 @@ class DCAPIClass {
             )
           }
         if (this.aQuery[uid].aResult.length < this.aQuery[uid].iLimit && this.SCnextPageToken) {
-            console.log('sc error', this.aQuery[uid].aResult.length, 'was looking for', this.aQuery[uid].iLimit)
+            // console.log('sc error', this.aQuery[uid].aResult.length, 'was looking for', this.aQuery[uid].iLimit)
             this.sc(uid).then(() => {
               this.aQuery[uid].aResult = this.uniqueArray(this.aQuery[uid].aResult)
               resolve()
@@ -145,7 +145,7 @@ class DCAPIClass {
 
           } else {
             this.aQuery[uid].aResult = this.uniqueArray(this.aQuery[uid].aResult)
-            console.log('sc success', this.aQuery[uid].aResult.length, 'was looking for', this.aQuery[uid].iLimit)
+            // console.log('sc success', this.aQuery[uid].aResult.length, 'was looking for', this.aQuery[uid].iLimit)
             resolve()
           }
       }).catch((err) => {
@@ -193,7 +193,7 @@ class DCAPIClass {
         }
       } catch (e) {
         this.YTnextPageToken = ''
-        console.log('yt error', e)
+        // console.log('yt error', e)
         return
       }
     })
