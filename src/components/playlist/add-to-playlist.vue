@@ -1,6 +1,6 @@
 <template>
   <v-menu offset-y lazy :close-on-content-click="false" v-model="menuOpen" class="mr-0 ml-0">
-    <v-btn icon slot="activator" @click.stop="menuOpen = !menuOpen" >
+    <v-btn :color='btnCol' icon slot="activator" @click.stop="menuOpen = !menuOpen" >
       <v-icon>playlist_add</v-icon>
     </v-btn>
     <v-list>
@@ -27,18 +27,27 @@ export default {
   props: ['song'],
   data () {
     return {
+      btnCol: '',
       playlistName: '',
       menuOpen: false
     }
   },
   methods: {
+    btnFeedback: function () {
+      //  this.menuOpen = this.$UTILS.isMobile ? false : true
+      this.menuOpen = false
+      this.btnCol = 'green'
+      setTimeout(() =>{
+        this.btnCol = ''
+      }, 2000)
+    },
     createNewPlaylist: function () {
      DCFB.createNewPlaylist(this.playlistName, this.song)
-     this.menuOpen = false
+     this.btnFeedback()
     },
     addToPlaylist: function (playlist) {
       DCFB.playlistSongAdd(playlist['.key'], this.song)
-      this.menuOpen = false
+      this.btnFeedback()
     }
   },
   firebase: function () {
