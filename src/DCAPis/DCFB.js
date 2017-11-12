@@ -39,7 +39,7 @@ class DCFB1 {
   }
 
   subscriptionAdd (name, source, id, img) {
-    this.subscriptions.update({[id]: {name: name, source: source, id: id, img: img}})
+    this.subscriptions.update({[id]: {name: name, name_lower: name.toLowerCase(), source: source, id: id, img: img}})
   }
 
   subscriptionDelete (id) {
@@ -49,9 +49,9 @@ class DCFB1 {
   createNewPlaylist (name, json) {
     delete json['.key']
     // Create new playlist reference with id.
-    var nameRef = this.playlistsRefs.push(name)
+    var nameRef = this.playlistsRefs.push({'name': name, name_lower: name.toLowerCase()})
     // Using ID + name push new song.
-    this.playlists.child(nameRef.ref.key).set({'name': name})
+    this.playlists.child(nameRef.ref.key).set({'name': name, name_lower: name.toLowerCase()})
     this.playlists.child(nameRef.ref.key + '/songs').push(json)
   }
 
