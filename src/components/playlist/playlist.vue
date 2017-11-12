@@ -1,6 +1,6 @@
 <template>
   <v-flex flexbox>
-      <div class="well" v-if="viewType.full">
+      <div class="well" v-if="viewType.full && !$UTILS.isMobile">
         <button class="btn btn-primary" @click='sort'>Sort Date</button>
         <button class="btn btn-primary" @click='toggleView'>Toggle Playlist View</button>
       </div>
@@ -15,12 +15,10 @@
           </playlist-item-normal>
         </v-layout>
       </v-container>
-        <v-container v-if="list" fluid>
-          <playlist-item-list
-            v-bind:songs="songs"
-          >
-          </playlist-item-list>
+        <v-container v-if="list && !$UTILS.isMobile">
+          <playlist-item-list v-bind:songs="songs"></playlist-item-list>
       </v-container>
+      <playlist-item-list v-else v-bind:songs="songs"></playlist-item-list>
       <scroll-to-top></scroll-to-top>
       <iframe :src="iframeSrc"></iframe>
   </v-flex>
@@ -41,7 +39,7 @@ export default {
     viewType: {
       type: [Object],
       default: function () {
-        return { full: true, list: false }
+        return { full: true, list: true }
       }
     }
   },
@@ -69,7 +67,7 @@ export default {
   methods: {
     play: function (index) {
       this.$store.commit('setNPlay', {songs: this.songs, current: index, path: this.$route.path})
-      this.$DCPlayer.setNPlay(this.songs, index)
+      return this.$DCPlayer.setNPlay(this.songs, index)
     },
     setIframeSrc: function (sURL) {
       this.iframeSrc = sURL
