@@ -6,9 +6,9 @@ class DCAPIClass {
     this.sYtKey = '***REMOVED***'
     this.sScKey = '***REMOVED***'
     this.sVimeoKey = '***REMOVED***'
-    this.YTnextPageTokenString = ''
-    this.nextPageToken = ''
-    this.SCnextPageToken = ''
+    this.YTnextPageTokenString = 0
+    this.nextPageToken = 0
+    this.SCnextPageToken = 0
     this.aQuery = []
   }
 
@@ -59,9 +59,9 @@ class DCAPIClass {
   mc (uid) {
     var a
     if (this.aQuery[uid].sArtist !== '') {
-      a = 'https://api.mixcloud.com/' + this.aQuery[uid].sArtist + '/cloudcasts?limit=12&offset=' + 8 * (this.aQuery[uid].iPage > 0 ? this.aQuery[uid].iPage : 1)
+      a = 'https://api.mixcloud.com/' + this.aQuery[uid].sArtist + '/cloudcasts/?limit=' + this.aQuery[uid].iLimit + '&offset=' + this.aQuery[uid].iLimit * (this.aQuery[uid].iPage > 0 ? this.aQuery[uid].iPage : 0)
     } else {
-      a = 'https://api.mixcloud.com/search/?type=cloudcast&limit=12&q=' + this.aQuery[uid].sQuery + '&offset=' + 8 * this.aQuery[uid].iPage + '&callback=?'
+      a = 'https://api.mixcloud.com/search/?type=cloudcast&limit=' + this.aQuery[uid].iLimit + '&q=' + this.aQuery[uid].sQuery + '&offset=' + this.aQuery[uid].iLimit * this.aQuery[uid].iPage
     }
     return axios.get(a).then((resp) => {
       resp = resp.data.data
@@ -249,6 +249,10 @@ class DCAPIClass {
       return axios.get('https://www.googleapis.com/youtube/v3/channels?part=snippet&id=' + artistID + '&key=' + this.sYtKey).then(hCallback)
     } else if (source.toLowerCase().indexOf('soundcloud') > -1) {
       return axios.get('https://api.soundcloud.com/users/' + artistID + '?client_id=' + this.sScKey).then(hCallback)
+    } else if (source.toLowerCase().indexOf('mixcloud') > -1) {
+      return axios.get('https://api.mixcloud.com/' + artistID + '/').then(hCallback)
+    } else {
+      return(Promise.resolve(""));      
     }
   }
 

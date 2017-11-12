@@ -73,6 +73,14 @@ export default {
         this.info.last_modified = response.data.last_modified
         this.info.followers_count = response.data.followers_count
         this.info.track_count = response.data.track_count
+      } else if (this.source.toLowerCase().indexOf('mixcloud') > -1) {
+        this.info.img = response.data.pictures.medium
+        this.info.title = response.data.username
+        this.info.description = response.biog
+        this.info.created = response.data.created
+        this.info.track_count = response.data.cloudcast_count
+        this.info.last_modified = response.data.updated_time
+        this.info.followers_count = response.data.followers_count
       }
     })
   }
