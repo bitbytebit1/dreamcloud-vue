@@ -18,6 +18,7 @@
           </v-btn>
         </div>
       </div>
+      
       <div id="right" class="hidden-sm-and-down">
         <v-speed-dial hover>
           <v-btn @click="toggleMute" slot="activator" fab hover>
@@ -28,11 +29,20 @@
           </div>
         </v-speed-dial>
       </div>
+
       <div id="middle">
         <div id="progress">
-          <v-slider @input="changePos" v-model="progress" id="progress-slider" max="10000" hide-details></v-slider>
-          {{duration}}
-        </div>
+          <v-container fluid grid-list-md class="pa-0 ma-0">
+            <v-layout row wrap>
+              <v-flex>
+                <v-slider :label="currentTime" @input="changePos" v-model="progress" id="progress-slider" max="10000" hide-details></v-slider>
+              </v-flex>
+              <span class="duration">
+                <label style="width:70px" class="subheading ">{{duration}}</label>
+              </span>
+            </v-layout>
+          </v-container>
+        </div>  
       </div>
 
     </div>
@@ -53,10 +63,17 @@ export default {
       play_arrow: 'play_arrow',
       volIcon: 'volume_up',
       volume: 10,
-      duration: ''
+      duration: '',
+      currentTime: ''
     }
   },
   computed: {
+    currentPos: function () {
+      if (this.$UTILS.isMobile) {
+        return this.secondsToDuration(this.eAudio.duration.toFixed(0))
+      }
+      return this.eAudio.currentTime.toString() || ''
+    },
     currentImage: function () {
       // very hacky way to get the loading spinner to fire before the audio element fires
       if (this.$store.getters.index > -1) {
@@ -94,7 +111,7 @@ export default {
       this.progress = Math.floor(((100 / this.eAudio.duration) * this.eAudio.currentTime) * 100)
     },
     playing: function (wasd) {
-      console.log(this.eAudio.duration.toFixed(0))
+      this.currentTime = this.secondsToDuration(this.eAudio.currentTime)
       this.duration = this.secondsToDuration(this.eAudio.duration.toFixed(0))
       this.play_arrow = 'pause'
       this.bLoading = false
@@ -119,7 +136,8 @@ export default {
       if (hh < 10) { hh = '0' + hh }
       if (mm < 10) { mm = '0' + mm }
       if (ss < 10) { ss = '0' + ss }
-      return hh + ':' + mm + ':' + ss
+      
+      return (hh > 0 ? hh + ':' : '') + mm + ':' + ss
     }
   },
   mounted: function () {
@@ -135,6 +153,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+#duration{
+  /* .mt-2.mr-4; */
+} 
 #loadingSpinner{
   top:10px;
   width: 52px !important;
@@ -175,7 +196,7 @@ export default {
 } */
 
 #poster {
-  height: 50px
+  height: 40px
 }
 
 /* #progress {
@@ -187,9 +208,6 @@ export default {
   float: left;
 }
 
-#middle {
-  margin-left: 230px;
-}
 @media only screen and (min-width: 600px){
   #middle {
     margin-right: 100px;
@@ -198,6 +216,14 @@ export default {
 #right {
   float: right;
 }
-
+@media only screen and (max-width: 599px){
+  .input-group{
+    padding: 0!important  
+  }
+  #middle{
+    float: left;
+    width: 100%;
+  }
+}
 
 </style>
