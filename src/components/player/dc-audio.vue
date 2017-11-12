@@ -94,6 +94,9 @@ export default {
       this.updateVolIcon()
       !0 === this.eAudio.muted && (this.eAudio.muted = !1) // if muted then set not muted, could just set false
     },
+    updateVolIcon: function () {
+      return this.volIcon = 5 < this.volume ? "volume_up" : 0 < this.volume ? "volume_down" : "volume_off"
+    },
     changePos: function (pos) {
       var time = Math.floor(Math.floor(pos / 100) * (this.eAudio.duration / 100))
       if (!isNaN(time)) {
@@ -108,10 +111,10 @@ export default {
       }
     },
     updated: function () {
+      this.currentTime = this.secondsToDuration(this.eAudio.currentTime)
       this.progress = Math.floor(((100 / this.eAudio.duration) * this.eAudio.currentTime) * 100)
     },
     playing: function (wasd) {
-      this.currentTime = this.secondsToDuration(this.eAudio.currentTime)
       this.duration = this.secondsToDuration(this.eAudio.duration.toFixed(0))
       this.play_arrow = 'pause'
       this.bLoading = false
