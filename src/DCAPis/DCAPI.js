@@ -336,10 +336,10 @@ class DCAPIClass {
       return 'Today'
     }
     if (d === 1) {
-      return 'Yesterday'
+      return '1 day'
     }
     a = (y > 0 ? [y, ' year'] : (m > 0 ? [m, ' month'] : (w > 0 ? [w, ' week'] : [d, ' day'])))
-    return a[0] + a[1] + (a[0] > 1 ? 's ago' : ' ago')
+    return a[0] + a[1] + (a[0] > 1 ? 's' : '')
   }
 
   parseDate (str) {
