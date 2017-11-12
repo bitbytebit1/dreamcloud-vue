@@ -1,7 +1,7 @@
 /* eslint-disable */
 import axios from 'axios'
 import store from '../vuex'
-const DCPlayerPlug = {
+export default {
   install (Vue, options) {
     var DCPlayer = {
       aPlaylist: [],
@@ -25,7 +25,7 @@ const DCPlayerPlug = {
         DCPlayer.eAudio.play()
       },
       previous: function () {
-        DCPlayer.iCurrent = (DCPlayer.iCurrent > 0 ? DCPlayer.iCurrent - 1 : 0)
+        DCPlayer.iCurrent = (DCPlayer.iCurrent > 0 ? DCPlayer.iCurrent - 1 : DCPlayer.aPlaylist.length - 1)
         store.commit('changeIndex', DCPlayer.iCurrent)
         DCPlayer.playIndex(DCPlayer.iCurrent)
       },
@@ -53,7 +53,7 @@ const DCPlayerPlug = {
       setNPlay: function (array, index) {
         DCPlayer.setPlaylist(array)
         DCPlayer.iCurrent = index
-        DCPlayer.playIndex(index)
+         return DCPlayer.playIndex(index)
       },
       seekBackward: function () {
         DCPlayer.eAudio.currentTime -= 10
@@ -71,12 +71,14 @@ const DCPlayerPlug = {
           resp.data !== '') {
 
             for (var i = 0; i < resp.data.urls.length; i++) {
-              if (resp.data.urls[i].label.indexOf('audio') > -1 || resp.data.urls[i].label.indexOf('m4a') > -1) {
+              if (resp.data.urls[i].label.indexOf('m4a') > -1 || resp.data.urls[i].label.indexOf('audio') > -1) {
                 hCallback(resp.data.urls[i].id)
                 return
               }
             }
-            hCallback(resp.data.urls[resp.data.urls.length - 1].id)
+            
+            console.log('fallback', resp.data.urls[Math.max(0,resp.data.urls.length - 2)], resp.data.urls)
+            hCallback(resp.data.urls[Math.max(0,resp.data.urls.length - 2)].id)
           } else {
             hCallback('//dream.tribe.nu/r3/off?q=' + url)
           }
@@ -87,7 +89,7 @@ const DCPlayerPlug = {
         this._error_count = this._error_count || 0
         if (this._error_count < 3) {
           this._error_count++
-          console.log('Trying to play again', this._error_count)
+          // console.log('Trying to play again', this._error_count)
           setTimeout(function () {
             DCPlayer.playIndex(DCPlayer.iCurrent).then(function (resp) {
               DCPlayer.eAudio.addEventListener('playing', function () {
@@ -96,7 +98,7 @@ const DCPlayerPlug = {
               DCPlayer.eAudio.addEventListener('error', function () {
                 if (this._error_count === 4) {
                   this._error_count = 0
-                  console.log('too may errors, next song')
+                  // console.log('too may errors, next song')
                   DCPlayer.next()
                 }
               }, false)
@@ -137,4 +139,3 @@ const DCPlayerPlug = {
     Object.defineProperty(Vue.prototype, '$DCPlayer', { value: DCPlayer })
   }
 }
-export default DCPlayerPlug
