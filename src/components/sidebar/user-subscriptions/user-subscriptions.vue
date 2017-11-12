@@ -31,7 +31,7 @@
         @click="closeLeftOnMobile"
         id="subscription"
         :class="isPlaying(subItem['source'], subItem['name'], subItem['id'])"
-        :active-class="derp(isPlaying(subItem['source'], subItem['name'], subItem['id']))"
+        :active-class="isPlaying(subItem['source'], subItem['name'], subItem['id']) || 'blue-grey lighten-1'"
         :to="{path: '/a/'  + subItem['source'] +  '/' + encodeURIComponent(subItem['name']) +  '/' + subItem['id']}"
         v-bind:key="subItem['.key']"
         ripple
@@ -66,9 +66,6 @@ export default {
     }
   },
   methods: {
-    derp: function (str) {
-      return str === 'light-green darken-2' ? str : 'blue-grey lighten-1'
-    },
     isPlaying: function (s, n, id) {
       return this.$store.getters.hash === '/a/' + s + '/' + encodeURIComponent(n) + '/' + id ? 'light-green darken-2' : ''
     },
