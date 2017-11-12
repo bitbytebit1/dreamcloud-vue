@@ -1,49 +1,48 @@
 <template>
-  <div class="container">
-  <div class="row">
-      <h1>/u/{{user}}</h1>
-      <h2>{{aPlaylist}}</h2>
-    </div>
-  </div>
+  <v-flex xs12 lg10 flexbox :key="this.$route.params.playlist">
+    <h3>{{name}}</h3>
+    <!-- <playlist :songs="aSongs"></playlist> -->
+  </v-flex>
 </template>
 <script>
+import { DCFB } from '@/DCAPIs/DCFB.js'
+import playlist from '@/components/playlist/playlist'
+
 export default {
   name: 'userPlaylist',
-  props: ['user'],
-  data () {
-    return {
-      aPlaylist: [],
-      searchQuery: ''
-    }
-  },
-  created: function () {
-    this.search(this.user)
+  props: ['user', 'playlist', 'name'],
+  components: {
+    'playlist': playlist
   },
   watch: {
-    '$route.params.user': '_search'
+    '$route.params': 'bind'
+  },
+  created: function () {
+    // this.bind(this.user, this.playlist)
+  },
+  data () {
+    return {
+      aSongs: []
+    }
   },
   methods: {
-    _search: function () {
-      this.search(this.$route.params.user)
+    bind: function (usr, plylist) {
+      this.$bindAsArray('aSongs', DCFB.playlistGet(this.$route.params.user, this.$route.params.playlist))
     },
-    search: function (sUser) {
-      sUser = sUser || this.user
-      this.loading = true
-      this.searchResults = []
-      this.$DCUser.getUserIndex(sUser, (d) => {
-        this.loading = false
-        d = d.data
-        for (var i in d) {
-          this.aPlaylist.push(d[i])
-        }
-      }, '')
+    _routChanged: function () {
+      this.$unbind('aSongs')
+      this.bind(this.$route.params.user, this.$route.params.playlist)
     }
   }
+  // firebase: function () {
+  //   return {
+  //     aSongs: DCFB.playlistGet(this.$route.params.user, this.$route.params.playlist)
+  //   }
+  // }
 }
 </script>
-.gridComp{
-  text-align: centre;
-}
+
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+
 </style>

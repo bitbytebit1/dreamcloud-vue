@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-list-group :value="active">
-      <v-list-tile slot="item" @click="active = !active">
+      <v-list-tile ripple slot="item" @click="active = !active">
         <v-list-tile-action>
           <v-icon>people</v-icon>
         </v-list-tile-action>
@@ -15,29 +15,28 @@
         
       <v-divider></v-divider>
       
-      <v-list-tile :to="{path: '/subs/latest'}">
+      <v-list-tile ripple @click="closeLeftOnMobile" :to="{path: '/subs/all'}">
         <v-list-tile-action>
           <v-icon>toc</v-icon>
         </v-list-tile-action>
         
         <v-list-tile-content>
-          <v-list-tile-title>Latest</v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
-
-      <v-list-tile :to="{path: '/subs/channels'}">
-        <v-list-tile-action>
-          <v-icon>toc</v-icon>
-        </v-list-tile-action>
-        
-        <v-list-tile-content>
-          <v-list-tile-title>Channels</v-list-tile-title>
+          <v-list-tile-title>All</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
       <v-divider></v-divider>
 
-      <v-list-tile v-for="subItem in subscriptions" @click="closeLeftOnMobile" class="subscription" active-class="blue lighten-1" :to="{path: '/a/'  + subItem['source'] +  '/' + encodeURIComponent(subItem['name']) +  '/' + subItem['id']}" v-bind:key="subItem['.key']">
-        <v-list-tile-action>
+      <v-list-tile 
+        v-for="subItem in subscriptions"
+        @click="closeLeftOnMobile"
+        id="subscription"
+        :class="isPlaying(subItem['source'], subItem['name'], subItem['id'])"
+        :active-class="derp(isPlaying(subItem['source'], subItem['name'], subItem['id']))"
+        :to="{path: '/a/'  + subItem['source'] +  '/' + encodeURIComponent(subItem['name']) +  '/' + subItem['id']}"
+        v-bind:key="subItem['.key']"
+        ripple
+      >
+        <v-list-tile-action color="green">
           <v-avatar size='32px' slot='activator'>
             <img :src="subItem['img']"/>
           </v-avatar>
@@ -67,6 +66,12 @@ export default {
     }
   },
   methods: {
+    derp: function (str) {
+      return str === 'light-green darken-2' ? str : 'blue-grey lighten-1'
+    },
+    isPlaying: function (s, n, id) {
+      return this.$store.getters.hash === '/a/' + s + '/' + encodeURIComponent(n) + '/' + id ? 'light-green darken-2' : ''
+    },
     subscriptionDelete: function (subID) {
       DCFB.subscriptionDelete(subID)
     },
@@ -76,7 +81,7 @@ export default {
   },
   firebase: function () {
     return {
-      subscriptions: DCFB.subscriptions.orderByChild('name')
+      subscriptions: DCFB.subscriptions.orderByChild('name_lower')
     }
   }
 }
@@ -86,7 +91,7 @@ export default {
 .delete {
   display: none!important
 }
-.router-link-exact-active .delete, .subscription:hover .delete {
+.router-link-exact-active .delete, #subscription:hover .delete {
   display: inherit!important
 }
 </style>

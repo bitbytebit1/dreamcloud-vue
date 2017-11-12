@@ -1,33 +1,55 @@
 <template>
-  <v-flex xs12 lg10>
+  <v-flex xs12>
     <loading :show="loading" spinner="waveDots"></loading>
-
-    <subscription v-for="sub in subscriptions" :index="sub['id']" :key="sub['id']" :id="sub['id']" :name="sub['name']" :source="sub['source']" :img="sub['img']"></subscription>
+    <playlist :view-type="{full: true, list: true}" :songs="aSongs"></playlist>  
   </v-flex>
 </template>
 <script>
 /* eslint-disable */
+import axios from 'axios'
+import {DCAPIClass} from '@/DCAPIs/DCAPI.js'
 import { DCFB } from '@/DCAPIs/DCFB.js'
-import subscription from '@/components/routes/home/sub'
-import subscriptionAll from '@/components/routes/home/sub2'
+import playlist from '@/components/playlist/playlist'
 import loading from '@/components/misc/loading'
 export default {
-  name: 'home',
+  name: 'home', 
   components: {
-    'subscription': subscription,
-    'subscriptions-all': subscriptionAll,
-    'loading': loading,
-  },
-  data () {
+    'playlist': playlist,
+    'loading': loading
+  },  
+  data: function () {
     return {
-      loading: false
+      aSongs: [],
+      loading: true
     }
+  },
+  computed: {
+    // aSongsSortedByDate: function () {
+      // return this.aSongs.sort(this.$DCAPI.sortDate)
+    // }
+  },  
+  created: function () {
+    var results = [], idx = 0;
+    for(var sub in this.subscriptions){
+      results.push(this.$DCAPI.searchInt(0 , 0, [this.subscriptions[sub].source], this.subscriptions[sub].id, 
+      (songs) =>{
+        this.aSongs = this.aSongs.concat(songs)
+      }, false, 15).then(() =>{
+        // console.log('done')
+        this.loading = false
+      }))
+    }
+    axios.all(results).then(() => {
+      // console.log('all done')
+      // this.aSongs.sort(this.$DCAPI.sortDate)
+    })
+    
   },
   firebase: function () {
     return {
-      subscriptions: DCFB.subscriptions.orderByChild('name')
+      subscriptions: DCFB.subscriptions
     }
-  }
+  }  
 }
 </script>
 

@@ -1,16 +1,15 @@
 <template>
-  <v-flex xs12>
+  <v-flex xs12 lg10 xl10 flexbox>
     <loading :show="loading" spinner="waveDots"></loading>
-    <playlist :view-type="{full: true, list: false}" :songs="aSongsSortedByDate"></playlist>  
+    <playlist v-if="!loading" :view-type="{full: true, list: true}" :songs="aSongs"></playlist>  
   </v-flex>
 </template>
 <script>
 /* eslint-disable */
 import axios from 'axios'
-import {DCAPIClass} from '@/DCAPIs/DCAPI.js'
+import { DCAPIClass } from '@/DCAPIs/DCAPI.js'
 import { DCFB } from '@/DCAPIs/DCFB.js'
 import playlist from '@/components/playlist/playlist'
-import subscriptionAll from '@/components/routes/home/sub2'
 import loading from '@/components/misc/loading'
 export default {
   name: 'home', 
@@ -25,10 +24,9 @@ export default {
     }
   },
   computed: {
-    aSongsSortedByDate: function () {
-      console.log('11')
-      return this.aSongs.sort(this.$DCAPI.sortDate)
-    }
+    // aSongsSortedByDate: function () {
+      // return this.aSongs.sort(this.$DCAPI.sortDate)
+    // }
   },  
   created: function () {
     var results = [], idx = 0;
@@ -36,13 +34,13 @@ export default {
       results.push(this.$DCAPI.searchInt(0 , 0, [this.subscriptions[sub].source], this.subscriptions[sub].id, 
       (songs) =>{
         this.aSongs = this.aSongs.concat(songs)
-      }, false, 8).then(() =>{
+      }, false, 15).then(() =>{
         // console.log('done')
         this.loading = false
       }))
     }
     axios.all(results).then(() => {
-      console.log('all done')
+      // console.log('all done')
       // this.aSongs.sort(this.$DCAPI.sortDate)
     })
     
