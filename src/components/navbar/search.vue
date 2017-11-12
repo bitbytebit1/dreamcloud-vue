@@ -113,9 +113,7 @@ export default {
       this.$router.push({name: 'searchPage', params: {query: this.sQuery, source: this.maSource}})
     },
     search: function () {
-      if (this.$UTILS.isMobile) {
-        document.activeElement.blur()
-      }
+      this.$UTILS.closeSoftMobi()
       this.__search(this.query)
     },
     btnclick: function (sSource) {

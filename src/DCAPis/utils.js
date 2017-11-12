@@ -10,6 +10,11 @@ export default {
         document.execCommand('copy')
         tmp.remove()
       },
+      closeSoftMobi: function () {
+        if (this.isMobile) {
+          document.activeElement.blur()
+        }
+      },
       downloadLink: function (sURL) {
         var iframe = document.createElement('iframe')
 

@@ -8,6 +8,7 @@
         single-line
         hide-details
         v-model="search"
+        v-on:keyup.enter="$UTILS.closeSoftMobi()"
       ></v-text-field>
     </v-card-title>
   <v-data-table
