@@ -1,6 +1,6 @@
 <template>
   <v-btn class="del-btn" @mouseleave="clicks = 0" :color="color" icon @click.stop="emitDelete">
-    <v-icon>delete</v-icon>
+    <v-icon>{{dlIcn}}</v-icon>
   </v-btn>
 </template>
 <script>
@@ -13,12 +13,18 @@ export default {
     }
   },
   computed: {
-    color: function () {
-      return this.clicks === 1 ? 'red lighten-1' : ''
+    dlIcn () {
+      return this.clicked ? 'delete_forever' : 'delete'
+    },
+    color () {
+      return this.clicked ? 'red lighten-1' : ''
+    },
+    clicked () {
+      return this.clicks === 1
     }
   },
   methods: {
-    emitDelete: function () {
+    emitDelete () {
       this.clicks++
       if (this.clicks === 2) {
         this.$emit('delete', this.id)
