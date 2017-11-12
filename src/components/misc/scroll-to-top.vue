@@ -1,7 +1,6 @@
 <template>
     <v-fab-transition>
         <v-btn
-            color="blue"
             fab
             small
             fixed
