@@ -87,11 +87,11 @@ export default {
   methods: {
     toggleMute: function () {
       this.eAudio.muted = !this.eAudio.muted
-      this.volIcon = this.eAudio.muted ? 'volume_off' : 5 < this.volume ? "volume_up" : 0 < this.volume ? "volume_down" : "volume_off"
+      this.volIcon = this.eAudio.muted ? 'volume_off' : this.updateVolIcon()
     },
     volumeChange: function (wasd) {
       this.eAudio.volume = this.volume / 10
-      this.volIcon = 5 < this.volume ? "volume_up" : 0 < this.volume ? "volume_down" : "volume_off"
+      this.updateVolIcon()
       !0 === this.eAudio.muted && (this.eAudio.muted = !1) // if muted then set not muted, could just set false
     },
     changePos: function (pos) {
