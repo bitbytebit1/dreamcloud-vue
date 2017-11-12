@@ -5,7 +5,7 @@
 
     <playlist v-if="!loading" :songs="searchResults"></playlist>  
     <infinite-loading :distance="420" ref="infiniteLoading" v-if="!loading" @infinite="infiniteHandler" spinner="waveDots">    
-      <span slot="no-more">^^`</span>
+      <span slot="no-more"></span>
     </infinite-loading>
   </v-flex>
 </template>
@@ -47,7 +47,7 @@ export default {
     this.search(this.query, this._source)
   },
   // beforeRouteUpdate (to) {
-  //   // console.log(to)
+  //   console.log(to)
   //   this.search(to.params.query, to.params.source)
   // },
   watch: {
