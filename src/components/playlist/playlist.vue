@@ -18,7 +18,7 @@
         <v-container v-if="list && !$UTILS.isMobile">
           <playlist-item-list v-bind:songs="songs"></playlist-item-list>
       </v-container>
-      <playlist-item-list v-else v-bind:songs="songs"></playlist-item-list>
+      <playlist-item-list v-if="list && $UTILS.isMobile" v-bind:songs="songs"></playlist-item-list>
       <scroll-to-top></scroll-to-top>
       <iframe :src="iframeSrc"></iframe>
   </v-flex>
