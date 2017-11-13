@@ -20,7 +20,7 @@
             </v-layout>
           </v-container>
         </v-card-media>
-        <v-card-actions v-bind:class="{ green: isPlaying }">
+        <v-card-actions v-bind:class="{ teal: isPlaying }">
           <v-spacer></v-spacer>
 
           <add-to-playlist :song="song"></add-to-playlist>
@@ -122,6 +122,7 @@ export default {
   background: center center / cover no-repeat;
 }
 .offline{
-  top: 0px
+  top: 0px;
+  right: 0px;
 }
 </style>

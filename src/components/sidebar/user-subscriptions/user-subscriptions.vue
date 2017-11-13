@@ -67,7 +67,7 @@ export default {
   },
   methods: {
     isPlaying: function (s, n, id) {
-      return this.$store.getters.hash === '/a/' + s + '/' + encodeURIComponent(n) + '/' + id ? 'light-green darken-2' : ''
+      return this.$store.getters.hash === '/a/' + s + '/' + encodeURIComponent(n) + '/' + id ? 'teal' : ''
     },
     subscriptionDelete: function (subID) {
       DCFB.subscriptionDelete(subID)
