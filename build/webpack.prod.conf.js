@@ -114,7 +114,6 @@ var webpackConfig = merge(baseWebpackConfig, {
           handler: 'fastest',
           options: {
             cache: {
-              maxEntries: 1000,
               maxAgeSeconds: 1.21e+6,
               name: 'mp3-cache',
               debug: true
@@ -127,7 +126,6 @@ var webpackConfig = merge(baseWebpackConfig, {
           handler: 'cacheFirst',
           options: {
             cache: {
-              maxEntries: 100,
               maxAgeSeconds: 43201,
               name: 'search-cache',
               debug: true
