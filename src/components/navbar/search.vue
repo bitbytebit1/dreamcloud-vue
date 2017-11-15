@@ -6,7 +6,10 @@
       v-on:keyup.enter='search' 
       v-model='sQuery'
       placeholder="Search" 
-      single-line> 
+      color="teal"
+      single-line
+    >
+
     ></v-text-field>
     <v-menu
       :close-on-content-click="false"
