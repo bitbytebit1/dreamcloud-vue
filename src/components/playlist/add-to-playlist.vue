@@ -6,11 +6,12 @@
     <v-list>
       <v-list-tile>
         <v-text-field
-          name="input-1-3"
+          name="add-to-playlist"
           label="Playlist name"
           single-line
           v-model="playlistName"
           v-on:keyup.enter="createNewPlaylist"
+          v-focus
         ></v-text-field>
       </v-list-tile>
       <v-list-tile v-for="playlist in playlists" :key="playlist['.key']" @click="addToPlaylist(playlist)">
@@ -30,6 +31,14 @@ export default {
       btnCol: '',
       playlistName: '',
       menuOpen: false
+    }
+  },
+  directives: {
+    focus: {
+      // directive definition
+      inserted: function (el) {
+        el.children[1].children[0].focus()
+      }
     }
   },
   methods: {
@@ -52,8 +61,8 @@ export default {
   },
   firebase: function () {
     return {
-      playlists: DCFB.playlists,
-      playlistsRefs: DCFB.playlistsRefs
+      playlists: DCFB.playlists.orderByChild('name_lower'),
+      playlistsRefs: DCFB.playlistsRefs.orderByChild('name_lower')
     }
   },
   mounted: function () {
