@@ -1,6 +1,10 @@
 /* eslint-disable */
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+if (process.env.NODE_ENV == 'production') {
+  // window.location.protocol = 'https:'
+}
+// suitcase for storage 
 import Vue from 'vue'
 // import Wavesurfer from 'Wavesurfer'
 import App from './App'
@@ -26,26 +30,36 @@ Vue.use(UtilsPlug)
 Vue.use(DCAPIPlug)
 Vue.use(DCPlayerPlug)
 
-
 Vue.config.productionTip = false
 
 import VueFire from 'vuefire'
 Vue.use(VueFire)
 
-import { fb, DCFB } from '@/DCAPIs/DCFB.js'
+import * from 'linkifyjs'
+
+Vue.filter('linkify', {
+  read: function(val) {
+      return linkifyHtml(val, {
+          defaultProtocol: 'https'
+      })
+  }
+})
+
+// Vue.use(Vuetify, {
+//   theme: {
+//     primary: '#3f51b5',
+//     secondary: '#b0bec5',
+//     accent: '#8c9eff',
+//     error: '#b71c1c'
+//   }
+// })
 
 let app
 
-fb.auth().onAuthStateChanged(function (user) {
-  if(user)
-    DCFB.init(user.uid)
-  if (!app) {
-    app = new Vue({
-      el: '#app',
-      router,
-      template: '<App/>',
-      components: { App },
-      store
-    })
-  }
+app = new Vue({
+  el: '#app',
+  router,
+  template: '<App/>',
+  components: { App },
+  store
 })

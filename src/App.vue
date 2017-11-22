@@ -1,5 +1,5 @@
 <template>
-  <v-app id="inspire" v-bind="$store.getters.theme">
+  <v-app v-bind="$store.getters.theme">
     <v-navigation-drawer
       v-model="drawerLeft"
       clipped
@@ -7,19 +7,26 @@
       enable-resize-watcher
       app
       disable-route-watcher
+      ripple
     >
       <sidebar @closeLeft="closeLeft"></sidebar>
     </v-navigation-drawer>
 
     <v-toolbar app fixed clipped-left clipped-right>
+      
       <v-toolbar-side-icon @click.stop="drawerLeft = !drawerLeft"></v-toolbar-side-icon>
+      
       <v-toolbar-title class="hidden-sm-and-down">
         DreamCloud
       </v-toolbar-title>
       <v-spacer></v-spacer>
+
       <search></search>
+
       <v-spacer></v-spacer>
+
       <v-toolbar-side-icon @click.stop="drawerRight = !drawerRight"><v-icon large>playlist_play</v-icon></v-toolbar-side-icon>
+
     </v-toolbar>
 
     <v-navigation-drawer
@@ -35,23 +42,23 @@
     </v-navigation-drawer>
     <main>
       <v-content >
-        <v-container fluid fill-height>
+        <!-- <v-container fluid fill-height> -->
           <v-layout justify-center >
             <transition name="fade" mode="out-in">
               <router-view></router-view>
             </transition>
           </v-layout>
-        </v-container>
+        <!-- </v-container> -->
       </v-content>
     </main>
     <v-footer app fixed>
       <dc-audio :song="aSong"></dc-audio>
-    </v-footer>    
+    </v-footer>
   </v-app>
 </template>
 
 <script>
-  import { DCFB } from '@/DCAPIs/DCFB.js'
+  import { fb, DCFB } from '@/DCAPIs/DCFB.js'
   import search from './components/navbar/search'
   import dcAudio from './components/player/dc-audio'
   import currentPlaylist from './components/current-playlist/current-playlist'
@@ -84,10 +91,18 @@
         return this.$store.getters.theme
       }
     },
-    beforeCreate: function () {
-      DCFB.setting('Dark Theme').once('value', (snapshot) => {
-        if (snapshot.val() !== null) {
-          this.$store.commit('changeSetting', {'setting': 'Dark Theme', 'value': snapshot.val()})
+    created: function () {
+      fb.auth().onAuthStateChanged((user) => {
+        if (user) {
+          this.$store.commit('authChange', true)
+          DCFB.init(user.uid)
+          DCFB.setting('Night Mode').once('value', (snapshot) => {
+            if (snapshot.val() !== null) {
+              this.$store.commit('changeSetting', {'setting': 'Night Mode', 'value': snapshot.val()})
+            }
+          })
+        } else {
+          this.$store.commit('authChange', false)
         }
       })
     }

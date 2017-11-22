@@ -53,7 +53,7 @@ export default {
       setNPlay: function (array, index) {
         DCPlayer.setPlaylist(array)
         DCPlayer.iCurrent = index
-         return DCPlayer.playIndex(index)
+        return DCPlayer.playIndex(index)
       },
       seekBackward: function () {
         DCPlayer.eAudio.currentTime -= 10

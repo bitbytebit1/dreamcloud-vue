@@ -6,14 +6,19 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
+
+    auth_state: false,
     current_Playlist: [],
     current_Index: -1,
     current_Hash: '',
     settings: {
-      'Dark Theme': false
+      'Night Mode': false
     }
   },
   mutations: {
+    authChange (state, payload) {
+      state.auth_state = payload
+    },
     setNPlay (state, payload) {
       state.current_Playlist = payload.songs
       state.current_Index = payload.current
@@ -28,9 +33,11 @@ const store = new Vuex.Store({
     }
   },
   getters: {
-
+    auth_state: state => {
+      return state.auth_state
+    },
     theme: state => {
-      if (state.settings['Dark Theme']) {
+      if (state.settings['Night Mode']) {
         return {'dark': true}
       } else {
         return {'light': true}

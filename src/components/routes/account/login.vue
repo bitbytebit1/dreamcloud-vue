@@ -25,7 +25,7 @@
             <v-btn type="submit" v-on:click="signIn">Sign In</v-btn>
           </form>
         </v-flex>
-        <h5>You don't have an account? You can <router-link to="/sign-up">create one</router-link></h5>
+        <h5>Don't have an account yet? You can create one <router-link to="/sign-up">here</router-link>.</h5>
         <h5><router-link to="/password-reset">Forgot your password?</router-link></h5>
         <iframe id="remember" name="remember" class="hidden" src=""></iframe>
       </v-flex>
@@ -68,8 +68,8 @@
     width: 100%;
   }
   input {
-    margin: 10px 0;
-    width: 20%;
+    /* margin: 10px 0; */
+    /* width: 20%; */
     padding: 15px;
   }
   button {

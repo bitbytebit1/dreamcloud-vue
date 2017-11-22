@@ -10,12 +10,13 @@
     </ul>
     <h2>Ecosystem</h2>
     <ul>
-      <li><a href="https://vuetifyjs.com/components/data-tables" target="_blank">vuetify</a></li>
-      <li><a href="https://material.io" target="_blank">material.io</a></li>
       <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
       <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
       <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
+      <li><a href="https://vuetifyjs.com/components/data-tables" target="_blank">vuetify</a></li>
+      <li><a href="https://material.io/icons" target="_blank">material.io</a></li>
+      <li><a href="https://peachscript.github.io/vue-infinite-loading/#!/properties" target="_blank">infinite-loading</a></li>
+      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
     </ul>
     <h2>Overview</h2>
     <v-flex xl12>

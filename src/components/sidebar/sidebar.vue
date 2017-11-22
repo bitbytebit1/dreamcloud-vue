@@ -37,7 +37,7 @@
   </v-list>
 </template>
 <script>
-import { fb } from '@/DCAPIs/DCFB.js'
+// import { fb } from '@/DCAPIs/DCFB.js'
 import userPlaylists from '@/components/sidebar/user-playlists/user-playlists'
 import userSubscriptions from '@/components/sidebar/user-subscriptions/user-subscriptions'
 export default {
@@ -45,11 +45,6 @@ export default {
   components: {
     'user-playlists': userPlaylists,
     'user-subscriptions': userSubscriptions
-  },
-  data () {
-    return {
-      loggedIn: false
-    }
   },
   methods: {
     closeLeft: function () {
@@ -62,12 +57,13 @@ export default {
     },
     loginText: function () {
       return this.loggedIn ? 'User' : 'Login'
+    },
+    loggedIn: function () {
+      return this.$store.getters.auth_state
     }
   },
   mounted: function () {
-    fb.auth().onAuthStateChanged((user) => {
-      this.loggedIn = !!user
-    })
+
   }
 }
 </script>

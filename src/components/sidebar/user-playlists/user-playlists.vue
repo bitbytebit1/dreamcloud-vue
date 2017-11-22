@@ -1,12 +1,12 @@
 <template>
   <div>
-    <v-list-group v-for="item in items" :value="item.active" v-bind:key="item.title">
-      <v-list-tile ripple slot="item" @click="item.active = !item.active">
+    <v-list-group :value="active">
+      <v-list-tile ripple slot="item" @click.stop="active = !active">
         <v-list-tile-action>
-          <v-icon>{{ item.action }}</v-icon>
+          <v-icon>library_music</v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
-          <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+          <v-list-tile-title>Playlists</v-list-tile-title>
         </v-list-tile-content>
         <v-list-tile-action>
           <v-icon>keyboard_arrow_down</v-icon>
@@ -17,7 +17,7 @@
         @click="closeLeftOnMobile" 
         id='playlist'
         :class="isPlaying(UID, subItem['.key'], subItem['name'])"
-        :active-class="isPlaying(UID, subItem['.key'], encodeURIComponent(subItem['name'])) || 'blue-grey lighten-1'"
+        :active-class="isPlaying(UID, subItem['.key'], subItem['name']) || 'blue-grey lighten-1'"
         :to="{path: '/u/' + UID + '/' + subItem['.key'] +  '/' +  encodeURIComponent(subItem['name'])}" 
         v-bind:key="subItem['.key']"
         ripple
@@ -48,21 +48,13 @@ export default {
   data () {
     return {
       UID: DCFB.UID,
-      items: [
-        {
-          active: true,
-          action: 'library_music',
-          title: 'Playlists',
-          items: [
-            { title: 'List Item' }
-          ]
-        }
-      ]
+      active: true
     }
   },
   methods: {
     isPlaying: function (s, n, id) {
-      return this.$store.getters.hash === '/u/' + s + '/' + n + '/' + id ? 'light-green darken-2' : ''
+      var a = this.$store.getters.hash === '/u/' + s + '/' + n + '/' + encodeURIComponent(id) ? 'teal' : ''
+      return a
     },    
     closeLeftOnMobile: function () {
       this.$emit('closeLeft')

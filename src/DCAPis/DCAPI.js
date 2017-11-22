@@ -67,7 +67,7 @@ class DCAPIClass {
       resp = resp.data.data
       for (var idx in resp) {
         this.pushResult(
-          uid,
+          uid,                                                  // uid:
           resp[idx].user.name,                                  // artist:
           resp[idx].user.username,                              // artistID:
           this.parseDate(resp[idx].created_time),               // created:
@@ -121,7 +121,7 @@ class DCAPIClass {
             img = resp[idx].artwork_url.replace('i1', 'i2').replace('-large', '-t300x300')
             img2 = resp[idx].artwork_url.replace('-large', '-t500x500')
             this.pushResult(
-              uid,
+              uid,                                                           // uid:
               resp[idx].user.username,                                       // artist:
               resp[idx].user_id,                                             // artistID:
               this.parseDate(resp[idx].created_at),                          // created:
@@ -176,7 +176,7 @@ class DCAPIClass {
         for (var idx in resp) {
           z = 'https://www.youtube.com/watch?v=' + resp[idx].id.videoId
           this.pushResult(
-            uid,
+            uid,                                             // uid:
             resp[idx].snippet.channelTitle,                  // artist:
             resp[idx].snippet.channelId,                     // artistID:
             this.parseDate(resp[idx].snippet.publishedAt),   // created:
@@ -211,7 +211,7 @@ class DCAPIClass {
       resp = resp.data.data
       for (var idx in resp) {
         this.pushResult(
-          uid,
+          uid,                                                                  // uid:
           resp[idx].user.name,                                                  // artist:
           resp[idx].user.uri.replace(/\/users\/(.*?)/ig, 'user'),               // artistID:
           this.parseDate(resp[idx].user.created_time),                          // created:
@@ -255,7 +255,14 @@ class DCAPIClass {
       return(Promise.resolve(""));      
     }
   }
-
+  getSongDescription (trackID, source, hCallback) {
+    var uid = Date.now()
+    this.aQuery[uid] = {aResult: [], hCallback: hCallback}
+    return axios.get('https://www.googleapis.com/youtube/v3/videos?part=snippet&id=' + trackID + '&fields=items/snippet/description&key=' + this.sYtKey).then((resp) => {
+      hCallback(resp.data)
+    })      
+  }
+  // 
   getSongInfo (trackID, source, hCallback) {
     var uid = Date.now()
     this.aQuery[uid] = {aResult: [], hCallback: hCallback}

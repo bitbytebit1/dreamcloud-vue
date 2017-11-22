@@ -11,7 +11,7 @@
 import playlist from '@/components/playlist/playlist'
 export default {
   name: 'searchpage',
-  props: ['source', 'artist', 'title', 'trackID'],
+  props: ['source', 'artist', 'trackID'],
   data () {
     return {
       loading: false,
@@ -25,10 +25,7 @@ export default {
     this.search(this.trackID, this.source)
   },
   watch: {
-    '$route.params.source': '_search',
-    '$route.params.artist': '_search',
-    '$route.params.title': '_search',
-    '$route.params.trackID': '_search'
+    '$route.params': '_search'
   },
   methods: {
     _search: function (sQuery, aSource) {

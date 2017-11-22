@@ -22,7 +22,7 @@
             type="password"
           ></v-text-field>    
           <v-btn v-on:click="signUp">Sign Up</v-btn>
-          <span>or go back to <router-link to="/login">login</router-link>.</span>
+          <h5>or go back to <router-link to="/login">login</router-link>.</h5>
         </v-flex>
       </v-flex>
     </v-layout>

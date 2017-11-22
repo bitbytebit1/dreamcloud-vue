@@ -25,7 +25,7 @@
 
           <add-to-playlist :song="song"></add-to-playlist>
 
-          <v-btn icon @click.stop="share">
+          <v-btn icon @click.stop="this.$UTILS.share(song)">
             <v-icon>share</v-icon>
           </v-btn>
           <v-btn icon @click.stop="download">
@@ -83,22 +83,16 @@ export default {
       })
     },
     play: function () {
-      this.$parent.play(this.index)
-      setTimeout(() => {
+      this.$parent.play(this.index).then(() => {
         this.checkIfAvailableOffline()
-      }, 1500)
-    },
-    share: function () {
-      if (this.$UTILS.isMobile) {
-        this.$parent.setIframeSrc('') // double check if this works.
-        this.$parent.setIframeSrc('whatsapp://send?text=' + 'http://dc42.netlify.com/' + encodeURIComponent('#/t/' + this.song.source + '/' + this.song.title + '/' + this.song.title + '/' + this.song.trackID))
-      } else {
-        this.$UTILS.copyToClipboard('offcloud.netlify.com/#/t/' + this.song.source + '/' + encodeURIComponent(this.song.artist) + '/' + encodeURIComponent(this.song.title) + '/' + this.song.trackID)
-      }
+      })
+      // this.$parent.play(this.index)
+      // setTimeout(() => {
+      //   this.checkIfAvailableOffline()
+      // }, 2500)
     },
     download: function () {
       this.$DCAPI.getAudio(this.song.mp32, (data) => {
-        // console.log('got audio link, downloading!')
         this.$UTILS.downloadLink(data)
       })
     }
@@ -122,7 +116,7 @@ export default {
   background: center center / cover no-repeat;
 }
 .offline{
-  top: 0px;
+  bottom: 0px;
   right: 0px;
 }
 </style>

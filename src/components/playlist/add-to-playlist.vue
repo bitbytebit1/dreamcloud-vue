@@ -37,6 +37,7 @@ export default {
     focus: {
       // directive definition
       inserted: function (el) {
+        console.log(el.children[1].children[0])
         el.children[1].children[0].focus()
       }
     }
@@ -55,6 +56,7 @@ export default {
      this.btnFeedback()
     },
     addToPlaylist: function (playlist) {
+      console.log(this.song)
       DCFB.playlistSongAdd(playlist['.key'], this.song)
       this.btnFeedback()
     }

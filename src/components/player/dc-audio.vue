@@ -35,11 +35,8 @@
           <v-container fluid grid-list-md class="pa-0 ma-0">
             <v-layout row wrap>
               <v-flex>
-                <v-slider :label="currentTime" @input="changePos" v-model="progress" id="progress-slider" max="10000" hide-details></v-slider>
+                <v-slider color="teal" :label="currentTime" @input="changePos" v-model="progress" id="progress-slider" max="10000" hide-details></v-slider>
               </v-flex>
-              <span class="duration">
-                <label style="width:70px" class="subheading ">{{duration}}</label>
-              </span>
             </v-layout>
           </v-container>
         </div>  
@@ -111,10 +108,10 @@ export default {
       }
     },
     updated: function () {
-      this.currentTime = this.secondsToDuration(this.eAudio.currentTime)
+      this.currentTime = this.secondsToDuration(this.eAudio.currentTime) + '~' + this.secondsToDuration(this.eAudio.duration)
       this.progress = Math.floor(((100 / this.eAudio.duration) * this.eAudio.currentTime) * 100)
     },
-    playing: function (wasd) {
+    playing: function () {
       this.duration = this.secondsToDuration(this.eAudio.duration.toFixed(0))
       this.play_arrow = 'pause'
       this.bLoading = false
@@ -132,7 +129,10 @@ export default {
       this.$DCPlayer.previous()
     },
     secondsToDuration: function (ms) {
-      var seconds = parseInt(ms)
+      if (isNaN(ms)) {
+        return '00:00'
+      }
+      var seconds = parseInt(ms, 10)
       var hh = Math.floor(seconds / 3600)
       var mm = Math.floor((seconds - (hh * 3600)) / 60)
       var ss = seconds - (hh * 3600) - (mm * 60)
@@ -220,7 +220,7 @@ export default {
   float: right;
 }
 @media only screen and (max-width: 599px){
-  .input-group{
+  #progress-slider{
     padding: 0!important  
   }
   #middle{

@@ -85,7 +85,7 @@ let router = new Router({
       props: true
     },
     {
-      path: '/t/:source/:artist/:title/:trackID',
+      path: '/t/:source/:artist/:trackID',
       name: 'song',
       component: song,
       props: true

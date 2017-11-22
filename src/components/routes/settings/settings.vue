@@ -33,7 +33,7 @@ export default {
           name: 'UI',
           options: [
             {
-              name: 'Dark Theme',
+              name: 'Night Mode',
               state: true
             }
           ]

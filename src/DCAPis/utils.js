@@ -24,6 +24,25 @@ export default {
 
         document.body.appendChild(iframe)
       },
+      share: function (song) {
+        let url = 'offcloud.netlify.com/#/t/' + song.source + '/' + encodeURIComponent(song.artist) + '/' + song.trackID
+        if (this.isMobile) {
+          if (navigator.share) {
+            navigator.share({
+              title: song.title,
+              text: song.description,
+              url: url
+            })
+            .then(() => console.log('Successful share'))
+            .catch((error) => console.log('Error sharing', error))
+          } else {
+            this.downloadLink('whatsapp://send?text=' + url)
+          }
+          // this.$parent.setIframeSrc('') // double check if this works.
+        } else {
+          this.copyToClipboard(url)
+        }
+      },
       formatBytes: function (a, b) {
         if (a === 0) {
           return '0 Bytes'
