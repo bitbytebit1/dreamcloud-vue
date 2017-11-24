@@ -131,6 +131,15 @@ var webpackConfig = merge(baseWebpackConfig, {
               debug: true
             }
           }
+        },
+        {
+          urlPattern: 'fonts.googleapis.com',
+          handler: 'cacheFirst',
+          options: {
+            cache: {
+              name: 'assest'
+            }
+          }
         }
       ]
     })
