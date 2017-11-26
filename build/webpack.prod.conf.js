@@ -110,12 +110,23 @@ var webpackConfig = merge(baseWebpackConfig, {
       runtimeCaching: [
       // Match MP3 links, store as cache first for 2 weeks
         {
-          urlPattern: new RegExp(/saveitoffline|sndcdn\.com|api\.soundcloud\.com\/tracks\/.+\/stream/),
+          urlPattern: new RegExp(/saveitoffline\.com\/process|www\.s\d{1,2}\.saveitoffline\.com|saveitoffline\.com\/get\/\?i/),
           handler: 'cacheFirst',
           options: {
             cache: {
               maxAgeSeconds: 1.21e+6,
-              name: 'mp3-cache',
+              name: 'saio-cache',
+              debug: true
+            }
+          }
+        },
+        {
+          urlPattern: new RegExp(/sndcdn\.com|api\.soundcloud\.com\/tracks\/.+\/stream/),
+          handler: 'cacheFirst',
+          options: {
+            cache: {
+              maxAgeSeconds: 1.21e+6,
+              name: 'sndcdn-cache',
               debug: true
             }
           }
