@@ -1,9 +1,9 @@
 /* eslint-disable */
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-if (process.env.NODE_ENV == 'production') {
+// if (process.env.NODE_ENV == 'production') {
   // window.location.protocol = 'https:'
-}
+// }
 // suitcase for storage 
 import Vue from 'vue'
 // import Wavesurfer from 'Wavesurfer'

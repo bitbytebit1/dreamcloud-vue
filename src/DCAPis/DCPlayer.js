@@ -40,10 +40,10 @@ export default {
           return DCPlayer.play_url(DCPlayer.aPlaylist[index].mp32)
       },
       play_url (sURL) {
-        return DCPlayer.getAudio(sURL + (DCPlayer.error_count ? '&error=' + DCPlayer.error_count + '-' + DCPlayer.aPlaylist[DCPlayer.iCurrent].artistID : ''), DCPlayer.setAudioSrc)
+        return DCPlayer.getAudio(sURL, DCPlayer.setAudioSrc)
       },
       setAudioSrc (sURL) {
-        DCPlayer.eAudio.src = sURL
+        DCPlayer.eAudio.src = sURL + (DCPlayer.error_count ? '&error=' + DCPlayer.error_count + '-' + DCPlayer.aPlaylist[DCPlayer.iCurrent].trackID : '')
         DCPlayer.eAudio.addEventListener('ended', DCPlayer.next, false)
         // Not sure why but seems we have to rebind after src change?
         var play = DCPlayer.play()
@@ -53,10 +53,10 @@ export default {
         .catch((error) => {
           DCPlayer.error_count++
           console.log('failed to play', DCPlayer.error_count)
-          if (DCPlayer.error_count < 4) {
+          if (DCPlayer.error_count < 6) {
             DCPlayer.error()
           } else {
-            console.log('i gave u 4 chances')
+            console.log('i gave u 5 chances')
             DCPlayer.error_count = 0
             DCPlayer.next()
           }
