@@ -27,27 +27,27 @@
               </v-btn>
             </v-flex>
           <!-- <v-flex> -->
-            <playlist-item-normal
+            <column
               v-for="(song, index) in songs"
               v-bind:song="song"
               v-bind:index="index"
               v-bind:key="index" 
             >
-            </playlist-item-normal>
+            </column>
           <!-- </v-flex> -->
         </v-layout>
       </v-container>
         <v-container v-if="list && !$UTILS.isMobile">
-          <playlist-item-list @toggleView="toggleView" v-bind:songs="songs"></playlist-item-list>
+          <list @toggleView="toggleView" v-bind:songs="songs"></list>
       </v-container>
-      <playlist-item-list @toggleView="toggleView" v-if="list && $UTILS.isMobile" v-bind:songs="songs"></playlist-item-list>
+      <list @toggleView="toggleView" v-if="list && $UTILS.isMobile" v-bind:songs="songs"></list>
       <scroll-to-top></scroll-to-top>
       <iframe :src="iframeSrc"></iframe>
   </v-flex>
 </template>
 <script>
-import playlistItemNormal from './playlist-item-normal.vue'
-import playlistItemList from './playlist-item-list.vue'
+import column from './column.vue'
+import list from './list.vue'
 import scrollToTop from '../misc/scroll-to-top.vue'
 
 export default {
@@ -67,8 +67,8 @@ export default {
   },
 
   components: {
-    'playlist-item-normal': playlistItemNormal,
-    'playlist-item-list': playlistItemList,
+    'column': column,
+    'list': list,
     'scroll-to-top': scrollToTop
   },
   data () {

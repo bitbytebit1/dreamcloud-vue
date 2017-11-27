@@ -9,12 +9,11 @@
           <v-container grid-list-xs fill-height fluid>
             <v-layout fill-height>
               <v-flex xs12 align-end flexbox>
-                <v-btn v-if="availableOffline" class="offline" icon absolute :right="true"> 
-                  <v-icon color="green">offline_pin</v-icon>
-                </v-btn>
-                <br />
                 <span class="song-text main white--text" v-text="song.title"></span>
                 <span class="song-text white--text" v-text="song.artist"></span>
+                <v-btn v-if="availableOffline" class="offline" icon absolute :right="true"> 
+                  <v-icon color="green">offline_pin</v-icon>
+                </v-btn>                
                 <br />
               </v-flex>
             </v-layout>
@@ -44,7 +43,7 @@
 <script>
 import addToPlaylist from '@/components/playlist/add-to-playlist.vue'
 export default {
-  name: 'playlistItemNormal',
+  name: 'column',
   props: ['song', 'index'],
   components: {
     'add-to-playlist': addToPlaylist
@@ -54,26 +53,26 @@ export default {
       availableOffline: false
     }
   },
-  created: function () {
+  created () {
     this.checkIfAvailableOffline()
   },
   computed: {
-    artistID: function () {
+    artistID () {
       return '#/a/' + this.song.source + '/' + encodeURIComponent(this.song.artist) + '/' + this.song.artistID
     },
-    img: function () {
+    img () {
       return this.song.posterLarge
     },
-    date: function () {
+    date () {
       // I hate this new date... Volvo please fix.
       return this.$DCAPI.calcDate(new Date(), this.song.created)
     },
-    isPlaying: function () {
+    isPlaying () {
       return this.$route.path === this.$store.getters.hash && this.song.mp32 === this.$store.getters.current_Playlist[this.$store.getters.index].mp32
     }
   },
   methods: {
-    checkIfAvailableOffline: function () {
+    checkIfAvailableOffline () {
       var url = this.song.source === 'SoundCloud' ? this.song.mp3 : 'https://www.saveitoffline.com/process/?type=audio&url=' + this.song.mp32
       window.caches.match(url).then((a) => {
         // console.log(a)
@@ -82,7 +81,7 @@ export default {
         this.availableOffline = false
       })
     },
-    play: function () {
+    play () {
       this.$parent.play(this.index).then(() => {
         this.checkIfAvailableOffline()
       })
@@ -91,8 +90,8 @@ export default {
       //   this.checkIfAvailableOffline()
       // }, 2500)
     },
-    download: function () {
-      this.$DCAPI.getAudio(this.song.mp32, (data) => {
+    download () {
+      this.$DCPlayer.getAudio(this.song.mp32, (data) => {
         this.$UTILS.downloadLink(data)
       })
     }
