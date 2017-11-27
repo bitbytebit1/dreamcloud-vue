@@ -52,11 +52,11 @@ export default {
         })
         .catch((error) => {
           DCPlayer.error_count++
-          // console.log('failed to play', DCPlayer.error_count)
-          if (DCPlayer.error_count < 3) {
+          console.log('failed to play', DCPlayer.error_count)
+          if (DCPlayer.error_count < 4) {
             DCPlayer.error()
           } else {
-            // console.log('i gave u 3 chances')
+            console.log('i gave u 4 chances')
             DCPlayer.error_count = 0
             DCPlayer.next()
           }
