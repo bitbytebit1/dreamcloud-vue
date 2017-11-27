@@ -12,6 +12,17 @@
           <v-icon>keyboard_arrow_down</v-icon>
         </v-list-tile-action>
       </v-list-tile>
+ 
+      <v-list-tile ripple @click="closeLeftOnMobile" :to="{path: '/u/playlists/all'}">
+        <v-list-tile-action>
+          <v-icon>toc</v-icon>
+        </v-list-tile-action>
+        <v-list-tile-content>
+          <v-list-tile-title>All</v-list-tile-title>
+        </v-list-tile-content>
+      </v-list-tile>
+      <v-divider></v-divider>
+      
       <v-list-tile 
         v-for="subItem in playlistRefs"
         @click="closeLeftOnMobile" 
@@ -38,7 +49,6 @@
 <script>
 
 /* eslint-disable */
-import { DCFB } from '@/DCAPIs/DCFB.js'
 import deleteButton from '@/components/misc/delete-button'
 export default {
   name: 'user-playlists',
@@ -47,25 +57,25 @@ export default {
   },
   data () {
     return {
-      UID: DCFB.UID,
+      UID: this.$DCFB.UID,
       active: true
     }
   },
   methods: {
-    isPlaying: function (s, n, id) {
+    isPlaying (s, n, id) {
       var a = this.$store.getters.hash === '/u/' + s + '/' + n + '/' + encodeURIComponent(id) ? 'teal' : ''
       return a
     },    
-    closeLeftOnMobile: function () {
+    closeLeftOnMobile () {
       this.$emit('closeLeft')
     },
-    playlistDelete: function (playlistID) {
-      DCFB.playlistDelete(playlistID) 
+    playlistDelete (playlistID) {
+      this.$DCFB.playlistDelete(playlistID) 
     }
   },
-  firebase: function () {
+  firebase () {
     return {
-      playlistRefs: DCFB.playlistsRefs.orderByChild('name_lower')
+      playlistRefs: this.$DCFB.playlistsRefs.orderByChild('name_lower')
     }
   }
 }

@@ -35,7 +35,7 @@
           <v-container fluid grid-list-md class="pa-0 ma-0">
             <v-layout row wrap>
               <v-flex>
-                <v-slider color="teal" :label="currentTime" @input="changePos" v-model="progress" id="progress-slider" max="10000" hide-details></v-slider>
+                <v-slider :max="eAudio.duration" :label="currentTime" @input="changePos" v-model="progress" id="progress-slider" color="teal" hide-details></v-slider>
               </v-flex>
             </v-layout>
           </v-container>
@@ -65,13 +65,7 @@ export default {
     }
   },
   computed: {
-    currentPos: function () {
-      if (this.$UTILS.isMobile) {
-        return this.secondsToDuration(this.eAudio.duration.toFixed(0))
-      }
-      return this.eAudio.currentTime.toString() || ''
-    },
-    currentImage: function () {
+    currentImage () {
       // very hacky way to get the loading spinner to fire before the audio element fires
       if (this.$store.getters.index > -1) {
         this.loading()
@@ -82,53 +76,52 @@ export default {
     }
   },
   methods: {
-    toggleMute: function () {
+    toggleMute () {
       this.eAudio.muted = !this.eAudio.muted
       this.volIcon = this.eAudio.muted ? 'volume_off' : this.updateVolIcon()
     },
-    volumeChange: function (wasd) {
+    volumeChange (wasd) {
       this.eAudio.volume = this.volume / 10
       this.updateVolIcon()
       !0 === this.eAudio.muted && (this.eAudio.muted = !1) // if muted then set not muted, could just set false
     },
-    updateVolIcon: function () {
+    updateVolIcon () {
       return this.volIcon = 5 < this.volume ? "volume_up" : 0 < this.volume ? "volume_down" : "volume_off"
     },
-    changePos: function (pos) {
-      var time = Math.floor(Math.floor(pos / 100) * (this.eAudio.duration / 100))
-      if (!isNaN(time)) {
-        this.eAudio.currentTime = time
+    changePos (pos) {
+      if (!isNaN(pos)) {
+        this.eAudio.currentTime = pos
       }
     },
-    togglePlay: function () {
+    togglePlay () {
       if (this.eAudio.paused) {
         this.eAudio.play()
       } else {
         this.eAudio.pause()
       }
     },
-    updated: function () {
+    updated () {
       this.currentTime = this.secondsToDuration(this.eAudio.currentTime) + '~' + this.secondsToDuration(this.eAudio.duration)
-      this.progress = Math.floor(((100 / this.eAudio.duration) * this.eAudio.currentTime) * 100)
+      this.progress = Math.floor(this.eAudio.currentTime)
     },
-    playing: function () {
+    playing () {
       this.duration = this.secondsToDuration(this.eAudio.duration.toFixed(0))
       this.play_arrow = 'pause'
       this.bLoading = false
     },
-    paused: function () {
+    paused () {
       this.play_arrow = 'play_arrow'
     },
-    loading: function () {
+    loading () {
       this.bLoading = true
     },
-    next: function () {
+    next () {
       this.$DCPlayer.next()
     },
-    previous: function () {
+    previous () {
       this.$DCPlayer.previous()
     },
-    secondsToDuration: function (ms) {
+    secondsToDuration (ms) {
       if (isNaN(ms)) {
         return '00:00'
       }
@@ -143,22 +136,19 @@ export default {
       return (hh > 0 ? hh + ':' : '') + mm + ':' + ss
     }
   },
-  mounted: function () {
+  mounted () {
     this.$DCPlayer.eAudio = document.getElementById('dc-audio') // A little bit naughty to set the value like this =\
     this.eAudio = document.getElementById('dc-audio')
     this.eAudio.addEventListener('timeupdate', this.updated)
     this.eAudio.addEventListener('playing', this.playing)
     this.eAudio.addEventListener('pause', this.paused)
-    this.eAudio.addEventListener('loadstart', this.loading)
+    this.eAudio.addEventListener('loadstart', this.loading)    
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-#duration{
-  /* .mt-2.mr-4; */
-} 
 #loadingSpinner{
   top:10px;
   width: 52px !important;

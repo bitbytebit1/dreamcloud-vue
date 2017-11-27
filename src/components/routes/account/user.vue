@@ -31,7 +31,6 @@
 
 <script>
   /* eslint-disable */
-import { fb } from '@/DCAPIs/DCFB.js'
 import loading from '@/components/misc/loading.vue'
 
 export default {
@@ -48,11 +47,11 @@ export default {
       percentage: 0
     }
   },
-  created: function () {
+  created () {
     this.get_storage_estimate()
   },
   methods: {
-    get_storage_estimate: function () {
+    get_storage_estimate () {
       this.get_storage_estimate_wrap().then((estimate) => {
         this.loading = false
         this.usage = this.$UTILS.formatBytes(estimate.usage)
@@ -60,7 +59,7 @@ export default {
         this.percentage =  (estimate.usage / estimate.quota).toFixed(2);
       })
     },
-    get_storage_estimate_wrap: function () {
+    get_storage_estimate_wrap () {
       if ('storage' in navigator && 'estimate' in navigator.storage) {
         // We've got the real thing! Return its response.
         return navigator.storage.estimate();
@@ -80,12 +79,12 @@ export default {
       // If we can't estimate the values, return a Promise that resolves with NaN.
       return Promise.resolve({usage: NaN, quota: NaN});
     },
-    logout: function () {
-      fb.auth().signOut().then(() => {
+    logout () {
+      this.$DCFB.fb.auth().signOut().then(() => {
         this.$router.replace('login')
       })
     },
-    clear: function () {
+    clear () {
       caches.keys().then((names) => {
         for (let name of names){
           caches.delete(name)

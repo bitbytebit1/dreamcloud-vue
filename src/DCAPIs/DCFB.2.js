@@ -2,7 +2,7 @@ import firebase from 'firebase'
 // http://2ality.com/2014/09/es6-modules-final.html
 // https://www.firebase.com/docs/web/guide/saving-data.html
 // https://github.com/vuejs/vuefire/issues/18
-// /* eslint-disable */
+/* eslint-disable */
 var config = {
   apiKey: 'AIzaSyDSaKaRsDvmOicthSOJGvSF4iQC2ZprwFw',
   authDomain: 'dreamcloud-3f276.firebaseapp.com',
@@ -12,21 +12,22 @@ var config = {
   messagingSenderId: '137974869044'
 }
 
-class DCFB {
+export const fb = firebase.initializeApp(config)
+export const db = firebase.database()
+
+class DCFB1 {
   constructor () {
+    this.UID = ''
     this.playlists = ''
     this.playlistRefs = ''
-    this.fb = firebase.initializeApp(config)
-    this.db = firebase.database()
-    this.UID = this.fb.auth.currentUser
   }
 
   init (UID) {
     this.UID = UID
-    this.settings = this.db.ref('users/' + UID + '/Settings')
-    this.playlists = this.db.ref('users/' + UID + '/PlaylistsData')
-    this.playlistsRefs = this.db.ref('users/' + UID + '/PlaylistsNames')
-    this.subscriptions = this.db.ref('users/' + UID + '/Subscriptions')
+    this.settings = db.ref('users/' + UID + '/Settings')
+    this.playlists = db.ref('users/' + UID + '/PlaylistsData')
+    this.playlistsRefs = db.ref('users/' + UID + '/PlaylistsNames')
+    this.subscriptions = db.ref('users/' + UID + '/Subscriptions')
   }
 
   setting (name) {
@@ -50,8 +51,9 @@ class DCFB {
     var nameRef = this.playlistsRefs.push({'name': name, name_lower: name.toLowerCase()})
     // Using ID + name push new song.
     this.playlists.child(nameRef.ref.key).set({'name': name, name_lower: name.toLowerCase()})
-
+    
     this.playlistSongAdd(nameRef.ref.key, json)
+
   }
 
   playlistDelete (playlistId) {
@@ -60,19 +62,11 @@ class DCFB {
   }
 
   playlistSongAdd (id, json) {
-    let pusha = (js) => {
+    for (var [key, value] of Object.entries(json)) {
+      delete value['.key']
       var songRef = this.playlists.child(id + '/songs').push()
-      js.key = songRef.key
-      delete js['.key']
-      songRef.set(js)
-    }
-    if (json.length > 1) {
-      for (var [key, value] of Object.entries(json)) {
-        pusha(value, key)
-      }
-    } else {
-      json = Array.isArray(json) ? json[0] : json
-      pusha(json)
+      value.key = songRef.key
+      songRef.set(value)
     }
   }
   playlistSongDelete (playlistId, songId) {
@@ -80,12 +74,7 @@ class DCFB {
   }
 
   playlistGet (userId, playlistId) {
-    return this.db.ref('users/' + userId + '/PlaylistsData/' + playlistId + '/songs')
+    return db.ref('users/' + userId + '/PlaylistsData/' + playlistId + '/songs')
   }
 }
-
-export default {
-  install (Vue, options) {
-    Object.defineProperty(Vue.prototype, '$DCFB', { value: new DCFB() })
-  }
-}
+export let DCFB = new DCFB1()

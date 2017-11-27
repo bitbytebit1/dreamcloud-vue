@@ -1,16 +1,18 @@
 <template>
-  <v-container grid-list-md text-xs-center>
+  <v-container grid-list-md text-xs-center :class="$vuetify.breakpoint.name === 'xs'? 'ma-0 pa-0 pt-1' : ''">
     <v-layout align-center row wrap slot='header'>
 
       <!-- Left column -->
       <v-flex xs12 lg2 >
         <!-- Avatar -->
-        <v-avatar size='' slot='activator'>
-          <img :src='info.img' class='img-fluid' style='display:inline-block; margin:20px;'/>
-        </v-avatar>
+        <v-flex xl12>
+          <v-avatar size='100px' slot='activator'>
+            <img :src='info.img' class='img-fluid' style='display:inline-block;'/>
+          </v-avatar>
+        </v-flex>
         <!-- Subscribe Button -->
-        <v-flex>
-          <subscribe-button :artistID="artistID" :source="source" :artist="artist" :img="info.img"></subscribe-button>
+        <v-flex xl12>
+          <subscribe-button v-if="$store.getters.auth_state" :artistID="artistID" :source="source" :artist="artist" :img="info.img"></subscribe-button>
         </v-flex>
       </v-flex>
 
@@ -20,7 +22,7 @@
         <v-flex xs12 lg12 :class="$vuetify.breakpoint.name === 'xs'? 'headline' : 'headline text-xs-left'">
           <strong>{{ artist }}</strong>
         </v-flex>
-        <v-flex xs12 lg10 :class="$vuetify.breakpoint.name === 'xs'? 'headline' : 'headline text-xs-left'">
+        <v-flex style="min-height:65px;" xs12 lg10 :class="$vuetify.breakpoint.name === 'xs'? 'headline' : 'headline text-xs-left'">
           <!-- Meta -->
           <v-flex d-flex>
             <v-tooltip bottom v-for="item in items" v-if="item.data" :key="item.name">
@@ -36,7 +38,7 @@
         </v-flex>
       </v-flex>
       <!-- Description -->
-      <v-flex xs12 class='text-xs-left'>
+      <v-flex xs12 class='text-xs-left' v-if="info.description">
         {{ info.description }}
       </v-flex>
     </v-layout>
@@ -55,7 +57,7 @@ export default {
       info: {
         created: '',
         description: '',
-        img: '',
+        img: 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
         followers_count: '',
         last_modified: '',
         title: '',
@@ -64,7 +66,7 @@ export default {
     }
   },
   computed: {
-    items: function () {
+    items () {
       return [
         { icon: 'music_note', name: 'Tracks', data: this.info.track_count },
         { icon: 'star', name: 'Followers', data: this.info.followers_count },
@@ -73,7 +75,7 @@ export default {
       ]
     }
   },
-  mounted: function () {
+  mounted () {
     this.$DCAPI.getArtistInfo(this.artistID, this.source).then(response => {
       if (this.source.toLowerCase().indexOf('youtube') > -1) {
         this.info.created = response.data.items[0].snippet.publishedAt

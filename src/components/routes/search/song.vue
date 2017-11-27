@@ -21,17 +21,17 @@ export default {
   components: {
     'playlist': playlist
   },
-  created: function () {
+  created () {
     this.search(this.trackID, this.source)
   },
   watch: {
     '$route.params': '_search'
   },
   methods: {
-    _search: function (sQuery, aSource) {
+    _search (sQuery, aSource) {
       this.search(this.$route.params.trackID, this.$route.params.source)
     },
-    search: function (sQuery, aSource) {
+    search (sQuery, aSource) {
       sQuery = sQuery || this.query
       aSource = aSource || this.source
       this.error = this.post = null

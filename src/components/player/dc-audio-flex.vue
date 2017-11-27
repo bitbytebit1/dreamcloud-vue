@@ -64,50 +64,50 @@ export default {
     }
   },
   computed: {
-    currentImage: function () {
+    currentImage () {
       return this.$store.getters.index > -1
       ? this.$store.getters.current_Playlist[this.$store.getters.index].posterLarge
       : '/static/img/loading.gif'
     }
   },
   methods: {
-    volumeChange: function (wasd) {
+    volumeChange (wasd) {
       this.eAudio.volume = this.volume / 10
     },
-    changePos: function (pos) {
+    changePos (pos) {
       var time = Math.floor(Math.floor(pos / 100) * (this.eAudio.duration / 100))
       if (!isNaN(time)) {
         this.eAudio.currentTime = time
       }
     },
-    togglePlay: function () {
+    togglePlay () {
       if (this.eAudio.paused) {
         this.eAudio.play()
       } else {
         this.eAudio.pause()
       }
     },
-    updated: function () {
+    updated () {
       this.progress = Math.floor(((100 / this.eAudio.duration) * this.eAudio.currentTime) * 100)
     },
-    playing: function (wasd) {
+    playing (wasd) {
       this.play_arrow = 'pause'
       this.bLoading = false
     },
-    paused: function () {
+    paused () {
       this.play_arrow = 'play_arrow'
     },
-    loading: function () {
+    loading () {
       this.bLoading = true
     },
-    next: function () {
+    next () {
       this.$DCPlayer.next()
     },
-    previous: function () {
+    previous () {
       this.$DCPlayer.previous()
     }
   },
-  mounted: function () {
+  mounted () {
     this.$DCPlayer.eAudio = document.getElementById('dc-audio') // A little bit naughty to set the value like this =\
     this.eAudio = document.getElementById('dc-audio')
     this.eAudio.addEventListener('timeupdate', this.updated)

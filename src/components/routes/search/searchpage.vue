@@ -33,7 +33,7 @@ export default {
     'playlist': playlist
   },
   computed: {
-    splitSource: function () {
+    splitSource () {
       if (this.source.length > 1) {
         let tmp = this.source
         return tmp.split('-')
@@ -41,7 +41,7 @@ export default {
       return this.source
     }
   },
-  created: function () {
+  created () {
     this._query = this.query
     this._source = this.splitSource
     this.search(this.query, this._source)
@@ -54,16 +54,16 @@ export default {
     '$route.params': '_search'
   },
   methods: {
-    infiniteHandler: function ($state) {
+    infiniteHandler ($state) {
       this.search(this._query, this._source, ++this.iPage).then(function () {
         $state.loaded()
       })
     },
-    _search: function (sQuery, aSource) {
+    _search (sQuery, aSource) {
       this._query = this.$route.params.source
       this.search(this.$route.params.query, this.splitSource)
     },
-    search: function (sQuery, aSource, iPage = 0) {
+    search (sQuery, aSource, iPage = 0) {
       // console.log(this)
       this.loading = !iPage                                           // If first page show loading
       this._query = sQuery || this._query                             // If not param set use internal

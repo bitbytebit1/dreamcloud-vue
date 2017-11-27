@@ -13,7 +13,7 @@ export default {
       aSongs: []
     }
   },
-  created: function () {
+  created () {
     this.search(this.user, this.playlist)
   },
   watch: {
@@ -21,11 +21,11 @@ export default {
     '$route.params.playlist': '_search'
   },
   methods: {
-    _search: function () {
+    _search () {
       console.log('searching')
       this.search(this.$route.params.user, this.$route.params.playlist)
     },
-    search: function (sUser, sPlaylist) {
+    search (sUser, sPlaylist) {
       sUser = sUser || this.user
       sPlaylist = sPlaylist || this.playlist
       this.error = this.post = null

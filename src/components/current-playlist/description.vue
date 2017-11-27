@@ -22,15 +22,15 @@ export default {
     }
   },
   methods: {
-    transformer: function (time) {
+    transformer (time) {
       console.log('time', time)
     }
   },
-  created: function () {
+  created () {
     console.log('created time', this.time)
   },
   computed: {
-    y: function () {
+    y () {
       
     }
   }

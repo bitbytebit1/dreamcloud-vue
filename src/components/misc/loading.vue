@@ -1,6 +1,9 @@
 <template>
-  <v-flex xs12 v-if="show">
-    <infinite-loading :spinner="spinner"></infinite-loading>
+  <v-flex xs12 v-show="show" class="loading">
+    <infinite-loading :ref="reff" @infinite="infiniteHandler" :spinner="spinner">
+      <span slot="no-more"></span>
+      <span v-if="!spinner" slot="spinner"></span>
+    </infinite-loading>
   </v-flex>
 </template>
 <script>
@@ -15,6 +18,18 @@ export default {
     spinner: {
       type: [String],
       default: 'default'
+    },
+    customSpinner: {
+      type: [Boolean],
+      default: false
+    },
+    infiniteHandler: {
+      type: [Function],
+      default: () => {}
+    },
+    reff: {
+      type: [String],
+      default: 'inf'
     }
   },
   components: {
@@ -24,4 +39,8 @@ export default {
 </script>
 
 <style>
+.loading{
+  position: fixed;
+  left: 50%
+}
 </style>

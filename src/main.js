@@ -11,6 +11,7 @@ import App from './App'
 import router from './router'
 import DCAPIPlug from '@/DCAPIs/DCAPI.js'
 import DCPlayerPlug from '@/DCAPIs/DCPlayer.js'
+import DCFBPlug from '@/DCAPIs/DCFB.js'
 // import DCUserPlug from '@/DCAPIs/DCUser.js'
 import UtilsPlug from '@/DCAPIs/Utils.js'
 import VueLazyload from 'vue-lazyload'
@@ -29,21 +30,12 @@ Vue.use(UtilsPlug)
 // Vue.use(DCUserPlug)
 Vue.use(DCAPIPlug)
 Vue.use(DCPlayerPlug)
+Vue.use(DCFBPlug)
 
 Vue.config.productionTip = false
 
 import VueFire from 'vuefire'
 Vue.use(VueFire)
-
-import * from 'linkifyjs'
-
-Vue.filter('linkify', {
-  read: function(val) {
-      return linkifyHtml(val, {
-          defaultProtocol: 'https'
-      })
-  }
-})
 
 // Vue.use(Vuetify, {
 //   theme: {

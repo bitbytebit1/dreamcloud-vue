@@ -7,7 +7,6 @@
 </template>
 <script>
 /* eslint-disable */
-import { DCFB } from '@/DCAPIs/DCFB.js'
 import subscription from '@/components/routes/home/sub'
 import subscriptionAll from '@/components/routes/home/sub2'
 import loading from '@/components/misc/loading'
@@ -23,9 +22,9 @@ export default {
       loading: true
     }
   },
-  firebase: function () {
+  firebase () {
     return {
-      subscriptions: DCFB.subscriptions.orderByChild('name')
+      subscriptions: this.$DCFB.subscriptions.orderByChild('name')
     }
   }
 }

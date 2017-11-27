@@ -23,20 +23,20 @@ export default {
     }
   },
   methods: {
-    scrollToTop: function () {
+    scrollToTop () {
       window.scrollTo(0, 0)
     },
-    handleScroll: function () {
+    handleScroll () {
       var scrollTop = (window.pageYOffset !== undefined) ? window.pageYOffset
       : (document.documentElement || document.body.parentNode || document.body)
       .scrollTop > 299
       this.showScrollToTop = (scrollTop > 299)
     }
   },
-  created: function () {
+  created () {
     window.addEventListener('scroll', this.handleScroll)
   },
-  destroyed: function () {
+  destroyed () {
     window.removeEventListener('scroll', this.handleScroll)
   }
 }

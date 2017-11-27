@@ -16,17 +16,17 @@ export default {
       searchQuery: ''
     }
   },
-  created: function () {
+  created () {
     this.search(this.user)
   },
   watch: {
     '$route.params.user': '_search'
   },
   methods: {
-    _search: function () {
+    _search () {
       this.search(this.$route.params.user)
     },
-    search: function (sUser) {
+    search (sUser) {
       sUser = sUser || this.user
       this.loading = true
       this.searchResults = []

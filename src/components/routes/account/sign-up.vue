@@ -31,7 +31,6 @@
 
 <script>
   /* eslint-disable */
-  import {fb, DCFB} from '@/DCAPIs/DCFB.js'
   export default {
     name: 'signUp',
   data () {
@@ -41,8 +40,8 @@
     }
   },
     methods: {
-      signUp: function () {
-        fb.auth().createUserWithEmailAndPassword(this.email, this.password).then(
+      signUp () {
+        this.$DCFB.fb.auth().createUserWithEmailAndPassword(this.email, this.password).then(
           (user) => {
             this.$router.replace('user')
           },

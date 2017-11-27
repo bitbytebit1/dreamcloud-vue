@@ -42,7 +42,6 @@
       </v-container>
       <list @toggleView="toggleView" v-if="list && $UTILS.isMobile" v-bind:songs="songs"></list>
       <scroll-to-top></scroll-to-top>
-      <iframe :src="iframeSrc"></iframe>
   </v-flex>
 </template>
 <script>
@@ -60,7 +59,7 @@ export default {
     },
     viewType: {
       type: [Object],
-      default: function () {
+      default () {
         return { full: true, list: !0 }
       }
     }
@@ -71,34 +70,31 @@ export default {
     'list': list,
     'scroll-to-top': scrollToTop
   },
+  created () {
+    // console.log(this.songs)
+  },
   data () {
     return {
       showScrollToTop: false,
-      msg: 'Welcome to the playlist Trinity',
-      iframeSrc: '',
       list: this.viewType.list
     }
   },
   computed: {
-    _size: function () {
+    _size () {
       // returns xs to xl depending on view port.
       // used to set padding around elements.
       return this.$vuetify.breakpoint.name
     }
   },
   methods: {
-    play: function (index) {
+    play (index) {
       this.$store.commit('setNPlay', {songs: this.songs, current: index, path: this.$route.path})
       return this.$DCPlayer.setNPlay(this.songs, index)
     },
-    setIframeSrc: function (sURL) {
-      console.log('src', sURL)
-      this.iframeSrc = sURL
-    },
-    sort: function () {
+    sort () {
       this.songs.sort(this.$DCAPI.sortDate)
     },
-    toggleView: function () {
+    toggleView () {
       this.list = !this.list
     }
   }
@@ -108,8 +104,5 @@ export default {
 <style>
 #search-results{
   margin-bottom: 10px
-}
-iframe{
-  display: none
 }
 </style>

@@ -37,7 +37,6 @@
   </v-list>
 </template>
 <script>
-// import { fb } from '@/DCAPIs/DCFB.js'
 import userPlaylists from '@/components/sidebar/user-playlists/user-playlists'
 import userSubscriptions from '@/components/sidebar/user-subscriptions/user-subscriptions'
 export default {
@@ -47,22 +46,22 @@ export default {
     'user-subscriptions': userSubscriptions
   },
   methods: {
-    closeLeft: function () {
+    closeLeft () {
       this.$emit('closeLeft', 'left')
     }
   },
   computed: {
-    loginPath: function () {
+    loginPath () {
       return '/' + this.loginText.toLowerCase()
     },
-    loginText: function () {
+    loginText () {
       return this.loggedIn ? 'User' : 'Login'
     },
-    loggedIn: function () {
+    loggedIn () {
       return this.$store.getters.auth_state
     }
   },
-  mounted: function () {
+  mounted () {
 
   }
 }

@@ -79,7 +79,7 @@ class DCAPIClass {
           resp[idx].pictures.extra_large,                       // posterLarge:
           'MixCloud',                                           // source:
           resp[idx].name,                                       // title:
-          ''                                                    // trackID:
+          resp[idx].url                                         // trackID:
         )
       }
     })
@@ -223,7 +223,7 @@ class DCAPIClass {
           resp[idx].pictures.sizes[resp[idx].pictures.sizes.length - 1].link,   // posterLarge:
           'vimeo',                                                              // source:
           resp[idx].name,                                                       // title:
-          '' // trackID:
+          resp[idx].link                                                        // trackID:
         )
       }
     })
@@ -274,7 +274,7 @@ class DCAPIClass {
           uid,
           resp.snippet.channelTitle,                                                          // artist:
           resp.snippet.channelId,                                                             // artistID:
-          this.parseDate(resp.snippet.publishedAt),                                          // created:
+          this.parseDate(resp.snippet.publishedAt),                                           // created:
           resp.snippet.description,                                                           // description:
           '',                                                                                 // duration:
           'http://dream.tribe.nu/r3/off/?q=' + 'https://www.youtube.com/watch?v=' + resp.id,  // mp3:
@@ -289,16 +289,16 @@ class DCAPIClass {
         delete this.aQuery[uid]
       })
     } else if (source.toLowerCase().indexOf('soundcloud') > -1) {
-      return axios.get('http://api.soundcloud.com/tracks/' + trackID + '?client_id=' + this.sScKey).then((resp) => {
+      return axios.get('https://api.soundcloud.com/tracks/' + trackID + '?client_id=' + this.sScKey).then((resp) => {
         resp = resp.data
         this.pushResult(
           uid,
           resp.user.username,                                                     // artist:
           resp.user_id,                                                           // artistID:
-          this.parseDate(resp.created_at),                                       // created:
+          this.parseDate(resp.created_at),                                        // created:
           resp.description,                                                       // description:
-          this.secondstominutes(Math.floor(resp.duration / 1E3)),                // duration:
-          resp.stream_url + '?client_id=' + this.sScKey,                         // mp3:
+          this.secondstominutes(Math.floor(resp.duration / 1E3)),                 // duration:
+          resp.stream_url + '?client_id=' + this.sScKey,                          // mp3:
           resp.permalink_url,                                                     // mp32:
           resp.artwork_url.replace('i1', 'i2').replace('-large', '-t300x300'),    // poster:
           resp.artwork_url.replace('-large', '-t500x500'),                        // posterLarge:

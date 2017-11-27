@@ -2,7 +2,7 @@ export default {
   install (Vue, options) {
     var Utils = {
       isMobile: window.matchMedia('only screen and (max-width: 599px)').matches,
-      copyToClipboard: function (sText) {
+      copyToClipboard (sText) {
         var tmp = document.createElement('input')
         document.body.appendChild(tmp)
         tmp.value = sText
@@ -10,12 +10,12 @@ export default {
         document.execCommand('copy')
         tmp.remove()
       },
-      closeSoftMobi: function () {
+      closeSoftMobi () {
         if (this.isMobile) {
           document.activeElement.blur()
         }
       },
-      downloadLink: function (sURL) {
+      downloadLink (sURL) {
         var iframe = document.createElement('iframe')
 
         iframe.style.display = 'none'
@@ -24,10 +24,10 @@ export default {
 
         document.body.appendChild(iframe)
       },
-      share: function (song) {
-        let url = 'offcloud.netlify.com/#/t/' + song.source + '/' + encodeURIComponent(song.artist) + '/' + song.trackID
-        if (this.isMobile) {
-          if (navigator.share) {
+      share (url, song) {
+        if (Utils.isMobile) {
+          Utils.downloadLink('whatsapp://send?text=' + encodeURIComponent(url))
+          if (navigator.share1) {
             navigator.share({
               title: song.title,
               text: song.description,
@@ -36,14 +36,13 @@ export default {
             .then(() => console.log('Successful share'))
             .catch((error) => console.log('Error sharing', error))
           } else {
-            this.downloadLink('whatsapp://send?text=' + url)
           }
           // this.$parent.setIframeSrc('') // double check if this works.
         } else {
-          this.copyToClipboard(url)
+          Utils.copyToClipboard(url)
         }
       },
-      formatBytes: function (a, b) {
+      formatBytes (a, b) {
         if (a === 0) {
           return '0 Bytes'
         }

@@ -1,12 +1,12 @@
 <template>
-  <v-btn class="del-btn" @mouseleave="clicks = 0" :color="color" icon @click.stop="emitDelete">
+  <v-btn v-bind="$props" class="del-btn" @mouseleave="clicks = clickedTwice ? 2 : 0" :color="color" icon @click.stop="emitDelete">
     <v-icon>{{dlIcn}}</v-icon>
   </v-btn>
 </template>
 <script>
 export default {
   name: 'delete-button',
-  props: ['id'],
+  props: ['id', 'disabled'],
   data () {
     return {
       clicks: 0
@@ -14,19 +14,25 @@ export default {
   },
   computed: {
     dlIcn () {
-      return this.clicked ? 'delete_forever' : 'delete'
+      return this.clickedOnce ? 'delete' : this.clickedTwice ? 'delete_forever' : 'delete'
     },
     color () {
-      return this.clicked ? 'red lighten-1' : ''
+      return this.clickedOnce ? 'red lighten-1' : this.clickedTwice ? 'green lighten-1' : ''
     },
-    clicked () {
+    clickedOnce () {
       return this.clicks === 1
+    },
+    clickedTwice () {
+      return this.clicks === 2
     }
   },
   methods: {
     emitDelete () {
       this.clicks++
       if (this.clicks === 2) {
+        setTimeout(() => {
+          this.clicks = 0
+        }, 2000)
         this.$emit('delete', this.id)
       }
     }

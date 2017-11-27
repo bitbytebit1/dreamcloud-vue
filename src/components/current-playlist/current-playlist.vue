@@ -24,12 +24,12 @@ export default {
     // 'vueNiceScrollbar': vueNiceScrollbar
   },
   computed: {
-    aPlaylist: function () {
-      return this.$store.getters.current_Playlist.slice(this.$store.getters.index)
+    aPlaylist () {
+      return this.$store.getters.current_Playlist.slice(this.$store.getters.index, this.$store.getters.index + 10)
     }
   },
   methods: {
-    play: function (index) {
+    play (index) {
       this.$store.commit('changeIndex', index)
       this.$DCPlayer.playIndex(index)
     }

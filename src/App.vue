@@ -45,7 +45,9 @@
         <!-- <v-container fluid fill-height> -->
           <v-layout justify-center >
             <transition name="fade" mode="out-in">
-              <router-view></router-view>
+              <!-- <keep-alive inlcude="all"> -->
+                <router-view></router-view>
+              <!-- </keep-alive> -->
             </transition>
           </v-layout>
         <!-- </v-container> -->
@@ -58,7 +60,6 @@
 </template>
 
 <script>
-  import { fb, DCFB } from '@/DCAPIs/DCFB.js'
   import search from './components/navbar/search'
   import dcAudio from './components/player/dc-audio'
   import currentPlaylist from './components/current-playlist/current-playlist'
@@ -80,29 +81,33 @@
       }
     },
     methods: {
-      closeLeft: function () {
+      closeLeft () {
         if (this.$UTILS.isMobile) {
           this.drawerLeft = false
         }
       }
     },
     computed: {
-      theme: function () {
+      theme () {
         return this.$store.getters.theme
       }
     },
-    created: function () {
-      fb.auth().onAuthStateChanged((user) => {
+    beforeCreate () {
+      let path = this.$route.path
+      this.$store.commit('authChange', !!this.$DCFB.fb.auth().currentUser)
+      this.$DCFB.fb.auth().onAuthStateChanged((user) => {
         if (user) {
           this.$store.commit('authChange', true)
-          DCFB.init(user.uid)
-          DCFB.setting('Night Mode').once('value', (snapshot) => {
+          this.$DCFB.init(user.uid)
+          this.$DCFB.setting('Night Mode').once('value', (snapshot) => {
             if (snapshot.val() !== null) {
               this.$store.commit('changeSetting', {'setting': 'Night Mode', 'value': snapshot.val()})
             }
           })
+          this.$router.replace(path)
         } else {
           this.$store.commit('authChange', false)
+          this.$router.replace('/login')
         }
       })
     }
@@ -122,8 +127,6 @@ main {
 .fade-enter-active {
   transition: opacity .3s ease;
 }
-
-.fade-leave {}
 
 .fade-leave-active {
   transition: opacity .3s ease;

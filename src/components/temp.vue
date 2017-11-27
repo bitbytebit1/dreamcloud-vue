@@ -19,7 +19,7 @@ export default {
   methods: {
   },
   computed: {
-    x: function () {
+    x () {
       
     }
   }

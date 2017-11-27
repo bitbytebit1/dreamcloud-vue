@@ -1,7 +1,11 @@
 /* eslint-disable */
 import Vue from 'vue'
+import store from '../vuex'
 import Router from 'vue-router'
-// import Home from '@/components/routes/home/home'
+Vue.use(Router)
+
+import home from '@/components/routes/user/subs/all'
+
 import settings from '@/components/routes/settings/settings'
 
 import artist from '@/components/routes/artist/artist'
@@ -9,21 +13,15 @@ import artist from '@/components/routes/artist/artist'
 import searchpage from '@/components/routes/search/searchpage'
 import song from '@/components/routes/search/song'
 
-import userPlaylist from '@/components/routes/user/user-playlist'
-import userIndex from '@/components/routes/user/user-index'
+import userPlaylist from '@/components/routes/user/playlists/playlist'
+import playlistsAll from '@/components/routes/user/playlists/all'
 
-import all from '@/components/routes/user/all'
-import home from '@/components/routes/user/all'
-// import home from '@/components/routes/home/all'
+import subsAll from '@/components/routes/user/subs/all'
 
 import user from '@/components/routes/account/user'
 import login from '@/components/routes/account/login'
 import signUp from '@/components/routes/account/sign-up'
 import password from '@/components/routes/account/password-reset'
-
-import {fb} from '../DCAPIs/DCFB.js'
-
-Vue.use(Router)
 
 let router = new Router({
   routes: [
@@ -52,7 +50,7 @@ let router = new Router({
     },    
     {
       path: '/',
-      redirect: '/home'      
+      redirect: '/home'
     },
     {
       path: '/home',
@@ -65,12 +63,20 @@ let router = new Router({
     {
       path: '/settings',
       name: 'settings',
-      component: settings
+      component: settings,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/subs/all',
-      name: 'all',
-      component: all
+      name: 'subsAll',
+      component: subsAll
+    },
+    {
+      path: '/u/playlists/all',
+      name: 'playlistsAll',
+      component: playlistsAll
     },
     {
       path: '/s/:source/:query',
@@ -90,12 +96,12 @@ let router = new Router({
       component: song,
       props: true
     },
-    {
-      path: '/u/:user/',
-      name: 'userIndex',
-      component: userIndex,
-      props: true
-    },
+    // {
+    //   path: '/u/:user/',
+    //   name: 'userIndex',
+    //   component: userIndex,
+    //   props: true
+    // },
     {
       path: '/u/:user/:playlist/:name',
       name: 'userPlaylist',
@@ -106,10 +112,9 @@ let router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-
-  let currentUser = fb.auth().currentUser;
-  let requiresAuth = to.matched.some(record => record.meta.requiresAuth);
   
+  let currentUser = store.getters.auth_state;
+  let requiresAuth = to.matched.some(record => record.meta.requiresAuth);
   if (requiresAuth && !currentUser ) next('login')
   else next()
 })

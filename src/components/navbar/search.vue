@@ -82,7 +82,7 @@ export default {
     }
   },
   computed: {
-    maSource: function () {
+    maSource () {
       var ret = []
       if (this.aSources.All) {
         return 'all'
@@ -96,22 +96,22 @@ export default {
     }
   },
   methods: {
-    _All: function (newVal) {
+    _All (newVal) {
       if (newVal) {
         this.aSources.MixCloud = this.aSources.SoundCloud = this.aSources.YouTube = this.aSources.Vimeo = false
       }
       this.search()
     },
-    _other: function (newVal) {
+    _other (newVal) {
       if (newVal) {
         this.aSources.All = false
       }
       this.search()
     },
-    __search: function (sQuery, sSource = 'YouTube') {
+    __search (sQuery, sSource = 'YouTube') {
       this.$router.push({name: 'searchPage', params: {query: this.sQuery, source: this.maSource}})
     },
-    search: function () {
+    search () {
       this.$UTILS.closeSoftMobi()
       this.__search(this.query)
     }

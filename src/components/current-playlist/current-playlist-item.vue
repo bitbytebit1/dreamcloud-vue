@@ -5,9 +5,9 @@
         <v-container grid-list-xs fill-height fluid>
           <v-layout fill-height>
             <v-flex xs12 align-end flexbox>
-              <span class="title white--text breaker19" v-text="song.title"></span>
+              <span class="title white--text breaker19 shadow" v-text="song.title"></span>
               <br/>
-              <span class="subheading white--text breaker19" v-text="song.artist"></span>
+              <span class="subheading white--text breaker19 shadow" v-text="song.artist"></span>
               </v-flex>
           </v-layout>
         </v-container>
@@ -28,17 +28,17 @@
           <v-btn icon @click.stop target="_blank" :href="song.mp32">
             <v-icon>open_in_new</v-icon>
           </v-btn>
-          <v-btn icon @click.stop.native="show = !show" v-if="song.description">
+          <v-btn icon @click.stop.native="show = !show" v-if="desc">
             <v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
           </v-btn>
         </v-card-actions>
         <v-slide-y-transition v-if="show">
           <!-- < XSS VULN v-html-->
           <!-- malicous description could lead to xss -->
-          <v-card-text @click.stop class="breaker19">
+          <v-card-text @click.stop class="breaker19" v-html="ytTimeToSeconds(desc)">
           <!-- v-html="ytTimeToSeconds(desc) -->
           <!-- < XSS VULN v-html -->
-          {{desc | linkify}}
+          <!-- {{desc | linkify}} -->
             <!-- {{desc | ytTimeToSeconds}} -->
           </v-card-text>
       </v-slide-y-transition>      
@@ -54,14 +54,17 @@ export default {
   components: {
     'add-to-playlist': addToPlaylist
   },
+  // updated () {
+    // this.show = (this.desc) && (this.$store.getters.index) && (this.$route.path === this.$store.getters.hash) && (this.song.mp32 === this.$store.getters.current_Playlist[this.$store.getters.index].mp32)
+  // },
   data () {
     return {
       show: false,
-      desc: ''
+      desc: this.song.description
     }
   },
   computed: {
-    artistID: function () {
+    artistID () {
       return '#/a/' + this.song.source + '/' + encodeURIComponent(this.song.artist) + '/' + this.song.artistID
     }
   },
@@ -69,7 +72,7 @@ export default {
     'show': 'ifShowGetDesc'
   },
   methods: {
-    ytTimeToSeconds: function (value) {
+    ytTimeToSeconds (value) {
       if (!value) {
         return ''
       }
@@ -83,26 +86,23 @@ export default {
           $&
         </span>`))
     },
-    ifShowGetDesc: function (newVal) {
+    ifShowGetDesc (newVal) {
       if (newVal) {
         this.getDesc()
       }
     },
-    getDesc: function () {
+    getDesc () {
       if (this.song.source === 'YouTube') {
-        // this.desc = this.song.desc
         this.$DCAPI.getSongDescription(this.song.trackID, this.song.source, (resp) => {
           this.desc = resp.items[0].snippet.description
         })
-      } else {
-        this.desc = this.song.desc
       }
     },
-    play: function () {
+    play () {
       this.$parent.$parent.play(this.index + this.$store.getters.index)
     },
-    download: function () {
-      this.$DCAPI.getAudio(this.song.mp32, (data) => {
+    download () {
+      this.$DCPlayer.getAudio(this.song.mp32, (data) => {
         this.$UTILS.downloadLink(data)
       })
     }
@@ -113,7 +113,10 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
 .breaker19{
-  word-break: break-all;
+  /* word-break: break-all; */
+  word-wrap: break-word;
+}
+.shadow{
   text-shadow: 4px 4px 8px black;
   background: rgba(1, 1, 1, .1);
 }

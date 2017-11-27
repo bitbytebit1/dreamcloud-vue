@@ -51,8 +51,6 @@
 </template>
 
 <script>
-
-import { DCFB } from '@/DCAPIs/DCFB.js'
 import deleteButton from '@/components/misc/delete-button'
 export default {
   name: 'user-playlists',
@@ -61,24 +59,24 @@ export default {
   },
   data () {
     return {
-      UID: DCFB.UID,
+      UID: this.$DCFB.UID,
       active: true
     }
   },
   methods: {
-    isPlaying: function (s, n, id) {
+    isPlaying (s, n, id) {
       return this.$store.getters.hash === '/a/' + s + '/' + encodeURIComponent(n) + '/' + id ? 'teal' : ''
     },
-    subscriptionDelete: function (subID) {
-      DCFB.subscriptionDelete(subID)
+    subscriptionDelete (subID) {
+      this.$DCFB.subscriptionDelete(subID)
     },
-    closeLeftOnMobile: function () {
+    closeLeftOnMobile () {
       this.$emit('closeLeft')
     }
   },
-  firebase: function () {
+  firebase () {
     return {
-      subscriptions: DCFB.subscriptions.orderByChild('name_lower')
+      subscriptions: this.$DCFB.subscriptions.orderByChild('name_lower')
     }
   }
 }

@@ -6,19 +6,18 @@
 <script>
 /* eslint-disable */
 import {DCAPIClass} from '@/DCAPIs/DCAPI.js'
-import { DCFB } from '@/DCAPIs/DCFB.js'
 import playlist from '@/components/playlist/playlist'
 export default {
   name: 'home', 
   components: {
     'playlist': playlist
   },  
-  data: function () {
+  data () {
     return {
       aSongs: []
     }
   },
-  created: function () {
+  created () {
     var results = [], idx = 0;
     for(var sub in this.subscriptions){
       this.$DCAPI.searchInt(0 , 0, [this.subscriptions[sub].source], this.subscriptions[sub].id, 
@@ -28,9 +27,9 @@ export default {
     }
     
   },
-  firebase: function () {
+  firebase () {
     return {
-      subscriptions: DCFB.subscriptions
+      subscriptions: this.$DCFB.subscriptions
     }
   }  
 }

@@ -1,11 +1,10 @@
 <template>
   <v-flex xs12 lg10 flexbox :key="this.$route.params.playlist">
     <h3>{{name}}</h3>
-    <playlist :songs="aSongs"></playlist>
+    <!-- <playlist :songs="aSongs"></playlist> -->
   </v-flex>
 </template>
 <script>
-import { DCFB } from '@/DCAPIs/DCFB.js'
 import playlist from '@/components/playlist/playlist'
 
 export default {
@@ -17,8 +16,8 @@ export default {
   watch: {
     '$route.params': 'bind'
   },
-  created: function () {
-    this.bind(this.user, this.playlist)
+  created () {
+    // this.bind(this.user, this.playlist)
   },
   data () {
     return {
@@ -26,17 +25,17 @@ export default {
     }
   },
   methods: {
-    bind: function (usr, plylist) {
-      this.$bindAsArray('aSongs', DCFB.playlistGet(this.$route.params.user, this.$route.params.playlist))
+    bind (usr, plylist) {
+      this.$bindAsArray('aSongs', this.$DCFB.playlistGet(this.$route.params.user, this.$route.params.playlist))
     },
-    _routChanged: function () {
+    _routChanged () {
       this.$unbind('aSongs')
       this.bind(this.$route.params.user, this.$route.params.playlist)
     }
   }
-  // firebase: function () {
+  // firebase () {
   //   return {
-  //     aSongs: DCFB.playlistGet(this.$route.params.user, this.$route.params.playlist)
+  //     aSongs: this.$DCFB.playlistGet(this.$route.params.user, this.$route.params.playlist)
   //   }
   // }
 }
