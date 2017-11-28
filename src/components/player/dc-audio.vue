@@ -142,7 +142,7 @@ export default {
     this.eAudio.addEventListener('timeupdate', this.updated)
     this.eAudio.addEventListener('playing', this.playing)
     this.eAudio.addEventListener('pause', this.paused)
-    this.eAudio.addEventListener('loadstart', this.loading)    
+    this.eAudio.addEventListener('loadstart', this.loading)
   }
 }
 </script>

@@ -13,7 +13,6 @@
               label="Filter"
               single-line
               hide-details
-              v-model="search"
               v-on:keyup.enter="$UTILS.closeSoftMobi()"
               ref="search"
               ></v-text-field>

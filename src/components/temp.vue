@@ -1,25 +1,28 @@
 <template>
   <div class="?">
-    <h1>{{ msg }}</h1>
+    <h1>{{ x1 }}</h1>
   </div>
 </template>
 <script>
 /* eslint-disable */
-import x from '@/components/'
+import deleteButton from '@/components/misc/delete-button'
 export default {
-  name: '?',
+  name: 'x',
   components: {
-    '?': x
+    'delete-button': deleteButton
   },
   data () {
     return {
-      x: 'deleteme?'
+      x1: 'deleteme?'
     }
   },
   methods: {
+    x2: () => {
+
+    }
   },
   computed: {
-    x () {
+    x3 () {
       
     }
   }
