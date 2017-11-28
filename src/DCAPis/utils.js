@@ -3,6 +3,8 @@ export default {
     var Utils = {
       isMobile: window.matchMedia('only screen and (max-width: 599px)').matches,
       isOnline: () => (window.navigator.onLine),
+      setLoc: (a, b) => localStorage.setItem(a, b),
+      getLoc: (a) => localStorage.getItem(a),
       copyToClipboard (sText) {
         var tmp = document.createElement('input')
         document.body.appendChild(tmp)
