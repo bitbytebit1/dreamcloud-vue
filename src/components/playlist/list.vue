@@ -48,15 +48,15 @@
     <!-- data-table -->
     <v-data-table
         ref="dtable"
-        :rows-per-page-items='[25, 50, 100, { text: "All", value: -1 }]'
         :headers="headers"
         :items="songs"
-        :search="search"
+        :item-key="itemKey"
         :pagination.sync="pagination"
+        :rows-per-page-items='[25, 50, 100, { text: "All", value: -1 }]'
+        :search="search"
+        :select-all="bSelect"
 
         v-model="selected"
-        :item-key="itemKey"
-        :select-all="bSelect"
 
       >
       <template slot="items" slot-scope="props">
@@ -77,7 +77,7 @@
         </v-btn>
         <v-list>
           <v-list-tile>
-            <add-to-playlist key="single" :song="props.item"></add-to-playlist>
+            <add-to-playlist :song="addSong(props.item)"></add-to-playlist>
           </v-list-tile>
           <v-list-tile v-for="(action, index) in actions" :key="action.title" @click="action.func(props.item)">
             <!-- <v-list-tile-title>{{ action.title }}</v-list-tile-title> -->
@@ -154,47 +154,14 @@ export default {
         return this.$refs.dtable.filteredItems.length ? this.$refs.dtable.filteredItems : this.songs
       }
     },
-    /* sorted1 () {
-      let callback
-      switch (this.pagination.sortBy) {
-        case 'created':
-          callback =
-          this.pagination.descending
-          ? (a, b) => {
-            a = new Date(a.created)
-            b = new Date(b.created)
-            return a > b ? -1 : a < b ? 1 : 0
-          }
-          : (a, b) => {
-            a = new Date(a.created)
-            b = new Date(b.created)
-            return b > a ? -1 : b < a ? 1 : 0
-          }
-          break
-        case 'artist':
-          callback =
-          this.pagination.descending
-          ? (a, b) => { a.artist = a.artist.toLowerCase(); b.artist = b.artist.toLowerCase(); return (b.artist > a.artist) - (b.artist < a.artist) }
-          : (a, b) => { a.artist = a.artist.toLowerCase(); b.artist = b.artist.toLowerCase(); return (a.artist > b.artist) - (a.artist < b.artist) }
-          break
-        case 'title':
-          callback =
-          this.pagination.descending
-          ? (a, b) => { a.title = a.title.toLowerCase(); b.title = b.title.toLowerCase(); return (b.title > a.title) - (b.title < a.title) }
-          : (a, b) => { a.title = a.title.toLowerCase(); b.title = b.title.toLowerCase(); return (a.title > b.title) - (a.title < b.title) }
-          break
-        default:
-      }
-      let copy = this.songs
-      copy.sort(callback)
-      return copy
-    },
-    */
     artistID () {
       return '/#/a/' + this.song.source + '/' + this.song.artist + '/' + this.song.artistID
     }
   },
   methods: {
+    addSong (song) {
+      return this.bSelect && this.selected.length ? this.selected : song
+    },
     remove (key) {
       this.$DCFB.playlistSongDelete(this.$route.params.playlist, key)
     },
