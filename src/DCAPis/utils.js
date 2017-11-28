@@ -2,6 +2,7 @@ export default {
   install (Vue, options) {
     var Utils = {
       isMobile: window.matchMedia('only screen and (max-width: 599px)').matches,
+      isOnline: () => (window.navigator.onLine),
       copyToClipboard (sText) {
         var tmp = document.createElement('input')
         document.body.appendChild(tmp)
