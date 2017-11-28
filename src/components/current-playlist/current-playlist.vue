@@ -25,7 +25,7 @@ export default {
   },
   computed: {
     aPlaylist () {
-      return this.$store.getters.current_Playlist.slice(this.$store.getters.index, this.$store.getters.index + 10)
+      return this.$store.getters.current_Playlist.slice(this.$store.getters.index, this.$store.getters.index + this.$UTILS.isMobile ? 5 : 10)
     }
   },
   methods: {
