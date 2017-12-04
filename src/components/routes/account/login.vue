@@ -22,16 +22,20 @@
               v-on:keyup.enter="signIn"
               type="password"
             ></v-text-field>
-            <v-btn round type="submit" v-on:click="signIn">Sign In</v-btn>
+            <v-btn color="teal white--text" :loading="loading1" :disabled="loading1" round type="submit" v-on:click="signIn">
+              Sign In
+              <v-icon right dark>lock_open</v-icon>
+            </v-btn>
             <br />
           </form>
         </v-flex>
+        <div class="text-xs-center">
+          <v-btn :loading="loading2" :disabled="loading2" round class="red" dark @click.prevent="signInGoogle">Sign in with Google
+            <v-icon right dark>lock_open</v-icon>
+          </v-btn>
+        </div>
 <!--         
-                    <div class="text-xs-center">
-                      <v-btn round class="red" dark @click.prevent="onSigninGoogle">Login with Google
-                        <v-icon right dark>lock_open</v-icon>
-                      </v-btn>
-                    </div>
+
                     <div class="text-xs-center">
                       <v-btn round color="blue" dark @click.prevent="onSigninFacebook">Login with Facebook
                         <v-icon right dark>lock_open</v-icon>
@@ -62,20 +66,44 @@
     data () {
       return {
         email: '',
-        password: ''
+        password: '',
+        loading1: false,
+        loading2: false
       }
     },
     methods: {
       signIn () {
+        this.loading1 = true
         this.$DCFB.fb.auth().signInWithEmailAndPassword(this.email, this.password).then(
-          (user) => {
+          user => {
+            this.$store.commit('authChange', true)
             this.$DCFB.init(user.uid)
+            this.loading1 = false
             this.$router.replace('home')
           },
-          (err) => {
+          err => {
+            this.$store.commit('authChange', false)
             alert('Oops. ' + err.message)
+            this.loading1 = false
           }
         )
+      },
+      signInGoogle () {
+        this.loading2 = true
+        this.$DCFB.fb.auth().signInWithPopup(new this.$DCFB.GoogleAuth())
+          .then(
+            user => {
+              this.$DCFB.init(user.uid)
+              this.$router.replace('home')
+              this.loading2 = false
+            }
+          )
+          .catch(
+            err => {
+              alert('Oops. ' + err.message)
+              this.loading2 = false
+            }
+          )
       }
     }
   }
