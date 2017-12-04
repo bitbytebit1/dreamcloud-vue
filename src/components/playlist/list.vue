@@ -87,6 +87,9 @@
               </v-icon>
             </v-btn>
           </v-list-tile>
+          <v-list-tile>
+            <share-button :song="props.item" :url="'https://offcloud.netlify.com/#/t/' + props.item.source + '/' + encodeURIComponent(props.item.artist) + '/' + props.item.trackID"></share-button>
+          </v-list-tile>
           <v-list-tile v-if="props.item.key">
             <delete-button :id="props.item.key" @delete="remove(props.item.key)"></delete-button>
           </v-list-tile>
@@ -102,12 +105,15 @@
 // /* eslint-disable */
 import addToPlaylist from '@/components/playlist/add-to-playlist.vue'
 import deleteButton from '@/components/misc/delete-button'
+import shareButton from '@/components/misc/share-button'
+
 export default {
   name: 'list',
   props: ['songs'],
   components: {
     'add-to-playlist': addToPlaylist,
-    'delete-button': deleteButton
+    'delete-button': deleteButton,
+    'share-button': shareButton
   },
   data () {
     return {
@@ -122,7 +128,6 @@ export default {
       },
       search: '',
       actions: [
-        {'icon': 'share', func: this.share},
         {'icon': 'file_download', func: this.download}
       ],
       today: new Date(),
@@ -180,9 +185,6 @@ export default {
         this.$UTILS.downloadLink(data)
       })
     },
-    shareURL (song) {
-      return '#/t/' + song.source + '/' + encodeURIComponent(song.artist) + '/' + encodeURIComponent(song.title) + '/' + song.trackID
-    },
     shareArtistURL (song) {
       return '#/a/' + song.source + '/' + encodeURIComponent(song.artist) + '/' + song.artistID
     },
@@ -210,9 +212,6 @@ export default {
       index = this.pagination.page === 1 ? index : (this.pagination.rowsPerPage * (this.pagination.page - 1)) + index
       this.$store.commit('setNPlay', {songs: this.sorted, current: index, path: this.$route.path})
       this.$DCPlayer.setNPlay(this.sorted, index)
-    },
-    share (song) {
-      this.$UTILS.share('https://offcloud.netlify.com/#/t/' + song.source + '/' + encodeURIComponent(song.artist) + '/' + song.trackID, song)
     }
   }
 }

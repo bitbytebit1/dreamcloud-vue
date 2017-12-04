@@ -15,10 +15,10 @@
       <v-card-actions>
 
           <add-to-playlist :song="song"></add-to-playlist>
+          <!-- https://offcloud.netlify.com/ -->
+          
+          <share-button :song="song" :url="'https://offcloud.netlify.com/#/t/' + song.source + '/' + encodeURIComponent(song.artist) + '/' + song.trackID"></share-button>
 
-          <v-btn icon @click.stop="share">
-            <v-icon>share</v-icon>
-          </v-btn>
           <v-btn icon @click.stop="download">
             <v-icon>file_download</v-icon>
           </v-btn>
@@ -47,12 +47,14 @@
 </template>
 <script>
 import addToPlaylist from '@/components/playlist/add-to-playlist.vue'
+import shareButton from '@/components/misc/share-button'
 
 export default {
   props: ['song', 'index'],
   name: 'current-playlist-item',
   components: {
-    'add-to-playlist': addToPlaylist
+    'add-to-playlist': addToPlaylist,
+    'share-button': shareButton
   },
   // updated () {
     // this.show = (this.desc) && (this.$store.getters.index) && (this.$route.path === this.$store.getters.hash) && (this.song.mp32 === this.$store.getters.current_Playlist[this.$store.getters.index].mp32)
@@ -105,6 +107,9 @@ export default {
       this.$DCPlayer.getAudio(this.song.mp32, (data) => {
         this.$UTILS.downloadLink(data)
       })
+    },
+    share () {
+      this.$UTILS.share('https://offcloud.netlify.com/#/t/' + this.song.source + '/' + encodeURIComponent(this.song.artist) + '/' + this.song.trackID, this.song)
     }
   }
 }

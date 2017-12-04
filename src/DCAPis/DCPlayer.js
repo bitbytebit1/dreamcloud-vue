@@ -43,20 +43,25 @@ export default {
         return DCPlayer.getAudio(sURL, DCPlayer.setAudioSrc)
       },
       setAudioSrc (sURL) {
+        //append x=error_count if error_count > 0
         DCPlayer.eAudio.src = sURL + (DCPlayer.error_count ? '&x=' + DCPlayer.error_count : '')
-        var play = DCPlayer.play()
-        // If play then reset error_count
-        play.then(() => {
+        DCPlayer.eAudio.load()
+        var play = DCPlayer.play().then(() => {
+          // If play then reset error_count
           DCPlayer.error_count = 0
         })
-        // Else add 1 to error count and call error
-        .catch((error) => {
-          DCPlayer.error_count++
-          if (DCPlayer.error_count < 6) {
-            DCPlayer.error()
-          } else {
-            DCPlayer.error_count = 0
-            DCPlayer.next()
+        // Else if the user doesn't choose another track add 1 to error count and try to play again if under 5
+        .catch(error => {
+          if(error.toString().indexOf('interrupted by a new load request') === -1){
+            console.log('Error:', error, '\n Trying again!')
+            DCPlayer.error_count++
+            if (DCPlayer.error_count < 6) {
+              DCPlayer.error()
+            } else {
+              console.log('Failed to play 5 times, next song!')
+              DCPlayer.error_count = 0
+              DCPlayer.next()
+            }
           }
         })
         return play
@@ -104,6 +109,7 @@ export default {
       },
       error (a) {
         setTimeout(function () {
+          console.log('trying to play again!')
           DCPlayer.playIndex(DCPlayer.iCurrent)
         }, 2000)
       },

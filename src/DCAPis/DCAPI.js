@@ -79,7 +79,7 @@ class DCAPIClass {
           resp[idx].pictures.extra_large,                       // posterLarge:
           'MixCloud',                                           // source:
           resp[idx].name,                                       // title:
-          resp[idx].url                                         // trackID:
+          encodeURIComponent(resp[idx].key)                     // trackID:
         )
       }
     })
@@ -252,7 +252,7 @@ class DCAPIClass {
     } else if (source.toLowerCase().indexOf('mixcloud') > -1) {
       return axios.get('https://api.mixcloud.com/' + artistID + '/').then(hCallback)
     } else {
-      return(Promise.resolve(""));      
+      return(Promise.resolve(""))
     }
   }
   getSongDescription (trackID, source, hCallback) {
@@ -302,13 +302,34 @@ class DCAPIClass {
           resp.permalink_url,                                                     // mp32:
           resp.artwork_url.replace('i1', 'i2').replace('-large', '-t300x300'),    // poster:
           resp.artwork_url.replace('-large', '-t500x500'),                        // posterLarge:
-          'Soundcloud',                                                           // source:
+          'SoundCloud',                                                           // source:
           resp.title,                                                             // title:
           resp.id                                                                 // trackID:
         )
         this.aQuery[uid].hCallback(this.aQuery[uid].aResult)
         delete this.aQuery[uid]
       })
+    } else if (source.toLowerCase().indexOf('mixcloud') > -1) {
+      return axios.get('https://api.mixcloud.com' + trackID).then((resp) => {
+        resp = resp.data
+        this.pushResult(
+          uid,
+          resp.user.name,                                                         // artist:
+          resp.user.key,                                                          // artistID:
+          this.parseDate(resp.created_time),                                      // created:
+          resp.description,                                                       // description:
+          this.secondstominutes(resp.audio_length),                               // duration: ??????????
+          resp.url,                                                               // mp3:
+          resp.url,                                                               // mp32:
+          resp.pictures.small,                                                    // poster:
+          resp.pictures.large,                                                    // posterLarge:
+          'MixCloud',                                                             // source:
+          resp.name,                                                              // title:
+          resp.key                                                                // trackID:
+        )
+        this.aQuery[uid].hCallback(this.aQuery[uid].aResult)
+        delete this.aQuery[uid]
+      })      
     }
   }
 

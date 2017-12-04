@@ -18,9 +18,9 @@
               ></v-text-field>
             </v-flex>
             <v-flex lg2 :class="$vuetify.breakpoint.name === 'xs' ? '' : 'pt-2'">
-              <v-btn icon @click="search">
+              <v-btn icon>
                 <v-icon>filter_list</v-icon>
-              </v-btn>            
+              </v-btn> 
               <v-btn icon @click="toggleView">
                 <v-icon>view_headline</v-icon>
               </v-btn>

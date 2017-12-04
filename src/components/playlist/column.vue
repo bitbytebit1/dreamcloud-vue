@@ -5,15 +5,15 @@
           v-lazy:background-image="song.posterLarge"
           height="220px"
         >
-        <!-- v-if="availableOffline" -->
           <v-container grid-list-xs fill-height fluid>
             <v-layout fill-height>
               <v-flex xs12 align-end flexbox>
                 <span class="song-text main white--text" v-text="song.title"></span>
+                <br />
                 <span class="song-text white--text" v-text="song.artist"></span>
                 <v-btn v-if="availableOffline" class="offline" icon absolute :right="true"> 
                   <v-icon color="green">offline_pin</v-icon>
-                </v-btn>                
+                </v-btn>
                 <br />
               </v-flex>
             </v-layout>
@@ -24,9 +24,8 @@
 
           <add-to-playlist :song="song"></add-to-playlist>
 
-          <v-btn icon @click.stop="this.$UTILS.share(song)">
-            <v-icon>share</v-icon>
-          </v-btn>
+          <share-button :song="song" :url="'https://offcloud.netlify.com/#/t/' + song.source + '/' + encodeURIComponent(song.artist) + '/' + song.trackID"></share-button>
+          
           <v-btn icon @click.stop="download">
             <v-icon>file_download</v-icon>
           </v-btn>
@@ -36,17 +35,25 @@
           <v-btn icon @click.stop target="_blank" :href="song.mp32">
             <v-icon>open_in_new</v-icon>
           </v-btn>
+
+          <delete-button v-if="song.key" :id="song.key" @delete="remove(song.key)"></delete-button>
+
         </v-card-actions>
       </v-card>
     </v-flex>
 </template>
 <script>
 import addToPlaylist from '@/components/playlist/add-to-playlist.vue'
+import deleteButton from '@/components/misc/delete-button'
+import shareButton from '@/components/misc/share-button'
+
 export default {
   name: 'column',
   props: ['song', 'index'],
   components: {
-    'add-to-playlist': addToPlaylist
+    'add-to-playlist': addToPlaylist,
+    'delete-button': deleteButton,
+    'share-button': shareButton
   },
   data () {
     return {
@@ -81,14 +88,13 @@ export default {
         this.availableOffline = false
       })
     },
+    remove (key) {
+      this.$DCFB.playlistSongDelete(this.$route.params.playlist, key)
+    },
     play () {
       this.$parent.play(this.index).then(() => {
         this.checkIfAvailableOffline()
       })
-      // this.$parent.play(this.index)
-      // setTimeout(() => {
-      //   this.checkIfAvailableOffline()
-      // }, 2500)
     },
     download () {
       this.$DCPlayer.getAudio(this.song.mp32, (data) => {

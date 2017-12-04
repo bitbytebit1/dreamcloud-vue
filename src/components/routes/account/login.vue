@@ -26,39 +26,27 @@
             <br />
           </form>
         </v-flex>
-        
+<!--         
                     <div class="text-xs-center">
-                      <v-btn round class="red" dark :disabled="loading" :loading="loading" @click.prevent="onSigninGoogle">Login with Google
+                      <v-btn round class="red" dark @click.prevent="onSigninGoogle">Login with Google
                         <v-icon right dark>lock_open</v-icon>
-                        <span slot="loader" class="custom-loader">
-                        <v-icon light>cached</v-icon>
-                       </span>
                       </v-btn>
                     </div>
                     <div class="text-xs-center">
-                      <v-btn round primary dark :disabled="loading" :loading="loading" @click.prevent="onSigninFacebook">Login with Facebook
+                      <v-btn round color="blue" dark @click.prevent="onSigninFacebook">Login with Facebook
                         <v-icon right dark>lock_open</v-icon>
-                        <span slot="loader" class="custom-loader">
-                        <v-icon light>cached</v-icon>
-                       </span>
                       </v-btn>
                     </div>
                     <div class="text-xs-center">
-                      <v-btn round dark :disabled="loading" :loading="loading" @click.prevent="onSigninGithub">Login with Github
+                      <v-btn round dark @click.prevent="onSigninGithub">Login with Github
                         <v-icon right dark>lock_open</v-icon>
-                        <span slot="loader" class="custom-loader">
-                        <v-icon light>cached</v-icon>
-                       </span>
                       </v-btn>
                     </div>
                     <div class="text-xs-center">
-                      <v-btn round info dark :disabled="loading" :loading="loading" @click.prevent="onSigninTwitter">Login with Twitter
+                      <v-btn round color="light-blue" @click.prevent="onSigninTwitter">Login with Twitter
                         <v-icon right dark>lock_open</v-icon>
-                        <span slot="loader" class="custom-loader">
-                        <v-icon light>cached</v-icon>
-                       </span>
                       </v-btn>
-                    </div>
+                    </div> -->
         
         <h5>Don't have an account yet? You can create one <router-link to="/sign-up">here</router-link>.</h5>
         <h5><router-link to="/password-reset">Forgot your password?</router-link></h5>
