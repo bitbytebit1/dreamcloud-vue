@@ -53,7 +53,6 @@ export default {
         // Else if the user doesn't choose another track add 1 to error count and try to play again if under 5
         .catch(error => {
           if(error.toString().indexOf('interrupted by a new load request') === -1){
-            console.log('Error:', error, '\n Trying again!')
             DCPlayer.error_count++
             if (DCPlayer.error_count < 6) {
               DCPlayer.error()
@@ -109,9 +108,8 @@ export default {
       },
       error (a) {
         setTimeout(function () {
-          console.log('trying to play again!')
           DCPlayer.playIndex(DCPlayer.iCurrent)
-        }, 2000)
+        }, 1500)
       },
       setMediaSession (song) {
         if ('mediaSession' in navigator) {
