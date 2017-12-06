@@ -107,7 +107,7 @@
           this.$router.replace(path)
         } else {
           this.$store.commit('authChange', false)
-          this.$router.replace('/login')
+          // this.$router.replace('/login')
         }
       })
     }

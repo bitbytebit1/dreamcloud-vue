@@ -44,10 +44,10 @@ let router = new Router({
       path: '/user',
       name: 'user',
       component: user,
-      meta: {
-        requiresAuth: true
-      }
-    },    
+      // meta: {
+      //   requiresAuth: true
+      // }
+    },
     {
       path: '/',
       redirect: '/home'
@@ -55,18 +55,18 @@ let router = new Router({
     {
       path: '/home',
       name: 'home',
-      component: home,
-      meta: {
-        requiresAuth: true
-      }
+      component: home
+      // meta: {
+      //   requiresAuth: true
+      // }
     },
     {
       path: '/settings',
       name: 'settings',
-      component: settings,
-      meta: {
-        requiresAuth: true
-      }
+      component: settings
+      // meta: {
+      //   requiresAuth: true
+      // }
     },
     {
       path: '/subs/all',
@@ -111,12 +111,12 @@ let router = new Router({
   ]
 })
 
-router.beforeEach((to, from, next) => {
+// router.beforeEach((to, from, next) => {
   
-  let currentUser = store.getters.auth_state;
-  let requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-  if (requiresAuth && !currentUser ) next('login')
-  else next()
-})
+//   let currentUser = store.getters.auth_state;
+//   let requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+//   if (requiresAuth && !currentUser ) next('login')
+//   else next()
+// })
 export default router
 
