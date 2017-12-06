@@ -1,5 +1,5 @@
 <template>
-    <v-btn v-if="subscribed.length" @click="unsubscribe" color="teal">Subscribed</v-btn>
+    <v-btn v-if="subscribed.length" @click="unsubscribe" color="teal white--text">Subscribed</v-btn>
     <v-btn v-else @click="subscribe">Subscribe</v-btn>
 </template>
 <script>
