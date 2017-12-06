@@ -30,7 +30,12 @@
           </form>
         </v-flex>
         <div class="text-xs-center">
-          <v-btn :loading="loading2" :disabled="loading2" round class="red" dark @click.prevent="signInGoogle">Sign in with Google
+          <v-btn :loading="loading2" :disabled="loading2" round class="grey darken-4" dark @click.prevent="signInGitHub">Sign in with GitHub
+            <v-icon right dark>lock_open</v-icon>
+          </v-btn>
+        </div>
+        <div class="text-xs-center">
+          <v-btn :loading="loading3" :disabled="loading3" round class="red" dark @click.prevent="signInGoogle">Sign in with Google
             <v-icon right dark>lock_open</v-icon>
           </v-btn>
         </div>
@@ -68,7 +73,8 @@
         email: '',
         password: '',
         loading1: false,
-        loading2: false
+        loading2: false,
+        loading3: false
       }
     },
     methods: {
@@ -88,20 +94,39 @@
           }
         )
       },
-      signInGoogle () {
+      signInGitHub () {
         this.loading2 = true
-        this.$DCFB.fb.auth().signInWithPopup(new this.$DCFB.GoogleAuth())
+        this.$DCFB.fb.auth().signInWithPopup(new this.$DCFB.fbb.auth.GithubAuthProvider())
           .then(
             user => {
+              this.$store.commit('authChange', true)
               this.$DCFB.init(user.uid)
-              this.$router.replace('home')
               this.loading2 = false
+              this.$router.replace('home')
             }
           )
           .catch(
             err => {
               alert('Oops. ' + err.message)
               this.loading2 = false
+            }
+          )
+      },
+      signInGoogle () {
+        this.loading3 = true
+        this.$DCFB.fb.auth().signInWithPopup(new this.$DCFB.fbb.auth.GoogleAuthProvider())
+          .then(
+            user => {
+              this.$store.commit('authChange', true)
+              this.$DCFB.init(user.uid)
+              this.loading3 = false
+              this.$router.replace('home')
+            }
+          )
+          .catch(
+            err => {
+              alert('Oops. ' + err.message)
+              this.loading3 = false
             }
           )
       }

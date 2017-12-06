@@ -17,6 +17,7 @@ class DCFB {
     this.playlists = ''
     this.playlistRefs = ''
     this.fb = firebase.initializeApp(config)
+    this.fbb = firebase
     this.GoogleAuth = firebase.auth.GoogleAuthProvider
     this.db = firebase.database()
     this.UID = this.fb.auth.currentUser
