@@ -76,7 +76,7 @@
           <v-icon>more_vert</v-icon>
         </v-btn>
         <v-list>
-          <v-list-tile>
+          <v-list-tile v-if="$store.getters.auth_state">
             <add-to-playlist :song="addSong(props.item)"></add-to-playlist>
           </v-list-tile>
           <v-list-tile v-for="(action, index) in actions" :key="action.title" @click="action.func(props.item)">
