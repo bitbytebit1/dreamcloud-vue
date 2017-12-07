@@ -47,19 +47,18 @@
 
     <!-- data-table -->
     <v-data-table
-        ref="dtable"
-        :headers="headers"
-        :items="songs"
-        :item-key="itemKey"
-        :pagination.sync="pagination"
-        :rows-per-page-items='[25, 50, 100, { text: "All", value: -1 }]'
-        :search="search"
-        :select-all="bSelect"
-
-        v-model="selected"
-
-      >
-      <template slot="items" slot-scope="props">
+      ref="dtable"
+      :headers="headers"
+      :items="songs"
+      :item-key="itemKey"
+      :pagination.sync="pagination"
+      :rows-per-page-items='[25, 50, 100, { text: "All", value: -1 }]'
+      :search="search"
+      :select-all="bSelect"
+      v-model="selected"
+    >
+    <template slot="items" slot-scope="props">
+      <tr @click="props.expanded = !props.expanded">
         <td :class="tdClass(props.item.mp32)" v-show="bSelect"><v-checkbox :color="isPlaying(props.item.mp32) ? 'white' : 'teal'" hide-details v-model="props.selected"></v-checkbox></td>
         <td @click="play(props.index)" :class="tdClass(props.item.mp32)"><img v-lazy="props.item.poster" height="35px" /></td>
         <td @click="play(props.index)" :class="tdClass(props.item.mp32)">{{ props.item.title }}</td>
@@ -67,35 +66,33 @@
         <td @click="play(props.index)" :class="tdClass(props.item.mp32)">{{ date(props.item.created) }}</td>
         <!-- actions -->
         <td :class="tdClass(props.item.mp32)">
-        <v-menu
-          transition="slide-y-transition"
-          bottom
-          lazy
-        >
-        <v-btn icon slot="activator">
-          <v-icon>more_vert</v-icon>
-        </v-btn>
-        <v-list>
-          <v-list-tile v-if="$store.getters.auth_state">
-            <add-to-playlist :song="addSong(props.item)"></add-to-playlist>
-          </v-list-tile>
-          <v-list-tile v-for="(action, index) in actions" :key="action.title" @click="action.func(props.item)">
-            <!-- <v-list-tile-title>{{ action.title }}</v-list-tile-title> -->
-            <v-btn icon>
-              <v-icon>
-                {{ action.icon }}
-              </v-icon>
+          <v-menu transition="slide-y-transition" bottom lazy>
+            <v-btn icon slot="activator">
+              <v-icon>more_vert</v-icon>
             </v-btn>
-          </v-list-tile>
-          <v-list-tile>
-            <share-button :song="props.item" :url="'https://offcloud.netlify.com/#/t/' + props.item.source + '/' + encodeURIComponent(props.item.artist) + '/' + props.item.trackID"></share-button>
-          </v-list-tile>
-          <v-list-tile v-if="props.item.key">
-            <delete-button :id="props.item.key" @delete="remove(props.item.key)"></delete-button>
-          </v-list-tile>
-        </v-list>
-      </v-menu></td>
-      </template>
+            <v-list>
+              <v-list-tile v-if="$store.getters.auth_state">
+                <add-to-playlist :song="addSong(props.item)"></add-to-playlist>
+              </v-list-tile>
+              <v-list-tile v-for="(action, index) in actions" :key="action.title" @click="action.func(props.item)">
+                <!-- <v-list-tile-title>{{ action.title }}</v-list-tile-title> -->
+                <v-btn icon>
+                  <v-icon>
+                    {{ action.icon }}
+                  </v-icon>
+                </v-btn>
+              </v-list-tile>
+              <v-list-tile>
+                <share-button :song="props.item" :url="'https://offcloud.netlify.com/#/t/' + props.item.source + '/' + encodeURIComponent(props.item.artist) + '/' + props.item.trackID"></share-button>
+              </v-list-tile>
+              <v-list-tile v-if="props.item.key">
+                <delete-button :id="props.item.key" @delete="remove(props.item.key)"></delete-button>
+              </v-list-tile>
+            </v-list>
+          </v-menu>
+        </td>
+      </tr>
+    </template>
     </v-data-table>
     </v-card>
     </v-flex>
