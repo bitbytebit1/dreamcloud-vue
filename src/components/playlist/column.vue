@@ -26,9 +26,8 @@
 
           <share-button :song="song" :url="'https://offcloud.netlify.com/#/t/' + song.source + '/' + encodeURIComponent(song.artist) + '/' + song.trackID"></share-button>
           
-          <v-btn icon @click.stop="download">
-            <v-icon>file_download</v-icon>
-          </v-btn>
+          <download-button :links="[song]"></download-button>
+          
           <v-btn icon @click.stop :href="artistID">
             <v-icon>person</v-icon>
           </v-btn>
@@ -46,6 +45,7 @@
 import addToPlaylist from '@/components/playlist/add-to-playlist.vue'
 import deleteButton from '@/components/misc/delete-button'
 import shareButton from '@/components/misc/share-button'
+import downloadButton from '@/components/misc/download-button'
 
 export default {
   name: 'column',
@@ -53,6 +53,7 @@ export default {
   components: {
     'add-to-playlist': addToPlaylist,
     'delete-button': deleteButton,
+    'download-button': downloadButton,
     'share-button': shareButton
   },
   data () {
@@ -94,11 +95,6 @@ export default {
     play () {
       this.$parent.play(this.index).then(() => {
         this.checkIfAvailableOffline()
-      })
-    },
-    download () {
-      this.$DCPlayer.getAudio(this.song.mp32, (data) => {
-        this.$UTILS.downloadLink(data)
       })
     }
   }

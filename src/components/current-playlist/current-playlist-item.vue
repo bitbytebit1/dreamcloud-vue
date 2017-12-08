@@ -19,16 +19,15 @@
           
           <share-button :song="song" :url="'https://offcloud.netlify.com/#/t/' + song.source + '/' + encodeURIComponent(song.artist) + '/' + song.trackID"></share-button>
 
-          <v-btn icon @click.stop="download">
-            <v-icon>file_download</v-icon>
-          </v-btn>
+          <download-button :links="[song]"></download-button>
+
           <v-btn icon @click.stop :href="artistID">
             <v-icon>person</v-icon>
           </v-btn>
           <v-btn icon @click.stop target="_blank" :href="song.mp32">
             <v-icon>open_in_new</v-icon>
           </v-btn>
-          <v-btn icon @click.stop.native="show = !show" v-if="desc">
+          <v-btn icon @click.stop.native="show = !show" :disabled="!desc">
             <v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
           </v-btn>
         </v-card-actions>
@@ -48,12 +47,14 @@
 <script>
 import addToPlaylist from '@/components/playlist/add-to-playlist.vue'
 import shareButton from '@/components/misc/share-button'
+import downloadButton from '@/components/misc/download-button'
 
 export default {
   props: ['song', 'index'],
   name: 'current-playlist-item',
   components: {
     'add-to-playlist': addToPlaylist,
+    'download-button': downloadButton,
     'share-button': shareButton
   },
   // updated () {
@@ -103,11 +104,6 @@ export default {
     play () {
       this.$parent.$parent.play(this.index + this.$store.getters.index)
     },
-    download () {
-      this.$DCPlayer.getAudio(this.song.mp32, (data) => {
-        this.$UTILS.downloadLink(data)
-      })
-    },
     share () {
       this.$UTILS.share('https://offcloud.netlify.com/#/t/' + this.song.source + '/' + encodeURIComponent(this.song.artist) + '/' + this.song.trackID, this.song)
     }
@@ -118,8 +114,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
 .breaker19{
-  /* word-break: break-all; */
-  word-wrap: break-word;
+  word-break: break-all;
+  /* word-wrap: break-word; */
 }
 .shadow{
   text-shadow: 4px 4px 8px black;
