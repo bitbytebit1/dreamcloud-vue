@@ -8,6 +8,8 @@
         <!-- filter -->
         <v-flex xs4 offset-xs1 offset-lg0 lg9>
           <v-text-field
+            @focus="filterHasFocus = true"
+            @blur="filterHasFocus = false"
             color="teal"
             :class="$vuetify.breakpoint.smAndUp ? 'ml-4' : ''"
             label="Filter"
@@ -22,8 +24,8 @@
         <!-- header buttons -->
         <v-flex xs7 lg3 :class="this.$vuetify.breakpoint.name === 'xs' ? '' : 'pt-2'">
 
-          <v-btn icon @click="$refs.search.focus()">
-            <v-icon>filter_list</v-icon>
+          <v-btn icon :color="filterHasFocus ? 'teal' : ''" @click="$refs.search.focus()">
+            <v-icon :color="this.$store.getters.theme.light && filterHasFocus ? 'white' : ''">filter_list</v-icon>
           </v-btn>
 
           <v-btn icon @click="$emit('toggleView')">
@@ -137,6 +139,7 @@ export default {
   },
   data () {
     return {
+      filterHasFocus: false,
       itemKey: 'mp3',
       bSelect: false,
       selected: [],
@@ -248,7 +251,7 @@ export default {
   }
   .desc{
     overflow-y: hidden;
-    height: 50px;
+    height: 53px;
   }
   @media only screen and (max-width: 599px){
     .menu{
