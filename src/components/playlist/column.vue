@@ -73,7 +73,7 @@ export default {
     },
     date () {
       // I hate this new date... Volvo please fix.
-      return this.$DCAPI.calcDate(new Date(), this.song.created)
+      return this.$DCAPI.calcDate(new Date(), this.song.uploaded)
     },
     isPlaying () {
       return this.$route.path === this.$store.getters.hash && this.song.mp32 === this.$store.getters.current_Playlist[this.$store.getters.index].mp32

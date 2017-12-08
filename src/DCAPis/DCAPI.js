@@ -333,11 +333,10 @@ class DCAPIClass {
     }
   }
 
-  pushResult (uid, artist, artistID, created, description, duration, mp3, mp32, poster, posterLarge, source, title, trackID) {
+  pushResult (uid, artist, artistID, uploaded, description, duration, mp3, mp32, poster, posterLarge, source, title, trackID) {
     this.aQuery[uid].aResult.push({
       artist: artist,
       artistID: artistID,
-      created: created,
       description: description,
       duration: duration,
       mp3: mp3,
@@ -346,6 +345,7 @@ class DCAPIClass {
       posterLarge: posterLarge,
       source: source,
       title: title,
+      uploaded: uploaded,
       trackID: trackID
     })
   }
@@ -382,8 +382,8 @@ class DCAPIClass {
   }
 
   sortDate (a, b) {
-    a = new Date(a.created)
-    b = new Date(b.created)
+    a = new Date(a.uploaded)
+    b = new Date(b.uploaded)
 
     return a > b ? -1 : a < b ? 1 : 0
   }
@@ -392,8 +392,8 @@ class DCAPIClass {
     return ((new Array(length + 1)).join(pad) + string).slice(-length)
   }
 
-  uniqueArray (darray) {
-    var a = darray.concat()
+  uniqueArray (array) {
+    var a = array.concat()
     for (var i = 0; i < a.length; i++) {
       for (var j = i + 1; j < a.length; j++) {
         if (a[i].mp32 === a[j].mp32) {
