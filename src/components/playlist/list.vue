@@ -1,49 +1,52 @@
   <template>
   <v-flex>
-    <v-layout row wrap>
-      <!-- filter -->
-      <v-flex xs5 offset-xs1 offset-lg0 lg9>
-        <v-text-field
-          color="teal"
-          :class="$vuetify.breakpoint.smAndUp ? 'ml-4' : ''"
-          label="Filter"
-          single-line
-          hide-details
-          v-model="search"
-          v-on:keyup.enter="$UTILS.closeSoftMobi()"
-          ref="search"
-        ></v-text-field>
-      </v-flex>
-      
-      <!-- header buttons -->
-      <v-flex xs6 lg3 :class="this.$vuetify.breakpoint.name === 'xs'? '' : 'pt-2'">
-
-        <v-btn icon @click="$refs.search.focus()">
-          <v-icon>filter_list</v-icon>
-        </v-btn>
-
-        <v-btn icon @click="$emit('toggleView')">
-          <v-icon>view_module</v-icon>
-        </v-btn>
-
-        <v-btn v-if="$store.getters.auth_state" icon @click="bSelect = !bSelect">
-          <v-icon>{{bSelect ? 'check_box_outline_blank' : 'check_box'}}</v-icon>
-        </v-btn>
-
-      </v-flex>
-    </v-layout>
 
     <!-- table header buttons -->
     <v-card class="elevation-8">
-      <v-card-title v-if="bSelect">
-        <add-to-playlist key="multi" :disabled="selected.length == 0" v-if="$store.getters.auth_state" :song="selected"></add-to-playlist>
-        <delete-button :disabled="selected.length == 0" v-if="$route.params.playlist" @delete="removeList"></delete-button>
-        <v-btn icon :disabled="selected.length == 0" @click="downloadAll">
-          <v-icon>
-            file_download
-          </v-icon>
-        </v-btn>
-      </v-card-title>
+    <v-card-title class="ma-0 pa-0">
+      <v-layout row wrap>
+        <!-- filter -->
+        <v-flex xs4 offset-xs1 offset-lg0 lg9>
+          <v-text-field
+            color="teal"
+            :class="$vuetify.breakpoint.smAndUp ? 'ml-4' : ''"
+            label="Filter"
+            single-line
+            hide-details
+            v-model="search"
+            v-on:keyup.enter="$UTILS.closeSoftMobi()"
+            ref="search"
+          ></v-text-field>
+        </v-flex>
+        
+        <!-- header buttons -->
+        <v-flex xs7 lg3 :class="this.$vuetify.breakpoint.name === 'xs' ? '' : 'pt-2'">
+
+          <v-btn icon @click="$refs.search.focus()">
+            <v-icon>filter_list</v-icon>
+          </v-btn>
+
+          <v-btn icon @click="$emit('toggleView')">
+            <v-icon>view_module</v-icon>
+          </v-btn>
+
+          <v-btn v-if="$store.getters.auth_state" @click="bSelect = !bSelect" :color="bSelect ? 'teal' : ''" icon>
+            <v-icon>check_box</v-icon>
+          </v-btn>
+        <v-flex xs12 v-if="bSelect">
+          <add-to-playlist key="multi" :disabled="selected.length == 0" v-if="$store.getters.auth_state" :song="selected"></add-to-playlist>
+          
+          <delete-button :disabled="selected.length == 0" v-if="$route.params.playlist" @delete="removeList"></delete-button>
+
+          <download-button :dis="selected.length == 0" :links="selected"></download-button>
+
+        </v-flex>
+        
+        </v-flex>
+
+      </v-layout>
+
+    </v-card-title>
 
     <!-- data-table -->
     <v-data-table
@@ -58,12 +61,35 @@
       v-model="selected"
     >
     <template slot="items" slot-scope="props">
-      <tr @click="props.expanded = !props.expanded">
-        <td :class="tdClass(props.item.mp32)" v-show="bSelect"><v-checkbox :color="isPlaying(props.item.mp32) ? 'white' : 'teal'" hide-details v-model="props.selected"></v-checkbox></td>
-        <td @click="play(props.index)" :class="tdClass(props.item.mp32)"><img v-lazy="props.item.poster" height="35px" /></td>
-        <td @click="play(props.index)" :class="tdClass(props.item.mp32)">{{ props.item.title }}</td>
-        <td @click="play(props.index)" :class="tdClass(props.item.mp32)"><a @click.stop :class="artistClass" :href="shareArtistURL(props.item)">{{ props.item.artist }}</a></td>
-        <td @click="play(props.index)" :class="tdClass(props.item.mp32)">{{ date(props.item.created) }}</td>
+      <tr>
+
+        <!-- check_box -->
+        <td :class="tdClass(props.item.mp32)" v-show="bSelect">
+          <v-checkbox :color="isPlaying(props.item.mp32) ? 'white' : 'teal'" hide-details v-model="props.selected"></v-checkbox>
+        </td>
+
+        <!-- image -->
+        <td @click="play(props.index)" :class="tdClass(props.item.mp32)">
+          <img v-lazy="props.item.poster" :class="isPlaying(props.item.mp32) ? 'playing' : ''"/>
+        </td>
+
+        <!-- title + description -->
+        <td @click="play(props.index)" :class="tdClass(props.item.mp32)">
+          {{ props.item.title }}
+          <p class="desc" v-if="isPlaying(props.item.mp32)">
+            {{props.item.description}}
+          </p>
+        </td>
+
+        <!-- artist -->
+        <td @click="play(props.index)" :class="tdClass(props.item.mp32)">
+          <a @click.stop :class="artistClass" :href="shareArtistURL(props.item)">{{ props.item.artist }}</a>
+        </td>
+
+        <!-- created -->
+        <td @click="play(props.index)" :class="tdClass(props.item.mp32)">
+          {{ date(props.item.uploaded) }}
+        </td>
         <!-- actions -->
         <td :class="tdClass(props.item.mp32)">
           <v-menu transition="slide-y-transition" bottom lazy>
@@ -74,13 +100,8 @@
               <v-list-tile v-if="$store.getters.auth_state">
                 <add-to-playlist :song="addSong(props.item)"></add-to-playlist>
               </v-list-tile>
-              <v-list-tile v-for="(action, index) in actions" :key="action.title" @click="action.func(props.item)">
-                <!-- <v-list-tile-title>{{ action.title }}</v-list-tile-title> -->
-                <v-btn icon>
-                  <v-icon>
-                    {{ action.icon }}
-                  </v-icon>
-                </v-btn>
+              <v-list-tile>
+                <download-button :links="[props.item]"></download-button>
               </v-list-tile>
               <v-list-tile>
                 <share-button :song="props.item" :url="'https://offcloud.netlify.com/#/t/' + props.item.source + '/' + encodeURIComponent(props.item.artist) + '/' + props.item.trackID"></share-button>
@@ -103,6 +124,7 @@
 import addToPlaylist from '@/components/playlist/add-to-playlist.vue'
 import deleteButton from '@/components/misc/delete-button'
 import shareButton from '@/components/misc/share-button'
+import downloadButton from '@/components/misc/download-button'
 
 export default {
   name: 'list',
@@ -110,6 +132,7 @@ export default {
   components: {
     'add-to-playlist': addToPlaylist,
     'delete-button': deleteButton,
+    'download-button': downloadButton,
     'share-button': shareButton
   },
   data () {
@@ -117,9 +140,8 @@ export default {
       itemKey: 'mp3',
       bSelect: false,
       selected: [],
-      bSearchShow: false,
       pagination: {
-        sortBy: 'created',
+        sortBy: 'uploaded',
         rowsPerPage: 20,
         descending: true
       },
@@ -132,7 +154,7 @@ export default {
         { text: '', align: 'left', sortable: false, value: 'name' },
         { text: 'Title', value: 'title', align: 'left' },
         { text: 'Artist', value: 'artist', align: 'left' },
-        { text: 'Date', value: 'created', align: 'left' },
+        { text: 'Date', value: 'uploaded', align: 'left' },
         { text: '', value: '', align: 'left', sortable: false }
       ]
     }
@@ -224,6 +246,10 @@ export default {
   .hidden{
     display: none;
   }
+  .desc{
+    overflow-y: hidden;
+    height: 50px;
+  }
   @media only screen and (max-width: 599px){
     .menu{
       width: 45px;
@@ -238,12 +264,18 @@ export default {
       /* normal value is 24 */
     }
     td img{
-      height: 20px;
+      height: 35px;
     }
+    img.playing{
+      height: 48px !important;
+    }    
   }
   @media only screen and (min-width: 600px){
     td img{
       height: 42px;
+    }
+    img.playing{
+      height: 100px !important;
     }
   }
 </style>
