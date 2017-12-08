@@ -50,7 +50,6 @@ import scrollToTop from '../misc/scroll-to-top.vue'
 
 export default {
   name: 'playlist',
-  // props: ['songs'],
   props: {
     songs: {
       type: [Array],
