@@ -109,7 +109,7 @@ export default {
       error (a) {
         setTimeout(function () {
           DCPlayer.playIndex(DCPlayer.iCurrent)
-        }, 1500)
+        }, 2000)
       },
       setMediaSession (song) {
         if ('mediaSession' in navigator) {
