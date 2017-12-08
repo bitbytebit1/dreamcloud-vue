@@ -66,6 +66,7 @@ class DCFB {
       var songRef = this.playlists.child(id + '/songs').push()
       js.key = songRef.key
       delete js['.key']
+      js.uploaded = js.uploaded.toString()
       songRef.set(js)
     }
     if (json.length > 1) {
