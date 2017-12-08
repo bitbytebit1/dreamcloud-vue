@@ -93,7 +93,6 @@
       }
     },
     beforeCreate () {
-      let path = this.$route.path
       this.$store.commit('authChange', !!this.$DCFB.fb.auth().currentUser)
       this.$DCFB.fb.auth().onAuthStateChanged((user) => {
         if (user) {
@@ -104,7 +103,6 @@
               this.$store.commit('changeSetting', {'setting': 'Night Mode', 'value': snapshot.val()})
             }
           })
-          this.$router.replace(path)
         } else {
           this.$store.commit('authChange', false)
           // this.$router.replace('/login')
