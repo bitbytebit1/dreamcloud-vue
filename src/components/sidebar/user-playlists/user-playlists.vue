@@ -1,16 +1,9 @@
 <template>
-  <div>
-    <v-list-group :value="active">
-      <v-list-tile ripple slot="item" @click.stop="active = !active">
-        <v-list-tile-action>
-          <v-icon>library_music</v-icon>
-        </v-list-tile-action>
+    <v-list-group :value="active" prepend-icon="library_music" no-action>
+      <v-list-tile ripple slot="activator">
         <v-list-tile-content>
           <v-list-tile-title>Playlists</v-list-tile-title>
         </v-list-tile-content>
-        <v-list-tile-action>
-          <v-icon>keyboard_arrow_down</v-icon>
-        </v-list-tile-action>
       </v-list-tile>
  
       <v-list-tile ripple @click="closeLeftOnMobile" :to="{path: '/u/playlists/all'}">
@@ -21,14 +14,13 @@
           <v-list-tile-title>All</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
-      <v-divider></v-divider>
       
       <v-list-tile 
         v-for="subItem in playlistRefs"
         @click="closeLeftOnMobile" 
         id='playlist'
         :class="isPlaying(UID, subItem['.key'], subItem['name'])"
-        :active-class="isPlaying(UID, subItem['.key'], subItem['name']) || 'blue-grey lighten-1'"
+        :active-class="isPlaying(UID, subItem['.key'], subItem['name']) || 'cyan'"
         :to="{path: '/u/' + UID + '/' + subItem['.key'] +  '/' +  encodeURIComponent(subItem['name'])}" 
         v-bind:key="subItem['.key']"
         ripple
@@ -44,7 +36,6 @@
         </span>
       </v-list-tile>
     </v-list-group>
-  </div>
 </template>
 <script>
 

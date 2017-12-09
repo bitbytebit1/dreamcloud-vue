@@ -1,4 +1,5 @@
 <template>
+  <div>
   <v-list dense>
 
     <!-- Change to for loop to save the whales... I mean internet -->
@@ -30,11 +31,15 @@
       </v-list-tile-content>
     </v-list-tile>
 
-    <user-playlists @closeLeft="closeLeft" v-if="loggedIn"></user-playlists>
-    
-    <user-subscriptions @closeLeft="closeLeft" v-if="loggedIn"></user-subscriptions>
-
   </v-list>
+  <v-list dense>
+    
+    <user-playlists @closeLeft="closeLeft" v-if="loggedIn"></user-playlists>
+
+    <user-subscriptions @closeLeft="closeLeft" v-if="loggedIn"></user-subscriptions>
+    
+  </v-list>  
+  </div>
 </template>
 <script>
 import userPlaylists from '@/components/sidebar/user-playlists/user-playlists'

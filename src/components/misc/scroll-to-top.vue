@@ -51,7 +51,8 @@ export default {
 }
 @media only screen and (min-width: 600px){
   .scrollToTop{
-    right: 75px !important
+    bottom:10px !important;
+    right: 50px !important;
   }  
 }
 </style>

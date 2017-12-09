@@ -71,11 +71,10 @@ class DCFB {
     }
     if (json.length > 1) {
       for (var [key, value] of Object.entries(json)) {
-        pusha(value, key)
+        pusha(Object.assign({}, value), key)
       }
     } else {
-      json = Array.isArray(json) ? json[0] : json
-      pusha(json)
+      pusha(Object.assign({}, Array.isArray(json) ? json[0] : json))
     }
   }
   playlistSongDelete (playlistId, songId) {

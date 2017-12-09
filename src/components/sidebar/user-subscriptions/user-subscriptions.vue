@@ -1,20 +1,11 @@
 <template>
-  <div>
-    <v-list-group :value="active">
-      <v-list-tile ripple slot="item" @click="active = !active">
-        <v-list-tile-action>
-          <v-icon>people</v-icon>
-        </v-list-tile-action>
+    <v-list-group :value="active" prepend-icon="people" no-action>
+      <v-list-tile ripple slot="activator">
         <v-list-tile-content>
           <v-list-tile-title>Subscriptions</v-list-tile-title>
         </v-list-tile-content>
-        <v-list-tile-action>
-          <v-icon>keyboard_arrow_down</v-icon>
-        </v-list-tile-action>
       </v-list-tile>
         
-      <v-divider></v-divider>
-      
       <v-list-tile ripple @click="closeLeftOnMobile" :to="{path: '/subs/all'}">
         <v-list-tile-action>
           <v-icon>toc</v-icon>
@@ -24,14 +15,13 @@
           <v-list-tile-title>All</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
-      <v-divider></v-divider>
 
       <v-list-tile 
         v-for="subItem in subscriptions"
         @click="closeLeftOnMobile"
         id="subscription"
         :class="isPlaying(subItem['source'], subItem['name'], subItem['id'])"
-        :active-class="isPlaying(subItem['source'], subItem['name'], subItem['id']) || 'blue-grey lighten-1'"
+        :active-class="isPlaying(subItem['source'], subItem['name'], subItem['id']) || 'cyan'"
         :to="{path: '/a/'  + subItem['source'] +  '/' + encodeURIComponent(subItem['name']) +  '/' + subItem['id']}"
         v-bind:key="subItem['.key']"
         ripple
@@ -47,7 +37,6 @@
         <delete-button @delete="subscriptionDelete" :id="subItem['id']" class="delete"></delete-button>
       </v-list-tile>
     </v-list-group>
-  </div>
 </template>
 
 <script>

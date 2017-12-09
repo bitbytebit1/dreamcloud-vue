@@ -5,13 +5,28 @@
     <v-card class="elevation-8">
     <v-card-title class="ma-0 pa-0">
       <v-layout row wrap>
+        <!-- header buttons -->
+        <v-flex xs4 lg2 :class="this.$vuetify.breakpoint.name === 'xs' ? 'pt-2 text-xs-left header-buttons' : 'pt-2 header-buttons'">
+
+          <v-btn v-if="$store.getters.auth_state" @click="bSelect = !bSelect" icon>
+            <v-icon :color="bSelect ? 'teal' : ''">check_box</v-icon>
+          </v-btn>
+
+          <v-btn icon @click="$emit('toggleView')">
+            <v-icon>view_module</v-icon>
+          </v-btn>
+
+          <v-btn icon @click="$refs.search.focus()">
+            <v-icon :color="filterHasFocus ? 'teal' : ''">filter_list</v-icon>
+          </v-btn>
+        </v-flex>
         <!-- filter -->
-        <v-flex xs4 offset-xs1 offset-lg0 lg9>
+        <v-flex xs7 offset-lg0 lg9>
           <v-text-field
             @focus="filterHasFocus = true"
             @blur="filterHasFocus = false"
             color="teal"
-            :class="$vuetify.breakpoint.smAndUp ? 'ml-4' : ''"
+            :class="$vuetify.breakpoint.smAndUp ? 'ma-0' : ''"
             label="Filter"
             single-line
             hide-details
@@ -20,32 +35,14 @@
             ref="search"
           ></v-text-field>
         </v-flex>
-        
-        <!-- header buttons -->
-        <v-flex xs7 lg3 :class="this.$vuetify.breakpoint.name === 'xs' ? '' : 'pt-2'">
-
-          <v-btn icon :color="filterHasFocus ? 'teal' : ''" @click="$refs.search.focus()">
-            <v-icon :color="this.$store.getters.theme.light && filterHasFocus ? 'white' : ''">filter_list</v-icon>
-          </v-btn>
-
-          <v-btn icon @click="$emit('toggleView')">
-            <v-icon>view_module</v-icon>
-          </v-btn>
-
-          <v-btn v-if="$store.getters.auth_state" @click="bSelect = !bSelect" :color="bSelect ? 'teal' : ''" icon>
-            <v-icon>check_box</v-icon>
-          </v-btn>
-        <v-flex xs12 v-if="bSelect">
+        <v-flex xs12 v-if="bSelect" class="text-xs-left select-buttons">
           <add-to-playlist key="multi" :disabled="selected.length == 0" v-if="$store.getters.auth_state" :song="selected"></add-to-playlist>
-          
+
           <delete-button :disabled="selected.length == 0" v-if="$route.params.playlist" @delete="removeList"></delete-button>
 
           <download-button :dis="selected.length == 0" :links="selected"></download-button>
-
-        </v-flex>
-        
-        </v-flex>
-
+          <v-flex d-inline-flex>{{selected.length}} of {{songs.length}}</v-flex>
+        </v-flex>        
       </v-layout>
 
     </v-card-title>
@@ -63,37 +60,37 @@
       v-model="selected"
     >
     <template slot="items" slot-scope="props">
-      <tr>
+      <tr @click.stop="!bSelect ? play(props.index) : props.selected = !props.selected">
 
         <!-- check_box -->
-        <td :class="tdClass(props.item.mp32)" v-show="bSelect">
+        <td :class="tdClass(props.item.mp32)" v-if="bSelect">
           <v-checkbox :color="isPlaying(props.item.mp32) ? 'white' : 'teal'" hide-details v-model="props.selected"></v-checkbox>
         </td>
 
         <!-- image -->
-        <td @click="play(props.index)" :class="tdClass(props.item.mp32)">
+        <td :class="tdClass(props.item.mp32)">
           <img v-lazy="props.item.poster" :class="isPlaying(props.item.mp32) ? 'playing' : ''"/>
         </td>
 
         <!-- title + description -->
-        <td @click="play(props.index)" :class="tdClass(props.item.mp32)">
+        <td :class="tdClass(props.item.mp32)">
           {{ props.item.title }}
-          <p class="desc" v-if="isPlaying(props.item.mp32)">
+          <p class="desc" v-if="isPlaying(props.item.mp32) && props.item.description">
             {{props.item.description}}
           </p>
         </td>
 
         <!-- artist -->
-        <td @click="play(props.index)" :class="tdClass(props.item.mp32)">
+        <td :class="tdClass(props.item.mp32)">
           <a @click.stop :class="artistClass" :href="shareArtistURL(props.item)">{{ props.item.artist }}</a>
         </td>
 
-        <!-- created -->
-        <td @click="play(props.index)" :class="tdClass(props.item.mp32)">
+        <!-- uploaded -->
+        <td :class="tdClass(props.item.mp32)">
           {{ date(props.item.uploaded) }}
         </td>
         <!-- actions -->
-        <td :class="tdClass(props.item.mp32)">
+        <td :class="tdClass(props.item.mp32)" @click.stop>
           <v-menu transition="slide-y-transition" bottom lazy>
             <v-btn icon slot="activator">
               <v-icon>more_vert</v-icon>
@@ -103,13 +100,13 @@
                 <add-to-playlist :song="addSong(props.item)"></add-to-playlist>
               </v-list-tile>
               <v-list-tile>
-                <download-button :links="[props.item]"></download-button>
+                <download-button :links="selected ? selected :[props.item]"></download-button>
               </v-list-tile>
               <v-list-tile>
                 <share-button :song="props.item" :url="'https://offcloud.netlify.com/#/t/' + props.item.source + '/' + encodeURIComponent(props.item.artist) + '/' + props.item.trackID"></share-button>
               </v-list-tile>
               <v-list-tile v-if="props.item.key">
-                <delete-button :id="props.item.key" @delete="remove(props.item.key)"></delete-button>
+                <delete-button :id="props.item.key" @delete="selected ? removeList() : remove(props.item.key)"></delete-button>
               </v-list-tile>
             </v-list>
           </v-menu>
@@ -254,6 +251,12 @@ export default {
     height: 53px;
   }
   @media only screen and (max-width: 599px){
+    .header-buttons {
+      margin-left: 12px !important;
+    }
+    .select-buttons{
+      margin-left: 16px;
+    }
     .menu{
       width: 45px;
     }
@@ -262,23 +265,29 @@ export default {
       word-break: break-all;
     }
     table td,
-    table th{
-      padding: 0 1px!important 
+    table th:not(:first-child){
+      padding: 0 1px!important;
       /* normal value is 24 */
     }
     td img{
-      height: 35px;
+      width: 35px;
     }
     img.playing{
-      height: 48px !important;
-    }    
+      width: 48px !important;
+    }
   }
   @media only screen and (min-width: 600px){
+    .header-buttons {
+      margin-left: 15px;
+    }
+    .select-buttons{
+      margin-left: 21px;
+    }
     td img{
-      height: 42px;
+      width: 42px;
     }
     img.playing{
-      height: 100px !important;
+      width: 100px !important;
     }
   }
 </style>

@@ -1,13 +1,13 @@
 <template>
   <v-app v-bind="$store.getters.theme">
     <v-navigation-drawer
-      v-model="drawerLeft"
-      clipped
-      persistent
-      enable-resize-watcher
       app
+      clipped
       disable-route-watcher
+      enable-resize-watcher
+      persistent
       ripple
+      v-model="drawerLeft"
     >
       <sidebar @closeLeft="closeLeft"></sidebar>
     </v-navigation-drawer>
@@ -30,18 +30,19 @@
     </v-toolbar>
 
     <v-navigation-drawer
-      clipped
-      persistent
-      v-model="drawerRight"
-      enable-resize-watcher
       app
+      clipped
       disable-route-watcher
+      enable-resize-watcher
+      persistent
       right
+      v-model="drawerRight"
     >
       <current-playlist></current-playlist>
     </v-navigation-drawer>
-    <main>
-      <v-content >
+    <!-- <main> -->
+      <v-content class="text-xs-center">
+
         <!-- <v-container fluid fill-height> -->
           <v-layout justify-center >
             <transition name="fade" mode="out-in">
@@ -52,8 +53,8 @@
           </v-layout>
         <!-- </v-container> -->
       </v-content>
-    </main>
-    <v-footer app fixed>
+    <!-- </main> -->
+    <v-footer app fixed id="foot">
       <dc-audio :song="aSong"></dc-audio>
     </v-footer>
   </v-app>
@@ -74,8 +75,8 @@
     },
     data () {
       return {
-        drawerLeft: false,
-        drawerRight: true,
+        drawerLeft: !this.$UTILS.isMobile,
+        drawerRight: !this.$UTILS.isMobile,
         aSongs: [],
         aSong: []
       }
@@ -113,10 +114,18 @@
 </script>
 
 <style>
-
-main {
-  text-align: center;
-}
+  @media only screen and (min-width: 600px){
+    #foot{
+      padding: 0 !important;
+      height: 55px !important;
+    }
+  }
+  @media only screen and (max-width: 599px){
+    #foot{
+      padding: 0 !important;
+      height: 75px !important;
+    }
+  }
 
 .fade-enter {
   opacity: 0;

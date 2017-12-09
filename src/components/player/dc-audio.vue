@@ -21,7 +21,7 @@
       
       <div id="right" class="hidden-sm-and-down">
         <v-speed-dial hover>
-          <v-btn @click="toggleMute" slot="activator" fab hover>
+          <v-btn @click="toggleMute" slot="activator" fab hover small>
             <v-icon>{{volIcon}}</v-icon>
           </v-btn>
           <div class="slider-wrapper">
@@ -175,6 +175,7 @@ export default {
 
 #dc-audio-container {
   width: 100%;
+  margin-top: -12px;
 }
 
 .audio-controls {
@@ -190,7 +191,8 @@ export default {
 } */
 
 #poster {
-  height: 40px
+  height: 35px;
+  margin-top: 6px;
 }
 
 /* #progress {
@@ -199,16 +201,17 @@ export default {
 
 #left {
   margin-top: 7px;
+  margin-left: 7px;
   float: left;
 }
-
+#right {
+  float: right;
+  margin-top: 5px !important;  
+}
 @media only screen and (min-width: 600px){
   #middle {
     margin-right: 100px;
   }
-}
-#right {
-  float: right;
 }
 @media only screen and (max-width: 599px){
   #progress-slider{

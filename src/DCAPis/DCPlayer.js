@@ -45,7 +45,7 @@ export default {
       setAudioSrc (sURL) {
         //append x=error_count if error_count > 0
         DCPlayer.eAudio.src = sURL + (DCPlayer.error_count ? '&x=' + DCPlayer.error_count : '')
-        DCPlayer.eAudio.load()
+        // DCPlayer.eAudio.load()
         var play = DCPlayer.play().then(() => {
           // If play then reset error_count
           DCPlayer.error_count = 0
