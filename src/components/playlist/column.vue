@@ -20,7 +20,6 @@
           </v-container>
         </v-card-media>
         <v-card-actions v-bind:class="{ teal: isPlaying }">
-          <v-spacer></v-spacer>
 
           <add-to-playlist :song="song"></add-to-playlist>
 
@@ -119,5 +118,8 @@ export default {
 .offline{
   bottom: 0px;
   right: 0px;
+}
+.card__actions .btn, .card__actions>* {
+    margin-left: 4px;
 }
 </style>
