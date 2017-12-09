@@ -4,7 +4,7 @@
     <loading :show="loading" spinner="waveDots"></loading>
 
     <playlist v-if="!loading" :songs="searchResults"></playlist>  
-    <infinite-loading :distance="420" ref="infiniteLoading" v-if="!loading" @infinite="infiniteHandler" spinner="waveDots">    
+    <infinite-loading :distance="210" ref="infiniteLoading" v-if="!loading" @infinite="infiniteHandler" spinner="waveDots">    
       <span slot="no-more"></span>
     </infinite-loading>
   </v-flex>
