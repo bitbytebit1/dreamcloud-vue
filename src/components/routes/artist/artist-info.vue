@@ -38,8 +38,8 @@
         </v-flex>
       </v-flex>
       <!-- Description -->
-      <v-flex xs12 class='text-xs-left' v-if="info.description">
-        {{ info.description }}
+      <v-flex xs12 offset-xs0 class='text-xs-left pl-3 pr-3' v-if="info.description">
+        <p>{{ info.description }}</p>
       </v-flex>
     </v-layout>
   </v-container>
