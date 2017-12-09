@@ -12,7 +12,7 @@
       <sidebar @closeLeft="closeLeft"></sidebar>
     </v-navigation-drawer>
 
-    <v-toolbar app fixed clipped-left clipped-right>
+    <v-toolbar app fixed clipped-left clipped-right dense>
       
       <v-toolbar-side-icon @click.stop="drawerLeft = !drawerLeft"></v-toolbar-side-icon>
       
