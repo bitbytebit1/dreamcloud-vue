@@ -1,12 +1,12 @@
   <template>
   <v-flex>
-
+    
     <!-- table header buttons -->
     <v-card class="elevation-8">
     <v-card-title class="ma-0 pa-0">
       <v-layout row wrap>
         <!-- header buttons -->
-        <v-flex xs4 lg2 :class="this.$vuetify.breakpoint.name === 'xs' ? 'pt-2 text-xs-left header-buttons' : 'pt-2 header-buttons'">
+        <v-flex xs6 lg3 :class="this.$vuetify.breakpoint.name === 'xs' ? 'pt-2 text-xs-left header-buttons ma-0' : 'pt-2 header-buttons'">
 
           <v-btn v-if="$store.getters.auth_state" @click="bSelect = !bSelect" icon>
             <v-icon :color="bSelect ? 'teal' : ''">check_box</v-icon>
@@ -21,7 +21,7 @@
           </v-btn>
         </v-flex>
         <!-- filter -->
-        <v-flex xs7 offset-lg0 lg9>
+        <v-flex xs5 offset-lg0 lg9>
           <v-text-field
             @focus="filterHasFocus = true"
             @blur="filterHasFocus = false"
@@ -35,14 +35,16 @@
             ref="search"
           ></v-text-field>
         </v-flex>
-        <v-flex xs12 v-if="bSelect" class="text-xs-left select-buttons">
+
+        <!-- select buttons -->
+        <v-flex lg4 v-if="bSelect" class="text-xs-left select-buttons">
           <add-to-playlist key="multi" :disabled="selected.length == 0" v-if="$store.getters.auth_state" :song="selected"></add-to-playlist>
 
           <delete-button :disabled="selected.length == 0" v-if="$route.params.playlist" @delete="removeList"></delete-button>
 
           <download-button :dis="selected.length == 0" :links="selected"></download-button>
           <v-flex d-inline-flex>{{selected.length}} of {{songs.length}}</v-flex>
-        </v-flex>        
+        </v-flex>
       </v-layout>
 
     </v-card-title>
@@ -74,7 +76,7 @@
 
         <!-- title + description -->
         <td :class="tdClass(props.item.mp32)">
-          {{ props.item.title }}
+          <span :class="$vuetify.breakpoint.name === 'xs' ? 'caption' : 'subheading'">{{ props.item.title }}</span>
           <p class="desc" v-if="isPlaying(props.item.mp32) && props.item.description">
             {{props.item.description}}
           </p>
@@ -82,7 +84,8 @@
 
         <!-- artist -->
         <td :class="tdClass(props.item.mp32)">
-          <a @click.stop :class="artistClass" :href="shareArtistURL(props.item)">{{ props.item.artist }}</a>
+          <a v-if="!bSelect" @click.stop :class="artistClass" :href="shareArtistURL(props.item)">{{ props.item.artist }}</a>
+          <span :class="artistClass" v-else>{{ props.item.artist }}</span>
         </td>
 
         <!-- uploaded -->
@@ -248,14 +251,17 @@ export default {
   }
   .desc{
     overflow-y: hidden;
-    height: 53px;
+    max-height: 53px;
+  }
+  td img {
+    margin-top: 5px 
   }
   @media only screen and (max-width: 599px){
     .header-buttons {
-      margin-left: 12px !important;
+      margin-left: -9px !important;
     }
     .select-buttons{
-      margin-left: 16px;
+      margin-left: -9px;
     }
     .menu{
       width: 45px;
@@ -269,6 +275,12 @@ export default {
       padding: 0 1px!important;
       /* normal value is 24 */
     }
+    table td:first-child,
+    table th:first-child{
+      padding: 0 0 0 5px!important;
+      /* normal value is 24 */
+    }
+
     td img{
       width: 35px;
     }
@@ -278,14 +290,19 @@ export default {
   }
   @media only screen and (min-width: 600px){
     .header-buttons {
-      margin-left: 15px;
+      margin-left: -33px;
     }
     .select-buttons{
-      margin-left: 21px;
+      margin-left: -1px;
     }
     td img{
-      width: 42px;
+      width: 61px;
     }
+    table td:first-child,
+    table th:first-child{
+      padding: 0 0 0 10px!important;
+      /* normal value is 24 */
+    }    
     img.playing{
       width: 100px !important;
     }
