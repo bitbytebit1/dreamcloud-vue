@@ -41,10 +41,10 @@
       <current-playlist></current-playlist>
     </v-navigation-drawer>
     <!-- <main> -->
-      <v-content class="text-xs-center">
+      <v-content class="text-xs-center maCont">
 
         <!-- <v-container fluid fill-height> -->
-          <v-layout justify-center >
+          <v-layout justify-center>
             <transition name="fade" mode="out-in">
               <!-- <keep-alive inlcude="all"> -->
                 <router-view></router-view>
@@ -138,5 +138,8 @@
 .fade-leave-active {
   transition: opacity .3s ease;
   opacity: 0;
+}
+.maCont{
+  padding-bottom: 42px
 }
 </style>
