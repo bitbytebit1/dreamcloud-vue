@@ -119,7 +119,4 @@ export default {
   bottom: 0px;
   right: 0px;
 }
-.card__actions .btn, .card__actions>* {
-    margin-left: 4px;
-}
 </style>
