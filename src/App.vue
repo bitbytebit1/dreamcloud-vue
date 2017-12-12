@@ -125,6 +125,9 @@
       padding: 0 !important;
       height: 75px !important;
     }
+    .maCont{
+      padding-bottom: 42px;
+    }
   }
 
 .fade-enter {
@@ -138,8 +141,5 @@
 .fade-leave-active {
   transition: opacity .3s ease;
   opacity: 0;
-}
-.maCont{
-  padding-bottom: 42px
 }
 </style>
