@@ -46,7 +46,7 @@ export default {
 <style>
 @media only screen and (max-width: 599px){
   .scrollToTop{
-    bottom: 64px !important
+    bottom: 40px !important
   }
 }
 @media only screen and (min-width: 600px){
