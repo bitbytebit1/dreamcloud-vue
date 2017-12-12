@@ -7,7 +7,7 @@
 /* eslint-disable */
 import deleteButton from '@/components/misc/delete-button'
 export default {
-  name: 'x',
+  name: 'share-button',
   props: ['url', 'song'],
   components: {
     'delete-button': deleteButton

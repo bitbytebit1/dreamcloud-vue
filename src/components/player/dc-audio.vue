@@ -101,7 +101,10 @@ export default {
       }
     },
     updated () {
-      this.currentTime = this.secondsToDuration(this.eAudio.currentTime) + '~' + this.secondsToDuration(this.eAudio.duration)
+      // This is how you don't concatenate strings
+      // this.currentTime = this.secondsToDuration(this.eAudio.currentTime) + '-' + this.secondsToDuration(this.eAudio.duration)
+      // This is the proper way.
+      this.currentTime = `${this.secondsToDuration(this.eAudio.currentTime)} - ${this.secondsToDuration(this.eAudio.duration)}`
       this.progress = Math.floor(this.eAudio.currentTime)
     },
     playing () {

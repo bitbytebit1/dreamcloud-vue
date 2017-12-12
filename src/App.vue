@@ -119,6 +119,9 @@
       padding: 0 !important;
       height: 55px !important;
     }
+    .maCont{
+      padding-bottom: 21px;
+    }
   }
   @media only screen and (max-width: 599px){
     #foot{
