@@ -109,7 +109,7 @@
                 <share-button :song="props.item" :url="'https://offcloud.netlify.com/#/t/' + props.item.source + '/' + encodeURIComponent(props.item.artist) + '/' + props.item.trackID"></share-button>
               </v-list-tile>
               <v-list-tile v-if="props.item.key">
-                <delete-button :id="props.item.key" @delete="selected ? removeList() : remove(props.item.key)"></delete-button>
+                <delete-button :id="props.item.key" @delete="bSelect ? removeList() : remove(props.item.key)"></delete-button>
               </v-list-tile>
             </v-list>
           </v-menu>
