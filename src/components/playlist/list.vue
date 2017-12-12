@@ -89,7 +89,7 @@
         </td>
 
         <!-- uploaded -->
-        <td :class="tdClass(props.item.mp32)">
+        <td :class="tdClass(props.item.mp32)" v-if="$vuetify.breakpoint.name !== 'xs'">
           {{ date(props.item.uploaded) }}
         </td>
         <!-- actions -->
