@@ -1,6 +1,6 @@
 <template>
     <v-dialog :disabled="disabled" v-model="menuOpen" max-width="500px">
-    <v-btn :disabled="disabled" :color='btnCol' icon slot="activator" @click.stop="menuOpen = !menuOpen" >
+    <v-btn :disabled="disabled" :color='btnCol' icon slot="activator" @click.stop="openMenu" >
       <v-icon>playlist_add</v-icon>
     </v-btn>      
       <v-list>
@@ -25,18 +25,18 @@
 /* eslint-disable */
 export default {
   name: 'add-to-playlist',
-  props: ['song', 'disabled'],
+  props: ['song', 'disabled', 'colour'],
   data () {
     return {
-      btnCol: '',
+      btnCol: this.colour,
       playlistName: '',
       menuOpen: false
     }
   },
-  updated () {
-    // console.log(this.$refs)
+  // created () {
+    // console.log(this.color)
     // this.$refs.addInput.focus()
-  },
+  // },
   directives: {
     focus: {
       // directive definition
@@ -51,11 +51,16 @@ export default {
     }
   },
   methods: {
+    openMenu () {
+      this.menuOpen = !this.menuOpen
+      this.$emit('opened', true)
+    },
     btnFeedback () {
       //  this.menuOpen = this.$UTILS.isMobile ? false : true
       this.menuOpen = false
       this.btnCol = 'green'
       setTimeout(() =>{
+        this.$emit('opened', false)
         this.btnCol = ''
       }, 2000)
     },

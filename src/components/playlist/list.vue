@@ -93,8 +93,8 @@
           {{ date(props.item.uploaded) }}
         </td>
         <!-- actions -->
-        <td :class="tdClass(props.item.mp32)" @click.stop>
-          <v-menu transition="slide-y-transition" bottom lazy>
+        <td :class="tdClass(props.item.mp32)" @click.stop v-if="!bSelect">
+          <v-menu transition="slide-y-transition" bottom lazy open-on-hover>
             <v-btn icon slot="activator">
               <v-icon>more_vert</v-icon>
             </v-btn>
@@ -130,7 +130,17 @@ import downloadButton from '@/components/misc/download-button'
 
 export default {
   name: 'list',
-  props: ['songs'],
+  // props: ['songs', 'sortBy'],
+  props: {
+    songs: {
+      type: [Array],
+      required: true
+    },
+    sortBy: {
+      type: [String],
+      default: ''
+    }
+  },
   components: {
     'add-to-playlist': addToPlaylist,
     'delete-button': deleteButton,
@@ -144,7 +154,7 @@ export default {
       bSelect: false,
       selected: [],
       pagination: {
-        sortBy: 'uploaded',
+        sortBy: this.sortBy,
         rowsPerPage: 20,
         descending: true
       },
@@ -214,7 +224,9 @@ export default {
       return {
         'teal': this.isPlaying(link),
         'text-xs-left': true,
-        'caption': true
+        'caption': true,
+        'ma-0': true,
+        'pa-0': true
       }
     },
     isPlaying (link) {
@@ -254,7 +266,12 @@ export default {
     max-height: 53px;
   }
   td img {
-    margin-top: 5px 
+    margin: 5px
+  }
+  img.playing{
+  } 
+  td .card__media[lazy=loading] {
+    width: 10px !important;
   }
   @media only screen and (max-width: 599px){
     .header-buttons {
@@ -302,9 +319,6 @@ export default {
     table th:first-child{
       padding: 0 0 0 10px!important;
       /* normal value is 24 */
-    }    
-    img.playing{
-      width: 100px !important;
     }
   }
 </style>

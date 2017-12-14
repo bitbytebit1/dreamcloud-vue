@@ -10,7 +10,7 @@
     <!-- <loading v-if="loading" @infinite="infiniteHandler" :show="!loading" :reff="'infiniteLoading'" spinner="waveDots"></loading> -->
     
 
-    <playlist v-if="!loading" :songs="searchResults"></playlist>
+    <playlist v-if="!loading" sortBy="uploaded" :songs="searchResults"></playlist>
   
     <!-- <loading :show="loading" spinner="waveDots"></loading> -->
   </v-flex>

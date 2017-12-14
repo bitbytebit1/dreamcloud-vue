@@ -34,6 +34,10 @@
               </v-btn>
               <span>{{item.name}}</span>
             </v-tooltip>
+        <!-- <div style="float:left;position:absolute;margin-left:-10px;margin-top:40px">
+          <v-chip outline selected><v-icon color="white">music_note</v-icon></v-chip>
+          <v-chip outline><v-icon color="white">list</v-icon></v-chip>
+        </div> -->
           </v-flex>
         </v-flex>
       </v-flex>

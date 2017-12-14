@@ -1,6 +1,6 @@
 <template>
-    <v-flex xs12 sm4 xl3 flexbox @click="play">
-      <v-card>
+    <v-flex xs12 sm4 lg3 flexbox @click="play" class="clm">
+      <v-card @mouseover="active = true" @mouseleave="active = false">
         <v-card-media
           v-lazy:background-image="song.posterLarge"
           height="220px"
@@ -8,35 +8,34 @@
           <v-container grid-list-xs fill-height fluid>
             <v-layout fill-height>
               <v-flex xs12 align-end flexbox>
+                <v-flex xs12 align-end flexbox>
                 <span class="song-text main white--text" v-text="song.title"></span>
                 <br />
                 <span class="song-text white--text" v-text="song.artist"></span>
                 <v-btn v-if="availableOffline" class="offline" icon absolute :right="true"> 
                   <v-icon color="green">offline_pin</v-icon>
                 </v-btn>
-                <br />
+              </v-flex>
+              <!-- visible if is play, if hover or on add to playlist click -->
+              <!-- work around == add to playlist no longer being visible on click -->
+              <v-flex xs12 class="btns" v-if="showBtns"> 
+                <!-- onClick -->
+                <add-to-playlist colour="teal" @opened="addClickHandler" :song="song"></add-to-playlist>
+
+                <share-button colour="teal"  :song="song" :url="'https://offcloud.netlify.com/#/t/' + song.source + '/' + encodeURIComponent(song.artist) + '/' + song.trackID"></share-button>
+                
+                <download-button colour="teal" :links="[song]"></download-button>
+                
+                <v-btn icon color="teal" @click.stop :href="artistID">
+                  <v-icon>person</v-icon>
+                </v-btn>
+
+                <delete-button colour="teal" v-if="song.key" :id="song.key" @delete="remove(song.key)"></delete-button>
+              </v-flex>
               </v-flex>
             </v-layout>
           </v-container>
         </v-card-media>
-        <v-card-actions v-bind:class="{ teal: isPlaying }">
-
-          <add-to-playlist :song="song"></add-to-playlist>
-
-          <share-button :song="song" :url="'https://offcloud.netlify.com/#/t/' + song.source + '/' + encodeURIComponent(song.artist) + '/' + song.trackID"></share-button>
-          
-          <download-button :links="[song]"></download-button>
-          
-          <v-btn icon @click.stop :href="artistID">
-            <v-icon>person</v-icon>
-          </v-btn>
-          <v-btn icon @click.stop target="_blank" :href="song.mp32">
-            <v-icon>open_in_new</v-icon>
-          </v-btn>
-
-          <delete-button v-if="song.key" :id="song.key" @delete="remove(song.key)"></delete-button>
-
-        </v-card-actions>
       </v-card>
     </v-flex>
 </template>
@@ -57,6 +56,8 @@ export default {
   },
   data () {
     return {
+      active: false,
+      active2: false,
       availableOffline: false
     }
   },
@@ -64,6 +65,9 @@ export default {
     this.checkIfAvailableOffline()
   },
   computed: {
+    showBtns () {
+      return this.active || this.active2 || this.isPlaying
+    },
     artistID () {
       return '#/a/' + this.song.source + '/' + encodeURIComponent(this.song.artist) + '/' + this.song.artistID
     },
@@ -79,6 +83,9 @@ export default {
     }
   },
   methods: {
+    addClickHandler (payload) {
+      this.active2 = payload
+    },
     checkIfAvailableOffline () {
       var url = this.song.source === 'SoundCloud' ? this.song.mp3 : 'https://www.saveitoffline.com/process/?type=audio&url=' + this.song.mp32
       window.caches.match(url).then((a) => {
@@ -118,5 +125,9 @@ export default {
 .offline{
   bottom: 0px;
   right: 0px;
+}
+.btns{
+    position: absolute;
+    bottom: 0;
 }
 </style>

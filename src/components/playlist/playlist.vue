@@ -28,18 +28,18 @@
           <!-- <v-flex> -->
             <column
               v-for="(song, index) in songs"
-              v-bind:song="song"
-              v-bind:index="index"
-              v-bind:key="index" 
+              :song="song"
+              :index="index"
+              :key="index" 
             >
             </column>
           <!-- </v-flex> -->
         </v-layout>
       </v-container>
         <v-container v-if="list && !$UTILS.isMobile">
-          <list @toggleView="toggleView" v-bind:songs="songs"></list>
+          <list :sortBy="sortBy" @toggleView="toggleView" :songs="songs"></list>
       </v-container>
-      <list @toggleView="toggleView" v-if="list && $UTILS.isMobile" v-bind:songs="songs"></list>
+      <list @toggleView="toggleView" v-if="list && $UTILS.isMobile" :songs="songs"></list>
       <scroll-to-top></scroll-to-top>
   </v-flex>
 </template>
@@ -60,6 +60,10 @@ export default {
       default () {
         return { full: true, list: !0 }
       }
+    },
+    sortBy: {
+      type: [String],
+      default: ''
     }
   },
 
@@ -68,13 +72,11 @@ export default {
     'list': list,
     'scroll-to-top': scrollToTop
   },
-  created () {
-    // console.log(this.songs)
-  },
   data () {
     return {
       showScrollToTop: false,
-      list: this.viewType.list
+      list: this.viewType.list,
+      fixd: this.songs
     }
   },
   computed: {
@@ -82,6 +84,16 @@ export default {
       // returns xs to xl depending on view port.
       // used to set padding around elements.
       return this.$vuetify.breakpoint.name
+    },
+    fixedSongs () {
+      for (let song in this.songs) {
+        if (!(this.fixd[song].uploaded instanceof Date)) {
+          this.fixd[song].uploaded = new Date(this.fixd[song].uploaded)
+        } else {
+          break
+        }
+      }
+      return this.fixd
     }
   },
   methods: {

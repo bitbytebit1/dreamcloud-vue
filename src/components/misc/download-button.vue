@@ -1,5 +1,5 @@
 <template>
-  <v-btn :disabled="dis" @click.stop="download" icon>
+  <v-btn :color="colour" :disabled="dis" @click.stop="download" icon>
     <v-icon>file_download</v-icon>
   </v-btn>
 </template>
@@ -7,7 +7,7 @@
 /* eslint-disable */
 export default {
   name: 'download-button',
-  props: ['links', 'dis'],
+  props: ['links', 'dis', 'colour'],
   methods: {
     download () {
       for (const link in this.links) {

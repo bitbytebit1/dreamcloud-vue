@@ -1,5 +1,5 @@
 <template>
-  <v-btn icon @click.stop="share">
+  <v-btn :color="colour" icon @click.stop="share">
     <v-icon>share</v-icon>
   </v-btn>
 </template>
@@ -8,7 +8,7 @@
 import deleteButton from '@/components/misc/delete-button'
 export default {
   name: 'share-button',
-  props: ['url', 'song'],
+  props: ['url', 'song', 'colour'],
   components: {
     'delete-button': deleteButton
   },
