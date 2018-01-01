@@ -22,10 +22,42 @@
               v-on:keyup.enter="signIn"
               type="password"
             ></v-text-field>
-            <v-btn type="submit" v-on:click="signIn">Sign In</v-btn>
+            <v-btn color="teal white--text" :loading="loading1" :disabled="loading1" round type="submit" v-on:click="signIn">
+              Sign In
+              <v-icon right dark>lock_open</v-icon>
+            </v-btn>
+            <br />
           </form>
         </v-flex>
-        <h5>You don't have an account? You can <router-link to="/sign-up">create one</router-link></h5>
+        <div class="text-xs-center">
+          <v-btn :loading="loading2" :disabled="loading2" round class="grey darken-4" dark @click.prevent="signInGitHub">Sign in with GitHub
+            <v-icon right dark>lock_open</v-icon>
+          </v-btn>
+        </div>
+        <div class="text-xs-center">
+          <v-btn :loading="loading3" :disabled="loading3" round class="red" dark @click.prevent="signInGoogle">Sign in with Google
+            <v-icon right dark>lock_open</v-icon>
+          </v-btn>
+        </div>
+<!--         
+
+                    <div class="text-xs-center">
+                      <v-btn round color="blue" dark @click.prevent="onSigninFacebook">Login with Facebook
+                        <v-icon right dark>lock_open</v-icon>
+                      </v-btn>
+                    </div>
+                    <div class="text-xs-center">
+                      <v-btn round dark @click.prevent="onSigninGithub">Login with Github
+                        <v-icon right dark>lock_open</v-icon>
+                      </v-btn>
+                    </div>
+                    <div class="text-xs-center">
+                      <v-btn round color="light-blue" @click.prevent="onSigninTwitter">Login with Twitter
+                        <v-icon right dark>lock_open</v-icon>
+                      </v-btn>
+                    </div> -->
+        
+        <h5>Don't have an account yet? You can create one <router-link to="/sign-up">here</router-link>.</h5>
         <h5><router-link to="/password-reset">Forgot your password?</router-link></h5>
         <iframe id="remember" name="remember" class="hidden" src=""></iframe>
       </v-flex>
@@ -34,26 +66,69 @@
 </template>
 
 <script>
-  import {fb, DCFB} from '@/DCAPIs/DCFB.js'
   export default {
     name: 'login',
-    data: function () {
+    data () {
       return {
         email: '',
-        password: ''
+        password: '',
+        loading1: false,
+        loading2: false,
+        loading3: false
       }
     },
     methods: {
-      signIn: function () {
-        fb.auth().signInWithEmailAndPassword(this.email, this.password).then(
-          (user) => {
-            DCFB.init(user.uid)
+      signIn () {
+        this.loading1 = true
+        this.$DCFB.fb.auth().signInWithEmailAndPassword(this.email, this.password).then(
+          user => {
+            this.$store.commit('authChange', true)
+            this.$DCFB.init(user.uid)
+            this.loading1 = false
             this.$router.replace('home')
           },
-          (err) => {
+          err => {
+            this.$store.commit('authChange', false)
             alert('Oops. ' + err.message)
+            this.loading1 = false
           }
         )
+      },
+      signInGitHub () {
+        this.loading2 = true
+        this.$DCFB.fb.auth().signInWithPopup(new this.$DCFB.fbb.auth.GithubAuthProvider())
+          .then(
+            user => {
+              this.$store.commit('authChange', true)
+              this.$DCFB.init(user.uid)
+              this.loading2 = false
+              this.$router.replace('home')
+            }
+          )
+          .catch(
+            err => {
+              alert('Oops. ' + err.message)
+              this.loading2 = false
+            }
+          )
+      },
+      signInGoogle () {
+        this.loading3 = true
+        this.$DCFB.fb.auth().signInWithPopup(new this.$DCFB.fbb.auth.GoogleAuthProvider())
+          .then(
+            user => {
+              this.$store.commit('authChange', true)
+              this.$DCFB.init(user.uid)
+              this.loading3 = false
+              this.$router.replace('home')
+            }
+          )
+          .catch(
+            err => {
+              alert('Oops. ' + err.message)
+              this.loading3 = false
+            }
+          )
       }
     }
   }
@@ -68,14 +143,9 @@
     width: 100%;
   }
   input {
-    margin: 10px 0;
-    width: 20%;
+    /* margin: 10px 0; */
+    /* width: 20%; */
     padding: 15px;
-  }
-  button {
-    margin-top: 20px;
-    width: 10%;
-    cursor: pointer;
   }
   p {
     margin-top: 40px;

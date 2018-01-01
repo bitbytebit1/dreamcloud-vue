@@ -1,51 +1,85 @@
 <template>
-  <v-menu offset-y lazy :close-on-content-click="false" v-model="menuOpen" class="mr-0 ml-0">
-    <v-btn icon slot="activator" @click.stop="menuOpen = !menuOpen" >
+    <v-dialog :disabled="disabled" v-model="menuOpen" max-width="500px">
+    <v-btn :disabled="disabled" :color='btnCol' icon slot="activator" @click.stop="openMenu" >
       <v-icon>playlist_add</v-icon>
-    </v-btn>
-    <v-list>
-      <v-list-tile>
-        <v-text-field
-          name="input-1-3"
-          label="Playlist name"
-          single-line
-          v-model="playlistName"
-          v-on:keyup.enter="createNewPlaylist"
-        ></v-text-field>
-      </v-list-tile>
-      <v-list-tile v-for="playlist in playlists" :key="playlist['.key']" @click="addToPlaylist(playlist)">
-        <v-list-tile-title>{{ playlist['name'] }}</v-list-tile-title>
-      </v-list-tile>
-    </v-list>
-  </v-menu>
+    </v-btn>      
+      <v-list>
+        <v-list-tile>
+          <v-text-field
+            v-focus
+            color="teal"
+            name="add-to-playlist"
+            label="Playlist name"
+            single-line
+            v-model="playlistName"
+            v-on:keyup.enter="createNewPlaylist"
+          ></v-text-field>
+        </v-list-tile>
+        <v-list-tile v-for="playlist in playlists" :key="playlist['.key']" @click="addToPlaylist(playlist)">
+          <v-list-tile-title>{{ playlist['name'] }}</v-list-tile-title>
+        </v-list-tile>
+      </v-list>
+    </v-dialog>
 </template>
 <script>
 /* eslint-disable */
-import {fb, db, DCFB} from '@/DCAPIs/DCFB.js'
 export default {
   name: 'add-to-playlist',
-  props: ['song'],
+  props: ['song', 'disabled', 'colour'],
   data () {
     return {
+      btnCol: this.colour,
       playlistName: '',
       menuOpen: false
     }
   },
+  // created () {
+    // console.log(this.color)
+    // this.$refs.addInput.focus()
+  // },
+  directives: {
+    focus: {
+      // directive definition
+      update: (el) => {
+        // console.log(this)
+        // console.log(this.$vuetify)
+        // console.log($vuetify)
+        // if ($vuetify.breakpoint.xsOnly) {
+          el.children[1].children[0].focus()  
+        // }
+      }
+    }
+  },
   methods: {
-    createNewPlaylist: function () {
-     DCFB.createNewPlaylist(this.playlistName, this.song)
+    openMenu () {
+      this.menuOpen = !this.menuOpen
+      this.$emit('opened', true)
     },
-    addToPlaylist: function (playlist) {
-      DCFB.playlistSongAdd(playlist['.key'], this.song)
+    btnFeedback () {
+      //  this.menuOpen = this.$UTILS.isMobile ? false : true
+      this.menuOpen = false
+      this.btnCol = 'green'
+      setTimeout(() =>{
+        this.$emit('opened', false)
+        this.btnCol = ''
+      }, 2000)
+    },
+    createNewPlaylist () {
+     this.$DCFB.createNewPlaylist(this.playlistName, this.song)
+     this.btnFeedback()
+    },
+    addToPlaylist (playlist) {
+      this.$DCFB.playlistSongAdd(playlist['.key'], this.song)
+      this.btnFeedback()
     }
   },
-  firebase: function () {
+  firebase () {
     return {
-      playlists: DCFB.playlists,
-      playlistsRefs: DCFB.playlistsRefs
+      playlists: this.$DCFB.playlists.orderByChild('name_lower'),
+      playlistsRefs: this.$DCFB.playlistsRefs.orderByChild('name_lower')
     }
   },
-  mounted: function () {
+  mounted () {
     // console.log('Playlists', this.playlists)
     // console.log('PlaylistsRefs', this.playlistsRefs)
   }

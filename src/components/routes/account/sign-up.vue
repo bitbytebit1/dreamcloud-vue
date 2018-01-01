@@ -22,7 +22,7 @@
             type="password"
           ></v-text-field>    
           <v-btn v-on:click="signUp">Sign Up</v-btn>
-          <span>or go back to <router-link to="/login">login</router-link>.</span>
+          <h5>or go back to <router-link to="/login">login</router-link>.</h5>
         </v-flex>
       </v-flex>
     </v-layout>
@@ -31,7 +31,6 @@
 
 <script>
   /* eslint-disable */
-  import {fb, DCFB} from '@/DCAPIs/DCFB.js'
   export default {
     name: 'signUp',
   data () {
@@ -41,8 +40,8 @@
     }
   },
     methods: {
-      signUp: function () {
-        fb.auth().createUserWithEmailAndPassword(this.email, this.password).then(
+      signUp () {
+        this.$DCFB.fb.auth().createUserWithEmailAndPassword(this.email, this.password).then(
           (user) => {
             this.$router.replace('user')
           },

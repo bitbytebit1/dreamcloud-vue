@@ -1,38 +1,55 @@
 <template>
   <v-flex flexbox>
-      <div class="well" v-if="viewType.full">
-        <button class="btn btn-primary" @click='sort'>Sort Date</button>
-        <button class="btn btn-primary" @click='toggleView'>Toggle Playlist View</button>
-      </div>
+      <!-- <div class="well"> && !$UTILS.isMobile -->
+        <!-- <button class="btn btn-primary" @click='sort'>Sort Date</button>   -->
+        <!-- <button class="btn btn-primary" @click='toggleView'>Toggle Playlist View</button> -->
+      <!-- </div> -->
       <v-container v-if="!list" fluid v-bind="{ [`grid-list-${_size}`]: true }">
-        <v-layout row wrap>  
-          <playlist-item-normal
-            v-for="(song, index) in songs"
-            v-bind:song="song"
-            v-bind:index="index"
-            v-bind:key="index" 
-          >
-          </playlist-item-normal>
+        <v-layout row wrap>
+            <v-flex lg10>
+              <v-text-field
+              color="teal"
+              :class="$vuetify.breakpoint.smAndUp ? 'ml-4' : ''"
+              label="Filter"
+              single-line
+              hide-details
+              v-on:keyup.enter="$UTILS.closeSoftMobi()"
+              ref="search"
+              ></v-text-field>
+            </v-flex>
+            <v-flex lg2 :class="$vuetify.breakpoint.name === 'xs' ? '' : 'pt-2'">
+              <v-btn icon>
+                <v-icon>filter_list</v-icon>
+              </v-btn> 
+              <v-btn icon @click="toggleView">
+                <v-icon>view_headline</v-icon>
+              </v-btn>
+            </v-flex>
+          <!-- <v-flex> -->
+            <column
+              v-for="(song, index) in songs"
+              :song="song"
+              :index="index"
+              :key="index" 
+            >
+            </column>
+          <!-- </v-flex> -->
         </v-layout>
       </v-container>
-        <v-container v-if="list" fluid>
-          <playlist-item-list
-            v-bind:songs="songs"
-          >
-          </playlist-item-list>
+        <v-container v-if="list && !$UTILS.isMobile">
+          <list :sortBy="sortBy" @toggleView="toggleView" :songs="songs"></list>
       </v-container>
+      <list @toggleView="toggleView" v-if="list && $UTILS.isMobile" :songs="songs"></list>
       <scroll-to-top></scroll-to-top>
-      <iframe :src="iframeSrc"></iframe>
   </v-flex>
 </template>
 <script>
-import playlistItemNormal from './playlist-item-normal.vue'
-import playlistItemList from './playlist-item-list.vue'
+import column from './column.vue'
+import list from './list.vue'
 import scrollToTop from '../misc/scroll-to-top.vue'
 
 export default {
   name: 'playlist',
-  // props: ['songs'],
   props: {
     songs: {
       type: [Array],
@@ -40,44 +57,54 @@ export default {
     },
     viewType: {
       type: [Object],
-      default: function () {
-        return { full: true, list: false }
+      default () {
+        return { full: true, list: !0 }
       }
+    },
+    sortBy: {
+      type: [String],
+      default: ''
     }
   },
 
   components: {
-    'playlist-item-normal': playlistItemNormal,
-    'playlist-item-list': playlistItemList,
+    'column': column,
+    'list': list,
     'scroll-to-top': scrollToTop
   },
   data () {
     return {
       showScrollToTop: false,
-      msg: 'Welcome to the playlist Trinity',
-      iframeSrc: '',
-      list: this.viewType.list
+      list: this.viewType.list,
+      fixd: this.songs
     }
   },
   computed: {
-    _size: function () {
+    _size () {
       // returns xs to xl depending on view port.
       // used to set padding around elements.
       return this.$vuetify.breakpoint.name
+    },
+    fixedSongs () {
+      for (let song in this.songs) {
+        if (!(this.fixd[song].uploaded instanceof Date)) {
+          this.fixd[song].uploaded = new Date(this.fixd[song].uploaded)
+        } else {
+          break
+        }
+      }
+      return this.fixd
     }
   },
   methods: {
-    play: function (index) {
+    play (index) {
       this.$store.commit('setNPlay', {songs: this.songs, current: index, path: this.$route.path})
-      this.$DCPlayer.setNPlay(this.songs, index)
+      return this.$DCPlayer.setNPlay(this.songs, index)
     },
-    setIframeSrc: function (sURL) {
-      this.iframeSrc = sURL
-    },
-    sort: function () {
+    sort () {
       this.songs.sort(this.$DCAPI.sortDate)
     },
-    toggleView: function () {
+    toggleView () {
       this.list = !this.list
     }
   }
@@ -87,8 +114,5 @@ export default {
 <style>
 #search-results{
   margin-bottom: 10px
-}
-iframe{
-  display: none
 }
 </style>

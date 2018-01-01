@@ -1,47 +1,54 @@
 <template>
-  <v-flex xs12 lg10>
-    <v-tabs dark fixed centered>
-      <v-tabs-bar >
-        <v-tabs-slider class="yellow"></v-tabs-slider>
-        <v-tabs-item :href="'#latest'">
-          Latest
-        </v-tabs-item>
-        <v-tabs-item :href="'#channels'">
-          Channels
-        </v-tabs-item>        
-      </v-tabs-bar>
-      <v-tabs-items>
-        <v-tabs-content id='latest'>
-          <subscriptions-all></subscriptions-all>          
-        </v-tabs-content>
-        <v-tabs-content id='channels'>
-          <subscription v-for="sub in subscriptions" :index="sub['id']" :key="sub['id']" :id="sub['id']" :name="sub['name']" :source="sub['source']" :img="sub['img']"></subscription>
-        </v-tabs-content>        
-      </v-tabs-items>
-    </v-tabs> 
+  <v-flex xs12>
+    <loading :show="loading" spinner="waveDots"></loading>
+    <playlist :view-type="{full: true, list: true}" :songs="aSongs"></playlist>  
   </v-flex>
 </template>
 <script>
 /* eslint-disable */
-import { DCFB } from '@/DCAPIs/DCFB.js'
-import subscription from '@/components/routes/home/sub'
-import subscriptionAll from '@/components/routes/home/sub2'
+import axios from 'axios'
+import {DCAPIClass} from '@/DCAPIs/DCAPI.js'
+import playlist from '@/components/playlist/playlist'
+import loading from '@/components/misc/loading'
 export default {
-  name: 'home',
+  name: 'home', 
   components: {
-    'subscription': subscription,
-    'subscriptions-all': subscriptionAll
-  },
+    'playlist': playlist,
+    'loading': loading
+  },  
   data () {
     return {
-      msg: 'Welcome to the real, Neo'
+      aSongs: [],
+      loading: true
     }
   },
-  firebase: function () {
-    return {
-      subscriptions: DCFB.subscriptions.orderByChild('name')
+  computed: {
+    // aSongsSortedByDate () {
+      // return this.aSongs.sort(this.$DCAPI.sortDate)
+    // }
+  },  
+  created () {
+    var results = [], idx = 0;
+    for(var sub in this.subscriptions){
+      results.push(this.$DCAPI.searchInt(0 , 0, [this.subscriptions[sub].source], this.subscriptions[sub].id, 
+      (songs) =>{
+        this.aSongs = this.aSongs.concat(songs)
+      }, false, 15).then(() =>{
+        // console.log('done')
+        this.loading = false
+      }))
     }
-  }
+    axios.all(results).then(() => {
+      // console.log('all done')
+      // this.aSongs.sort(this.$DCAPI.sortDate)
+    })
+    
+  },
+  firebase () {
+    return {
+      subscriptions: this.$DCFB.subscriptions
+    }
+  }  
 }
 </script>
 

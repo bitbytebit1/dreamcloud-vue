@@ -28,13 +28,13 @@ export default {
     'loading': loading,
     'playlist': playlist
   },
-  data: function () {
+  data () {
     return {
       aSongs: [],
       loading: true
     }
   },
-  created: function () {
+  created () {
     this.$DCAPI.searchInt(0, 0, [this.source], this.id, (songs) => {
       this.aSongs = songs.slice(0, 4)
       this.loading = !1

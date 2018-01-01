@@ -1,23 +1,22 @@
 <template>
-    <v-btn v-if="subscribed.length" @click="unsubscribe">Unsubscribe</v-btn>
+    <v-btn v-if="subscribed.length" @click="unsubscribe" color="teal white--text">Subscribed</v-btn>
     <v-btn v-else @click="subscribe">Subscribe</v-btn>
 </template>
 <script>
-import {DCFB} from '@/DCAPIs/DCFB.js'
 export default {
   name: 'subscribe-button',
   props: ['source', 'artist', 'artistID', 'img'],
   methods: {
-    subscribe: function () {
-      DCFB.subscriptionAdd(this.artist, this.source, this.artistID, this.img)
+    subscribe () {
+      this.$DCFB.subscriptionAdd(this.artist, this.source, this.artistID, this.img)
     },
-    unsubscribe: function () {
-      DCFB.subscriptionDelete(this.artistID)
+    unsubscribe () {
+      this.$DCFB.subscriptionDelete(this.artistID)
     }
   },
-  firebase: function () {
+  firebase () {
     return {
-      subscribed: DCFB.subscriptions.child(this.artistID)
+      subscribed: this.$DCFB.subscriptions.child(this.artistID)
     }
   }
 }

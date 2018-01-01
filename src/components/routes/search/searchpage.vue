@@ -4,8 +4,8 @@
     <loading :show="loading" spinner="waveDots"></loading>
 
     <playlist v-if="!loading" :songs="searchResults"></playlist>  
-    <infinite-loading :distance="420" ref="infiniteLoading" v-if="!loading" @infinite="infiniteHandler" spinner="waveDots">    
-      <span slot="no-more">^^`</span>
+    <infinite-loading :distance="210" ref="infiniteLoading" v-if="!loading" @infinite="infiniteHandler" spinner="waveDots">    
+      <span slot="no-more"></span>
     </infinite-loading>
   </v-flex>
 </template>
@@ -33,7 +33,7 @@ export default {
     'playlist': playlist
   },
   computed: {
-    splitSource: function () {
+    splitSource () {
       if (this.source.length > 1) {
         let tmp = this.source
         return tmp.split('-')
@@ -41,30 +41,29 @@ export default {
       return this.source
     }
   },
-  created: function () {
+  created () {
     this._query = this.query
     this._source = this.splitSource
     this.search(this.query, this._source)
   },
   // beforeRouteUpdate (to) {
-  //   // console.log(to)
+  //   console.log(to)
   //   this.search(to.params.query, to.params.source)
   // },
   watch: {
-    '$route.params.query': '_search',
-    '$route.params.source': '_search'
+    '$route.params': '_search'
   },
   methods: {
-    infiniteHandler: function ($state) {
+    infiniteHandler ($state) {
       this.search(this._query, this._source, ++this.iPage).then(function () {
         $state.loaded()
       })
     },
-    _search: function (sQuery, aSource) {
+    _search (sQuery, aSource) {
       this._query = this.$route.params.source
       this.search(this.$route.params.query, this.splitSource)
     },
-    search: function (sQuery, aSource, iPage = 0) {
+    search (sQuery, aSource, iPage = 0) {
       // console.log(this)
       this.loading = !iPage                                           // If first page show loading
       this._query = sQuery || this._query                             // If not param set use internal

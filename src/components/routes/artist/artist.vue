@@ -1,15 +1,18 @@
 <template>
   <v-flex xs12 lg10 xl10 flexbox>
-    
-    <loading :show="loading" spinner="waveDots"></loading>
+    <artist-info  :artistID="artistID" :source="source" :artist="artist" :key="artistID"></artist-info>
 
-    <artist-info v-if="!loading" :artistID="artistID" :source="source" :artist="artist"></artist-info>
-
-    <playlist v-if="!loading" :songs="searchResults"></playlist>
-    
-    <infinite-loading :distance="420" ref="infiniteLoading" v-if="!loading" @infinite="infiniteHandler" spinner="waveDots">
-      <span slot="no-more">End of the line kiddo</span>
+    <infinite-loading ref="infiniteLoading" v-if="!loading" @infinite="infiniteHandler" spinner="default">
+      <span slot="no-more"></span>
+      <span slot="spinner"></span>
     </infinite-loading>
+
+    <!-- <loading v-if="loading" @infinite="infiniteHandler" :show="!loading" :reff="'infiniteLoading'" spinner="waveDots"></loading> -->
+    
+
+    <playlist v-if="!loading" sortBy="uploaded" :songs="searchResults"></playlist>
+  
+    <!-- <loading :show="loading" spinner="waveDots"></loading> -->
   </v-flex>
 </template>
 
@@ -35,38 +38,40 @@ export default {
       iPage: 0
     }
   },
-  created: function () {
+  created () {
     this.search(this.artistID, this.source)
   },
   watch: {
-    '$route.params.artistID': '_search',
-    '$route.params.source': '_search'
+    '$route.params': '_search'
   },
   methods: {
-    infiniteHandler: function ($state) {
-      this.search(this.query, this.source, ++this.iPage).then(function () {
-        $state.loaded()
+    infiniteHandler (state) {
+      this.search(this.query, this.source, ++this.iPage, state).then(function () {
+        state.loaded()
       })
     },
-    _search: function (sQuery, aSource) {
+    _search (sQuery, aSource) {
       this.search(this.$route.params.artistID, this.$route.params.source)
     },
-    search: function (artistID, source, iPage = 0) {
+    search (artistID, source, iPage = 0, state = 0) {
       this.loading = !iPage                                 // If first page show loading
-      this.artistID = artistID || this.artistID             // If not param set use internal
-      this.source = source || this.source                   // If not  ”    ”   ”   ”
+      artistID = artistID || this.artistID                  // If not param set use internal
+      source = source || this.source                        // If not  ”    ”   ”   ”
       this.searchResults = !iPage ? [] : this.searchResults // If first page clear search results array.
-      return this.$DCAPI.searchInt('', iPage, [this.source], this.artistID, (d) => {
+      return this.$DCAPI.searchInt('', iPage, [source], artistID, (d) => {
         this.loading = false
         if (!d.length) {                                    // If no results stop infinite loading
-          this.$refs.infiniteLoading.stateChanger.complete()
+          state.complete()
+          // ^ fix ?
+          // this.$refs.infiniteLoading.stateChanger.complete()
           // ^ This line may cause problems in the future
-          // this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete');
+          // this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete')
           // ^ Proper way, but causes warning?
         }
         for (var i in d) {
           this.searchResults.push(d[i])
         }
+        this.searchResults = this.$DCAPI.uniqueArray(this.searchResults)
       }, '')
     }
   }

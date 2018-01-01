@@ -1,111 +1,117 @@
 /* eslint-disable */
 import axios from 'axios'
 import store from '../vuex'
-const DCPlayerPlug = {
+export default {
   install (Vue, options) {
     var DCPlayer = {
       aPlaylist: [],
       iCurrent: 0,
       eAudio: '',
-      init: function () {
+      error_count: 0,
+      init () {
         DCPlayer.bindMediaSesssion()
       },
-      ePlayer: function () {
+      ePlayer () {
         return document.getElementById('dc-audio')
       },
-      next: function () {
+      next () {
         // Increment unless end of playlist.
         DCPlayer.iCurrent = (DCPlayer.iCurrent < DCPlayer.aPlaylist.length - 1 ? DCPlayer.iCurrent + 1 : 0)
         DCPlayer.playIndex(DCPlayer.iCurrent)
       },
-      pause: function () {
+      pause () {
         DCPlayer.eAudio.pause()
       },
-      play: function () {
-        DCPlayer.eAudio.play()
+      play: () => {
+        return DCPlayer.eAudio.play()
       },
-      previous: function () {
-        DCPlayer.iCurrent = (DCPlayer.iCurrent > 0 ? DCPlayer.iCurrent - 1 : 0)
+      previous () {
+        DCPlayer.iCurrent = (DCPlayer.iCurrent > 0 ? DCPlayer.iCurrent - 1 : DCPlayer.aPlaylist.length - 1)
         store.commit('changeIndex', DCPlayer.iCurrent)
         DCPlayer.playIndex(DCPlayer.iCurrent)
       },
-      playIndex: function (index) {
+      playIndex (index) {
         DCPlayer.iCurrent = index
         store.commit('changeIndex', DCPlayer.iCurrent)
+        this.setMediaSession(DCPlayer.aPlaylist[index])
         if(DCPlayer.aPlaylist[index].source == 'SoundCloud')
           return DCPlayer.setAudioSrc(DCPlayer.aPlaylist[index].mp3)
         else
           return DCPlayer.play_url(DCPlayer.aPlaylist[index].mp32)
       },
-      play_url: function (sURL) {
+      play_url (sURL) {
         return DCPlayer.getAudio(sURL, DCPlayer.setAudioSrc)
       },
-      setAudioSrc: function (sURL) {
-        DCPlayer.eAudio.src = sURL
-        DCPlayer.play()
-        // Not sure why but seems we have to rebind after src change?
-        DCPlayer.eAudio.addEventListener('ended', DCPlayer.next, false)
-        DCPlayer.eAudio.addEventListener('error', DCPlayer.error, false)
+      setAudioSrc (sURL) {
+        //append x=error_count if error_count > 0
+        DCPlayer.eAudio.src = sURL + (DCPlayer.error_count ? '&x=' + DCPlayer.error_count : '')
+        // DCPlayer.eAudio.load()
+        var play = DCPlayer.play().then(() => {
+          // If play then reset error_count
+          DCPlayer.error_count = 0
+        })
+        // Else if the user doesn't choose another track add 1 to error count and try to play again if under 5
+        .catch(error => {
+          if(error.toString().indexOf('interrupted by a new load request') === -1){
+            DCPlayer.error_count++
+            if (DCPlayer.error_count < 6) {
+              DCPlayer.error()
+            } else {
+              console.log('Failed to play 5 times, next song!')
+              DCPlayer.error_count = 0
+              DCPlayer.next()
+            }
+          }
+        })
+        return play
       },
-      setPlaylist: function (array) {
+      setPlaylist (array) {
         DCPlayer.aPlaylist = array
       },
-      setNPlay: function (array, index) {
+      setNPlay (array, index) {
         DCPlayer.setPlaylist(array)
         DCPlayer.iCurrent = index
-        DCPlayer.playIndex(index)
+        return DCPlayer.playIndex(index)
       },
-      seekBackward: function () {
+      seekBackward () {
         DCPlayer.eAudio.currentTime -= 10
       },
-      seekForward: function () {
+      seekForward () {
         DCPlayer.eAudio.currentTime += 10
       },
-      getAudio: function (url, hCallback) {
+      getAudio (url, hCallback) {
         var ax = axios.get('https://www.saveitoffline.com/process/?type=audio&url=' + url)
         ax.then(function (resp) {
-          if (('data' in resp) && 
-          (resp.data !== 'Error: no_media_found' && 
-          resp.data !== 'Error: daily_secondary_api_limit_reached') && 
+          if ('data' in resp && 
+          resp.data !== 'Error: no_media_found' && 
+          resp.data !== 'Error: daily_secondary_api_limit_reached' && 
           resp.data !== 'Error: miss' &&
           resp.data !== '') {
 
             for (var i = 0; i < resp.data.urls.length; i++) {
-              if (resp.data.urls[i].label.indexOf('audio') > -1 || resp.data.urls[i].label.indexOf('m4a') > -1) {
+              if (resp.data.urls[i].label.indexOf('m4a') > -1 || resp.data.urls[i].label.indexOf('audio') > -1) {
                 hCallback(resp.data.urls[i].id)
-                break
+                return
               }
             }
+            
+            // console.log('fallback', resp.data.urls[Math.max(0,resp.data.urls.length - 2)], resp.data.urls)
+            hCallback(resp.data.urls[Math.max(0,resp.data.urls.length - 3)].id)
           } else {
             hCallback('//dream.tribe.nu/r3/off?q=' + url)
           }
+        }).catch((error) => {
+          // console.log('saio process error')
+          hCallback('//dream.tribe.nu/r3/off?q=' + url)
         })
         return ax
       },
-      error: function (a) {
-        this._error_count = this._error_count || 0
-        if (this._error_count < 3) {
-          this._error_count++
-          console.log('Trying to play again', this._error_count)
-          setTimeout(function () {
-            DCPlayer.playIndex(DCPlayer.iCurrent).then(function (resp) {
-              DCPlayer.eAudio.addEventListener('playing', function () {
-                this._error_count = 0
-              })
-              DCPlayer.eAudio.addEventListener('error', function () {
-                if (this._error_count === 4) {
-                  this._error_count = 0
-                  console.log('too may errors, next song')
-                  DCPlayer.next()
-                }
-              }, false)
-            })
-          }, 1000)
-        } else {
-
-        }
+      error (a) {
+        setTimeout(function () {
+          DCPlayer.playIndex(DCPlayer.iCurrent)
+        }, 2000)
       },
-      setMediaSession: function (song) {
+      setMediaSession (song) {
         if ('mediaSession' in navigator) {
           navigator.mediaSession.metadata = new MediaMetadata({
             title: song.title,
@@ -121,7 +127,7 @@ const DCPlayerPlug = {
           })
         }
       },
-      bindMediaSesssion: function () {
+      bindMediaSesssion () {
         if ('mediaSession' in navigator) {
           navigator.mediaSession.setActionHandler('play', DCPlayer.play)
           navigator.mediaSession.setActionHandler('pause', DCPlayer.pause)
@@ -136,4 +142,3 @@ const DCPlayerPlug = {
     Object.defineProperty(Vue.prototype, '$DCPlayer', { value: DCPlayer })
   }
 }
-export default DCPlayerPlug

@@ -18,21 +18,28 @@
           </v-btn>
         </div>
       </div>
+      
       <div id="right" class="hidden-sm-and-down">
         <v-speed-dial hover>
-          <v-btn slot="activator" fab hover>
-            <v-icon>volume_up</v-icon>
-            <v-icon>close</v-icon>
+          <v-btn @click="toggleMute" slot="activator" fab hover small>
+            <v-icon>{{volIcon}}</v-icon>
           </v-btn>
           <div class="slider-wrapper">
-            <input type="range" min="0" max="10"  @input="volumeChange" v-model="volume" step="1">
+            <input type="range" min="0" max="10" @input="volumeChange" v-model="volume" step="1">
           </div>
         </v-speed-dial>
       </div>
+
       <div id="middle">
         <div id="progress">
-          <v-slider @input="changePos" v-model="progress" id="progress-slider" max="10000" hide-details></v-slider>
-        </div>
+          <v-container fluid grid-list-md class="pa-0 ma-0">
+            <v-layout row wrap>
+              <v-flex>
+                <v-slider :max="eAudio.duration" :label="currentTime" @input="changePos" v-model="progress" id="progress-slider" color="teal" hide-details></v-slider>
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </div>  
       </div>
 
     </div>
@@ -41,6 +48,8 @@
 </template>
 
 <script>
+/* eslint-disable */
+
 export default {
   name: 'dcAudio',
   data () {
@@ -49,60 +58,95 @@ export default {
       progress: 0,
       eAudio: '',
       play_arrow: 'play_arrow',
-      volume: 10
+      volIcon: 'volume_up',
+      volume: 10,
+      duration: '',
+      currentTime: ''
     }
   },
   computed: {
-    currentImage: function () {
+    currentImage () {
+      // very hacky way to get the loading spinner to fire before the audio element fires
+      if (this.$store.getters.index > -1) {
+        this.loading()
+      }
       return this.$store.getters.index > -1
       ? this.$store.getters.current_Playlist[this.$store.getters.index].posterLarge
       : '/static/img/loading.gif'
     }
   },
   methods: {
-    volumeChange: function (wasd) {
-      this.eAudio.volume = this.volume / 10
+    toggleMute () {
+      this.eAudio.muted = !this.eAudio.muted
+      this.volIcon = this.eAudio.muted ? 'volume_off' : this.updateVolIcon()
     },
-    changePos: function (pos) {
-      var time = Math.floor(Math.floor(pos / 100) * (this.eAudio.duration / 100))
-      if (!isNaN(time)) {
-        this.eAudio.currentTime = time
+    volumeChange (wasd) {
+      this.eAudio.volume = this.volume / 10
+      this.updateVolIcon()
+      !0 === this.eAudio.muted && (this.eAudio.muted = !1) // if muted then set not muted, could just set false
+    },
+    updateVolIcon () {
+      return this.volIcon = 5 < this.volume ? "volume_up" : 0 < this.volume ? "volume_down" : "volume_off"
+    },
+    changePos (pos) {
+      if (!isNaN(pos)) {
+        this.eAudio.currentTime = pos
       }
     },
-    togglePlay: function () {
+    togglePlay () {
       if (this.eAudio.paused) {
         this.eAudio.play()
       } else {
         this.eAudio.pause()
       }
     },
-    updated: function () {
-      this.progress = Math.floor(((100 / this.eAudio.duration) * this.eAudio.currentTime) * 100)
+    updated () {
+      // This is how you don't concatenate strings
+      // this.currentTime = this.secondsToDuration(this.eAudio.currentTime) + '-' + this.secondsToDuration(this.eAudio.duration)
+      // This is the proper way.
+      this.currentTime = `${this.secondsToDuration(this.eAudio.currentTime)} - ${this.secondsToDuration(this.eAudio.duration)}`
+      this.progress = Math.floor(this.eAudio.currentTime)
     },
-    playing: function (wasd) {
+    playing () {
+      this.duration = this.secondsToDuration(this.eAudio.duration.toFixed(0))
       this.play_arrow = 'pause'
       this.bLoading = false
     },
-    paused: function () {
+    paused () {
       this.play_arrow = 'play_arrow'
     },
-    loading: function () {
+    loading () {
       this.bLoading = true
     },
-    next: function () {
+    next () {
       this.$DCPlayer.next()
     },
-    previous: function () {
+    previous () {
       this.$DCPlayer.previous()
+    },
+    secondsToDuration (ms) {
+      if (isNaN(ms)) {
+        return '00:00'
+      }
+      var seconds = parseInt(ms, 10)
+      var hh = Math.floor(seconds / 3600)
+      var mm = Math.floor((seconds - (hh * 3600)) / 60)
+      var ss = seconds - (hh * 3600) - (mm * 60)
+      if (hh < 10) { hh = '0' + hh }
+      if (mm < 10) { mm = '0' + mm }
+      if (ss < 10) { ss = '0' + ss }
+      
+      return (hh > 0 ? hh + ':' : '') + mm + ':' + ss
     }
   },
-  mounted: function () {
+  mounted () {
     this.$DCPlayer.eAudio = document.getElementById('dc-audio') // A little bit naughty to set the value like this =\
     this.eAudio = document.getElementById('dc-audio')
     this.eAudio.addEventListener('timeupdate', this.updated)
     this.eAudio.addEventListener('playing', this.playing)
     this.eAudio.addEventListener('pause', this.paused)
     this.eAudio.addEventListener('loadstart', this.loading)
+    this.eAudio.addEventListener('ended', this.$DCPlayer.next)
   }
 }
 </script>
@@ -134,6 +178,7 @@ export default {
 
 #dc-audio-container {
   width: 100%;
+  margin-top: -12px;
 }
 
 .audio-controls {
@@ -149,7 +194,8 @@ export default {
 } */
 
 #poster {
-  height: 50px
+  height: 35px;
+  margin-top: 6px;
 }
 
 /* #progress {
@@ -158,20 +204,26 @@ export default {
 
 #left {
   margin-top: 7px;
+  margin-left: 7px;
   float: left;
 }
-
-#middle {
-  margin-left: 230px;
+#right {
+  float: right;
+  margin-top: 5px !important;  
 }
 @media only screen and (min-width: 600px){
   #middle {
     margin-right: 100px;
   }
 }
-#right {
-  float: right;
+@media only screen and (max-width: 599px){
+  #progress-slider{
+    padding: 0!important  
+  }
+  #middle{
+    float: left;
+    width: 100%;
+  }
 }
-
 
 </style>

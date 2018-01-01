@@ -1,9 +1,10 @@
 <template>
+  <div>
   <v-list dense>
 
     <!-- Change to for loop to save the whales... I mean internet -->
 
-    <v-list-tile v-if="loggedIn" :to="{path: '/home'}">
+    <v-list-tile ripple v-if="loggedIn" @click="closeLeft" :to="{path: '/home'}">
       <v-list-tile-action>
         <v-icon>dashboard</v-icon>
       </v-list-tile-action>
@@ -12,7 +13,7 @@
       </v-list-tile-content>
     </v-list-tile>
 
-    <v-list-tile :to="{path: loginPath}">
+    <v-list-tile ripple @click="closeLeft" :to="{path: loginPath}">
       <v-list-tile-action>
         <v-icon>person</v-icon>
       </v-list-tile-action>
@@ -21,7 +22,7 @@
       </v-list-tile-content>
     </v-list-tile>
 
-    <v-list-tile v-if="loggedIn" :to="{path: '/settings'}">
+    <v-list-tile ripple @click="closeLeft" v-if="loggedIn" :to="{path: '/settings'}">
       <v-list-tile-action>
         <v-icon>settings</v-icon>
       </v-list-tile-action>
@@ -30,15 +31,17 @@
       </v-list-tile-content>
     </v-list-tile>
 
-
-    <user-playlists v-if="loggedIn"></user-playlists>
-    
-    <user-subscriptions v-if="loggedIn"></user-subscriptions>
-
   </v-list>
+  <v-list dense>
+    
+    <user-playlists @closeLeft="closeLeft" v-if="loggedIn"></user-playlists>
+
+    <user-subscriptions @closeLeft="closeLeft" v-if="loggedIn"></user-subscriptions>
+    
+  </v-list>  
+  </div>
 </template>
 <script>
-import { fb } from '@/DCAPIs/DCFB.js'
 import userPlaylists from '@/components/sidebar/user-playlists/user-playlists'
 import userSubscriptions from '@/components/sidebar/user-subscriptions/user-subscriptions'
 export default {
@@ -47,23 +50,24 @@ export default {
     'user-playlists': userPlaylists,
     'user-subscriptions': userSubscriptions
   },
-  data () {
-    return {
-      loggedIn: false
+  methods: {
+    closeLeft () {
+      this.$emit('closeLeft', 'left')
     }
   },
   computed: {
-    loginPath: function () {
+    loginPath () {
       return '/' + this.loginText.toLowerCase()
     },
-    loginText: function () {
+    loginText () {
       return this.loggedIn ? 'User' : 'Login'
+    },
+    loggedIn () {
+      return this.$store.getters.auth_state
     }
   },
-  mounted: function () {
-    fb.auth().onAuthStateChanged((user) => {
-      this.loggedIn = !!user
-    })
+  mounted () {
+
   }
 }
 </script>

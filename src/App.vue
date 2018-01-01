@@ -1,55 +1,66 @@
 <template>
-  <v-app id="inspire" v-bind="$store.getters.theme">
+  <v-app v-bind="$store.getters.theme">
     <v-navigation-drawer
-      v-model="drawerLeft"
-      clipped
-      persistent
-      enable-resize-watcher
       app
-      disable-route-watcher>
-    <sidebar></sidebar>
+      clipped
+      disable-route-watcher
+      enable-resize-watcher
+      persistent
+      ripple
+      v-model="drawerLeft"
+    >
+      <sidebar @closeLeft="closeLeft"></sidebar>
     </v-navigation-drawer>
 
-    <v-toolbar app fixed clipped-left clipped-right>
+    <v-toolbar app fixed clipped-left clipped-right dense>
+      
       <v-toolbar-side-icon @click.stop="drawerLeft = !drawerLeft"></v-toolbar-side-icon>
+      
       <v-toolbar-title class="hidden-sm-and-down">
         DreamCloud
       </v-toolbar-title>
       <v-spacer></v-spacer>
+
       <search></search>
+
       <v-spacer></v-spacer>
+
       <v-toolbar-side-icon @click.stop="drawerRight = !drawerRight"><v-icon large>playlist_play</v-icon></v-toolbar-side-icon>
+
     </v-toolbar>
-      <v-navigation-drawer
-      clipped
-      persistent
-      v-model="drawerRight"
-      enable-resize-watcher
+
+    <v-navigation-drawer
       app
+      clipped
       disable-route-watcher
+      enable-resize-watcher
+      persistent
       right
-      
-      ><current-playlist></current-playlist>
-      </v-navigation-drawer>
-    <main>
-      <v-content >
-        <v-container fluid fill-height>
-          <v-layout justify-center align-center>
+      v-model="drawerRight"
+    >
+      <current-playlist></current-playlist>
+    </v-navigation-drawer>
+    <!-- <main> -->
+      <v-content class="text-xs-center maCont">
+
+        <!-- <v-container fluid fill-height> -->
+          <v-layout justify-center>
             <transition name="fade" mode="out-in">
-              <router-view></router-view>
+              <!-- <keep-alive inlcude="all"> -->
+                <router-view></router-view>
+              <!-- </keep-alive> -->
             </transition>
           </v-layout>
-        </v-container>
+        <!-- </v-container> -->
       </v-content>
-    </main>
-    <v-footer app fixed>
+    <!-- </main> -->
+    <v-footer app fixed id="foot">
       <dc-audio :song="aSong"></dc-audio>
-    </v-footer>    
+    </v-footer>
   </v-app>
 </template>
 
 <script>
-  import { DCFB } from '@/DCAPIs/DCFB.js'
   import search from './components/navbar/search'
   import dcAudio from './components/player/dc-audio'
   import currentPlaylist from './components/current-playlist/current-playlist'
@@ -64,21 +75,38 @@
     },
     data () {
       return {
-        drawerLeft: false,
-        drawerRight: true,
+        drawerLeft: !this.$UTILS.isMobile,
+        drawerRight: !this.$UTILS.isMobile,
         aSongs: [],
         aSong: []
       }
     },
+    methods: {
+      closeLeft () {
+        if (this.$UTILS.isMobile) {
+          this.drawerLeft = false
+        }
+      }
+    },
     computed: {
-      theme: function () {
+      theme () {
         return this.$store.getters.theme
       }
     },
-    beforeCreate: function () {
-      DCFB.setting('Dark Theme').once('value', (snapshot) => {
-        if (snapshot.val() !== null) {
-          this.$store.commit('changeSetting', {'setting': 'Dark Theme', 'value': snapshot.val()})
+    beforeCreate () {
+      this.$store.commit('authChange', !!this.$DCFB.fb.auth().currentUser)
+      this.$DCFB.fb.auth().onAuthStateChanged((user) => {
+        if (user) {
+          this.$store.commit('authChange', true)
+          this.$DCFB.init(user.uid)
+          this.$DCFB.setting('Night Mode').once('value', (snapshot) => {
+            if (snapshot.val() !== null) {
+              this.$store.commit('changeSetting', {'setting': 'Night Mode', 'value': snapshot.val()})
+            }
+          })
+        } else {
+          this.$store.commit('authChange', false)
+          // this.$router.replace('/login')
         }
       })
     }
@@ -86,10 +114,24 @@
 </script>
 
 <style>
-
-main {
-  text-align: center;
-}
+  @media only screen and (min-width: 600px){
+    #foot{
+      padding: 0 !important;
+      height: 55px !important;
+    }
+    .maCont{
+      padding-bottom: 21px;
+    }
+  }
+  @media only screen and (max-width: 599px){
+    #foot{
+      padding: 0 !important;
+      height: 75px !important;
+    }
+    .maCont{
+      padding-bottom: 42px;
+    }
+  }
 
 .fade-enter {
   opacity: 0;
@@ -98,8 +140,6 @@ main {
 .fade-enter-active {
   transition: opacity .3s ease;
 }
-
-.fade-leave {}
 
 .fade-leave-active {
   transition: opacity .3s ease;

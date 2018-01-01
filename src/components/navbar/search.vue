@@ -6,7 +6,10 @@
       v-on:keyup.enter='search' 
       v-model='sQuery'
       placeholder="Search" 
-      single-line> 
+      color="teal"
+      single-line
+    >
+
     ></v-text-field>
     <v-menu
       :close-on-content-click="false"
@@ -19,7 +22,7 @@
           <v-list-tile>
             <!-- <img src='../img/All.png'> -->
             <v-list-tile-action>
-              <v-switch @change="search" v-model="aSources.All" color="dark blue"></v-switch>
+              <v-switch v-model="aSources.All" color="teal"></v-switch>
             </v-list-tile-action>
             <v-list-tile-title>All</v-list-tile-title>
           </v-list-tile>
@@ -27,7 +30,7 @@
           <v-list-tile>
             <!-- <img src='../img/mc.png'> -->
             <v-list-tile-action>
-              <v-switch @change="search" v-model="aSources.MixCloud" color="dark blue"></v-switch>
+              <v-switch v-model="aSources.MixCloud" color="teal"></v-switch>
             </v-list-tile-action>
             <v-list-tile-title>Mixcloud</v-list-tile-title>
           </v-list-tile>
@@ -35,7 +38,7 @@
           <v-list-tile>
             <!-- <img src='../img/sc.png'> -->
             <v-list-tile-action>
-              <v-switch @change="search" v-model="aSources.SoundCloud" color="dark blue"></v-switch>
+              <v-switch v-model="aSources.SoundCloud" color="teal"></v-switch>
             </v-list-tile-action>
             <v-list-tile-title>SoundCloud</v-list-tile-title>
           </v-list-tile>
@@ -43,7 +46,7 @@
           <v-list-tile>
             <!-- <img src='../img/yt.png'> -->
             <v-list-tile-action>
-              <v-switch @change="search" v-model="aSources.YouTube" color="dark blue"></v-switch>
+              <v-switch v-model="aSources.YouTube" color="teal"></v-switch>
             </v-list-tile-action>
             <v-list-tile-title>YouTube</v-list-tile-title>
           </v-list-tile>
@@ -51,7 +54,7 @@
           <v-list-tile>
             <!-- <img src='../img/vm.png'> -->
             <v-list-tile-action>
-              <v-switch @change="search" v-model="aSources.Vimeo" color="dark blue"></v-switch>
+              <v-switch v-model="aSources.Vimeo" color="teal"></v-switch>
             </v-list-tile-action>
             <v-list-tile-title>Vimeo</v-list-tile-title>
           </v-list-tile>
@@ -74,52 +77,43 @@ export default {
   },
   data () {
     return {
-      aSources: {All: false, MixCloud: false, SoundCloud: false, YouTube: true, Vimeo: false},
-      sQuery: '',
-      source: ''
+      aSources: {All: true, MixCloud: false, SoundCloud: false, YouTube: false, Vimeo: false},
+      sQuery: ''
     }
   },
   computed: {
-    maSource: function () {
+    maSource () {
       var ret = []
-      if (this.aSources.all) {
-        return ['all']
+      if (this.aSources.All) {
+        return 'all'
       }
       Object.keys(this.aSources).forEach((key, index) => {
         if (this.aSources[key]) {
           ret.push(key)
         }
       })
-      console.log(ret.join('-'))
       return ret.join('-')
     }
   },
   methods: {
-    _All: function () {
-      if (!this.aSources.All && this.aSources.MixCloud && this.aSources.SoundCloud && this.aSources.YouTube && this.aSources.Vimeo) {
+    _All (newVal) {
+      if (newVal) {
         this.aSources.MixCloud = this.aSources.SoundCloud = this.aSources.YouTube = this.aSources.Vimeo = false
-      } else if (this.aSources.All && (!this.aSources.MixCloud || !this.aSources.SoundCloud || !this.aSources.YouTube || !this.aSources.Vimeo)) {
-        this.aSources.MixCloud = this.aSources.SoundCloud = this.aSources.YouTube = this.aSources.Vimeo = true
       }
+      this.search()
     },
-    _other: function () {
-      if (!this.aSources.MixCloud || !this.aSources.SoundCloud || !this.aSources.YouTube || !this.aSources.Vimeo) {
+    _other (newVal) {
+      if (newVal) {
         this.aSources.All = false
-      } else {
-        this.aSources.All = true
       }
+      this.search()
     },
-    __search: function (sQuery, sSource = 'YouTube') {
+    __search (sQuery, sSource = 'YouTube') {
       this.$router.push({name: 'searchPage', params: {query: this.sQuery, source: this.maSource}})
     },
-    search: function () {
-      if (this.$UTILS.isMobile) {
-        document.activeElement.blur()
-      }
+    search () {
+      this.$UTILS.closeSoftMobi()
       this.__search(this.query)
-    },
-    btnclick: function (sSource) {
-      this.__search(this.query, sSource)
     }
   }
 }

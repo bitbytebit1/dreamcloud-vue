@@ -1,7 +1,6 @@
 <template>
     <v-fab-transition>
         <v-btn
-            color="blue"
             fab
             small
             fixed
@@ -24,20 +23,20 @@ export default {
     }
   },
   methods: {
-    scrollToTop: function () {
+    scrollToTop () {
       window.scrollTo(0, 0)
     },
-    handleScroll: function () {
+    handleScroll () {
       var scrollTop = (window.pageYOffset !== undefined) ? window.pageYOffset
       : (document.documentElement || document.body.parentNode || document.body)
       .scrollTop > 299
       this.showScrollToTop = (scrollTop > 299)
     }
   },
-  created: function () {
+  created () {
     window.addEventListener('scroll', this.handleScroll)
   },
-  destroyed: function () {
+  destroyed () {
     window.removeEventListener('scroll', this.handleScroll)
   }
 }
@@ -47,12 +46,13 @@ export default {
 <style>
 @media only screen and (max-width: 599px){
   .scrollToTop{
-    bottom: 75px !important
+    bottom: 40px !important
   }
 }
 @media only screen and (min-width: 600px){
   .scrollToTop{
-    right: 75px !important
+    bottom:10px !important;
+    right: 50px !important;
   }  
 }
 </style>

@@ -6,16 +6,17 @@ class DCAPIClass {
     this.sYtKey = '***REMOVED***'
     this.sScKey = '***REMOVED***'
     this.sVimeoKey = '***REMOVED***'
-    this.YTnextPageTokenString = ''
-    this.nextPageToken = ''
-    this.SCnextPageToken = ''
+    this.YTnextPageTokenString = 0
+    this.nextPageToken = 0
+    this.SCnextPageToken = 0
     this.aQuery = []
   }
 
-  searchInt (sQuery, iPage, aSource, sArtist, hCallback, bRelated, iLimit = 30) {
+  searchInt (sQuery, iPage, aSource, sArtist, hCallback, bRelated, iLimit = 50) {
     if (!iPage) {
       this.SCnextPageToken = ''
       this.nextPageToken = ''
+      this.YTnextPageTokenString = ''
     }
     var uid = performance.now()
     this.aQuery[uid] = {
@@ -58,15 +59,15 @@ class DCAPIClass {
   mc (uid) {
     var a
     if (this.aQuery[uid].sArtist !== '') {
-      a = 'https://api.mixcloud.com/' + this.aQuery[uid].sArtist + '/cloudcasts?limit=12&offset=' + 8 * (this.aQuery[uid].iPage > 0 ? this.aQuery[uid].iPage : 1)
+      a = 'https://api.mixcloud.com/' + this.aQuery[uid].sArtist + '/cloudcasts/?limit=' + this.aQuery[uid].iLimit + '&offset=' + this.aQuery[uid].iLimit * (this.aQuery[uid].iPage > 0 ? this.aQuery[uid].iPage : 0)
     } else {
-      a = 'https://api.mixcloud.com/search/?type=cloudcast&limit=12&q=' + this.aQuery[uid].sQuery + '&offset=' + 8 * this.aQuery[uid].iPage + '&callback=?'
+      a = 'https://api.mixcloud.com/search/?type=cloudcast&limit=' + this.aQuery[uid].iLimit + '&q=' + this.aQuery[uid].sQuery + '&offset=' + this.aQuery[uid].iLimit * this.aQuery[uid].iPage
     }
     return axios.get(a).then((resp) => {
       resp = resp.data.data
       for (var idx in resp) {
         this.pushResult(
-          uid,
+          uid,                                                  // uid:
           resp[idx].user.name,                                  // artist:
           resp[idx].user.username,                              // artistID:
           this.parseDate(resp[idx].created_time),               // created:
@@ -78,7 +79,7 @@ class DCAPIClass {
           resp[idx].pictures.extra_large,                       // posterLarge:
           'MixCloud',                                           // source:
           resp[idx].name,                                       // title:
-          ''                                                    // trackID:
+          encodeURIComponent(resp[idx].key)                     // trackID:
         )
       }
     })
@@ -94,18 +95,22 @@ class DCAPIClass {
     } else {
       a = 'https://api.soundcloud.com/tracks.json?linked_partitioning=1&limit=' + this.aQuery[uid].iLimit + '&q=' + encodeURIComponent(this.aQuery[uid].sQuery) + '&client_id=' + this.sScKey
     }
-    if (this.aQuery[uid].sToken) {
-      a = this.aQuery[uid].sToken
-    } else if (!this.aQuery[uid].sToken && this.aQuery[uid].iPage > 0) {
+    if (this.SCnextPageToken) {
+      a = this.SCnextPageToken
+      // console.log('using sc token', this.SCnextPageToken)
+    } else if (!this.SCnextPageToken && this.aQuery[uid].iPage > 0) {
+      // console.log('sc no token, DIE', this.SCnextPageToken)
       return
     }
     return new Promise((resolve, reject) => {
       axios.get(a).then((resp) => {
         var img, img2
         if (resp.data.next_href) {
-            this.aQuery[uid].sToken= resp.data.next_href
+          // console.log('next token', resp.data.next_href)
+            this.SCnextPageToken = resp.data.next_href
+            this.SCnextPageToken = resp.data.next_href
           } else {
-            this.aQuery[uid].sToken= 0
+            this.SCnextPageToken = 0
           }
 
         resp = resp.data.collection
@@ -116,7 +121,7 @@ class DCAPIClass {
             img = resp[idx].artwork_url.replace('i1', 'i2').replace('-large', '-t300x300')
             img2 = resp[idx].artwork_url.replace('-large', '-t500x500')
             this.pushResult(
-              uid,
+              uid,                                                           // uid:
               resp[idx].user.username,                                       // artist:
               resp[idx].user_id,                                             // artistID:
               this.parseDate(resp[idx].created_at),                          // created:
@@ -131,12 +136,15 @@ class DCAPIClass {
               resp[idx].id                                                   // trackID:
             )
           }
-        if (this.aQuery[uid].aResult.length < this.aQuery[uid].iLimit) {
+        if (this.aQuery[uid].aResult.length < this.aQuery[uid].iLimit && this.SCnextPageToken) {
             // console.log('sc error', this.aQuery[uid].aResult.length, 'was looking for', this.aQuery[uid].iLimit)
             this.sc(uid).then(() => {
+              this.aQuery[uid].aResult = this.uniqueArray(this.aQuery[uid].aResult)
               resolve()
             })
+
           } else {
+            this.aQuery[uid].aResult = this.uniqueArray(this.aQuery[uid].aResult)
             // console.log('sc success', this.aQuery[uid].aResult.length, 'was looking for', this.aQuery[uid].iLimit)
             resolve()
           }
@@ -148,6 +156,9 @@ class DCAPIClass {
 
   yt (uid) {
     this.YTnextPageTokenString =  this.nextPageToken ? '&pageToken=' + this.nextPageToken : ''
+    if (!this.YTnextPageTokenString && this.aQuery[uid].iPage > 1) {
+      return 
+    }
     var a
     if (this.aQuery[uid].bRelated) {
       a = 'https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=' + this.aQuery[uid].iLimit + '&relatedToVideoId=' + this.aQuery[uid].sArtist + '&type=video&key=' + this.sYtKey
@@ -165,7 +176,7 @@ class DCAPIClass {
         for (var idx in resp) {
           z = 'https://www.youtube.com/watch?v=' + resp[idx].id.videoId
           this.pushResult(
-            uid,
+            uid,                                             // uid:
             resp[idx].snippet.channelTitle,                  // artist:
             resp[idx].snippet.channelId,                     // artistID:
             this.parseDate(resp[idx].snippet.publishedAt),   // created:
@@ -182,7 +193,7 @@ class DCAPIClass {
         }
       } catch (e) {
         this.YTnextPageToken = ''
-        console.log('yt error', e)
+        // console.log('yt error', e)
         return
       }
     })
@@ -200,7 +211,7 @@ class DCAPIClass {
       resp = resp.data.data
       for (var idx in resp) {
         this.pushResult(
-          uid,
+          uid,                                                                  // uid:
           resp[idx].user.name,                                                  // artist:
           resp[idx].user.uri.replace(/\/users\/(.*?)/ig, 'user'),               // artistID:
           this.parseDate(resp[idx].user.created_time),                          // created:
@@ -212,7 +223,7 @@ class DCAPIClass {
           resp[idx].pictures.sizes[resp[idx].pictures.sizes.length - 1].link,   // posterLarge:
           'vimeo',                                                              // source:
           resp[idx].name,                                                       // title:
-          '' // trackID:
+          resp[idx].link                                                        // trackID:
         )
       }
     })
@@ -238,9 +249,20 @@ class DCAPIClass {
       return axios.get('https://www.googleapis.com/youtube/v3/channels?part=snippet&id=' + artistID + '&key=' + this.sYtKey).then(hCallback)
     } else if (source.toLowerCase().indexOf('soundcloud') > -1) {
       return axios.get('https://api.soundcloud.com/users/' + artistID + '?client_id=' + this.sScKey).then(hCallback)
+    } else if (source.toLowerCase().indexOf('mixcloud') > -1) {
+      return axios.get('https://api.mixcloud.com/' + artistID + '/').then(hCallback)
+    } else {
+      return(Promise.resolve(""))
     }
   }
-
+  getSongDescription (trackID, source, hCallback) {
+    var uid = Date.now()
+    this.aQuery[uid] = {aResult: [], hCallback: hCallback}
+    return axios.get('https://www.googleapis.com/youtube/v3/videos?part=snippet&id=' + trackID + '&fields=items/snippet/description&key=' + this.sYtKey).then((resp) => {
+      hCallback(resp.data)
+    })      
+  }
+  // 
   getSongInfo (trackID, source, hCallback) {
     var uid = Date.now()
     this.aQuery[uid] = {aResult: [], hCallback: hCallback}
@@ -252,7 +274,7 @@ class DCAPIClass {
           uid,
           resp.snippet.channelTitle,                                                          // artist:
           resp.snippet.channelId,                                                             // artistID:
-          this.parseDate(resp.snippet.publishedAt),                                          // created:
+          this.parseDate(resp.snippet.publishedAt),                                           // created:
           resp.snippet.description,                                                           // description:
           '',                                                                                 // duration:
           'http://dream.tribe.nu/r3/off/?q=' + 'https://www.youtube.com/watch?v=' + resp.id,  // mp3:
@@ -267,34 +289,54 @@ class DCAPIClass {
         delete this.aQuery[uid]
       })
     } else if (source.toLowerCase().indexOf('soundcloud') > -1) {
-      return axios.get('http://api.soundcloud.com/tracks/' + trackID + '?client_id=' + this.sScKey).then((resp) => {
+      return axios.get('https://api.soundcloud.com/tracks/' + trackID + '?client_id=' + this.sScKey).then((resp) => {
         resp = resp.data
         this.pushResult(
           uid,
           resp.user.username,                                                     // artist:
           resp.user_id,                                                           // artistID:
-          this.parseDate(resp.created_at),                                       // created:
+          this.parseDate(resp.created_at),                                        // created:
           resp.description,                                                       // description:
-          this.secondstominutes(Math.floor(resp.duration / 1E3)),                // duration:
-          resp.stream_url + '?client_id=' + this.sScKey,                         // mp3:
+          this.secondstominutes(Math.floor(resp.duration / 1E3)),                 // duration:
+          resp.stream_url + '?client_id=' + this.sScKey,                          // mp3:
           resp.permalink_url,                                                     // mp32:
           resp.artwork_url.replace('i1', 'i2').replace('-large', '-t300x300'),    // poster:
           resp.artwork_url.replace('-large', '-t500x500'),                        // posterLarge:
-          'Soundcloud',                                                           // source:
+          'SoundCloud',                                                           // source:
           resp.title,                                                             // title:
           resp.id                                                                 // trackID:
         )
         this.aQuery[uid].hCallback(this.aQuery[uid].aResult)
         delete this.aQuery[uid]
       })
+    } else if (source.toLowerCase().indexOf('mixcloud') > -1) {
+      return axios.get('https://api.mixcloud.com' + trackID).then((resp) => {
+        resp = resp.data
+        this.pushResult(
+          uid,
+          resp.user.name,                                                         // artist:
+          resp.user.key,                                                          // artistID:
+          this.parseDate(resp.created_time),                                      // created:
+          resp.description,                                                       // description:
+          this.secondstominutes(resp.audio_length),                               // duration: ??????????
+          resp.url,                                                               // mp3:
+          resp.url,                                                               // mp32:
+          resp.pictures.small,                                                    // poster:
+          resp.pictures.large,                                                    // posterLarge:
+          'MixCloud',                                                             // source:
+          resp.name,                                                              // title:
+          resp.key                                                                // trackID:
+        )
+        this.aQuery[uid].hCallback(this.aQuery[uid].aResult)
+        delete this.aQuery[uid]
+      })      
     }
   }
 
-  pushResult (uid, artist, artistID, created, description, duration, mp3, mp32, poster, posterLarge, source, title, trackID) {
+  pushResult (uid, artist, artistID, uploaded, description, duration, mp3, mp32, poster, posterLarge, source, title, trackID) {
     this.aQuery[uid].aResult.push({
       artist: artist,
       artistID: artistID,
-      created: created,
       description: description,
       duration: duration,
       mp3: mp3,
@@ -303,6 +345,7 @@ class DCAPIClass {
       posterLarge: posterLarge,
       source: source,
       title: title,
+      uploaded: uploaded,
       trackID: trackID
     })
   }
@@ -321,10 +364,10 @@ class DCAPIClass {
       return 'Today'
     }
     if (d === 1) {
-      return 'Yesterday'
+      return '1 day'
     }
     a = (y > 0 ? [y, ' year'] : (m > 0 ? [m, ' month'] : (w > 0 ? [w, ' week'] : [d, ' day'])))
-    return a[0] + a[1] + (a[0] > 1 ? 's ago' : ' ago')
+    return a[0] + a[1] + (a[0] > 1 ? 's' : '')
   }
 
   parseDate (str) {
@@ -339,14 +382,26 @@ class DCAPIClass {
   }
 
   sortDate (a, b) {
-    a = new Date(a.created)
-    b = new Date(b.created)
+    a = new Date(a.uploaded)
+    b = new Date(b.uploaded)
 
     return a > b ? -1 : a < b ? 1 : 0
   }
 
   str_pad_left (string, pad, length) {
     return ((new Array(length + 1)).join(pad) + string).slice(-length)
+  }
+
+  uniqueArray (array) {
+    var a = array.concat()
+    for (var i = 0; i < a.length; i++) {
+      for (var j = i + 1; j < a.length; j++) {
+        if (a[i].mp32 === a[j].mp32) {
+          a.splice(j--, 1)
+        }
+      }
+    }
+    return a
   }
 
   secondstominutes (time) {
@@ -358,9 +413,8 @@ class DCAPIClass {
   }
 }
 
-var DCAPIPlug = {
+export default {
   install (Vue, options) {
     Object.defineProperty(Vue.prototype, '$DCAPI', { value: new DCAPIClass() })
   }
 }
-export default DCAPIPlug

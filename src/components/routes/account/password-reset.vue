@@ -20,10 +20,9 @@
 
 <script>
 /* eslint-disable */
-import { fb } from '@/DCAPIs/DCFB.js'
 export default {
   name: 'login',
-  data: function () {
+  data () {
     return {
       email: '',
       alertShow: false,
@@ -32,17 +31,17 @@ export default {
     }
   },
   computed: {
-    toolTipClass: function () {
+    toolTipClass () {
       return this.toolTipShow ? '' : 'hidden'
     }
   },
   methods: {
-    validateEmail: function () {
+    validateEmail () {
       return !!this.email.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i)
     },
-    reset: function () {
+    reset () {
       if (this.validateEmail()) {
-        fb.auth().sendPasswordResetEmail(this.email).then(
+        this.$DCFB.fb.auth().sendPasswordResetEmail(this.email).then(
           (resp) => {
             this.alertColor = 'green'
             this.alertMsg = 'Check your email =3'

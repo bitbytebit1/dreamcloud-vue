@@ -12,22 +12,23 @@ var config = {
   messagingSenderId: '137974869044'
 }
 
-export const fb = firebase.initializeApp(config)
-export const db = firebase.database()
-
-class DCFB1 {
+class DCFB {
   constructor () {
-    this.UID = ''
     this.playlists = ''
     this.playlistRefs = ''
+    this.fb = firebase.initializeApp(config)
+    this.fbb = firebase
+    this.GoogleAuth = firebase.auth.GoogleAuthProvider
+    this.db = firebase.database()
+    this.UID = this.fb.auth.currentUser
   }
 
   init (UID) {
     this.UID = UID
-    this.settings = db.ref('users/' + UID + '/Settings')
-    this.playlists = db.ref('users/' + UID + '/PlaylistsData')
-    this.playlistsRefs = db.ref('users/' + UID + '/PlaylistsNames')
-    this.subscriptions = db.ref('users/' + UID + '/Subscriptions')
+    this.settings = this.db.ref('users/' + UID + '/Settings')
+    this.playlists = this.db.ref('users/' + UID + '/PlaylistsData')
+    this.playlistsRefs = this.db.ref('users/' + UID + '/PlaylistsNames')
+    this.subscriptions = this.db.ref('users/' + UID + '/Subscriptions')
   }
 
   setting (name) {
@@ -39,7 +40,7 @@ class DCFB1 {
   }
 
   subscriptionAdd (name, source, id, img) {
-    this.subscriptions.update({[id]: {name: name, source: source, id: id, img: img}})
+    this.subscriptions.update({[id]: {name: name, name_lower: name.toLowerCase(), source: source, id: id, img: img}})
   }
 
   subscriptionDelete (id) {
@@ -47,12 +48,12 @@ class DCFB1 {
   }
 
   createNewPlaylist (name, json) {
-    delete json['.key']
     // Create new playlist reference with id.
-    var nameRef = this.playlistsRefs.push(name)
+    var nameRef = this.playlistsRefs.push({'name': name, name_lower: name.toLowerCase()})
     // Using ID + name push new song.
-    this.playlists.child(nameRef.ref.key).set({'name': name})
-    this.playlists.child(nameRef.ref.key + '/songs').push(json)
+    this.playlists.child(nameRef.ref.key).set({'name': name, name_lower: name.toLowerCase()})
+
+    this.playlistSongAdd(nameRef.ref.key, json)
   }
 
   playlistDelete (playlistId) {
@@ -61,12 +62,32 @@ class DCFB1 {
   }
 
   playlistSongAdd (id, json) {
-    delete json['.key']
-    this.playlists.child(id + '/songs').push(json)
+    let pusha = (js) => {
+      var songRef = this.playlists.child(id + '/songs').push()
+      js.key = songRef.key
+      delete js['.key']
+      js.uploaded = js.uploaded.toString()
+      songRef.set(js)
+    }
+    if (json.length > 1) {
+      for (var [key, value] of Object.entries(json)) {
+        pusha(Object.assign({}, value), key)
+      }
+    } else {
+      pusha(Object.assign({}, Array.isArray(json) ? json[0] : json))
+    }
+  }
+  playlistSongDelete (playlistId, songId) {
+    this.playlists.child(playlistId + '/songs/' + songId).remove()
   }
 
   playlistGet (userId, playlistId) {
-    return db.ref('users/' + userId + '/PlaylistsData/' + playlistId + '/songs')
+    return this.db.ref('users/' + userId + '/PlaylistsData/' + playlistId + '/songs')
   }
 }
-export let DCFB = new DCFB1()
+
+export default {
+  install (Vue, options) {
+    Object.defineProperty(Vue.prototype, '$DCFB', { value: new DCFB() })
+  }
+}

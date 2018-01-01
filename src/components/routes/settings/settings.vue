@@ -22,7 +22,6 @@
   </v-layout>
 </template>
 <script>
-import { fb, DCFB } from '@/DCAPIs/DCFB.js'
 export default {
   name: 'settings',
   data () {
@@ -33,7 +32,7 @@ export default {
           name: 'UI',
           options: [
             {
-              name: 'Dark Theme',
+              name: 'Night Mode',
               state: true
             }
           ]
@@ -41,10 +40,10 @@ export default {
       ]
     }
   },
-  created: function () {
+  created () {
     for (var idx1 in this.settings) {
       for (var idx2 in this.settings[idx1].options) {
-        DCFB.setting(this.settings[idx1].options[idx2].name).on('value', (snapshot) => {
+        this.$DCFB.setting(this.settings[idx1].options[idx2].name).on('value', (snapshot) => {
           if (this.settings[idx1].options[idx2].state !== Boolean(snapshot.val())) {
             this.settings[idx1].options[idx2].state = Boolean(snapshot.val())
             this.$store.commit('changeSetting', { 'setting': this.settings[idx1].options[idx2].name, 'value': this.settings[idx1].options[idx2].state })
@@ -53,23 +52,23 @@ export default {
       }
     }
   },
-  destroyed: function () {
+  destroyed () {
     for (var idx1 in this.settings) {
       for (var idx2 in this.settings[idx1].options) {
-        DCFB.setting(this.settings[idx1].options[idx2].name).off()
+        this.$DCFB.setting(this.settings[idx1].options[idx2].name).off()
       }
     }
   },
   methods: {
-    settingChanged: function (name, value) {
-      DCFB.settingChange(name, value)
+    settingChanged (name, value) {
+      this.$DCFB.settingChange(name, value)
       this.$store.commit('changeSetting', { 'setting': name, 'value': value })
     },
-    logout: function () {
-      fb.auth().signOut().then(() => {
+    logout () {
+      this.$DCFB.fb.auth().signOut().then(() => {
         this.$router.replace('login')
       })
-      // console.log(DCFB)
+      // console.log(this.$DCFB)
     }
   }
 }
