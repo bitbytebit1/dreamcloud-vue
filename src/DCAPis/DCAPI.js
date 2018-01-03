@@ -1,6 +1,17 @@
 import axios from 'axios'
-import bandcampScraper from 'bandcamp-scraper'
+// import bandcampScraper from 'bandcamp-scraper'
 /* eslint-disable */
+// var bandcamp = require('bandcamp-scraper')
+// var artistUrl = 'http://musique.coeurdepirate.com/';
+// console.log(bandcamp.search)
+// bandcamp.getAlbumUrls(artistUrl, function(error, albumUrls) {
+//   if (error) {
+//     console.log('error', error);
+//   } else {
+//     console.log('success', albumUrls);
+//   }
+// });
+// console.log(bandcamp.search)
 export
 class DCAPIClass {
   constructor () {
@@ -60,19 +71,20 @@ class DCAPIClass {
   }
   bc (uid) {
     let p = new Promise((resolve, reject) => {
-      // alert('searching')
-      var query = { query: 'north luna', page: 1 }
-      bandcampScraper.search(query, function(error, searchResults) {
+      alert('searching')
+      var query = { query: 'Coeur de pirate', page: 1 }
+      function cbk (error, searchResults) {
         if (error) {
-          console.log(error)
+          // console.log(error)
           alert('error')
           reject()
         } else {
-          console.log(searchResults)
+          // console.log(searchResults)
           alert('done')
           resolve()  
         }
-      })
+      }
+      // bandcamp.search(query, cbk)
       // alert(uid)
     })
     return p
