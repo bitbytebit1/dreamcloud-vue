@@ -1,45 +1,49 @@
 <template>
   <v-flex xs12 flexbox @click.stop="play" :key="song.trackID">
     <v-card>
-      <v-card-media v-lazy:background-image="song.poster" height="220px">
+      <youtube-video v-if="index === 0 && song.source === 'YouTube'" :trackID="song.trackID"></youtube-video>
+      <v-card-media v-else v-lazy:background-image="song.poster" height="220px">
         <v-container grid-list-xs fill-height fluid>
           <v-layout fill-height>
             <v-flex xs12 align-end flexbox>
               <span class="title white--text breaker19 shadow" v-text="song.title"></span>
               <br/>
               <span class="subheading white--text breaker19 shadow" v-text="song.artist"></span>
+
               </v-flex>
           </v-layout>
         </v-container>
       </v-card-media>
+
       <v-card-actions>
+      
+        <add-to-playlist :song="song"></add-to-playlist>
+        <!-- https://offcloud.netlify.com/ -->
+        
+        <share-button :song="song" :url="'https://offcloud.netlify.com/#/t/' + song.source + '/' + encodeURIComponent(song.artist) + '/' + song.trackID"></share-button>
 
-          <add-to-playlist :song="song"></add-to-playlist>
-          <!-- https://offcloud.netlify.com/ -->
-          
-          <share-button :song="song" :url="'https://offcloud.netlify.com/#/t/' + song.source + '/' + encodeURIComponent(song.artist) + '/' + song.trackID"></share-button>
+        <download-button :links="[song]"></download-button>
 
-          <download-button :links="[song]"></download-button>
+        <v-btn icon @click.stop :href="artistID">
+          <v-icon>person</v-icon>
+        </v-btn>
+        <v-btn icon @click.stop target="_blank" :href="song.mp32">
+          <v-icon>open_in_new</v-icon>
+        </v-btn>
+        <v-btn icon @click.stop.native="show = !show" :disabled="!desc">
+          <v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
+        </v-btn>
+      </v-card-actions>
 
-          <v-btn icon @click.stop :href="artistID">
-            <v-icon>person</v-icon>
-          </v-btn>
-          <v-btn icon @click.stop target="_blank" :href="song.mp32">
-            <v-icon>open_in_new</v-icon>
-          </v-btn>
-          <v-btn icon @click.stop.native="show = !show" :disabled="!desc">
-            <v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
-          </v-btn>
-        </v-card-actions>
-        <v-slide-y-transition v-if="show">
-          <!-- < XSS VULN v-html-->
-          <!-- malicous description could lead to xss -->
-          <v-card-text @click.stop class="breaker19" v-html="ytTimeToSeconds(desc)">
-          <!-- v-html="ytTimeToSeconds(desc) -->
-          <!-- < XSS VULN v-html -->
-          <!-- {{desc | linkify}} -->
-            <!-- {{desc | ytTimeToSeconds}} -->
-          </v-card-text>
+      <v-slide-y-transition v-if="show">
+        <!-- < XSS VULN v-html-->
+        <!-- malicous description could lead to xss -->
+        <v-card-text @click.stop class="breaker19" v-html="ytTimeToSeconds(desc)">
+        <!-- v-html="ytTimeToSeconds(desc) -->
+        <!-- < XSS VULN v-html -->
+        <!-- {{desc | linkify}} -->
+          <!-- {{desc | ytTimeToSeconds}} -->
+        </v-card-text>
       </v-slide-y-transition>      
     </v-card>
   </v-flex>
@@ -48,6 +52,7 @@
 import addToPlaylist from '@/components/playlist/add-to-playlist.vue'
 import shareButton from '@/components/misc/share-button'
 import downloadButton from '@/components/misc/download-button'
+import youtubeVideo from '@/components/current-playlist/youtube-video'
 
 export default {
   props: ['song', 'index'],
@@ -55,7 +60,8 @@ export default {
   components: {
     'add-to-playlist': addToPlaylist,
     'download-button': downloadButton,
-    'share-button': shareButton
+    'share-button': shareButton,
+    'youtube-video': youtubeVideo
   },
   // updated () {
     // this.show = (this.desc) && (this.$store.getters.index) && (this.$route.path === this.$store.getters.hash) && (this.song.mp32 === this.$store.getters.current_Playlist[this.$store.getters.index].mp32)
@@ -63,13 +69,12 @@ export default {
   data () {
     return {
       show: false,
-      desc: this.song.description
+      desc: this.song.description,
+      youtubelink: `http://www.youtube.com/embed/${this.song.trackID}?autoplay=1&mute=1&controls=1&enablejsapi=1`,
+      artistID: `#/a/${this.song.source}/${encodeURIComponent(this.song.artist)}/${this.song.artistID}`
     }
   },
   computed: {
-    artistID () {
-      return '#/a/' + this.song.source + '/' + encodeURIComponent(this.song.artist) + '/' + this.song.artistID
-    }
   },
   watch: {
     'show': 'ifShowGetDesc'

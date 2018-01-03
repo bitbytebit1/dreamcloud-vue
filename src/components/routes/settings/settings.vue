@@ -1,5 +1,5 @@
 <template>
-  <v-layout row>
+  <v-layout v-if="$store.getters.auth_state" row>
     <v-flex xs10 offset-xs1 lg8 offset-lg2 xs8 offset-lg2>
       <h5 class="text-xs-center">Settings</h5>
       <template v-for="setting in settings">
@@ -36,6 +36,15 @@ export default {
               state: true
             }
           ]
+        },
+        {
+          name: 'YouTube',
+          options: [
+            {
+              name: 'Video',
+              state: true
+            }
+          ]
         }
       ]
     }
@@ -45,8 +54,8 @@ export default {
       for (var idx2 in this.settings[idx1].options) {
         this.$DCFB.setting(this.settings[idx1].options[idx2].name).on('value', (snapshot) => {
           if (this.settings[idx1].options[idx2].state !== Boolean(snapshot.val())) {
-            this.settings[idx1].options[idx2].state = Boolean(snapshot.val())
-            this.$store.commit('changeSetting', { 'setting': this.settings[idx1].options[idx2].name, 'value': this.settings[idx1].options[idx2].state })
+            // this.settings[idx1].options[idx2].state = Boolean(snapshot.val())
+            // this.$store.commit('changeSetting', { 'setting': this.settings[idx1].options[idx2].name, 'value': this.settings[idx1].options[idx2].state })
           }
         })
       }

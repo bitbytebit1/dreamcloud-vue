@@ -45,6 +45,7 @@
 
         <!-- <v-container fluid fill-height> -->
           <v-layout justify-center>
+            <!-- <youtube-video v-if="$store.getters.index > -1 && $store.getters.current_song.source === 'YouTube'" :trackID="$store.getters.current_song.trackID"></youtube-video> -->
             <transition name="fade" mode="out-in">
               <!-- <keep-alive inlcude="all"> -->
                 <router-view></router-view>
@@ -55,7 +56,12 @@
       </v-content>
     <!-- </main> -->
     <v-footer app fixed id="foot">
-      <dc-audio :song="aSong"></dc-audio>
+      <!-- {{$store.getters.ytState.data}} -->
+
+       <!-- v-show="$store.getters.ytState.data == 1 || $store.getters.ytState.data == 2 || $store.getters.ytState.data == 0" -->
+      <dc-youtube v-if="$store.getters.ytVideo && $store.getters.current_source == 'YouTube'"></dc-youtube>
+      <!-- <dc-audio v-show="false"></dc-audio>   -->
+       <!-- v-show="$store.getters.current_Playlist[$store.getters.index].source == 'YouTube'" -->
     </v-footer>
   </v-app>
 </template>
@@ -63,22 +69,25 @@
 <script>
   import search from './components/navbar/search'
   import dcAudio from './components/player/dc-audio'
+  import dcYoutube from './components/player/dc-youtube'
   import currentPlaylist from './components/current-playlist/current-playlist'
-  import sidebar from '@/components/sidebar/sidebar'
+  import sidebar from './components/sidebar/sidebar'
+  import youtubeVideo from './components/current-playlist/youtube-video'
+
   export default {
     name: 'app',
     components: {
       'search': search,
       'dc-audio': dcAudio,
+      'dc-youtube': dcYoutube,
       'sidebar': sidebar,
-      'current-playlist': currentPlaylist
+      'current-playlist': currentPlaylist,
+      'youtube-video': youtubeVideo
     },
     data () {
       return {
         drawerLeft: !this.$UTILS.isMobile,
-        drawerRight: !this.$UTILS.isMobile,
-        aSongs: [],
-        aSong: []
+        drawerRight: !this.$UTILS.isMobile
       }
     },
     methods: {
