@@ -15,10 +15,11 @@ export default {
     }
   },
   getters: {
-    current_Playlist: state => state.current_Playlist,
+    current_Playlist: (state) => { return state.current_Playlist },
+    index: (state) => { return state.current_Index },
+    hash: (state) => { return state.current_Hash },
+    current_trackID: (state, getters) => { return getters.index > -1 ? getters.current_Playlist[getters.index].trackID : '' },
     current_source: (state, getters) => { return getters.index > -1 ? getters.current_Playlist[getters.index].source : '' },
-    current_song: (state, getters) => { return getters.current_Playlist.current_Playlist[getters.index] },
-    index: state => state.current_Index,
-    hash: state => state.current_Hash
+    current_song: (state, getters) => { return getters.index > -1 ? getters.current_Playlist[getters.index] : '' }
   }
 }

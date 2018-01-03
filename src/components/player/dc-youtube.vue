@@ -3,13 +3,16 @@
     <div id="dc-player">
       <div id="left">
         <div class="audio-controls">
-          <img id="poster" :src="currentImage">
+          <!-- <img id="poster" :src="currentImage"> -->
+          {{$store.ytVideo}}
         </div>
         <div class="audio-controls">
           <v-btn @click="previous" class="teal" icon outline >
             <v-icon>skip_previous</v-icon>
           </v-btn>
-          <v-progress-circular v-if="bLoading" id="loadingSpinner" indeterminate v-bind:size="25"></v-progress-circular>
+          <v-btn outline icon v-if="bLoading">
+            <v-progress-circular color="teal" id="loadingSpinner" indeterminate v-bind:size="25"></v-progress-circular>
+          </v-btn>
           <v-btn v-else @click="togglePlay" class="teal" icon outline>
             <v-icon>{{sPlayIcon}}</v-icon>
           </v-btn>
@@ -35,7 +38,7 @@
           <v-container fluid grid-list-md class="pa-0 ma-0">
             <v-layout row wrap>
               <v-flex>
-                <v-slider :max="iDuration" :label="iCurrent" v-model="iProgress"  id="progress-slider" color="teal" hide-details></v-slider>
+                <v-slider :max="iDuration" :label="iCurrent" v-model="iProgress"  id="progress-slider" color="teal" thumb-label  hide-details></v-slider>
                 <!-- @input="changePos" -->
               </v-flex>
             </v-layout>
@@ -59,7 +62,7 @@ export default {
       // eAudio: '',
       // play_arrow: 'play_arrow',
       volIcon: 'volume_up',
-      volume: 10,
+      volume: 10
       // iDuration: '00:00'
       // duration: '',
       // currentTime: ''
@@ -69,12 +72,12 @@ export default {
     iProgress: {
       // getter
       get () {
-        return this.$store.getters.ytCurrentTime
+        return Math.floor(this.$store.getters.ytCurrentTime)
       },
       // setter
       set (newValue) {
         let i = Math.floor(this.iProgress)
-        if ( i !== newValue && i + 1 !== newValue ) {
+        if (i !== newValue && i + 1 !== newValue) {
           this.$store.commit('ytCurrentTime', newValue)
           this.$store.getters.ytState.target.seekTo(newValue)
         }
@@ -86,12 +89,18 @@ export default {
     iCurrent () {
       return `${this.secondsToDuration(this.$store.getters.ytCurrentTime)} - ${this.secondsToDuration(this.$store.getters.ytDuration)}`
     },
+    // -1 (unstarted)
+    // 0 (ended)
+    // 1 (playing)
+    // 2 (paused)
+    // 3 (buffering)
+    // 5 (video cued).
     bLoading () {
-      // this._bLoading
-      return this.$store.getters.ytState.data !== 1 && this.$store.getters.ytState.data !== 2 && this.$store.getters.ytState.data !== 0 && this.$store.getters.ytState.data !== 3
+      // return this.$store.getters.ytState.data !== 1 && this.$store.getters.ytState.data !== 2 && this.$store.getters.ytState.data !== 0 && this.$store.getters.ytState.data !== 3
+      return this.$store.getters.ytState.data === 3
     },
     bPlaying () {
-      return this.$store.getters.ytState.data == 1
+      return this.$store.getters.ytState.data === 1
     },
     sPlayIcon () {
       return this.bPlaying ? 'pause' : 'play_arrow'
@@ -108,23 +117,33 @@ export default {
   },
   methods: {
     toggleMute () {
+      // console.log('toggle mute', this.$store.getters.ytState.target.mute())
+      if (this.$store.getters.ytState.target.isMuted()) {
+        this.$store.getters.ytState.target.unMute()
+        this.updateVolIcon()
+      } else {
+        this.$store.getters.ytState.target.mute()
+        this.volIcon = 'volume_off'
+      }
       // this.eAudio.muted = !this.eAudio.muted
-      // this.volIcon = this.eAudio.muted ? 'volume_off' : this.updateVolIcon()
+      // this.volIcon = this.$store.getters.ytState.target.isMuted() ? (this.$store.getters.ytState.target.unMute(), this.updateVolIcon()) : (this.$store.getters.ytState.target.mute(), 'volume_off')
     },
     volumeChange (wasd) {
-      // this.eAudio.volume = this.volume / 10
       this.updateVolIcon()
-      // !0 === this.eAudio.muted && (this.eAudio.muted = !1) // if muted then set not muted, could just set false
+      this.$store.getters.ytObject.setVolume(this.volume * 10)
+      if (this.$store.getters.ytObject.isMuted()) {
+        this.$store.getters.ytObject.unMute()
+      }
     },
     updateVolIcon () {
-      return this.volIcon = 5 < this.volume ? "volume_up" : 0 < this.volume ? "volume_down" : "volume_off"
+      this.volIcon = 5 < this.volume ? 'volume_up' : 0 < this.volume ? 'volume_down' : 'volume_off'
+      return this.volIcon
     },
     togglePlay () {
       if (this.bPlaying) {
-        console.log('pausing')
-        this.$store.getters.ytState.target.pauseVideo()
+        this.$store.getters.ytObject.pauseVideo()
       } else {
-        this.$store.getters.ytState.target.playVideo()
+        this.$store.getters.ytObject.playVideo()
       }
     },
     // updated () {
@@ -162,7 +181,6 @@ export default {
       if (hh < 10) { hh = '0' + hh }
       if (mm < 10) { mm = '0' + mm }
       if (ss < 10) { ss = '0' + ss }
-      
       return (hh > 0 ? hh + ':' : '') + mm + ':' + ss
     }
   },
@@ -181,7 +199,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
 #loadingSpinner{
-  top:10px;
+  /* top:10px;   */
   width: 52px !important;
 }
 .slider-wrapper input {

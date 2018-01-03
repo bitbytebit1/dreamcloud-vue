@@ -45,7 +45,7 @@
 
         <!-- <v-container fluid fill-height> -->
           <v-layout justify-center>
-            <!-- <youtube-video v-if="$store.getters.index > -1 && $store.getters.current_song.source === 'YouTube'" :trackID="$store.getters.current_song.trackID"></youtube-video> -->
+            <youtube-video v-if="$store.getters.current_trackID" :trackID="$store.getters.current_trackID"></youtube-video>
             <transition name="fade" mode="out-in">
               <!-- <keep-alive inlcude="all"> -->
                 <router-view></router-view>

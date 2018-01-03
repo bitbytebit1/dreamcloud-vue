@@ -3,7 +3,7 @@
     <div id="dc-player">
       <div id="left">
         <div class="audio-controls">
-          <img id="poster" :src="currentImage">
+          <!-- <img id="poster" :src="currentImage"> -->
         </div>
         <div class="audio-controls">
           <v-btn icon @click="previous">

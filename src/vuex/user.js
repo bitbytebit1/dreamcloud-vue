@@ -16,7 +16,7 @@ export default {
   },
   getters: {
     auth_state: state => state.auth_state,
-    ytVideo: state => state.settings['YouTube Video'],
+    ytVideo: (state, getters) => state.settings['YouTube Video'],
     theme: state => state.settings['Night Mode'] ? {'dark': true} : {'light': true}
   }
 }

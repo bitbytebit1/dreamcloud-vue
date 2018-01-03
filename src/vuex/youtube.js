@@ -14,12 +14,8 @@ export default {
     ytCurrentTime: 0
   },
   mutations: {
-    ytObject (state, payload) {
-      state.ytObject = payload
-    },
-    ytState (state, payload) {
-      state.ytState = payload
-    },
+    ytObject: (state, payload) => { state.ytObject = payload },
+    ytState: (state, payload) => { state.ytState = payload },
     ytDuration: (state, payload) => { state.ytDuration = payload },
     ytCurrentTime: (state, payload) => { state.ytCurrentTime = payload }
   },

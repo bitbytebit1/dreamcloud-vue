@@ -45,23 +45,23 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
 .slide-fade-enter-active {
-  transition: all 1s;
+  transition: all 2s;
   /* transform: rotateY(360deg); */
 }
 
 .slide-fade-leave-active {
-  transition: all 1s;
+  transition: all 2s;
   /* transform: rotateY(-360deg); */
 }
 
 .slide-fade-enter{
   /* transition: all .5s; */
-  transform: rotateY(-360deg);
+  transform: rotateY(360deg);
 }
 
 .slide-fade-leave-to{
   /* transition: all .5s; */
-  transform: rotateY(360deg);
+  transform: rotateY(-360deg);
   /* opacity    : 0; */
 }
 

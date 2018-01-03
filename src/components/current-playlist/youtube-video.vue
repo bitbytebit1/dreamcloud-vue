@@ -26,7 +26,7 @@ export default {
       width: '272',
       height: '212',
       videoId: this.trackID,
-      playerVars: { 'autoplay': 1, 'controls': 0 },
+      playerVars: { 'autoplay': 1, 'controls': 1 },
       events: {
         'onReady': this.ytReady,
         'onStateChange': this.ytChanged
@@ -46,8 +46,12 @@ export default {
       if (state.data === 1) {
         this.$store.commit('ytDuration', this.$store.getters.ytObject.getDuration())
         this.interval = setInterval(() => { this.$store.commit('ytCurrentTime', this.$store.getters.ytObject.getCurrentTime()) }, 250)
-      } else if (state.data === 2 || state.data === 0) {
+      } else if (state.data === 2) {
         clearInterval(this.interval)
+      } else if (state.data === 0) {
+        console.log('ended!')
+        clearInterval(this.interval)
+        this.$DCPlayer.next()
       }
     }
   },
