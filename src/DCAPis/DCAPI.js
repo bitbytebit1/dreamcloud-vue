@@ -1,4 +1,5 @@
 import axios from 'axios'
+import bandcampScraper from 'bandcamp-scraper'
 /* eslint-disable */
 export
 class DCAPIClass {
@@ -42,6 +43,8 @@ class DCAPIClass {
 
   search (source, uid) {
     switch (source.toLowerCase()) {
+      case 'bandcamp': 
+        return this.bc(uid)
       case 'mixcloud':
         return this.mc(uid)
       case 'soundcloud':
@@ -54,6 +57,25 @@ class DCAPIClass {
         console.log('!source', source)
         break
     }
+  }
+  bc (uid) {
+    let p = new Promise((resolve, reject) => {
+      // alert('searching')
+      var query = { query: 'north luna', page: 1 }
+      bandcampScraper.search(query, function(error, searchResults) {
+        if (error) {
+          console.log(error)
+          alert('error')
+          reject()
+        } else {
+          console.log(searchResults)
+          alert('done')
+          resolve()  
+        }
+      })
+      // alert(uid)
+    })
+    return p
   }
 
   mc (uid) {
