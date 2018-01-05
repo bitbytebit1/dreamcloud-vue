@@ -10,8 +10,8 @@
           <v-btn @click="previous" class="teal" icon outline >
             <v-icon>skip_previous</v-icon>
           </v-btn>
-          <v-btn outline icon v-if="bLoading">
-            <v-progress-circular color="teal" id="loadingSpinner" indeterminate v-bind:size="25"></v-progress-circular>
+          <v-btn outline class="teal" icon v-if="bLoading">
+            <v-progress-circular  id="loadingSpinner" indeterminate v-bind:size="25"></v-progress-circular>
           </v-btn>
           <v-btn v-else @click="togglePlay" class="teal" icon outline>
             <v-icon>{{sPlayIcon}}</v-icon>

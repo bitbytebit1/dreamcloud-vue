@@ -41,19 +41,19 @@
       <current-playlist></current-playlist>
     </v-navigation-drawer>
     <!-- <main> -->
-      <v-content class="text-xs-center maCont">
+    <v-content class="text-xs-center maCont">
 
-        <!-- <v-container fluid fill-height> -->
-          <v-layout justify-center>
-            <youtube-video v-if="$store.getters.current_trackID" :trackID="$store.getters.current_trackID"></youtube-video>
-            <transition name="fade" mode="out-in">
-              <!-- <keep-alive inlcude="all"> -->
-                <router-view></router-view>
-              <!-- </keep-alive> -->
-            </transition>
-          </v-layout>
-        <!-- </v-container> -->
-      </v-content>
+      <!-- <v-container fluid fill-height> -->
+        <v-layout justify-center row wrap>
+          <youtube-video v-if="$store.getters.current_source == 'YouTube'" :trackID="$store.getters.current_trackID"></youtube-video>
+          <transition name="fade" mode="out-in">
+            <!-- <keep-alive inlcude="all"> -->
+              <router-view></router-view>
+            <!-- </keep-alive> -->
+          </transition>
+        </v-layout>
+      <!-- </v-container> -->
+    </v-content>
     <!-- </main> -->
     <v-footer app fixed id="foot">
       <!-- {{$store.getters.ytState.data}} -->

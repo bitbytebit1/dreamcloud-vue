@@ -1,6 +1,6 @@
 <template>
     <v-list-group :value="active" prepend-icon="library_music" no-action>
-      <v-list-tile ripple slot="activator">
+      <v-list-tile ripple slot="item">
         <v-list-tile-content>
           <v-list-tile-title>Playlists</v-list-tile-title>
         </v-list-tile-content>

@@ -32,7 +32,7 @@
     </v-list-tile>
 
   </v-list>
-  <v-list dense>
+  <v-list >
     
     <user-playlists @closeLeft="closeLeft" v-if="loggedIn"></user-playlists>
 

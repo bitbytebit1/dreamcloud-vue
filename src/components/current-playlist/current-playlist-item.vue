@@ -1,8 +1,8 @@
 <template>
   <v-flex xs12 flexbox @click.stop="play" :key="song.trackID">
     <v-card>
-      <youtube-video v-if="index === 0 && song.source === 'YouTube'" :trackID="song.trackID"></youtube-video>
-      <v-card-media v-else v-lazy:background-image="song.poster" height="220px">
+      <!-- <youtube-video v-if="index === 0 && song.source === 'YouTube'" :trackID="song.trackID"></youtube-video> -->
+      <v-card-media v-lazy:background-image="song.poster" height="220px">
         <v-container grid-list-xs fill-height fluid>
           <v-layout fill-height>
             <v-flex xs12 align-end flexbox>

@@ -268,11 +268,7 @@ export default {
   td img {
     margin: 5px
   }
-  img.playing{
-  } 
-  td .card__media[lazy=loading] {
-    width: 10px !important;
-  }
+
   @media only screen and (max-width: 599px){
     .header-buttons {
       margin-left: -9px !important;
@@ -312,7 +308,11 @@ export default {
     .select-buttons{
       margin-left: -1px;
     }
-    td img{
+    td img[lazy=loading] {
+      /* width: 61px !important; */
+      height: 47px;
+    }
+    td img[lazy=loaded]{
       width: 61px;
     }
     table td:first-child,

@@ -1,8 +1,10 @@
 <template>
-  <div>
+  <v-flex xs12 lg-offset-2 lg9 flexbox class="ma-0 pa-0" >
+  <!-- <div> -->
     <div :id="trackID" />
     <!-- <iframe :id="trackID" width="auto" height="auto" :src="trackID" allowFullScreen frameborder="0"/> -->
-  </div>
+  <!-- </div> -->
+  </v-flex>
 </template>
 <script>
 // let YT = ''
@@ -19,21 +21,33 @@ export default {
   },
   computed: {
     x3 () {
+    },
+    current_trackID () {
+      return this.$store.getters.current_trackID
     }
   },
   mounted () {
-    this.yt = new YT.Player(this.trackID, {
-      width: '272',
-      height: '212',
-      videoId: this.trackID,
-      playerVars: { 'autoplay': 1, 'controls': 1 },
-      events: {
-        'onReady': this.ytReady,
-        'onStateChange': this.ytChanged
-      }
-    })
+    this.ytBind()
+  },
+  updated () {
+    // alert(1)
+    // this.ytBind()
+    this.yt.loadVideoById(this.trackID)
   },
   methods: {
+    ytBind () {
+      this.yt = new YT.Player(this.current_trackID, {
+        width: '100%',
+        // width: '300',
+        // height: '212',
+        videoId: this.trackID,
+        playerVars: { 'autoplay': 1, 'controls': 0 },
+        events: {
+          'onReady': this.ytReady,
+          'onStateChange': this.ytChanged
+        }
+      })
+    },
     ytReady (state) {
       this.$store.commit('ytObject', this.yt)
       this.$store.getters.ytObject.playVideo()
