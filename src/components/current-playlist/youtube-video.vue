@@ -36,6 +36,7 @@ export default {
   },
   methods: {
     ytBind () {
+      this.$DCPlayer.eAudio.pause()
       this.yt = new YT.Player(this.current_trackID, {
         width: '100%',
         // width: '300',

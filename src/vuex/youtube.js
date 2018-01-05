@@ -1,5 +1,6 @@
 export default {
   state: {
+    ytShowVideo: true,
     ytObject: [],
     ytState: {
       data: -1,
@@ -14,12 +15,15 @@ export default {
     ytCurrentTime: 0
   },
   mutations: {
+    ytShowVideo: (state, payload) => { state.ytShowVideo = payload },
     ytObject: (state, payload) => { state.ytObject = payload },
     ytState: (state, payload) => { state.ytState = payload },
     ytDuration: (state, payload) => { state.ytDuration = payload },
-    ytCurrentTime: (state, payload) => { state.ytCurrentTime = payload }
+    ytCurrentTime: (state, payload) => { state.ytCurrentTime = payload },
+    ytStopVideo: state => state.ytObject.stopVideo()
   },
   getters: {
+    ytShowVideo: (state, getters) => state.ytShowVideo && getters.ytVideo && getters.current_source === 'YouTube',
     ytObject: state => state.ytObject,
     ytState: state => state.ytState,
     // ytDuration: state => state.ytObject.getDuration(),

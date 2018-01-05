@@ -35,6 +35,11 @@ export default {
         DCPlayer.iCurrent = index
         store.commit('changeIndex', DCPlayer.iCurrent)
         this.setMediaSession(DCPlayer.aPlaylist[index])
+        if (store.getters.ytShowVideo) {
+          return new Promise.resolve()
+        } else {
+          store.commit('ytStopVideo')
+        }
         if(DCPlayer.aPlaylist[index].source == 'SoundCloud')
           return DCPlayer.setAudioSrc(DCPlayer.aPlaylist[index].mp3)
         else

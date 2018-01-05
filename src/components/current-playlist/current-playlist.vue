@@ -1,19 +1,19 @@
 <template>
   <v-container grid-list-sm>
     <v-layout xs12 row wrap>
-      <transition name="slide-fade" mode="in-out">
+      <transition-group name="slide-fade" mode="in-out">
         <current-playlist-item
         v-for="(song, index) in aPlaylist"
         :song="song"
         :index="index"
-        :key="index"
+        :key="song.trackID"
         ></current-playlist-item>
         <!-- <current-playlist-item
         :song="$store.getters.current_song"
         :index="$store.getters.current_Index"
         :key="$store.getters.current_song.trackID"
         ></current-playlist-item> -->
-      </transition>
+      </transition-group>
     </v-layout>
   </v-container>
 </template>
@@ -30,7 +30,7 @@ export default {
   },
   computed: {
     aPlaylist () {
-      return this.$store.getters.current_Playlist.slice(this.$store.getters.index, this.$store.getters.index + (this.$UTILS.isMobile ? 1 : 1))
+      return this.$store.getters.current_Playlist.slice(this.$store.getters.index + 1, this.$store.getters.index + (this.$UTILS.isMobile ? 1 : 5))
     }
   },
   methods: {
@@ -45,24 +45,28 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
 .slide-fade-enter-active {
-  transition: all 2s;
-  /* transform: rotateY(360deg); */
+  /* transition: all 2s;   */
+  /* transform: rotate3d(0, 1, 0, -180deg); */
 }
 
 .slide-fade-leave-active {
-  transition: all 2s;
+  /* transition: all 2s; */
   /* transform: rotateY(-360deg); */
+  /* transform: rotate3d(0, 1, 0, 18q0deg); */
 }
 
 .slide-fade-enter{
   /* transition: all .5s; */
-  transform: rotateY(360deg);
+  /* transform: rotateY(360deg); */
+  transition: all .5s;
+  /* transform: rotate3d(1,2, -360deg, 360deg); */
+  opacity: 1;
 }
 
 .slide-fade-leave-to{
-  /* transition: all .5s; */
-  transform: rotateY(-360deg);
-  /* opacity    : 0; */
+  transition: all .5s;
+  /* transform: rotate3d(1,2, -360deg, 360deg); */
+  opacity: 0;
 }
 
 .slide-fade-move {

@@ -1,6 +1,7 @@
 <template>
-  <v-layout v-if="$store.getters.auth_state" row>
-    <v-flex xs10 offset-xs1 lg8 offset-lg2 xs8 offset-lg2>
+<!-- 
+  <v-layout  row> -->
+    <v-flex v-if="$store.getters.auth_state" xs10 offset-xs1 lg10 offset-lg1>
       <h5 class="text-xs-center">Settings</h5>
       <template v-for="setting in settings">
 
@@ -19,7 +20,7 @@
       </template>
       <v-btn v-on:click="logout">Logout</v-btn>
     </v-flex>
-  </v-layout>
+  <!-- </v-layout> -->
 </template>
 <script>
 export default {

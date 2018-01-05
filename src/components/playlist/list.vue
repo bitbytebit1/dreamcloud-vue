@@ -63,7 +63,7 @@
     >
     <template slot="items" slot-scope="props">
       <tr @click.stop="!bSelect ? play(props.index) : props.selected = !props.selected">
-
+        <!-- {{props}} -->
         <!-- check_box -->
         <td :class="tdClass(props.item.mp32)" v-if="bSelect">
           <v-checkbox :color="isPlaying(props.item.mp32) ? 'white' : 'teal'" hide-details v-model="props.selected"></v-checkbox>

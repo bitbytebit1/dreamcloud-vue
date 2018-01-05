@@ -59,8 +59,8 @@
       <!-- {{$store.getters.ytState.data}} -->
 
        <!-- v-show="$store.getters.ytState.data == 1 || $store.getters.ytState.data == 2 || $store.getters.ytState.data == 0" -->
-      <dc-youtube v-if="$store.getters.ytVideo && $store.getters.current_source == 'YouTube'"></dc-youtube>
-      <!-- <dc-audio v-show="false"></dc-audio>   -->
+      <dc-youtube v-show="$store.getters.ytShowVideo"></dc-youtube>
+      <dc-audio v-show="!$store.getters.ytShowVideo"></dc-audio>  
        <!-- v-show="$store.getters.current_Playlist[$store.getters.index].source == 'YouTube'" -->
     </v-footer>
   </v-app>
