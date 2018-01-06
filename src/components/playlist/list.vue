@@ -155,7 +155,7 @@ export default {
       selected: [],
       pagination: {
         sortBy: this.sortBy,
-        rowsPerPage: 20,
+        rowsPerPage: 10,
         descending: true
       },
       search: '',

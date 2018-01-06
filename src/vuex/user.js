@@ -3,7 +3,7 @@ export default {
     auth_state: false,
     settings: {
       'Night Mode': false,
-      'YouTube Video': true
+      'Video': true
     }
   },
   mutations: {
@@ -16,7 +16,7 @@ export default {
   },
   getters: {
     auth_state: state => state.auth_state,
-    ytVideo: (state, getters) => state.settings['YouTube Video'],
+    ytVideo: (state, getters) => state.settings['Video'],
     theme: state => state.settings['Night Mode'] ? {'dark': true} : {'light': true}
   }
 }

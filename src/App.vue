@@ -45,7 +45,7 @@
 
       <!-- <v-container fluid fill-height> -->
         <v-layout justify-center row wrap>
-          <youtube-video v-if="$store.getters.current_source == 'YouTube'" :trackID="$store.getters.current_trackID"></youtube-video>
+          <youtube-video v-if="$store.getters.ytShowVideo && $store.getters.current_source == 'YouTube'" :trackID="$store.getters.current_trackID"></youtube-video>
           <transition name="fade" mode="out-in">
             <!-- <keep-alive inlcude="all"> -->
               <router-view></router-view>
@@ -59,7 +59,7 @@
       <!-- {{$store.getters.ytState.data}} -->
 
        <!-- v-show="$store.getters.ytState.data == 1 || $store.getters.ytState.data == 2 || $store.getters.ytState.data == 0" -->
-      <dc-youtube v-show="$store.getters.ytShowVideo"></dc-youtube>
+      <dc-youtube v-if="$store.getters.ytShowVideo"></dc-youtube>
       <dc-audio v-show="!$store.getters.ytShowVideo"></dc-audio>  
        <!-- v-show="$store.getters.current_Playlist[$store.getters.index].source == 'YouTube'" -->
     </v-footer>

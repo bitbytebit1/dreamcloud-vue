@@ -20,9 +20,10 @@ export default {
     ytState: (state, payload) => { state.ytState = payload },
     ytDuration: (state, payload) => { state.ytDuration = payload },
     ytCurrentTime: (state, payload) => { state.ytCurrentTime = payload },
-    ytStopVideo: state => state.ytObject.stopVideo()
+    ytStopVideo: state => { (console.log(state.ytState), state.ytState.data !== -1 && state.ytObject.stopVideo()) }
   },
   getters: {
+    // ytShowVideo: (state, getters) => state.ytShowVideo,
     ytShowVideo: (state, getters) => state.ytShowVideo && getters.ytVideo && getters.current_source === 'YouTube',
     ytObject: state => state.ytObject,
     ytState: state => state.ytState,

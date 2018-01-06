@@ -8,7 +8,9 @@
             right
             v-show="showScrollToTop"
             @click="scrollToTop"
-            class="scrollToTop"
+            class="scrollToTop teal"
+            outline 
+            icon 
         >
           <v-icon>keyboard_arrow_up</v-icon>
         </v-btn>
@@ -52,7 +54,7 @@ export default {
 @media only screen and (min-width: 600px){
   .scrollToTop{
     bottom:10px !important;
-    right: 50px !important;
+    right: 60px !important;
   }  
 }
 </style>

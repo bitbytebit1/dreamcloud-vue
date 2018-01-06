@@ -37,6 +37,9 @@ export default {
   methods: {
     ytBind () {
       this.$DCPlayer.eAudio.pause()
+      if (!this.$store.getters.ytVideo) {
+        return
+      }
       this.yt = new YT.Player(this.current_trackID, {
         width: '100%',
         // width: '300',

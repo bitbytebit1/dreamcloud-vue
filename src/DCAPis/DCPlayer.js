@@ -36,7 +36,7 @@ export default {
         store.commit('changeIndex', DCPlayer.iCurrent)
         this.setMediaSession(DCPlayer.aPlaylist[index])
         if (store.getters.ytShowVideo) {
-          return new Promise.resolve()
+          return 
         } else {
           store.commit('ytStopVideo')
         }

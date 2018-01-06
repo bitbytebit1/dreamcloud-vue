@@ -30,7 +30,7 @@ export default {
   },
   computed: {
     aPlaylist () {
-      return this.$store.getters.current_Playlist.slice(this.$store.getters.index + 1, this.$store.getters.index + (this.$UTILS.isMobile ? 1 : 5))
+      return this.$store.getters.current_Playlist.slice(this.$store.getters.index, this.$store.getters.index + (this.$UTILS.isMobile ? 1 : 5))
     }
   },
   methods: {
@@ -58,9 +58,9 @@ export default {
 .slide-fade-enter{
   /* transition: all .5s; */
   /* transform: rotateY(360deg); */
-  transition: all .5s;
+  /* transition: all .5s; */
   /* transform: rotate3d(1,2, -360deg, 360deg); */
-  opacity: 1;
+  /* opacity: 1; */
 }
 
 .slide-fade-leave-to{

@@ -6,14 +6,17 @@
           <!-- <img id="poster" :src="currentImage"> -->
         </div>
         <div class="audio-controls">
-          <v-btn icon @click="previous">
+          <v-btn @click="previous" class="teal" icon outline>
             <v-icon>skip_previous</v-icon>
           </v-btn>
-          <v-progress-circular @click="eAudio.play()" v-if="bLoading" id="loadingSpinner" indeterminate v-bind:size="25"></v-progress-circular>
-          <v-btn icon v-else @click="togglePlay">
+
+          <v-btn outline class="teal" icon v-if="bLoading">
+            <v-progress-circular id="loadingSpinner" indeterminate v-bind:size="25"></v-progress-circular>
+          </v-btn>
+          <v-btn v-else @click="togglePlay" class="teal" icon outline>
             <v-icon>{{play_arrow}}</v-icon>
           </v-btn>
-          <v-btn icon @click="next">
+          <v-btn @click="next" class="teal" icon outline>
             <v-icon>skip_next</v-icon>
           </v-btn>
         </div>
@@ -21,11 +24,11 @@
       
       <div id="right" class="hidden-sm-and-down">
         <v-speed-dial hover>
-          <v-btn @click="toggleMute" slot="activator" fab hover small>
+          <v-btn @click="toggleMute" slot="activator" outline icon class="blue" fab hover small>
             <v-icon>{{volIcon}}</v-icon>
           </v-btn>
           <div class="slider-wrapper">
-            <input type="range" min="0" max="10" @input="volumeChange" v-model="volume" step="1">
+            <input class="vol-slider" type="range" min="0" max="10" @input="volumeChange" v-model="volume" step="1">
           </div>
         </v-speed-dial>
       </div>
@@ -153,7 +156,38 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-#loadingSpinner{
+
+.vol-slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 25px;
+    background: #d3d3d3;
+    outline: none;
+    /* /* opacity: 1; */ */
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.vol-slider:hover {
+    /* opacity: 1; */
+}
+
+.vol-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 25px;
+    background: teal;
+    cursor: pointer;
+}
+
+.vol-slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: teal;
+    cursor: pointer;
+}
+#loadingSpinner1{
   top:10px;
   width: 52px !important;
 }
