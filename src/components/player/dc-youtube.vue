@@ -24,7 +24,7 @@
       
       <div id="right" class="hidden-sm-and-down">
         <v-speed-dial hover transition="slide-x-reverse-transition">
-          <v-btn @click="toggleMute" outline icon class="teal" slot="activator" fab hover small>
+          <v-btn @click="toggleMute" outline icon :class="volClass" slot="activator" fab hover small>
             <v-icon>{{volIcon}}</v-icon>
           </v-btn>
           <div class="slider-wrapper">
@@ -69,6 +69,9 @@ export default {
     }
   },
   computed: {
+    volClass () {
+      return this.volIcon === 'volume_off' ? 'red' : 'teal'
+    },
     iProgress: {
       // getter
       get () {

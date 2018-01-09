@@ -24,7 +24,7 @@
       
       <div id="right" class="hidden-sm-and-down">
         <v-speed-dial hover>
-          <v-btn @click="toggleMute" slot="activator" outline icon class="blue" fab hover small>
+          <v-btn @click="toggleMute" slot="activator" outline icon :class="volClass" fab hover small>
             <v-icon>{{volIcon}}</v-icon>
           </v-btn>
           <div class="slider-wrapper">
@@ -68,6 +68,9 @@ export default {
     }
   },
   computed: {
+    volClass () {
+      return this.volIcon === 'volume_off' ? 'red' : 'teal'
+    },
     currentImage () {
       // very hacky way to get the loading spinner to fire before the audio element fires
       if (this.$store.getters.index > -1) {
