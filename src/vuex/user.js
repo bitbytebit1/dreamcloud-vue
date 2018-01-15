@@ -7,6 +7,9 @@ export default {
     }
   },
   mutations: {
+    ytVideo (state, payload) {
+      state.settings['Video'] = payload
+    },
     authChange (state, payload) {
       state.auth_state = payload
     },

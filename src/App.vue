@@ -14,6 +14,7 @@
 
     <v-toolbar app fixed clipped-left clipped-right dense>
       
+      <!-- toggle left bar -->
       <v-toolbar-side-icon @click.stop="drawerLeft = !drawerLeft"></v-toolbar-side-icon>
       
       <v-toolbar-title class="hidden-sm-and-down">
@@ -24,7 +25,11 @@
       <search></search>
 
       <v-spacer></v-spacer>
+      
+      <!-- yt button -->
+      <youtube-button></youtube-button>
 
+      <!-- toggle right bar -->
       <v-toolbar-side-icon @click.stop="drawerRight = !drawerRight"><v-icon large>playlist_play</v-icon></v-toolbar-side-icon>
 
     </v-toolbar>
@@ -45,7 +50,7 @@
 
       <!-- <v-container fluid fill-height> -->
         <v-layout justify-center row wrap>
-          <youtube-video v-if="$store.getters.ytShowVideo && $store.getters.current_source == 'YouTube'" :song="$store.getters.current_song"></youtube-video>
+          <youtube-video v-show="$store.getters.ytShowVideo" v-if="$store.getters.ytVideo && $store.getters.isYT" :song="$store.getters.current_song"></youtube-video>
           <transition name="fade" mode="out-in">
             <!-- <keep-alive inlcude="all"> -->
               <router-view></router-view>
@@ -59,9 +64,10 @@
       <!-- {{$store.getters.ytState.data}} -->
 
        <!-- v-show="$store.getters.ytState.data == 1 || $store.getters.ytState.data == 2 || $store.getters.ytState.data == 0" -->
-      <dc-youtube v-if="$store.getters.ytShowVideo"></dc-youtube>
-      <dc-audio v-show="!$store.getters.ytShowVideo"></dc-audio>  
+      <dc-youtube v-if="$store.getters.ytVideo && $store.getters.isYT"></dc-youtube>
+      <dc-audio v-else></dc-audio>  
       <scroll-to-top></scroll-to-top>
+      
        <!-- v-show="$store.getters.current_Playlist[$store.getters.index].source == 'YouTube'" -->
     </v-footer>
   </v-app>
@@ -75,6 +81,7 @@
   import sidebar from './components/sidebar/sidebar'
   import youtubeVideo from './components/current-playlist/youtube-video'
   import scrollToTop from './components/misc/scroll-to-top.vue'
+  import youtubeVBtn from './components/misc/youtube-button'
 
   export default {
     name: 'app',
@@ -84,7 +91,8 @@
       'dc-youtube': dcYoutube,
       'sidebar': sidebar,
       'current-playlist': currentPlaylist,
-      'youtube-video': youtubeVideo
+      'youtube-video': youtubeVideo,
+      'youtube-button': youtubeVBtn,
       'scroll-to-top': scrollToTop
     },
     data () {
@@ -114,6 +122,11 @@
           this.$DCFB.setting('Night Mode').once('value', (snapshot) => {
             if (snapshot.val() !== null) {
               this.$store.commit('changeSetting', {'setting': 'Night Mode', 'value': snapshot.val()})
+            }
+          })
+          this.$DCFB.setting('Video').once('value', (snapshot) => {
+            if (snapshot.val() !== null) {
+              this.$store.commit('changeSetting', {'setting': 'Video', 'value': snapshot.val()})
             }
           })
         } else {

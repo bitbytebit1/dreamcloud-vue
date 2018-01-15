@@ -4,7 +4,7 @@
       <div id="left">
         <div class="audio-controls">
           <!-- <img id="poster" :src="currentImage"> -->
-          {{$store.ytVideo}}
+          <!-- {{$store.ytVideo}} -->
         </div>
         <div class="audio-controls">
           <v-btn @click="previous" class="teal" icon outline >
@@ -208,7 +208,7 @@ export default {
     height: 25px;
     background: #d3d3d3;
     outline: none;
-    /* /* opacity: 1; */ */
+    /* opacity: 1; */
     -webkit-transition: .2s;
     transition: opacity .2s;
 }

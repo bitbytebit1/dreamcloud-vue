@@ -310,10 +310,11 @@ export default {
     }
     td img[lazy=loading] {
       /* width: 61px !important; */
-      height: 47px;
+      height: 50px;
     }
     td img[lazy=loaded]{
-      width: 61px;
+      /* width: 61px; */
+      height: 50px;
     }
     table td:first-child,
     table th:first-child{

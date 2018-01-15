@@ -111,12 +111,14 @@ let router = new Router({
   ]
 })
 
-// router.beforeEach((to, from, next) => {
-  
-//   let currentUser = store.getters.auth_state;
-//   let requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-//   if (requiresAuth && !currentUser ) next('login')
-//   else next()
-// })
+router.beforeEach((to, from, next) => {
+  // let currentUser = store.getters.auth_state;
+  // let requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+  // if (requiresAuth && !currentUser ) next('login')
+  next()
+  if (store.getters.ytShowVideo) {
+    store.commit('ytShowVideo', false)
+  }
+})
 export default router
 
