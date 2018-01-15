@@ -40,13 +40,12 @@
           <list :sortBy="sortBy" @toggleView="toggleView" :songs="songs"></list>
       </v-container>
       <list @toggleView="toggleView" v-if="list && $UTILS.isMobile" :songs="songs"></list>
-      <scroll-to-top></scroll-to-top>
+
   </v-flex>
 </template>
 <script>
 import column from './column.vue'
 import list from './list.vue'
-import scrollToTop from '../misc/scroll-to-top.vue'
 
 export default {
   name: 'playlist',
@@ -69,8 +68,7 @@ export default {
 
   components: {
     'column': column,
-    'list': list,
-    'scroll-to-top': scrollToTop
+    'list': list
   },
   data () {
     return {

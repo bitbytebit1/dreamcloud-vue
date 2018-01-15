@@ -61,6 +61,7 @@
        <!-- v-show="$store.getters.ytState.data == 1 || $store.getters.ytState.data == 2 || $store.getters.ytState.data == 0" -->
       <dc-youtube v-if="$store.getters.ytShowVideo"></dc-youtube>
       <dc-audio v-show="!$store.getters.ytShowVideo"></dc-audio>  
+      <scroll-to-top></scroll-to-top>
        <!-- v-show="$store.getters.current_Playlist[$store.getters.index].source == 'YouTube'" -->
     </v-footer>
   </v-app>
@@ -73,6 +74,7 @@
   import currentPlaylist from './components/current-playlist/current-playlist'
   import sidebar from './components/sidebar/sidebar'
   import youtubeVideo from './components/current-playlist/youtube-video'
+  import scrollToTop from './components/misc/scroll-to-top.vue'
 
   export default {
     name: 'app',
@@ -83,6 +85,7 @@
       'sidebar': sidebar,
       'current-playlist': currentPlaylist,
       'youtube-video': youtubeVideo
+      'scroll-to-top': scrollToTop
     },
     data () {
       return {

@@ -1,18 +1,17 @@
 <template>
     <v-fab-transition>
         <v-btn
-            fab
-            small
-            fixed
-            bottom
-            right
-            v-show="showScrollToTop"
-            @click="scrollToTop"
-            class="scrollToTop teal"
-            outline 
-            icon 
+          fab
+          small
+          fixed
+          bottom
+          right
+          @click="scrollToTop"
+          class="scrollToTop teal"
+          outline 
+          icon 
         >
-          <v-icon>keyboard_arrow_up</v-icon>
+          <v-icon>{{showScrollToTop ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}</v-icon>
         </v-btn>
     </v-fab-transition>
 </template>
@@ -21,12 +20,16 @@ export default {
   name: 'scroll-to-top',
   data () {
     return {
-      showScrollToTop: false
+      showScrollToTop: true
     }
   },
   methods: {
     scrollToTop () {
-      window.scrollTo(0, 0)
+      if (this.showScrollToTop) {
+        window.scrollTo(0, 0)
+      } else {
+        window.scrollTo(0, document.body.scrollHeight)
+      }
     },
     handleScroll () {
       var scrollTop = (window.pageYOffset !== undefined) ? window.pageYOffset
@@ -53,7 +56,7 @@ export default {
 }
 @media only screen and (min-width: 600px){
   .scrollToTop{
-    bottom:10px !important;
+    bottom: 8px !important;
     right: 60px !important;
   }  
 }
