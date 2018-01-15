@@ -80,7 +80,8 @@ export default {
     }
   },
   mounted () {
-    this.$DCAPI.getArtistInfo(this.artistID, this.source).then(response => {
+    this.$DCAPI.getArtistInfo(this.artistID, this.source).then((response) => {
+      console.log(response)
       if (this.source.toLowerCase().indexOf('youtube') > -1) {
         this.info.created = response.data.items[0].snippet.publishedAt
         this.info.description = response.data.items[0].snippet.description
@@ -102,6 +103,12 @@ export default {
         this.info.last_modified = response.data.updated_time
         this.info.title = response.data.username
         this.info.track_count = response.data.cloudcast_count
+      } else if (this.source.toLowerCase().indexOf('bandcamp') > -1) {
+        console.log(this.response)
+        this.info.created = response.data.created
+        this.info.img = response.data.img
+        this.info.last_modified = response.data.last
+        this.info.track_count = response.data.tracks
       }
     })
   }

@@ -1,5 +1,17 @@
 import axios from 'axios'
+// import bandcampScraper from 'bandcamp-scraper'
 /* eslint-disable */
+// var bandcamp = require('bandcamp-scraper')
+// var artistUrl = 'http://musique.coeurdepirate.com/';
+// console.log(bandcamp.search)
+// bandcamp.getAlbumUrls(artistUrl, function(error, albumUrls) {
+//   if (error) {
+//     console.log('error', error);
+//   } else {
+//     console.log('success', albumUrls);
+//   }
+// });
+// console.log(bandcamp.search)
 export
 class DCAPIClass {
   constructor () {
@@ -30,7 +42,7 @@ class DCAPIClass {
       bRelated: bRelated,
       iPage: iPage
     }
-    aSource = aSource[0].toLowerCase() === 'all' ? ['mixcloud', 'soundcloud', 'youtube', 'vimeo'] : aSource
+    aSource = aSource[0].toLowerCase() === 'all' ? ['bandcamp', 'mixcloud', 'soundcloud', 'youtube', 'vimeo'] : aSource
     for (var idx in aSource) {
       this.aQuery[uid].aAjax.push(this.search(aSource[idx], uid))
     }
@@ -42,6 +54,8 @@ class DCAPIClass {
 
   search (source, uid) {
     switch (source.toLowerCase()) {
+      case 'bandcamp':
+        return this.bc(uid)
       case 'mixcloud':
         return this.mc(uid)
       case 'soundcloud':
@@ -54,6 +68,36 @@ class DCAPIClass {
         console.log('!source', source)
         break
     }
+  }
+  bc (uid) {
+    // let base = 'https://dc-nodejs-backend-xdgwdxqavi.now.sh'
+    let base = 'http://localhost:8000'
+    if (this.aQuery[uid].iPage && this.aQuery[uid].sArtist) {
+      return
+    }
+    let url = this.aQuery[uid].sArtist
+      ? base + `/api/v2/getartist/${encodeURIComponent(atob(this.aQuery[uid].sArtist))}/`
+      : base + `/api/v2/albumswithtag/${this.aQuery[uid].sQuery}/${this.aQuery[uid].iPage + 1}`
+    return axios.get(url).then((resp) => {
+      resp = resp.data
+      for (var idx in resp) {
+        this.pushResult(
+          uid,                                                  // uid:
+          resp[idx].artist,                                     // artist:
+          btoa(resp[idx].artistID),               // artistID:
+          resp[idx].created,                                    // created:
+          '',                                                   // description:
+          this.secondstominutes(resp[idx].duration),            // duration:
+          'https://dream.tribe.nu/r3/off/?q=' + resp[idx].mp32, // mp3:
+          resp[idx].mp32,                                       // mp32:
+          resp[idx].poster,                                     // poster:
+          resp[idx].poster,                                     // posterLarge:
+          'Bandcamp',                                           // source:
+          resp[idx].title,                                      // title:
+          resp[idx].mp32                                        // trackID:
+        )
+      }
+    })
   }
 
   mc (uid) {
@@ -107,20 +151,20 @@ class DCAPIClass {
         var img, img2
         if (resp.data.next_href) {
           // console.log('next token', resp.data.next_href)
-            this.SCnextPageToken = resp.data.next_href
-            this.SCnextPageToken = resp.data.next_href
-          } else {
-            this.SCnextPageToken = 0
-          }
+          this.SCnextPageToken = resp.data.next_href
+          this.SCnextPageToken = resp.data.next_href
+        } else {
+          this.SCnextPageToken = 0
+        }
 
         resp = resp.data.collection
         for (var idx in resp) {
-            if (!resp[idx].artwork_url) {
-              resp[idx].artwork_url = resp[idx].user.avatar_url
-            }
-            img = resp[idx].artwork_url.replace('i1', 'i2').replace('-large', '-t300x300')
-            img2 = resp[idx].artwork_url.replace('-large', '-t500x500')
-            this.pushResult(
+          if (!resp[idx].artwork_url) {
+            resp[idx].artwork_url = resp[idx].user.avatar_url
+          }
+          img = resp[idx].artwork_url.replace('i1', 'i2').replace('-large', '-t300x300')
+          img2 = resp[idx].artwork_url.replace('-large', '-t500x500')
+          this.pushResult(
               uid,                                                           // uid:
               resp[idx].user.username,                                       // artist:
               resp[idx].user_id,                                             // artistID:
@@ -135,19 +179,18 @@ class DCAPIClass {
               resp[idx].title,                                               // title:
               resp[idx].id                                                   // trackID:
             )
-          }
+        }
         if (this.aQuery[uid].aResult.length < this.aQuery[uid].iLimit && this.SCnextPageToken) {
             // console.log('sc error', this.aQuery[uid].aResult.length, 'was looking for', this.aQuery[uid].iLimit)
-            this.sc(uid).then(() => {
-              this.aQuery[uid].aResult = this.uniqueArray(this.aQuery[uid].aResult)
-              resolve()
-            })
-
-          } else {
+          this.sc(uid).then(() => {
             this.aQuery[uid].aResult = this.uniqueArray(this.aQuery[uid].aResult)
-            // console.log('sc success', this.aQuery[uid].aResult.length, 'was looking for', this.aQuery[uid].iLimit)
             resolve()
-          }
+          })
+        } else {
+          this.aQuery[uid].aResult = this.uniqueArray(this.aQuery[uid].aResult)
+            // console.log('sc success', this.aQuery[uid].aResult.length, 'was looking for', this.aQuery[uid].iLimit)
+          resolve()
+        }
       }).catch((err) => {
         reject(err)
       })
@@ -155,9 +198,9 @@ class DCAPIClass {
   }
 
   yt (uid) {
-    this.YTnextPageTokenString =  this.nextPageToken ? '&pageToken=' + this.nextPageToken : ''
+    this.YTnextPageTokenString = this.nextPageToken ? '&pageToken=' + this.nextPageToken : ''
     if (!this.YTnextPageTokenString && this.aQuery[uid].iPage > 1) {
-      return 
+      return
     }
     var a
     if (this.aQuery[uid].bRelated) {
@@ -251,8 +294,10 @@ class DCAPIClass {
       return axios.get('https://api.soundcloud.com/users/' + artistID + '?client_id=' + this.sScKey).then(hCallback)
     } else if (source.toLowerCase().indexOf('mixcloud') > -1) {
       return axios.get('https://api.mixcloud.com/' + artistID + '/').then(hCallback)
+    } else if (source.toLowerCase().indexOf('bandcamp') > -1) {
+      return axios.get('http://localhost:8000/api/v2/getartistinfo/' + encodeURIComponent(atob(artistID))).then(hCallback)
     } else {
-      return(Promise.resolve(""))
+      return (Promise.resolve(''))
     }
   }
   getSongDescription (trackID, source, hCallback) {
@@ -260,9 +305,9 @@ class DCAPIClass {
     this.aQuery[uid] = {aResult: [], hCallback: hCallback}
     return axios.get('https://www.googleapis.com/youtube/v3/videos?part=snippet&id=' + trackID + '&fields=items/snippet/description&key=' + this.sYtKey).then((resp) => {
       hCallback(resp.data)
-    })      
+    })
   }
-  // 
+  //
   getSongInfo (trackID, source, hCallback) {
     var uid = Date.now()
     this.aQuery[uid] = {aResult: [], hCallback: hCallback}
@@ -329,7 +374,7 @@ class DCAPIClass {
         )
         this.aQuery[uid].hCallback(this.aQuery[uid].aResult)
         delete this.aQuery[uid]
-      })      
+      })
     }
   }
 

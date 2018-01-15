@@ -28,6 +28,14 @@
           </v-list-tile>
 
           <v-list-tile>
+            <!-- <img src='../img/bc.png'> -->
+            <v-list-tile-action>
+              <v-switch v-model="aSources.Bandcamp" color="teal"></v-switch>
+            </v-list-tile-action>
+            <v-list-tile-title>Bandcamp</v-list-tile-title>
+          </v-list-tile>
+          
+          <v-list-tile>
             <!-- <img src='../img/mc.png'> -->
             <v-list-tile-action>
               <v-switch v-model="aSources.MixCloud" color="teal"></v-switch>
@@ -70,6 +78,7 @@ export default {
   name: 'search',
   watch: {
     'aSources.All': '_All',
+    'aSources.Bandcamp': '_other',
     'aSources.MixCloud': '_other',
     'aSources.SoundCloud': '_other',
     'aSources.YouTube': '_other',
@@ -77,7 +86,7 @@ export default {
   },
   data () {
     return {
-      aSources: {All: true, MixCloud: false, SoundCloud: false, YouTube: false, Vimeo: false},
+      aSources: {All: true, Bandcamp: false, MixCloud: false, SoundCloud: false, YouTube: false, Vimeo: false},
       sQuery: ''
     }
   },
@@ -98,7 +107,7 @@ export default {
   methods: {
     _All (newVal) {
       if (newVal) {
-        this.aSources.MixCloud = this.aSources.SoundCloud = this.aSources.YouTube = this.aSources.Vimeo = false
+        this.aSources.Bandcamp = this.aSources.MixCloud = this.aSources.SoundCloud = this.aSources.YouTube = this.aSources.Vimeo = false
       }
       this.search()
     },
