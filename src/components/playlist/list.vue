@@ -139,6 +139,10 @@ export default {
     sortBy: {
       type: [String],
       default: ''
+    },
+    rowsPerPage: {
+      type: [Number, String],
+      default: 10
     }
   },
   components: {
@@ -155,7 +159,7 @@ export default {
       selected: [],
       pagination: {
         sortBy: this.sortBy,
-        rowsPerPage: 10,
+        rowsPerPage: this.rowsPerPage,
         descending: true
       },
       search: '',

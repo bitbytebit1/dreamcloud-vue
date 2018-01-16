@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import user from './user.js'
-import player from './player.js'
+import user from './user'
+import player from './player'
 import youtube from './youtube'
 
 Vue.use(Vuex)

@@ -1,7 +1,8 @@
 <template>
   <v-flex xs12 lg10 flexbox :key="this.$route.params.playlist">
     <!-- <h3>{{name}}</h3> -->
-    <playlist :songs="aSongs"></playlist>
+    <!-- show all items since it's a user playlist -->
+    <playlist :songs="aSongs" rowsPerPage='50'></playlist>
   </v-flex>
 </template>
 <script>

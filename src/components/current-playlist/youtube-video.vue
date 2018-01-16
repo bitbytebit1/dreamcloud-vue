@@ -1,31 +1,36 @@
 <template>
-  <v-flex xs12 lg-offset-2 lg9 flexbox class="mt-3" >
-    <!-- Player -->
-    <v-flex xs12>
-      <div :id="this.current_trackID" />
-    </v-flex>
+  <v-flex d-flex xs12 >
+    <v-layout row wrap>
+      <!-- Player -->
+      <v-flex xs12>
+        <div :id="this.current_trackID" />
+      </v-flex>
+      <v-flex d-flex xs10 offset-xs1>
+        <v-layout row wrap id="dc-padding">
+          <!-- Title -->
+          <v-flex xs11 class="mt-3">
+            <div class="title text-xs-left">{{$store.getters.current_song.title}}</div >
+          </v-flex> 
 
-    <!-- Title -->
-    <v-flex xs10>
-      <div class="title text-xs-left">{{$store.getters.current_song.title}}</div >
-    </v-flex> 
-
-    <!-- Buttons -->
-    <v-flex xs2>
-      <v-btn @click="fullscreenClick">
-        Fullscreen
-      </v-btn>
-    </v-flex>
-  
-    <!-- Description -->
-    <v-flex xs12>
-      <span class="subheading text-xs-left" style="white-space: pre;">{{description}}</span>    
-    </v-flex>
+          <!-- Buttons -->
+          <v-flex xs1 class="text-xs-right">
+            <v-btn large icon outline class="teal" @click="fullscreenClick">
+              <v-icon>fullscreen</v-icon>
+            </v-btn>
+          </v-flex>
+        
+          <!-- Description -->
+          <v-flex xs12 class="text-xs-left">
+             <!-- {{description}} -->
+            <span class="subheading text-xs-left" style="white-space: pre-line;" v-html="ytTimeToSeconds(description)"></span>
+          </v-flex>
+       </v-layout>
+      </v-flex>
+    </v-layout>
   </v-flex>
 </template>
 <script>
-// let YT = ''
-/* eslint-disable */
+  /* eslint-disable */
 export default {
   name: 'youtube-video',
   props: ['song'],
@@ -59,23 +64,31 @@ export default {
     this.getDesc()
   },
   methods: {
+    ytTimeToSeconds (value) {
+      if (!value) {
+        return ''
+      }
+      return (value.replace(/(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)([0-5]?\d)/g, 
+      `<span onClick="window.dcYT.seekTo('$&'.split(':').reduce((acc,time) => (60 * acc) + +time));" class="underline"
+      >$&</span>`))
+    },
+    // 
     fullscreenClick () {
-      var e = document.getElementById(this.current_trackID);
+      var e = document.getElementById(this.current_trackID)
       if (e.requestFullscreen) {
-          e.requestFullscreen();
+        e.requestFullscreen()
       } else if (e.webkitRequestFullscreen) {
-          e.webkitRequestFullscreen();
+        e.webkitRequestFullscreen()
       } else if (e.mozRequestFullScreen) {
-          e.mozRequestFullScreen();
+        e.mozRequestFullScreen()
       } else if (e.msRequestFullscreen) {
-          e.msRequestFullscreen();
+        e.msRequestFullscreen()
       }
     },
     getDesc () {
       this.$DCAPI.getSongDescription(this.current_trackID, this.song.source, (resp) => {
-        
         this.description = resp.items[0].snippet.description.trim()
-        console.log('"' + this.description + '"')
+        console.log(this.description)
       })
     },
     ytBind () {
@@ -85,6 +98,7 @@ export default {
       this.$DCPlayer.eAudio.pause()
       this.yt = new YT.Player(this.current_trackID, {
         width: '100%',
+        height: '500px',
         videoId: this.current_trackID,
         enablejsapi: 1,
         playerVars: {
@@ -113,10 +127,10 @@ export default {
     ytReady (state) {
       this.$store.commit('ytObject', this.yt)
       this.$store.getters.ytObject.playVideo()
+      window.dcYT = this.yt
     },
     ytChanged (state) {
       this.$store.commit('ytState', state)
-      
       // console.log(this.$store.getters.ytObject.target.PlayerState)
       // if playing set duration amd interval to set current time.
       if (state.data === 1) {
@@ -148,4 +162,7 @@ export default {
 .ytDesc{
   float: left;
 } */
+#dc-padding{
+  padding: 0 16px;
+}
 </style>

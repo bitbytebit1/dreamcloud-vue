@@ -35,9 +35,9 @@ export default {
   },
   actions: {
     toggleYT ({ commit, state, getters }) {
-      // if (!getters.ytVideo) {
-      commit('changeSetting', {'setting': 'Video', 'value': !getters.ytVideo})
-      // }
+      if (!getters.ytVideo) {
+        commit('changeSetting', {'setting': 'Video', 'value': !getters.ytVideo})
+      }
       commit('ytShowVideo', !getters.ytShowVideo)
     }
   }

@@ -84,7 +84,7 @@ class DCAPIClass {
         this.pushResult(
           uid,                                                  // uid:
           resp[idx].artist,                                     // artist:
-          btoa(resp[idx].artistID),               // artistID:
+          btoa(resp[idx].artistID),                             // artistID:
           resp[idx].created,                                    // created:
           '',                                                   // description:
           this.secondstominutes(resp[idx].duration),            // duration:

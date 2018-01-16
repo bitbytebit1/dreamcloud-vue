@@ -37,9 +37,9 @@
         </v-layout>
       </v-container>
         <v-container v-if="list && !$UTILS.isMobile">
-          <list :sortBy="sortBy" @toggleView="toggleView" :songs="songs"></list>
+          <list :rowsPerPage="rowsPerPage" :sortBy="sortBy" @toggleView="toggleView" :songs="songs"></list>
       </v-container>
-      <list @toggleView="toggleView" v-if="list && $UTILS.isMobile" :songs="songs"></list>
+      <list :rowsPerPage="rowsPerPage" @toggleView="toggleView" v-if="list && $UTILS.isMobile" :songs="songs"></list>
 
   </v-flex>
 </template>
@@ -60,12 +60,15 @@ export default {
         return { full: true, list: !0 }
       }
     },
+    rowsPerPage: {
+      type: [Number, String],
+      default: 10
+    },
     sortBy: {
       type: [String],
       default: ''
     }
   },
-
   components: {
     'column': column,
     'list': list

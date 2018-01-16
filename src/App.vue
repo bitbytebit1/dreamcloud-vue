@@ -1,5 +1,6 @@
 <template>
   <v-app v-bind="$store.getters.theme">
+    <!-- left drawer -->
     <v-navigation-drawer
       app
       clipped
@@ -12,16 +13,20 @@
       <sidebar @closeLeft="closeLeft"></sidebar>
     </v-navigation-drawer>
 
+    <!-- header -->
     <v-toolbar app fixed clipped-left clipped-right dense>
       
-      <!-- toggle left bar -->
+      <!-- toggle left draw button -->
       <v-toolbar-side-icon @click.stop="drawerLeft = !drawerLeft"></v-toolbar-side-icon>
       
+      <!-- title -->
       <v-toolbar-title class="hidden-sm-and-down">
         DreamCloud
       </v-toolbar-title>
+
       <v-spacer></v-spacer>
 
+      <!-- searchbar -->
       <search></search>
 
       <v-spacer></v-spacer>
@@ -29,11 +34,12 @@
       <!-- yt button -->
       <youtube-button></youtube-button>
 
-      <!-- toggle right bar -->
+      <!-- toggle right draw button -->
       <v-toolbar-side-icon @click.stop="drawerRight = !drawerRight"><v-icon large>playlist_play</v-icon></v-toolbar-side-icon>
 
     </v-toolbar>
 
+    <!-- right drawer -->
     <v-navigation-drawer
       app
       clipped
@@ -45,6 +51,7 @@
     >
       <current-playlist></current-playlist>
     </v-navigation-drawer>
+    
     <!-- <main> -->
     <v-content class="text-xs-center maCont">
 
@@ -64,8 +71,8 @@
       <!-- {{$store.getters.ytState.data}} -->
 
        <!-- v-show="$store.getters.ytState.data == 1 || $store.getters.ytState.data == 2 || $store.getters.ytState.data == 0" -->
-      <dc-youtube v-if="$store.getters.ytVideo && $store.getters.isYT"></dc-youtube>
-      <dc-audio v-else></dc-audio>  
+      <dc-youtube v-show="$store.getters.ytVideo && $store.getters.isYT"></dc-youtube>
+      <dc-audio v-show="!$store.getters.ytVideo || !$store.getters.isYT"></dc-audio>  
       <scroll-to-top></scroll-to-top>
       
        <!-- v-show="$store.getters.current_Playlist[$store.getters.index].source == 'YouTube'" -->
@@ -125,9 +132,9 @@
             }
           })
           this.$DCFB.setting('Video').once('value', (snapshot) => {
-            if (snapshot.val() !== null) {
-              this.$store.commit('changeSetting', {'setting': 'Video', 'value': snapshot.val()})
-            }
+            // if (snapshot.val() !== null) {
+              // this.$store.commit('ytVideo', snapshot.val())
+            // }
           })
         } else {
           this.$store.commit('authChange', false)

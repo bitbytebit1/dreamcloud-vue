@@ -81,7 +81,6 @@ export default {
   },
   mounted () {
     this.$DCAPI.getArtistInfo(this.artistID, this.source).then((response) => {
-      console.log(response)
       if (this.source.toLowerCase().indexOf('youtube') > -1) {
         this.info.created = response.data.items[0].snippet.publishedAt
         this.info.description = response.data.items[0].snippet.description
