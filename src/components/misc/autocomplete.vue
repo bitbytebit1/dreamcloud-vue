@@ -1,5 +1,6 @@
 <template>
   <v-select
+    class="vselect"
     label="Search"
     autocomplete
     :loading="loading"
@@ -62,4 +63,15 @@ export default {
   color : inherit !important;
   background : 0 !important;
 }
+@media only screen and (min-width: 600px){
+  .vselect{
+    width: 480px!important;
+  }
+}
+@media only screen and (max-width: 599px){
+  .vselect{
+    width: 175px!important;
+  }
+}
+
 </style>
