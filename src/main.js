@@ -37,14 +37,8 @@ Vue.config.productionTip = false
 import VueFire from 'vuefire'
 Vue.use(VueFire)
 
-// Vue.use(Vuetify, {
-//   theme: {
-//     primary: '#3f51b5',
-//     secondary: '#b0bec5',
-//     accent: '#8c9eff',
-//     error: '#b71c1c'
-//   }
-// })
+import VueJsonp from 'vue-jsonp'
+Vue.use(VueJsonp)
 
 let app
 

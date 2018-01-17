@@ -129,6 +129,7 @@
           this.$DCFB.setting('Night Mode').once('value', (snapshot) => {
             if (snapshot.val() !== null) {
               this.$store.commit('changeSetting', {'setting': 'Night Mode', 'value': snapshot.val()})
+              this.$vuetify.theme.primary = '#009688'
             }
           })
           this.$DCFB.setting('Video').once('value', (snapshot) => {
