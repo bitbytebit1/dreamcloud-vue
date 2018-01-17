@@ -88,7 +88,6 @@ export default {
     getDesc () {
       this.$DCAPI.getSongDescription(this.current_trackID, this.song.source, (resp) => {
         this.description = resp.items[0].snippet.description.trim()
-        console.log(this.description)
       })
     },
     ytBind () {

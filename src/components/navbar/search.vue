@@ -1,7 +1,8 @@
 <template>
 <span>
   <v-toolbar-items>
-  <v-text-field 
+    <autocomplete :sQuery.sync="sQuery" @search="search"></autocomplete>
+    <!-- <v-text-field 
       style="max-height: 12px;"
       v-on:keyup.enter='search' 
       v-model='sQuery'
@@ -9,9 +10,9 @@
       color="teal"
       single-line
     >
-
-    ></v-text-field>
+    </v-text-field> -->
     <v-menu
+      style="top:20px"
       :close-on-content-click="false"
       :nudge-bottom="25"
       open-on-hover
@@ -74,8 +75,13 @@
 </template>
 
 <script>
+import autocomplete from '@/components/misc/autocomplete'
+
 export default {
   name: 'search',
+  components: {
+    'autocomplete': autocomplete
+  },
   watch: {
     'aSources.All': '_All',
     'aSources.Bandcamp': '_other',
