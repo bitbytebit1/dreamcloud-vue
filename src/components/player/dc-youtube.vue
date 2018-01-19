@@ -23,7 +23,7 @@
       </div>
       
       <div id="right" class="hidden-sm-and-down">
-        <v-speed-dial hover transition="slide-x-reverse-transition">
+        <v-speed-dial hover transition="slide-x-reverse-transition" open-on-hover>
           <v-btn @click="toggleMute" outline icon :class="volClass" slot="activator" fab hover small>
             <v-icon>{{volIcon}}</v-icon>
           </v-btn>

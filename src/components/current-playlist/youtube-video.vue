@@ -10,19 +10,61 @@
           <!-- Title -->
           <v-flex xs11 class="mt-3">
             <div class="title text-xs-left">{{$store.getters.current_song.title}}</div >
+            <v-flex class="mt-3 text-xs-left">
+              <span class="subheading" style="white-space: pre-line;" v-html="ytTimeToSeconds(description)"></span>
+            </v-flex>
           </v-flex> 
 
           <!-- Buttons -->
-          <v-flex xs1 class="text-xs-right">
-            <v-btn large icon outline class="teal" @click="fullscreenClick">
-              <v-icon>fullscreen</v-icon>
-            </v-btn>
+          <v-flex xs1>
+            <v-flex xs12>
+              <v-speed-dial direction="left" open-on-hover>
+                <v-btn slot="activator" class="primary" outline icon  hover fab>
+                  <v-icon>fullscreen</v-icon>
+                </v-btn>
+                <div class="slider-wrapper">
+                  <v-btn icon fab>
+                    <v-icon small>fullscreen</v-icon>
+                  </v-btn>
+                  <v-btn icon fab>
+                    <v-icon>fullscreen</v-icon>
+                  </v-btn>
+                  <v-btn icon fab>
+                    <v-icon large>fullscreen</v-icon>
+                  </v-btn>
+                </div>
+              </v-speed-dial>
+            </v-flex>
+            <v-flex xs12>
+              <v-speed-dial direction="left" open-on-hover>
+                <v-btn slot="activator" class="primary" outline icon  hover fab>
+                  <v-icon>settings</v-icon>
+                </v-btn>
+                <div class="slider-wrapper">
+                  <v-btn icon fab>
+                    <v-icon>people</v-icon>
+                  </v-btn>
+                </div>
+              </v-speed-dial>
+            </v-flex>
+            <v-flex xs12>
+              <v-speed-dial direction="left" open-on-hover>
+                <v-btn slot="activator" class="primary" outline icon :nudge-bottom="25" hover fab>
+                  <v-icon>more_vert</v-icon>
+                </v-btn>
+                <div class="slider-wrapper">
+                  <v-btn icon fab>
+                    <v-icon>people</v-icon>
+                  </v-btn>
+                </div>
+              </v-speed-dial>
+            </v-flex>
           </v-flex>
         
           <!-- Description -->
           <v-flex xs12 class="text-xs-left">
              <!-- {{description}} -->
-            <span class="subheading text-xs-left" style="white-space: pre-line;" v-html="ytTimeToSeconds(description)"></span>
+            
           </v-flex>
        </v-layout>
       </v-flex>
@@ -49,7 +91,9 @@ export default {
     }
   },
   computed: {
-    x3 () {
+    showClass () {
+      return { 'hidden': this.$store.getters.ytShowVideo }
+      // return this.$store.getters.ytShowVideo
     },
     current_trackID () {
       return this.$store.getters.current_trackID
@@ -97,7 +141,7 @@ export default {
       this.$DCPlayer.eAudio.pause()
       this.yt = new YT.Player(this.current_trackID, {
         width: '100%',
-        height: '500px',
+        height: window.innerHeight * 0.6 + 'px',
         videoId: this.current_trackID,
         enablejsapi: 1,
         playerVars: {
@@ -151,17 +195,14 @@ export default {
 </script>
 
 <style>
-/* .ytButtons{
-  float: right;
-}
-.ytTitle{
-  float: left;
-  margin-right:10px
-}
-.ytDesc{
-  float: left;
-} */
+
 #dc-padding{
   padding: 0 16px;
+}
+.slider-wrapper{
+  /* display: inherit; */
+  /* width: '100%'; */
+  /* height: 70px; */
+  /* padding: 0; */
 }
 </style>

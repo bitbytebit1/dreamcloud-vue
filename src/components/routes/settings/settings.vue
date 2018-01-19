@@ -51,15 +51,16 @@ export default {
     }
   },
   created () {
-    for (var idx1 in this.settings) {
-      for (var idx2 in this.settings[idx1].options) {
-        this.$DCFB.setting(this.settings[idx1].options[idx2].name).on('value', (snapshot) => {
-          if (this.settings[idx1].options[idx2].state !== Boolean(snapshot.val())) {
+    for (var idx1 = 0; idx1 < this.settings.length; idx1++) {
+      // for (var idx2 = 0; idx2 < this.settings[idx1].options.length; idx2++) {
+      // console.log(this.settings[idx1].options[0])
+      this.$store.commit('changeSetting', { 'setting': this.settings[idx1].options[0].name, 'value': this.settings[idx1].options[0].state })
+        // this.$DCFB.setting(this.settings[idx1].options[idx2].name).on('value', (snapshot) => {
+          // if (this.settings[idx1].options[idx2].state !== Boolean(snapshot.val())) {
             // this.settings[idx1].options[idx2].state = Boolean(snapshot.val())
-            // this.$store.commit('changeSetting', { 'setting': this.settings[idx1].options[idx2].name, 'value': this.settings[idx1].options[idx2].state })
-          }
-        })
-      }
+          // }
+        // })
+      // }
     }
   },
   destroyed () {

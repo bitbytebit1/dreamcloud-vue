@@ -23,7 +23,7 @@
       </div>
       
       <div id="right" class="hidden-sm-and-down">
-        <v-speed-dial hover>
+        <v-speed-dial open-on-hover>
           <v-btn @click="toggleMute" slot="activator" outline icon :class="volClass" fab hover small>
             <v-icon>{{volIcon}}</v-icon>
           </v-btn>
@@ -166,7 +166,7 @@ export default {
     height: 25px;
     background: #d3d3d3;
     outline: none;
-    /* /* opacity: 1; */ */
+    /* /* opacity: 1; */ 
     -webkit-transition: .2s;
     transition: opacity .2s;
 }

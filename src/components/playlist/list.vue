@@ -103,7 +103,7 @@
                 <add-to-playlist :song="addSong(props.item)"></add-to-playlist>
               </v-list-tile>
               <v-list-tile>
-                <download-button :links="selected ? selected :[props.item]"></download-button>
+                <download-button :links="bSelect ? selected :[props.item]"></download-button>
               </v-list-tile>
               <v-list-tile>
                 <share-button :song="props.item" :url="'https://offcloud.netlify.com/#/t/' + props.item.source + '/' + encodeURIComponent(props.item.artist) + '/' + props.item.trackID"></share-button>

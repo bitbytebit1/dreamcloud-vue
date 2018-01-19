@@ -57,11 +57,13 @@
 
       <!-- <v-container fluid fill-height> -->
         <v-layout justify-center row wrap>
-          <youtube-video v-show="$store.getters.ytShowVideo" v-if="$store.getters.ytVideo && $store.getters.isYT" :song="$store.getters.current_song"></youtube-video>
+          <v-flex v-show="$store.getters.ytShowVideo">
+            <youtube-video v-if="$store.getters.ytVideo && $store.getters.isYT" :song="$store.getters.current_song"></youtube-video>
+          </v-flex>
           <transition name="fade" mode="out-in">
-            <!-- <keep-alive inlcude="all"> -->
+            <keep-alive inlcude="ytVid">
               <router-view></router-view>
-            <!-- </keep-alive> -->
+            </keep-alive>
           </transition>
         </v-layout>
       <!-- </v-container> -->
@@ -134,7 +136,9 @@
           })
           this.$DCFB.setting('Video').once('value', (snapshot) => {
             // if (snapshot.val() !== null) {
-              // this.$store.commit('ytVideo', snapshot.val())
+              // alert(snapshot.val())
+            this.$store.commit('changeSetting', {'setting': 'Video', 'value': snapshot.val()})
+            // this.$store.commit('ytVideo', snapshot.val())
             // }
           })
         } else {
@@ -177,5 +181,8 @@
 .fade-leave-active {
   transition: opacity .3s ease;
   opacity: 0;
+}
+.dchide{
+  display: none !important;
 }
 </style>

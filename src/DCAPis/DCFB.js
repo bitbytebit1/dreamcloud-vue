@@ -63,10 +63,15 @@ class DCFB {
 
   playlistSongAdd (id, json) {
     let pusha = (js) => {
+      // create new reference
       var songRef = this.playlists.child(id + '/songs').push()
+      // save song reference in json.key
       js.key = songRef.key
+      // remove from json['.key'] bc we have to
       delete js['.key']
+      // format date to string
       js.uploaded = js.uploaded.toString()
+      // update fb
       songRef.set(js)
     }
     if (json.length > 1) {

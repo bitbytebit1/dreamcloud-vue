@@ -8,7 +8,7 @@ export default {
   },
   mutations: {
     ytVideo (state, payload) {
-      state.settings['Video'] = payload
+      state.settings['Video'] = Boolean(payload)
     },
     authChange (state, payload) {
       state.auth_state = payload
@@ -19,7 +19,7 @@ export default {
   },
   getters: {
     auth_state: state => state.auth_state,
-    ytVideo: (state, getters) => state.settings['Video'],
+    ytVideo: state => Boolean(state.settings['Video']),
     theme: state => state.settings['Night Mode'] ? {'dark': true} : {'light': true}
   }
 }

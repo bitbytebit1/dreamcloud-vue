@@ -9,7 +9,6 @@
     v-model="select"
     v-on:keyup.enter='onEnter'
     append-icon
-    @click="_se"
   >
     <template slot="item" slot-scope="data">
       <v-list-tile-content @click="_emit(data.item)" v-text="data.item"></v-list-tile-content>
