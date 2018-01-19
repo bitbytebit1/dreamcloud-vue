@@ -57,11 +57,11 @@
 
       <!-- <v-container fluid fill-height> -->
         <v-layout justify-center row wrap>
-          <v-flex v-show="$store.getters.ytShowVideo">
-            <youtube-video v-if="$store.getters.ytVideo && $store.getters.isYT" :song="$store.getters.current_song"></youtube-video>
+          <v-flex xs12 v-show="$store.getters.bShowStage">
+            <stage></stage>
           </v-flex>
           <transition name="fade" mode="out-in">
-            <keep-alive inlcude="ytVid">
+            <keep-alive>
               <router-view></router-view>
             </keep-alive>
           </transition>
@@ -73,9 +73,10 @@
       <!-- {{$store.getters.ytState.data}} -->
 
        <!-- v-show="$store.getters.ytState.data == 1 || $store.getters.ytState.data == 2 || $store.getters.ytState.data == 0" -->
-      <dc-youtube v-show="$store.getters.ytVideo && $store.getters.isYT"></dc-youtube>
-      <dc-audio v-show="!$store.getters.ytVideo || !$store.getters.isYT"></dc-audio>  
-      <scroll-to-top></scroll-to-top>
+      <dc-youtube v-show="$store.getters.ytUseVideo && $store.getters.isYT"></dc-youtube>
+      <dc-audio v-show="!$store.getters.ytUseVideo || !$store.getters.isYT"></dc-audio>  
+      <!-- <scroll-to-top></scroll-to-top> -->
+      <show-stage></show-stage>
       
        <!-- v-show="$store.getters.current_Playlist[$store.getters.index].source == 'YouTube'" -->
     </v-footer>
@@ -88,9 +89,10 @@
   import dcYoutube from './components/player/dc-youtube'
   import currentPlaylist from './components/current-playlist/current-playlist'
   import sidebar from './components/sidebar/sidebar'
-  import youtubeVideo from './components/current-playlist/youtube-video'
-  import scrollToTop from './components/misc/scroll-to-top.vue'
+  import youtubeVideo from './components/misc/youtube-video'
+  import showStage from './components/misc/show-stage.vue'
   import youtubeVBtn from './components/misc/youtube-button'
+  import stage from '@/components/routes/stage/stage'
 
   export default {
     name: 'app',
@@ -102,7 +104,8 @@
       'current-playlist': currentPlaylist,
       'youtube-video': youtubeVideo,
       'youtube-button': youtubeVBtn,
-      'scroll-to-top': scrollToTop
+      'show-stage': showStage,
+      'stage': stage
     },
     data () {
       return {
@@ -137,8 +140,10 @@
           this.$DCFB.setting('Video').once('value', (snapshot) => {
             // if (snapshot.val() !== null) {
               // alert(snapshot.val())
-            this.$store.commit('changeSetting', {'setting': 'Video', 'value': snapshot.val()})
-            // this.$store.commit('ytVideo', snapshot.val())
+            // this.$store.commit('changeSetting', {'setting': 'Video', 'value': snapshot.val()})
+            // this.$store.commit('ytUseVideo', snapshot.val())
+            // this.$store.commit('ytShowVideo', snapshot.val())
+            // this.$store.commit('ytUseVideo', snapshot.val())
             // }
           })
         } else {

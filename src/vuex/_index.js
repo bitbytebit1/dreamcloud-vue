@@ -6,7 +6,6 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-
     auth_state: false,
     current_Playlist: [],
     current_Index: -1,

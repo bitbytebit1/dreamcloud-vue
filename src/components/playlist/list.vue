@@ -74,12 +74,12 @@
           <img v-lazy="props.item.poster" :class="isPlaying(props.item.mp32) ? 'playing' : ''"/>
         </td>
 
-        <!-- title + description -->
+        <!-- title + xxxdescription -->
         <td :class="tdClass(props.item.mp32)">
           <span :class="$vuetify.breakpoint.name === 'xs' ? 'caption' : 'body-1'">{{ props.item.title }}</span>
-          <p class="desc" v-if="isPlaying(props.item.mp32) && props.item.description">
+          <!-- <p class="desc" v-if="isPlaying(props.item.mp32) && props.item.description">
             {{props.item.description}}
-          </p>
+          </p> -->
         </td>
 
         <!-- artist -->

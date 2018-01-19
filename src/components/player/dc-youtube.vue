@@ -4,7 +4,7 @@
       <div id="left">
         <div class="audio-controls">
           <!-- <img id="poster" :src="currentImage"> -->
-          <!-- {{$store.ytVideo}} -->
+          <!-- {{$store.ytUseVideo}} -->
         </div>
         <div class="audio-controls">
           <v-btn @click="previous" class="teal" icon outline >

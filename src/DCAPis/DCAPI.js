@@ -227,7 +227,7 @@ class DCAPIClass {
             '',                                              // duration:
             'https://dream.tribe.nu/r3/off/?q=' + z,         // mp3:
             z,                                               // mp32:
-            resp[idx].snippet.thumbnails.high.url,           // poster:
+            resp[idx].snippet.thumbnails.medium.url,         // poster:
             resp[idx].snippet.thumbnails.high.url,           // posterLarge:
             'YouTube',                                       // source:
             resp[idx].snippet.title,                         // title:

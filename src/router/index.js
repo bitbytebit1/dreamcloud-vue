@@ -23,13 +23,20 @@ import login from '@/components/routes/account/login'
 import signUp from '@/components/routes/account/sign-up'
 import password from '@/components/routes/account/password-reset'
 
+// import stage from '@/components/routes/stage/stage'
+
 let router = new Router({
   routes: [
+    // {
+    //   path: '/current',
+    //   name: 'stage',
+    //   component: stage
+    // },
     {
       path: '/password-reset',
       name: 'password-reset',
       component: password
-    },    
+    },
     {
       path: '/login',
       name: 'Login',
@@ -116,8 +123,8 @@ router.beforeEach((to, from, next) => {
   // let requiresAuth = to.matched.some(record => record.meta.requiresAuth);
   // if (requiresAuth && !currentUser ) next('login')
   next()
-  if (store.getters.ytShowVideo) {
-    store.commit('ytShowVideo', false)
+  if (store.getters.bShowStage) {
+    store.commit('bShowStage', false)
   }
 })
 export default router

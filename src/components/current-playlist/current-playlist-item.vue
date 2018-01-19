@@ -1,7 +1,6 @@
 <template>
   <v-flex xs12 flexbox @click.stop="play" :key="song.trackID">
     <v-card>
-      <!-- <youtube-video v-if="index === 0 && song.source === 'YouTube'" :trackID="song.trackID"></youtube-video> -->
       <v-card-media v-lazy:background-image="song.poster" height="220px">
         <v-container grid-list-xs fill-height fluid>
           <v-layout fill-height>
@@ -52,7 +51,6 @@
 import addToPlaylist from '@/components/playlist/add-to-playlist.vue'
 import shareButton from '@/components/misc/share-button'
 import downloadButton from '@/components/misc/download-button'
-import youtubeVideo from '@/components/current-playlist/youtube-video'
 
 export default {
   props: ['song', 'index'],
@@ -60,8 +58,7 @@ export default {
   components: {
     'add-to-playlist': addToPlaylist,
     'download-button': downloadButton,
-    'share-button': shareButton,
-    'youtube-video': youtubeVideo
+    'share-button': shareButton
   },
   // updated () {
     // this.show = (this.desc) && (this.$store.getters.index) && (this.$route.path === this.$store.getters.hash) && (this.song.mp32 === this.$store.getters.current_Playlist[this.$store.getters.index].mp32)

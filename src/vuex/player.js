@@ -20,7 +20,6 @@ export default {
     hash: (state) => { return state.current_Hash },
     current_trackID: (state, getters) => { return getters.index > -1 ? getters.current_Playlist[getters.index].trackID : '' },
     current_source: (state, getters) => { return getters.index > -1 ? getters.current_Playlist[getters.index].source : '' },
-    current_song: (state, getters) => { return getters.index > -1 ? getters.current_Playlist[getters.index] : '' },
-    isYT: (state, getters) => getters.current_source === 'YouTube'
+    current_song: (state, getters) => { return getters.index > -1 ? getters.current_Playlist[getters.index] : '' }
   }
 }

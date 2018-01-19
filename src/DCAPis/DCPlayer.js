@@ -6,7 +6,7 @@ export default {
     var DCPlayer = {
       aPlaylist: [],
       iCurrent: 0,
-      eAudio: '',
+      eAudio: {src:''},
       error_count: 0,
       init () {
         DCPlayer.bindMediaSesssion()
@@ -21,7 +21,15 @@ export default {
         DCPlayer.playIndex(DCPlayer.iCurrent)
       },
       pause () {
-        DCPlayer.eAudio.pause()
+        if (DCPlayer.eAudio.hasOwnProperty('pause')) {  
+          DCPlayer.eAudio.pause()
+        }
+        // else {
+        //   console.log('not pausing')
+        // }
+      },
+      stop () {
+        DCPlayer.eAudio.src = ""
       },
       play: () => {
         return DCPlayer.eAudio.play()
@@ -35,10 +43,11 @@ export default {
         DCPlayer.iCurrent = index
         store.commit('changeIndex', DCPlayer.iCurrent)
         this.setMediaSession(DCPlayer.aPlaylist[index])
-        if (store.getters.ytVideo && store.getters.isYT) {
-          this.pause()
+        if (store.getters.ytUseVideo && store.getters.isYT) {
+          DCPlayer.stop()
           return 
         } else {
+          console.log('playing audio', store.getters.ytUseVideo)
           store.commit('ytStopVideo')
         }
         if(DCPlayer.aPlaylist[index].source == 'SoundCloud')
