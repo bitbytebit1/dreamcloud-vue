@@ -1,7 +1,7 @@
 export default {
   state: {
-    ytUseVideo: false,
-    // ytShowVideo: true,
+    ytUseVideo: true,
+    ytSwitchTime: false,
     ytObject: [],
     ytState: {
       data: -1,
@@ -16,8 +16,8 @@ export default {
     ytCurrentTime: 0
   },
   mutations: {
+    ytSwitchTime: (state, payload) => { state.ytSwitchTime = payload },
     ytUseVideo: (state, payload) => { state.ytUseVideo = payload },
-    // ytShowVideo: (state, payload) => { state.ytShowVideo = payload },
     ytObject: (state, payload) => { state.ytObject = payload },
     ytState: (state, payload) => { state.ytState = payload },
     ytDuration: (state, payload) => { state.ytDuration = payload },
@@ -27,35 +27,27 @@ export default {
         try { state.ytObject.stopVideo() } catch (err) {}
       }
     },
-    ytToggleVideo: (state, getters) => {
+    ytToggleVideo: (state, payload) => {
       state.ytUseVideo = state.ytUseVideo = !state.ytUseVideo
     }
   },
 
   getters: {
-    // ytShowVideo: (state, getters) => state.ytShowVideo,
     ytUseVideo: state => state.ytUseVideo,
-    // ytShowVideo: state => state.ytShowVideo, // && getters.ytUseVideo && getters.current_source === 'YouTube'
     ytObject: state => state.ytObject,
     ytState: state => state.ytState,
     // ytDuration: state => state.ytObject.getDuration(),
     // ytCurrentTime: state => state.ytObject.getCurrentTime()
     ytDuration: state => state.ytDuration,
     ytCurrentTime: state => state.ytCurrentTime,
+    ytIsPlaying: state => state.ytState === 1,
     isYT: (state, getters) => getters.current_source === 'YouTube'
-  },
-  actions: {
-    toggleYT ({ commit, state, getters }) {
-      // if (!getters.ytUseVideo) {
-      // commit('changeSetting', {'setting': 'Video', 'value': !getters.ytUseVideo})
-      // }
-      if (!getters.ytShowVideo) {
-        commit('ytShowVideo', !getters.ytShowVideo)
-        commit('ytUseVideo', !getters.ytShowVideo)
-      } else {
-        commit('ytStopVideo')
-      }
-    }
   }
 }
 
+// BUFFERING: 3
+// CUED: 5
+// ENDED: 0
+// PAUSED: 2
+// PLAYING: 1
+// UNSTARTED: -1

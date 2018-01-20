@@ -13,7 +13,7 @@
           <v-btn v-if="bLoading" class="teal" icon outline>
             <v-progress-circular id="loadingSpinner" indeterminate v-bind:size="25"></v-progress-circular>
           </v-btn>
-          <v-btn v-else @click="togglePlay" class="teal" icon outline>
+          <v-btn v-else @click="$DCPlayer.togglePlay" class="teal" icon outline>
             <v-icon>{{play_arrow}}</v-icon>
           </v-btn>
           <v-btn @click="next" class="teal" icon outline>
@@ -86,7 +86,7 @@ export default {
       this.eAudio.muted = !this.eAudio.muted
       this.volIcon = this.eAudio.muted ? 'volume_off' : this.updateVolIcon()
     },
-    volumeChange (wasd) {
+    volumeChange () {
       this.eAudio.volume = this.volume / 10
       this.updateVolIcon()
       !0 === this.eAudio.muted && (this.eAudio.muted = !1) // if muted then set not muted, could just set false
@@ -97,13 +97,6 @@ export default {
     changePos (pos) {
       if (!isNaN(pos)) {
         this.eAudio.currentTime = pos
-      }
-    },
-    togglePlay () {
-      if (this.eAudio.paused) {
-        this.eAudio.play()
-      } else {
-        this.eAudio.pause()
       }
     },
     updated () {
@@ -153,6 +146,7 @@ export default {
     this.eAudio.addEventListener('pause', this.paused)
     this.eAudio.addEventListener('loadstart', this.loading)
     this.eAudio.addEventListener('ended', this.$DCPlayer.next)
+    this.eAudio.addEventListener('volumechange', this.volumeChange)
   }
 }
 </script>

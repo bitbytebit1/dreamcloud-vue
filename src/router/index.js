@@ -23,7 +23,7 @@ import login from '@/components/routes/account/login'
 import signUp from '@/components/routes/account/sign-up'
 import password from '@/components/routes/account/password-reset'
 
-// import stage from '@/components/routes/stage/stage'
+import stage from '@/components/routes/stage/stage'
 
 let router = new Router({
   routes: [
@@ -95,6 +95,12 @@ let router = new Router({
       path: '/a/:source/:artist/:artistID/',
       name: 'artist',
       component: artist,
+      props: true
+    },
+    {
+      path: '/tr/:source/:artist/:trackID',
+      name: 'song',
+      component: stage,
       props: true
     },
     {

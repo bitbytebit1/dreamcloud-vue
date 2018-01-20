@@ -1,24 +1,23 @@
 <template>
-  <v-layout row wrap v-show="$store.getters.ytUseVideo && $store.getters.isYT">
-    <!-- Player -->
-    <v-flex xs12 >
-      <div :id="this.current_trackID"></div>
+  <v-layout row wrap v-show="$store.getters.ytUseVideo && $store.getters.isYT" class="pb-5">
+    <!-- Video -->
+    <v-flex xs12 :id="String(this.current_trackID)">
+      <div id="player"></div>
     </v-flex>
-    <v-flex d-flex xs10 offset-xs1>
+    <v-flex d-flex xs12>
       <v-layout row wrap id="dc-padding">
-        <!-- Title -->
-        <v-flex xs11 class="mt-3">
+        <!-- Song Title -->
+        <v-flex xs12 class="mt-2">
           <div class="title text-xs-left">{{$store.getters.current_song.title}}</div >
-          <v-flex class="mt-3 text-xs-left">
-            <span class="subheading" style="white-space: pre-line;" v-html="ytTimeToSeconds(description)"></span>
-          </v-flex>
         </v-flex> 
-
-        <!-- Buttons -->
-        <v-flex xs1>
-          <!-- <v-flex xs12> -->
-            <v-speed-dial direction="left" open-on-hover>
-              <v-btn slot="activator" class="primary" outline icon  hover fab>
+        <!-- Buttons and uploaded date -->
+        <v-flex xs12 class="stage-btns">
+          <div class="fl-l blue-grey--text text--lighten-1">
+            {{$DCAPI.calcDate('', song.uploaded)}}
+          </div>
+          <div class="fl-r">
+            <v-speed-dial class="stage-btn" direction="left" open-on-hover>
+              <v-btn slot="activator" class="ma-0 pa-0" icon small hover fab>
                 <v-icon>fullscreen</v-icon>
               </v-btn>
               <div class="slider-wrapper">
@@ -33,10 +32,9 @@
                 </v-btn>
               </div>
             </v-speed-dial>
-          <!-- </v-flex> -->
-          <!-- <v-flex xs12> -->
-            <v-speed-dial direction="left" open-on-hover>
-              <v-btn slot="activator" class="primary" outline icon  hover fab>
+
+            <v-speed-dial direction="left" class="stage-btn" open-on-hover>
+              <v-btn slot="activator" class="ma-0 pa-0" icon small hover fab>
                 <v-icon>settings</v-icon>
               </v-btn>
               <div class="slider-wrapper">
@@ -45,10 +43,9 @@
                 </v-btn>
               </div>
             </v-speed-dial>
-          <!-- </v-flex> -->
-          <!-- <v-flex xs12> -->
-            <v-speed-dial direction="left" open-on-hover>
-              <v-btn slot="activator" class="primary" outline icon :nudge-bottom="25" hover fab>
+            
+            <v-speed-dial direction="left" class="stage-btn" open-on-hover>
+              <v-btn slot="activator" class="ma-0 pa-0" icon small :nudge-bottom="25" hover fab>
                 <v-icon>more_vert</v-icon>
               </v-btn>
               <div class="slider-wrapper">
@@ -57,22 +54,34 @@
                 </v-btn>
               </div>
             </v-speed-dial>
-          <!-- </v-flex> -->
+          </div>
         </v-flex>
-      
-        <!-- Description -->
-        <v-flex xs12 class="text-xs-left">
-            <!-- {{description}} -->
-          
+        <!-- Artist Picture -->
+        <artist-info-mini :artistID="song.artistID" :source="song.source" :artist="song.artist" :key="song.artistID"></artist-info-mini>
+        <v-flex xs7 class="subheading text-xs-left pl-3 mt-3">
+          <!-- Artist name -->
+          <strong>{{ song.artist }}</strong>
+          <!-- Description -->
+          <v-flex>
+            <span class="subheading" style="white-space: pre-line;" v-html="timeToSeconds(description)"></span>
+          </v-flex>
         </v-flex>
+        <!-- related -->
+        <related></related>
       </v-layout>
     </v-flex>
   </v-layout>
 </template>
 <script>
+import artistInfo from '@/components/misc/song-info'
+import related from '@/components/routes/stage/stage-related'
 /* eslint-disable */
 export default {
   name: 'video-stage',
+  components: {
+    'artist-info-mini': artistInfo,
+    'related': related
+  },
   data () {
     return {
       yt: '',
@@ -94,31 +103,32 @@ export default {
     }
   },
   mounted () {
-    console.log('yt-stage mounted')
     if (this.$store.getters.isYT) {
       this.getDesc()
       this.ytBind()
     }
   },
   updated () {
-    // console.log('yt-stage updated')
-    if (this.$store.getters.isYT && this.currentID != this.current_trackID) {
+    // console.log('yt-stage updated', !this.$store.getters.ytSwitchTime)
+    if (this.$store.getters.isYT && this.currentID != this.current_trackID && this.$store.getters.ytUseVideo && !this.$store.getters.ytSwitchTime) {
       this.currentID = this.current_trackID
       if (!this.$store.getters.ytObject.hasOwnProperty('loadVideoById')) {
-        console.log('NO loadVideoById')
+        // console.log('loading')
         this.ytBind()
       } else {
-        console.log('YES loadVideoById')
+        // console.log('loading')
         this.$store.getters.ytObject.loadVideoById(this.current_trackID)
       }
       this.getDesc()
       this.$DCPlayer.pause()
     } else {
+      // This stores the last trackID to ensure we don't load the same video twice by accident.
+      // It's tied to the div above, there's a much better way to do this.
       this.currentID = this.current_trackID
     }
   },
   methods: {
-    ytTimeToSeconds (value) {
+    timeToSeconds (value) {
       if (!value) {
         return ''
       }
@@ -148,9 +158,9 @@ export default {
       if (!this.$store.getters.ytUseVideo) {
         return
       }
-      console.log(this.current_trackID)
+      // console.log('loading')
       this.$DCPlayer.pause()
-      this.yt = new YT.Player(this.current_trackID, {
+      this.yt = new YT.Player('player', {
         width: '100%',
         videoId: this.current_trackID,
         height: window.innerHeight * 0.6 + 'px',
@@ -180,6 +190,7 @@ export default {
       // console.log(this.yt.getOptions('captions'))
     },
     ytReady (state) {
+      console.log('ready')
       this.$store.commit('ytObject', this.yt)
       this.$store.getters.ytObject.playVideo()
       window.dcYT = this.yt
@@ -190,13 +201,15 @@ export default {
       // if playing set duration amd interval to set current time.
       if (state.data === 1) {
         this.$store.commit('ytDuration', this.$store.getters.ytObject.getDuration())
-        this.interval = setInterval(() => { this.$store.commit('ytCurrentTime', this.$store.getters.ytObject.getCurrentTime()) }, 250)
-      } else if (state.data === 2) {
-        clearInterval(this.interval)
+        this.interval = setInterval(() => { 
+          this.$store.commit('ytCurrentTime', this.$store.getters.ytObject.getCurrentTime()) 
+        }, 250)
       } else if (state.data === 0) {
-        console.log('ended!')
         clearInterval(this.interval)
+        this.$store.commit('ytCurrentTime', 0) 
         this.$DCPlayer.next()
+      } else { //if (state.data === 5 || state.data === 3 || state.data === 2) {
+        clearInterval(this.interval)
       }
     }
   },
@@ -207,10 +220,22 @@ export default {
 </script>
 
 <style>
+.fl-l{
+  float: left;
+  margin-top: 10px;
+}
+.fl-r{
+  float: right;
+}
 #img-bg{
   background-color:black;
 }
-#stg-pstr{
+.stage-btns{
+  /* height: 36px; */
+  border-bottom: 1px solid teal;
+}
+.stage-btn{
+  float: right;
 }
 #dc-padding{
   padding: 0 16px;

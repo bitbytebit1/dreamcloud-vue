@@ -31,7 +31,7 @@ export default {
       stop () {
         DCPlayer.eAudio.src = ""
       },
-      play: () => {
+      play () {
         return DCPlayer.eAudio.play()
       },
       previous () {
@@ -44,10 +44,11 @@ export default {
         store.commit('changeIndex', DCPlayer.iCurrent)
         this.setMediaSession(DCPlayer.aPlaylist[index])
         if (store.getters.ytUseVideo && store.getters.isYT) {
+          // console.log('playing video')
           DCPlayer.stop()
           return 
         } else {
-          console.log('playing audio', store.getters.ytUseVideo)
+          // console.log('playing audio')
           store.commit('ytStopVideo')
         }
         if(DCPlayer.aPlaylist[index].source == 'SoundCloud')
@@ -94,6 +95,16 @@ export default {
       },
       seekForward () {
         DCPlayer.eAudio.currentTime += 10
+      },
+      togglePlay () {
+        // if (DCPlayer.eAudio.hasOwnProperty('paused')) {
+        if (DCPlayer.eAudio.paused) {
+          DCPlayer.eAudio.play()
+        } else {
+          DCPlayer.eAudio.pause()
+        }
+        // } 
+          // alert('no')
       },
       getAudio (url, hCallback) {
         var ax = axios.get('https://www.saveitoffline.com/process/?type=audio&url=' + url)

@@ -62,7 +62,7 @@
           </v-flex>
           <transition name="fade" mode="out-in">
             <keep-alive>
-              <router-view></router-view>
+              <router-view v-if="!$store.getters.bShowStage"></router-view>
             </keep-alive>
           </transition>
         </v-layout>
@@ -91,7 +91,7 @@
   import sidebar from './components/sidebar/sidebar'
   import youtubeVideo from './components/misc/youtube-video'
   import showStage from './components/misc/show-stage.vue'
-  import youtubeVBtn from './components/misc/youtube-button'
+  import youtubeVBtn from './components/misc/toggle-video-button'
   import stage from '@/components/routes/stage/stage'
 
   export default {
@@ -175,7 +175,7 @@
     }
   }
 
-.fade-enter {
+/* .fade-enter {
   opacity: 0;
 }
 
@@ -186,7 +186,7 @@
 .fade-leave-active {
   transition: opacity .3s ease;
   opacity: 0;
-}
+} */
 .dchide{
   display: none !important;
 }

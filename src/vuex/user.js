@@ -1,7 +1,7 @@
 export default {
   state: {
     auth_state: false,
-    bShowStage: false,
+    bShowStage: true,
     settings: {
       'Night Mode': false,
       'Video': true

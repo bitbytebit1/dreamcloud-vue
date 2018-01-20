@@ -44,7 +44,7 @@ export default {
       this.$emit('update:sQuery', v)
       // this.debounce(() =>{
       this.loading = true
-      this.$jsonp(`http://suggestqueries.google.com/complete/search?callback=?&hl=en&ds=yt&jsonp=suggestCallBack&client=youtube&q=${v}`, {callbackName: 'suggestCallBack'})
+      this.$jsonp(`https://suggestqueries.google.com/complete/search?callback=?&hl=en&ds=yt&jsonp=suggestCallBack&client=youtube&q=${v}`, {callbackName: 'suggestCallBack'})
       .then(json => {
         this.items = json[1].map(v => v[0])
         this.items.unshift(v)

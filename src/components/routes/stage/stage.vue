@@ -6,8 +6,8 @@
   </v-flex>
 </template>
 <script>
-
 /* eslint-disable */
 export default {
   name: 'stage'
 }
+</script>
