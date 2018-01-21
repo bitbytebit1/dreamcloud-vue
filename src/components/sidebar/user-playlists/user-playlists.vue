@@ -20,7 +20,7 @@
         @click="closeLeftOnMobile" 
         id='playlist'
         :class="isPlaying(UID, subItem['.key'], subItem['name'])"
-        :active-class="isPlaying(UID, subItem['.key'], subItem['name']) || 'cyan'"
+        :active-class="isPlaying(UID, subItem['.key'], subItem['name']) || 'cyan white--text'"
         :to="{path: '/u/' + UID + '/' + subItem['.key'] +  '/' +  encodeURIComponent(subItem['name'])}" 
         v-bind:key="subItem['.key']"
         ripple
@@ -54,7 +54,7 @@ export default {
   },
   methods: {
     isPlaying (s, n, id) {
-      var a = this.$store.getters.hash === '/u/' + s + '/' + n + '/' + encodeURIComponent(id) ? 'teal' : ''
+      var a = this.$store.getters.hash === '/u/' + s + '/' + n + '/' + encodeURIComponent(id) ? 'teal white--text' : ''
       return a
     },    
     closeLeftOnMobile () {

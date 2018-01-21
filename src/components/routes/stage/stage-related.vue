@@ -25,18 +25,18 @@
             <v-card class="mb-2" color="" >
               <v-container fluid grid-list-lg>
                 <v-layout row>
+                  <v-flex xs5>
+                    <v-card-media
+                      :src="props.item.poster"
+                      :height="hai(props.item.source)"
+                      contain
+                    ></v-card-media>
+                  </v-flex>
                   <v-flex xs7>
                     <div>
                       <div class="subheading text-xs-left">{{ props.item.title }}</div>
                       <div class="artist text-xs-left">{{ props.item.artist }}</div>
                     </div>
-                  </v-flex>
-                  <v-flex xs5>
-                    <v-card-media
-                      :src="props.item.poster"
-                      height="125px"
-                      contain
-                    ></v-card-media>
                   </v-flex>
                 </v-layout>
               </v-container>
@@ -84,6 +84,9 @@ export default {
         }
         this.items = d
       }, true, 20)
+    },
+    hai (source) {
+      return source === 'YouTube' ?  '86px' : '125px' 
     }
   },
   computed: {
@@ -91,10 +94,7 @@ export default {
       isYT: 'isYT',
       song: 'current_song',
       current: 'current_Playlist'
-    }),
-    x3 () {
-      
-    }
+    })
   },
   mounted () {
     // this.getRelated()

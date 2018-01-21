@@ -21,7 +21,7 @@
         @click="closeLeftOnMobile"
         id="subscription"
         :class="isPlaying(subItem['source'], subItem['name'], subItem['id'])"
-        :active-class="isPlaying(subItem['source'], subItem['name'], subItem['id']) || 'cyan'"
+        :active-class="isPlaying(subItem['source'], subItem['name'], subItem['id']) || 'cyan white--text'"
         :to="{path: '/a/'  + subItem['source'] +  '/' + encodeURIComponent(subItem['name']) +  '/' + subItem['id']}"
         v-bind:key="subItem['.key']"
         ripple
@@ -54,7 +54,7 @@ export default {
   },
   methods: {
     isPlaying (s, n, id) {
-      return this.$store.getters.hash === '/a/' + s + '/' + encodeURIComponent(n) + '/' + id ? 'teal' : ''
+      return this.$store.getters.hash === '/a/' + s + '/' + encodeURIComponent(n) + '/' + id ? 'teal white--text' : ''
     },
     subscriptionDelete (subID) {
       this.$DCFB.subscriptionDelete(subID)

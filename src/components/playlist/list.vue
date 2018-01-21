@@ -226,7 +226,7 @@ export default {
     },
     tdClass (link) {
       return {
-        'teal': this.isPlaying(link),
+        'teal white--text': this.isPlaying(link),
         'text-xs-left': true,
         'caption': true,
         'ma-0': true,
