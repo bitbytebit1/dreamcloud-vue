@@ -1,6 +1,6 @@
 <template>
   <v-select
-    class="vselect"
+    class="vselect pt-3"
     label="Search"
     autocomplete
     :loading="loading"
@@ -9,6 +9,7 @@
     v-model="select"
     v-on:keyup.enter='onEnter'
     append-icon
+    single-line
   >
     <template slot="item" slot-scope="data">
       <v-list-tile-content @click="_emit(data.item)" v-text="data.item"></v-list-tile-content>
