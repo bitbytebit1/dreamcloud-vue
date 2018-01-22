@@ -16,22 +16,8 @@
             {{$DCAPI.calcDate('', song.uploaded)}}
           </div>
           <div class="fl-r">
-            <v-speed-dial class="stage-btn" direction="left" open-on-hover>
-              <v-btn slot="activator" class="ma-0 pa-0" icon small hover fab>
-                <v-icon>fullscreen</v-icon>
-              </v-btn>
-              <div class="slider-wrapper">
-                <v-btn icon fab>
-                  <v-icon small>fullscreen</v-icon>
-                </v-btn>
-                <v-btn icon fab>
-                  <v-icon>fullscreen</v-icon>
-                </v-btn>
-                <v-btn icon fab>
-                  <v-icon large>fullscreen</v-icon>
-                </v-btn>
-              </div>
-            </v-speed-dial>
+            <!-- yt button -->
+            <youtube-button></youtube-button>
 
             <v-speed-dial direction="left" class="stage-btn" open-on-hover>
               <v-btn slot="activator" class="ma-0 pa-0" icon small hover fab>
@@ -54,15 +40,20 @@
                 </v-btn>
               </div>
             </v-speed-dial>
+
+            <!-- fullscreen button -->
+            <v-btn @click="fullscreen" class="ma-0 pa-0" icon small hover fab>
+              <v-icon>fullscreen</v-icon>
+            </v-btn>
           </div>
         </v-flex>
         <!-- Artist Picture -->
         <artist-info-mini :artistID="song.artistID" :source="song.source" :artist="song.artist" :key="song.artistID"></artist-info-mini>
-        <v-flex xs7 class="subheading text-xs-left pl-3 mt-3">
-          <!-- Artist name -->
+        <!-- Artist name + Song description -->
+        <v-flex xs12 lg7 class="subheading text-xs-left pl-3 mt-3">
           <strong>{{ song.artist }}</strong>
           <!-- Description -->
-          <v-flex>
+          <v-flex xs12>
             <span class="subheading" style="white-space: pre-line;" v-html="timeToSeconds(description)"></span>
           </v-flex>
         </v-flex>
@@ -75,11 +66,13 @@
 <script>
 import artistInfo from '@/components/misc/song-info'
 import related from '@/components/routes/stage/stage-related'
+import youtubeVBtn from '@/components/misc/toggle-video-button'
 /* eslint-disable */
 export default {
   name: 'video-stage',
   components: {
     'artist-info-mini': artistInfo,
+    'youtube-button': youtubeVBtn,
     'related': related
   },
   data () {
@@ -137,8 +130,8 @@ export default {
       >$&</span>`))
     },
     // 
-    fullscreenClick () {
-      var e = document.getElementById(this.current_trackID)
+    fullscreen () {
+      var e = document.getElementById('player')
       if (e.requestFullscreen) {
         e.requestFullscreen()
       } else if (e.webkitRequestFullscreen) {
