@@ -23,7 +23,7 @@ import login from '@/components/routes/account/login'
 import signUp from '@/components/routes/account/sign-up'
 import password from '@/components/routes/account/password-reset'
 
-import stage from '@/components/routes/stage/stage'
+import stage from '@/components/routes/stage/stage-route'
 
 let router = new Router({
   routes: [
@@ -98,8 +98,8 @@ let router = new Router({
       props: true
     },
     {
-      path: '/tr/:source/:artist/:trackID',
-      name: 'song',
+      path: '/current',
+      name: 'stage',
       component: stage,
       props: true
     },
@@ -128,9 +128,15 @@ router.beforeEach((to, from, next) => {
   // let currentUser = store.getters.auth_state;
   // let requiresAuth = to.matched.some(record => record.meta.requiresAuth);
   // if (requiresAuth && !currentUser ) next('login')
-  next()
-  if (store.getters.bShowStage) {
+  // console.log()
+  if (to.name === 'stage') {
+    store.commit('bShowStage', true)
+    next()
+  } else if (store.getters.bShowStage) {
     store.commit('bShowStage', false)
+    next()
+  } else {
+    next()
   }
 })
 export default router
