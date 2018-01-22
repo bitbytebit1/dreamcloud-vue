@@ -26,7 +26,7 @@
         ripple
       >
         <v-list-tile-action>
-          <v-icon>music_note</v-icon>
+          <v-icon :color="isPlaying(UID, subItem['.key'], subItem['name']) ? 'white': ''">music_note</v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
           <v-list-tile-title>{{ subItem['name'] }}</v-list-tile-title>
