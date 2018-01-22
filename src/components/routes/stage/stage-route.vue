@@ -1,0 +1,64 @@
+<template>
+  <div :id="trackID"></div>  
+</template>
+
+<script>
+/* eslint-disable */
+
+import { mapGetters } from 'vuex'
+import deleteButton from '@/components/misc/delete-button'
+export default {
+  name: 'stage-route',
+  props: ['source', 'artist', 'trackID'],
+  data () {
+    return {
+      x1: 'deleteme?'
+    }
+  },
+  methods: {
+    x2 () {
+
+    }
+  },
+  computed: {
+    ...mapGetters({
+      song: 'current_song',
+    })
+  },
+  mounted () {
+    // if (!this.song || this.song.trackID !== this.trackID) {
+    //   // alert('i c')
+    //   this.$DCAPI.getSongInfo (this.trackID, this.source, (resp) => {
+    //     this.$store.commit('setNPlay', { songs: resp, path: this.$route.path, current: 0})
+    //     this.$DCPlayer.setNPlay(resp, 0)
+    //   })
+    // } else {
+    // }
+    this.$store.commit('bShowStage', true)
+  },
+  updated () {
+    // if (!this.song || this.song.trackID !== this.trackID) {
+    //   // alert('i c')
+    //   console.log('getting info')
+    //   this.$DCAPI.getSongInfo (this.trackID, this.source, (resp) => {
+    //     console.log('playing')
+    //     this.$store.commit('setNPlay', { songs: resp, path: this.$route.path, current: 0})
+    //     this.$DCPlayer.setNPlay(resp, 0)
+    //   })
+    // } else {
+    // }
+    this.$store.commit('bShowStage', true)
+  },
+  destroyed () {
+    this.$store.commit('bShowStage', false)
+  },
+  computed: {
+    x3 () {
+      
+    }
+  }
+}
+</script>
+
+<style>
+</style>

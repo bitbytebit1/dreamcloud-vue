@@ -33,19 +33,21 @@
               :key="index" 
             >
             </column>
-          <!-- </v-flex> -->
+          <!-- </v-flex> -->          
+          <!-- <column :songs="fixedSongs" :sortBy="sortBy" :rowsPerPage="rowsPerPage" @toggleView="toggleView"></column> -->
         </v-layout>
       </v-container>
         <v-container v-if="list && !$UTILS.isMobile">
-          <list :rowsPerPage="rowsPerPage" :sortBy="sortBy" @toggleView="toggleView" :songs="songs"></list>
+          <list :rowsPerPage="rowsPerPage" :sortBy="sortBy" @toggleView="toggleView" :songs="fixedSongs"></list>
       </v-container>
-      <list :rowsPerPage="rowsPerPage" @toggleView="toggleView" v-if="list && $UTILS.isMobile" :songs="songs"></list>
+      <list :rowsPerPage="rowsPerPage" @toggleView="toggleView" v-if="list && $UTILS.isMobile" :songs="fixedSongs"></list>
 
   </v-flex>
 </template>
 <script>
-import column from './column.vue'
-import list from './list.vue'
+import column from './column'
+// import column from './list.2.vue'
+import list from './list'
 
 export default {
   name: 'playlist',

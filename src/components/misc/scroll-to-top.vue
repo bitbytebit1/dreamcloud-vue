@@ -1,8 +1,6 @@
 <template>
     <v-fab-transition>
         <v-btn
-          fab
-          small
           fixed
           bottom
           right
@@ -20,7 +18,8 @@ export default {
   name: 'scroll-to-top',
   data () {
     return {
-      showScrollToTop: true
+      showScrollToTop: true,
+      lastScrollTop: ''
     }
   },
   methods: {
@@ -32,10 +31,20 @@ export default {
       }
     },
     handleScroll () {
-      var scrollTop = (window.pageYOffset !== undefined) ? window.pageYOffset
-      : (document.documentElement || document.body.parentNode || document.body)
-      .scrollTop > 299
-      this.showScrollToTop = (scrollTop > 299)
+      let scrollTop = (window.pageYOffset !== undefined) ? window.pageYOffset
+      : (document.documentElement || document.body.parentNode || document.body).scrollTop
+      if (scrollTop === 0) {
+        this.showScrollToTop = false
+      } else if (this.lastScrollTop < scrollTop) {
+        this.showScrollToTop = false
+      } else if (document.body.scrollHeight === scrollTop) {
+        alert('bottom!')
+      } else {
+        this.showScrollToTop = true
+      }
+      this.lastScrollTop = scrollTop
+      // this.showScrollToTop = scrollTop < this.lastScrollTop
+      // this.showScrollToTop = true
     }
   },
   created () {
@@ -51,7 +60,7 @@ export default {
 <style>
 @media only screen and (max-width: 599px){
   .scrollToTop{
-    bottom: 40px !important
+    bottom: 35px !important
   }
 }
 @media only screen and (min-width: 600px){

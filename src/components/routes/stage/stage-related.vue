@@ -1,8 +1,21 @@
 <template>
-    <v-flex xs4 class="mt-3">
-      <v-flex v-if="loading">
-        <v-progress-circular indeterminate color="primary"></v-progress-circular>
+    <v-flex xs12 lg4 class="mt-3">
+      <!-- Loading -->
+      <v-flex 
+        xs2
+        offset-xs5
+        lg2 
+        offset-lg5
+        v-if="loading"
+      >
+        <!-- <v-progress-circular indeterminate color="primary"></v-progress-circular> -->
+        <div class="orbit-spinner">
+          <div class="orbit"></div>
+          <div class="orbit"></div>
+          <div class="orbit"></div>
+        </div>
       </v-flex>
+      <!-- v-data-iterator -->
       <v-data-iterator
         hide-actions
         content-tag='v-layout'
@@ -28,7 +41,7 @@
                   <v-flex xs5>
                     <v-card-media
                       :src="props.item.poster"
-                      :height="hai(props.item.source)"
+                      :height="props.item.source === 'YouTube' ?  '86px' : '125px' "
                       contain
                     ></v-card-media>
                   </v-flex>
@@ -58,7 +71,7 @@ export default {
     },
   },
   data: () => ({
-    loading: false,
+    loading: true,
     rowsPerPageItems: [4, 8, 12],
     pagination: {
       rowsPerPage: -1
@@ -67,7 +80,6 @@ export default {
   }),
   methods: {
     play (index){
-      console.log({songs: this.current, current: index, path: this.$route.path})
       // this.$store.commit.setNPlay(index, this.items)
       this.$store.commit('setNPlay', {songs: this.items, current: index, path: this.$route.path})
       return this.$DCPlayer.setNPlay(this.items, index)
@@ -92,8 +104,7 @@ export default {
   computed: {
     ...mapGetters({
       isYT: 'isYT',
-      song: 'current_song',
-      current: 'current_Playlist'
+      song: 'current_song'
     })
   },
   mounted () {
@@ -109,5 +120,71 @@ export default {
 <style>
 .artist{
   color: grey;
+}
+.orbit-spinner, .orbit-spinner * {
+  box-sizing: border-box;
+}
+
+.orbit-spinner {
+  height: 55px;
+  width: 55px;
+  border-radius: 50%;
+  perspective: 800px;
+}
+
+.orbit-spinner .orbit {
+  position: absolute;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.orbit-spinner .orbit:nth-child(1) {
+  left: 0%;
+  top: 0%;
+  animation: orbit-spinner-orbit-one-animation 1200ms linear infinite;
+  border-bottom: 3px solid teal;
+}
+
+.orbit-spinner .orbit:nth-child(2) {
+  right: 0%;
+  top: 0%;
+  animation: orbit-spinner-orbit-two-animation 1200ms linear infinite;
+  border-right: 3px solid teal;
+}
+
+.orbit-spinner .orbit:nth-child(3) {
+  right: 0%;
+  bottom: 0%;
+  animation: orbit-spinner-orbit-three-animation 1200ms linear infinite;
+  border-top: 3px solid teal;
+}
+
+@keyframes orbit-spinner-orbit-one-animation {
+  0% {
+    transform: rotateX(35deg) rotateY(-45deg) rotateZ(0deg);
+  }
+  100% {
+    transform: rotateX(35deg) rotateY(-45deg) rotateZ(360deg);
+  }
+}
+
+@keyframes orbit-spinner-orbit-two-animation {
+  0% {
+    transform: rotateX(50deg) rotateY(10deg) rotateZ(0deg);
+  }
+  100% {
+    transform: rotateX(50deg) rotateY(10deg) rotateZ(360deg);
+  }
+}
+
+@keyframes orbit-spinner-orbit-three-animation {
+  0% {
+    transform: rotateX(35deg) rotateY(55deg) rotateZ(0deg);
+  }
+  100% {
+    transform: rotateX(35deg) rotateY(55deg) rotateZ(360deg);
+  }
 }
 </style>

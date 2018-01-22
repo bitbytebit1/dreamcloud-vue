@@ -37,7 +37,7 @@
         <div id="progress">
           <v-container fluid grid-list-md class="pa-0 ma-0">
             <v-layout row wrap>
-              <v-flex>
+              <v-flex xs12  class="ml-3 mr-3">
                 <v-slider :max="eAudio.duration" :label="currentTime" @input="changePos" v-model="progress" id="progress-slider" color="teal" hide-details></v-slider>
               </v-flex>
             </v-layout>

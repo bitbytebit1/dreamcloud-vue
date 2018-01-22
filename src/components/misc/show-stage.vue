@@ -1,23 +1,21 @@
 <template>
-    <v-fab-transition>
-        <v-btn
-          fab
-          small
-          fixed
-          bottom
-          right
-          @click="showStage"
-          class="scrollToTop teal"
-          outline 
-          icon 
-        >
-          <v-icon>{{$store.getters.bShowStage ? 'keyboard_arrow_down' : 'keyboard_arrow_up'}}</v-icon>
-        </v-btn>
-    </v-fab-transition>
+  <v-btn
+    @click="showStage"
+    icon
+  >
+    <v-icon>{{$route.name === 'stage' ? 'fullscreen_exit' : 'fullscreen'}}</v-icon>
+  </v-btn>
 </template>
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'show-stage',
+  computed: {
+    ...mapGetters({
+      song: 'current_song'
+    })
+  },
   data () {
     return {
       bShow: false
@@ -25,7 +23,13 @@ export default {
   },
   methods: {
     showStage () {
-      this.$store.commit('bShowStage', !this.$store.getters.bShowStage)
+      if (!this.$store.getters.bShowStage) {
+        this.$store.commit('bShowStage', true)
+        this.$router.push({name: 'stage'})
+      } else {
+        this.$router.go(-1)
+      }
+      window.scrollTo(0, 0)
     }
   }
 }
@@ -33,15 +37,4 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-@media only screen and (max-width: 599px){
-  .scrollToTop{
-    bottom: 40px !important
-  }
-}
-@media only screen and (min-width: 600px){
-  .scrollToTop{
-    bottom: 8px !important;
-    right: 60px !important;
-  }  
-}
 </style>

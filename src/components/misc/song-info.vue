@@ -1,5 +1,5 @@
 <template>
-  <v-flex xs1 align-center class="mt-3">
+  <v-flex xs3 lg1 align-center class="mt-3">
     <!-- Left column -->
     <v-flex xs12 >
       <!-- Avatar -->

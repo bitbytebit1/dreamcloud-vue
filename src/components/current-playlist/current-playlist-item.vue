@@ -1,5 +1,5 @@
 <template>
-  <v-flex xs12 flexbox @click.stop="play" :key="song.trackID">
+  <v-flex xs12 flexbox @click.stop="play" :key="index">
     <v-card>
       <v-card-media v-lazy:background-image="song.poster" height="220px">
         <v-container grid-list-xs fill-height fluid>

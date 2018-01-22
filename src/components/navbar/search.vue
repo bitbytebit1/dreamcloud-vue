@@ -17,7 +17,7 @@
       :nudge-bottom="25"
       open-on-hover
     >
-      <v-btn icon slot="activator"><v-icon>cloud_circle</v-icon></v-btn>
+      <v-btn icon slot="activator" class="mt-2"><v-icon>cloud_circle</v-icon></v-btn>
       <v-card>
         <v-list>
           <v-list-tile>

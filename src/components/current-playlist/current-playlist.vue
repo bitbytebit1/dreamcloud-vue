@@ -6,7 +6,7 @@
         v-for="(song, index) in aPlaylist"
         :song="song"
         :index="index"
-        :key="song.trackID"
+        :key="index"
         ></current-playlist-item>
         <!-- <current-playlist-item
         :song="$store.getters.current_song"

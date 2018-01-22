@@ -1,6 +1,6 @@
 <template>
-    <v-btn icon :disabled="!$store.getters.isYT" @click.stop="clicked">
-      <v-icon :color="color">videocam</v-icon>
+    <v-btn icon v-show="$store.getters.isYT" :disabled="!$store.getters.isYT" @click.stop="clicked" class="ma-0 pa-0" fab small>
+      <v-icon :color="color">ondemand_video</v-icon>
     </v-btn>
 </template>
 <script>
@@ -8,7 +8,7 @@ export default {
   computed: {
     showColor: () => 'red',
     color () {
-      let c = (this.$store.getters.ytUseVideo) ? 'red' : ''
+      let c = (this.$store.getters.ytUseVideo && this.$store.getters.isYT) ? 'red' : ''
       // return { color: c }
       return c
     }

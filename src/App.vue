@@ -32,10 +32,13 @@
       <v-spacer></v-spacer>
       
       <!-- yt button -->
-      <youtube-button></youtube-button>
+      <!-- <youtube-button></youtube-button> -->
+    <!-- <v-toolbar-items> -->
 
+      <show-stage></show-stage>
       <!-- toggle right draw button -->
-      <v-toolbar-side-icon @click.stop="drawerRight = !drawerRight"><v-icon large>playlist_play</v-icon></v-toolbar-side-icon>
+      <v-toolbar-side-icon @click.stop="drawerRight = !drawerRight"><v-icon>playlist_play</v-icon></v-toolbar-side-icon>
+    <!-- </v-toolbar-items> -->
 
     </v-toolbar>
 
@@ -62,7 +65,7 @@
           </v-flex>
           <transition name="fade" mode="out-in">
             <keep-alive>
-              <router-view v-if="!$store.getters.bShowStage"></router-view>
+              <router-view></router-view>
             </keep-alive>
           </transition>
         </v-layout>
@@ -75,8 +78,7 @@
        <!-- v-show="$store.getters.ytState.data == 1 || $store.getters.ytState.data == 2 || $store.getters.ytState.data == 0" -->
       <dc-youtube v-show="$store.getters.ytUseVideo && $store.getters.isYT"></dc-youtube>
       <dc-audio v-show="!$store.getters.ytUseVideo || !$store.getters.isYT"></dc-audio>  
-      <!-- <scroll-to-top></scroll-to-top> -->
-      <show-stage></show-stage>
+      <scroll-to-top></scroll-to-top>
       
        <!-- v-show="$store.getters.current_Playlist[$store.getters.index].source == 'YouTube'" -->
     </v-footer>
@@ -90,9 +92,9 @@
   import currentPlaylist from './components/current-playlist/current-playlist'
   import sidebar from './components/sidebar/sidebar'
   import youtubeVideo from './components/misc/youtube-video'
-  import showStage from './components/misc/show-stage.vue'
-  import youtubeVBtn from './components/misc/toggle-video-button'
   import stage from '@/components/routes/stage/stage'
+  import showStage from '@/components/misc/show-stage.vue'
+  import scrollToTop from '@/components/misc/scroll-to-top.vue'
 
   export default {
     name: 'app',
@@ -103,9 +105,9 @@
       'sidebar': sidebar,
       'current-playlist': currentPlaylist,
       'youtube-video': youtubeVideo,
-      'youtube-button': youtubeVBtn,
       'show-stage': showStage,
-      'stage': stage
+      'stage': stage,
+      'scroll-to-top': scrollToTop
     },
     data () {
       return {
@@ -126,6 +128,7 @@
       }
     },
     beforeCreate () {
+      this.$store.commit('ytUseVideo', !this.$vuetify.breakpoint.xsOnly)
       this.$store.commit('authChange', !!this.$DCFB.fb.auth().currentUser)
       this.$DCFB.fb.auth().onAuthStateChanged((user) => {
         if (user) {

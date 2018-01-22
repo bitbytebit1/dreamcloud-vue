@@ -17,7 +17,7 @@ export default {
     }
   },
   methods: {
-    x2: () => {
+    x2 () {
 
     }
   },

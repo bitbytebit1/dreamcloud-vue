@@ -6,17 +6,18 @@
     </v-flex>
     <v-flex d-flex xs12>
       <v-layout row wrap id="dc-padding">
-        <!-- Title -->
+        <!-- Song Title -->
         <v-flex xs12 class="mt-2">
           <div class="title text-xs-left">{{$store.getters.current_song.title}}</div >
         </v-flex> 
-
-        <!-- Buttons and uploaded -->
+        <!-- Buttons and uploaded date -->
         <v-flex xs12 class="stage-btns">
           <div class="fl-l blue-grey--text text--lighten-1">
             {{$DCAPI.calcDate('', song.uploaded)}}
           </div>
           <div class="fl-r">
+            <!-- yt button -->
+            <youtube-button></youtube-button>
             <v-speed-dial class="stage-btn" direction="left" open-on-hover>
               <v-btn slot="activator" class="ma-0 pa-0" icon small hover fab>
                 <v-icon>fullscreen</v-icon>
@@ -57,13 +58,14 @@
             </v-speed-dial>
           </div>
         </v-flex>
+        <!-- Artist Picture -->
         <artist-info-mini :artistID="song.artistID" :source="song.source" :artist="song.artist" :key="song.artistID"></artist-info-mini>
-        <v-flex xs7 class="subheading text-xs-left pl-3 mt-3">
-          <!-- Artist name -->
+        <!-- Artist name + Song description -->
+        <v-flex xs12 lg7 class="subheading text-xs-left pl-3 mt-3">
           <strong>{{ song.artist }}</strong>
           <!-- Description -->
-          <v-flex >
-            <span style="subheading white-space: pre-line;" v-html="timeToSeconds(_description)"></span>
+          <v-flex>
+            <span class="subheading" style="white-space: pre-line;" v-html="timeToSeconds(_description)"></span>
           </v-flex>
         </v-flex>
         <!-- related -->
@@ -75,12 +77,14 @@
 <script>
 import artistInfo from '@/components/misc/song-info'
 import related from '@/components/routes/stage/stage-related'
+import youtubeVBtn from '@/components/misc/toggle-video-button'
   /* eslint-disable */
 export default {
   name: 'dc-stage',
   components: {
     'artist-info-mini': artistInfo,
-    'related': related
+    'related': related,
+    'youtube-button': youtubeVBtn
   },
   data () {
     return {
@@ -122,6 +126,8 @@ export default {
         this.$DCAPI.getSongDescription(this.current_trackID, this.song.source, (resp) => {
           this.description = resp.items[0].snippet.description.trim()
         })
+      } else {
+        this._description = this.song.description
       }
     }
   },
@@ -132,18 +138,38 @@ export default {
 </script>
 
 <style>
+.stg-pstr{
+  max-width: 100%;
+  height: auto;
+}
+.desc{
+  word-break: break-all;
+}
+.fl-l{
+  float: left;
+  margin-top: 10px;
+}
+.fl-r{
+  float: right;
+}
 #img-bg{
   background-color:black;
 }
-#stg-pstr{
+.stage-btns{
+  /* height: 36px; */
+  border-bottom: 1px solid teal;
+}
+.stage-btn{
+  float: right;
 }
 #dc-padding{
   padding: 0 16px;
 }
 .slider-wrapper{
+  float: right;
   /* display: inherit; */
   /* width: '100%'; */
   /* height: 70px; */
   /* padding: 0; */
-} 
+}
 </style>

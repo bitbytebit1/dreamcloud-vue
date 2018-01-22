@@ -6,7 +6,7 @@
     <v-card-title class="ma-0 pa-0">
       <v-layout row wrap>
         <!-- header buttons -->
-        <v-flex xs6 lg3 :class="this.$vuetify.breakpoint.name === 'xs' ? 'pt-2 text-xs-left header-buttons ma-0' : 'pt-2 header-buttons'">
+        <v-flex xs6 lg2 class="text-xs-left mt-2">
 
           <v-btn v-if="$store.getters.auth_state" @click="bSelect = !bSelect" icon>
             <v-icon :color="bSelect ? 'teal' : ''">check_box</v-icon>
@@ -21,7 +21,7 @@
           </v-btn>
         </v-flex>
         <!-- filter -->
-        <v-flex xs5 offset-lg0 lg9>
+        <v-flex xs5 offset-lg0 lg10>
           <v-text-field
             @focus="filterHasFocus = true"
             @blur="filterHasFocus = false"
@@ -37,7 +37,7 @@
         </v-flex>
 
         <!-- select buttons -->
-        <v-flex lg4 v-if="bSelect" class="text-xs-left select-buttons">
+        <v-flex xs6 lg3 v-if="bSelect" class="text-xs-left">
           <add-to-playlist key="multi" :disabled="selected.length == 0" v-if="$store.getters.auth_state" :song="selected"></add-to-playlist>
 
           <delete-button :disabled="selected.length == 0" v-if="$route.params.playlist" @delete="removeList"></delete-button>
@@ -54,7 +54,6 @@
       ref="dtable"
       :headers="headers"
       :items="songs"
-      :item-key="itemKey"
       :pagination.sync="pagination"
       :rows-per-page-items='[25, 50, 100, { text: "All", value: -1 }]'
       :search="search"
@@ -84,17 +83,17 @@
 
         <!-- artist -->
         <td :class="tdClass(props.item.mp32)">
-          <a v-if="!bSelect" @click.stop :class="artistClass" :href="shareArtistURL(props.item)">{{ props.item.artist }}</a>
+          <a v-if="!bSelect" @click.stop :class="artistClass(props.item.mp32)" :href="shareArtistURL(props.item)">{{ props.item.artist }}</a>
           <span :class="artistClass" v-else>{{ props.item.artist }}</span>
         </td>
 
         <!-- uploaded -->
-        <td :class="tdClass(props.item.mp32)" v-if="$vuetify.breakpoint.name !== 'xs'">
-          {{ date(props.item.uploaded) }}
+        <td :class="tdClass(props.item.mp32)">
+          {{ $vuetify.breakpoint.name !== 'xs' ? date(props.item.uploaded) : ''}}
         </td>
         <!-- actions -->
-        <td :class="tdClass(props.item.mp32)" @click.stop v-if="!bSelect">
-          <v-menu transition="slide-y-transition" bottom lazy open-on-hover>
+        <td :class="tdClass(props.item.mp32)" @click.stop>
+          <v-menu transition="slide-y-transition" bottom lazy open-on-hover v-if="!bSelect">
             <v-btn icon slot="activator">
               <v-icon>more_vert</v-icon>
             </v-btn>
@@ -181,10 +180,8 @@ export default {
     this.itemKey = this.$route.params.playlist ? 'key' : 'mp3'
   },
   computed: {
-    artistClass () {
-      return this.$store.getters.theme.dark ? 'artist-dark' : 'artist-light'
-    },
     sorted () {
+      //  returns the full sorted array for use with click
       if (this.$refs.dtable.pagination.rowsPerPage !== -1 && this.songs.length > this.$refs.dtable.pagination.rowsPerPage) {
         var a = this.$refs.dtable.pagination.rowsPerPage
         this.$refs.dtable.pagination.rowsPerPage = -1
@@ -200,6 +197,13 @@ export default {
     }
   },
   methods: {
+    artistClass (link) {
+      return {
+        'white--text': this.isPlaying(link),
+        'artist-dark': this.$store.getters.theme.dark,
+        'artist-light': this.$store.getters.theme.light
+      }
+    },
     addSong (song) {
       return this.bSelect && this.selected.length ? this.selected : song
     },
@@ -274,12 +278,12 @@ export default {
   }
 
   @media only screen and (max-width: 599px){
-    .header-buttons {
+    /* .header-buttons {
       margin-left: -9px !important;
     }
     .select-buttons{
       margin-left: -9px;
-    }
+    } */
     .menu{
       width: 45px;
     }
@@ -306,19 +310,19 @@ export default {
     }
   }
   @media only screen and (min-width: 600px){
-    .header-buttons {
+    /* .header-buttons {
       margin-left: -33px;
     }
     .select-buttons{
       margin-left: -1px;
-    }
+    } */
     td img[lazy=loading] {
       /* width: 61px !important; */
-      height: 50px;
+      width: 50px;
     }
     td img[lazy=loaded]{
       /* width: 61px; */
-      height: 50px;
+      width: 50px;
     }
     table td:first-child,
     table th:first-child{

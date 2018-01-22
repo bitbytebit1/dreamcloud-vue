@@ -1,5 +1,5 @@
 <template>
-    <v-flex xs12 sm4 lg3 flexbox @click="play" class="clm">
+    <v-flex xs12 sm4 lg3 flexbox @click="play">
       <v-card @mouseover="active = true" @mouseleave="active = false">
         <v-card-media
           v-lazy:background-image="song.posterLarge"
