@@ -1,5 +1,5 @@
 <template>
-    <v-fab-transition>
+    <v-fab-transition transition="slide-y-reverse-transition">
         <v-btn
           fixed
           bottom
@@ -7,7 +7,7 @@
           @click="scrollToTop"
           class="scrollToTop teal"
           outline 
-          icon 
+          icon  
         >
           <v-icon>{{showScrollToTop ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}</v-icon>
         </v-btn>
@@ -31,20 +31,23 @@ export default {
       }
     },
     handleScroll () {
-      let scrollTop = (window.pageYOffset !== undefined) ? window.pageYOffset
-      : (document.documentElement || document.body.parentNode || document.body).scrollTop
-      if (scrollTop === 0) {
+      var d = document.documentElement
+      var offset = d.scrollTop + window.innerHeight
+      var height = d.offsetHeight
+      // if bottom
+      if (offset === height) {
+        this.showScrollToTop = true
+      // if top
+      } else if (d.scrollTop === 0) {
         this.showScrollToTop = false
-      } else if (this.lastScrollTop < scrollTop) {
+      // if scroll down
+      } else if (this.lastScrollTop < d.scrollTop) {
         this.showScrollToTop = false
-      } else if (document.body.scrollHeight === scrollTop) {
-        alert('bottom!')
+      // if scroll up
       } else {
         this.showScrollToTop = true
       }
-      this.lastScrollTop = scrollTop
-      // this.showScrollToTop = scrollTop < this.lastScrollTop
-      // this.showScrollToTop = true
+      this.lastScrollTop = d.scrollTop
     }
   },
   created () {
