@@ -4,12 +4,13 @@
       <v-card-media v-lazy:background-image="song.poster" height="220px">
         <v-container grid-list-xs fill-height fluid>
           <v-layout fill-height>
-            <v-flex xs12 align-end flexbox>
-              <span class="title white--text breaker19 shadow" v-text="song.title"></span>
+            <v-flex xs12 align-end flexbox >
+                <span class="subheading white--text dc-title breaker19 shadow text-xs-center" v-text="song.title"></span>
               <br/>
-              <span class="subheading white--text breaker19 shadow" v-text="song.artist"></span>
-
-              </v-flex>
+              <div class="text-xs-right">
+                <span class="subheading white--text dc-artist breaker19 shadow text-xs-right" v-text="song.artist"></span>
+              </div>
+            </v-flex>
           </v-layout>
         </v-container>
       </v-card-media>
@@ -115,13 +116,23 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+.dc-title{
+  position: absolute;
+  top: 100px;
+  width: 100%;
+}
+.dc-artist{
+  position: absolute;
+  bottom: 0px;
+  right: 5px;
+}
 .breaker19{
   word-break: break-all;
   /* word-wrap: break-word; */
 }
 .shadow{
-  text-shadow: 4px 4px 8px black;
-  background: rgba(1, 1, 1, .1);
+  text-shadow: 0px 0px 5px black;
+  /* background: rgba(1, 1, 1, .1); */
 }
 .card__media[lazy=loading] {
   background: center center / cover no-repeat;
