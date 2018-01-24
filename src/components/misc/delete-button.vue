@@ -1,6 +1,6 @@
 <template>
   <v-btn v-bind="$props" class="del-btn" @click.stop="emitDelete" @mouseleave="clicks = clickedTwice ? 2 : 0" :color="color" icon>
-    <v-icon>{{dlIcn}}</v-icon>
+    <v-icon :color="clickedOnce  ? 'white': ''">{{dlIcn}}</v-icon>
   </v-btn>
 </template>
 <script>
