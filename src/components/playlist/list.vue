@@ -9,7 +9,7 @@
         <v-flex xs6 lg2 class="text-xs-left mt-2">
 
           <v-btn v-if="$store.getters.auth_state" @click="bSelect = !bSelect" icon>
-            <v-icon :color="bSelect ? 'teal' : ''">check_box</v-icon>
+            <v-icon :color="bSelect ? 'primary' : ''">check_box</v-icon>
           </v-btn>
 
           <v-btn icon @click="$emit('toggleView')">
@@ -17,7 +17,7 @@
           </v-btn>
 
           <v-btn icon @click="$refs.search.focus()">
-            <v-icon :color="filterHasFocus ? 'teal' : ''">filter_list</v-icon>
+            <v-icon :color="filterHasFocus ? 'primary' : ''">filter_list</v-icon>
           </v-btn>
         </v-flex>
         <!-- filter -->
@@ -25,7 +25,7 @@
           <v-text-field
             @focus="filterHasFocus = true"
             @blur="filterHasFocus = false"
-            color="teal"
+            color="primary"
             :class="$vuetify.breakpoint.smAndUp ? 'ma-0' : ''"
             label="Filter"
             single-line
@@ -61,39 +61,37 @@
       :select-all="bSelect"
       v-model="selected"
     >
+    <v-progress-linear slot="progress" color="primary" indeterminate></v-progress-linear>
+
     <template slot="items" slot-scope="props">
-      <tr @click.stop="!bSelect ? play(props.index) : props.selected = !props.selected">
-        <!-- {{props}} -->
+      <tr :key="props.index" :class="isPlaying(props.item.mp32) ? 'primary white-text' : ''" @click.stop="!bSelect ? play(props.index) : props.selected = !props.selected">
         <!-- check_box -->
-        <td :class="tdClass(props.item.mp32)" v-if="bSelect">
-          <v-checkbox :color="isPlaying(props.item.mp32) ? 'white' : 'teal'" hide-details v-model="props.selected"></v-checkbox>
+        <td v-if="bSelect">
+          <v-checkbox :color="isPlaying(props.item.mp32) ? 'white' : 'primary'" hide-details v-model="props.selected"></v-checkbox>
         </td>
 
         <!-- image -->
-        <td :class="tdClass(props.item.mp32)">
-          <img v-lazy="props.item.poster" :class="isPlaying(props.item.mp32) ? 'playing' : ''"/>
+        <td>
+          <img v-lazy="props.item.poster"/>
         </td>
 
-        <!-- title + xxxdescription -->
-        <td :class="tdClass(props.item.mp32)">
+        <!-- title -->
+        <td class="text-xs-left">
           <span :class="$vuetify.breakpoint.name === 'xs' ? 'caption' : 'body-1'">{{ props.item.title }}</span>
-          <!-- <p class="desc" v-if="isPlaying(props.item.mp32) && props.item.description">
-            {{props.item.description}}
-          </p> -->
         </td>
 
         <!-- artist -->
-        <td :class="tdClass(props.item.mp32)">
+        <td>
           <a v-if="!bSelect" @click.stop :class="artistClass(props.item.mp32)" :href="shareArtistURL(props.item)">{{ props.item.artist }}</a>
           <span :class="artistClass" v-else>{{ props.item.artist }}</span>
         </td>
 
         <!-- uploaded -->
-        <td :class="tdClass(props.item.mp32)">
+        <td>
           {{ $vuetify.breakpoint.name !== 'xs' ? date(props.item.uploaded) : ''}}
         </td>
         <!-- actions -->
-        <td :class="tdClass(props.item.mp32)" @click.stop>
+        <td @click.stop>
           <v-menu transition="slide-y-transition" bottom lazy open-on-hover v-if="!bSelect">
             <v-btn icon slot="activator">
               <v-icon>more_vert</v-icon>
@@ -179,7 +177,6 @@ export default {
   created () {
     // set key to use based on whether this is a playlist
     this.itemKey = this.$route.params.playlist ? 'key' : 'mp3'
-    console.log('key', this.itemKey)
   },
   computed: {
     sorted () {
@@ -201,7 +198,6 @@ export default {
   methods: {
     artistClass (link) {
       return {
-        'white--text': this.isPlaying(link),
         'artist-dark': this.$store.getters.theme.dark,
         'artist-light': this.$store.getters.theme.light
       }
@@ -229,15 +225,6 @@ export default {
     },
     shareArtistURL (song) {
       return '#/a/' + song.source + '/' + encodeURIComponent(song.artist) + '/' + song.artistID
-    },
-    tdClass (link) {
-      return {
-        'teal white--text': this.isPlaying(link),
-        'text-xs-left': true,
-        'caption': true,
-        'ma-0': true,
-        'pa-0': true
-      }
     },
     isPlaying (link) {
       if (this.$store.getters.index === -1) {

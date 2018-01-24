@@ -183,7 +183,6 @@ export default {
       // console.log(this.yt.getOptions('captions'))
     },
     ytReady (state) {
-      console.log('ready')
       this.$store.commit('ytObject', this.yt)
       this.$store.getters.ytObject.playVideo()
       window.dcYT = this.yt

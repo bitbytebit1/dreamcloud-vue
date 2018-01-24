@@ -132,7 +132,7 @@ export default {
 }
 .shadow{
   text-shadow: 0px 0px 5px black;
-  /* background: rgba(1, 1, 1, .1); */
+  background: rgba(1, 1, 1, .1);
 }
 .card__media[lazy=loading] {
   background: center center / cover no-repeat;
