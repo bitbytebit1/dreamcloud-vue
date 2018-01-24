@@ -54,6 +54,7 @@
       ref="dtable"
       :headers="headers"
       :items="songs"
+      :item-key="itemKey"
       :pagination.sync="pagination"
       :rows-per-page-items='[25, 50, 100, { text: "All", value: -1 }]'
       :search="search"
@@ -175,9 +176,10 @@ export default {
       ]
     }
   },
-  mounted () {
+  created () {
     // set key to use based on whether this is a playlist
     this.itemKey = this.$route.params.playlist ? 'key' : 'mp3'
+    console.log('key', this.itemKey)
   },
   computed: {
     sorted () {
