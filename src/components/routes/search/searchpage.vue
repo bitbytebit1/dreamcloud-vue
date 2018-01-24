@@ -74,9 +74,7 @@ export default {
         if (!d.length) {                                              // If no results stop infinite loading
           this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete')
         }
-        for (var i in d) {
-          this.searchResults.push(d[i])
-        }
+        this.searchResults.push(...d)
       }, '')
     }
   }

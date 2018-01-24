@@ -62,16 +62,9 @@ export default {
         this.loading = false
         if (!d.length) {                                    // If no results stop infinite loading
           state.complete()
-          // ^ fix ?
-          // this.$refs.infiniteLoading.stateChanger.complete()
-          // ^ This line may cause problems in the future
-          // this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete')
-          // ^ Proper way, but causes warning?
         }
-        for (var i in d) {
-          this.searchResults.push(d[i])
-        }
-        this.searchResults = this.$DCAPI.uniqueArray(this.searchResults)
+        this.searchResults.push(...d)
+
         // FAULTY this.searchResults = this.$DCAPI.uniqueArray(this.searchResults)
       }, '')
     }

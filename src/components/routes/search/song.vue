@@ -39,9 +39,7 @@ export default {
       this.searchResults = []
       this.$DCAPI.getSongInfo(sQuery, aSource, (d) => {
         this.loading = false
-        for (var i in d) {
-          this.searchResults.push(d[i])
-        }
+        this.searchResults.push(...d)
       }, '')
     }
   }
