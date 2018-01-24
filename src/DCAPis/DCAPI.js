@@ -15,6 +15,10 @@ import axios from 'axios'
 export
 class DCAPIClass {
   constructor () {
+    
+    // this.bcBase = 'https://dc-nodejs-backend-xdgwdxqavi.now.sh/' old
+    // this.bcBase = 'http://localhost:8000/'
+    this.bcBase = 'https://dc-nodejs-backend-ftjhiqutmh.now.sh/'
     this.sYtKey = '***REMOVED***'
     this.sScKey = '***REMOVED***'
     this.sVimeoKey = '***REMOVED***'
@@ -70,14 +74,12 @@ class DCAPIClass {
     }
   }
   bc (uid) {
-    // let base = 'https://dc-nodejs-backend-xdgwdxqavi.now.sh'
-    let base = 'http://localhost:8000'
     if (this.aQuery[uid].iPage && this.aQuery[uid].sArtist) {
       return
     }
     let url = this.aQuery[uid].sArtist
-      ? base + `/api/v2/getartist/${encodeURIComponent(atob(this.aQuery[uid].sArtist))}/`
-      : base + `/api/v2/albumswithtag/${this.aQuery[uid].sQuery}/${this.aQuery[uid].iPage + 1}`
+      ? this.bcBase + `api/v2/getartist/${encodeURIComponent(atob(this.aQuery[uid].sArtist))}/`
+      : this.bcBase + `api/v2/albumswithtag/${this.aQuery[uid].sQuery}/${this.aQuery[uid].iPage + 1}`
     return axios.get(url).then((resp) => {
       resp = resp.data
       for (var idx in resp) {
@@ -133,7 +135,8 @@ class DCAPIClass {
     var a
 
     if (this.aQuery[uid].bRelated) {
-      a = 'https://api.soundcloud.com/tracks/' + this.aQuery[uid].sArtist + '/related?linked_partitioning=1&limit=' + this.aQuery[uid].iLimit + 'client_id=' + this.sScKey
+      // a = 'https://api.soundcloud.com/tracks/' + this.aQuery[uid].sArtist + '/related?linked_partitioning=1&limit=' + this.aQuery[uid].iLimit + 'client_id=' + this.sScKey
+      a = 'https://api.soundcloud.com/tracks/' + this.aQuery[uid].sArtist + '/related?linked_partitioning=1&limit=' + this.aQuery[uid].iLimit + '&client_id=' + this.sScKey
     } else if (this.aQuery[uid].sArtist) {
       a = 'https://api.soundcloud.com/users/' + this.aQuery[uid].sArtist + '/tracks.json?linked_partitioning=1&limit=' + this.aQuery[uid].iLimit + '&client_id=' + this.sScKey
     } else {
@@ -188,7 +191,7 @@ class DCAPIClass {
           })
         } else {
           this.aQuery[uid].aResult = this.uniqueArray(this.aQuery[uid].aResult)
-            // console.log('sc success', this.aQuery[uid].aResult.length, 'was looking for', this.aQuery[uid].iLimit)
+          // console.log('sc success', this.aQuery[uid].aResult.length, 'was looking for', this.aQuery[uid].iLimit)
           resolve()
         }
       }).catch((err) => {
@@ -227,7 +230,7 @@ class DCAPIClass {
             '',                                              // duration:
             'https://dream.tribe.nu/r3/off/?q=' + z,         // mp3:
             z,                                               // mp32:
-            resp[idx].snippet.thumbnails.high.url,           // poster:
+            resp[idx].snippet.thumbnails.medium.url,         // poster:
             resp[idx].snippet.thumbnails.high.url,           // posterLarge:
             'YouTube',                                       // source:
             resp[idx].snippet.title,                         // title:
@@ -295,7 +298,7 @@ class DCAPIClass {
     } else if (source.toLowerCase().indexOf('mixcloud') > -1) {
       return axios.get('https://api.mixcloud.com/' + artistID + '/').then(hCallback)
     } else if (source.toLowerCase().indexOf('bandcamp') > -1) {
-      return axios.get('http://localhost:8000/api/v2/getartistinfo/' + encodeURIComponent(atob(artistID))).then(hCallback)
+      return axios.get(this.bcBase + 'api/v2/getartistinfo/' + encodeURIComponent(atob(artistID))).then(hCallback)
     } else {
       return (Promise.resolve(''))
     }
@@ -336,6 +339,8 @@ class DCAPIClass {
     } else if (source.toLowerCase().indexOf('soundcloud') > -1) {
       return axios.get('https://api.soundcloud.com/tracks/' + trackID + '?client_id=' + this.sScKey).then((resp) => {
         resp = resp.data
+        // alert(resp.data)
+        console.log(resp)
         this.pushResult(
           uid,
           resp.user.username,                                                     // artist:
@@ -396,6 +401,9 @@ class DCAPIClass {
   }
 
   calcDate (a, b) {
+    if (!a) {
+      a = new Date()
+    }
     if (typeof b !== Object) {
       b = new Date(b)
     }
