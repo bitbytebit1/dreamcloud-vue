@@ -72,6 +72,7 @@ export default {
           this.searchResults.push(d[i])
         }
         this.searchResults = this.$DCAPI.uniqueArray(this.searchResults)
+        // FAULTY this.searchResults = this.$DCAPI.uniqueArray(this.searchResults)
       }, '')
     }
   }
