@@ -128,6 +128,7 @@
       }
     },
     beforeCreate () {
+      console.log(!this.$vuetify.breakpoint.xsOnly)
       this.$store.commit('ytUseVideo', !this.$vuetify.breakpoint.xsOnly)
       this.$store.commit('authChange', !!this.$DCFB.fb.auth().currentUser)
       this.$DCFB.fb.auth().onAuthStateChanged((user) => {
