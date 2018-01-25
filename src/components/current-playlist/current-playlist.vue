@@ -45,22 +45,22 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
 .slide-fade-enter-active {
-  /* transition: all 2s;   */
+  transition: all 2s;  
   /* transform: rotate3d(0, 1, 0, -180deg); */
 }
 
 .slide-fade-leave-active {
-  /* transition: all 2s; */
+  transition: all 2s;
   /* transform: rotateY(-360deg); */
   /* transform: rotate3d(0, 1, 0, 18q0deg); */
 }
 
 .slide-fade-enter{
-  /* transition: all .5s; */
+  transition: all .5s;
   /* transform: rotateY(360deg); */
-  /* transition: all .5s; */
+  transition: all .5s;
   /* transform: rotate3d(1,2, -360deg, 360deg); */
-  /* opacity: 1; */
+  opacity: 1;
 }
 
 .slide-fade-leave-to{

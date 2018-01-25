@@ -317,7 +317,7 @@ export default {
     }
     table td:first-child,
     table th:first-child{
-      padding: 0 0 0 10px!important;
+      padding: 0 0 0 8px!important;
       /* normal value is 24 */
     }
   }
