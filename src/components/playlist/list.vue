@@ -64,7 +64,7 @@
     <v-progress-linear slot="progress" color="primary" indeterminate></v-progress-linear>
 
     <template slot="items" slot-scope="props">
-      <tr :key="props.index" :class="isPlaying(props.item.mp32) ? 'primary white-text' : ''" @click.stop="!bSelect ? play(props.index) : props.selected = !props.selected">
+      <tr :key="props.index" :class="isPlaying(props.item.mp32) ? 'primary white--text' : ''" @click.stop="!bSelect ? play(props.index) : props.selected = !props.selected">
         <!-- check_box -->
         <td v-if="bSelect">
           <v-checkbox :color="isPlaying(props.item.mp32) ? 'white' : 'primary'" hide-details v-model="props.selected"></v-checkbox>
@@ -94,7 +94,7 @@
         <td @click.stop>
           <v-menu transition="slide-y-transition" bottom lazy open-on-hover v-if="!bSelect">
             <v-btn icon slot="activator">
-              <v-icon>more_vert</v-icon>
+              <v-icon :color="isPlaying(props.item.mp32) ? 'white' : ''">more_vert</v-icon>
             </v-btn>
             <v-list>
               <v-list-tile v-if="$store.getters.auth_state">
@@ -198,8 +198,10 @@ export default {
   methods: {
     artistClass (link) {
       return {
+        'text-xs-left': true,
         'artist-dark': this.$store.getters.theme.dark,
-        'artist-light': this.$store.getters.theme.light
+        'artist-light': this.$store.getters.theme.light,
+        'white--text': this.isPlaying(link)
       }
     },
     addSong (song) {
