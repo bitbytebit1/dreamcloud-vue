@@ -139,8 +139,8 @@ export default {
 
 <style>
 .stg-pstr{
-  max-width: 100%;
-  height: auto;
+  width: 100%;
+  /* height: auto; */
 }
 .desc{
   word-break: break-all;
