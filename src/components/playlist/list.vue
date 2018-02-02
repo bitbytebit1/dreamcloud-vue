@@ -81,7 +81,7 @@
         </td>
 
         <!-- artist -->
-        <td>
+        <td v-if="!$route.params.artistID">
           <a v-if="!bSelect" @click.stop :class="artistClass(props.item.mp32)" :href="shareArtistURL(props.item)">{{ props.item.artist }}</a>
           <span :class="artistClass" v-else>{{ props.item.artist }}</span>
         </td>
@@ -168,13 +168,16 @@ export default {
       headers: [
         { text: '', align: 'left', sortable: false, value: 'name' },
         { text: 'Title', value: 'title', align: 'left' },
-        { text: 'Artist', value: 'artist', align: 'left' },
         { text: 'Date', value: 'uploaded', align: 'left' },
         { text: '', value: '', align: 'left', sortable: false }
       ]
     }
   },
   created () {
+    // if NOT on user page add artist add artist header for sorting
+    if (!this.$route.params.artistID) {
+      this.headers.splice(2, 0, { text: 'Artist', value: 'artist', align: 'left' })
+    }
     // set key to use based on whether this is a playlist
     this.itemKey = this.$route.params.playlist ? 'key' : 'mp3'
   },
