@@ -154,6 +154,12 @@ export default {
 }
 #img-bg{
   background-color:black;
+  /* make div not selectable */
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  user-select: none;
 }
 .stage-btns{
   /* height: 36px; */
