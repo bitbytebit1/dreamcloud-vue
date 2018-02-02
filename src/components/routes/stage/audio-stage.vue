@@ -138,9 +138,8 @@ export default {
 </script>
 
 <style>
-#stg-pstr{
-  width: 100%;
-  /* height: auto; */
+#stg-pstr {
+  width: 100% !important;
 }
 .desc{
   word-break: break-all;
