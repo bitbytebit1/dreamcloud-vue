@@ -138,9 +138,13 @@ export default {
 </script>
 
 <style>
-#stg-pstr {
+
+@media only screen and (max-width: 599px){
+  #stg-pstr {
   width: 100% !important;
+  }
 }
+
 .desc{
   word-break: break-all;
 }
