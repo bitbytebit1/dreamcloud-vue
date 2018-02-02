@@ -138,7 +138,7 @@ export default {
 </script>
 
 <style>
-.stg-pstr{
+#stg-pstr{
   width: 100%;
   /* height: auto; */
 }
