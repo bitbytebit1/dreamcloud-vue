@@ -117,9 +117,9 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
 .dc-title{
-  position: absolute;
-  top: 100px;
-  width: 100%;
+  min-height: 193px;
+  display: inline-flex;
+  align-items: center;
 }
 .dc-artist{
   position: absolute;
@@ -127,8 +127,7 @@ export default {
   right: 5px;
 }
 .breaker19{
-  word-break: break-all;
-  /* word-wrap: break-word; */
+  word-break: break-word;
 }
 .shadow{
   text-shadow: 0px 0px 5px black;
