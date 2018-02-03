@@ -30,7 +30,7 @@ export default {
   },
   computed: {
     aPlaylist () {
-      return this.$store.getters.current_Playlist.slice(this.$store.getters.index, this.$store.getters.index + (this.$UTILS.isMobile ? 1 : 5))
+      return this.$store.getters.current_Playlist.slice(this.$store.getters.index, this.$store.getters.index + (this.$UTILS.isMobile ? 10 : 10))
     }
   },
   methods: {
