@@ -65,7 +65,7 @@
           <strong>{{ song.artist }}</strong>
           <!-- Description -->
           <v-flex>
-            <span class="subheading" style="white-space: pre-line;" v-html="timeToSeconds(_description)"></span>
+            <span class="subheading" id="stg-dsc" v-html="timeToSeconds(_description)"></span>
           </v-flex>
         </v-flex>
         <!-- related -->
@@ -143,6 +143,9 @@ export default {
   #stg-pstr {
   width: 100% !important;
   }
+}
+#stg-desc{
+  word-break: break-word;
 }
 
 .desc{
