@@ -76,7 +76,7 @@
 </template>
 <script>
 import artistInfo from '@/components/misc/song-info'
-import related from '@/components/routes/stage/stage-related'
+import related from '@/components/stage/stage-related'
 import youtubeVBtn from '@/components/misc/toggle-video-button'
   /* eslint-disable */
 export default {

@@ -40,9 +40,9 @@ Vue.use(VueFire)
 import VueJsonp from 'vue-jsonp'
 Vue.use(VueJsonp)
 
-import audioStage from '@/components/routes/stage/audio-stage'
+import audioStage from '@/components/stage/audio-stage'
 Vue.component('audio-stage',audioStage)
-import videoStage from '@/components/routes/stage/video-stage'
+import videoStage from '@/components/stage/video-stage'
 Vue.component('video-stage',videoStage)
 
 let app

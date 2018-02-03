@@ -81,6 +81,7 @@ export default {
   methods: {
     play (index){
       // this.$store.commit.setNPlay(index, this.items)
+      window.scrollTo(0, 0)
       this.$store.commit('setNPlay', {songs: this.items, current: index, path: this.$route.path})
       return this.$DCPlayer.setNPlay(this.items, index)
     },

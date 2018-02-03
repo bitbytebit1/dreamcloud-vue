@@ -92,7 +92,7 @@
   import currentPlaylist from './components/current-playlist/current-playlist'
   import sidebar from './components/sidebar/sidebar'
   import youtubeVideo from './components/misc/youtube-video'
-  import stage from '@/components/routes/stage/stage'
+  import stage from '@/components/stage/stage'
   import showStage from '@/components/misc/show-stage.vue'
   import scrollToTop from '@/components/misc/scroll-to-top.vue'
 

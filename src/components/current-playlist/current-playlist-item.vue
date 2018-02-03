@@ -72,8 +72,6 @@ export default {
       artistID: `#/a/${this.song.source}/${encodeURIComponent(this.song.artist)}/${this.song.artistID}`
     }
   },
-  computed: {
-  },
   watch: {
     'show': 'ifShowGetDesc'
   },

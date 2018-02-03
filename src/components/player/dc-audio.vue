@@ -165,9 +165,7 @@ export default {
     transition: opacity .2s;
 }
 
-.vol-slider:hover {
-    /* opacity: 1; */
-}
+
 
 .vol-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
