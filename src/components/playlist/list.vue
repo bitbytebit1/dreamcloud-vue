@@ -272,6 +272,14 @@ export default {
   }
 
   @media only screen and (max-width: 599px){
+    td img[lazy=loading] {
+      /* width: 61px !important; */
+      height: 50px;
+    }
+    td img[lazy=loaded]{
+      /* width: 61px; */
+      height: 50px;
+    }
     /* .header-buttons {
       margin-left: -9px !important;
     }
@@ -312,11 +320,11 @@ export default {
     } */
     td img[lazy=loading] {
       /* width: 61px !important; */
-      width: 50px;
+      height: 50px;
     }
     td img[lazy=loaded]{
       /* width: 61px; */
-      width: 50px;
+      height: 50px;
     }
     table td:first-child,
     table th:first-child{
