@@ -1,13 +1,15 @@
 <template>
   <v-flex xs12 flexbox @click.stop="play" :key="index">
     <v-card>
+      <!-- image -->
       <v-card-media v-lazy:background-image="song.poster" height="220px">
         <v-container grid-list-xs fill-height fluid>
           <v-layout fill-height>
-            <v-flex xs12 align-end flexbox >
-                <span class="subheading white--text dc-title breaker19 shadow text-xs-center" v-text="song.title"></span>
-              <br/>
+            <v-flex xs12 align-end flexbox class="dc-title">
+              <!-- title -->
+              <span class="crt-ttl" v-text="song.title"></span>
               <div class="text-xs-right">
+                <!-- artist -->
                 <span class="subheading white--text dc-artist breaker19 shadow text-xs-right" v-text="song.artist"></span>
               </div>
             </v-flex>
@@ -15,34 +17,31 @@
         </v-container>
       </v-card-media>
 
+      <!-- song actions -->
       <v-card-actions>
-      
+        <!-- add to playlist -->
         <add-to-playlist :song="song"></add-to-playlist>
-        <!-- https://offcloud.netlify.com/ -->
-        
+        <!-- share button -->
         <share-button :song="song" :url="'https://offcloud.netlify.com/#/t/' + song.source + '/' + encodeURIComponent(song.artist) + '/' + song.trackID"></share-button>
-
+        <!-- download button -->
         <download-button :links="[song]"></download-button>
-
+        <!-- artist -->
         <v-btn icon @click.stop :href="artistID">
           <v-icon>person</v-icon>
         </v-btn>
+        <!-- open source -->
         <v-btn icon @click.stop target="_blank" :href="song.mp32">
           <v-icon>open_in_new</v-icon>
         </v-btn>
+        <!-- show desc -->
         <v-btn icon @click.stop.native="show = !show" :disabled="!desc">
           <v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
         </v-btn>
       </v-card-actions>
 
       <v-slide-y-transition v-if="show">
-        <!-- < XSS VULN v-html-->
-        <!-- malicous description could lead to xss -->
+          <!-- description -->
         <v-card-text @click.stop class="breaker19" v-html="ytTimeToSeconds(desc)">
-        <!-- v-html="ytTimeToSeconds(desc) -->
-        <!-- < XSS VULN v-html -->
-        <!-- {{desc | linkify}} -->
-          <!-- {{desc | ytTimeToSeconds}} -->
         </v-card-text>
       </v-slide-y-transition>      
     </v-card>
@@ -76,6 +75,13 @@ export default {
     'show': 'ifShowGetDesc'
   },
   methods: {
+    dcTimeToSeconds (value) {
+      if (!value) {
+        return ''
+      }
+      return (value.replace(/\n/g, '<br>').replace(/(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)([0-5]?\d)/g, `
+        <span class="underline" onClick="document.getElementById('dc-audio').currentTime = '$&'.split(':').reduce((acc,time) => (60 * acc) + +time)">$&</span>`))
+    },
     ytTimeToSeconds (value) {
       if (!value) {
         return ''
@@ -114,7 +120,17 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+.crt-ttl{
+  width: 100%;
+  text-align: center;
+  text-shadow: 0px 0px 5px black;
+  background: rgba(1, 1, 1, .1);
+  word-break: break-word;
+  font-size: 18px!important;
+  font-weight: 500;
+}
 .dc-title{
+  width: 100%;
   min-height: 193px;
   display: inline-flex;
   align-items: center;
