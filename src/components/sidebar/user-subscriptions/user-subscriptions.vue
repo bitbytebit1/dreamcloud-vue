@@ -27,8 +27,8 @@
         ripple
       >
         <v-list-tile-action color="green">
-          <v-avatar size='32px' slot='activator'>
-            <img :src="subItem['img']"/>
+          <v-avatar size='32px' slot='activator' >
+            <img :src="subItem['img']" :class="['sub-' + subItem['source']]">
           </v-avatar>
         </v-list-tile-action>
         <v-list-tile-content>
@@ -53,6 +53,9 @@ export default {
     }
   },
   methods: {
+    avatarOutline (source) {
+      return 'sub-' + source
+    },
     isPlaying (s, n, id) {
       return this.$store.getters.hash === '/a/' + s + '/' + encodeURIComponent(n) + '/' + id ? 'teal white--text' : ''
     },
@@ -72,6 +75,21 @@ export default {
 </script>
 
 <style>
+#subscription:hover .sub-MixCloud{
+  box-shadow: 0 0 0 2px rgba(39, 58, 75, 0.6);
+}
+#subscription:hover .sub-SoundCloud{
+  box-shadow: 0 0 0 2px rgba(255, 119, 0, 0.6);
+}
+#subscription:hover .sub-YouTube{
+  box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.6);
+}
+#subscription:hover .sub-Vimeo{
+  box-shadow: 0 0 0 2px rgba(26, 183, 234, 0.6);
+}
+#subscription:hover .sub-Bandcamp{
+  box-shadow: 0 0 0 2px rgba(98, 154, 169, 0.6);
+}
 .delete {
   display: none!important
 }
