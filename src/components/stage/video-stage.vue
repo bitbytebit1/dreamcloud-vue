@@ -126,8 +126,7 @@ export default {
         return ''
       }
       return (value.replace(/(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)([0-5]?\d)/g, 
-      `<span onClick="window.dcYT.seekTo('$&'.split(':').reduce((acc,time) => (60 * acc) + +time));" class="underline"
-      >$&</span>`))
+        `<span class="underline" onClick="window.dcYT.seekTo('$&'.split(':').reduce((acc,time) => (60 * acc) + +time));">$&</span>`))
     },
     // 
     fullscreen () {
@@ -212,7 +211,7 @@ export default {
 </script>
 
 <style>
-#stg-desc{
+#stg-dsc{
   white-space: pre-line;
   word-break: break-word;
 }
@@ -236,10 +235,9 @@ export default {
 #dc-padding{
   padding: 0 16px;
 }
-.slider-wrapper{
   /* display: inherit; */
   /* width: '100%'; */
   /* height: 70px; */
   /* padding: 0; */
-}
+/* } */
 </style>
