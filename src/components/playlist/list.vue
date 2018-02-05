@@ -72,7 +72,7 @@
 
         <!-- image -->
         <td>
-          <img v-lazy="props.item.poster"/>
+          <img class="mt-2" v-lazy="props.item.poster"/>
         </td>
 
         <!-- title -->
@@ -268,17 +268,17 @@ export default {
     max-height: 53px;
   }
   td img {
-    margin: 5px
+    margin: 2px
   }
 
   @media only screen and (max-width: 599px){
     td img[lazy=loading] {
       width: auto;
-      height: 50px;
+      height: 40px;
     }
     td img[lazy=loaded]{
       width: auto;
-      height: 50px;
+      height: 40px;
     }
     /* .header-buttons {
       margin-left: -9px !important;
@@ -304,12 +304,6 @@ export default {
       /* normal value is 24 */
     }
 
-    td img{
-      width: 35px;
-    }
-    img.playing{
-      width: 48px !important;
-    }
   }
   @media only screen and (min-width: 600px){
     /* .header-buttons {
