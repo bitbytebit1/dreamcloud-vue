@@ -87,8 +87,8 @@
         </td>
 
         <!-- uploaded -->
-        <td class="text-xs-left">
-          {{ $vuetify.breakpoint.name !== 'xs' ? date(props.item.uploaded) : ''}}
+        <td class="text-xs-left hidden-xs-only">
+          {{ date(props.item.uploaded)}}
         </td>
         <!-- actions -->
         <td @click.stop>
@@ -273,11 +273,11 @@ export default {
 
   @media only screen and (max-width: 599px){
     td img[lazy=loading] {
-      /* width: 61px !important; */
+      width: auto;
       height: 50px;
     }
     td img[lazy=loaded]{
-      /* width: 61px; */
+      width: auto;
       height: 50px;
     }
     /* .header-buttons {
@@ -291,7 +291,7 @@ export default {
     }
     /* table.table tbody td:not(:first-child),  */
     td:nth-child(2), td:nth-child(3), td:nth-child(4){
-      word-break: break-all;
+      word-break: break-word;
     }
     table td,
     table th:not(:first-child){
@@ -300,7 +300,7 @@ export default {
     }
     table td:first-child,
     table th:first-child{
-      padding: 0 0 0 5px!important;
+      padding: 0 0 0 1px!important;
       /* normal value is 24 */
     }
 
