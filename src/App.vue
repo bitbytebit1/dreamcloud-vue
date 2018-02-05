@@ -128,8 +128,9 @@
       }
     },
     beforeCreate () {
-      console.log(!this.$vuetify.breakpoint.xsOnly)
-      this.$store.commit('ytUseVideo', !this.$vuetify.breakpoint.xsOnly)
+      // if mobile disable youtube video
+      this.$store.commit('ytUseVideo', !this.$UTILS.isMobile)
+      // if set log in status
       this.$store.commit('authChange', !!this.$DCFB.fb.auth().currentUser)
       this.$DCFB.fb.auth().onAuthStateChanged((user) => {
         if (user) {
