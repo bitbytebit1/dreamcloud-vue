@@ -89,7 +89,9 @@ export default {
       return this.$vuetify.breakpoint.name
     },
     fixedSongs () {
-      for (let song in this.songs) {
+      this.fixd = this.songs
+      for (let song in this.fixd) {
+        // console.log(this.fixd[song])
         if (!(this.fixd[song].uploaded instanceof Date)) {
           this.fixd[song].uploaded = new Date(this.fixd[song].uploaded)
         } else {
