@@ -33,7 +33,7 @@ export default {
       results.push(this.$DCAPI.searchInt(0 , 0, [this.subscriptions[sub].source], this.subscriptions[sub].id, 
       (songs) =>{
         this.aSongs = this.aSongs.concat(songs)
-      }, false, 5).then(() =>{
+      }, false, 25).then(() =>{
         // console.log('done')
         this.loading = false
       }))
