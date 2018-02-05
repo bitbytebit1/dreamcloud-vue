@@ -27,11 +27,8 @@ export default {
   },
   methods: {
     bind (usr, plylist) {
+      // this.$unbind('aSongs')
       this.$bindAsArray('aSongs', this.$DCFB.playlistGet(this.$route.params.user, this.$route.params.playlist))
-    },
-    _routChanged () {
-      this.$unbind('aSongs')
-      this.bind(this.$route.params.user, this.$route.params.playlist)
     }
   }
   // firebase () {

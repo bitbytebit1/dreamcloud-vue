@@ -92,7 +92,7 @@ export default {
       this.$DCAPI.searchInt('', 0, [this.song.source], this.song.trackID, (d) => {
         this.loading = false
         if (d[0].trackID == this.song.trackID) {
-          alert('removing dupe first')
+          // alert('removing dupe first')
           d.shift()
         }
         this.items = d
