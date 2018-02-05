@@ -87,7 +87,7 @@
         </td>
 
         <!-- uploaded -->
-        <td>
+        <td class="text-xs-left">
           {{ $vuetify.breakpoint.name !== 'xs' ? date(props.item.uploaded) : ''}}
         </td>
         <!-- actions -->
