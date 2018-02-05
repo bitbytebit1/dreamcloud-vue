@@ -53,9 +53,6 @@ export default {
     }
   },
   methods: {
-    avatarOutline (source) {
-      return 'sub-' + source
-    },
     isPlaying (s, n, id) {
       return this.$store.getters.hash === '/a/' + s + '/' + encodeURIComponent(n) + '/' + id ? 'teal white--text' : ''
     },
