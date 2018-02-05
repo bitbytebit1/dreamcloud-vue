@@ -16,6 +16,10 @@
             {{$DCAPI.calcDate('', song.uploaded)}}
           </div>
           <div class="fl-r">
+            <!-- closed captions -->
+            <v-btn :disabled="!ccTracks" class="ma-0 pa-0" icon small hover fab @click="toggleCC">
+              <v-icon :color="cc ? 'white' : 'grey'">subtitles</v-icon>
+            </v-btn>
             <!-- yt button -->
             <youtube-button></youtube-button>
 
@@ -29,18 +33,7 @@
                 </v-btn>
               </div>
             </v-speed-dial>
-            
-            <v-speed-dial direction="left" class="stage-btn" open-on-hover>
-              <v-btn slot="activator" class="ma-0 pa-0" icon small :nudge-bottom="25" hover fab>
-                <v-icon>more_vert</v-icon>
-              </v-btn>
-              <div class="slider-wrapper">
-                <v-btn icon fab>
-                  <v-icon>people</v-icon>
-                </v-btn>
-              </div>
-            </v-speed-dial>
-
+          
             <!-- fullscreen button -->
             <v-btn @click="fullscreen" class="ma-0 pa-0" icon small hover fab>
               <v-icon>fullscreen</v-icon>
@@ -77,6 +70,8 @@ export default {
   },
   data () {
     return {
+      ccTracks: [],
+      cc: false,
       yt: '',
       interval: '',
       description: '',
@@ -103,13 +98,13 @@ export default {
   },
   updated () {
     // console.log('yt-stage updated', !this.$store.getters.ytSwitchTime)
+    // if new song
     if (this.$store.getters.isYT && this.currentID != this.current_trackID && this.$store.getters.ytUseVideo && !this.$store.getters.ytSwitchTime) {
       this.currentID = this.current_trackID
+      // if not already attached to iframe
       if (!this.$store.getters.ytObject.hasOwnProperty('loadVideoById')) {
-        // console.log('loading')
         this.ytBind()
       } else {
-        // console.log('loading')
         this.$store.getters.ytObject.loadVideoById(this.current_trackID)
       }
       this.getDesc()
@@ -119,8 +114,18 @@ export default {
       // It's tied to the div above, there's a much better way to do this.
       this.currentID = this.current_trackID
     }
+  
+    this.ccTracks = this.yt.getOption('captions', 'tracklist')
   },
   methods: {
+    toggleCC () {
+      this.cc = !this.cc
+      if (this.cc) {
+        this.yt.loadModule("captions")
+      } else {
+        this.yt.unloadModule("captions")
+      }
+    },
     timeToSeconds (value) {
       if (!value) {
         return ''
@@ -235,6 +240,7 @@ export default {
 #dc-padding{
   padding: 0 16px;
 }
+/* .slider-wrapper{ */
   /* display: inherit; */
   /* width: '100%'; */
   /* height: 70px; */
