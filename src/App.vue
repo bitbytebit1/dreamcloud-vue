@@ -64,9 +64,9 @@
             <stage></stage>
           </v-flex>
           <transition name="fade" mode="out-in">
-            <keep-alive>
+            <!-- <keep-alive> -->
               <router-view></router-view>
-            </keep-alive>
+            <!-- </keep-alive> -->
           </transition>
         </v-layout>
       <!-- </v-container> -->
