@@ -5,7 +5,7 @@
       <v-card-media v-lazy:background-image="song.poster" height="220px">
         <v-container grid-list-xs fill-height fluid>
           <v-layout fill-height>
-            <v-flex xs12 align-end flexbox class="dc-title">
+            <v-flex xs12 align-center flexbox class="dc-title">
               <!-- title -->
               <span class="crt-ttl" v-text="song.title"></span>
               <div class="text-xs-right">

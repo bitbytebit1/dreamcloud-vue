@@ -17,7 +17,7 @@
           </div>
           <div class="fl-r">
             <!-- closed captions -->
-            <v-btn :disabled="!ccTracks" class="ma-0 pa-0" icon small hover fab @click="toggleCC">
+            <v-btn class="ma-0 pa-0" icon small hover fab @click="toggleCC">
               <v-icon :color="cc ? 'white' : 'grey'">subtitles</v-icon>
             </v-btn>
             <!-- yt button -->
@@ -70,7 +70,6 @@ export default {
   },
   data () {
     return {
-      ccTracks: [],
       cc: false,
       yt: '',
       interval: '',
@@ -114,8 +113,6 @@ export default {
       // It's tied to the div above, there's a much better way to do this.
       this.currentID = this.current_trackID
     }
-  
-    this.ccTracks = this.yt.getOption('captions', 'tracklist')
   },
   methods: {
     toggleCC () {

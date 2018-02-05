@@ -15,8 +15,11 @@
         ></current-playlist-item> -->
       </transition-group>
       <infinite-loading distance="420" :key="aPlaylist.length" v-if="aPlaylist.length" class="flex xs12" ref="infiniteLoading2"  @infinite="infiniteHandler" spinner="default">
+        <span slot="no-results">
+          End of the line kiddo
+        </span>
         <span slot="no-more">
-          End of the line, Kiddo
+          End of the line kiddo
         </span>
         <span slot="spinner">
           <v-flex class="text-xs-center">
