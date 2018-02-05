@@ -6,7 +6,7 @@
         v-for="(song, index) in aPlaylist"
         :song="song"
         :index="index"
-        :key="index"
+        :key="song.trackID"
         ></current-playlist-item>
         <!-- <current-playlist-item
         :song="$store.getters.current_song"
@@ -14,6 +14,16 @@
         :key="$store.getters.current_song.trackID"
         ></current-playlist-item> -->
       </transition-group>
+      <infinite-loading distance="420" :key="aPlaylist.length" v-if="aPlaylist.length" class="flex xs12" ref="infiniteLoading2"  @infinite="infiniteHandler" spinner="default">
+        <span slot="no-more">
+          End of the line, Kiddo
+        </span>
+        <span slot="spinner">
+          <v-flex class="text-xs-center">
+            <v-progress-circular indeterminate color="primary"></v-progress-circular>
+          </v-flex>
+        </span>
+      </infinite-loading>
     </v-layout>
   </v-container>
 </template>
@@ -21,19 +31,45 @@
 <script>
 import item from './current-playlist-item'
 // import vueNiceScrollbar from 'vue-nice-scrollbar'
+import InfiniteLoading from 'vue-infinite-loading'
 
 export default {
   name: 'current-playlist',
+  data () {
+    return {
+      numberOfItems: 5
+    }
+  },
   components: {
+    'infinite-loading': InfiniteLoading,
     'current-playlist-item': item
-    // 'vueNiceScrollbar': vueNiceScrollbar
   },
   computed: {
     aPlaylist () {
-      return this.$store.getters.current_Playlist.slice(this.$store.getters.index, this.$store.getters.index + (this.$UTILS.isMobile ? 10 : 10))
+      return this.$store.getters.current_Playlist.slice(this.$store.getters.index, this.$store.getters.index + this.numberOfItems)
+      // return this.$store.getters.current_Playlist.slice(this.$store.getters.index, this.$store.getters.index + this.$store.getters.current_Playlist.length)
     }
   },
   methods: {
+    infiniteHandler ($state) {
+      this.numberOfItems += 5
+      var tmp = Math.min(this.$store.getters.current_Playlist.length, this.$store.getters.index + this.numberOfItems)
+      // alert(tmp)
+      if (tmp === this.$store.getters.current_Playlist.length) {
+        $state.complete()
+      } else {
+        $state.loaded()
+      }
+      // alert('11')
+      // this.numberOfItems = Math.min(this.$store.getters.current_Playlist.length, this.$store.getters.index + 5)
+      // alert(this.$store.getters.current_Playlist.length - this.$store.getters.index + ' ' + this.numberOfItems)
+      // // this.$nextTick(() => {
+      // if (this.$store.getters.current_Playlist.length - this.$store.getters.index === this.numberOfItems) {
+      //   $state.complete()
+      // } else {
+      // }
+      // })
+    },
     play (index) {
       this.$store.commit('changeIndex', index)
       this.$DCPlayer.playIndex(index)
