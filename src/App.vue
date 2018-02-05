@@ -176,7 +176,7 @@
       height: 75px !important;
     }
     .maCont{
-      padding-bottom: 42px;
+      padding-bottom: 84px!important;
     }
   }
 
