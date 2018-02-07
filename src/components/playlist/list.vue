@@ -174,6 +174,10 @@ export default {
     }
   },
   created () {
+    /* 
+      lyrics lost in the code
+    */
+
     // if NOT on user page add artist add artist header for sorting
     if (!this.$route.params.artistID) {
       this.headers.splice(2, 0, { text: 'Artist', value: 'artist', align: 'left' })
