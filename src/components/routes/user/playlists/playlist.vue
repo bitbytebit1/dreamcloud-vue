@@ -2,7 +2,7 @@
   <v-flex xs12 lg10 flexbox :key="this.$route.params.playlist">
     <!-- <h3>{{name}}</h3> -->
     <!-- show all items since it's a user playlist -->
-    <playlist :songs="aSongs" rowsPerPage='75'></playlist>
+    <playlist :songs="aSongs" rowsPerPage='72'></playlist>
   </v-flex>
 </template>
 <script>

@@ -1,7 +1,7 @@
 <template>
   <v-select
     class="vselect pt-4"
-    label="Search"
+    label="Dream"
     autocomplete
     :loading="loading"
     :items="items"

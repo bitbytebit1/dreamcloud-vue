@@ -1,5 +1,6 @@
 export default {
   state: {
+    view_mode: true,
     auth_state: false,
     bShowStage: true,
     settings: {
@@ -8,6 +9,12 @@ export default {
     }
   },
   mutations: {
+    // view_mode (state, payload) {
+    //   state.view_mode = payload
+    // },
+    view_mode_toggle (state, payload) {
+      state.view_mode = !state.view_mode
+    },
     bShowStage (state, payload) {
       state.bShowStage = payload
     },
@@ -22,6 +29,7 @@ export default {
     }
   },
   getters: {
+    view_mode: state => state.view_mode,
     bShowStage: state => state.bShowStage,
     auth_state: state => state.auth_state,
     ytVideo: state => Boolean(state.settings['Video']),

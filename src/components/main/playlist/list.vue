@@ -5,27 +5,27 @@
       <v-card-title class="ma-0 pa-0">
         <v-layout row wrap>
           <!-- header buttons -->
-          <v-flex xs6 lg2 class="text-xs-left mt-2">
+          <v-flex xs12 lg2 class="text-xs-left mt-2">
             <!-- enable check boxes -->
             <v-btn v-if="$store.getters.auth_state" @click="bSelect = !bSelect" icon>
               <v-icon :color="bSelect ? 'primary' : ''">check_box</v-icon>
             </v-btn>
             <!-- toggle view -->
             <v-btn icon @click="$emit('toggleView')">
-              <v-icon>view_module</v-icon>
+              <v-icon>{{view_mode ? 'view_module' : 'view_list'}}</v-icon>
             </v-btn>
             <!-- focus search bar button -->
             <v-btn icon @click="$refs.search.focus()" v-if="!search.length">
               <v-icon :color="filterHasFocus ? 'primary' : ''">filter_list</v-icon>
             </v-btn>
-            <v-btn icon v-else @click="search = ''">
+            <v-btn icon v-else @click="$refs.search.focus()">
               <v-icon color="primary">
                 clear
               </v-icon>
             </v-btn>
           </v-flex>
           <!-- filter -->
-          <v-flex xs5 offset-lg0 lg10>
+          <v-flex xs10 offset-xs1 offset-lg0 lg9>
             <v-text-field
               @focus="filterHasFocus = true"
               @blur="filterHasFocus = false"
@@ -81,6 +81,10 @@
             <td>
               <img class="mt-2" v-lazy="props.item.poster"/>
             </td>
+            <!-- duration -->
+            <td>
+              {{props.item.duration}}
+            </td>
 
             <!-- artist -->
             <td v-if="!$route.params.artistID">
@@ -106,7 +110,7 @@
                     <download-button :links="bSelect ? selected :[props.item]"></download-button>
                   </v-list-tile>
                   <v-list-tile>
-                    <share-button :song="props.item" :url="'https://offcloud.netlify.com/#/t/' + props.item.source + '/' + encodeURIComponent(props.item.artist) + '/' + props.item.trackID"></share-button>
+                    <share-button :song="props.item" :url="'https://dreamcloud.netlify.com/#/t/' + props.item.source + '/' + encodeURIComponent(props.item.artist) + '/' + props.item.trackID"></share-button>
                   </v-list-tile>
                   <v-list-tile v-if="props.item.key">
                     <delete-button :id="props.item.key" @delete="bSelect ? removeList() : remove(props.item.key)"></delete-button>
@@ -127,6 +131,7 @@ import addToPlaylist from '@/components/misc/add-to-playlist.vue'
 import deleteButton from '@/components/misc/delete-button'
 import shareButton from '@/components/misc/share-button'
 import downloadButton from '@/components/misc/download-button'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'list',
@@ -168,10 +173,11 @@ export default {
       ],
       today: new Date(),
       headers: [
-        { text: '', align: 'left', sortable: false, value: 'name' },
         { text: 'Title', value: 'title', align: 'left' },
-        { text: 'Date', value: 'uploaded', align: 'left' },
-        { text: 'Source', value: 'source', align: 'left' }
+        { text: 'Source', value: 'source', align: 'left' },
+        { text: 'Duration', value: 'duration', align: 'left' },
+        // { text: 'Artist', value: 'artist', align: 'left' },
+        { text: '', value: '', align: 'left' }
       ]
     }
   },
@@ -203,12 +209,18 @@ export default {
     */
     // if NOT on user page add artist add artist header for sorting
     if (!this.$route.params.artistID) {
-      this.headers.splice(2, 0, { text: 'Artist', value: 'artist', align: 'left' })
+      this.headers.splice(3, 0, { text: 'Artist', value: 'artist', align: 'left' })
+    }
+    if (!this.$UTILS.isMobile) {
+      this.headers.splice(4, 0, { text: 'Date', value: 'uploaded', align: 'left' })
     }
     // set key to use based on whether this is a playlist
     this.itemKey = this.$route.params.playlist ? 'key' : 'mp3'
   },
   computed: {
+    ...mapGetters({
+      view_mode: 'view_mode'
+    }),
     sorted () {
       //  returns the full sorted array for use with click
       if (this.$refs.dtable.pagination.rowsPerPage !== -1 && this.songs.length > this.$refs.dtable.pagination.rowsPerPage) {

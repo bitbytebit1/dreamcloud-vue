@@ -8,11 +8,12 @@
 import { mapGetters } from 'vuex'
 export default {
   name: 'stage-route',
-  props: ['source', 'artist', 'trackID'],
+  // props: ['source', 'artist', 'trackID'],
+  props: ['trackID'],
   computed: {
-    ...mapGetters({
-      song: 'current_song',
-    })
+    // ...mapGetters({
+    //   song: 'current_song',
+    // })
   },
   mounted () {
     // if (!this.song || this.song.trackID !== this.trackID) {

@@ -12,7 +12,7 @@
             </v-btn>
             <!-- toggle view -->
             <v-btn icon @click="$emit('toggleView')">
-              <v-icon>view_module</v-icon>
+              <v-icon>{{view_mode ? 'view_module' : 'view_list'}}</v-icon>
             </v-btn>
             <!-- focus search bar button -->
             <v-btn icon @click="$refs.search.focus()" v-if="!search.length">
@@ -61,7 +61,7 @@
         :headers="headers"
         :items="songs"
         :pagination.sync="pagination"
-        :rows-per-page-items='[25, 50, 100, { text: "All", value: -1 }]'
+        :rows-per-page-items='[24, 50, 100, { text: "All", value: -1 }]'
         :search="search"
         :select-all="bSelect"
         v-model="selected"
@@ -78,7 +78,11 @@
           lg3
           @click="play(props.index)"
         >
-          <v-card class="dc-crd ma-0 pa-0" :color="isPlaying(props.item.mp32)">
+          <v-card class="dc-crd ma-0 pa-0" :color="cardColor(props)">
+            <!-- check_box -->
+            <!-- <v-checkbox v-if="bSelect" :color="isPlaying(props.item.mp32)" hide-details v-model="props.selected"></v-checkbox> -->
+            <!-- <td v-if="bSelect">
+            </td> -->
             <!-- image -->
             <v-card-media :src="props.item.poster" height="150px" contain></v-card-media>
             <v-card-title primary-title>
@@ -121,7 +125,6 @@ export default {
       search: '',
       today: new Date(),
       loading: false,
-      rowsPerPageItems: [25, 50, 100],
       pagination: {
         rowsPerPage: this.rowsPerPage
       },
@@ -141,7 +144,8 @@ export default {
       auth_state: 'auth_state',
       index: 'index',
       hash: 'hash',
-      current_song: 'current_song'
+      current_song: 'current_song',
+      view_mode: 'view_mode'
     }),
     sorted () {
       //  returns the full sorted array for use with click
@@ -157,6 +161,21 @@ export default {
     }
   },
   methods: {
+    cardClick (prop) {
+      if (this.bSelect) {
+        // alert('1')
+        prop.selected = true
+        return
+      }
+      this.play(prop.index)
+    },
+    cardColor (prop) {
+      if (this.bSelect) {
+        return prop.selected ? 'primary' : ''
+      } else {
+        return this.isPlaying(prop.item.mp32)
+      }
+    },
     play (index) {
       // Fix for mobile on first play
       if (this.$store.getters.index === -1 && this.$UTILS.isMobile) this.$DCPlayer.eAudio.play()

@@ -3,7 +3,7 @@
 
     <loading :show="loading" spinner="waveDots"></loading>
 
-    <playlist v-if="!loading" rowsPerPage='75' :songs="searchResults"></playlist>  
+    <playlist v-if="!loading" rowsPerPage='72' :songs="searchResults"></playlist>  
     <infinite-loading :distance="210" ref="infiniteLoading" v-if="!loading" @infinite="infiniteHandler" spinner="waveDots">    
       <span slot="no-more"></span>
     </infinite-loading>

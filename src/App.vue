@@ -63,9 +63,9 @@
             <stage></stage>
           </v-flex>
           <transition name="fade" mode="out-in">
-            <!-- <keep-alive> -->
+            <keep-alive>
               <router-view></router-view>
-            <!-- </keep-alive> -->
+            </keep-alive>
           </transition>
         </v-layout>
       <!-- </v-container> -->
@@ -165,17 +165,11 @@
       padding: 0 !important;
       height: 55px !important;
     }
-    .maCont{
-      padding-bottom: 21px;
-    }
   }
   @media only screen and (max-width: 599px){
     #foot{
       padding: 0 !important;
       height: 75px !important;
-    }
-    .maCont{
-      padding-bottom: 84px!important;
     }
   }
 

@@ -22,7 +22,7 @@
         <!-- add to playlist -->
         <add-to-playlist :song="song"></add-to-playlist>
         <!-- share button -->
-        <share-button :song="song" :url="'https://offcloud.netlify.com/#/t/' + song.source + '/' + encodeURIComponent(song.artist) + '/' + song.trackID"></share-button>
+        <share-button :song="song" :url="'https://dreamcloud.netlify.com/#/t/' + song.source + '/' + encodeURIComponent(song.artist) + '/' + song.trackID"></share-button>
         <!-- download button -->
         <download-button :links="[song]"></download-button>
         <!-- artist -->
@@ -98,16 +98,14 @@ export default {
         </span>`))
     },
     ifShowGetDesc (newVal) {
-      if (newVal) {
+      if (newVal && this.song.source === 'YouTube') {
         this.getDesc()
       }
     },
     getDesc () {
-      if (this.song.source === 'YouTube') {
-        this.$DCAPI.getSongDescription(this.song.trackID, this.song.source, (resp) => {
-          this.desc = resp.items[0].snippet.description
-        })
-      }
+      this.$DCAPI.getSongDescription(this.song.trackID, this.song.source, (resp) => {
+        this.desc = resp.items[0].snippet.description
+      })
     },
     play () {
       if (this.index === this.$store.getters.index) {
@@ -125,9 +123,6 @@ export default {
       } else {
         this.$parent.$parent.play(this.index + this.$store.getters.index)
       }
-    },
-    share () {
-      this.$UTILS.share('https://offcloud.netlify.com/#/t/' + this.song.source + '/' + encodeURIComponent(this.song.artist) + '/' + this.song.trackID, this.song)
     }
   }
 }

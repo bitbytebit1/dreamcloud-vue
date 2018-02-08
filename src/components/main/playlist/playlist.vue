@@ -11,6 +11,7 @@
 <script>
 import grid from './grid'
 import list from './list'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'playlist',
@@ -43,11 +44,14 @@ export default {
   data () {
     return {
       showScrollToTop: false,
-      list: this.viewType.list,
+      // list: this.viewType.list,
       fixd: this.songs
     }
   },
   computed: {
+    ...mapGetters({
+      list: 'view_mode'
+    }),
     _size () {
       // returns xs to xl depending on view port.
       // used to set padding around elements.
@@ -75,14 +79,24 @@ export default {
       this.songs.sort(this.$DCAPI.sortDate)
     },
     toggleView () {
-      this.list = !this.list
+      this.$store.commit('view_mode_toggle')
     }
   }
 }
 </script>
 
 <style>
-#search-results{
-  margin-bottom: 10px
-}
+
+  @media only screen and (min-width: 600px){
+    .search-results{
+      margin-top: 15px!important;
+      margin-bottom: 35px!important;
+    }
+  }
+
+  @media only screen and (max-width: 599px){
+    .search-results{
+      margin-bottom: 42px!important;
+    }
+  }
 </style>
