@@ -85,13 +85,13 @@
 </template>
 
 <script>
-  import search from './components/navbar/search'
-  import dcAudio from './components/player/dc-audio'
-  import dcYoutube from './components/player/dc-youtube'
-  import currentPlaylist from './components/current-playlist/current-playlist'
-  import sidebar from './components/sidebar/sidebar'
+  import search from './components/header/search'
+  import dcAudio from './components/footer/dc-audio'
+  import dcYoutube from './components/footer/dc-youtube'
+  import currentPlaylist from './components/sidebar-right/current-playlist'
+  import sidebar from './components/sidebar-left/sidebar'
   import youtubeVideo from './components/misc/youtube-video'
-  import stage from '@/components/stage/stage'
+  import stage from '@/components/main/stage/stage'
   import showStage from '@/components/misc/show-stage.vue'
   import scrollToTop from '@/components/misc/scroll-to-top.vue'
   export default {

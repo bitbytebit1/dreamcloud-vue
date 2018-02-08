@@ -76,8 +76,8 @@
   </v-layout>
 </template>
 <script>
+import related from '@/components/main/stage/stage-related'
 import artistInfo from '@/components/misc/song-info'
-import related from '@/components/stage/stage-related'
 import youtubeVBtn from '@/components/misc/toggle-video-button'
 import explode from '@/components/misc/explode'
   /* eslint-disable */

@@ -4,7 +4,7 @@
         <!-- <button class="btn btn-primary" @click='sort'>Sort Date</button>   -->
         <!-- <button class="btn btn-primary" @click='toggleView'>Toggle Playlist View</button> -->
       <!-- </div> -->
-      <v-container fluid class="grid-list-sm">
+      <v-container fluid class="grid-list-xs search-results">
         <v-layout row wrap>
           <column v-if="!list" :songs="fixedSongs" :rowsPerPage="rowsPerPage" :sortBy="sortBy" @toggleView="toggleView"></column>
           <list v-else :songs="fixedSongs" :rowsPerPage="rowsPerPage" :sortBy="sortBy" @toggleView="toggleView"></list>
@@ -18,8 +18,8 @@
   </v-flex>
 </template>
 <script>
-// import column from './column'
-import column from './list.2.vue'
+import column from './column'
+// import column from './list.2.vue'
 import list from './list'
 
 export default {

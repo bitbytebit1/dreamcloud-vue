@@ -6,20 +6,9 @@
 /* eslint-disable */
 
 import { mapGetters } from 'vuex'
-import deleteButton from '@/components/misc/delete-button'
 export default {
   name: 'stage-route',
   props: ['source', 'artist', 'trackID'],
-  data () {
-    return {
-      x1: 'deleteme?'
-    }
-  },
-  methods: {
-    x2 () {
-
-    }
-  },
   computed: {
     ...mapGetters({
       song: 'current_song',
@@ -51,11 +40,6 @@ export default {
   },
   destroyed () {
     this.$store.commit('bShowStage', false)
-  },
-  computed: {
-    x3 () {
-      
-    }
   }
 }
 </script>

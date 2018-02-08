@@ -8,7 +8,7 @@
 /* eslint-disable */
 import axios from 'axios'
 import {DCAPIClass} from '@/DCAPIs/DCAPI.js'
-import playlist from '@/components/playlist/playlist'
+
 import loading from '@/components/misc/loading'
 export default {
   name: 'home', 

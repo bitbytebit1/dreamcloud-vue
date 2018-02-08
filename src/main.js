@@ -40,10 +40,12 @@ Vue.use(VueFire)
 import VueJsonp from 'vue-jsonp'
 Vue.use(VueJsonp)
 
-import audioStage from '@/components/stage/audio-stage'
-Vue.component('audio-stage',audioStage)
-import videoStage from '@/components/stage/video-stage'
-Vue.component('video-stage',videoStage)
+import audioStage from '@/components/main/stage/audio-stage'
+Vue.component('audio-stage', audioStage)
+import videoStage from '@/components/main/stage/video-stage'
+Vue.component('video-stage', videoStage)
+import playlist from '@/components/main/playlist/playlist.vue'
+Vue.component('playlist', playlist)
 
 let app
 

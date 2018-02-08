@@ -17,7 +17,7 @@
   </v-flex>
 </template>
 <script>
-import subscribeButton from '@/components/routes/artist/subscribe-button'
+import subscribeButton from '@/components/misc/subscribe-button'
 export default {
   name: 'song-mini',
   props: ['artistID', 'source', 'artist'],

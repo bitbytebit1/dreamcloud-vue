@@ -20,7 +20,6 @@
 import loading from '@/components/misc/loading'
 import InfiniteLoading from 'vue-infinite-loading'
 import artistInfo from './artist-info.vue'
-import playlist from '@/components/playlist/playlist'
 
 export default {
   name: 'artist',
@@ -28,8 +27,7 @@ export default {
   components: {
     'artist-info': artistInfo,
     'infinite-loading': InfiniteLoading,
-    'loading': loading,
-    'playlist': playlist
+    'loading': loading
   },
   data () {
     return {
@@ -65,7 +63,7 @@ export default {
         }
         this.searchResults.push(...d)
 
-        // FAULTY this.searchResults = this.$DCAPI.uniqueArray(this.searchResults)
+        this.searchResults = this.$DCAPI.uniqueArray(this.searchResults)
       }, '')
     }
   }

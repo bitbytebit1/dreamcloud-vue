@@ -49,7 +49,7 @@
   </v-container>
 </template>
 <script>
-import subscribeButton from '@/components/routes/artist/subscribe-button'
+import subscribeButton from '@/components/misc/subscribe-button'
 export default {
   name: 'artist-info',
   props: ['artistID', 'source', 'artist'],

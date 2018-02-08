@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import playlist from '@/components/playlist/playlist'
+
 export default {
   name: 'searchpage',
   props: ['source', 'artist', 'trackID'],
@@ -17,9 +17,6 @@ export default {
       loading: false,
       searchResults: []
     }
-  },
-  components: {
-    'playlist': playlist
   },
   created () {
     this.search(this.trackID, this.source)

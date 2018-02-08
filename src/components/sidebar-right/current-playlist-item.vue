@@ -1,20 +1,20 @@
 <template>
-  <v-flex xs12 flexbox @click.stop="play" :key="song.trackID">
+  <v-flex xs12 @click.stop="play" :key="song.trackID" class="width300">
     <v-card>
       <!-- image -->
       <v-card-media v-lazy:background-image="song.poster" height="220px">
-        <v-container grid-list-xs fill-height fluid>
-          <v-layout fill-height>
+        <!-- <v-container grid-list-xs fill-height fluid> -->
+          <!-- <v-layout fill-height> -->
             <v-flex xs12 align-center flexbox class="dc-title">
               <!-- title -->
               <span class="crt-ttl" v-text="song.title"></span>
               <div class="text-xs-right">
                 <!-- artist -->
-                <span @click="$router.push({name: 'artist', params: {source: song.source, artist: song.artist, artistID: song.artistID}})" class="subheading white--text dc-artist breaker19 shadow text-xs-right" v-text="song.artist"></span>
+                <span @click.stop="$router.push({name: 'artist', params: {source: song.source, artist: song.artist, artistID: song.artistID}})" class="subheading white--text dc-artist breaker19 shadow text-xs-right" v-text="song.artist"></span>
               </div>
             </v-flex>
-          </v-layout>
-        </v-container>
+          <!-- </v-layout> -->
+        <!-- </v-container> -->
       </v-card-media>
 
       <!-- song actions -->
@@ -49,7 +49,7 @@
   </v-flex>
 </template>
 <script>
-import addToPlaylist from '@/components/playlist/add-to-playlist.vue'
+import addToPlaylist from '@/components/misc/add-to-playlist.vue'
 import shareButton from '@/components/misc/share-button'
 import downloadButton from '@/components/misc/download-button'
 
@@ -135,6 +135,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+.width300{
+  width:278px
+}
 .crt-ttl{
   width: 100%;
   text-align: center;

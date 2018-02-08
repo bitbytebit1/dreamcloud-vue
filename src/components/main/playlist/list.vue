@@ -18,7 +18,7 @@
             <v-btn icon @click="$refs.search.focus()" v-if="!search.length">
               <v-icon :color="filterHasFocus ? 'primary' : ''">filter_list</v-icon>
             </v-btn>
-            <v-btn icon v-else @click="search=''">
+            <v-btn icon v-else @click="search = ''">
               <v-icon color="primary">
                 clear
               </v-icon>
@@ -30,6 +30,7 @@
               @focus="filterHasFocus = true"
               @blur="filterHasFocus = false"
               color="primary"
+              id="flr-txt"
               :class="$vuetify.breakpoint.smAndUp ? 'ma-0' : ''"
               label="Filter"
               single-line
@@ -71,14 +72,14 @@
               <v-checkbox :color="isPlaying(props.item.mp32) ? 'white' : 'primary'" hide-details v-model="props.selected"></v-checkbox>
             </td>
 
-            <!-- image -->
-            <td>
-              <img class="mt-2" v-lazy="props.item.poster"/>
-            </td>
-
             <!-- title -->
             <td class="text-xs-left">
               <span :class="$vuetify.breakpoint.name === 'xs' ? 'caption' : 'body-1'">{{ props.item.title }}</span>
+            </td>
+
+            <!-- image -->
+            <td>
+              <img class="mt-2" v-lazy="props.item.poster"/>
             </td>
 
             <!-- artist -->
@@ -122,7 +123,7 @@
 
 <script>
 // /* eslint-disable */
-import addToPlaylist from '@/components/playlist/add-to-playlist.vue'
+import addToPlaylist from '@/components/misc/add-to-playlist.vue'
 import deleteButton from '@/components/misc/delete-button'
 import shareButton from '@/components/misc/share-button'
 import downloadButton from '@/components/misc/download-button'
@@ -170,7 +171,7 @@ export default {
         { text: '', align: 'left', sortable: false, value: 'name' },
         { text: 'Title', value: 'title', align: 'left' },
         { text: 'Date', value: 'uploaded', align: 'left' },
-        { text: '', value: '', align: 'left', sortable: false }
+        { text: 'Source', value: 'source', align: 'left' }
       ]
     }
   },
@@ -179,7 +180,7 @@ export default {
       lyrics lost in the code
       between the scripts and the cyphers
       underneath the source is a hidden message
-      there's forbidden gold
+      that tells of forbidden gold
       untold truthes and harsh realitys
       fallacies upon fallacies
       the flow you, you know i've overclocked this shit
@@ -187,7 +188,7 @@ export default {
       what you know (about straight up) killing it
       on the strip with two clips of it
       plus an extra reload incase shit hit's the ship
-
+      most miniscule dimwitted infant
       chaos was the plan going way back to the supercombo records dan
       i stay wavy like a cruise ship brudda-no-you-neva-couldtwos-it,
       your-flow-is-over-produced-and-your-melodies-are-over-used-it's useless
@@ -267,6 +268,7 @@ export default {
       return this.$DCAPI.calcDate(this.today, date)
     },
     play (index) {
+      this.$router.push({name: 'stage'})
       // Fix for mobile on first play
       if (this.$store.getters.index === -1 && this.$UTILS.isMobile) this.$DCPlayer.eAudio.play()
       // If not first page fix index

@@ -31,6 +31,7 @@
               @blur="filterHasFocus = false"
               color="primary"
               :class="$vuetify.breakpoint.smAndUp ? 'ma-0' : ''"
+              id="flr-txt"
               label="Filter"
               single-line
               hide-details
@@ -126,12 +127,12 @@ export default {
       },
       items: this.songs,
       headers: [
-        { text: '', align: 'left', sortable: false, value: 'name' },
+        // { text: '', align: 'left', sortable: false, value: 'name' },
         { text: 'Title', value: 'title', align: 'left' },
         { text: 'Artist', value: 'artist', align: 'left' },
         { text: 'Date', value: 'uploaded', align: 'left' },
-        { text: 'Duration', value: 'duration', align: 'left' },
-        { text: '', value: '', align: 'left', sortable: false }
+        { text: 'Source', value: 'source', align: 'left' },
+        { text: 'Duration', value: 'duration', align: 'left' }
       ]
     }
   },
@@ -152,6 +153,7 @@ export default {
   methods: {
     play (index) {
       // Fix for mobile on first play
+      this.$router.push({name: 'stage'})
       if (this.$store.getters.index === -1 && this.$UTILS.isMobile) this.$DCPlayer.eAudio.play()
       // If not first page fix index
       index = this.pagination.page === 1 ? index : (this.pagination.rowsPerPage * (this.pagination.page - 1)) + index

@@ -42,8 +42,8 @@
   </div>
 </template>
 <script>
-import userPlaylists from '@/components/sidebar/user-playlists/user-playlists'
-import userSubscriptions from '@/components/sidebar/user-subscriptions/user-subscriptions'
+import userPlaylists from '@/components/sidebar-left/user-playlists/user-playlists'
+import userSubscriptions from '@/components/sidebar-left/user-subscriptions/user-subscriptions'
 export default {
   name: 'sidebar',
   components: {

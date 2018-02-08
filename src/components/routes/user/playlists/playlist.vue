@@ -6,14 +6,9 @@
   </v-flex>
 </template>
 <script>
-import playlist from '@/components/playlist/playlist'
-
 export default {
   name: 'userPlaylist',
   props: ['user', 'playlist', 'name'],
-  components: {
-    'playlist': playlist
-  },
   watch: {
     '$route.params': 'bind'
   },
