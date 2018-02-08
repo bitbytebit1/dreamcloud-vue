@@ -1,95 +1,98 @@
 <template>
-<v-flex xs12>
-    
+  <v-flex xs12>
     <!-- table header buttons -->
-  <v-card class="elevation-8">
-    <v-card-title class="">
-      <v-layout row wrap>
-        <!-- header buttons -->
-        <v-flex xs6 lg3 :class="this.$vuetify.breakpoint.name === 'xs' ? 'pt-2 text-xs-left header-buttons ma-0' : 'pt-2 header-buttons'">
+    <v-card class="elevation-8">
+      <v-card-title class="ma-0 pa-0">
+        <v-layout row wrap>
+          <!-- header buttons -->
+          <v-flex xs6 lg2 class="text-xs-left mt-2">
+            <!-- enable check boxes -->
+            <v-btn v-if="$store.getters.auth_state" @click="bSelect = !bSelect" icon>
+              <v-icon :color="bSelect ? 'primary' : ''">check_box</v-icon>
+            </v-btn>
+            <!-- toggle view -->
+            <v-btn icon @click="$emit('toggleView')">
+              <v-icon>view_module</v-icon>
+            </v-btn>
+            <!-- focus search bar button -->
+            <v-btn icon @click="$refs.search.focus()" v-if="!search.length">
+              <v-icon :color="filterHasFocus ? 'primary' : ''">filter_list</v-icon>
+            </v-btn>
+            <v-btn icon v-else @click="search=''">
+              <v-icon color="primary">
+                clear
+              </v-icon>
+            </v-btn>
+          </v-flex>
+          <!-- filter -->
+          <v-flex xs5 offset-lg0 lg10 class="pr-4">
+            <v-text-field
+              @focus="filterHasFocus = true"
+              @blur="filterHasFocus = false"
+              color="primary"
+              :class="$vuetify.breakpoint.smAndUp ? 'ma-0' : ''"
+              label="Filter"
+              single-line
+              hide-details
+              v-model="search"
+              v-on:keyup.enter="$UTILS.closeSoftMobi()"
+              ref="search"
+            ></v-text-field>
+          </v-flex>
+          <!-- select buttons -->
+          <v-flex xs6 lg3 v-if="bSelect" class="text-xs-left">
+            <add-to-playlist key="multi" :disabled="selected.length == 0" v-if="$store.getters.auth_state" :song="selected"></add-to-playlist>
 
-          <v-btn v-if="$store.getters.auth_state" @click="bSelect = !bSelect" icon>
-            <v-icon :color="bSelect ? 'teal' : ''">check_box</v-icon>
-          </v-btn>
+            <delete-button :disabled="selected.length == 0" v-if="$route.params.playlist" @delete="removeList"></delete-button>
 
-          <v-btn icon @click="$emit('toggleView')">
-            <v-icon>view_module</v-icon>
-          </v-btn>
-
-          <v-btn icon @click="$refs.search.focus()">
-            <v-icon :color="filterHasFocus ? 'teal' : ''">filter_list</v-icon>
-          </v-btn>
-        </v-flex>
-        <!-- filter -->
-        <v-flex xs5 offset-lg0 lg9 style="margin-top:-15px">
-          <v-text-field
-            @focus="filterHasFocus = true"
-            @blur="filterHasFocus = false"
-            color="teal"
-            :class="$vuetify.breakpoint.smAndUp ? 'ma-0' : ''"
-            label="Filter"
-            single-line
-            hide-details
-            v-model="search"
-            v-on:keyup.enter="$UTILS.closeSoftMobi()"
-            ref="search"
-          ></v-text-field>
-        </v-flex>
-
-        <!-- select buttons -->
-        <v-flex lg4 v-if="bSelect" class="text-xs-left select-buttons">
-          <add-to-playlist key="multi" :disabled="selected.length == 0" v-if="$store.getters.auth_state" :song="selected"></add-to-playlist>
-
-          <delete-button :disabled="selected.length == 0" v-if="$route.params.playlist" @delete="removeList"></delete-button>
-
-          <download-button :dis="selected.length == 0" :links="selected"></download-button>
-          <v-flex d-inline-flex>{{selected.length}} of {{songs.length}}</v-flex>
-        </v-flex>
-      </v-layout>
-    </v-card-title>
-
+            <download-button :dis="selected.length == 0" :links="selected"></download-button>
+            <v-flex d-inline-flex>{{selected.length}} of {{songs.length}}</v-flex>
+          </v-flex>
+        </v-layout>
+      </v-card-title>
       <!-- v-data-iterator -->
       <v-data-iterator
+        ref="dItera"
         content-tag='v-layout'
         row
         wrap
         :headers="headers"
+        :items="songs"
+        :item-key="itemKey"
+        :pagination.sync="pagination"
+        :rows-per-page-items='[25, 50, 100, { text: "All", value: -1 }]'
         :search="search"
-        :items='items'
-        :rows-per-page-items='rowsPerPageItems'
-        :pagination.sync='pagination'
-      >
-        <!-- blank no data -->
-        <v-flex slot="no-data">wasd</v-flex>
+        :select-all="bSelect"
+        v-model="selected"
+        
+        >
+        <!-- no data -->
+        <v-flex slot="no-data">No matching records</v-flex>
+
         <!-- item slot -->
         <v-flex 
           slot='item'
           slot-scope='props'
-          xs12
-          lg4
+          xs6
+          lg3
           @click="play(props.index)"
-          class=""
         >
-        <v-card class="ma-0 pa-0" color="" lg4>
-          <v-container fluid grid-list-xs>
-              <v-card-media
-                :src="props.item.poster"
-                :height="props.item.source === 'YouTube' ?  '86px' : '125px' "
-                contain
-              ></v-card-media>
-              <v-card-title primary-title>
-                <div>
-                  <div class="subheading text-xs-left">{{ props.item.title }}</div>
-                  <div class="artist text-xs-left">{{ props.item.artist }}</div>
-                </div>
-              </v-card-title>
-          </v-container>
-        </v-card>
-      </v-flex>
-    </v-data-iterator>
-  </v-card>
-</v-flex>
-    <!-- </v-container> -->
+          <v-card class="dc-crd ma-0 pa-0" color="">
+            <!-- image -->
+            <v-card-media :src="props.item.poster" height="150px" contain></v-card-media>
+            <v-card-title primary-title>
+              <div class="text-xs-center">
+                <!-- title -->
+                <div class="subheading ">{{ props.item.title }}</div>
+                <!-- artist -->
+                <div v-if="!$route.params.artistID" class="artist" @click.stop="$router.push({name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}})">{{ props.item.artist }}</div>
+              </div>
+            </v-card-title>
+          </v-card>
+        </v-flex>
+      </v-data-iterator>
+    </v-card>
+  </v-flex>
 </template>
 <script>
 
@@ -127,8 +130,33 @@ export default {
         { text: 'Title', value: 'title', align: 'left' },
         { text: 'Artist', value: 'artist', align: 'left' },
         { text: 'Date', value: 'uploaded', align: 'left' },
+        { text: 'Duration', value: 'duration', align: 'left' },
         { text: '', value: '', align: 'left', sortable: false }
       ]
+    }
+  },
+  computed: {
+    sorted () {
+      //  returns the full sorted array for use with click
+      if (this.$refs.dItera.pagination.rowsPerPage !== -1 && this.songs.length > this.$refs.dItera.pagination.rowsPerPage) {
+        var a = this.$refs.dItera.pagination.rowsPerPage
+        this.$refs.dItera.pagination.rowsPerPage = -1
+        var b = this.$refs.dItera.filteredItems.length ? this.$refs.dItera.filteredItems : this.songs
+        this.$refs.dItera.pagination.rowsPerPage = a
+        return b
+      } else {
+        return this.$refs.dItera.filteredItems.length ? this.$refs.dItera.filteredItems : this.songs
+      }
+    },
+  },
+  methods: {
+    play (index) {
+      // Fix for mobile on first play
+      if (this.$store.getters.index === -1 && this.$UTILS.isMobile) this.$DCPlayer.eAudio.play()
+      // If not first page fix index
+      index = this.pagination.page === 1 ? index : (this.pagination.rowsPerPage * (this.pagination.page - 1)) + index
+      this.$store.commit('setNPlay', {songs: this.sorted, current: index, path: this.$route.path})
+      this.$DCPlayer.setNPlay(this.sorted, index)
     }
   },
   created () {
@@ -150,9 +178,61 @@ export default {
 </script>
 
 <style>
+.menu{
+  width: 45px;
+} 
+.dc-crd{
+  box-shadow: unset !important;
+  /* box-shadow: 10px 10px 8px teal !important; */
+  height: 100% !important;
+  
+}
+.dc-crd .text-xs-center{
+  width: 100%;
+}
+.dc-crd .subheading, .dc-crd .artist{
+  word-break: break-word;
+}
+
+@-moz-document url-prefix() {
+  .dc-crd .subheading, .dc-crd .artist{
+    white-space: pre-wrap;
+    /* word-break: break-all; */
+  }
+}
 .artist{
   color: grey;
 }
+
+.slide-fade-enter-active {
+  transition: all 2s;  
+  /* transform: rotate3d(0, 1, 0, -180deg); */
+}
+
+.slide-fade-leave-active {
+  transition: all 2s;
+  /* transform: rotateY(-360deg); */
+  /* transform: rotate3d(0, 1, 0, 18q0deg); */
+}
+
+.slide-fade-enter{
+  transition: all .5s;
+  /* transform: rotateY(360deg); */
+  transition: all .5s;
+  /* transform: rotate3d(1,2, -360deg, 360deg); */
+  opacity: 1;
+}
+
+.slide-fade-leave-to{
+  transition: all .5s;
+  /* transform: rotate3d(1,2, -360deg, 360deg); */
+  opacity: 0;
+}
+
+.slide-fade-move {
+  transition: transform 1s;
+}
+
 .orbit-spinner, .orbit-spinner * {
   box-sizing: border-box;
 }
@@ -176,21 +256,21 @@ export default {
   left: 0%;
   top: 0%;
   animation: orbit-spinner-orbit-one-animation 1200ms linear infinite;
-  border-bottom: 3px solid teal;
+  border-bottom: 3px solid primary;
 }
 
 .orbit-spinner .orbit:nth-child(2) {
   right: 0%;
   top: 0%;
   animation: orbit-spinner-orbit-two-animation 1200ms linear infinite;
-  border-right: 3px solid teal;
+  border-right: 3px solid primary;
 }
 
 .orbit-spinner .orbit:nth-child(3) {
   right: 0%;
   bottom: 0%;
   animation: orbit-spinner-orbit-three-animation 1200ms linear infinite;
-  border-top: 3px solid teal;
+  border-top: 3px solid primary;
 }
 
 @keyframes orbit-spinner-orbit-one-animation {

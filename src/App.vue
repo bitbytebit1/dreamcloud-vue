@@ -57,7 +57,6 @@
     
     <!-- <main> -->
     <v-content class="text-xs-center maCont">
-
       <!-- <v-container fluid fill-height> -->
         <v-layout justify-center row wrap>
           <v-flex xs12 v-show="$store.getters.bShowStage">
@@ -95,7 +94,6 @@
   import stage from '@/components/stage/stage'
   import showStage from '@/components/misc/show-stage.vue'
   import scrollToTop from '@/components/misc/scroll-to-top.vue'
-
   export default {
     name: 'app',
     components: {
@@ -161,6 +159,7 @@
 </script>
 
 <style>
+
   @media only screen and (min-width: 600px){
     #foot{
       padding: 0 !important;

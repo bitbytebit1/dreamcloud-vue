@@ -54,7 +54,7 @@ export default {
   },
   methods: {
     isPlaying (s, n, id) {
-      return this.$store.getters.hash === '/a/' + s + '/' + encodeURIComponent(n) + '/' + id ? 'teal white--text' : ''
+      return this.$store.getters.hash === '/a/' + s + '/' + encodeURIComponent(n) + '/' + id ? 'primary white--text' : ''
     },
     subscriptionDelete (subID) {
       this.$DCFB.subscriptionDelete(subID)

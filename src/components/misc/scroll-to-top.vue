@@ -5,7 +5,7 @@
           bottom
           right
           @click="scrollToTop"
-          class="scrollToTop teal"
+          class="scrollToTop primary"
           outline 
           icon  
         >
@@ -18,7 +18,7 @@ export default {
   name: 'scroll-to-top',
   data () {
     return {
-      showScrollToTop: true,
+      showScrollToTop: false,
       lastScrollTop: ''
     }
   },

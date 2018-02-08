@@ -1,123 +1,124 @@
-  <template>
-  <v-flex>
-    
+<template>
+  <v-flex xs12>
     <!-- table header buttons -->
     <v-card class="elevation-8">
-    <v-card-title class="ma-0 pa-0">
-      <v-layout row wrap>
-        <!-- header buttons -->
-        <v-flex xs6 lg2 class="text-xs-left mt-2">
-
-          <v-btn v-if="$store.getters.auth_state" @click="bSelect = !bSelect" icon>
-            <v-icon :color="bSelect ? 'primary' : ''">check_box</v-icon>
-          </v-btn>
-
-          <v-btn icon @click="$emit('toggleView')">
-            <v-icon>view_module</v-icon>
-          </v-btn>
-
-          <v-btn icon @click="$refs.search.focus()">
-            <v-icon :color="filterHasFocus ? 'primary' : ''">filter_list</v-icon>
-          </v-btn>
-        </v-flex>
-        <!-- filter -->
-        <v-flex xs5 offset-lg0 lg10>
-          <v-text-field
-            @focus="filterHasFocus = true"
-            @blur="filterHasFocus = false"
-            color="primary"
-            :class="$vuetify.breakpoint.smAndUp ? 'ma-0' : ''"
-            label="Filter"
-            single-line
-            hide-details
-            v-model="search"
-            v-on:keyup.enter="$UTILS.closeSoftMobi()"
-            ref="search"
-          ></v-text-field>
-        </v-flex>
-
-        <!-- select buttons -->
-        <v-flex xs6 lg3 v-if="bSelect" class="text-xs-left">
-          <add-to-playlist key="multi" :disabled="selected.length == 0" v-if="$store.getters.auth_state" :song="selected"></add-to-playlist>
-
-          <delete-button :disabled="selected.length == 0" v-if="$route.params.playlist" @delete="removeList"></delete-button>
-
-          <download-button :dis="selected.length == 0" :links="selected"></download-button>
-          <v-flex d-inline-flex>{{selected.length}} of {{songs.length}}</v-flex>
-        </v-flex>
-      </v-layout>
-
-    </v-card-title>
-
-    <!-- data-table -->
-    <v-data-table
-      ref="dtable"
-      :headers="headers"
-      :items="songs"
-      :item-key="itemKey"
-      :pagination.sync="pagination"
-      :rows-per-page-items='[25, 50, 100, { text: "All", value: -1 }]'
-      :search="search"
-      :select-all="bSelect"
-      v-model="selected"
-    >
-    <v-progress-linear slot="progress" color="primary" indeterminate></v-progress-linear>
-
-    <template slot="items" slot-scope="props">
-      <tr :key="props.index" :class="isPlaying(props.item.mp32) ? 'primary white--text' : ''" @click.stop="!bSelect ? play(props.index) : props.selected = !props.selected">
-        <!-- check_box -->
-        <td v-if="bSelect">
-          <v-checkbox :color="isPlaying(props.item.mp32) ? 'white' : 'primary'" hide-details v-model="props.selected"></v-checkbox>
-        </td>
-
-        <!-- image -->
-        <td>
-          <img class="mt-2" v-lazy="props.item.poster"/>
-        </td>
-
-        <!-- title -->
-        <td class="text-xs-left">
-          <span :class="$vuetify.breakpoint.name === 'xs' ? 'caption' : 'body-1'">{{ props.item.title }}</span>
-        </td>
-
-        <!-- artist -->
-        <td v-if="!$route.params.artistID">
-          <a v-if="!bSelect" @click.stop :class="artistClass(props.item.mp32)" :href="shareArtistURL(props.item)">{{ props.item.artist }}</a>
-          <span :class="artistClass" v-else>{{ props.item.artist }}</span>
-        </td>
-
-        <!-- uploaded -->
-        <td class="text-xs-left hidden-xs-only">
-          {{ date(props.item.uploaded)}}
-        </td>
-        <!-- actions -->
-        <td @click.stop>
-          <v-menu transition="slide-y-transition" bottom lazy open-on-hover v-if="!bSelect">
-            <v-btn icon slot="activator">
-              <v-icon :color="isPlaying(props.item.mp32) ? 'white' : ''">more_vert</v-icon>
+      <v-card-title class="ma-0 pa-0">
+        <v-layout row wrap>
+          <!-- header buttons -->
+          <v-flex xs6 lg2 class="text-xs-left mt-2">
+            <!-- enable check boxes -->
+            <v-btn v-if="$store.getters.auth_state" @click="bSelect = !bSelect" icon>
+              <v-icon :color="bSelect ? 'primary' : ''">check_box</v-icon>
             </v-btn>
-            <v-list>
-              <v-list-tile v-if="$store.getters.auth_state">
-                <add-to-playlist :song="addSong(props.item)"></add-to-playlist>
-              </v-list-tile>
-              <v-list-tile>
-                <download-button :links="bSelect ? selected :[props.item]"></download-button>
-              </v-list-tile>
-              <v-list-tile>
-                <share-button :song="props.item" :url="'https://offcloud.netlify.com/#/t/' + props.item.source + '/' + encodeURIComponent(props.item.artist) + '/' + props.item.trackID"></share-button>
-              </v-list-tile>
-              <v-list-tile v-if="props.item.key">
-                <delete-button :id="props.item.key" @delete="bSelect ? removeList() : remove(props.item.key)"></delete-button>
-              </v-list-tile>
-            </v-list>
-          </v-menu>
-        </td>
-      </tr>
-    </template>
-    </v-data-table>
+            <!-- toggle view -->
+            <v-btn icon @click="$emit('toggleView')">
+              <v-icon>view_module</v-icon>
+            </v-btn>
+            <!-- focus search bar button -->
+            <v-btn icon @click="$refs.search.focus()" v-if="!search.length">
+              <v-icon :color="filterHasFocus ? 'primary' : ''">filter_list</v-icon>
+            </v-btn>
+            <v-btn icon v-else @click="search=''">
+              <v-icon color="primary">
+                clear
+              </v-icon>
+            </v-btn>
+          </v-flex>
+          <!-- filter -->
+          <v-flex xs5 offset-lg0 lg10>
+            <v-text-field
+              @focus="filterHasFocus = true"
+              @blur="filterHasFocus = false"
+              color="primary"
+              :class="$vuetify.breakpoint.smAndUp ? 'ma-0' : ''"
+              label="Filter"
+              single-line
+              hide-details
+              v-model="search"
+              v-on:keyup.enter="$UTILS.closeSoftMobi()"
+              ref="search"
+            ></v-text-field>
+          </v-flex>
+          <!-- select buttons -->
+          <v-flex xs6 lg3 v-if="bSelect" class="text-xs-left">
+            <add-to-playlist key="multi" :disabled="selected.length == 0" v-if="$store.getters.auth_state" :song="selected"></add-to-playlist>
+
+            <delete-button :disabled="selected.length == 0" v-if="$route.params.playlist" @delete="removeList"></delete-button>
+
+            <download-button :dis="selected.length == 0" :links="selected"></download-button>
+            <v-flex d-inline-flex>{{selected.length}} of {{songs.length}}</v-flex>
+          </v-flex>
+        </v-layout>
+      </v-card-title>
+      <!-- data-table -->
+      <v-data-table
+        ref="dtable"
+        :headers="headers"
+        :items="songs"
+        :item-key="itemKey"
+        :pagination.sync="pagination"
+        :rows-per-page-items='[25, 50, 100, { text: "All", value: -1 }]'
+        :search="search"
+        :select-all="bSelect"
+        v-model="selected"
+        >
+        <v-progress-linear slot="progress" color="primary" indeterminate></v-progress-linear>
+
+        <template slot="items" slot-scope="props">
+          <tr :key="props.index" :class="isPlaying(props.item.mp32) ? 'primary white--text' : ''" @click.stop="!bSelect ? play(props.index) : props.selected = !props.selected">
+            <!-- check_box -->
+            <td v-if="bSelect">
+              <v-checkbox :color="isPlaying(props.item.mp32) ? 'white' : 'primary'" hide-details v-model="props.selected"></v-checkbox>
+            </td>
+
+            <!-- image -->
+            <td>
+              <img class="mt-2" v-lazy="props.item.poster"/>
+            </td>
+
+            <!-- title -->
+            <td class="text-xs-left">
+              <span :class="$vuetify.breakpoint.name === 'xs' ? 'caption' : 'body-1'">{{ props.item.title }}</span>
+            </td>
+
+            <!-- artist -->
+            <td v-if="!$route.params.artistID">
+              <a v-if="!bSelect" @click.stop :class="artistClass(props.item.mp32)" :href="shareArtistURL(props.item)">{{ props.item.artist }}</a>
+              <span :class="artistClass" v-else>{{ props.item.artist }}</span>
+            </td>
+
+            <!-- uploaded -->
+            <td class="text-xs-left hidden-xs-only">
+              {{ date(props.item.uploaded)}}
+            </td>
+            <!-- actions -->
+            <td @click.stop>
+              <v-menu transition="slide-y-transition" bottom lazy open-on-hover v-if="!bSelect">
+                <v-btn icon slot="activator">
+                  <v-icon :color="isPlaying(props.item.mp32) ? 'white' : ''">more_vert</v-icon>
+                </v-btn>
+                <v-list>
+                  <v-list-tile v-if="$store.getters.auth_state">
+                    <add-to-playlist :song="addSong(props.item)"></add-to-playlist>
+                  </v-list-tile>
+                  <v-list-tile>
+                    <download-button :links="bSelect ? selected :[props.item]"></download-button>
+                  </v-list-tile>
+                  <v-list-tile>
+                    <share-button :song="props.item" :url="'https://offcloud.netlify.com/#/t/' + props.item.source + '/' + encodeURIComponent(props.item.artist) + '/' + props.item.trackID"></share-button>
+                  </v-list-tile>
+                  <v-list-tile v-if="props.item.key">
+                    <delete-button :id="props.item.key" @delete="bSelect ? removeList() : remove(props.item.key)"></delete-button>
+                  </v-list-tile>
+                </v-list>
+              </v-menu>
+            </td>
+          </tr>
+        </template>
+      </v-data-table>
     </v-card>
-    </v-flex>
-  </template>
+  </v-flex>
+</template>
 
 <script>
 // /* eslint-disable */
@@ -174,10 +175,31 @@ export default {
     }
   },
   created () {
-    /* 
+    /*
       lyrics lost in the code
-    */
+      between the scripts and the cyphers
+      underneath the source is a hidden message
+      there's forbidden gold
+      untold truthes and harsh realitys
+      fallacies upon fallacies
+      the flow you, you know i've overclocked this shit
+      this flow's, not for the ignorant
+      what you know (about straight up) killing it
+      on the strip with two clips of it
+      plus an extra reload incase shit hit's the ship
 
+      chaos was the plan going way back to the supercombo records dan
+      i stay wavy like a cruise ship brudda-no-you-neva-couldtwos-it,
+      your-flow-is-over-produced-and-your-melodies-are-over-used-it's useless
+
+      the flow you know i've overclocked this shit
+      this flow it's not the ignorant or indiligent
+      what do you know about killing on the strip with
+      two clips of it plus an extra reload incase shit hits the fan
+      chaos was the plan going way back to the supercombo records dan
+      i stay wavy like a cruise ship brudda-no-you-neva-could-twos-it,
+      flow-over-produced-and-your-melodies-are-over-used-it's-useless,
+    */
     // if NOT on user page add artist add artist header for sorting
     if (!this.$route.params.artistID) {
       this.headers.splice(2, 0, { text: 'Artist', value: 'artist', align: 'left' })
@@ -267,10 +289,6 @@ export default {
   .hidden{
     display: none;
   }
-  .desc{
-    overflow-y: hidden;
-    max-height: 53px;
-  }
   td img {
     margin: 2px
   }
@@ -292,7 +310,7 @@ export default {
     } */
     .menu{
       width: 45px;
-    }
+    } 
     /* table.table tbody td:not(:first-child),  */
     td:nth-child(2), td:nth-child(3), td:nth-child(4){
       word-break: break-word;

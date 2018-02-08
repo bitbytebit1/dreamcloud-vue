@@ -9,7 +9,7 @@
       <v-flex xs5 offset-xs1 offset-lg0 lg9>
         <v-text-field
           v-if="filterOpen"
-          color="teal"
+          color="primary"
           :class="$vuetify.breakpoint.smAndUp ? 'ml-4' : ''"
           label="Filter"
           single-line

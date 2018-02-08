@@ -6,7 +6,7 @@
         </v-list-tile-content>
       </v-list-tile>
  
-      <v-list-tile ripple @click="closeLeftOnMobile" :to="{path: '/u/playlists/all'}">
+      <v-list-tile active-class="cyan white--text" ripple @click="closeLeftOnMobile" :to="{path: '/u/playlists/all'}">
         <v-list-tile-action>
           <v-icon>toc</v-icon>
         </v-list-tile-action>
@@ -54,9 +54,9 @@ export default {
   },
   methods: {
     isPlaying (s, n, id) {
-      var a = this.$store.getters.hash === '/u/' + s + '/' + n + '/' + encodeURIComponent(id) ? 'teal white--text' : ''
+      var a = this.$store.getters.hash === '/u/' + s + '/' + n + '/' + encodeURIComponent(id) ? 'primary white--text' : ''
       return a
-    },    
+    },
     closeLeftOnMobile () {
       this.$emit('closeLeft')
     },

@@ -41,6 +41,7 @@ export default {
     ytDuration: state => state.ytDuration,
     ytCurrentTime: state => state.ytCurrentTime,
     ytIsPlaying: state => state.ytState === 1,
+    ytIsPaused: state => state.ytState === 2,
     isYT: (state, getters) => getters.current_source === 'YouTube'
   }
 }

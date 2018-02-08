@@ -14,7 +14,7 @@
         :key="$store.getters.current_song.trackID"
         ></current-playlist-item> -->
       </transition-group>
-      <infinite-loading distance="420" :key="aPlaylist.length" v-if="aPlaylist.length" class="flex xs12" ref="infiniteLoading2"  @infinite="infiniteHandler" spinner="default">
+      <infinite-loading distance="420" v-if="aPlaylist.length" class="flex xs12" ref="infiniteLoading2"  @infinite="infiniteHandler" spinner="default">
         <span slot="no-results">
           End of the line kiddo
         </span>
@@ -35,12 +35,19 @@
 import item from './current-playlist-item'
 // import vueNiceScrollbar from 'vue-nice-scrollbar'
 import InfiniteLoading from 'vue-infinite-loading'
-
+import { mapGetters } from 'vuex'
 export default {
   name: 'current-playlist',
   data () {
     return {
-      numberOfItems: 5
+      numberOfItems: 5,
+      infState: ''
+    }
+  },
+  watch: {
+    hash () {
+      this.infState.reset()
+      this.numberOfItems = 5
     }
   },
   components: {
@@ -48,6 +55,9 @@ export default {
     'current-playlist-item': item
   },
   computed: {
+    ...mapGetters({
+      hash: 'hash'
+    }),
     aPlaylist () {
       return this.$store.getters.current_Playlist.slice(this.$store.getters.index, this.$store.getters.index + this.numberOfItems)
       // return this.$store.getters.current_Playlist.slice(this.$store.getters.index, this.$store.getters.index + this.$store.getters.current_Playlist.length)
@@ -63,6 +73,7 @@ export default {
       } else {
         $state.loaded()
       }
+      this.infState = $state
       // alert('11')
       // this.numberOfItems = Math.min(this.$store.getters.current_Playlist.length, this.$store.getters.index + 5)
       // alert(this.$store.getters.current_Playlist.length - this.$store.getters.index + ' ' + this.numberOfItems)

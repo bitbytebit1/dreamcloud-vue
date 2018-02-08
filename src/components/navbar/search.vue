@@ -7,7 +7,7 @@
       v-on:keyup.enter='search' 
       v-model='sQuery'
       placeholder="Search" 
-      color="teal"
+      color="primary"
       single-line
     >
     </v-text-field> -->
@@ -23,7 +23,7 @@
           <v-list-tile>
             <!-- <img src='../img/All.png'> -->
             <v-list-tile-action>
-              <v-switch v-model="aSources.All" color="teal"></v-switch>
+              <v-switch v-model="aSources.All" color="primary"></v-switch>
             </v-list-tile-action>
             <v-list-tile-title>All</v-list-tile-title>
           </v-list-tile>
@@ -31,7 +31,7 @@
           <v-list-tile>
             <!-- <img src='../img/bc.png'> -->
             <v-list-tile-action>
-              <v-switch v-model="aSources.Bandcamp" color="teal"></v-switch>
+              <v-switch v-model="aSources.Bandcamp" color="primary"></v-switch>
             </v-list-tile-action>
             <v-list-tile-title>Bandcamp</v-list-tile-title>
           </v-list-tile>
@@ -39,7 +39,7 @@
           <v-list-tile>
             <!-- <img src='../img/mc.png'> -->
             <v-list-tile-action>
-              <v-switch v-model="aSources.MixCloud" color="teal"></v-switch>
+              <v-switch v-model="aSources.MixCloud" color="primary"></v-switch>
             </v-list-tile-action>
             <v-list-tile-title>Mixcloud</v-list-tile-title>
           </v-list-tile>
@@ -47,7 +47,7 @@
           <v-list-tile>
             <!-- <img src='../img/sc.png'> -->
             <v-list-tile-action>
-              <v-switch v-model="aSources.SoundCloud" color="teal"></v-switch>
+              <v-switch v-model="aSources.SoundCloud" color="primary"></v-switch>
             </v-list-tile-action>
             <v-list-tile-title>SoundCloud</v-list-tile-title>
           </v-list-tile>
@@ -55,7 +55,7 @@
           <v-list-tile>
             <!-- <img src='../img/yt.png'> -->
             <v-list-tile-action>
-              <v-switch v-model="aSources.YouTube" color="teal"></v-switch>
+              <v-switch v-model="aSources.YouTube" color="primary"></v-switch>
             </v-list-tile-action>
             <v-list-tile-title>YouTube</v-list-tile-title>
           </v-list-tile>
@@ -63,7 +63,7 @@
           <v-list-tile>
             <!-- <img src='../img/vm.png'> -->
             <v-list-tile-action>
-              <v-switch v-model="aSources.Vimeo" color="teal"></v-switch>
+              <v-switch v-model="aSources.Vimeo" color="primary"></v-switch>
             </v-list-tile-action>
             <v-list-tile-title>Vimeo</v-list-tile-title>
           </v-list-tile>

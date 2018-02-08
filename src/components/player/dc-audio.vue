@@ -6,17 +6,17 @@
           <!-- <img id="poster" :src="currentImage"> -->
         </div>
         <div class="audio-controls">
-          <v-btn @click="previous" class="teal" icon outline>
+          <v-btn @click="previous" class="primary" icon outline>
             <v-icon>skip_previous</v-icon>
           </v-btn>
 
-          <v-btn v-if="bLoading" class="teal" icon outline>
+          <v-btn v-if="bLoading" class="primary" icon outline>
             <v-progress-circular id="loadingSpinner" indeterminate v-bind:size="25"></v-progress-circular>
           </v-btn>
-          <v-btn v-else @click="$DCPlayer.togglePlay" class="teal" icon outline>
+          <v-btn v-else @click="$DCPlayer.togglePlay" class="primary" icon outline>
             <v-icon>{{play_arrow}}</v-icon>
           </v-btn>
-          <v-btn @click="next" class="teal" icon outline>
+          <v-btn @click="next" class="primary" icon outline>
             <v-icon>skip_next</v-icon>
           </v-btn>
         </div>
@@ -28,7 +28,7 @@
             <v-icon>{{volIcon}}</v-icon>
           </v-btn>
           <div class="slider-wrapper">
-            <input class="vol-slider" type="range" min="0" max="10" @input="volumeChange" v-model="volume" step="1">
+            <input class="vol-slider" type="range" min="0" max="10" @input="volumeChange" v-model="volume" step="0.01">
           </div>
         </v-speed-dial>
       </div>
@@ -38,7 +38,7 @@
           <v-container fluid grid-list-md class="pa-0 ma-0">
             <v-layout row wrap>
               <v-flex xs12  class="ml-3 mr-3">
-                <v-slider :max="eAudio.duration" :label="currentTime" @input="changePos" v-model="progress" id="progress-slider" color="teal" hide-details></v-slider>
+                <v-slider :max="eAudio.duration" :label="currentTime" @input="changePos" v-model="progress" id="progress-slider" color="primary" hide-details></v-slider>
               </v-flex>
             </v-layout>
           </v-container>
@@ -69,7 +69,7 @@ export default {
   },
   computed: {
     volClass () {
-      return this.volIcon === 'volume_off' ? 'red' : 'teal'
+      return this.volIcon === 'volume_off' ? 'red' : 'primary'
     },
     currentImage () {
       // very hacky way to get the loading spinner to fire before the audio element fires
@@ -165,6 +165,15 @@ export default {
     transition: opacity .2s;
 }
 
+.vol-slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: #d3d3d3;
+    cursor: pointer;
+}
+.vol-slider::-webkit-slider-runnable-track {
+    background: #d3d3d3;
+}
 
 
 .vol-slider::-webkit-slider-thumb {

@@ -1,6 +1,6 @@
 <template>
   <tr>
-    <td :class="tdClass" v-show="bSelect"><v-checkbox :color="isPlaying ? 'white' : 'teal'" hide-details v-model="selected"></v-checkbox></td>
+    <td :class="tdClass" v-show="bSelect"><v-checkbox :color="isPlaying ? 'white' : 'primary'" hide-details v-model="selected"></v-checkbox></td>
     <td @click="play(props.index)" :class="tdClass"><img v-lazy="song.poster" :height="isPlaying ? '100px' : '35px'" /></td>
     <td @click="play(props.index)" :class="tdClass">
       {{ song.title }}
@@ -66,7 +66,7 @@ export default {
     },
     tdClass () {
       return {
-        'teal': this.isPlaying,
+        'primary': this.isPlaying,
         'text-xs-left': true,
         'caption': true
       }

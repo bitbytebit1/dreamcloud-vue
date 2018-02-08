@@ -7,7 +7,7 @@
         <v-list-tile>
           <v-text-field
             v-focus
-            color="teal"
+            color="primary"
             name="add-to-playlist"
             label="Playlist name"
             single-line

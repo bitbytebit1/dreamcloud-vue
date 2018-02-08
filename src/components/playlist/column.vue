@@ -20,17 +20,17 @@
               <!-- work around == add to playlist no longer being visible on click -->
               <v-flex xs12 class="btns" v-if="showBtns"> 
                 <!-- onClick -->
-                <add-to-playlist colour="teal" @opened="addClickHandler" :song="song"></add-to-playlist>
+                <add-to-playlist colour="primary" @opened="addClickHandler" :song="song"></add-to-playlist>
 
-                <share-button colour="teal"  :song="song" :url="'https://offcloud.netlify.com/#/t/' + song.source + '/' + encodeURIComponent(song.artist) + '/' + song.trackID"></share-button>
+                <share-button colour="primary"  :song="song" :url="'https://offcloud.netlify.com/#/t/' + song.source + '/' + encodeURIComponent(song.artist) + '/' + song.trackID"></share-button>
                 
-                <download-button colour="teal" :links="[song]"></download-button>
+                <download-button colour="primary" :links="[song]"></download-button>
                 
-                <v-btn icon color="teal" @click.stop :href="artistID">
+                <v-btn icon color="primary" @click.stop :href="artistID">
                   <v-icon>person</v-icon>
                 </v-btn>
 
-                <delete-button colour="teal" v-if="song.key" :id="song.key" @delete="remove(song.key)"></delete-button>
+                <delete-button colour="primary" v-if="song.key" :id="song.key" @delete="remove(song.key)"></delete-button>
               </v-flex>
               </v-flex>
             </v-layout>

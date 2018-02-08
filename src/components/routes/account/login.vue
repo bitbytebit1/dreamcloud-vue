@@ -22,7 +22,7 @@
               v-on:keyup.enter="signIn"
               type="password"
             ></v-text-field>
-            <v-btn color="teal white--text" :loading="loading1" :disabled="loading1" round type="submit" v-on:click="signIn">
+            <v-btn color="primary white--text" :loading="loading1" :disabled="loading1" round type="submit" v-on:click="signIn">
               Sign In
               <v-icon right dark>lock_open</v-icon>
             </v-btn>

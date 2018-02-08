@@ -4,49 +4,22 @@
         <!-- <button class="btn btn-primary" @click='sort'>Sort Date</button>   -->
         <!-- <button class="btn btn-primary" @click='toggleView'>Toggle Playlist View</button> -->
       <!-- </div> -->
-      <v-container v-if="!list" fluid v-bind="{ [`grid-list-${_size}`]: true }">
+      <v-container fluid class="grid-list-sm">
         <v-layout row wrap>
-            <v-flex lg10>
-              <v-text-field
-              color="teal"
-              :class="$vuetify.breakpoint.smAndUp ? 'ml-4' : ''"
-              label="Filter"
-              single-line
-              hide-details
-              v-on:keyup.enter="$UTILS.closeSoftMobi()"
-              ref="search"
-              ></v-text-field>
-            </v-flex>
-            <v-flex lg2 :class="$vuetify.breakpoint.name === 'xs' ? '' : 'pt-2'">
-              <v-btn icon>
-                <v-icon>filter_list</v-icon>
-              </v-btn> 
-              <v-btn icon @click="toggleView">
-                <v-icon>view_headline</v-icon>
-              </v-btn>
-            </v-flex>
-          <!-- <v-flex> -->
-            <column
-              v-for="(song, index) in songs"
-              :song="song"
-              :index="index"
-              :key="index" 
-            >
-            </column>
-          <!-- </v-flex> -->          
-          <!-- <column :songs="fixedSongs" :sortBy="sortBy" :rowsPerPage="rowsPerPage" @toggleView="toggleView"></column> -->
+          <column v-if="!list" :songs="fixedSongs" :rowsPerPage="rowsPerPage" :sortBy="sortBy" @toggleView="toggleView"></column>
+          <list v-else :songs="fixedSongs" :rowsPerPage="rowsPerPage" :sortBy="sortBy" @toggleView="toggleView"></list>
         </v-layout>
       </v-container>
-        <v-container v-if="list && !$UTILS.isMobile">
-          <list :rowsPerPage="rowsPerPage" :sortBy="sortBy" @toggleView="toggleView" :songs="fixedSongs"></list>
-      </v-container>
-      <list :rowsPerPage="rowsPerPage" @toggleView="toggleView" v-if="list && $UTILS.isMobile" :songs="fixedSongs"></list>
+        <!-- <v-container v-if="list && !$UTILS.isMobile"> -->
+      
+      <!-- </v-container> -->
+      <!-- <list :rowsPerPage="rowsPerPage" @toggleView="toggleView" v-if="list && $UTILS.isMobile" :songs="fixedSongs"></list> -->
 
   </v-flex>
 </template>
 <script>
-import column from './column'
-// import column from './list.2.vue'
+// import column from './column'
+import column from './list.2.vue'
 import list from './list'
 
 export default {
@@ -59,7 +32,7 @@ export default {
     viewType: {
       type: [Object],
       default () {
-        return { full: true, list: !0 }
+        return { full: true, list: !1 }
       }
     },
     rowsPerPage: {

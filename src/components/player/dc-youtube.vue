@@ -7,16 +7,16 @@
           <!-- {{$store.ytUseVideo}} -->
         </div>
         <div class="audio-controls">
-          <v-btn @click="previous" class="teal" icon outline >
+          <v-btn @click="previous" class="primary" icon outline >
             <v-icon>skip_previous</v-icon>
           </v-btn>
-          <v-btn outline class="teal" icon v-if="bLoading">
+          <v-btn outline class="primary" icon v-if="bLoading">
             <v-progress-circular  id="loadingSpinner" indeterminate v-bind:size="25"></v-progress-circular>
           </v-btn>
-          <v-btn v-else @click="togglePlay" class="teal" icon outline>
+          <v-btn v-else @click="togglePlay" class="primary" icon outline>
             <v-icon>{{sPlayIcon}}</v-icon>
           </v-btn>
-          <v-btn icon outline class="teal" @click="next">
+          <v-btn icon outline class="primary" @click="next">
             <v-icon>skip_next</v-icon>
           </v-btn>
         </div>
@@ -28,7 +28,7 @@
             <v-icon>{{volIcon}}</v-icon>
           </v-btn>
           <div class="slider-wrapper">
-            <input class="vol-slider" type="range" min="0" max="10" @input="volumeChange" v-model="volume" step="1">
+            <input class="vol-slider" type="range" min="0" max="10" @input="volumeChange" v-model="volume" step="0.01">
           </div>
         </v-speed-dial>
       </div>
@@ -38,7 +38,7 @@
           <v-container fluid grid-list-md class="pa-0 ma-0">
             <v-layout row wrap>
               <v-flex>
-                <v-slider :max="iDuration" :label="iCurrent" v-model="iProgress"  id="progress-slider" color="teal" thumb-label  hide-details></v-slider>
+                <v-slider :max="iDuration" :label="iCurrent" v-model="iProgress"  id="progress-slider" color="primary" thumb-label hide-details></v-slider>
                 <!-- @input="changePos" -->
               </v-flex>
             </v-layout>
@@ -70,7 +70,7 @@ export default {
   },
   computed: {
     volClass () {
-      return this.volIcon === 'volume_off' ? 'red' : 'teal'
+      return this.volIcon === 'volume_off' ? 'red' : 'primary'
     },
     iProgress: {
       // getter
@@ -228,7 +228,13 @@ export default {
     background: teal;
     cursor: pointer;
 }
+.vol-slider::-moz-range-track {
+    background: #d3d3d3;
+}
 
+.vol-slider::-webkit-slider-runnable-track {
+    background: #d3d3d3;
+}
 #loadingSpinner{
   /* top:10px;   */
   width: 52px !important;

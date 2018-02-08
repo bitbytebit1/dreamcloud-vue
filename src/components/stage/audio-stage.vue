@@ -2,6 +2,7 @@
   <v-layout row wrap v-show="!show" class="pb-5">
     <!-- Image -->
     <v-flex xs12 id="img-bg" v-show="!($store.getters.ytUseVideo && $store.getters.isYT)" @click="$DCPlayer.togglePlay()">
+      <!-- <explode></explode> -->
       <img :src="song.posterLarge" id="stg-pstr">
     </v-flex>
     <v-flex d-flex xs12>
@@ -78,10 +79,12 @@
 import artistInfo from '@/components/misc/song-info'
 import related from '@/components/stage/stage-related'
 import youtubeVBtn from '@/components/misc/toggle-video-button'
+import explode from '@/components/misc/explode'
   /* eslint-disable */
 export default {
   name: 'dc-stage',
   components: {
+    'explode': explode,
     'artist-info-mini': artistInfo,
     'related': related,
     'youtube-button': youtubeVBtn
@@ -138,7 +141,6 @@ export default {
 </script>
 
 <style>
-
 @media only screen and (max-width: 599px){
   #stg-pstr {
   width: 100% !important;

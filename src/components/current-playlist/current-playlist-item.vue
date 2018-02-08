@@ -10,7 +10,7 @@
               <span class="crt-ttl" v-text="song.title"></span>
               <div class="text-xs-right">
                 <!-- artist -->
-                <span class="subheading white--text dc-artist breaker19 shadow text-xs-right" v-text="song.artist"></span>
+                <span @click="$router.push({name: 'artist', params: {source: song.source, artist: song.artist, artistID: song.artistID}})" class="subheading white--text dc-artist breaker19 shadow text-xs-right" v-text="song.artist"></span>
               </div>
             </v-flex>
           </v-layout>
@@ -26,23 +26,24 @@
         <!-- download button -->
         <download-button :links="[song]"></download-button>
         <!-- artist -->
-        <v-btn icon @click.stop :href="artistID">
+        <!-- <v-btn icon @click.stop :href="artistID">
           <v-icon>person</v-icon>
-        </v-btn>
+        </v-btn> -->
         <!-- open source -->
-        <v-btn icon @click.stop target="_blank" :href="song.mp32">
+        <!-- <v-btn icon @click.stop target="_blank" :href="song.mp32">
           <v-icon>open_in_new</v-icon>
-        </v-btn>
+        </v-btn> -->
         <!-- show desc -->
         <v-btn icon @click.stop.native="show = !show" :disabled="!desc">
-          <v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
+          <v-icon>{{ show ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
         </v-btn>
       </v-card-actions>
 
       <v-slide-y-transition v-if="show">
           <!-- description -->
-        <v-card-text @click.stop class="breaker19" v-html="ytTimeToSeconds(desc)">
-        </v-card-text>
+          <v-card-text @click.stop class="breaker19" v-html="ytTimeToSeconds(desc)">
+          </v-card-text>
+        </transition>
       </v-slide-y-transition>      
     </v-card>
   </v-flex>
@@ -109,7 +110,21 @@ export default {
       }
     },
     play () {
-      this.$parent.$parent.play(this.index + this.$store.getters.index)
+      if (this.index === this.$store.getters.index) {
+        if (this.$store.getters.isYT && this.$store.getters.ytUseVideo) {
+          // console.log(this.$store.getters.ytState)
+          // alert('1')
+          if (!this.$store.getters.ytIsPlaying) {
+            this.$store.getters.ytObject.pauseVideo()
+          } else { // else if (this.$store.getters.ytIsPaused) {
+            this.$store.getters.ytObject.playVideo()
+          }
+        } else {
+          this.$DCPlayer.togglePlay()
+        }
+      } else {
+        this.$parent.$parent.play(this.index + this.$store.getters.index)
+      }
     },
     share () {
       this.$UTILS.share('https://offcloud.netlify.com/#/t/' + this.song.source + '/' + encodeURIComponent(this.song.artist) + '/' + this.song.trackID, this.song)
