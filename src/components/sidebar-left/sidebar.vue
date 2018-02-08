@@ -32,13 +32,12 @@
     </v-list-tile>
 
   </v-list>
-  <v-list >
-    
+  <v-list dense class="pa-0">
     <user-playlists @closeLeft="closeLeft" v-if="loggedIn"></user-playlists>
-
+  </v-list>
+  <v-list dense class="pa-0">
     <user-subscriptions @closeLeft="closeLeft" v-if="loggedIn"></user-subscriptions>
-    
-  </v-list>  
+  </v-list>
   </div>
 </template>
 <script>
