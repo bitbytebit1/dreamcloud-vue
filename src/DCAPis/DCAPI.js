@@ -200,6 +200,30 @@ class DCAPIClass {
     })
   }
 
+  timeHMS(s) {
+    var T = 'date';
+    var d = 8.64e7;
+    var h = d/24;
+    var m = h/60;
+    var multipliers = {date: {y:d*365.25, m:d*(365*4+1)/48, d:d},
+                       time: {h:h, m:m, s:1000}};
+    var re = /[^a-z]+|[a-z]/gi;
+
+    // Tokenise with match, then process with reduce
+    var time = s.toLowerCase().match(/p|t|\d+\.?\d*[ymdhs]/ig).reduce(function(ms, v) {
+      if (v == 'p') return ms;
+      if (v == 't') {
+        T = 'time';
+        return ms;
+      }
+      var b = v.match(re);
+      return ms + b[0] * multipliers[T][b[1]];
+    }, 0);
+
+    // Converting ms to h:mm:ss should be a separate function
+    return ((time/h|0) > 0 ? (time/h|0) + ":":"") + ('0' + ((time%h / m) |0)).slice(-2) + ':' + ('0' + (time%m/1000).toFixed(3)).slice(-6).slice(0,-4);
+  }
+
   yt (uid) {
     this.YTnextPageTokenString = this.nextPageToken ? '&pageToken=' + this.nextPageToken : ''
     if (!this.YTnextPageTokenString && this.aQuery[uid].iPage > 1) {
@@ -207,41 +231,60 @@ class DCAPIClass {
     }
     var a
     if (this.aQuery[uid].bRelated) {
-      a = 'https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=' + this.aQuery[uid].iLimit + '&relatedToVideoId=' + this.aQuery[uid].sArtist + '&type=video&key=' + this.sYtKey
+      a = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=${this.aQuery[uid].iLimit}&relatedToVideoId=${this.aQuery[uid].sArtist}&type=video&key=${this.sYtKey}`
     } else if (this.aQuery[uid].sArtist === '') {
-      a = 'https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=' + this.aQuery[uid].iLimit + '&type=video&q=' + this.aQuery[uid].sQuery + '&key=' + this.sYtKey + this.YTnextPageTokenString
+      a = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=${this.aQuery[uid].iLimit}&type=video&q=${this.aQuery[uid].sQuery}&key=${this.sYtKey}${this.YTnextPageTokenString}`
     } else {
-      a = 'https://www.googleapis.com/youtube/v3/search?part=snippet&order=date&maxResults=' + this.aQuery[uid].iLimit + '&type=video&channelId=' + this.aQuery[uid].sArtist + '&key=' + this.sYtKey + this.YTnextPageTokenString
+      a = `https://www.googleapis.com/youtube/v3/search?part=snippet&order=date&maxResults=${this.aQuery[uid].iLimit}&type=video&channelId=${this.aQuery[uid].sArtist}&key=${this.sYtKey}${this.YTnextPageTokenString}`
     }
-
-    return axios.get(a).then((resp) => {
-      var z = ''
-      try {
-        this.nextPageToken = resp.data.nextPageToken
-        resp = resp.data.items
-        for (var idx in resp) {
-          z = 'https://www.youtube.com/watch?v=' + resp[idx].id.videoId
-          this.pushResult(
-            uid,                                             // uid:
-            resp[idx].snippet.channelTitle,                  // artist:
-            resp[idx].snippet.channelId,                     // artistID:
-            this.parseDate(resp[idx].snippet.publishedAt),   // created:
-            resp[idx].snippet.description,                   // description:
-            '',                                              // duration:
-            'https://dream.tribe.nu/r3/off/?q=' + z,         // mp3:
-            z,                                               // mp32:
-            resp[idx].snippet.thumbnails.medium.url,         // poster:
-            resp[idx].snippet.thumbnails.high.url,           // posterLarge:
-            'YouTube',                                       // source:
-            resp[idx].snippet.title,                         // title:
-            resp[idx].id.videoId                             // trackID:
-          )
+    return new Promise((resolve, reject) => {
+        // get videos from search or channel or related
+        axios.get(a).then((resp) => {
+        var z = ''
+        try {
+          this.nextPageToken = resp.data.nextPageToken
+          resp = resp.data.items
+          var x = []
+          for (var idx in resp) {
+            x.push(resp[idx].id.videoId)
+          }
+          if (x.length) {
+            axios.get(`https://www.googleapis.com/youtube/v3/videos?id=${x.join(',')}&part=contentDetails&key=${this.sYtKey}`).then((resp2) =>{
+              var x = []
+              for (var i in resp) {
+                x[resp2.data.items[i].id] = this.timeHMS(resp2.data.items[idx].contentDetails.duration)
+              }
+              // console.log(x)
+              for (var i in resp) {
+                var el = resp[i]
+                // console.log(resp[idx].id.videoId)
+                // console.log(x[resp[idx].id.videoId])
+                this.pushResult(
+                  uid,                                                       // uid:
+                  el.snippet.channelTitle,                            // artist:
+                  el.snippet.channelId,                               // artistID:
+                  this.parseDate(el.snippet.publishedAt),             // created:
+                  el.snippet.description,                             // description:
+                  x[el.id.videoId],                                   // duration:
+                  `https://dream.tribe.nu/r3/off/?q=https://www.youtube.com/watch?v=${el.id.videoId}`,                   // mp3:
+                  `https://www.youtube.com/watch?v=${el.id.videoId}`,  // mp32:
+                  el.snippet.thumbnails.medium.url,                   // poster:
+                  el.snippet.thumbnails.high.url,                     // posterLarge:
+                  'YouTube',                                                 // source:
+                  el.snippet.title,                                   // title:
+                  el.id.videoId                                       // trackID:
+                )
+              }
+              console.log('resolving', resp)
+              resolve()
+            })
+          }
+        } catch (e) {
+          this.YTnextPageToken = ''
+          // console.log('yt error', e)
+          return
         }
-      } catch (e) {
-        this.YTnextPageToken = ''
-        // console.log('yt error', e)
-        return
-      }
+      })
     })
   }
 
