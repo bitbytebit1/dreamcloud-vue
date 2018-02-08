@@ -1,25 +1,15 @@
 <template>
   <v-flex flexbox>
-      <!-- <div class="well"> && !$UTILS.isMobile -->
-        <!-- <button class="btn btn-primary" @click='sort'>Sort Date</button>   -->
-        <!-- <button class="btn btn-primary" @click='toggleView'>Toggle Playlist View</button> -->
-      <!-- </div> -->
       <v-container fluid class="grid-list-xs search-results">
         <v-layout row wrap>
-          <column v-if="!list" :songs="fixedSongs" :rowsPerPage="rowsPerPage" :sortBy="sortBy" @toggleView="toggleView"></column>
-          <list v-else :songs="fixedSongs" :rowsPerPage="rowsPerPage" :sortBy="sortBy" @toggleView="toggleView"></list>
+          <list v-if="list" :songs="fixedSongs" :rowsPerPage="rowsPerPage" :sortBy="sortBy" @toggleView="toggleView"></list>
+          <grid v-else :songs="fixedSongs" :rowsPerPage="rowsPerPage" :sortBy="sortBy" @toggleView="toggleView"></grid>
         </v-layout>
       </v-container>
-        <!-- <v-container v-if="list && !$UTILS.isMobile"> -->
-      
-      <!-- </v-container> -->
-      <!-- <list :rowsPerPage="rowsPerPage" @toggleView="toggleView" v-if="list && $UTILS.isMobile" :songs="fixedSongs"></list> -->
-
   </v-flex>
 </template>
 <script>
-import column from './column'
-// import column from './list.2.vue'
+import grid from './grid'
 import list from './list'
 
 export default {
@@ -32,7 +22,9 @@ export default {
     viewType: {
       type: [Object],
       default () {
-        return { full: true, list: !1 }
+        return {
+          list: !1
+        }
       }
     },
     rowsPerPage: {
@@ -45,7 +37,7 @@ export default {
     }
   },
   components: {
-    'column': column,
+    'grid': grid,
     'list': list
   },
   data () {

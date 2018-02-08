@@ -7,7 +7,7 @@
           <!-- header buttons -->
           <v-flex xs6 lg2 class="text-xs-left mt-2">
             <!-- enable check boxes -->
-            <v-btn v-if="$store.getters.auth_state" @click="bSelect = !bSelect" icon>
+            <v-btn v-if="auth_state" @click="bSelect = !bSelect" icon>
               <v-icon :color="bSelect ? 'primary' : ''">check_box</v-icon>
             </v-btn>
             <!-- toggle view -->
@@ -42,7 +42,7 @@
           </v-flex>
           <!-- select buttons -->
           <v-flex xs6 lg3 v-if="bSelect" class="text-xs-left">
-            <add-to-playlist key="multi" :disabled="selected.length == 0" v-if="$store.getters.auth_state" :song="selected"></add-to-playlist>
+            <add-to-playlist key="multi" :disabled="selected.length == 0" v-if="auth_state" :song="selected"></add-to-playlist>
 
             <delete-button :disabled="selected.length == 0" v-if="$route.params.playlist" @delete="removeList"></delete-button>
 
@@ -53,13 +53,13 @@
       </v-card-title>
       <!-- v-data-iterator -->
       <v-data-iterator
+        class="mt-2"
         ref="dItera"
         content-tag='v-layout'
         row
         wrap
         :headers="headers"
         :items="songs"
-        :item-key="itemKey"
         :pagination.sync="pagination"
         :rows-per-page-items='[25, 50, 100, { text: "All", value: -1 }]'
         :search="search"
@@ -78,7 +78,7 @@
           lg3
           @click="play(props.index)"
         >
-          <v-card class="dc-crd ma-0 pa-0" color="">
+          <v-card class="dc-crd ma-0 pa-0" :color="isPlaying(props.item.mp32)">
             <!-- image -->
             <v-card-media :src="props.item.poster" height="150px" contain></v-card-media>
             <v-card-title primary-title>
@@ -96,10 +96,10 @@
   </v-flex>
 </template>
 <script>
-
-/* eslint-disable */
+import { mapGetters } from 'vuex'
+// /* eslint-disable */
 export default {
-  name: 'list-2',
+  name: 'grid',
   props: {
     songs: {
       type: [Array]
@@ -113,7 +113,7 @@ export default {
       default: 10
     }
   },
-  data(){
+  data () {
     return {
       filterHasFocus: false,
       bSelect: false,
@@ -137,6 +137,12 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      auth_state: 'auth_state',
+      index: 'index',
+      hash: 'hash',
+      current_song: 'current_song'
+    }),
     sorted () {
       //  returns the full sorted array for use with click
       if (this.$refs.dItera.pagination.rowsPerPage !== -1 && this.songs.length > this.$refs.dItera.pagination.rowsPerPage) {
@@ -148,17 +154,20 @@ export default {
       } else {
         return this.$refs.dItera.filteredItems.length ? this.$refs.dItera.filteredItems : this.songs
       }
-    },
+    }
   },
   methods: {
     play (index) {
       // Fix for mobile on first play
-      this.$router.push({name: 'stage'})
       if (this.$store.getters.index === -1 && this.$UTILS.isMobile) this.$DCPlayer.eAudio.play()
       // If not first page fix index
       index = this.pagination.page === 1 ? index : (this.pagination.rowsPerPage * (this.pagination.page - 1)) + index
       this.$store.commit('setNPlay', {songs: this.sorted, current: index, path: this.$route.path})
       this.$DCPlayer.setNPlay(this.sorted, index)
+      this.$router.push({name: 'stage'})
+    },
+    isPlaying (link) {
+      return this.$route.path === this.hash && link === this.current_song.mp32 ? 'primary' : ''
     }
   },
   created () {
@@ -170,7 +179,7 @@ export default {
     // console.log(this.items, this.songs)
     // this.items = this.songs
   },
-  updated (){
+  updated () {
     // console.log(this.items, this.songs)
     // this.items = this.songs
     // this.getRelated()
