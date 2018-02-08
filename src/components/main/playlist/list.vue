@@ -210,9 +210,9 @@ export default {
     // if NOT on user page add artist add artist header for sorting
     if (!this.$route.params.artistID) {
       this.headers.splice(3, 0, { text: 'Artist', value: 'artist', align: 'left' })
-    }
-    if (!this.$UTILS.isMobile) {
       this.headers.splice(4, 0, { text: 'Date', value: 'uploaded', align: 'left' })
+    } else if (!this.$UTILS.isMobile) {
+      this.headers.splice(3, 0, { text: 'Date', value: 'uploaded', align: 'left' })
     }
     // set key to use based on whether this is a playlist
     this.itemKey = this.$route.params.playlist ? 'key' : 'mp3'
