@@ -13,7 +13,6 @@ import loading from '@/components/misc/loading'
 export default {
   name: 'home', 
   components: {
-    'playlist': playlist,
     'loading': loading
   },  
   data () {
