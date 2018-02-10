@@ -46,7 +46,7 @@ class DCAPIClass {
       bRelated: bRelated,
       iPage: iPage
     }
-    aSource = aSource[0].toLowerCase() === 'all' ? ['bandcamp', 'mixcloud', 'soundcloud', 'youtube', 'vimeo'] : aSource
+    aSource = aSource[0].toLowerCase() === 'all' ? ['mixcloud', 'soundcloud', 'youtube', 'vimeo'] : aSource
     for (var idx in aSource) {
       this.aQuery[uid].aAjax.push(this.search(aSource[idx], uid))
     }
