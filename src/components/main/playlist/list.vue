@@ -18,7 +18,7 @@
             <v-btn icon @click="$refs.search.focus()" v-if="!search.length">
               <v-icon :color="filterHasFocus ? 'primary' : ''">filter_list</v-icon>
             </v-btn>
-            <v-btn icon v-else @click="$refs.search.focus()">
+            <v-btn icon v-else @click="search = ''">
               <v-icon color="primary">
                 clear
               </v-icon>
