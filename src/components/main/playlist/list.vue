@@ -72,14 +72,14 @@
               <v-checkbox :color="isPlaying(props.item.mp32) ? 'white' : 'primary'" hide-details v-model="props.selected"></v-checkbox>
             </td>
 
-            <!-- title -->
-            <td class="text-xs-left">
-              <span :class="$vuetify.breakpoint.name === 'xs' ? 'caption' : 'body-1'">{{ props.item.title }}</span>
-            </td>
-
             <!-- image -->
             <td>
               <img class="mt-2" v-lazy="props.item.poster"/>
+            </td>
+
+            <!-- title -->
+            <td class="text-xs-left">
+              <span :class="$vuetify.breakpoint.name === 'xs' ? 'caption' : 'body-1'">{{ props.item.title }}</span>
             </td>
             <!-- duration -->
             <td>
@@ -173,8 +173,8 @@ export default {
       ],
       today: new Date(),
       headers: [
+        { text: '', value: 'source', align: 'left' },
         { text: 'Title', value: 'title', align: 'left' },
-        { text: 'Source', value: 'source', align: 'left' },
         { text: 'Duration', value: 'duration', align: 'left' },
         // { text: 'Artist', value: 'artist', align: 'left' },
         { text: '', value: '', align: 'left' }
@@ -258,8 +258,8 @@ export default {
       }
     },
     downloadAll () {
-      for (const key in this.selected) {
-        this.download(this.selected[key])
+      for (const i in this.selected) {
+        setTimeout(() => { this.download(this.selected[i]) }, 1000 * i - 1)
       }
     },
     download (song) {
