@@ -232,6 +232,7 @@ export default {
 }
 .artist{
   color: grey;
+  cursor: pointer;
 }
 
 .slide-fade-enter-active {

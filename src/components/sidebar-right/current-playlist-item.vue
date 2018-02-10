@@ -152,6 +152,7 @@ export default {
   position: absolute;
   bottom: 0px;
   right: 5px;
+  cursor: pointer;
 }
 .breaker19{
   word-break: break-word;
