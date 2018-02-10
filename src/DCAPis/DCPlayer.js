@@ -152,16 +152,17 @@ export default {
               { src: song.poster, sizes: '512x512', type: 'image/png' }
             ]
           })
+          this.bindMediaSesssion()
         }
       },
       bindMediaSesssion () {
         if ('mediaSession' in navigator) {
-          navigator.mediaSession.setActionHandler('play', DCPlayer.play)
-          navigator.mediaSession.setActionHandler('pause', DCPlayer.pause)
-          navigator.mediaSession.setActionHandler('seekbackward', DCPlayer.seekBackward)
-          navigator.mediaSession.setActionHandler('seekforward', DCPlayer.seekForward)
-          navigator.mediaSession.setActionHandler('previoustrack', DCPlayer.previous)
-          navigator.mediaSession.setActionHandler('nexttrack', DCPlayer.next)
+          navigator.mediaSession.setActionHandler('play', () => DCPlayer.play())
+          navigator.mediaSession.setActionHandler('pause', () => DCPlayer.pause())
+          navigator.mediaSession.setActionHandler('seekbackward', () => DCPlayer.seekBackward())
+          navigator.mediaSession.setActionHandler('seekforward', () => DCPlayer.seekForward())
+          navigator.mediaSession.setActionHandler('previoustrack', () => DCPlayer.previous())
+          navigator.mediaSession.setActionHandler('nexttrack', () => DCPlayer.next())
         }
       }
     }

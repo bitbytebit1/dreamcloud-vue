@@ -1,5 +1,5 @@
 <template>
-  <v-flex xs12>
+  <v-flex xs12 lg10 xl10 flexbox>
     <loading :show="loading" spinner="waveDots"></loading>
     <playlist rowsPerPage="84" :view-type="{full: true, list: true}" :songs="aSongs"></playlist>  
   </v-flex>

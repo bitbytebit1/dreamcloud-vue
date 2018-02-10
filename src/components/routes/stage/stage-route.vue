@@ -3,18 +3,18 @@
 </template>
 
 <script>
-/* eslint-disable */
+// /* eslint-disable */
 
-import { mapGetters } from 'vuex'
+// import { mapGetters } from 'vuex'
 export default {
   name: 'stage-route',
   // props: ['source', 'artist', 'trackID'],
   props: ['trackID'],
-  computed: {
+  // computed: {
     // ...mapGetters({
     //   song: 'current_song',
     // })
-  },
+  // },
   mounted () {
     // if (!this.song || this.song.trackID !== this.trackID) {
     //   // alert('i c')

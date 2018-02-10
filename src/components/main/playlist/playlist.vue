@@ -24,7 +24,7 @@ export default {
       type: [Object],
       default () {
         return {
-          list: !1
+          list: !0
         }
       }
     },
