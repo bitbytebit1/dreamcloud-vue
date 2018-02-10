@@ -62,6 +62,7 @@
         :search="search"
         :select-all="bSelect"
         v-model="selected"
+        class="dtable"
         >
         <v-progress-linear slot="progress" color="primary" indeterminate></v-progress-linear>
 
@@ -294,6 +295,9 @@ export default {
 </script>
 
 <style>
+.dtable tr{
+  cursor: pointer;
+}
   .artist-dark{
     color: white !important;
   }
