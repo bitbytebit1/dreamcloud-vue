@@ -82,12 +82,12 @@
               <v-checkbox hide-details v-model="selected" :value="props.item"></v-checkbox>
             </v-flex>
             <!-- image -->
-            <v-card-media :src="props.item.poster" height="150px" contain>
+            <v-card-media :src="props.item.poster" height="150px">
               <v-container fill-height fluid>
                 <v-layout fill-height>
                   <v-flex xs12 align-end flexbox>
                     <!-- duration -->
-                    <span :class="{ 'card-duration': true , [props.item.source]: true}" v-text="props.item.duration"/>
+                    <span class="card-duration" v-text="props.item.duration"/>
                   </v-flex>
                 </v-layout>
               </v-container>
@@ -193,6 +193,11 @@ export default {
         setTimeout(() => { this.download(this.selected[i]) }, 1000 * i - 1)
       }
     },
+    download (song) {
+      this.$DCPlayer.getAudio(song.mp32, (data) => {
+        this.$UTILS.downloadLink(data)
+      })
+    },
     cardColor (prop) {
       if (this.bSelect) {
         return prop.selected ? 'primary' : ''
@@ -232,26 +237,12 @@ export default {
 </script>
 
 <style>
-/* .card-img{
-  top: 2px;
-  left: 1px;
-} */
 .menu{
   width: 45px;
 }
 .card-duration{
   text-shadow: 0px 0px 5px black;
   background: rgba(1, 1, 1, .5);
-  position: absolute;
-  bottom: 2px;
-  right: 62px;
-}
-.card-duration.SoundCloud{
-  position: absolute;
-  bottom: 2px;
-  right: 62px;
-}
-.card-duration.YouTube{
   position: absolute;
   bottom: 2px;
   right:4px;
