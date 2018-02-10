@@ -31,14 +31,10 @@
 
       <v-spacer></v-spacer>
       
-      <!-- yt button -->
-      <!-- <youtube-button></youtube-button> -->
-    <!-- <v-toolbar-items> -->
 
-      <show-stage></show-stage>
+      <!-- <show-stage></show-stage> -->
       <!-- toggle right draw button -->
       <v-toolbar-side-icon @click.stop="drawerRight = !drawerRight"><v-icon>playlist_play</v-icon></v-toolbar-side-icon>
-    <!-- </v-toolbar-items> -->
 
     </v-toolbar>
 
@@ -92,8 +88,8 @@
   import sidebar from './components/sidebar-left/sidebar'
   import youtubeVideo from './components/misc/youtube-video'
   import stage from '@/components/main/stage/stage'
-  import showStage from '@/components/misc/show-stage.vue'
   import scrollToTop from '@/components/misc/scroll-to-top.vue'
+  // import showStage from '@/components/misc/show-stage.vue'
   export default {
     name: 'app',
     components: {
@@ -103,7 +99,7 @@
       'sidebar': sidebar,
       'current-playlist': currentPlaylist,
       'youtube-video': youtubeVideo,
-      'show-stage': showStage,
+      // 'show-stage': showStage,
       'stage': stage,
       'scroll-to-top': scrollToTop
     },

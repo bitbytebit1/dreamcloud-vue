@@ -4,6 +4,16 @@
 
     <!-- Change to for loop to save the whales... I mean internet -->
 
+
+    <v-list-tile v-if="!loggedIn" ripple @click="closeLeft" :to="{path: 'login'}">
+      <v-list-tile-action>
+        <v-icon>person</v-icon>
+      </v-list-tile-action>
+      <v-list-tile-content>
+        <v-list-tile-title>Login</v-list-tile-title>
+      </v-list-tile-content>
+    </v-list-tile>
+
     <v-list-tile ripple v-if="loggedIn" @click="closeLeft" :to="{path: '/home'}">
       <v-list-tile-action>
         <v-icon>dashboard</v-icon>
@@ -13,15 +23,15 @@
       </v-list-tile-content>
     </v-list-tile>
 
-    <v-list-tile ripple @click="closeLeft" :to="{path: loginPath}">
+    <v-list-tile ripple @click="closeLeft" :to="{name: 'stage'}">
       <v-list-tile-action>
-        <v-icon>person</v-icon>
+        <v-icon>music_video</v-icon>
       </v-list-tile-action>
       <v-list-tile-content>
-        <v-list-tile-title>{{loginText}}</v-list-tile-title>
+        <v-list-tile-title>Current</v-list-tile-title>
       </v-list-tile-content>
     </v-list-tile>
-
+    
     <v-list-tile ripple @click="closeLeft" v-if="loggedIn" :to="{path: '/settings'}">
       <v-list-tile-action>
         <v-icon>settings</v-icon>
