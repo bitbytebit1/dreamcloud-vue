@@ -1,6 +1,6 @@
 <template>
   <v-flex xs12 lg10 xl10 flexbox>
-    <loading :show="loading" spinner="waveDots"></loading>
+    <loading v-if="loading"></loading>
     <playlist sortBy="uploaded" rowsPerPage="84" v-if="!loading" :view-type="{full: true, list: true}" :songs="aSongs"></playlist>  
   </v-flex>
 </template>
@@ -11,7 +11,7 @@ import { DCAPIClass } from '@/DCAPIs/DCAPI.js'
 
 import loading from '@/components/misc/loading'
 export default {
-  name: 'home', 
+  name: 'all', 
   components: {
     'loading': loading
   },  

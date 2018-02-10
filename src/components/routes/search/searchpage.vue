@@ -1,6 +1,6 @@
 <template>
   <v-flex xs12 lg10 xl10 flexbox>
-    <radar v-if="loading" class="mt-3"></radar>
+    <loading v-if="loading"></loading>
     <playlist v-if="!loading" rowsPerPage='84' :songs="searchResults"></playlist>  
     <infinite-loading :distance="210" ref="infiniteLoading" v-if="!loading" @infinite="infiniteHandler" spinner="waveDots">    
       <span slot="no-more"></span>
@@ -10,7 +10,7 @@
 
 <script>
 import InfiniteLoading from 'vue-infinite-loading'
-import radar from '@/components/misc/radar-spinner'
+import loading from '@/components/misc/loading'
 
 export default {
   name: 'searchpage',
@@ -26,7 +26,7 @@ export default {
   },
   components: {
     'infinite-loading': InfiniteLoading,
-    'radar': radar
+    'loading': loading
   },
   computed: {
     splitSource () {

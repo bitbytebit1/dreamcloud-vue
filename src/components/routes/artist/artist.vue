@@ -2,16 +2,13 @@
   <v-flex xs12 lg10 xl10 flexbox>
     <artist-info  :artistID="artistID" :source="source" :artist="artist" :key="artistID"></artist-info>
 
-    <v-progress-circular v-if="loading" indeterminate color="primary"></v-progress-circular>
+    <!-- <v-progress-circular v-if="loading" indeterminate color="primary"></v-progress-circular> -->
+    <loading v-if="loading"></loading>
     
     <infinite-loading ref="infiniteLoading" v-if="!loading" @infinite="infiniteHandler" spinner="default">
       <span slot="no-more"></span>
-      <span slot="spinner">
-      </span>
+      <span slot="spinner"></span>
     </infinite-loading>
-
-    <!-- <loading v-if="loading" @infinite="infiniteHandler" :show="!loading" :reff="'infiniteLoading'" spinner="waveDots"></loading> -->
-    
 
     <playlist v-if="!loading" sortBy="uploaded" rowsPerPage='84' :songs="searchResults"></playlist>
   
@@ -69,6 +66,9 @@ export default {
         this.searchResults = this.$DCAPI.uniqueArray(this.searchResults)
       }, '')
     }
+  },
+  destroyed () {
+    this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete')
   }
 }
 </script>

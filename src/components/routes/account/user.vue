@@ -31,7 +31,7 @@
 
 <script>
   /* eslint-disable */
-import loading from '@/components/misc/loading.vue'
+import loading from '@/components/misc/inf-loading.vue'
 
 export default {
   name: 'user',

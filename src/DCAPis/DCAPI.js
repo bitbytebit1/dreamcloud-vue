@@ -17,7 +17,6 @@ class DCAPIClass {
   constructor () {
     
     // this.bcBase = 'https://dc-nodejs-backend-xdgwdxqavi.now.sh/' old
-    // this.bcBase = 'http://localhost:8000/'
     this.bcBase = 'https://dc-nodejs-backend-ftjhiqutmh.now.sh/'
     this.sYtKey = '***REMOVED***'
     this.sScKey = '***REMOVED***'
