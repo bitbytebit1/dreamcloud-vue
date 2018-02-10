@@ -41,7 +41,7 @@
                   <v-flex xs5>
                     <v-card-media
                       :src="props.item.poster"
-                      :height="props.item.source === 'YouTube' ?  '86px' : '125px' "
+                      :height="hai"
                       contain
                     ></v-card-media>
                   </v-flex>
@@ -78,6 +78,15 @@ export default {
     },
     items: []
   }),
+  computed: {
+    ...mapGetters({
+      isYT: 'isYT',
+      song: 'current_song'
+    }),
+    hai() {
+      return this.isYT ? '86px' : '125px'
+    }
+  },
   methods: {
     play (index){
       // this.$store.commit.setNPlay(index, this.items)
@@ -101,19 +110,6 @@ export default {
     hai (source) {
       return source === 'YouTube' ?  '86px' : '125px' 
     }
-  },
-  computed: {
-    ...mapGetters({
-      isYT: 'isYT',
-      song: 'current_song'
-    })
-  },
-  mounted () {
-    // this.getRelated()
-  },
-  updated (){
-    // this.getRelated()
-    // this.items = this.current
   }
 }
 </script>
