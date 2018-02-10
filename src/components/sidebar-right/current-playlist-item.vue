@@ -2,7 +2,7 @@
   <v-flex xs12 @click.stop="play" :key="song.trackID" class="width300">
     <v-card>
       <!-- image -->
-      <v-card-media v-lazy:background-image="song.poster" height="220px">
+      <v-card-media v-lazy:background-image="song.poster" height="220px" class="current-card"> 
         <!-- <v-container grid-list-xs fill-height fluid> -->
           <!-- <v-layout fill-height> -->
             <v-flex xs12 align-center flexbox class="dc-title">
@@ -18,7 +18,7 @@
       </v-card-media>
 
       <!-- song actions -->
-      <v-card-actions>
+      <v-card-actions @click.stop>
         <!-- add to playlist -->
         <add-to-playlist :song="song"></add-to-playlist>
         <!-- share button -->
@@ -130,6 +130,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+.current-card{
+  cursor: pointer;
+}
 .width300{
   width:278px
 }
