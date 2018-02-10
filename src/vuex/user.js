@@ -1,6 +1,6 @@
 export default {
   state: {
-    view_mode: true,
+    view_mode: false,
     auth_state: false,
     bShowStage: true,
     settings: {
