@@ -1,5 +1,5 @@
 <template>
-  <v-flex xl12 flexbox>
+  <v-flex xs12 lg10>
     <div class="loading" v-if="loading">
       Loading...
     </div>
