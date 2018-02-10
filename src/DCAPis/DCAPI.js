@@ -200,30 +200,6 @@ class DCAPIClass {
     })
   }
 
-  timeHMS(s) {
-    var T = 'date';
-    var d = 8.64e7;
-    var h = d/24;
-    var m = h/60;
-    var multipliers = {date: {y:d*365.25, m:d*(365*4+1)/48, d:d},
-                       time: {h:h, m:m, s:1000}};
-    var re = /[^a-z]+|[a-z]/gi;
-
-    // Tokenise with match, then process with reduce
-    var time = s.toLowerCase().match(/p|t|\d+\.?\d*[ymdhs]/ig).reduce(function(ms, v) {
-      if (v == 'p') return ms;
-      if (v == 't') {
-        T = 'time';
-        return ms;
-      }
-      var b = v.match(re);
-      return ms + b[0] * multipliers[T][b[1]];
-    }, 0);
-
-    // Converting ms to h:mm:ss should be a separate function
-    return ((time/h|0) > 0 ? (time/h|0) + ":":"") + ('0' + ((time%h / m) |0)).slice(-2) + ':' + ('0' + (time%m/1000).toFixed(3)).slice(-6).slice(0,-4);
-  }
-
   yt (uid) {
     this.YTnextPageTokenString = this.nextPageToken ? '&pageToken=' + this.nextPageToken : ''
     if (!this.YTnextPageTokenString && this.aQuery[uid].iPage > 1) {
@@ -251,31 +227,27 @@ class DCAPIClass {
           if (x.length) {
             axios.get(`https://www.googleapis.com/youtube/v3/videos?id=${x.join(',')}&part=contentDetails&key=${this.sYtKey}`).then((resp2) =>{
               var x = []
-              for (var i in resp) {
-                x[resp2.data.items[i].id] = this.timeHMS(resp2.data.items[idx].contentDetails.duration)
+              for (var i in resp2.data.items) {
+                x[resp2.data.items[i].id] = this.timeHMS(resp2.data.items[i].contentDetails.duration)
               }
-              // console.log(x)
               for (var i in resp) {
-                var el = resp[i]
-                // console.log(resp[idx].id.videoId)
-                // console.log(x[resp[idx].id.videoId])
                 this.pushResult(
-                  uid,                                                       // uid:
-                  el.snippet.channelTitle,                            // artist:
-                  el.snippet.channelId,                               // artistID:
-                  this.parseDate(el.snippet.publishedAt),             // created:
-                  el.snippet.description,                             // description:
-                  x[el.id.videoId],                                   // duration:
-                  `https://dream.tribe.nu/r3/off/?q=https://www.youtube.com/watch?v=${el.id.videoId}`,                   // mp3:
-                  `https://www.youtube.com/watch?v=${el.id.videoId}`,  // mp32:
-                  el.snippet.thumbnails.medium.url,                   // poster:
-                  el.snippet.thumbnails.high.url,                     // posterLarge:
-                  'YouTube',                                                 // source:
-                  el.snippet.title,                                   // title:
-                  el.id.videoId                                       // trackID:
+                  uid,                                                                                      // uid:
+                  resp[i].snippet.channelTitle,                                                             // artist:
+                  resp[i].snippet.channelId,                                                                     // artistID:
+                  this.parseDate(resp[i].snippet.publishedAt),                                              // created:
+                  resp[i].snippet.description,                                                              // description:
+                  x[resp[i].id.videoId],                                                                    // duration:
+                  `https://dream.tribe.nu/r3/off/?q=https://www.youtube.com/watch?v=${resp[i].id.videoId}`, // mp3:
+                  `https://www.youtube.com/watch?v=${resp[i].id.videoId}`,                                       // mp32:
+                  resp[i].snippet.thumbnails.medium.url,                                                    // poster:
+                  resp[i].snippet.thumbnails.high.url,                                                      // posterLarge:
+                  'YouTube',                                                                                // source:
+                  resp[i].snippet.title,                                                                    // title:
+                  resp[i].id.videoId                                                                        // trackID:
                 )
               }
-              console.log('resolving', resp)
+              // console.log('resolving', resp)
               resolve()
             })
           }
@@ -383,7 +355,7 @@ class DCAPIClass {
       return axios.get('https://api.soundcloud.com/tracks/' + trackID + '?client_id=' + this.sScKey).then((resp) => {
         resp = resp.data
         // alert(resp.data)
-        console.log(resp)
+        // console.log(resp)
         this.pushResult(
           uid,
           resp.user.username,                                                     // artist:
@@ -500,13 +472,49 @@ class DCAPIClass {
     return a
   }
 
-  secondstominutes (time) {
+  secondstominutes1 (time) {
     return this.str_pad_left(Math.floor(time / 60), '0', 2) + ':' + this.str_pad_left(time - Math.floor(time / 60) * 60, '0', 2)
   }
 
   error (uid) {
     this.aQuery[uid].hCallback(this.aQuery[uid].aResult)
   }
+  secondstominutes (secs) {
+    var sec_num = parseInt(secs, 10)
+    var hours   = Math.floor(sec_num / 3600) % 24
+    var minutes = Math.floor(sec_num / 60) % 60
+    var seconds = sec_num % 60
+    return [hours,minutes,seconds]
+        .map(v => v < 10 ? "0" + v : v)
+        .filter((v,i) => v !== "00" || i > 0)
+        .join(":")
+  }
+
+  timeHMS(s) {
+    var T = 'date';
+    var d = 8.64e7;
+    var h = d/24;
+    var m = h/60;
+    var multipliers = {date: {y:d*365.25, m:d*(365*4+1)/48, d:d},
+                       time: {h:h, m:m, s:1000}};
+    var re = /[^a-z]+|[a-z]/gi;
+
+    // Tokenise with match, then process with reduce
+    var time = s.toLowerCase().match(/p|t|\d+\.?\d*[ymdhs]/ig).reduce(function(ms, v) {
+      if (v == 'p') return ms;
+      if (v == 't') {
+        T = 'time';
+        return ms;
+      }
+      var b = v.match(re);
+      return ms + b[0] * multipliers[T][b[1]];
+    }, 0);
+
+    // Converting ms to h:mm:ss should be a separate function
+    return this.secondstominutes(time / 1000)
+    // return ((time/h|0) > 0 ? (time/h|0) + ":":"") + ('0' + ((time%h / m) |0)).slice(-2) + ':' + ('0' + (time%m/1000).toFixed(3)).slice(-6).slice(0,-4);
+  }
+
 }
 
 export default {
