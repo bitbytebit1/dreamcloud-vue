@@ -1,6 +1,6 @@
 <template>
   <v-flex v-if="aPlaylists" xs12 lg10 flexbox :key="$route.params.playlist">
-    <playlist rowsPerPage="75" :songs="allSongs"></playlist>
+    <playlist rowsPerPage="84" :songs="allSongs"></playlist>
   </v-flex>
 </template>
 <script>

@@ -1,7 +1,7 @@
 <template>
   <v-flex xs12>
     <loading :show="loading" spinner="waveDots"></loading>
-    <playlist rowsPerPage="50" :view-type="{full: true, list: true}" :songs="aSongs"></playlist>  
+    <playlist rowsPerPage="84" :view-type="{full: true, list: true}" :songs="aSongs"></playlist>  
   </v-flex>
 </template>
 <script>

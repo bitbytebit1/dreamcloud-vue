@@ -1,7 +1,7 @@
 <template>
   <v-flex xs12 lg10 xl10 flexbox>
     <loading :show="loading" spinner="waveDots"></loading>
-    <playlist sortBy="uploaded" rowsPerPage="50" v-if="!loading" :view-type="{full: true, list: true}" :songs="aSongs"></playlist>  
+    <playlist sortBy="uploaded" rowsPerPage="84" v-if="!loading" :view-type="{full: true, list: true}" :songs="aSongs"></playlist>  
   </v-flex>
 </template>
 <script>
