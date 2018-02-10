@@ -1,9 +1,6 @@
 <template>
   <v-flex xs12 lg10 xl10 flexbox>
-
-    <loading :show="loading" spinner="waveDots"></loading>
-
-    <playlist v-if="!loading" rowsPerPage='72' :songs="searchResults"></playlist>  
+    <radar v-if="loading" class="mt-3"></radar>
     <playlist v-if="!loading" rowsPerPage='84' :songs="searchResults"></playlist>  
     <infinite-loading :distance="210" ref="infiniteLoading" v-if="!loading" @infinite="infiniteHandler" spinner="waveDots">    
       <span slot="no-more"></span>
@@ -13,7 +10,7 @@
 
 <script>
 import InfiniteLoading from 'vue-infinite-loading'
-import loading from '@/components/misc/loading'
+import radar from '@/components/misc/radar-spinner'
 
 export default {
   name: 'searchpage',
@@ -29,15 +26,15 @@ export default {
   },
   components: {
     'infinite-loading': InfiniteLoading,
-    'loading': loading
+    'radar': radar
   },
   computed: {
     splitSource () {
-      if (this.source.length > 1) {
-        let tmp = this.source
-        return tmp.split('-')
-      }
-      return this.source
+      return this.source.split('-')
+      // if (this.source.length > 1) {
+      //   return this.source.split('-')
+      // }
+      // return this.source
     }
   },
   created () {
@@ -83,4 +80,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+
 </style>
