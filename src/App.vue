@@ -151,7 +151,9 @@
 </script>
 
 <style>
-
+  .pointer{
+    cursor: pointer;
+  }
   @media only screen and (min-width: 600px){
     #foot{
       padding: 0 !important;

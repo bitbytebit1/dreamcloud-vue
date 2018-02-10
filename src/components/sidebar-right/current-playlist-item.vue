@@ -81,14 +81,14 @@ export default {
         return ''
       }
       return (value.replace(/\n/g, '<br>').replace(/(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)([0-5]?\d)/g, `
-        <span class="underline" onClick="document.getElementById('dc-audio').currentTime = '$&'.split(':').reduce((acc,time) => (60 * acc) + +time)">$&</span>`))
+        <span class="underline pointer" onClick="document.getElementById('dc-audio').currentTime = '$&'.split(':').reduce((acc,time) => (60 * acc) + +time)">$&</span>`))
     },
     ytTimeToSeconds (value) {
       if (!value) {
         return ''
       }
       return (value.replace(/\n/g, '<br>').replace(/(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)([0-5]?\d)/g, `
-        <span class="underline" 
+        <span class="underline pointer" 
           onClick="
             event.stopPropagation();
             document.getElementById('dc-audio').currentTime = '$&'.split(':').reduce((acc,time) => (60 * acc) + +time);
@@ -130,9 +130,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-.current-card{
-  cursor: pointer;
-}
 .width300{
   width:278px
 }
@@ -172,6 +169,5 @@ export default {
 }
 .underline{
   text-decoration: underline;
-  cursor: pointer;
 }
 </style>

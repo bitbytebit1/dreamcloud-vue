@@ -28,7 +28,7 @@
             <v-icon>{{volIcon}}</v-icon>
           </v-btn>
           <div class="slider-wrapper">
-            <input class="vol-slider" type="range" min="0" max="10" @input="volumeChange" v-model="volume" step="0.01">
+            <input class="vol-slider pointer" type="range" min="0" max="10" @input="volumeChange" v-model="volume" step="0.01">
           </div>
         </v-speed-dial>
       </div>
@@ -219,14 +219,12 @@ export default {
     width: 20px;
     height: 25px;
     background: teal;
-    cursor: pointer;
 }
 
 .vol-slider::-moz-range-thumb {
     width: 25px;
     height: 25px;
     background: teal;
-    cursor: pointer;
 }
 .vol-slider::-moz-range-track {
     background: #d3d3d3;

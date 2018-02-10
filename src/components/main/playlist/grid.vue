@@ -76,7 +76,7 @@
           lg3
           @click.stop="!bSelect ? play(props.index) : ''"
         >
-          <v-card class="dc-crd ma-0 pa-0" :color="cardColor(props)">
+          <v-card class="dc-crd ma-0 pa-0 pointer" :color="cardColor(props)">
 
             <v-flex @click.stop v-if="bSelect">
               <v-checkbox hide-details v-model="selected" :value="props.item"></v-checkbox>
@@ -259,7 +259,6 @@ export default {
 .dc-crd{
   box-shadow: unset !important;
   height: 100% !important;
-  cursor: pointer;
 }
 .dc-crd .text-xs-center{
   width: 100%;
@@ -276,7 +275,6 @@ export default {
 }
 .artist{
   color: grey;
-  cursor: pointer;
 }
 
 .slide-fade-enter-active {

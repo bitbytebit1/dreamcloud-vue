@@ -66,11 +66,6 @@
     width: 20%;
     padding: 15px;
   }
-  button {
-    margin-top: 10px;
-    width: 10%;
-    cursor: pointer;
-  }
   span {
     display: block;
     margin-top: 20px;

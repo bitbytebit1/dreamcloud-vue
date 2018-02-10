@@ -67,7 +67,7 @@
         <v-progress-linear slot="progress" color="primary" indeterminate></v-progress-linear>
 
         <template slot="items" slot-scope="props">
-          <tr :key="props.index" :class="isPlaying(props.item.mp32) ? 'primary white--text' : ''" @click.stop="!bSelect ? play(props.index) : props.selected = !props.selected">
+          <tr :key="props.index" :class="isPlaying(props.item.mp32) ? 'primary white--text pointer' : 'pointer'" @click.stop="!bSelect ? play(props.index) : props.selected = !props.selected">
             <!-- check_box -->
             <td v-if="bSelect">
               <v-checkbox :color="isPlaying(props.item.mp32) ? 'white' : 'primary'" hide-details v-model="props.selected"></v-checkbox>
@@ -295,9 +295,6 @@ export default {
 </script>
 
 <style>
-.dtable tr{
-  cursor: pointer;
-}
   .artist-dark{
     color: white !important;
   }
