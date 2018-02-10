@@ -64,8 +64,6 @@
         :rows-per-page-items='[24, 50, 100, { text: "All", value: -1 }]'
         :search="search"
         :select-all="bSelect"
-        v-model="selected"
-        
         >
         <!-- no data -->
         <v-flex slot="no-data">No matching records</v-flex>
@@ -76,21 +74,31 @@
           slot-scope='props'
           xs6
           lg3
-          @click="play(props.index)"
+          @click.stop="!bSelect ? play(props.index) : ''"
         >
           <v-card class="dc-crd ma-0 pa-0" :color="cardColor(props)">
-            <!-- check_box -->
-            <!-- <v-checkbox v-if="bSelect" :color="isPlaying(props.item.mp32)" hide-details v-model="props.selected"></v-checkbox> -->
-            <!-- <td v-if="bSelect">
-            </td> -->
+
+            <v-flex @click.stop v-if="bSelect">
+              <v-checkbox hide-details v-model="selected" :value="props.item"></v-checkbox>
+            </v-flex>
             <!-- image -->
-            <v-card-media :src="props.item.poster" height="150px" contain></v-card-media>
+            <v-card-media :src="props.item.poster" height="150px" contain>
+              <v-container fill-height fluid>
+                <v-layout fill-height>
+                  <v-flex xs12 align-end flexbox>
+                    <!-- duration -->
+                    <span :class="{ 'card-duration': true , [props.item.source]: true}" v-text="props.item.duration"/>
+                  </v-flex>
+                </v-layout>
+              </v-container>
+            </v-card-media>
             <v-card-title primary-title>
               <div class="text-xs-center">
                 <!-- title -->
                 <div class="subheading ">{{ props.item.title }}</div>
                 <!-- artist -->
                 <div v-if="!$route.params.artistID" class="artist" @click.stop="$router.push({name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}})">{{ props.item.artist }}</div>
+                <!-- check_box -->
               </div>
             </v-card-title>
           </v-card>
@@ -100,6 +108,11 @@
   </v-flex>
 </template>
 <script>
+
+import addToPlaylist from '@/components/misc/add-to-playlist.vue'
+import deleteButton from '@/components/misc/delete-button'
+import shareButton from '@/components/misc/share-button'
+import downloadButton from '@/components/misc/download-button'
 import { mapGetters } from 'vuex'
 // /* eslint-disable */
 export default {
@@ -116,6 +129,12 @@ export default {
       type: [Number, String],
       default: 10
     }
+  },
+  components: {
+    'add-to-playlist': addToPlaylist,
+    'delete-button': deleteButton,
+    'download-button': downloadButton,
+    'share-button': shareButton
   },
   data () {
     return {
@@ -161,13 +180,18 @@ export default {
     }
   },
   methods: {
-    cardClick (prop) {
-      if (this.bSelect) {
-        // alert('1')
-        prop.selected = true
-        return
+    removeList () {
+      for (const i in this.selected) {
+        this.remove(this.selected[i].key)
       }
-      this.play(prop.index)
+    },
+    remove (key) {
+      this.$DCFB.playlistSongDelete(this.$route.params.playlist, key)
+    },
+    downloadAll () {
+      for (const i in this.selected) {
+        setTimeout(() => { this.download(this.selected[i]) }, 1000 * i - 1)
+      }
     },
     cardColor (prop) {
       if (this.bSelect) {
@@ -208,14 +232,34 @@ export default {
 </script>
 
 <style>
+/* .card-img{
+  top: 2px;
+  left: 1px;
+} */
 .menu{
   width: 45px;
-} 
+}
+.card-duration{
+  text-shadow: 0px 0px 5px black;
+  background: rgba(1, 1, 1, .5);
+  position: absolute;
+  bottom: 2px;
+  right: 62px;
+}
+.card-duration.SoundCloud{
+  position: absolute;
+  bottom: 2px;
+  right: 62px;
+}
+.card-duration.YouTube{
+  position: absolute;
+  bottom: 2px;
+  right:4px;
+}
 .dc-crd{
   box-shadow: unset !important;
-  /* box-shadow: 10px 10px 8px teal !important; */
   height: 100% !important;
-  
+  cursor: pointer;
 }
 .dc-crd .text-xs-center{
   width: 100%;
