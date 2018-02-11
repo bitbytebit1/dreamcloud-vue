@@ -1,56 +1,57 @@
 <template>
-  <v-flex xs12 lg10 xl10 flexbox>
-    <loading v-if="loading"></loading>
-    <playlist sortBy="uploaded" rowsPerPage="84" v-if="!loading" :view-type="{full: true, list: true}" :songs="aSongs"></playlist>  
+  <v-flex xs12 lg10 flexbox :key="$route.params.playlist">
+    <loading v-if="!auth_state || !allSongs.length"></loading>
+    <playlist v-else :songs="aPlaylists" rowsPerPage="84"></playlist>
+
   </v-flex>
 </template>
 <script>
-/* eslint-disable */
-import axios from 'axios'
-import { DCAPIClass } from '@/DCAPIs/DCAPI.js'
-
 import loading from '@/components/misc/loading'
+import { mapGetters } from 'vuex'
 export default {
-  name: 'all', 
-  components: {
-    'loading': loading
-  },  
+  name: 'subs-all',
+  watch: {
+    'auth_state': 'bind'
+  },
+  created () {
+    this.bind()
+  },
   data () {
     return {
-      aSongs: [],
-      loading: true
+      aPlaylists: [],
+      subscriptions: []
     }
+  },
+  components: {
+    'loading': loading
   },
   computed: {
-    // aSongsSortedByDate () {
-      // return this.aSongs.sort(this.$DCAPI.sortDate)
-    // }
-  },  
-  created () {
-    var results = [], idx = 0;
-    for(var sub in this.subscriptions){
-      results.push(this.$DCAPI.searchInt(0 , 0, [this.subscriptions[sub].source], this.subscriptions[sub].id, 
-      (songs) =>{
-        this.aSongs = this.aSongs.concat(songs)
-      }, false, 25).then(() =>{
-        // console.log('done')
-        this.loading = false
-      }))
+    ...mapGetters({auth_state: 'auth_state'}),
+    allSongs () {
+      var results = []
+      for (var sub in this.subscriptions) {
+        results.push(this.$DCAPI.searchInt(0, 0, [this.subscriptions[sub].source], this.subscriptions[sub].id,
+        (songs) => {
+          this.aPlaylists = this.aPlaylists.concat(songs)
+        }, false, 25).then(() => {
+          this.loading = false
+        }))
+      }
+      return results
     }
-    // axios.all(results).then(() => {
-    //   // console.log('all done')
-    //   // this.aSongs.sort(this.$DCAPI.sortDate)
-    // })
-    
   },
-  firebase () {
-    return {
-      subscriptions: this.$DCFB.subscriptions
+  methods: {
+    bind () {
+      // only bind if logged in
+      if (this.auth_state) {
+        this.$bindAsArray('subscriptions', this.$DCFB.subscriptions)
+      }
     }
-  }  
+  }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+
 </style>
