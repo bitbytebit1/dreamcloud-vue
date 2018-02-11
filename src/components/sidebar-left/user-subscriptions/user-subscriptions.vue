@@ -73,19 +73,19 @@ export default {
 
 <style>
 #subscription:hover .sub-MixCloud{
-  box-shadow: 0 0 0 2px rgba(39, 58, 75, 0.6);
+  box-shadow: 0 0 0 3px rgba(39, 58, 75, 1);
 }
 #subscription:hover .sub-SoundCloud{
-  box-shadow: 0 0 0 2px rgba(255, 119, 0, 0.6);
+  box-shadow: 0 0 0 3px rgba(255, 119, 0, 1);
 }
 #subscription:hover .sub-YouTube{
-  box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.6);
+  box-shadow: 0 0 0 3px rgba(255, 0, 0, 1);
 }
 #subscription:hover .sub-Vimeo{
-  box-shadow: 0 0 0 2px rgba(26, 183, 234, 0.6);
+  box-shadow: 0 0 0 3px rgba(26, 183, 234, 1);
 }
 #subscription:hover .sub-Bandcamp{
-  box-shadow: 0 0 0 2px rgba(98, 154, 169, 0.6);
+  box-shadow: 0 0 0 3px rgba(98, 154, 169, 1);
 }
 .delete {
   display: none!important
