@@ -5,16 +5,16 @@
     </v-layout>
   </v-flex>
   <v-flex offset-xs1 xs10 v-else class="mt-3">
-    <v-jumbotron color="grey darken-3 elevation-24" dark>
+    <div class="grey darken-2 white--text">
       <v-container fill-height>
         <v-layout align-center>
           <v-flex text-xs-center>
-            <h3 class="display-3">Nothing playing</h3>
-            <h2>¯\_(ツ)_/¯</h2>
+            <div class="display-2">Nothing playing</div>
           </v-flex>
         </v-layout>
       </v-container>
-    </v-jumbotron>
+    </div>
+    <div class="display-1">¯\_(ツ)_/¯</div>
   </v-flex>
 </template>
 <script>
