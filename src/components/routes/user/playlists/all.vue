@@ -1,7 +1,7 @@
 <template>
   <v-flex xs12 lg10 flexbox :key="$route.params.playlist">
-    <loading v-if="!auth_state || !allSongs.length"></loading>
-    <playlist v-else :songs="allSongs" rowsPerPage="84"></playlist>
+    <loading v-if="!auth_state || !aSongs.length"></loading>
+    <playlist v-else :songs="aSongs" rowsPerPage="-1"></playlist>
 
   </v-flex>
 </template>
@@ -18,31 +18,30 @@ export default {
   },
   data () {
     return {
-      aPlaylists: []
+      userlist: [],
+      aSongs: []
     }
   },
   components: {
     'loading': loading
   },
   computed: {
-    ...mapGetters({auth_state: 'auth_state'}),
-    allSongs () {
-      let all = []
-      for (const i1 in this.aPlaylists) {
-        // all.push.apply(all, this.aPlaylists[i1].songs)
-        // all = all.concat(this.aPlaylists[i1].songs)
-        for (const i2 in this.aPlaylists[i1].songs) {
-          all.push(this.aPlaylists[i1].songs[i2])
-        }
-      }
-      return all
-    }
+    ...mapGetters({auth_state: 'auth_state'})
   },
   methods: {
+    allSongs () {
+      for (const i1 in this.userlist) {
+        // all.push.apply(all, this.aPlaylists[i1].songs)
+        // all = all.concat(this.aPlaylists[i1].songs)
+        for (const i2 in this.userlist[i1].songs) {
+          this.aSongs.push(this.userlist[i1].songs[i2])
+        }
+      }
+    },
     bind () {
       // only bind if logged in
       if (this.auth_state) {
-        this.$bindAsArray('aPlaylists', this.$DCFB.playlists)
+        this.$bindAsArray('userlist', this.$DCFB.playlists, null, this.allSongs)
       }
     }
   }

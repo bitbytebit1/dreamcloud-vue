@@ -1,6 +1,8 @@
 <template>
   <v-flex xs12 lg10 flexbox :key="$route.params.playlist">
-    <loading v-if="!auth_state || !allSongs.length"></loading>
+    <!-- <loading v-if="!auth_state || !allSongs.length"></loading> -->
+    <loading v-if="!auth_state || aPlaylists.length === 0"></loading>
+    
     <playlist v-else :songs="aPlaylists" rowsPerPage="84"></playlist>
 
   </v-flex>
@@ -26,25 +28,22 @@ export default {
     'loading': loading
   },
   computed: {
-    ...mapGetters({auth_state: 'auth_state'}),
-    allSongs () {
-      var results = []
-      for (var sub in this.subscriptions) {
-        results.push(this.$DCAPI.searchInt(0, 0, [this.subscriptions[sub].source], this.subscriptions[sub].id,
-        (songs) => {
-          this.aPlaylists = this.aPlaylists.concat(songs)
-        }, false, 25).then(() => {
-          this.loading = false
-        }))
-      }
-      return results
-    }
+    ...mapGetters({auth_state: 'auth_state'})
   },
   methods: {
     bind () {
       // only bind if logged in
       if (this.auth_state) {
-        this.$bindAsArray('subscriptions', this.$DCFB.subscriptions)
+        // On done call getAllSubs
+        this.$bindAsArray('subscriptions', this.$DCFB.subscriptions, null, this.getAllSubs)
+      }
+    },
+    getAllSubs () {
+      for (var sub in this.subscriptions) {
+        this.$DCAPI.searchInt(0, 0, [this.subscriptions[sub].source], this.subscriptions[sub].id,
+        (songs) => {
+          this.aPlaylists = this.aPlaylists.concat(songs)
+        }, false, 25)
       }
     }
   }
