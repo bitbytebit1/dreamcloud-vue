@@ -29,8 +29,7 @@ export default {
       },
       share (url, song) {
         if (Utils.isMobile) {
-          Utils.downloadLink('whatsapp://send?text=' + encodeURIComponent(url))
-          if (navigator.share1) {
+          if (navigator.share) {
             navigator.share({
               title: song.title,
               text: song.description,
@@ -39,10 +38,11 @@ export default {
             .then(() => console.log('Successful share'))
             .catch((error) => console.log('Error sharing', error))
           } else {
+            Utils.downloadLink('whatsapp://send?text=' + encodeURIComponent(url))
           }
           // this.$parent.setIframeSrc('') // double check if this works.
         } else {
-          Utils.copyToClipboard(url)
+          Utils.copyToClipboard(encodeURI(url))
         }
       },
       formatBytes (a, b) {
