@@ -23,8 +23,11 @@ import('../node_modules/vuetify/dist/vuetify.min.css')
 
 Vue.use(VueLazyload, {
   preLoad: 3,
-  loading: '/static/img/all.png',
-  attempt: 1
+  loading: '/static/img/loading2.gif',
+  error: '/static/img/loading2.gif',
+  attempt: 1,
+    // the default is ['scroll', 'wheel', 'mousewheel', 'resize', 'animationend', 'transitionend']
+  listenEvents: [ 'scroll' ]
 })
 Vue.use(UtilsPlug)
 // Vue.use(DCUserPlug)
