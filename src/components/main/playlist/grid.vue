@@ -96,7 +96,7 @@
             <v-card-title primary-title>
               <div class="text-xs-left">
                 <!-- title -->
-                <div class="subheading primary-title">{{ props.item.title }}</div>
+                <div class="subheading">{{ props.item.title }}</div>
                 <!-- artist -->
                 <div v-if="!$route.params.artistID" class="artist" @click.stop="$router.push({name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}})">{{ props.item.artist }}</div>
                 <!-- check_box -->
@@ -251,6 +251,7 @@ export default {
   width: 45px;
 }
 .card-duration{
+  color: white;
   text-shadow: 0px 0px 5px black;
   background: rgba(1, 1, 1, .5);
   position: absolute;
