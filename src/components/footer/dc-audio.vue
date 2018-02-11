@@ -6,17 +6,17 @@
           <!-- <img id="poster" :src="currentImage"> -->
         </div>
         <div class="audio-controls">
-          <v-btn @click="previous" class="primary" icon outline>
+          <v-btn @click="previous" v-bind="$store.getters.theme" class="primary" icon outline>
             <v-icon>skip_previous</v-icon>
           </v-btn>
 
-          <v-btn v-if="bLoading" class="primary" icon outline>
+          <v-btn v-if="bLoading" v-bind="$store.getters.theme"  class="primary" icon outline>
             <v-progress-circular id="loadingSpinner" indeterminate v-bind:size="25"></v-progress-circular>
           </v-btn>
-          <v-btn v-else @click="$DCPlayer.togglePlay" class="primary" icon outline>
+          <v-btn v-else v-bind="$store.getters.theme" @click="$DCPlayer.togglePlay" class="primary" icon outline>
             <v-icon>{{play_arrow}}</v-icon>
           </v-btn>
-          <v-btn @click="next" class="primary" icon outline>
+          <v-btn @click="next" v-bind="$store.getters.theme" class="primary" icon outline>
             <v-icon>skip_next</v-icon>
           </v-btn>
         </div>
@@ -24,7 +24,7 @@
       
       <div id="right" class="hidden-sm-and-down">
         <v-speed-dial open-on-hover>
-          <v-btn @click="toggleMute" slot="activator" outline icon :class="volClass" fab hover small>
+          <v-btn v-bind="$store.getters.theme" @click="toggleMute" slot="activator" outline icon :class="volClass" fab hover small>
             <v-icon>{{volIcon}}</v-icon>
           </v-btn>
           <div class="slider-wrapper">

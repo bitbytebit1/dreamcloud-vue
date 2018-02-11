@@ -7,16 +7,16 @@
           <!-- {{$store.ytUseVideo}} -->
         </div>
         <div class="audio-controls">
-          <v-btn @click="previous" class="primary" icon outline >
+          <v-btn @click="previous" v-bind="$store.getters.theme" class="primary" icon outline >
             <v-icon>skip_previous</v-icon>
           </v-btn>
-          <v-btn outline class="primary" icon v-if="bLoading">
+          <v-btn outline v-bind="$store.getters.theme" class="primary" icon v-if="bLoading">
             <v-progress-circular  id="loadingSpinner" indeterminate v-bind:size="25"></v-progress-circular>
           </v-btn>
-          <v-btn v-else @click="togglePlay" class="primary" icon outline>
+          <v-btn v-else v-bind="$store.getters.theme" @click="togglePlay" class="primary" icon outline>
             <v-icon>{{sPlayIcon}}</v-icon>
           </v-btn>
-          <v-btn icon outline class="primary" @click="next">
+          <v-btn icon v-bind="$store.getters.theme" outline class="primary" @click="next">
             <v-icon>skip_next</v-icon>
           </v-btn>
         </div>
@@ -24,7 +24,7 @@
       
       <div id="right" class="hidden-sm-and-down">
         <v-speed-dial hover transition="slide-x-reverse-transition" open-on-hover>
-          <v-btn @click="toggleMute" outline icon :class="volClass" slot="activator" fab hover small>
+          <v-btn v-bind="$store.getters.theme" @click="toggleMute" outline icon :class="volClass" slot="activator" fab hover small>
             <v-icon>{{volIcon}}</v-icon>
           </v-btn>
           <div class="slider-wrapper">
