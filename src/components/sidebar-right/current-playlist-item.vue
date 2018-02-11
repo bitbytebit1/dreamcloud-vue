@@ -2,7 +2,7 @@
   <v-flex xs12 @click.stop="play" :key="song.trackID" class="width300">
     <v-card>
       <!-- image -->
-      <v-card-media v-lazy:background-image="song.poster" height="220px" class="current-card"> 
+      <v-card-media v-lazy:background-image="song.poster" height="220px" class="current-card pointer"> 
         <!-- <v-container grid-list-xs fill-height fluid> -->
           <!-- <v-layout fill-height> -->
             <v-flex xs12 align-center flexbox class="dc-title">
@@ -152,7 +152,6 @@ export default {
   position: absolute;
   bottom: 0px;
   right: 5px;
-  cursor: pointer;
 }
 .breaker19{
   word-break: break-word;
