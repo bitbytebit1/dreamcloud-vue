@@ -84,7 +84,6 @@
   import dcYoutube from './components/footer/dc-youtube'
   import currentPlaylist from './components/sidebar-right/current-playlist'
   import sidebar from './components/sidebar-left/sidebar'
-  import youtubeVideo from './components/misc/youtube-video'
   import stage from '@/components/main/stage/stage'
   import scrollToTop from '@/components/misc/scroll-to-top.vue'
   export default {
@@ -95,7 +94,6 @@
       'dc-youtube': dcYoutube,
       'sidebar': sidebar,
       'current-playlist': currentPlaylist,
-      'youtube-video': youtubeVideo,
       'stage': stage,
       'scroll-to-top': scrollToTop
     },
