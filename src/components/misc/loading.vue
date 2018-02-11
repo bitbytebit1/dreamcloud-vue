@@ -38,12 +38,12 @@ export default {
 
 .half-circle-spinner .circle.circle-1 {
   border-top-color: teal;
-  animation: half-circle-spinner-animation 0.7s infinite;
+  animation: half-circle-spinner-animation 1s infinite;
 }
 
 .half-circle-spinner .circle.circle-2 {
   border-bottom-color: teal;
-  animation: half-circle-spinner-animation 0.7s infinite alternate;
+  animation: half-circle-spinner-animation 1s infinite alternate;
 }
 
 @keyframes half-circle-spinner-animation {
