@@ -43,7 +43,7 @@
       </v-flex>
       <!-- Description -->
       <v-flex xs12 offset-xs0 class='text-xs-left pl-3 pr-3 brk' v-if="info.description">
-        <p id="">{{ info.description }}</p>
+        <p id="">{{ info.description.replace(/\n\s*\n/g, '\n') }}</p>
       </v-flex>
     </v-layout>
   </v-container>

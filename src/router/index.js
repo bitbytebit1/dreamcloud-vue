@@ -5,25 +5,25 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 
-import settings from '@/router/routes/settings/settings'
+import settings from '@/router/settings/settings'
 
-import artist from '@/router/routes/artist/artist'
+import artist from '@/router/artist/artist'
 
-import searchpage from '@/router/routes/search/searchpage'
-import song from '@/router/routes/search/song'
+import searchpage from '@/router/search/searchpage'
+import song from '@/router/search/song'
 
-import userPlaylist from '@/router/routes/user/playlists/playlist'
-import playlistsAll from '@/router/routes/user/playlists/all'
+import userPlaylist from '@/router/user/playlists/playlist'
+import playlistsAll from '@/router/user/playlists/all'
 
-import home from '@/router/routes/user/subs/all'
-import subsAll from '@/router/routes/user/subs/all'
+import home from '@/router/user/subs/all'
+import subsAll from '@/router/user/subs/all'
 
-import user from '@/router/routes/account/user'
-import login from '@/router/routes/account/login'
-import signUp from '@/router/routes/account/sign-up'
-import password from '@/router/routes/account/password-reset'
+import user from '@/router/user/user'
+import login from '@/router/user/login/login'
+import signUp from '@/router/user/login/sign-up'
+import password from '@/router/user/login/password-reset'
 
-import stage from '@/router/routes/stage/stage-route'
+import stage from '@/router/stage/stage-route'
 
 let router = new Router({
   routes: [
