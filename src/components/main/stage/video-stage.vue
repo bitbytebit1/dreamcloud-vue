@@ -41,7 +41,7 @@
           </div>
         </v-flex>
         <!-- Artist Picture -->
-        <artist-info-mini :artistID="song.artistID" :source="song.source" :artist="song.artist" :key="song.artistID"></artist-info-mini>
+        <artist-mini :artistID="song.artistID" :source="song.source" :artist="song.artist" :key="song.artistID"></artist-mini>
         <!-- Artist name + Song description -->
         <v-flex xs12 lg7 class="subheading text-xs-left pl-3 mt-3">
           <strong>{{ song.artist }}</strong>
@@ -58,13 +58,13 @@
 </template>
 <script>
 import related from '@/components/main/stage/stage-related'
-import artistInfo from '@/components/misc/song-info'
+import artistMini from '@/components/misc/artist-mini'
 import youtubeVBtn from '@/components/misc/toggle-video-button'
 /* eslint-disable */
 export default {
   name: 'video-stage',
   components: {
-    'artist-info-mini': artistInfo,
+    'artist-mini': artistMini,
     'youtube-button': youtubeVBtn,
     'related': related
   },

@@ -4,7 +4,7 @@
     <v-flex xs12 >
       <!-- Avatar -->
       <v-flex xs12>
-        <v-avatar size='55px' slot='activator' @click="avatarClicked">
+        <v-avatar class="pointer" size='55px' slot='activator' @click="avatarClicked">
           <img :src='info.img' class='img-fluid' style='display:inline-block;'/>
         </v-avatar>
       </v-flex>
@@ -19,7 +19,7 @@
 <script>
 import subscribeButton from '@/components/misc/subscribe-button'
 export default {
-  name: 'song-mini',
+  name: 'artist-mini',
   props: ['artistID', 'source', 'artist'],
   components: {
     'subscribe-button': subscribeButton
