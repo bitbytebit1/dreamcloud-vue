@@ -139,6 +139,7 @@ export default {
   word-break: break-word;
   font-size: 18px!important;
   font-weight: 500;
+  color: white;
 }
 .dc-title{
   width: 100%;
