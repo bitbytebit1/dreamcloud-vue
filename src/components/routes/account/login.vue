@@ -3,10 +3,10 @@
     <v-layout row wrap justify-center align-center>
       <v-flex xs12 lg6>
         <v-flex xs12>
-          <h3>Sign In</h3>
+          <h3>Sign in with</h3>
         </v-flex>
         <v-flex xs12 sm6 offset-sm3>
-          <form target="remember" method="post" action="/content/blank">
+          <form target="remember" method="post" action="/content/blank" v-if="bShowInput">
             <v-text-field
               label="Email"
               single-line
@@ -22,21 +22,23 @@
               v-on:keyup.enter="signIn"
               type="password"
             ></v-text-field>
-            <v-btn color="primary white--text" :loading="loading1" :disabled="loading1" round type="submit" v-on:click="signIn">
-              Sign In
-              <v-icon right dark>lock_open</v-icon>
-            </v-btn>
+            <h5>Don't have an account yet? You can create one <router-link to="/sign-up">here</router-link>.</h5>
+            <h5><router-link to="/password-reset">Forgot your password?</router-link></h5>
             <br />
           </form>
         </v-flex>
+        <v-btn color="primary white--text" :loading="loading1" :disabled="loading1" round type="submit" v-on:click="emailSignInClick">
+          Email
+          <v-icon right dark>lock</v-icon>
+        </v-btn>
         <div class="text-xs-center">
-          <v-btn :loading="loading2" :disabled="loading2" round class="grey darken-4" dark @click.prevent="signInGitHub">Sign in with GitHub
-            <v-icon right dark>lock_open</v-icon>
+          <v-btn :loading="loading2" :disabled="loading2" round class="grey darken-4" dark @click.prevent="signInGitHub">GitHub
+            <v-icon right dark>lock</v-icon>
           </v-btn>
         </div>
         <div class="text-xs-center">
-          <v-btn :loading="loading3" :disabled="loading3" round class="red" dark @click.prevent="signInGoogle">Sign in with Google
-            <v-icon right dark>lock_open</v-icon>
+          <v-btn :loading="loading3" :disabled="loading3" round class="red" dark @click.prevent="signInGoogle">Google
+            <v-icon right dark>lock</v-icon>
           </v-btn>
         </div>
 <!--         
@@ -56,9 +58,6 @@
                         <v-icon right dark>lock_open</v-icon>
                       </v-btn>
                     </div> -->
-        
-        <h5>Don't have an account yet? You can create one <router-link to="/sign-up">here</router-link>.</h5>
-        <h5><router-link to="/password-reset">Forgot your password?</router-link></h5>
         <iframe id="remember" name="remember" class="hidden" src=""></iframe>
       </v-flex>
     </v-layout>
@@ -70,6 +69,7 @@
     name: 'login',
     data () {
       return {
+        bShowInput: false,
         email: '',
         password: '',
         loading1: false,
@@ -78,6 +78,12 @@
       }
     },
     methods: {
+      emailSignInClick () {
+        if (this.bShowInput) {
+          this.signIn()
+        }
+        this.bShowInput = true
+      },
       signIn () {
         this.loading1 = true
         this.$DCFB.fb.auth().signInWithEmailAndPassword(this.email, this.password).then(
@@ -120,7 +126,7 @@
               this.$store.commit('authChange', true)
               this.$DCFB.init(user.uid)
               this.loading3 = false
-              this.$router.replace('home')
+              this.$router.replace('current')
             }
           )
           .catch(
