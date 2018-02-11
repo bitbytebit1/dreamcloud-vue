@@ -4,26 +4,26 @@ import store from '../vuex'
 import Router from 'vue-router'
 Vue.use(Router)
 
-import home from '@/components/routes/user/subs/all'
 
-import settings from '@/components/routes/settings/settings'
+import settings from '@/router/routes/settings/settings'
 
-import artist from '@/components/routes/artist/artist'
+import artist from '@/router/routes/artist/artist'
 
-import searchpage from '@/components/routes/search/searchpage'
-import song from '@/components/routes/search/song'
+import searchpage from '@/router/routes/search/searchpage'
+import song from '@/router/routes/search/song'
 
-import userPlaylist from '@/components/routes/user/playlists/playlist'
-import playlistsAll from '@/components/routes/user/playlists/all'
+import userPlaylist from '@/router/routes/user/playlists/playlist'
+import playlistsAll from '@/router/routes/user/playlists/all'
 
-import subsAll from '@/components/routes/user/subs/all'
+import home from '@/router/routes/user/subs/all'
+import subsAll from '@/router/routes/user/subs/all'
 
-import user from '@/components/routes/account/user'
-import login from '@/components/routes/account/login'
-import signUp from '@/components/routes/account/sign-up'
-import password from '@/components/routes/account/password-reset'
+import user from '@/router/routes/account/user'
+import login from '@/router/routes/account/login'
+import signUp from '@/router/routes/account/sign-up'
+import password from '@/router/routes/account/password-reset'
 
-import stage from '@/components/routes/stage/stage-route'
+import stage from '@/router/routes/stage/stage-route'
 
 let router = new Router({
   routes: [
