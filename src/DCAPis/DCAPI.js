@@ -223,6 +223,7 @@ class DCAPIClass {
           for (var idx in resp) {
             x.push(resp[idx].id.videoId)
           }
+          // get the duration for all the hits
           if (x.length) {
             axios.get(`https://www.googleapis.com/youtube/v3/videos?id=${x.join(',')}&part=contentDetails&key=${this.sYtKey}`).then((resp2) =>{
               var x = []
@@ -230,21 +231,21 @@ class DCAPIClass {
                 x[resp2.data.items[i].id] = this.timeHMS(resp2.data.items[i].contentDetails.duration)
               }
               for (var i in resp) {
-                this.pushResult(
-                  uid,                                                                                      // uid:
-                  resp[i].snippet.channelTitle,                                                             // artist:
-                  resp[i].snippet.channelId,                                                                     // artistID:
-                  this.parseDate(resp[i].snippet.publishedAt),                                              // created:
-                  resp[i].snippet.description,                                                              // description:
-                  x[resp[i].id.videoId],                                                                    // duration:
-                  `https://dream.tribe.nu/r3/off/?q=https://www.youtube.com/watch?v=${resp[i].id.videoId}`, // mp3:
-                  `https://www.youtube.com/watch?v=${resp[i].id.videoId}`,                                       // mp32:
-                  resp[i].snippet.thumbnails.medium.url,                                                    // poster:
-                  resp[i].snippet.thumbnails.high.url,                                                      // posterLarge:
-                  'YouTube',                                                                                // source:
-                  resp[i].snippet.title,                                                                    // title:
-                  resp[i].id.videoId                                                                        // trackID:
-                )
+                this.aQuery[uid].aResult.push({
+                  // uid: uid,                                                                                         // uid:
+                  artist: resp[i].snippet.channelTitle,                                                             // artist:
+                  artistID: resp[i].snippet.channelId,                                                              // artistID:
+                  uploaded: this.parseDate(resp[i].snippet.publishedAt),                                             // created:
+                  description: resp[i].snippet.description,                                                         // description:
+                  duration: x[resp[i].id.videoId],                                                                  // duration:
+                  mp3: `https://dream.tribe.nu/r3/off/?q=https://www.youtube.com/watch?v=${resp[i].id.videoId}`,    // mp3:
+                  mp32: `https://www.youtube.com/watch?v=${resp[i].id.videoId}`,                                    // mp32:
+                  poster: resp[i].snippet.thumbnails.medium.url,                                                    // poster:
+                  posterLarge: resp[i].snippet.thumbnails.high.url,                                                 // posterLarge:
+                  source: 'YouTube',                                                                                // source:
+                  title: resp[i].snippet.title,                                                                     // title:
+                  trackID: resp[i].id.videoId                                                                       // trackID:
+                })
               }
               // console.log('resolving', resp)
               resolve()
