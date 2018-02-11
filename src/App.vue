@@ -85,7 +85,7 @@
   import currentPlaylist from './components/sidebar-right/current-playlist'
   import sidebar from './components/sidebar-left/sidebar'
   import stage from '@/components/main/stage/stage'
-  import scrollToTop from '@/components/misc/scroll-to-top.vue'
+  import scrollToTop from '@/components/footer/scroll-to-top.vue'
   export default {
     name: 'app',
     components: {

@@ -1,6 +1,7 @@
 <template>
     <v-fab-transition transition="slide-y-reverse-transition">
         <v-btn
+          v-bind="$store.getters.theme"
           fixed
           bottom
           right
