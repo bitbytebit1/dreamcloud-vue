@@ -47,7 +47,8 @@
             <delete-button :disabled="selected.length == 0" v-if="$route.params.playlist" @delete="removeList"></delete-button>
 
             <download-button :dis="selected.length == 0" :links="selected"></download-button>
-            <v-flex d-inline-flex>{{selected.length}} of {{songs.length}}</v-flex>
+            
+            <v-flex d-inline-flex>{{selected.length}} of {{filterLength}}</v-flex>
           </v-flex>
         </v-layout>
       </v-card-title>
@@ -82,7 +83,7 @@
               <v-checkbox hide-details v-model="selected" :value="props.item"></v-checkbox>
             </v-flex>
             <!-- image -->
-            <v-card-media :src="props.item.poster" height="150px">
+            <v-card-media v-lazy:background-image="props.item.poster" height="150px">
               <v-container fill-height fluid>
                 <v-layout fill-height>
                   <v-flex xs12 align-end flexbox>
@@ -93,9 +94,9 @@
               </v-container>
             </v-card-media>
             <v-card-title primary-title>
-              <div class="text-xs-center">
+              <div class="text-xs-left">
                 <!-- title -->
-                <div class="subheading ">{{ props.item.title }}</div>
+                <div class="subheading primary-title">{{ props.item.title }}</div>
                 <!-- artist -->
                 <div v-if="!$route.params.artistID" class="artist" @click.stop="$router.push({name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}})">{{ props.item.artist }}</div>
                 <!-- check_box -->
@@ -166,6 +167,9 @@ export default {
       current_song: 'current_song',
       view_mode: 'view_mode'
     }),
+    filterLength () {
+      return this.search.length && this.$refs.dItera.filteredItems.length ? this.$refs.dItera.filteredItems.length : this.songs.length - 1
+    },
     sorted () {
       //  returns the full sorted array for use with click
       if (this.$refs.dItera.pagination.rowsPerPage !== -1 && this.songs.length > this.$refs.dItera.pagination.rowsPerPage) {
@@ -237,6 +241,12 @@ export default {
 </script>
 
 <style>
+.card__media[lazy=loading] {
+  background: center center / cover no-repeat;
+}
+.card__media[lazy=loaded] {
+  background: center center / cover no-repeat;
+}
 .menu{
   width: 45px;
 }
@@ -251,7 +261,7 @@ export default {
   box-shadow: unset !important;
   height: 100% !important;
 }
-.dc-crd .text-xs-center{
+.dc-crd .text-xs-left{
   width: 100%;
 }
 .dc-crd .subheading, .dc-crd .artist{
@@ -260,7 +270,7 @@ export default {
 
 @-moz-document url-prefix() {
   .dc-crd .subheading, .dc-crd .artist{
-    white-space: pre-wrap;
+    /* white-space: pre-wrap; */
     /* word-break: break-all; */
   }
 }

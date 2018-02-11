@@ -6,7 +6,7 @@
         v-for="(song, index) in aPlaylist"
         :song="song"
         :index="index"
-        :key="song.trackID"
+        :key="song.trackID + index"
         ></current-playlist-item>
         <!-- <current-playlist-item
         :song="$store.getters.current_song"
@@ -14,7 +14,7 @@
         :key="$store.getters.current_song.trackID"
         ></current-playlist-item> -->
       </transition-group>
-      <infinite-loading distance="420" v-if="aPlaylist.length" class="flex xs12" ref="infiniteLoading2"  @infinite="infiniteHandler" spinner="default">
+      <infinite-loading v-if="aPlaylist.length" class="flex xs12" ref="infiniteLoading2"  @infinite="infiniteHandler" spinner="default">
         <span slot="no-results">
           End of the line kiddo
         </span>
@@ -46,8 +46,10 @@ export default {
   },
   watch: {
     hash () {
-      this.infState.reset()
       this.numberOfItems = 5
+      if (this.infState) {
+        this.infState.reset()
+      }
     }
   },
   components: {

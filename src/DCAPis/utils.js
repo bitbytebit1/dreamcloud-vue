@@ -35,8 +35,8 @@ export default {
               text: song.description,
               url: url
             })
-            .then(() => console.log('Successful share'))
-            .catch((error) => console.log('Error sharing', error))
+              .then(() => console.log('Successful share'))
+              .catch((error) => console.log('Error sharing', error))
           } else {
             Utils.downloadLink('whatsapp://send?text=' + encodeURIComponent(url))
           }

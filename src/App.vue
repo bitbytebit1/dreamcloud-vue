@@ -57,9 +57,9 @@
             <stage></stage>
           </v-flex>
           <transition name="fade" mode="out-in">
-            <keep-alive>
+            <!-- <keep-alive> -->
               <router-view></router-view>
-            </keep-alive>
+            <!-- </keep-alive> -->
           </transition>
         </v-layout>
       <!-- </v-container> -->
@@ -134,7 +134,7 @@
           })
           this.$DCFB.setting('Video').once('value', (snapshot) => {
             // if (snapshot.val() !== null) {
-              // alert(snapshot.val())
+            // alert(snapshot.val())
             // this.$store.commit('changeSetting', {'setting': 'Video', 'value': snapshot.val()})
             // this.$store.commit('ytUseVideo', snapshot.val())
             // this.$store.commit('ytShowVideo', snapshot.val())

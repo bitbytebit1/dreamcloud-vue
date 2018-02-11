@@ -47,7 +47,7 @@
             <delete-button :disabled="selected.length == 0" v-if="$route.params.playlist" @delete="removeList"></delete-button>
 
             <download-button :dis="selected.length == 0" :links="selected"></download-button>
-            <v-flex d-inline-flex>{{selected.length}} of {{songs.length}}</v-flex>
+            <v-flex d-inline-flex>{{selected.length}} of {{filterLength}}</v-flex>
           </v-flex>
         </v-layout>
       </v-card-title>
@@ -160,7 +160,7 @@ export default {
   data () {
     return {
       filterHasFocus: false,
-      itemKey: 'mp3',
+      itemKey: 'mp32',
       bSelect: false,
       selected: [],
       pagination: {
@@ -176,47 +176,22 @@ export default {
       headers: [
         { text: '', value: 'source', align: 'left' },
         { text: 'Title', value: 'title', align: 'left' },
-        { text: 'Duration', value: 'duration', align: 'left' },
+        { text: 'Duration', value: 'duration', align: 'left' }
         // { text: 'Artist', value: 'artist', align: 'left' },
-        { text: '', value: '', align: 'left' }
+        // { text: '', value: '', align: 'left', sortable: false }
       ]
     }
   },
   created () {
-    /*
-      lyrics lost in the code
-      between the scripts and the cyphers
-      underneath the source is a hidden message
-      that tells of forbidden gold
-      untold truthes and harsh realitys
-      fallacies upon fallacies
-      the flow you, you know i've overclocked this shit
-      this flow's, not for the ignorant
-      what you know (about straight up) killing it
-      on the strip with two clips of it
-      plus an extra reload incase shit hit's the ship
-      most miniscule dimwitted infant
-      chaos was the plan going way back to the supercombo records dan
-      i stay wavy like a cruise ship brudda-no-you-neva-couldtwos-it,
-      your-flow-is-over-produced-and-your-melodies-are-over-used-it's useless
-
-      the flow you know i've overclocked this shit
-      this flow it's not the ignorant or indiligent
-      what do you know about killing on the strip with
-      two clips of it plus an extra reload incase shit hits the fan
-      chaos was the plan going way back to the supercombo records dan
-      i stay wavy like a cruise ship brudda-no-you-neva-could-twos-it,
-      flow-over-produced-and-your-melodies-are-over-used-it's-useless,
-    */
     // if NOT on user page add artist add artist header for sorting
     if (!this.$route.params.artistID) {
       this.headers.splice(3, 0, { text: 'Artist', value: 'artist', align: 'left' })
       this.headers.splice(4, 0, { text: 'Date', value: 'uploaded', align: 'left' })
-    } else if (!this.$UTILS.isMobile) {
+    } else {
       this.headers.splice(3, 0, { text: 'Date', value: 'uploaded', align: 'left' })
     }
     // set key to use based on whether this is a playlist
-    this.itemKey = this.$route.params.playlist ? 'key' : 'mp3'
+    this.itemKey = this.$route.params.playlist ? 'key' : 'mp32'
   },
   computed: {
     ...mapGetters({
@@ -236,6 +211,9 @@ export default {
     },
     artistID () {
       return '/#/a/' + this.song.source + '/' + this.song.artist + '/' + this.song.artistID
+    },
+    filterLength () {
+      return this.search.length && this.$refs.dtable.filteredItems.length ? this.$refs.dtable.filteredItems.length : this.songs.length
     }
   },
   methods: {
@@ -364,3 +342,4 @@ export default {
     }
   }
 </style>
+

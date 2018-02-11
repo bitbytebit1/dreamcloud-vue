@@ -52,13 +52,18 @@ export default {
       this.search(this.$route.params.artistID, this.$route.params.source)
     },
     search (artistID, source, iPage = 0, state = 0) {
-      this.loading = !iPage                                 // If first page show loading
-      artistID = artistID || this.artistID                  // If not param set use internal
-      source = source || this.source                        // If not  ”    ”   ”   ”
-      this.searchResults = !iPage ? [] : this.searchResults // If first page clear search results array.
+      // If first page show loading
+      this.loading = !iPage
+      // If not param set use internal
+      artistID = artistID || this.artistID
+      // If not  ”    ”   ”   ”
+      source = source || this.source
+      // If first page clear search results array.
+      this.searchResults = !iPage ? [] : this.searchResults
       return this.$DCAPI.searchInt('', iPage, [source], artistID, (d) => {
         this.loading = false
-        if (!d.length) {                                    // If no results stop infinite loading
+        // If no results stop infinite loading
+        if (!d.length) {
           state.complete()
         }
         this.searchResults.push(...d)

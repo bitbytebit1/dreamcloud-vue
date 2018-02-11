@@ -57,7 +57,7 @@ let router = new Router({
     },
     {
       path: '/',
-      redirect: '/home'
+      redirect: '/current'
     },
     {
       path: '/home',

@@ -35,20 +35,20 @@
           @click="play(props.index)"
         >
         
-            <v-card class="mb-2" color="" >
+            <v-card class="mb-2 pointer" color="" >
               <v-container fluid grid-list-lg>
                 <v-layout row>
                   <v-flex xs5>
                     <v-card-media
                       :src="props.item.poster"
-                      :height="hai"
+                      :height="hai(props.item.source)"
                       contain
                     ></v-card-media>
                   </v-flex>
                   <v-flex xs7>
                     <div>
                       <div class="subheading text-xs-left">{{ props.item.title }}</div>
-                      <div class="artist text-xs-left">{{ props.item.artist }}</div>
+                      <div @click.stop="$router.push({name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}})" class="artist text-xs-left">{{ props.item.artist }}</div>
                     </div>
                   </v-flex>
                 </v-layout>
@@ -82,10 +82,7 @@ export default {
     ...mapGetters({
       isYT: 'isYT',
       song: 'current_song'
-    }),
-    hai() {
-      return this.isYT ? '86px' : '125px'
-    }
+    })
   },
   methods: {
     play (index){

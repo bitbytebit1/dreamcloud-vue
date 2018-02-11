@@ -19,7 +19,7 @@
           <div class="fl-r">
             <!-- yt button -->
             <youtube-button></youtube-button>
-            <v-speed-dial class="stage-btn" direction="left" open-on-hover>
+            <!-- <v-speed-dial class="stage-btn" direction="left" open-on-hover>
               <v-btn slot="activator" class="ma-0 pa-0" icon small hover fab>
                 <v-icon>fullscreen</v-icon>
               </v-btn>
@@ -56,9 +56,9 @@
                   <v-icon>people</v-icon>
                 </v-btn>
               </div>
-            </v-speed-dial>
+            </v-speed-dial>-->
           </div>
-        </v-flex>
+        </v-flex> 
         <!-- Artist Picture -->
         <artist-mini :artistID="song.artistID" :source="song.source" :artist="song.artist" :key="song.artistID"></artist-mini>
         <!-- Artist name + Song description -->
@@ -80,7 +80,7 @@ import related from '@/components/main/stage/stage-related'
 import artistMini from '@/components/misc/artist-mini'
 import youtubeVBtn from '@/components/misc/toggle-video-button'
 // import explode from '@/components/misc/explode'
-  /* eslint-disable */
+/* eslint-disable */
 export default {
   name: 'dc-stage',
   components: {

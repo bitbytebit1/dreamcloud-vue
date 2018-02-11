@@ -42,8 +42,8 @@
         </v-flex>
       </v-flex>
       <!-- Description -->
-      <v-flex xs12 offset-xs0 class='text-xs-left pl-3 pr-3' v-if="info.description">
-        <p>{{ info.description }}</p>
+      <v-flex xs12 offset-xs0 class='text-xs-left pl-3 pr-3 brk' v-if="info.description">
+        <p id="">{{ info.description }}</p>
       </v-flex>
     </v-layout>
   </v-container>
@@ -115,5 +115,8 @@ export default {
 </script>
 
 <style>
-
+.brk{
+  white-space: pre-line;
+  word-break: break-word;
+}
 </style>

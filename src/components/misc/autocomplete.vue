@@ -46,13 +46,13 @@ export default {
       // this.debounce(() =>{
       this.loading = true
       this.$jsonp(`https://suggestqueries.google.com/complete/search?callback=?&hl=en&ds=yt&jsonp=suggestCallBack&client=youtube&q=${v}`, {callbackName: 'suggestCallBack'})
-      .then(json => {
-        this.items = json[1].map(v => v[0])
-        this.items.unshift(v)
-        this.loading = false
-      }).catch(() => {
-        this.loading = false
-      })
+        .then(json => {
+          this.items = json[1].map(v => v[0])
+          this.items.unshift(v)
+          this.loading = false
+        }).catch(() => {
+          this.loading = false
+        })
       // }, 250)
     }
   }

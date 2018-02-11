@@ -1,5 +1,6 @@
 <template>
-  <v-flex xs12 @click.stop="play" :key="song.trackID" class="width300">
+ <!-- v-show="!(index === 0 && $store.getters.bShowStage)" -->
+  <v-flex xs12 @click.stop="play" :key="song.trackID + index" class="width300">
     <v-card>
       <!-- image -->
       <v-card-media v-lazy:background-image="song.poster" height="220px" class="current-card pointer"> 
@@ -61,9 +62,6 @@ export default {
     'download-button': downloadButton,
     'share-button': shareButton
   },
-  // updated () {
-    // this.show = (this.desc) && (this.$store.getters.index) && (this.$route.path === this.$store.getters.hash) && (this.song.mp32 === this.$store.getters.current_Playlist[this.$store.getters.index].mp32)
-  // },
   data () {
     return {
       show: false,
@@ -108,7 +106,7 @@ export default {
       })
     },
     play () {
-      if (this.index === this.$store.getters.index) {
+      if (this.index === 0) {
         if (this.$store.getters.isYT && this.$store.getters.ytUseVideo) {
           // console.log(this.$store.getters.ytState)
           // alert('1')

@@ -1,7 +1,7 @@
 <template>
   <v-flex xs12 lg10 xl10 flexbox>
     <loading v-if="loading"></loading>
-    <playlist v-if="!loading" rowsPerPage='84' :songs="searchResults"></playlist>  
+    <playlist v-if="!loading" rowsPerPage='50' :songs="searchResults"></playlist>  
     <infinite-loading :distance="210" ref="infiniteLoading" v-if="!loading" @infinite="infiniteHandler" spinner="waveDots">    
       <span slot="no-more"></span>
     </infinite-loading>
@@ -61,13 +61,18 @@ export default {
     },
     search (sQuery, aSource, iPage = 0) {
       // console.log(this)
-      this.loading = !iPage                                           // If first page show loading
-      this._query = sQuery || this._query                             // If not param set use internal
-      this._source = aSource || this._source                          // If not  ”    ”   ”   ”
-      this.searchResults = !iPage ? [] : this.searchResults           // If first page clear search results array.
+      // If first page show loading
+      this.loading = !iPage
+      // If not param set use internal
+      this._query = sQuery || this._query
+      // If not  ”    ”   ”   ”
+      this._source = aSource || this._source
+      // If first page clear search results array.
+      this.searchResults = !iPage ? [] : this.searchResults
       return this.$DCAPI.searchInt(this._query, iPage, this._source, '', (d) => {
         this.loading = false
-        if (!d.length) {                                              // If no results stop infinite loading
+        // If no results stop infinite loading
+        if (!d.length) {
           this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete')
         }
         this.searchResults.push(...d)
@@ -75,7 +80,6 @@ export default {
     }
   }
 }
-
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

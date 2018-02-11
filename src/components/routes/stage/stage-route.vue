@@ -10,18 +10,18 @@ export default {
   name: 'stage-route',
   // props: ['source', 'artist', 'trackID'],
   props: ['trackID'],
+  // ...mapGetters({
   // computed: {
-    // ...mapGetters({
-    //   song: 'current_song',
-    // })
+  // song: 'current_song',
+  // })
   // },
   mounted () {
     // if (!this.song || this.song.trackID !== this.trackID) {
-    //   // alert('i c')
-    //   this.$DCAPI.getSongInfo (this.trackID, this.source, (resp) => {
-    //     this.$store.commit('setNPlay', { songs: resp, path: this.$route.path, current: 0})
-    //     this.$DCPlayer.setNPlay(resp, 0)
-    //   })
+    // alert('i c')
+    // this.$DCAPI.getSongInfo (this.trackID, this.source, (resp) => {
+    // this.$store.commit('setNPlay', { songs: resp, path: this.$route.path, current: 0})
+    // this.$DCPlayer.setNPlay(resp, 0)
+    // })
     // } else {
     // }
     this.$store.commit('bShowStage', true)

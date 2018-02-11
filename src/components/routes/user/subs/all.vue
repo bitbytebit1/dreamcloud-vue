@@ -41,9 +41,9 @@ export default {
     getAllSubs () {
       for (var sub in this.subscriptions) {
         this.$DCAPI.searchInt(0, 0, [this.subscriptions[sub].source], this.subscriptions[sub].id,
-        (songs) => {
-          this.aPlaylists = this.aPlaylists.concat(songs)
-        }, false, 25)
+          (songs) => {
+            this.aPlaylists = this.aPlaylists.concat(songs)
+          }, false, 25)
       }
     }
   }

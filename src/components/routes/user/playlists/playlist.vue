@@ -1,16 +1,22 @@
 <template>
   <v-flex xs12 lg10 flexbox :key="this.$route.params.playlist">
     <!-- <h3>{{name}}</h3> -->
+    <loading v-if="!aSongs.length"></loading>
     <!-- show all items since it's a user playlist -->
-    <playlist :songs="aSongs" rowsPerPage='84'></playlist>
+    <playlist v-else :songs="aSongs" rowsPerPage='250'></playlist>
   </v-flex>
 </template>
 <script>
+import loading from '@/components/misc/loading'
+
 export default {
   name: 'userPlaylist',
   props: ['user', 'playlist', 'name'],
   watch: {
     '$route.params': 'bind'
+  },
+  components: {
+    'loading': loading
   },
   created () {
     this.bind(this.user, this.playlist)
