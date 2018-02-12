@@ -9,11 +9,11 @@ import Vue from 'vue'
 // import Wavesurfer from 'Wavesurfer'
 import App from './App'
 import router from './router'
-import DCAPIPlug from '@/DCAPIs/DCAPI.js'
-import DCPlayerPlug from '@/DCAPIs/DCPlayer.js'
-import DCFBPlug from '@/DCAPIs/DCFB.js'
-// import DCUserPlug from '@/DCAPIs/DCUser.js'
-import UtilsPlug from '@/DCAPIs/Utils.js'
+import DCAPIPlug from '@/api/DCAPI.js'
+import DCPlayerPlug from '@/api/DCPlayer.js'
+import DCFBPlug from '@/api/DCFB.js'
+// import DCUserPlug from '@/api/DCUser.js'
+import UtilsPlug from '@/api/Utils.js'
 import VueLazyload from 'vue-lazyload'
 import store from './vuex'
 
@@ -22,12 +22,12 @@ Vue.use(Vuetify)
 import('../node_modules/vuetify/dist/vuetify.min.css')
 
 Vue.use(VueLazyload, {
-  preLoad: 3,
+  preLoad: 1.6,
   loading: '/static/img/loading.gif',
   error: '/static/img/loading.gif',
   attempt: 1,
-    // the default is ['scroll', 'wheel', 'mousewheel', 'resize', 'animationend', 'transitionend']
-  listenEvents: [ 'scroll' ]
+  // the default is ['scroll', 'wheel', 'mousewheel', 'resize', 'animationend', 'transitionend']
+  // listenEvents: [ 'scroll' ]
 })
 Vue.use(UtilsPlug)
 // Vue.use(DCUserPlug)

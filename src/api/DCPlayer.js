@@ -74,7 +74,7 @@ export default {
             if (DCPlayer.error_count < 6) {
               DCPlayer.error()
             } else {
-              console.log('Failed to play 5 times, next song!')
+              // console.log('Failed to play 5 times, next song!')
               DCPlayer.error_count = 0
               DCPlayer.next()
             }
