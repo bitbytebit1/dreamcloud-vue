@@ -50,9 +50,9 @@
     </v-navigation-drawer>
     
     <!-- <main> -->
-    <v-content class="text-xs-center maCont">
-      <!-- <v-container fluid fill-height> -->
-        <v-layout justify-center row wrap>
+    <v-content class="text-xs-center">
+      <v-container fluid fill-height>
+        <v-layout justify-center align-center>
           <v-flex xs12 v-show="$store.getters.bShowStage">
             <stage></stage>
           </v-flex>
@@ -62,7 +62,7 @@
             <!-- </keep-alive> -->
           </transition>
         </v-layout>
-      <!-- </v-container> -->
+      </v-container>
     </v-content>
     <!-- </main> -->
     <v-footer app fixed id="foot">
@@ -159,6 +159,10 @@
     }
   }
   @media only screen and (max-width: 599px){
+    .container {
+      padding: 0 !important;
+      margin: 0 !important;
+    }
     #foot{
       padding: 0 !important;
       height: 75px !important;
