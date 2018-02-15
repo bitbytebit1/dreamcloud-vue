@@ -82,7 +82,7 @@ export default {
         let i = Math.floor(this.iProgress)
         if (i !== newValue && i + 1 !== newValue) {
           this.$store.commit('ytCurrentTime', newValue)
-          this.$store.getters.ytState.target.seekTo(newValue)
+          this.$store.getters.ytObject.seekTo(newValue)
         }
       }
     },
@@ -99,11 +99,10 @@ export default {
     // 3 (buffering)
     // 5 (video cued).
     bLoading () {
-      // return this.$store.getters.ytState.data !== 1 && this.$store.getters.ytState.data !== 2 && this.$store.getters.ytState.data !== 0 && this.$store.getters.ytState.data !== 3
-      return this.$store.getters.ytState.data === 3
+      return this.$store.getters.ytState === 3
     },
     bPlaying () {
-      return this.$store.getters.ytState.data === 1
+      return this.$store.getters.ytState === 1
     },
     sPlayIcon () {
       return this.bPlaying ? 'pause' : 'play_arrow'
@@ -120,16 +119,13 @@ export default {
   },
   methods: {
     toggleMute () {
-      // console.log('toggle mute', this.$store.getters.ytState.target.mute())
-      if (this.$store.getters.ytState.target.isMuted()) {
-        this.$store.getters.ytState.target.unMute()
+      if (this.$store.getters.ytObject.isMuted()) {
+        this.$store.getters.ytObject.unMute()
         this.updateVolIcon()
       } else {
-        this.$store.getters.ytState.target.mute()
+        this.$store.getters.ytObject.mute()
         this.volIcon = 'volume_off'
       }
-      // this.eAudio.muted = !this.eAudio.muted
-      // this.volIcon = this.$store.getters.ytState.target.isMuted() ? (this.$store.getters.ytState.target.unMute(), this.updateVolIcon()) : (this.$store.getters.ytState.target.mute(), 'volume_off')
     },
     volumeChange (wasd) {
       this.updateVolIcon()

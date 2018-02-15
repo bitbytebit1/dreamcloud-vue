@@ -39,7 +39,7 @@
     <!-- right drawer -->
     <v-navigation-drawer
       app
-      clipped
+      clipped-right
       disable-route-watcher
       enable-resize-watcher
       persistent
@@ -49,10 +49,9 @@
       <current-playlist></current-playlist>
     </v-navigation-drawer>
     
-    <!-- <main> -->
     <v-content class="text-xs-center">
       <v-container fluid fill-height>
-        <v-layout justify-center align-center>
+        <v-layout justify-center>
           <v-flex xs12 v-show="$store.getters.bShowStage">
             <stage></stage>
           </v-flex>
@@ -64,16 +63,12 @@
         </v-layout>
       </v-container>
     </v-content>
-    <!-- </main> -->
     <v-footer app fixed id="foot">
-      <!-- {{$store.getters.ytState.data}} -->
 
-       <!-- v-show="$store.getters.ytState.data == 1 || $store.getters.ytState.data == 2 || $store.getters.ytState.data == 0" -->
       <dc-youtube v-show="$store.getters.ytUseVideo && $store.getters.isYT"></dc-youtube>
       <dc-audio v-show="!$store.getters.ytUseVideo || !$store.getters.isYT"></dc-audio>  
       <scroll-to-top></scroll-to-top>
       
-       <!-- v-show="$store.getters.current_Playlist[$store.getters.index].source == 'YouTube'" -->
     </v-footer>
   </v-app>
 </template>
@@ -127,7 +122,7 @@
           this.$DCFB.setting('Night Mode').once('value', (snapshot) => {
             if (snapshot.val() !== null) {
               this.$store.commit('changeSetting', {'setting': 'Night Mode', 'value': snapshot.val()})
-              this.$vuetify.theme.primary = '#009688'
+              // this.$vuetify.theme.primary = '#009688'
             }
           })
           this.$DCFB.setting('Video').once('value', (snapshot) => {

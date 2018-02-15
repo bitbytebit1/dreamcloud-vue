@@ -1,6 +1,6 @@
 <template>
  <!-- v-show="!(index === 0 && $store.getters.bShowStage)" -->
-  <v-flex xs12 @click.stop="play" :key="song.trackID + index" class="width300">
+  <v-flex xs12 @click.stop="play" :key="song.trackID + index">
     <v-card>
       <!-- image -->
       <v-card-media v-lazy:background-image="song.poster" height="220px" class="current-card pointer"> 
@@ -21,7 +21,7 @@
       <!-- song actions -->
       <v-card-actions @click.stop>
         <!-- add to playlist -->
-        <add-to-playlist :song="song"></add-to-playlist>
+        <add-to-playlist v-if="$store.getters.auth_state" :song="song"></add-to-playlist>
         <!-- share button -->
         <share-button :song="song" :url="'https://dreamcloud.netlify.com/#/t/' + song.source + '/' + encodeURIComponent(song.artist) + '/' + song.trackID"></share-button>
         <!-- download button -->
@@ -128,9 +128,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-.width300{
-  width:278px
-}
 .crt-ttl{
   width: 100%;
   text-align: center;

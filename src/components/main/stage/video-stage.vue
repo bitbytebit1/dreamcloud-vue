@@ -96,7 +96,6 @@ export default {
     }
   },
   updated () {
-    // console.log('yt-stage updated', !this.$store.getters.ytSwitchTime)
     // if new song
     if (this.$store.getters.isYT && this.currentID != this.current_trackID && this.$store.getters.ytUseVideo && !this.$store.getters.ytSwitchTime) {
       this.currentID = this.current_trackID
@@ -184,18 +183,21 @@ export default {
       // console.log(this.yt.getOptions('captions'))
     },
     ytReady (state) {
-      this.$store.commit('ytObject', this.yt)
+      console.log('ready', state)
+      this.$store.commit('ytObject', state.target)
+      // this.$store.commit('ytState', state.data)
       this.$store.getters.ytObject.playVideo()
       window.dcYT = this.yt
     },
     ytChanged (state) {
-      this.$store.commit('ytState', state)
-      // console.log(this.$store.getters.ytObject.target.PlayerState)
+      console.log('changed', state)
+      // this.$store.commit('ytObject', state.target)
+      this.$store.commit('ytState', state.data)
       // if playing set duration amd interval to set current time.
       if (state.data === 1) {
         this.$store.commit('ytDuration', this.$store.getters.ytObject.getDuration())
-        this.interval = setInterval(() => { 
-          this.$store.commit('ytCurrentTime', this.$store.getters.ytObject.getCurrentTime()) 
+        this.interval = setInterval(() => {
+          this.$store.commit('ytCurrentTime', this.$store.getters.ytObject.getCurrentTime())
         }, 250)
       } else if (state.data === 0) {
         clearInterval(this.interval)
@@ -207,6 +209,7 @@ export default {
     }
   },
   destroyed () {
+    console.log('clear 2')
     clearInterval(this.interval)
   }
 }

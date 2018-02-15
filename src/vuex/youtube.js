@@ -23,7 +23,7 @@ export default {
     ytDuration: (state, payload) => { state.ytDuration = payload },
     ytCurrentTime: (state, payload) => { state.ytCurrentTime = payload },
     ytStopVideo: state => {
-      if (state.ytState.data === 1) {
+      if (state.ytState === 1) {
         try { state.ytObject.stopVideo() } catch (err) {}
       }
     },

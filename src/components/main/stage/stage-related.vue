@@ -34,26 +34,25 @@
           xs12
           @click="play(props.index)"
         >
-        
-            <v-card class="mb-2 pointer" color="" >
-              <v-container fluid grid-list-lg>
-                <v-layout row>
-                  <v-flex xs5>
-                    <v-card-media
-                      :src="props.item.poster"
-                      :height="hai(props.item.source)"
-                      contain
-                    ></v-card-media>
-                  </v-flex>
-                  <v-flex xs7>
-                    <div>
-                      <div class="subheading text-xs-left">{{ props.item.title }}</div>
-                      <div @click.stop="$router.push({name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}})" class="artist text-xs-left">{{ props.item.artist }}</div>
-                    </div>
-                  </v-flex>
-                </v-layout>
-              </v-container>
-            </v-card>
+          <v-card class="mb-2 pointer" color="" >
+            <v-container fluid grid-list-lg>
+              <v-layout row>
+                <v-flex xs5>
+                  <v-card-media
+                    :src="props.item.poster"
+                    :height="hai(props.item.source)"
+                    contain
+                  ></v-card-media>
+                </v-flex>
+                <v-flex xs7>
+                  <div>
+                    <div class="subheading text-xs-left">{{ props.item.title }}</div>
+                    <div @click.stop="$router.push({name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}})" class="artist text-xs-left">{{ props.item.artist }}</div>
+                  </div>
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-card>
         </v-flex>
       </v-data-iterator>
     </v-flex>      
@@ -84,10 +83,16 @@ export default {
       song: 'current_song'
     })
   },
+  created () {
+    this.getRelated()
+  },
   methods: {
     play (index){
       // this.$store.commit.setNPlay(index, this.items)
       window.scrollTo(0, 0)
+      // Event.observe(window, 'load', () =>{ 
+      //   window.scrollTo(x,x)
+      // })
       this.$store.commit('setNPlay', {songs: this.items, current: index, path: this.$route.path})
       return this.$DCPlayer.setNPlay(this.items, index)
     },
@@ -102,7 +107,7 @@ export default {
           d.shift()
         }
         this.items = d
-      }, true, 20)
+      }, true, 25)
     },
     hai (source) {
       return source === 'YouTube' ?  '86px' : '125px' 

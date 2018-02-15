@@ -3,7 +3,7 @@
     <!-- <loading v-if="!auth_state || !allSongs.length"></loading> -->
     <loading v-if="!auth_state || aPlaylists.length === 0"></loading>
     
-    <playlist v-else :songs="aPlaylists" rowsPerPage="84"></playlist>
+    <playlist v-else :songs="aPlaylists" sortBy="uploaded" rowsPerPage="84"></playlist>
 
   </v-flex>
 </template>

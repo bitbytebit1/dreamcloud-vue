@@ -1,11 +1,11 @@
 <template>
   <v-container fluid>
     <v-layout row wrap justify-center align-center>
-      <v-flex xs12 lg6>
+      <v-flex xs12 lg5 flexbox>
         <v-flex xs12>
           <h3>Sign in with</h3>
         </v-flex>
-        <v-flex xs12 sm6 offset-sm3>
+        <v-flex xs10 offset-xs1 xs10 offset-xs1 offset-lg2 lg8>
           <form target="remember" method="post" action="/content/blank" v-if="bShowInput">
             <v-text-field
               label="Email"
@@ -22,8 +22,8 @@
               v-on:keyup.enter="signIn"
               type="password"
             ></v-text-field>
-            <h5>Don't have an account yet? You can create one <router-link to="/sign-up">here</router-link>.</h5>
-            <h5><router-link to="/password-reset">Forgot your password?</router-link></h5>
+            <h4>Don't have an account yet? You can create one <router-link to="/sign-up">here</router-link>.</h4>
+            <h4><router-link to="/password-reset">Forgot your password?</router-link></h4>
             <br />
           </form>
         </v-flex>
@@ -31,6 +31,11 @@
           Email
           <v-icon right dark>lock</v-icon>
         </v-btn>
+        <div class="text-xs-center">
+          <v-btn :loading="loading4" :disabled="loading4" round class="blue darken-4" dark @click.prevent="signInFB">Facebook
+            <v-icon right dark>lock</v-icon>
+          </v-btn>
+        </div>
         <div class="text-xs-center">
           <v-btn :loading="loading2" :disabled="loading2" round class="grey darken-4" dark @click.prevent="signInGitHub">GitHub
             <v-icon right dark>lock</v-icon>
@@ -74,7 +79,8 @@
         password: '',
         loading1: false,
         loading2: false,
-        loading3: false
+        loading3: false,
+        loading4: false
       }
     },
     methods: {
@@ -118,6 +124,24 @@
             }
           )
       },
+      signInFB () {
+        this.loading4 = true
+        this.$DCFB.fb.auth().signInWithPopup(new this.$DCFB.fbb.auth.FacebookAuthProvider())
+          .then(
+            user => {
+              this.$store.commit('authChange', true)
+              this.$DCFB.init(user.uid)
+              this.loading4 = false
+              this.$router.replace('home')
+            }
+          )
+          .catch(
+            err => {
+              alert('Oops. ' + err.message)
+              this.loading2 = false
+            }
+          )
+      },
       signInGoogle () {
         this.loading3 = true
         this.$DCFB.fb.auth().signInWithPopup(new this.$DCFB.fbb.auth.GoogleAuthProvider())
@@ -126,7 +150,7 @@
               this.$store.commit('authChange', true)
               this.$DCFB.init(user.uid)
               this.loading3 = false
-              this.$router.replace('current')
+              this.$router.replace('home')
             }
           )
           .catch(

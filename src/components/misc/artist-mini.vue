@@ -76,7 +76,7 @@ export default {
         this.info.title = response.data.username
         this.info.track_count = response.data.cloudcast_count
       } else if (this.source.toLowerCase().indexOf('bandcamp') > -1) {
-        console.log(this.response)
+        // console.log(this.response)
         this.info.created = response.data.created
         this.info.img = response.data.img
         this.info.last_modified = response.data.last

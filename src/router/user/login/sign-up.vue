@@ -1,11 +1,11 @@
 <template>
   <v-container fluid>
     <v-layout row wrap justify-center align-center>
-      <v-flex xs12 lg5 flexbox>
-        <v-flex xs12 flexbox>
+      <v-flex xs12 lg5>
+        <v-flex xs12>
           <h3>Create account</h3>
         </v-flex>
-        <v-flex xs12 flexbox>
+        <v-flex xs10 offset-xs1 xs10 offset-xs1 offset-lg2 lg8>
           <v-text-field
             label="Email"
             single-line

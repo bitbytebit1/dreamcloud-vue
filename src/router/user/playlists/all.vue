@@ -1,7 +1,7 @@
 <template>
   <v-flex xs12 lg10 flexbox :key="$route.params.playlist">
     <loading v-if="!auth_state || !aSongs.length"></loading>
-    <playlist v-else :songs="aSongs" rowsPerPage="-1"></playlist>
+    <playlist v-else sortBy="uploaded" :songs="aSongs" rowsPerPage="84"></playlist>
 
   </v-flex>
 </template>

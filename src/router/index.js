@@ -130,6 +130,7 @@ router.beforeEach((to, from, next) => {
   // if (requiresAuth && !currentUser ) next('login')
   // console.log()
   if (to.name === 'stage') {
+    window.scrollTo(0, 0)
     store.commit('bShowStage', true)
     next()
   } else if (store.getters.bShowStage) {

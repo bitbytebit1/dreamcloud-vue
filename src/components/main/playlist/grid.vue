@@ -73,13 +73,13 @@
         <v-flex 
           slot='item'
           slot-scope='props'
-          xs6
+          xs12
           lg3
           @click.stop="!bSelect ? play(props.index) : ''"
         >
           <v-card class="dc-crd ma-0 pa-0 pointer" :color="cardColor(props)">
-
-            <v-flex @click.stop v-if="bSelect">
+            <!-- check box -->
+            <v-flex @click.stop v-show="bSelect">
               <v-checkbox hide-details v-model="selected" :value="props.item"></v-checkbox>
             </v-flex>
             <!-- image -->
@@ -93,13 +93,12 @@
                 </v-layout>
               </v-container>
             </v-card-media>
-            <v-card-title primary-title>
+            <v-card-title>
               <div class="text-xs-left">
                 <!-- title -->
                 <div class="subheading">{{ props.item.title }}</div>
                 <!-- artist -->
-                <div v-if="!$route.params.artistID" class="artist" @click.stop="$router.push({name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}})">{{ props.item.artist }}</div>
-                <!-- check_box -->
+                <div v-if="!$route.params.artistID" :class="artistClass(props.item.mp3)" @click.stop="$router.push({name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}})">{{ props.item.artist }}</div>
               </div>
             </v-card-title>
           </v-card>
@@ -168,7 +167,7 @@ export default {
       view_mode: 'view_mode'
     }),
     filterLength () {
-      return this.search.length && this.$refs.dItera.filteredItems.length ? this.$refs.dItera.filteredItems.length : this.songs.length - 1
+      return this.search.length && this.$refs.dItera.filteredItems.length ? this.$refs.dItera.filteredItems.length : this.songs.length
     },
     sorted () {
       //  returns the full sorted array for use with click
@@ -202,11 +201,11 @@ export default {
         this.$UTILS.downloadLink(data)
       })
     },
-    cardColor (prop) {
+    cardColor (props) {
       if (this.bSelect) {
-        return prop.selected ? 'primary' : ''
+        return props.selected ? 'primary' : ''
       } else {
-        return this.isPlaying(prop.item.mp32)
+        return this.isPlaying(props.item.mp32)
       }
     },
     play (index) {
@@ -218,8 +217,11 @@ export default {
       this.$DCPlayer.setNPlay(this.sorted, index)
       this.$router.push({name: 'stage'})
     },
+    artistClass (link) {
+      return this.$route.path === this.hash && link === this.current_song.mp32 ? 'white--text' : 'grey--text'
+    },
     isPlaying (link) {
-      return this.$route.path === this.hash && link === this.current_song.mp32 ? 'primary' : ''
+      return this.$route.path === this.hash && link === this.current_song.mp32 ? 'primary white--text' : ''
     }
   },
   created () {
@@ -241,6 +243,9 @@ export default {
 </script>
 
 <style>
+.card__media[lazy=error] {
+  background: center center / cover no-repeat;
+}
 .card__media[lazy=loading] {
   background: center center / cover no-repeat;
 }
@@ -274,9 +279,6 @@ export default {
     /* white-space: pre-wrap; */
     /* word-break: break-all; */
   }
-}
-.artist{
-  color: grey;
 }
 
 .slide-fade-enter-active {

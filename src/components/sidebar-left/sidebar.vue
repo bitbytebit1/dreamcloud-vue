@@ -5,7 +5,7 @@
     <!-- Change to for loop to save the whales... I mean internet -->
 
 
-    <v-list-tile v-if="!loggedIn" ripple @click="closeLeft" :to="{path: 'login'}">
+    <v-list-tile v-if="!loggedIn" ripple @click="closeLeft" :to="{path: '/login'}">
       <v-list-tile-action>
         <v-icon>person</v-icon>
       </v-list-tile-action>
