@@ -46,8 +46,10 @@
                 </v-flex>
                 <v-flex xs7>
                   <div>
-                    <div class="subheading text-xs-left">{{ props.item.title }}</div>
-                    <div @click.stop="$router.push({name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}})" class="artist text-xs-left">{{ props.item.artist }}</div>
+                    <!-- title -->
+                    <div class="subheading text-xs-left wordbreak">{{ props.item.title }}</div>
+                    <!-- artist -->
+                    <div @click.stop="$router.push({name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}})" class="artist text-xs-left wordbreak">{{ props.item.artist }}</div>
                   </div>
                 </v-flex>
               </v-layout>

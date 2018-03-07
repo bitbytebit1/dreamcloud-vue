@@ -42,7 +42,7 @@
         </v-flex>
       </v-flex>
       <!-- Description -->
-      <v-flex xs12 offset-xs0 class='text-xs-left pl-3 pr-3 brk' v-if="info.description">
+      <v-flex xs12 offset-xs0 class='text-xs-left pl-3 pr-3 brk wordbreak' v-if="info.description">
         <p id="">{{ info.description.replace(/\n\s*\n/g, '\n') }}</p>
       </v-flex>
     </v-layout>
@@ -117,6 +117,5 @@ export default {
 <style>
 .brk{
   white-space: pre-line;
-  word-break: break-word;
 }
 </style>

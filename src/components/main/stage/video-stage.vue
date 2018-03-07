@@ -47,7 +47,7 @@
           <strong>{{ song.artist }}</strong>
           <!-- Description -->
           <v-flex xs12>
-            <span class="subheading" id="stg-dsc" v-html="timeToSeconds(description)"></span>
+            <span class="subheading wordbreak" id="stg-dsc" v-html="timeToSeconds(description)"></span>
           </v-flex>
         </v-flex>
         <!-- related -->
@@ -218,7 +218,6 @@ export default {
 <style>
 #stg-dsc{
   white-space: pre-line;
-  word-break: break-word;
 }
 .fl-l{
   float: left;

@@ -62,11 +62,11 @@
         <!-- Artist Picture -->
         <artist-mini :artistID="song.artistID" :source="song.source" :artist="song.artist" :key="song.artistID"></artist-mini>
         <!-- Artist name + Song description -->
-        <v-flex xs12 lg7 class="subheading text-xs-left pl-3 mt-3">
+        <v-flex xs12 lg7 class="subheading text-xs-left pl-3 mt-3 wordbreak">
           <strong>{{ song.artist }}</strong>
           <!-- Description -->
           <v-flex>
-            <span class="subheading" id="stg-dsc" v-html="timeToSeconds(_description)"></span>
+            <span class="subheading wordbreak" v-html="timeToSeconds(_description)"></span>
           </v-flex>
         </v-flex>
         <!-- related -->
@@ -145,13 +145,6 @@ export default {
   #stg-pstr {
   width: 100% !important;
   }
-}
-#stg-desc{
-  word-break: break-word;
-}
-
-.desc{
-  word-break: break-all;
 }
 .fl-l{
   float: left;

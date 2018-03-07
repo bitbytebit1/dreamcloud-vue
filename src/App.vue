@@ -147,6 +147,9 @@
   .pointer{
     cursor: pointer;
   }
+  .wordbreak{
+    word-break: break-word;
+  }
   @media only screen and (min-width: 600px){
     #foot{
       padding: 0 !important;

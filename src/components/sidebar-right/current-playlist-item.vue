@@ -8,10 +8,10 @@
           <!-- <v-layout fill-height> -->
             <v-flex xs12 align-center flexbox class="dc-title">
               <!-- title -->
-              <span class="crt-ttl" v-text="song.title"></span>
+              <span class="crt-ttl wordbreak" v-text="song.title"></span>
               <div class="text-xs-right">
                 <!-- artist -->
-                <span @click.stop="$router.push({name: 'artist', params: {source: song.source, artist: song.artist, artistID: song.artistID}})" class="subheading white--text dc-artist breaker19 shadow text-xs-right" v-text="song.artist"></span>
+                <span @click.stop="$router.push({name: 'artist', params: {source: song.source, artist: song.artist, artistID: song.artistID}})" class="subheading white--text dc-artist wordbreak shadow text-xs-right" v-text="song.artist"></span>
               </div>
             </v-flex>
           <!-- </v-layout> -->
@@ -133,7 +133,6 @@ export default {
   text-align: center;
   text-shadow: 0px 0px 5px black;
   background: rgba(1, 1, 1, .1);
-  word-break: break-word;
   font-size: 18px!important;
   font-weight: 500;
   color: white;
@@ -148,9 +147,6 @@ export default {
   position: absolute;
   bottom: 0px;
   right: 5px;
-}
-.breaker19{
-  word-break: break-word;
 }
 .shadow{
   text-shadow: 0px 0px 5px black;
