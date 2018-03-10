@@ -66,7 +66,7 @@
           <strong>{{ song.artist }}</strong>
           <!-- Description -->
           <v-flex>
-            <span class="subheading wordbreak" v-html="timeToSeconds(_description)"></span>
+            <span class="subheading wordbreak preline" v-html="timeToSeconds(_description)"></span>
           </v-flex>
         </v-flex>
         <!-- related -->
@@ -145,6 +145,9 @@ export default {
   #stg-pstr {
   width: 100% !important;
   }
+}
+.preline{
+  white-space: pre-line;
 }
 .fl-l{
   float: left;
