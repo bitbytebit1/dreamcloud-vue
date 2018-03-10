@@ -89,6 +89,10 @@ class DCFB {
   playlistGet (userId, playlistId) {
     return this.db.ref('users/' + userId + '/PlaylistsData/' + playlistId + '/songs')
   }
+
+  subscriptionGet (userId) {
+    return this.db.ref('users/' + userId + '/Subscriptions/')
+  }
 }
 
 export default {

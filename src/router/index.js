@@ -24,6 +24,7 @@ import signUp from '@/router/user/login/sign-up'
 import password from '@/router/user/login/password-reset'
 
 import stage from '@/router/stage/stage-route'
+import userSubOverview from '@/components/main/home/subs-cards'
 
 let router = new Router({
   routes: [
@@ -119,6 +120,12 @@ let router = new Router({
       path: '/u/:user/:playlist/:name',
       name: 'userPlaylist',
       component: userPlaylist,
+      props: true
+    },
+    {
+      path: '/u/:user/subscriptions',
+      name: 'userSubOverview',
+      component: userSubOverview,
       props: true
     }
   ]

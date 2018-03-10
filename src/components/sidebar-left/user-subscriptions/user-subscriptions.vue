@@ -5,18 +5,26 @@
           <v-list-tile-title>Subscriptions</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
-        
+
       <v-list-tile ripple @click="closeLeftOnMobile" :to="{path: '/subs/all'}">
         <v-list-tile-action>
-          <v-icon>toc</v-icon>
+          <v-icon>music_note</v-icon>
         </v-list-tile-action>
-        
         <v-list-tile-content>
           <v-list-tile-title>All</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
 
-      <v-list-tile 
+      <v-list-tile ripple @click="closeLeftOnMobile" :to="{name:'userSubOverview', params: {user: UID}}">
+        <v-list-tile-action>
+          <v-icon>view_module</v-icon>
+        </v-list-tile-action>
+        <v-list-tile-content>
+          <v-list-tile-title>Overview</v-list-tile-title>
+        </v-list-tile-content>
+      </v-list-tile>
+
+      <v-list-tile
         v-for="subItem in subscriptions"
         @click="closeLeftOnMobile"
         id="subscription"
