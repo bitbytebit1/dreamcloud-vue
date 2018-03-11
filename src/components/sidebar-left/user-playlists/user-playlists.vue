@@ -5,8 +5,8 @@
           <v-list-tile-title>Playlists</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
- 
-      <v-list-tile active-class="cyan white--text" ripple @click="closeLeftOnMobile" :to="{path: '/u/playlists/all'}">
+      <v-list-tile active-class="cyan white--text" ripple @click="closeLeftOnMobile" :to="{name:'playlistsAll', params: {user: UID}}">
+      <!-- <v-list-tile active-class="cyan white--text" ripple @click="closeLeftOnMobile" :to="{path: '/u/playlists/all'}"> -->
         <v-list-tile-action>
           <v-icon>toc</v-icon>
         </v-list-tile-action>

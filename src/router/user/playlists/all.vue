@@ -13,6 +13,7 @@ export default {
   watch: {
     'auth_state': 'bind'
   },
+  props: ['user'],
   created () {
     this.bind()
   },
@@ -30,6 +31,7 @@ export default {
   },
   methods: {
     allSongs () {
+      this.userlist.reverse()
       for (const i1 in this.userlist) {
         // all.push.apply(all, this.aPlaylists[i1].songs)
         // all = all.concat(this.aPlaylists[i1].songs)
@@ -41,7 +43,8 @@ export default {
     bind () {
       // only bind if logged in
       if (this.auth_state) {
-        this.$bindAsArray('userlist', this.$DCFB.playlists, null, this.allSongs)
+        // this.$bindAsArray('userlist', this.$DCFB.playlists, null, this.allSongs)
+        this.$bindAsArray('userlist', this.$DCFB.playlistGetAll(this.user), null, this.allSongs)
       }
     }
   }

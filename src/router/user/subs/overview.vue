@@ -5,9 +5,11 @@
       content-tag="v-layout"
       row
       wrap
+      class="mr-5 ml-5 mb-3"
       :items="subscriptions"
       :rows-per-page-items="rowsPerPageItems"
       pagination.sync="pagination"
+      hide-actions
     >
       <!-- <router-link> -->
       <v-flex

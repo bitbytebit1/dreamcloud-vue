@@ -5,8 +5,8 @@
           <v-list-tile-title>Subscriptions</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
-
-      <v-list-tile ripple @click="closeLeftOnMobile" :to="{path: '/subs/all'}">
+      <v-list-tile ripple @click="closeLeftOnMobile" :to="{name:'subsAll', params: {user: UID}}">
+      <!-- <v-list-tile ripple @click="closeLeftOnMobile" :to="{path: '/subs/all'}"> -->
         <v-list-tile-action>
           <v-icon>music_note</v-icon>
         </v-list-tile-action>

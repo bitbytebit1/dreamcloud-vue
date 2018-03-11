@@ -39,6 +39,10 @@ class DCFB {
     this.settings.child(name).set(value)
   }
 
+  subscriptionGet (userId) {
+    return this.db.ref('users/' + userId + '/Subscriptions/')
+  }
+
   subscriptionAdd (name, source, id, img) {
     this.subscriptions.update({[id]: {name: name, name_lower: name.toLowerCase(), source: source, id: id, img: img}})
   }
@@ -90,9 +94,10 @@ class DCFB {
     return this.db.ref('users/' + userId + '/PlaylistsData/' + playlistId + '/songs')
   }
 
-  subscriptionGet (userId) {
-    return this.db.ref('users/' + userId + '/Subscriptions/')
+  playlistGetAll (userId) {
+    return this.db.ref('users/' + userId + '/PlaylistsData')
   }
+
 }
 
 export default {

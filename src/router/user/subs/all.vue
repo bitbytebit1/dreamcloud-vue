@@ -11,6 +11,7 @@
 import loading from '@/components/misc/loading'
 import { mapGetters } from 'vuex'
 export default {
+  props: ['user'],
   name: 'subs-all',
   watch: {
     'auth_state': 'bind'
@@ -35,7 +36,7 @@ export default {
       // only bind if logged in
       if (this.auth_state) {
         // On done call getAllSubs
-        this.$bindAsArray('subscriptions', this.$DCFB.subscriptions, null, this.getAllSubs)
+        this.$bindAsArray('subscriptions', this.$DCFB.subscriptionGet(this.user), null, this.getAllSubs)
       }
     },
     getAllSubs () {
