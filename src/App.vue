@@ -1,5 +1,5 @@
 <template>
-  <v-app v-bind="$store.getters.theme">
+  <v-app v-bind="theme">
     <!-- left drawer -->
     <v-navigation-drawer
       app
@@ -14,7 +14,7 @@
     </v-navigation-drawer>
 
     <!-- header -->
-    <v-toolbar app fixed clipped-left clipped-right dense>
+    <v-toolbar app fixed clipped-left dense>
       
       <!-- toggle left draw button -->
       <v-toolbar-side-icon @click.stop="drawerLeft = !drawerLeft"></v-toolbar-side-icon>
@@ -30,7 +30,9 @@
       <search></search>
 
       <v-spacer></v-spacer>
-      
+      <!-- toggle stage button -->
+      <v-toolbar-side-icon @click.stop="$store.commit('toggleStage')"><v-icon>music_video</v-icon></v-toolbar-side-icon>
+
       <!-- toggle right draw button -->
       <v-toolbar-side-icon @click.stop="drawerRight = !drawerRight"><v-icon>playlist_play</v-icon></v-toolbar-side-icon>
 
@@ -39,7 +41,6 @@
     <!-- right drawer -->
     <v-navigation-drawer
       app
-      clipped-right
       disable-route-watcher
       enable-resize-watcher
       persistent
@@ -48,13 +49,18 @@
     >
       <current-playlist></current-playlist>
     </v-navigation-drawer>
-    
+    <v-content class="text-xs-center" v-show="bShowStage">
+      <v-container fluid fill-height>
+        <v-layout justify-center>
+          <v-flex xs12>
+            <stage></stage>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </v-content>    
     <v-content class="text-xs-center">
       <v-container fluid fill-height>
         <v-layout justify-center>
-          <v-flex xs12 v-show="$store.getters.bShowStage">
-            <stage></stage>
-          </v-flex>
           <transition name="fade" mode="out-in">
             <!-- <keep-alive> -->
               <router-view></router-view>
@@ -65,8 +71,8 @@
     </v-content>
     <v-footer app fixed id="foot">
 
-      <dc-youtube v-show="$store.getters.ytUseVideo && $store.getters.isYT"></dc-youtube>
-      <dc-audio v-show="!$store.getters.ytUseVideo || !$store.getters.isYT"></dc-audio>  
+      <dc-youtube v-show="ytUseVideo && isYT"></dc-youtube>
+      <dc-audio v-show="!ytUseVideo || !isYT"></dc-audio>  
       <scroll-to-top></scroll-to-top>
       
     </v-footer>
@@ -81,6 +87,8 @@
   import sidebar from './components/sidebar-left/sidebar'
   import stage from '@/components/main/stage/stage'
   import scrollToTop from '@/components/footer/scroll-to-top.vue'
+  import { mapGetters } from 'vuex'
+
   export default {
     name: 'app',
     components: {
@@ -105,12 +113,19 @@
         }
       }
     },
-    computed: {
-      theme () {
-        return this.$store.getters.theme
       }
     },
+    computed: {
+      ...mapGetters({
+        isYT: 'isYT',
+        ytUseVideo: 'ytUseVideo',
+        bShowStage: 'bShowStage',
+        theme: 'theme',
+        ytFullScreen: 'ytFullScreen'
+      })
+    },
     beforeCreate () {
+      this.$vuetify.theme.primary = '#00897B'
       // if mobile disable youtube video
       this.$store.commit('ytUseVideo', !this.$UTILS.isMobile)
       // if set log in status
@@ -122,10 +137,9 @@
           this.$DCFB.setting('Night Mode').once('value', (snapshot) => {
             if (snapshot.val() !== null) {
               this.$store.commit('changeSetting', {'setting': 'Night Mode', 'value': snapshot.val()})
-              // this.$vuetify.theme.primary = '#009688'
             }
           })
-          this.$DCFB.setting('Video').once('value', (snapshot) => {
+          // this.$DCFB.setting('Video').once('value', (snapshot) => {
             // if (snapshot.val() !== null) {
             // alert(snapshot.val())
             // this.$store.commit('changeSetting', {'setting': 'Video', 'value': snapshot.val()})
@@ -133,7 +147,7 @@
             // this.$store.commit('ytShowVideo', snapshot.val())
             // this.$store.commit('ytUseVideo', snapshot.val())
             // }
-          })
+          // })
         } else {
           this.$store.commit('authChange', false)
           // this.$router.replace('/login')
@@ -149,6 +163,9 @@
   }
   .wordbreak{
     word-break: break-word;
+  }
+  .maxZ {
+    z-index: 2147483647 !important;
   }
   @media only screen and (min-width: 600px){
     #foot{
