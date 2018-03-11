@@ -113,8 +113,6 @@
         }
       }
     },
-      }
-    },
     computed: {
       ...mapGetters({
         isYT: 'isYT',
