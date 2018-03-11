@@ -123,7 +123,7 @@
       })
     },
     beforeCreate () {
-      this.$vuetify.theme.primary = '#00897B'
+      this.$vuetify.theme.primary = '#009688'
       // if mobile disable youtube video
       this.$store.commit('ytUseVideo', !this.$UTILS.isMobile)
       // if set log in status
