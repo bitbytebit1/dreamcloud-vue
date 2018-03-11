@@ -1,3 +1,5 @@
+import router from '../router'
+
 export default {
   state: {
     view_mode: false,
@@ -14,6 +16,14 @@ export default {
     // },
     view_mode_toggle (state, payload) {
       state.view_mode = !state.view_mode
+    },
+    toggleStage (state, payload) {
+      state.bShowStage = !state.bShowStage
+      if (state.bShowStage) {
+        router.push({name: 'stage'})
+      } else {
+        router.go(-1)
+      }
     },
     bShowStage (state, payload) {
       state.bShowStage = payload
@@ -33,6 +43,7 @@ export default {
     bShowStage: state => state.bShowStage,
     auth_state: state => state.auth_state,
     ytVideo: state => Boolean(state.settings['Video']),
+    nightMode: state => Boolean(state.settings['Night Mode']),
     theme: state => state.settings['Night Mode'] ? {'dark': true} : {'light': true}
   }
 }
