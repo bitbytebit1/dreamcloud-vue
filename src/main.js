@@ -4,7 +4,7 @@
 // if (process.env.NODE_ENV == 'production') {
   // window.location.protocol = 'https:'
 // }
-// suitcase for storage 
+// suitcase for storage
 import Vue from 'vue'
 // import Wavesurfer from 'Wavesurfer'
 import App from './App'
@@ -25,7 +25,7 @@ Vue.use(VueLazyload, {
   preLoad: 1.6,
   loading: '/static/img/loading.gif',
   error: '/static/img/loading.gif',
-  attempt: 1,
+  attempt: 1
   // the default is ['scroll', 'wheel', 'mousewheel', 'resize', 'animationend', 'transitionend']
   // listenEvents: [ 'scroll' ]
 })
