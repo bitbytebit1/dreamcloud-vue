@@ -11,7 +11,7 @@
           </v-btn>
 
           <v-btn v-if="bLoading" v-bind="$store.getters.theme"  class="primary" icon outline>
-            <v-progress-circular id="loadingSpinner" indeterminate v-bind:size="25"></v-progress-circular>
+            <v-progress-circular id="aud-spin" indeterminate v-bind:size="25"></v-progress-circular>
           </v-btn>
           <v-btn v-else v-bind="$store.getters.theme" @click="$DCPlayer.togglePlay" class="primary" icon outline>
             <v-icon>{{play_arrow}}</v-icon>
@@ -23,8 +23,8 @@
       </div>
       
       <div id="right" class="hidden-sm-and-down">
-        <v-speed-dial open-on-hover>
-          <v-btn v-bind="$store.getters.theme" @click="toggleMute" slot="activator" outline icon :class="volClass" fab hover small>
+        <v-speed-dial hover transition="slide-x-reverse-transition" open-on-hover>
+          <v-btn v-bind="$store.getters.theme" @click="toggleMute" :class="volClass" slot="activator" fab hover icon outline small>
             <v-icon>{{volIcon}}</v-icon>
           </v-btn>
           <div class="slider-wrapper">
@@ -51,8 +51,6 @@
 </template>
 
 <script>
-// /* eslint-disable */
-
 export default {
   name: 'dcAudio',
   data () {
@@ -77,12 +75,13 @@ export default {
         this.loading()
       }
       return this.$store.getters.index > -1
-      ? this.$store.getters.current_Playlist[this.$store.getters.index].posterLarge
-      : '/static/img/loading.gif'
+        ? this.$store.getters.current_Playlist[this.$store.getters.index].posterLarge
+        : '/static/img/loading.gif'
     }
   },
   methods: {
     toggleMute () {
+      alert('toggle mute')
       this.eAudio.muted = !this.eAudio.muted
       this.volIcon = this.eAudio.muted ? 'volume_off' : this.updateVolIcon()
     },
@@ -92,7 +91,7 @@ export default {
       !0 === this.eAudio.muted && (this.eAudio.muted = !1) // if muted then set not muted, could just set false
     },
     updateVolIcon () {
-      return (this.volIcon = this.volume > 4 ? 'volume_up' : this.volume < 0 ? 'volume_down' : 'volume_off')
+      return (this.volIcon = this.volume > 5 ? 'volume_up' : this.volume <= 0 ? 'volume_off' : 'volume_down')
     },
     changePos (pos) {
       if (!isNaN(pos)) {
@@ -187,9 +186,10 @@ export default {
     height: 25px;
     background: teal;
 }
-#loadingSpinner1{
-  top:10px;
-  width: 52px !important;
+#aud-spin{
+  top: -2px;
+  /* left: -1px; */
+  /* width: 42px !important; */
 }
 .slider-wrapper input {
   width: 150px;

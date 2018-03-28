@@ -1,5 +1,5 @@
 <template>
-  <v-flex justify-center align-center fill-height class="loading-flex mt-3">
+  <v-flex justify-center align-center class="loading-flex mt-3">
     <div class="half-circle-spinner">
       <div class="circle circle-1"></div>
       <div class="circle circle-2"></div>

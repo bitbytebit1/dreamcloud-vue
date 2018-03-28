@@ -97,7 +97,6 @@ class DCFB {
   playlistGetAll (userId) {
     return this.db.ref('users/' + userId + '/PlaylistsData')
   }
-
 }
 
 export default {

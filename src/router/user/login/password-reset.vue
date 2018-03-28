@@ -19,7 +19,7 @@
 </template>
 
 <script>
-/* eslint-disable */
+// /* eslint-disable */
 export default {
   name: 'login',
   data () {
@@ -51,6 +51,7 @@ export default {
             this.alertColor = 'red'
             this.alertMsg = 'Sorry, no user with that account found'
             this.alertShow = true
+            err++
           }
         )
       }

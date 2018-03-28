@@ -24,7 +24,7 @@
       
       <div id="right" class="hidden-sm-and-down">
         <v-speed-dial hover transition="slide-x-reverse-transition" open-on-hover>
-          <v-btn v-bind="$store.getters.theme" @click="toggleMute" outline icon :class="volClass" slot="activator" fab hover small>
+          <v-btn v-bind="$store.getters.theme" @click="toggleMute" :class="volClass" slot="activator" fab hover icon outline small>
             <v-icon>{{volIcon}}</v-icon>
           </v-btn>
           <div class="slider-wrapper">
@@ -108,13 +108,9 @@ export default {
       return this.bPlaying ? 'pause' : 'play_arrow'
     },
     currentImage () {
-      // very hacky way to get the loading spinner to fire before the audio element fires
-      // if (this.$store.getters.index > -1) {
-      //   this.loading()
-      // }
       return this.$store.getters.index > -1
-      ? this.$store.getters.current_Playlist[this.$store.getters.index].posterLarge
-      : '/static/img/loading.gif'
+        ? this.$store.getters.current_Playlist[this.$store.getters.index].posterLarge
+        : '/static/img/loading.gif'
     }
   },
   methods: {
@@ -145,24 +141,6 @@ export default {
         this.$store.getters.ytObject.playVideo()
       }
     },
-    // updated () {
-      // This is how you don't concatenate strings
-      // this.currentTime = this.secondsToDuration(this.eAudio.currentTime) + '-' + this.secondsToDuration(this.eAudio.duration)
-      // This is the proper way.
-      // this.currentTime = `${this.secondsToDuration(this.eAudio.currentTime)} - ${this.secondsToDuration(this.eAudio.duration)}`
-      // this.progress = Math.floor(this.eAudio.currentTime)
-    // },
-    // playing () {
-      // this.duration = this.secondsToDuration(this.eAudio.duration.toFixed(0))
-      // this.play_arrow = 'pause'
-      // this.bLoading = false
-    // },
-    // paused () {
-      // this.play_arrow = 'play_arrow'
-    // },
-    // loading () {
-    //   this.bLoading = true
-    // },
     next () {
       this.$DCPlayer.next()
     },
@@ -182,15 +160,6 @@ export default {
       if (ss < 10) { ss = '0' + ss }
       return (hh > 0 ? hh + ':' : '') + mm + ':' + ss
     }
-  },
-  mounted () {
-//     this.$DCPlayer.eAudio = document.getElementById('dc-audio') // A little bit naughty to set the value like this =\
-//     this.eAudio = document.getElementById('dc-audio')
-//     this.eAudio.addEventListener('timeupdate', this.updated)
-//     this.eAudio.addEventListener('playing', this.playing)
-//     this.eAudio.addEventListener('pause', this.paused)
-//     this.eAudio.addEventListener('loadstart', this.loading)
-//     this.eAudio.addEventListener('ended', this.$DCPlayer.next)
   }
 }
 </script>
@@ -230,8 +199,9 @@ export default {
     background: #d3d3d3;
 }
 #loadingSpinner{
+  top: -2px;
   /* top:10px;   */
-  width: 52px !important;
+  /* width: 52px !important; */
 }
 .slider-wrapper input {
   width: 150px;

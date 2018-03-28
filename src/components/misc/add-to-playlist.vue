@@ -33,10 +33,6 @@ export default {
       menuOpen: false
     }
   },
-  // created () {
-    // console.log(this.color)
-    // this.$refs.addInput.focus()
-  // },
   directives: {
     focus: {
       // directive definition
