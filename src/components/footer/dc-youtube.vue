@@ -51,7 +51,7 @@
 </template>
 
 <script>
-/* eslint-disable */
+// /* eslint-disable */
 
 export default {
   name: 'dc-youtube',
@@ -135,7 +135,7 @@ export default {
       }
     },
     updateVolIcon () {
-      this.volIcon = 5 < this.volume ? 'volume_up' : 0 < this.volume ? 'volume_down' : 'volume_off'
+      this.volIcon = this.volume < 5 ? 'volume_up' : this.volume < 0 ? 'volume_down' : 'volume_off'
       return this.volIcon
     },
     togglePlay () {

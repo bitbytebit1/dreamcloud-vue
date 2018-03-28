@@ -39,7 +39,7 @@
 </template>
 <script>
 
-/* eslint-disable */
+// /* eslint-disable */
 import deleteButton from '@/components/misc/delete-button'
 export default {
   name: 'user-playlists',
@@ -49,19 +49,18 @@ export default {
   data () {
     return {
       UID: this.$DCFB.UID,
-      active: true
+      active: false
     }
   },
   methods: {
     isPlaying (s, n, id) {
-      var a = this.$store.getters.hash === '/u/' + s + '/' + n + '/' + encodeURIComponent(id) ? 'primary white--text' : ''
-      return a
+      return this.$store.getters.hash === '/u/' + s + '/' + n + '/' + encodeURIComponent(id) ? 'primary white--text' : ''
     },
     closeLeftOnMobile () {
       this.$emit('closeLeft')
     },
     playlistDelete (playlistID) {
-      this.$DCFB.playlistDelete(playlistID) 
+      this.$DCFB.playlistDelete(playlistID)
     }
   },
   firebase () {

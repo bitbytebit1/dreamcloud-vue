@@ -51,7 +51,7 @@
 </template>
 
 <script>
-/* eslint-disable */
+// /* eslint-disable */
 
 export default {
   name: 'dcAudio',
@@ -92,7 +92,7 @@ export default {
       !0 === this.eAudio.muted && (this.eAudio.muted = !1) // if muted then set not muted, could just set false
     },
     updateVolIcon () {
-      return this.volIcon = 5 < this.volume ? "volume_up" : 0 < this.volume ? "volume_down" : "volume_off"
+      return (this.volIcon = this.volume > 4 ? 'volume_up' : this.volume < 0 ? 'volume_down' : 'volume_off')
     },
     changePos (pos) {
       if (!isNaN(pos)) {
@@ -134,7 +134,6 @@ export default {
       if (hh < 10) { hh = '0' + hh }
       if (mm < 10) { mm = '0' + mm }
       if (ss < 10) { ss = '0' + ss }
-      
       return (hh > 0 ? hh + ':' : '') + mm + ':' + ss
     }
   },

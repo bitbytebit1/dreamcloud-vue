@@ -17,7 +17,6 @@
   </v-select>
 </template>
 <script>
-// /* eslint-disable */
 export default {
   props: ['sQuery'],
   data () {
@@ -42,7 +41,7 @@ export default {
       this._emit(this.select)
     },
     querySelections (v) {
-      this.$emit('update:sQuery', v)
+      this._emit(v)
       // this.debounce(() =>{
       this.loading = true
       this.$jsonp(`https://suggestqueries.google.com/complete/search?callback=?&hl=en&ds=yt&jsonp=suggestCallBack&client=youtube&q=${v}`, {callbackName: 'suggestCallBack'})

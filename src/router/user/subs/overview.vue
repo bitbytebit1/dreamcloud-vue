@@ -57,7 +57,7 @@
   </v-container>
 </template>
 <script>
-/* eslint-disable */
+// /* eslint-disable */
 // import deleteButton from '@/components/misc/delete-button'
 export default {
   name: 'userSubOverview',
@@ -67,7 +67,7 @@ export default {
       filterHasFocus: false,
       search: '',
       active: true,
-      rowsPerPageItems: [{ text: "All", value: -1 }],
+      rowsPerPageItems: [{ text: 'All', value: -1 }],
       pagination: {
         rowsPerPage: 'All'
       }

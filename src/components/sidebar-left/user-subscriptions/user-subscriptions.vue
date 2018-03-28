@@ -57,7 +57,7 @@ export default {
   data () {
     return {
       UID: this.$DCFB.UID,
-      active: true
+      active: false
     }
   },
   methods: {

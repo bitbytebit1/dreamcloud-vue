@@ -1,20 +1,29 @@
 <template>
-  <v-btn :color="colour" icon @click.stop="share">
+  <v-btn :color="color" icon @click.stop="share">
     <v-icon>share</v-icon>
   </v-btn>
 </template>
 <script>
-/* eslint-disable */
+// /* eslint-disable */
 import deleteButton from '@/components/misc/delete-button'
 export default {
   name: 'share-button',
   props: ['url', 'song', 'colour'],
+  data () {
+    return {
+      color: ''
+    }
+  },
   components: {
     'delete-button': deleteButton
   },
   methods: {
     share () {
+      this.color = 'green'
       this.$UTILS.share(this.url, this.song)
+      setTimeout(() => {
+        this.color = ''
+      }, 2000)
     }
   }
 }

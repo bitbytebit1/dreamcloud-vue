@@ -80,7 +80,7 @@ import related from '@/components/main/stage/stage-related'
 import artistMini from '@/components/misc/artist-mini'
 import youtubeVBtn from '@/components/misc/toggle-video-button'
 // import explode from '@/components/misc/explode'
-/* eslint-disable */
+// /* eslint-disable */
 export default {
   name: 'dc-stage',
   components: {
@@ -99,7 +99,7 @@ export default {
       get () {
         return this.description ? this.description : this.song.description
       },
-      set (newVar){
+      set (newVar) {
         this.description = newVar
       }
     },
@@ -121,7 +121,7 @@ export default {
       if (!value) {
         return ''
       }
-      return (value.replace(/(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)([0-5]?\d)/g, 
+      return (value.replace(/(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)([0-5]?\d)/g,
         `<span class="underline pointer" onClick="document.getElementById('dc-audio').currentTime = '$&'.split(':').reduce((acc,time) => (60 * acc) + +time)">$&</span>`))
     },
     getDesc () {

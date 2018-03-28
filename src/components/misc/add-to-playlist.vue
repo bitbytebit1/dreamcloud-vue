@@ -22,7 +22,7 @@
     </v-dialog>
 </template>
 <script>
-/* eslint-disable */
+// /* eslint-disable */
 export default {
   name: 'add-to-playlist',
   props: ['song', 'disabled', 'colour'],
@@ -45,7 +45,7 @@ export default {
         // console.log(this.$vuetify)
         // console.log($vuetify)
         // if ($vuetify.breakpoint.xsOnly) {
-          el.children[1].children[0].focus()  
+        el.children[1].children[0].focus()
         // }
       }
     }
@@ -59,14 +59,14 @@ export default {
       //  this.menuOpen = this.$UTILS.isMobile ? false : true
       this.menuOpen = false
       this.btnCol = 'green'
-      setTimeout(() =>{
+      setTimeout(() => {
         this.$emit('opened', false)
         this.btnCol = ''
       }, 2000)
     },
     createNewPlaylist () {
-     this.$DCFB.createNewPlaylist(this.playlistName, this.song)
-     this.btnFeedback()
+      this.$DCFB.createNewPlaylist(this.playlistName, this.song)
+      this.btnFeedback()
     },
     addToPlaylist (playlist) {
       this.$DCFB.playlistSongAdd(playlist['.key'], this.song)
@@ -75,8 +75,8 @@ export default {
   },
   firebase () {
     return {
-      playlists: this.$DCFB.playlists.orderByChild('name_lower'),
-      playlistsRefs: this.$DCFB.playlistsRefs.orderByChild('name_lower')
+      playlists: this.$DCFB.playlists.orderByChild('name_lower')
+      // playlistsRefs: this.$DCFB.playlistsRefs.orderByChild('name_lower')
     }
   },
   mounted () {

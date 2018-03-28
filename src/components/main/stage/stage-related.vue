@@ -8,7 +8,6 @@
         offset-lg5
         v-if="loading"
       >
-        <!-- <v-progress-circular indeterminate color="primary"></v-progress-circular> -->
         <div class="orbit-spinner">
           <div class="orbit"></div>
           <div class="orbit"></div>
@@ -28,6 +27,8 @@
       >
         <!-- blank no data -->
         <v-flex slot="no-data"></v-flex>
+
+        <!-- related song -->
         <v-flex 
           slot='item'
           slot-scope='props'
@@ -38,6 +39,7 @@
             <v-container fluid grid-list-lg>
               <v-layout row>
                 <v-flex xs5>
+                  <!-- image -->
                   <v-card-media
                     :src="props.item.poster"
                     :height="hai(props.item.source)"
@@ -63,13 +65,13 @@
 <script>
 import { mapGetters } from 'vuex'
 
-/* eslint-disable */
+// /* eslint-disable */
 export default {
   name: 'stage-related',
   watch: {
     '$store.getters.index': function (val) {
       this.getRelated()
-    },
+    }
   },
   data: () => ({
     loading: true,
@@ -89,22 +91,22 @@ export default {
     this.getRelated()
   },
   methods: {
-    play (index){
+    play (index) {
       // this.$store.commit.setNPlay(index, this.items)
       window.scrollTo(0, 0)
-      // Event.observe(window, 'load', () =>{ 
+      // Event.observe(window, 'load', () =>{
       //   window.scrollTo(x,x)
       // })
       this.$store.commit('setNPlay', {songs: this.items, current: index, path: this.$route.path})
       return this.$DCPlayer.setNPlay(this.items, index)
     },
-    getRelated () { 
+    getRelated () {
       this.loading = true
       // console.log('calling')
       this.items = []
       this.$DCAPI.searchInt('', 0, [this.song.source], this.song.trackID, (d) => {
         this.loading = false
-        if (d[0].trackID == this.song.trackID) {
+        if (d[0].trackID === this.song.trackID) {
           // alert('removing dupe first')
           d.shift()
         }
@@ -112,7 +114,7 @@ export default {
       }, true, 25)
     },
     hai (source) {
-      return source === 'YouTube' ?  '86px' : '125px' 
+      return source === 'YouTube' ? '86px' : '125px'
     }
   }
 }

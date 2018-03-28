@@ -30,7 +30,7 @@
 </template>
 
 <script>
-  /* eslint-disable */
+/* eslint-disable */
 import loading from '@/components/misc/inf-loading.vue'
 
 export default {

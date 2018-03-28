@@ -123,7 +123,7 @@ export default {
       }
       this.search()
     },
-    __search (sQuery, sSource = 'YouTube') {
+    __search (sQuery) {
       this.$router.push({name: 'searchPage', params: {query: this.sQuery, source: this.maSource}})
     },
     search () {

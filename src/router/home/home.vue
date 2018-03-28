@@ -5,7 +5,7 @@
   </v-flex>
 </template>
 <script>
-/* eslint-disable */
+// /* eslint-disable */
 import axios from 'axios'
 import {DCAPIClass} from '@/DCAPIs/DCAPI.js'
 
@@ -14,7 +14,7 @@ export default {
   name: 'home', 
   components: {
     'loading': loading
-  },  
+  },
   data () {
     return {
       aSongs: [],

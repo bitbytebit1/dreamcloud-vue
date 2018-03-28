@@ -30,15 +30,15 @@
 </template>
 
 <script>
-  /* eslint-disable */
+  // /* eslint-disable */
   export default {
     name: 'signUp',
-  data () {
-    return {
-      email: '',
-      password: ''
-    }
-  },
+    data () {
+      return {
+        email: '',
+        password: ''
+      }
+    },
     methods: {
       signUp () {
         this.$DCFB.fb.auth().createUserWithEmailAndPassword(this.email, this.password).then(
