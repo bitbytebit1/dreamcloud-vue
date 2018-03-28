@@ -63,19 +63,16 @@ import youtubeVBtn from '@/components/misc/toggle-video-button'
 /* eslint-disable */
 export default {
   name: 'video-stage',
+  created () {
+    var tag = document.createElement('script')
+    tag.src = 'https://www.youtube.com/iframe_api'
+    var fst = document.getElementsByTagName('script')[0]
+    fst.parentNode.insertBefore(tag, fst)
+  },
   components: {
     'artist-mini': artistMini,
     'youtube-button': youtubeVBtn,
     'related': related
-  },
-  data () {
-    return {
-      cc: false,
-      yt: '',
-      interval: '',
-      description: '',
-      currentid: ''
-    }
   },
   computed: {
     song () {
@@ -89,47 +86,35 @@ export default {
       return this.$store.getters.current_trackID ? this.$store.getters.current_trackID : 'player'
     }
   },
-  mounted () {
-    if (this.$store.getters.isYT) {
-      this.getDesc()
-      this.ytBind()
+  data () {
+    return {
+      b_YT_API_INJECTED: false,
+      cc: false,
+      yt: '',
+      interval: '',
+      description: '',
+      currentid: ''
     }
   },
-  updated () {
-    // if new song
-    if (this.$store.getters.isYT && this.currentID != this.current_trackID && this.$store.getters.ytUseVideo && !this.$store.getters.ytSwitchTime) {
-      this.currentID = this.current_trackID
-      // if not already attached to iframe
-      if (!this.$store.getters.ytObject.hasOwnProperty('loadVideoById')) {
-        this.ytBind()
-      } else {
-        this.$store.getters.ytObject.loadVideoById(this.current_trackID)
-      }
-      this.getDesc()
-      this.$DCPlayer.pause()
-    } else {
-      // This stores the last trackID to ensure we don't load the same video twice by accident.
-      // It's tied to the div above, there's a much better way to do this.
-      this.currentID = this.current_trackID
-    }
+  destroyed () {
+    clearInterval(this.interval)
   },
   methods: {
     toggleCC () {
       this.cc = !this.cc
       if (this.cc) {
-        this.yt.loadModule("captions")
+        this.yt.loadModule('captions')
       } else {
-        this.yt.unloadModule("captions")
+        this.yt.unloadModule('captions')
       }
     },
     timeToSeconds (value) {
       if (!value) {
         return ''
       }
-      return (value.replace(/(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)([0-5]?\d)/g, 
+      return (value.replace(/(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)([0-5]?\d)/g,
         `<span class="underline" onClick="window.dcYT.seekTo('$&'.split(':').reduce((acc,time) => (60 * acc) + +time));">$&</span>`))
     },
-    // 
     fullscreen () {
       var e = document.getElementById('player')
       if (e.requestFullscreen) {
@@ -148,49 +133,51 @@ export default {
       })
     },
     ytBind () {
+      if ((typeof YT === 'undefined') || !YT || !YT.Player) {
+        setTimeout(this.ytBind, 100)
+        return
+      }
       if (!this.$store.getters.ytUseVideo) {
         return
       }
-      // console.log('loading')
       this.$DCPlayer.pause()
-      this.yt = new YT.Player('player', {
-        width: '100%',
-        videoId: this.current_trackID,
-        height: window.innerHeight * 0.6 + 'px',
-        videoId: this.current_trackID,
-        enablejsapi: 1,
-        playerVars: {
-          autoplay: 1,        // Auto-play the video on load
-          controls: 0,        // Show pause/play buttons in player
-          color: 'primary',
-          showinfo: 0,        // Hide the video title
-          modestbranding: 1,  // Hide the Youtube Logo
-          fs: 0,              // Hide the full screen button
-          cc_load_policy: 1,  // Hide closed captions
-          iv_load_policy: 3,  // Hide the Video Annotations
-          rel: 0,             // Remove Related Videos
-          autohide: 1         // Hide video controls when playing
-        },
-        events: {
-          'onReady': this.ytReady,
-          'onStateChange': this.ytChanged,
-          'onApiChange': this.ytOnApiChange
-        }
-      })
+      if (!this.yt) {
+        this.yt = new YT.Player('player', {
+          width: '100%',
+          videoId: this.current_trackID,
+          height: window.innerHeight * 0.6 + 'px',
+          enablejsapi: 1,
+          playerVars: {
+            autoplay: 1,        // Auto-play the video on load
+            controls: 0,        // Show pause/play buttons in player
+            color: 'primary',
+            showinfo: 0,        // Hide the video title
+            modestbranding: 1,  // Hide the Youtube Logo
+            fs: 0,              // Hide the full screen button
+            cc_load_policy: 1,  // Hide closed captions
+            iv_load_policy: 3,  // Hide the Video Annotations
+            rel: 0,             // Remove Related Videos
+            autohide: 1         // Hide video controls when playing
+          },
+          events: {
+            'onReady': this.ytReady,
+            'onStateChange': this.ytChanged,
+            'onApiChange': this.ytOnApiChange
+          }
+        })
+      }
     },
     ytOnApiChange () {
       // console.log(this.yt.getOptions())
       // console.log(this.yt.getOptions('captions'))
     },
     ytReady (state) {
-      console.log('ready', state)
       this.$store.commit('ytObject', state.target)
       // this.$store.commit('ytState', state.data)
       this.$store.getters.ytObject.playVideo()
       window.dcYT = this.yt
     },
     ytChanged (state) {
-      console.log('changed', state)
       // this.$store.commit('ytObject', state.target)
       this.$store.commit('ytState', state.data)
       // if playing set duration amd interval to set current time.
@@ -201,21 +188,44 @@ export default {
         }, 250)
       } else if (state.data === 0) {
         clearInterval(this.interval)
-        this.$store.commit('ytCurrentTime', 0) 
+        this.$store.commit('ytCurrentTime', 0)
         this.$DCPlayer.next()
-      } else { //if (state.data === 5 || state.data === 3 || state.data === 2) {
+      } else { // if (state.data === 5 || state.data === 3 || state.data === 2) {
         clearInterval(this.interval)
       }
     }
   },
-  destroyed () {
-    console.log('clear 2')
-    clearInterval(this.interval)
+  mounted () {
+    if (this.$store.getters.isYT) {
+      this.getDesc()
+      this.ytBind()
+    }
+  },
+  updated () {
+    // if new song
+    if (this.$store.getters.isYT && this.currentID !== this.current_trackID && this.$store.getters.ytUseVideo && !this.$store.getters.ytSwitchTime) {
+      this.currentID = this.current_trackID
+      // if not already attached to iframe
+      if (!this.$store.getters.ytObject.hasOwnProperty('loadVideoById')) {
+        this.ytBind()
+      } else {
+        this.$store.getters.ytObject.loadVideoById(this.current_trackID)
+      }
+      this.getDesc()
+      this.$DCPlayer.pause()
+    } else {
+      // This stores the last trackID to ensure we don't load the same video twice by accident.
+      // It's tied to the div above, there's a much better way to do this.
+      this.currentID = this.current_trackID
+    }
   }
 }
 </script>
 
 <style>
+#player{
+  background-color: black
+}
 #stg-dsc{
   white-space: pre-line;
 }
