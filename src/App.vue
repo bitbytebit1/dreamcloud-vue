@@ -17,7 +17,7 @@
     <v-toolbar app fixed clipped-left dense>
       
       <!-- toggle left draw button -->
-      <v-toolbar-side-icon @click.stop="drawerLeft = !drawerLeft"></v-toolbar-side-icon>
+      <v-toolbar-side-icon @click.stop="leftTog"></v-toolbar-side-icon>
       
       <!-- title -->
       <v-toolbar-title class="hidden-sm-and-down">
@@ -34,7 +34,7 @@
       <v-toolbar-side-icon @click.stop="$store.commit('toggleStage')"><v-icon>music_video</v-icon></v-toolbar-side-icon>
 
       <!-- toggle right draw button -->
-      <v-toolbar-side-icon @click.stop="drawerRight = !drawerRight"><v-icon>playlist_play</v-icon></v-toolbar-side-icon>
+      <v-toolbar-side-icon @click.stop="rightTog"><v-icon>playlist_play</v-icon></v-toolbar-side-icon>
 
     </v-toolbar>
 
@@ -46,6 +46,7 @@
       persistent
       right
       v-model="drawerRight"
+      id="right-draw"
     >
       <current-playlist></current-playlist>
     </v-navigation-drawer>
@@ -57,14 +58,14 @@
           </v-flex>
         </v-layout>
       </v-container>
-    </v-content>    
+    </v-content>
     <v-content class="text-xs-center">
       <v-container fluid fill-height>
         <v-layout justify-center>
           <transition name="fade" mode="out-in">
-            <!-- <keep-alive> -->
+            <keep-alive>
               <router-view></router-view>
-            <!-- </keep-alive> -->
+            </keep-alive>
           </transition>
         </v-layout>
       </v-container>
@@ -107,6 +108,14 @@
       }
     },
     methods: {
+      leftTog () {
+        this.drawerLeft = !this.drawerLeft
+        this.$store.commit('drawLeftTog')
+      },
+      rightTog () {
+        this.drawerRight = !this.drawerRight
+        this.$store.commit('drawRightTog')
+      },
       closeLeft () {
         if (this.$UTILS.isMobile) {
           this.drawerLeft = false
@@ -137,15 +146,7 @@
               this.$store.commit('changeSetting', {'setting': 'Night Mode', 'value': snapshot.val()})
             }
           })
-          // this.$DCFB.setting('Video').once('value', (snapshot) => {
-            // if (snapshot.val() !== null) {
-            // alert(snapshot.val())
-            // this.$store.commit('changeSetting', {'setting': 'Video', 'value': snapshot.val()})
-            // this.$store.commit('ytUseVideo', snapshot.val())
-            // this.$store.commit('ytShowVideo', snapshot.val())
-            // this.$store.commit('ytUseVideo', snapshot.val())
-            // }
-          // })
+
         } else {
           this.$store.commit('authChange', false)
           // this.$router.replace('/login')
