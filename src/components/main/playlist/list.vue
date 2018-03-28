@@ -285,7 +285,10 @@ export default {
   td img {
     margin: 2px
   }
-
+  td img[lazy=error] {
+    width: auto;
+    height: 40px;
+  }
   @media only screen and (max-width: 599px){
     td img[lazy=loading] {
       width: auto;
