@@ -419,22 +419,27 @@ class DCAPIClass {
     if (!a) {
       a = new Date()
     }
+    if (!b) {
+      b = new Date()
+    }
     if (typeof b !== Object) {
       b = new Date(b)
     }
 
-    var c = Math.floor(a.getTime() - b.getTime())
+    // console.log(a, b)
+    var c = Math.abs(a.getTime() - b.getTime())
     var d = Math.floor(c / 864E5)
+    var h = Math.floor(c / 36e5)
     var m = Math.floor(d / 31)
     var w = Math.floor(d / 7)
     var y = Math.floor(m / 12)
-    if (!d) {
-      return 'Today'
-    }
-    if (d === 1) {
-      return '1 day'
-    }
-    a = (y > 0 ? [y, ' year'] : (m > 0 ? [m, ' month'] : (w > 0 ? [w, ' week'] : [d, ' day'])))
+    // if (!d) {
+    //   return h + ' hours'
+    // }
+    // if (d === 1) {
+    //   return '1 day'
+    // }
+    a = (y > 0 ? [y, ' year'] : (m > 0 ? [m, ' month'] : (w > 0 ? [w, ' week'] : (d > 0 ? [d, ' day'] : [h, ' hour']))))
     return a[0] + a[1] + (a[0] > 1 ? 's' : '')
   }
 
