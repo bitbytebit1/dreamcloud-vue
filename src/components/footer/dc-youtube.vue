@@ -4,19 +4,18 @@
       <div id="left">
         <div class="audio-controls">
           <!-- <img id="poster" :src="currentImage"> -->
-          <!-- {{$store.ytUseVideo}} -->
         </div>
         <div class="audio-controls">
-          <v-btn @click="previous" v-bind="$store.getters.theme" class="primary" icon outline >
+          <v-btn @click="previous" v-bind="$store.getters.theme" class="primary" icon outline>
             <v-icon>skip_previous</v-icon>
           </v-btn>
-          <v-btn outline v-bind="$store.getters.theme" class="primary" icon v-if="bLoading">
-            <v-progress-circular  id="loadingSpinner" indeterminate v-bind:size="25"></v-progress-circular>
+          <v-btn v-if="bLoading" v-bind="$store.getters.theme" class="primary" icon outline>
+            <v-progress-circular id="play-load" indeterminate v-bind:size="25"></v-progress-circular>
           </v-btn>
           <v-btn v-else v-bind="$store.getters.theme" @click="togglePlay" class="primary" icon outline>
             <v-icon>{{sPlayIcon}}</v-icon>
           </v-btn>
-          <v-btn icon v-bind="$store.getters.theme" outline class="primary" @click="next">
+          <v-btn @click="next" v-bind="$store.getters.theme" class="primary" icon outline>
             <v-icon>skip_next</v-icon>
           </v-btn>
         </div>
@@ -131,8 +130,7 @@ export default {
       }
     },
     updateVolIcon () {
-      this.volIcon = this.volume < 5 ? 'volume_up' : this.volume < 0 ? 'volume_down' : 'volume_off'
-      return this.volIcon
+      return (this.volIcon = this.volume > 5 ? 'volume_up' : this.volume <= 0 ? 'volume_off' : 'volume_down')
     },
     togglePlay () {
       if (this.bPlaying) {
@@ -167,6 +165,11 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
 
+#play-load{
+  top: -1px;
+  left: 0px;
+  /* width: 42px !important; */
+}
 .vol-slider {
     -webkit-appearance: none;
     width: 100%;

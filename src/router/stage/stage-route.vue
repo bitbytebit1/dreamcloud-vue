@@ -15,7 +15,7 @@ export default {
   // song: 'current_song',
   // })
   // },
-  mounted () {
+  created () {
     // if (!this.song || this.song.trackID !== this.trackID) {
     // alert('i c')
     // this.$DCAPI.getSongInfo (this.trackID, this.source, (resp) => {
@@ -25,6 +25,11 @@ export default {
     // } else {
     // }
     this.$store.commit('bShowStage', true)
+    this.$nextTick(function () {
+      // this.$store.commit('bShowStage', true)
+      // Code that will run only after the
+      // entire view has been rendered
+    })
   },
   updated () {
     // if (!this.song || this.song.trackID !== this.trackID) {

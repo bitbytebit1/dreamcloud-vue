@@ -2,7 +2,9 @@ import router from '../router'
 
 export default {
   state: {
-    view_mode: false,
+    drawLeft: true,
+    drawRight: true,
+    view_mode: true,
     auth_state: false,
     bShowStage: true,
     settings: {
@@ -11,6 +13,12 @@ export default {
     }
   },
   mutations: {
+    drawRightTog (state) {
+      state.drawRight = !state.drawRight
+    },
+    drawLeftTog (state, payload) {
+      state.drawLeft = !state.drawLeft
+    },
     // view_mode (state, payload) {
     //   state.view_mode = payload
     // },
@@ -39,6 +47,8 @@ export default {
     }
   },
   getters: {
+    drawRight: state => state.drawRight,
+    drawLeft: state => state.drawLeft,
     view_mode: state => state.view_mode,
     bShowStage: state => state.bShowStage,
     auth_state: state => state.auth_state,

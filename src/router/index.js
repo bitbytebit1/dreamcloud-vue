@@ -6,6 +6,7 @@ Vue.use(Router)
 
 
 import settings from '@/router/settings/settings'
+import tos from '@/router/tos/tos'
 
 import artist from '@/router/artist/artist'
 
@@ -17,6 +18,7 @@ import playlistsAll from '@/router/user/playlists/all'
 
 import home from '@/router/user/subs/all'
 import subsAll from '@/router/user/subs/all'
+import userSubOverview from '@/router/user/subs/overview'
 
 import user from '@/router/user/user'
 import login from '@/router/user/login/login'
@@ -24,15 +26,10 @@ import signUp from '@/router/user/login/sign-up'
 import password from '@/router/user/login/password-reset'
 
 import stage from '@/router/stage/stage-route'
-import userSubOverview from '@/components/main/home/subs-cards'
+// #/s/YouTube/q/sort/page/number of results/filter
 
 let router = new Router({
   routes: [
-    // {
-    //   path: '/current',
-    //   name: 'stage',
-    //   component: stage
-    // },
     {
       path: '/password-reset',
       name: 'password-reset',
@@ -51,40 +48,39 @@ let router = new Router({
     {
       path: '/user',
       name: 'user',
-      component: user,
-      // meta: {
-      //   requiresAuth: true
-      // }
+      component: user
     },
     {
       path: '/',
-      redirect: '/current'
+      redirect: '/s/YouTube/%20'
     },
     {
       path: '/home',
       name: 'home',
       component: home
-      // meta: {
-      //   requiresAuth: true
-      // }
     },
     {
       path: '/settings',
       name: 'settings',
       component: settings
-      // meta: {
-      //   requiresAuth: true
-      // }
     },
     {
-      path: '/subs/all',
+      path: '/u/:user/subscriptions',
+      name: 'userSubOverview',
+      component: userSubOverview,
+      props: true
+    },
+    {
+      path: '/u/:user/subscriptions-all',
       name: 'subsAll',
-      component: subsAll
+      component: subsAll,
+      props: true
     },
     {
-      path: '/u/playlists/all',
+      path: '/u/:user/playlists-all',
       name: 'playlistsAll',
-      component: playlistsAll
+      component: playlistsAll,
+      props: true
     },
     {
       path: '/s/:source/:query',
@@ -110,12 +106,6 @@ let router = new Router({
       component: song,
       props: true
     },
-    // {
-    //   path: '/u/:user/',
-    //   name: 'userIndex',
-    //   component: userIndex,
-    //   props: true
-    // },
     {
       path: '/u/:user/:playlist/:name',
       name: 'userPlaylist',
@@ -123,9 +113,9 @@ let router = new Router({
       props: true
     },
     {
-      path: '/u/:user/subscriptions',
-      name: 'userSubOverview',
-      component: userSubOverview,
+      path: '/tos',
+      name: 'tos',
+      component: tos,
       props: true
     }
   ]
@@ -136,8 +126,9 @@ router.beforeEach((to, from, next) => {
   // let requiresAuth = to.matched.some(record => record.meta.requiresAuth);
   // if (requiresAuth && !currentUser ) next('login')
   // console.log()
+  window.scrollTo(0, 0)
   if (to.name === 'stage') {
-    window.scrollTo(0, 0)
+    // window.scrollTo(0, 0)
     store.commit('bShowStage', true)
     next()
   } else if (store.getters.bShowStage) {

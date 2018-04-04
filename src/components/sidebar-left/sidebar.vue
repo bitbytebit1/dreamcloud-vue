@@ -38,6 +38,15 @@
   <v-list dense class="pa-0">
     <user-subscriptions @closeLeft="closeLeft" v-if="loggedIn"></user-subscriptions>
   </v-list>
+  
+  <v-list-tile ripple @click="closeLeft" v-if="!loggedIn" :to="{path: '/tos'}">
+    <v-list-tile-action>
+      <v-icon>forum</v-icon>
+    </v-list-tile-action>
+    <v-list-tile-content>
+      <v-list-tile-title>tos</v-list-tile-title>
+    </v-list-tile-content>
+  </v-list-tile>
   </div>
 </template>
 <script>

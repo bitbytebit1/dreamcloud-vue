@@ -73,14 +73,17 @@
     <v-footer app fixed id="foot">
 
       <dc-youtube v-show="ytUseVideo && isYT"></dc-youtube>
-      <dc-audio v-show="!ytUseVideo || !isYT"></dc-audio>  
+      <dc-audio v-show="!ytUseVideo || !isYT"></dc-audio>
       <scroll-to-top></scroll-to-top>
       
     </v-footer>
+  <!-- dc keyboard shortcuts -->
+  <hks></hks>
   </v-app>
 </template>
 
 <script>
+  import hks from './components/misc/hks'
   import search from './components/header/search'
   import dcAudio from './components/footer/dc-audio'
   import dcYoutube from './components/footer/dc-youtube'
@@ -93,6 +96,7 @@
   export default {
     name: 'app',
     components: {
+      'hks': hks,
       'search': search,
       'dc-audio': dcAudio,
       'dc-youtube': dcYoutube,
@@ -146,7 +150,6 @@
               this.$store.commit('changeSetting', {'setting': 'Night Mode', 'value': snapshot.val()})
             }
           })
-
         } else {
           this.$store.commit('authChange', false)
           // this.$router.replace('/login')

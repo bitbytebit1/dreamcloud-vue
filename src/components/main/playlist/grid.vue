@@ -25,7 +25,7 @@
             </v-btn>
           </v-flex>
           <!-- filter -->
-          <v-flex xs5 offset-lg0 lg10 class="pr-4">
+          <v-flex xs5 lg9>
             <v-text-field
               @focus="filterHasFocus = true"
               @blur="filterHasFocus = false"
@@ -41,14 +41,20 @@
             ></v-text-field>
           </v-flex>
           <!-- select buttons -->
-          <v-flex xs6 lg3 v-if="bSelect" class="text-xs-left">
+          <v-flex xs12 lg12 v-if="bSelect" class="text-xs-left">
+            <!-- Select all -->
+            <v-btn @click="(bSelectAll = !bSelectAll, bSelectAll ? selected = sorted : selected = [])" icon>
+              <v-icon :color="selected.length === filterLength ? 'primary' : ''">{{selected.length === filterLength ? 'check_box' : selected.length ? 'indeterminate_check_box' : 'check_box_outline_blank' }}</v-icon>
+            </v-btn>
+
             <add-to-playlist key="multi" :disabled="selected.length == 0" v-if="auth_state" :song="selected"></add-to-playlist>
+
+            <download-button :dis="selected.length == 0" :links="selected"></download-button>
 
             <delete-button :disabled="selected.length == 0" v-if="$route.params.playlist" @delete="removeList"></delete-button>
 
-            <download-button :dis="selected.length == 0" :links="selected"></download-button>
-            
             <v-flex d-inline-flex>{{selected.length}} of {{filterLength}}</v-flex>
+            
           </v-flex>
         </v-layout>
       </v-card-title>
@@ -75,15 +81,11 @@
           slot-scope='props'
           xs12
           lg3
-          @click.stop="!bSelect ? play(props.index) : ''"
+          @click.stop="!bSelect ? play(props.index) : checkItem(props.item)"
         >
           <v-card class="dc-crd ma-0 pa-0 pointer" :color="cardColor(props)">
-            <!-- check box -->
-            <v-flex @click.stop v-show="bSelect">
-              <v-checkbox hide-details v-model="selected" :value="props.item"></v-checkbox>
-            </v-flex>
             <!-- image -->
-            <v-card-media v-lazy:background-image="props.item.poster" height="150px">
+            <v-card-media v-lazy:background-image="props.item.poster" :height="posterH">
               <v-container fill-height fluid>
                 <v-layout fill-height>
                   <v-flex xs12 align-end flexbox>
@@ -93,12 +95,18 @@
                 </v-layout>
               </v-container>
             </v-card-media>
-            <v-card-title>
-              <div class="text-xs-left">
-                <!-- title -->
-                <div class="subheading wordbreak">{{ props.item.title }}</div>
+            <v-card-title :class="(!$route.params.artistID || showUploaded) ? 'mb-4': 'mb-2'">
+              <!-- check box -->
+              <v-flex @click.stop v-show="bSelect" class="chkbx">
+                <v-checkbox hide-details v-model="selected" :value="props.item" color='primary'></v-checkbox>
+              </v-flex>
+              <!-- title -->
+              <div class="text-xs-left subheading grd-txt dc-t wordbreak" :title="props.item.title">{{ props.item.title }}</div>
+              <div class="text-xs-left m1b-2 grd-cnt">
                 <!-- artist -->
-                <div v-if="!$route.params.artistID" :class="artistClass(props.item.mp3)" @click.stop="$router.push({name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}})">{{ props.item.artist }}</div>
+                <div v-if="!$route.params.artistID" class="grd-txt grey--text" @click.stop="bSelect ? checkItem(props.item) : $router.push({name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}})">{{ props.item.artist }}</div>
+                <!-- date -->
+                <div v-if="$route.params.artistID || showUploaded" class="grd-txt grey--text">{{ $DCAPI.calcDate(!1, props.item.uploaded) }}</div>
               </div>
             </v-card-title>
           </v-card>
@@ -128,6 +136,10 @@ export default {
     rowsPerPage: {
       type: [Number, String],
       default: 10
+    },
+    showUploaded: {
+      type: [Boolean],
+      default: false
     }
   },
   components: {
@@ -139,6 +151,7 @@ export default {
   data () {
     return {
       filterHasFocus: false,
+      bSelectAll: false,
       bSelect: false,
       selected: [],
       search: '',
@@ -164,8 +177,13 @@ export default {
       index: 'index',
       hash: 'hash',
       current_song: 'current_song',
-      view_mode: 'view_mode'
+      view_mode: 'view_mode',
+      drawLeft: 'drawLeft',
+      drawRight: 'drawRight'
     }),
+    posterH () {
+      return (!this.drawLeft ? 42 : 0) + 150 + (!this.drawRight ? 42 : 0) + 'px'
+    },
     filterLength () {
       return this.search.length && this.$refs.dItera.filteredItems.length ? this.$refs.dItera.filteredItems.length : this.songs.length
     },
@@ -183,30 +201,52 @@ export default {
     }
   },
   methods: {
-    removeList () {
-      for (const i in this.selected) {
-        this.remove(this.selected[i].key)
+    cardColor (props) {
+      if (this.bSelect) {
+        return this.selected.some(el => el === props.item) ? 'primary' : ''
+      } else {
+        return this.isPlaying(props.item.mp32)
       }
     },
-    remove (key) {
-      this.$DCFB.playlistSongDelete(this.$route.params.playlist, key)
-    },
-    downloadAll () {
-      for (const i in this.selected) {
-        setTimeout(() => { this.download(this.selected[i]) }, 1000 * i - 1)
+    checkItem (el) {
+      var bFound = false
+      for (let i = 0; i < this.selected.length; i++) {
+        if (this.selected[i] === el) {
+          this.selected.splice(i, 1)
+          bFound = true
+        }
       }
+      if (!bFound) {
+        this.selected.push(el)
+      }
+      // if (idx >= 0) {
+      //   arr.splice(idx, 1);
+      // } else {
+      //   arr.push(el);
+      // }
+      // return arr
     },
     download (song) {
       this.$DCPlayer.getAudio(song.mp32, (data) => {
         this.$UTILS.downloadLink(data)
       })
     },
-    cardColor (props) {
-      if (this.bSelect) {
-        return props.selected ? 'primary' : ''
-      } else {
-        return this.isPlaying(props.item.mp32)
+    downloadAll () {
+      for (const i in this.selected) {
+        setTimeout(() => { this.download(this.selected[i]) }, 1000 * i - 1)
       }
+    },
+    isPlaying (link) {
+      return this.$route.path === this.hash && link === this.current_song.mp32 ? 'primary white--text' : ''
+    },
+    removeList () {
+      for (const i in this.selected) {
+        this.remove(this.selected[i].key)
+      }
+      this.selected = []
+    },
+    remove (key) {
+      this.$DCFB.playlistSongDelete(this.$route.params.playlist, key)
     },
     play (index) {
       // Fix for mobile on first play
@@ -216,12 +256,6 @@ export default {
       this.$store.commit('setNPlay', {songs: this.sorted, current: index, path: this.$route.path})
       this.$DCPlayer.setNPlay(this.sorted, index)
       this.$router.push({name: 'stage'})
-    },
-    artistClass (link) {
-      return this.$route.path === this.hash && link === this.current_song.mp32 ? 'white--text wordbreak' : 'grey--text wordbreak'
-    },
-    isPlaying (link) {
-      return this.$route.path === this.hash && link === this.current_song.mp32 ? 'primary white--text' : ''
     }
   },
   created () {
@@ -243,6 +277,30 @@ export default {
 </script>
 
 <style>
+.grd-cnt{
+  position: absolute;
+  bottom: 0px;
+}
+.chkbx{
+  position: absolute;
+  top: 5px;
+  /* left: 1px; */
+}
+.dc-crd.primary .grd-txt{
+  color: white !important;
+}
+.dc-t{
+  max-height: 50px;
+  overflow: hidden;
+}
+.grid-artist{
+    position: absolute;
+    bottom: 5px;
+    width: 100%;
+    left: 0;
+    padding-left: 15px;
+    padding-right: 15px;
+}
 .card__media[lazy=error] {
   background: center center / cover no-repeat;
 }

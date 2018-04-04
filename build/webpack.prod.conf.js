@@ -143,11 +143,11 @@ const webpackConfig = merge(baseWebpackConfig, {
           }
         },
         {
-          urlPattern: 'fonts.googleapis.com',
+          urlPattern:  new RegExp(/fonts.googleapis.com|fonts.gstatic.com/),
           handler: 'cacheFirst',
           options: {
             cache: {
-              name: 'assest'
+              name: 'assets1'
             }
           }
         }

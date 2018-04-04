@@ -1,5 +1,5 @@
 <template>
-  <v-flex xs12 lg10 xl10 flexbox>
+  <v-flex xs12 lg10>
     <artist-info  :artistID="artistID" :source="source" :artist="artist" :key="artistID"></artist-info>
 
     <!-- <v-progress-circular v-if="loading" indeterminate color="primary"></v-progress-circular> -->

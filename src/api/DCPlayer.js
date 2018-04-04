@@ -91,20 +91,33 @@ export default {
         return DCPlayer.playIndex(index)
       },
       seekBackward () {
-        DCPlayer.eAudio.currentTime -= 10
+        if (store.getters.ytUseVideo && store.getters.isYT) {
+          store.getters.ytObject.seekTo(store.getters.ytObject.getCurrentTime() - 10, true)
+        } else {
+          DCPlayer.eAudio.currentTime -= 10
+        }
       },
       seekForward () {
-        DCPlayer.eAudio.currentTime += 10
+        if (store.getters.ytUseVideo && store.getters.isYT) {
+          store.getters.ytObject.seekTo(store.getters.ytObject.getCurrentTime() + 10, true)
+        } else {
+          DCPlayer.eAudio.currentTime += 10
+        }
       },
       togglePlay () {
-        // if (DCPlayer.eAudio.hasOwnProperty('paused')) {
-        if (DCPlayer.eAudio.paused) {
-          DCPlayer.eAudio.play()
+        if (store.getters.ytUseVideo && store.getters.isYT) {
+          if (store.getters.ytIsPlaying) {
+            store.getters.ytObject.pauseVideo()
+          } else {
+            store.getters.ytObject.playVideo()
+          }
         } else {
-          DCPlayer.eAudio.pause()
+          if (DCPlayer.eAudio.paused) {
+            DCPlayer.eAudio.play()
+          } else {
+            DCPlayer.eAudio.pause()
+          }
         }
-        // } 
-          // alert('no')
       },
       getAudio (url, hCallback) {
         var ax = axios.get('https://www.saveitoffline.com/process/?type=audio&url=' + url)
@@ -163,6 +176,20 @@ export default {
           navigator.mediaSession.setActionHandler('seekforward', () => DCPlayer.seekForward())
           navigator.mediaSession.setActionHandler('previoustrack', () => DCPlayer.previous())
           navigator.mediaSession.setActionHandler('nexttrack', () => DCPlayer.next())
+        }
+      },
+      volUp () {
+        if (store.getters.ytUseVideo && store.getters.isYT) {
+          store.getters.ytObject.setVolume(store.getters.ytObject.getVolume() + 5)
+        } else {
+          DCPlayer.eAudio.volume = Math.min(1, DCPlayer.eAudio.volume + 0.05)
+        }
+      },
+      volDown () {
+        if (store.getters.ytUseVideo && store.getters.isYT) {
+          store.getters.ytObject.setVolume(store.getters.ytObject.getVolume() - 5)
+        } else {
+          DCPlayer.eAudio.volume = Math.max(0, DCPlayer.eAudio.volume - 0.05)
         }
       }
     }

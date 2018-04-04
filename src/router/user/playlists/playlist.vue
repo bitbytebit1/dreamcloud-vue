@@ -3,7 +3,7 @@
     <!-- <h3>{{name}}</h3> -->
     <loading v-if="!aSongs.length"></loading>
     <!-- show all items since it's a user playlist -->
-    <playlist v-else :songs="aSongs" rowsPerPage='250'></playlist>
+    <playlist v-else :showUploaded="true" :songs="aSongs" rowsPerPage='250'></playlist>
   </v-flex>
 </template>
 <script>

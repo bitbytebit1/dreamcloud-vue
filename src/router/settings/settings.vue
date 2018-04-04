@@ -6,7 +6,7 @@
       <template v-for="setting in settings">
 
       <h5 :key="setting.name" class="text-xs-left">{{setting.name}}</h5>
-      <v-divider :key="setting.name"></v-divider>
+      <v-divider :key="setting.name + 1"></v-divider>
       <v-flex v-for="option in setting.options" xs12 class="mt-2" :key="option.name">
         <v-layout row>
           <v-flex xs3 lg2 class="text-xs-left pl-4">
@@ -52,16 +52,7 @@ export default {
           options: [
             {
               name: 'Night Mode',
-              state: true
-            }
-          ]
-        },
-        {
-          name: 'YouTube',
-          options: [
-            {
-              name: 'Video',
-              state: true
+              state: this.$store.getters.nightMode
             }
           ]
         }

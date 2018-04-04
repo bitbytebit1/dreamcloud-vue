@@ -5,9 +5,9 @@
       <v-card-title class="ma-0 pa-0">
         <v-layout row wrap>
           <!-- header buttons -->
-          <v-flex xs12 lg2 class="text-xs-left mt-2">
+          <v-flex xs6 lg2 class="text-xs-left mt-2">
             <!-- enable check boxes -->
-            <v-btn v-if="$store.getters.auth_state" @click="bSelect = !bSelect" icon>
+            <v-btn v-if="$store.getters.auth_state" @click="(bSelect = !bSelect, bSelect ? headers.unshift({ text: '', value: '', align: 'left', sortable: false }): headers.shift())" icon>
               <v-icon :color="bSelect ? 'primary' : ''">check_box</v-icon>
             </v-btn>
             <!-- toggle view -->
@@ -25,7 +25,7 @@
             </v-btn>
           </v-flex>
           <!-- filter -->
-          <v-flex xs10 offset-xs1 offset-lg0 lg9>
+          <v-flex xs5 lg9>
             <v-text-field
               @focus="filterHasFocus = true"
               @blur="filterHasFocus = false"
@@ -41,12 +41,18 @@
             ></v-text-field>
           </v-flex>
           <!-- select buttons -->
-          <v-flex xs6 lg3 v-if="bSelect" class="text-xs-left">
+          <v-flex xs8 lg5 v-if="bSelect" class="text-xs-left">
+            <!-- Select all -->
+            <v-btn @click="(bSelectAll = !bSelectAll, bSelectAll ? selected = sorted : selected = [])" icon>
+              <v-icon :color="selected.length === filterLength ? 'primary' : ''">{{selected.length === filterLength ? 'check_box' : selected.length ? 'indeterminate_check_box' : 'check_box_outline_blank' }}</v-icon>
+            </v-btn>
+
             <add-to-playlist key="multi" :disabled="selected.length == 0" v-if="$store.getters.auth_state" :song="selected"></add-to-playlist>
 
+            <download-button :dis="selected.length == 0" :links="selected"></download-button>
+            
             <delete-button :disabled="selected.length == 0" v-if="$route.params.playlist" @delete="removeList"></delete-button>
 
-            <download-button :dis="selected.length == 0" :links="selected"></download-button>
             <v-flex d-inline-flex>{{selected.length}} of {{filterLength}}</v-flex>
           </v-flex>
         </v-layout>
@@ -60,14 +66,13 @@
         :pagination.sync="pagination"
         :rows-per-page-items='[25, 50, 100, { text: "All", value: -1 }]'
         :search="search"
-        :select-all="bSelect"
         v-model="selected"
         class="dtable"
         >
         <v-progress-linear slot="progress" color="primary" indeterminate></v-progress-linear>
 
         <template slot="items" slot-scope="props">
-          <tr :key="props.index" :class="isPlaying(props.item.mp32) ? 'primary white--text pointer' : 'pointer'" @click.stop="!bSelect ? play(props.index) : props.selected = !props.selected">
+          <tr :key="props.index" :id="bSelect ? 'nulld' : ''" :class="isPlaying(props.item.mp32) ? 'primary white--text pointer' : 'pointer'" @click.stop="!bSelect ? play(props.index) : props.selected = !props.selected">
             <!-- check_box -->
             <td v-if="bSelect">
               <v-checkbox :color="isPlaying(props.item.mp32) ? 'white' : 'primary'" hide-details v-model="props.selected"></v-checkbox>
@@ -98,8 +103,8 @@
               {{ date(props.item.uploaded)}}
             </td>
             <!-- actions -->
-            <td @click.stop>
-              <v-menu transition="slide-y-transition" bottom lazy open-on-hover v-if="!bSelect">
+            <td @click.stop v-if="!bSelect">
+              <v-menu transition="slide-y-transition" bottom lazy open-on-hover>
                 <v-btn icon slot="activator">
                   <v-icon :color="isPlaying(props.item.mp32) ? 'white' : ''">more_vert</v-icon>
                 </v-btn>
@@ -159,6 +164,7 @@ export default {
   },
   data () {
     return {
+      bSelectAll: false,
       filterHasFocus: false,
       itemKey: 'mp32',
       bSelect: false,
@@ -174,7 +180,7 @@ export default {
       ],
       today: new Date(),
       headers: [
-        { text: '', value: 'source', align: 'left' },
+        { text: '', align: 'left', sortable: false },
         { text: 'Title', value: 'title', align: 'left' },
         { text: 'Duration', value: 'duration', align: 'left' }
         // { text: 'Artist', value: 'artist', align: 'left' },
@@ -190,6 +196,7 @@ export default {
     } else {
       this.headers.splice(3, 0, { text: 'Date', value: 'uploaded', align: 'left' })
     }
+    // this.headers.push({ text: '', value: '', align: 'left', sortable: false })
     // set key to use based on whether this is a playlist
     this.itemKey = this.$route.params.playlist ? 'key' : 'mp32'
   },
@@ -273,6 +280,14 @@ export default {
 </script>
 
 <style>
+  tr#nulld{
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none;   /* Safari */
+    -khtml-user-select: none;    /* Konqueror HTML */
+    -moz-user-select: none;      /* Firefox */
+    -ms-user-select: none;       /* Internet Explorer/Edge */
+    user-select: none;           /* Non-prefixed version, currently supported by Chrome and Opera */
+  }
   .artist-dark{
     color: white !important;
   }

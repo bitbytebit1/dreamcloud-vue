@@ -27,7 +27,6 @@
       pagination.sync="pagination"
       hide-actions
     >
-      <!-- <router-link> -->
       <v-flex
         slot="item"
         slot-scope="props"
@@ -41,7 +40,7 @@
         <v-card :to="{name: 'artist', params: {source: props.item.source, artist: props.item.name, artistID: props.item.id }}" class="pointer" >
           <v-avatar
             class="mt-2"
-            size="95px"
+            :size="((!$store.getters.drawLeft ? 21 : 0) + 95 + (!$store.getters.drawRight ? 21 : 0)) + 'px'"
           >
             <img
               :src="props.item.img"
@@ -52,7 +51,6 @@
           <v-card-text class="text-xs-center">{{ props.item.name }}</v-card-text>
         </v-card>
       </v-flex>
-      <!-- </router-link> -->
     </v-data-iterator>
   </v-container>
 </template>

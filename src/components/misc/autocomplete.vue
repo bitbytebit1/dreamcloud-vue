@@ -35,13 +35,19 @@ export default {
   methods: {
     _emit (v) {
       this.$emit('update:sQuery', v)
+      // Need to detect network quality also?
+      // if (!this.$UTILS.isMobile) {
       this.$emit('search', v)
+      // }
     },
     onEnter () {
       this._emit(this.select)
     },
     querySelections (v) {
-      this._emit(v)
+      if (!this.$UTILS.isMobile) {
+        this._emit(v)
+      }
+      this.$emit('update:sQuery', v)
       // this.debounce(() =>{
       this.loading = true
       this.$jsonp(`https://suggestqueries.google.com/complete/search?callback=?&hl=en&ds=yt&jsonp=suggestCallBack&client=youtube&q=${v}`, {callbackName: 'suggestCallBack'})

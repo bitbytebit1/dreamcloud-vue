@@ -2,16 +2,13 @@
   <div id="dc-audio-container">
     <div id="dc-player">
       <div id="left">
-        <div class="audio-controls">
-          <!-- <img id="poster" :src="currentImage"> -->
-        </div>
+        <div class="audio-controls"></div>
         <div class="audio-controls">
           <v-btn @click="previous" v-bind="$store.getters.theme" class="primary" icon outline>
             <v-icon>skip_previous</v-icon>
           </v-btn>
-
-          <v-btn v-if="bLoading" v-bind="$store.getters.theme"  class="primary" icon outline>
-            <v-progress-circular id="aud-spin" indeterminate v-bind:size="25"></v-progress-circular>
+          <v-btn v-if="bLoading" v-bind="$store.getters.theme" class="primary" icon outline>
+            <v-progress-circular id="play-load" indeterminate v-bind:size="25"></v-progress-circular>
           </v-btn>
           <v-btn v-else v-bind="$store.getters.theme" @click="$DCPlayer.togglePlay" class="primary" icon outline>
             <v-icon>{{play_arrow}}</v-icon>
@@ -68,30 +65,23 @@ export default {
   computed: {
     volClass () {
       return this.volIcon === 'volume_off' ? 'red' : 'primary'
-    },
-    currentImage () {
-      // very hacky way to get the loading spinner to fire before the audio element fires
-      if (this.$store.getters.index > -1) {
-        this.loading()
-      }
-      return this.$store.getters.index > -1
-        ? this.$store.getters.current_Playlist[this.$store.getters.index].posterLarge
-        : '/static/img/loading.gif'
     }
   },
   methods: {
     toggleMute () {
-      alert('toggle mute')
       this.eAudio.muted = !this.eAudio.muted
       this.volIcon = this.eAudio.muted ? 'volume_off' : this.updateVolIcon()
     },
     volumeChange () {
       this.eAudio.volume = this.volume / 10
       this.updateVolIcon()
-      !0 === this.eAudio.muted && (this.eAudio.muted = !1) // if muted then set not muted, could just set false
+      // !0 === this.eAudio.muted && (this.eAudio.muted = !1) // if muted then set not muted, could just set false
+    },
+    volumeChange2 () {
+      this.updateVolIcon()
     },
     updateVolIcon () {
-      return (this.volIcon = this.volume > 5 ? 'volume_up' : this.volume <= 0 ? 'volume_off' : 'volume_down')
+      return (this.volIcon = this.eAudio.volume > 0.5 ? 'volume_up' : this.eAudio.volume <= 0 || this.eAudio.muted ? 'volume_off' : 'volume_down')
     },
     changePos (pos) {
       if (!isNaN(pos)) {
@@ -99,9 +89,6 @@ export default {
       }
     },
     updated () {
-      // This is how you don't concatenate strings
-      // this.currentTime = this.secondsToDuration(this.eAudio.currentTime) + '-' + this.secondsToDuration(this.eAudio.duration)
-      // This is the proper way.
       this.currentTime = `${this.secondsToDuration(this.eAudio.currentTime)} - ${this.secondsToDuration(this.eAudio.duration)}`
       this.progress = Math.floor(this.eAudio.currentTime)
     },
@@ -137,14 +124,13 @@ export default {
     }
   },
   mounted () {
-    this.$DCPlayer.eAudio = document.getElementById('dc-audio') // A little bit naughty to set the value like this =\
-    this.eAudio = document.getElementById('dc-audio')
+    this.eAudio = this.$DCPlayer.eAudio = document.getElementById('dc-audio') // A little bit naughty to set the value like this =\
     this.eAudio.addEventListener('timeupdate', this.updated)
     this.eAudio.addEventListener('playing', this.playing)
     this.eAudio.addEventListener('pause', this.paused)
     this.eAudio.addEventListener('loadstart', this.loading)
     this.eAudio.addEventListener('ended', this.$DCPlayer.next)
-    this.eAudio.addEventListener('volumechange', this.volumeChange)
+    this.eAudio.addEventListener('volumechange', this.volumeChange2)
   }
 }
 </script>
@@ -186,9 +172,10 @@ export default {
     height: 25px;
     background: teal;
 }
-#aud-spin{
-  top: -2px;
-  /* left: -1px; */
+
+#play-load{
+  top: -1px;
+  left: 0px;
   /* width: 42px !important; */
 }
 .slider-wrapper input {

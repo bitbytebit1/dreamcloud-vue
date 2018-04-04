@@ -3,7 +3,7 @@
       <v-container fluid class="grid-list-xs search-results">
         <v-layout row wrap>
           <list v-if="list" :songs="fixedSongs" :rowsPerPage="rowsPerPage" :sortBy="sortBy" @toggleView="toggleView"></list>
-          <grid v-else :songs="fixedSongs" :rowsPerPage="rowsPerPage" :sortBy="sortBy" @toggleView="toggleView"></grid>
+          <grid v-else :songs="fixedSongs" :rowsPerPage="rowsPerPage" :sortBy="sortBy" :showUploaded="showUploaded" @toggleView="toggleView"></grid>
         </v-layout>
       </v-container>
   </v-flex>
@@ -35,6 +35,10 @@ export default {
     sortBy: {
       type: [String],
       default: ''
+    },
+    showUploaded: {
+      type: [Boolean],
+      default: false
     }
   },
   components: {

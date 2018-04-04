@@ -3,7 +3,7 @@
     <!-- <loading v-if="!auth_state || !allSongs.length"></loading> -->
     <loading v-if="!auth_state || aPlaylists.length === 0"></loading>
     
-    <playlist v-else :songs="aPlaylists" sortBy="uploaded" rowsPerPage="84"></playlist>
+    <playlist v-else :songs="aPlaylists" :showUploaded="!0" sortBy="uploaded" rowsPerPage="84"></playlist>
 
   </v-flex>
 </template>
@@ -44,6 +44,7 @@ export default {
         this.$DCAPI.searchInt(0, 0, [this.subscriptions[sub].source], this.subscriptions[sub].id,
           (songs) => {
             this.aPlaylists = this.aPlaylists.concat(songs)
+            this.aPlaylists.sort(this.$DCAPI.sortDate)
           }, false, 25)
       }
     }

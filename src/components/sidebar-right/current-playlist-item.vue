@@ -1,6 +1,6 @@
 <template>
  <!-- v-show="!(index === 0 && $store.getters.bShowStage)" -->
-  <v-flex xs12 @click.stop="play" :key="song.trackID + index">
+  <v-flex xs12 class="width279" @click.stop="play" :key="index">
     <v-card>
       <!-- image -->
       <v-card-media v-lazy:background-image="song.poster" height="220px" class="current-card pointer"> 
@@ -42,10 +42,10 @@
 
       <v-slide-y-transition v-if="show">
           <!-- description -->
-          <v-card-text @click.stop class="breaker19" v-html="ytTimeToSeconds(desc)">
+          <v-card-text @click.stop class="wordbreak" v-html="ytTimeToSeconds(desc)">
           </v-card-text>
         </transition>
-      </v-slide-y-transition>      
+      </v-slide-y-transition>
     </v-card>
   </v-flex>
 </template>
@@ -128,6 +128,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+.width279{
+  min-width: 279px;
+}
 .crt-ttl{
   width: 100%;
   text-align: center;

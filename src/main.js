@@ -17,6 +17,9 @@ import UtilsPlug from '@/api/Utils.js'
 import VueLazyload from 'vue-lazyload'
 import store from './vuex'
 
+// import 'roboto-fontface/css/roboto/roboto-fontface.css'
+// import 'material-design-icons-iconfont/dist/material-design-icons.css'
+// import 'material-design-icons/iconfont/material-icons.css'
 import Vuetify from 'vuetify'
 Vue.use(Vuetify)
 import('../node_modules/vuetify/dist/vuetify.min.css')
