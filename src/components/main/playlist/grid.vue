@@ -256,6 +256,7 @@ export default {
       this.$store.commit('setNPlay', {songs: this.sorted, current: index, path: this.$route.path})
       this.$DCPlayer.setNPlay(this.sorted, index)
       this.$router.push({name: 'stage'})
+      this.$DCFB.historyPush(this.sorted[index])
     }
   },
   created () {

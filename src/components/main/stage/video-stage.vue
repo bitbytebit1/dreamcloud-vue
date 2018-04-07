@@ -190,6 +190,7 @@ export default {
         clearInterval(this.interval)
         this.$store.commit('ytCurrentTime', 0)
         this.$DCPlayer.next()
+        this.$DCFB.historyPush(this.$store.getters.current_song)
       } else { // if (state.data === 5 || state.data === 3 || state.data === 2) {
         clearInterval(this.interval)
       }

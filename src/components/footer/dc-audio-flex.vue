@@ -102,9 +102,11 @@ export default {
     },
     next () {
       this.$DCPlayer.next()
+      this.$DCFB.historyPush(this.$store.getters.current_song)
     },
     previous () {
       this.$DCPlayer.previous()
+      this.$DCFB.historyPush(this.$store.getters.current_song)
     }
   },
   mounted () {

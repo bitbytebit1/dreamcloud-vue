@@ -274,6 +274,7 @@ export default {
       index = this.pagination.page === 1 ? index : (this.pagination.rowsPerPage * (this.pagination.page - 1)) + index
       this.$store.commit('setNPlay', {songs: this.sorted, current: index, path: this.$route.path})
       this.$DCPlayer.setNPlay(this.sorted, index)
+      this.$DCFB.historyPush(this.sorted[index])
     }
   }
 }

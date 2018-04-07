@@ -89,6 +89,7 @@ export default {
     play (index) {
       this.$store.commit('changeIndex', index)
       this.$DCPlayer.playIndex(index)
+      this.$DCFB.historyPush(this.$store.getters.current_song)
     }
   }
 }

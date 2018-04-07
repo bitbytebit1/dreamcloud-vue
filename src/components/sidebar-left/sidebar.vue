@@ -31,7 +31,19 @@
       </v-list-tile-content>
     </v-list-tile>
 
+    <v-list-tile ripple class="history-link" @click="closeLeft" v-if="loggedIn" :to="{name:'history', params: {user: $DCFB.UID}}">
+      <v-list-tile-action>
+        <v-icon>history</v-icon>
+      </v-list-tile-action>
+      <v-list-tile-content>
+        <v-list-tile-title>History</v-list-tile-title>
+      </v-list-tile-content>
+      <span class="delete">
+        <delete-button @delete="clearHistory" id="wasd"></delete-button>
+      </span>
+    </v-list-tile>
   </v-list>
+  
   <v-list dense class="pa-0">
     <user-playlists @closeLeft="closeLeft" v-if="loggedIn"></user-playlists>
   </v-list>
@@ -52,15 +64,21 @@
 <script>
 import userPlaylists from '@/components/sidebar-left/user-playlists/user-playlists'
 import userSubscriptions from '@/components/sidebar-left/user-subscriptions/user-subscriptions'
+import deleteButton from '@/components/misc/delete-button'
 export default {
   name: 'sidebar',
   components: {
     'user-playlists': userPlaylists,
-    'user-subscriptions': userSubscriptions
+    'user-subscriptions': userSubscriptions,
+    'delete-button': deleteButton
   },
   methods: {
     closeLeft () {
       this.$emit('closeLeft', 'left')
+    },
+    clearHistory () {
+      // alert('bai')
+      this.$DCFB.historyClear()
     }
   },
   computed: {
@@ -81,5 +99,7 @@ export default {
 </script>
 
 <style>
-
+.list__tile--active .delete, .history-link:hover .delete {
+  display: inherit!important
+}
 </style>

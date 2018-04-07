@@ -105,9 +105,11 @@ export default {
     },
     next () {
       this.$DCPlayer.next()
+      this.$DCFB.historyPush(this.$store.getters.current_song)
     },
     previous () {
       this.$DCPlayer.previous()
+      this.$DCFB.historyPush(this.$store.getters.current_song)
     },
     secondsToDuration (ms) {
       if (isNaN(ms)) {
@@ -129,7 +131,7 @@ export default {
     this.eAudio.addEventListener('playing', this.playing)
     this.eAudio.addEventListener('pause', this.paused)
     this.eAudio.addEventListener('loadstart', this.loading)
-    this.eAudio.addEventListener('ended', this.$DCPlayer.next)
+    this.eAudio.addEventListener('ended', this.next)
     this.eAudio.addEventListener('volumechange', this.volumeChange2)
   }
 }

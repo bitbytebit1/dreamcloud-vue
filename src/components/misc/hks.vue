@@ -58,6 +58,7 @@ export default {
       } else if (e.keyCode == '37') { // left
           if (e.altKey) {
             this.$DCPlayer.previous()
+            this.$DCFB.historyPush(this.$store.getters.current_song)
           } else {
             this.$DCPlayer.seekBackward()
           }
@@ -68,6 +69,7 @@ export default {
       } else if (e.keyCode == '39') { // right
           if (e.altKey){
             this.$DCPlayer.next()
+            this.$DCFB.historyPush(this.$store.getters.current_song)
           } else {
             this.$DCPlayer.seekForward()
           }

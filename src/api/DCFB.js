@@ -29,6 +29,7 @@ class DCFB {
     this.playlists = this.db.ref('users/' + UID + '/PlaylistsData')
     this.playlistsRefs = this.db.ref('users/' + UID + '/PlaylistsNames')
     this.subscriptions = this.db.ref('users/' + UID + '/Subscriptions')
+    this.history = this.db.ref('users/' + UID + '/History')
   }
 
   setting (name) {
@@ -63,6 +64,22 @@ class DCFB {
   playlistDelete (playlistId) {
     this.playlistsRefs.child(playlistId).remove()
     this.playlists.child(playlistId).remove()
+  }
+  historyPush (json) {
+    // create new reference
+    var songRef = this.history.push()
+    // save song reference in json.key
+    json.key = songRef.key
+    // remove from json['.key'] bc we have to due to vue-fire
+    delete json['.key']
+    // format date to string
+    json.uploaded = json.uploaded.toString()
+    // update fb
+    songRef.set(json)
+  }
+
+  historyClear () {
+    this.history.remove()
   }
 
   playlistSongAdd (id, json) {

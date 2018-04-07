@@ -7,6 +7,7 @@ Vue.use(Router)
 
 import settings from '@/router/settings/settings'
 import tos from '@/router/tos/tos'
+import history from '@/router/user/history/history'
 
 import artist from '@/router/artist/artist'
 
@@ -116,6 +117,12 @@ let router = new Router({
       path: '/tos',
       name: 'tos',
       component: tos,
+      props: true
+    },
+    {
+      path: '/h/:user',
+      name: 'history',
+      component: history,
       props: true
     }
   ]
