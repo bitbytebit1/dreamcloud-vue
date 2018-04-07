@@ -19,44 +19,6 @@
           <div class="fl-r">
             <!-- yt button -->
             <youtube-button></youtube-button>
-            <!-- <v-speed-dial class="stage-btn" direction="left" open-on-hover>
-              <v-btn slot="activator" class="ma-0 pa-0" icon small hover fab>
-                <v-icon>fullscreen</v-icon>
-              </v-btn>
-              <div class="slider-wrapper">
-                <v-btn icon fab>
-                  <v-icon small>fullscreen</v-icon>
-                </v-btn>
-                <v-btn icon fab>
-                  <v-icon>fullscreen</v-icon>
-                </v-btn>
-                <v-btn icon fab>
-                  <v-icon large>fullscreen</v-icon>
-                </v-btn>
-              </div>
-            </v-speed-dial>
-
-            <v-speed-dial direction="left" class="stage-btn" open-on-hover>
-              <v-btn slot="activator" class="ma-0 pa-0" icon small hover fab>
-                <v-icon>settings</v-icon>
-              </v-btn>
-              <div class="slider-wrapper">
-                <v-btn icon fab>
-                  <v-icon>people</v-icon>
-                </v-btn>
-              </div>
-            </v-speed-dial>
-            
-            <v-speed-dial direction="left" class="stage-btn" open-on-hover>
-              <v-btn slot="activator" class="ma-0 pa-0" icon small :nudge-bottom="25" hover fab>
-                <v-icon>more_vert</v-icon>
-              </v-btn>
-              <div class="slider-wrapper">
-                <v-btn icon fab>
-                  <v-icon>people</v-icon>
-                </v-btn>
-              </div>
-            </v-speed-dial>-->
           </div>
         </v-flex> 
         <!-- Artist Picture -->

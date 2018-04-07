@@ -103,6 +103,7 @@ class DCFB {
       pusha(Object.assign({}, Array.isArray(json) ? json[0] : json))
     }
   }
+
   playlistSongDelete (playlistId, songId) {
     this.playlists.child(playlistId + '/songs/' + songId).remove()
   }

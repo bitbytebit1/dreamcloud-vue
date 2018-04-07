@@ -249,13 +249,14 @@ export default {
       this.$DCFB.playlistSongDelete(this.$route.params.playlist, key)
     },
     play (index) {
+      // show stage
+      this.$router.push({name: 'stage'})
       // Fix for mobile on first play
       if (this.$store.getters.index === -1 && this.$UTILS.isMobile) this.$DCPlayer.eAudio.play()
       // If not first page fix index
       index = this.pagination.page === 1 ? index : (this.pagination.rowsPerPage * (this.pagination.page - 1)) + index
       this.$store.commit('setNPlay', {songs: this.sorted, current: index, path: this.$route.path})
       this.$DCPlayer.setNPlay(this.sorted, index)
-      this.$router.push({name: 'stage'})
       this.$DCFB.historyPush(this.sorted[index])
     }
   },

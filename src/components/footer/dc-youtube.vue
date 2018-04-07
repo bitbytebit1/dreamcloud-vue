@@ -56,15 +56,9 @@ export default {
   name: 'dc-youtube',
   data () {
     return {
-      // bLoading: true,
       progress: 0,
-      // eAudio: '',
-      // play_arrow: 'play_arrow',
       volIcon: 'volume_up',
       volume: 10
-      // iDuration: '00:00'
-      // duration: '',
-      // currentTime: ''
     }
   },
   computed: {

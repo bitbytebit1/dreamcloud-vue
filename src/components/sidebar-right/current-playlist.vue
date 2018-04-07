@@ -69,22 +69,12 @@ export default {
     infiniteHandler ($state) {
       this.numberOfItems += 5
       var tmp = Math.min(this.$store.getters.current_Playlist.length, this.$store.getters.index + this.numberOfItems)
-      // alert(tmp)
       if (tmp === this.$store.getters.current_Playlist.length) {
         $state.complete()
       } else {
         $state.loaded()
       }
       this.infState = $state
-      // alert('11')
-      // this.numberOfItems = Math.min(this.$store.getters.current_Playlist.length, this.$store.getters.index + 5)
-      // alert(this.$store.getters.current_Playlist.length - this.$store.getters.index + ' ' + this.numberOfItems)
-      // // this.$nextTick(() => {
-      // if (this.$store.getters.current_Playlist.length - this.$store.getters.index === this.numberOfItems) {
-      //   $state.complete()
-      // } else {
-      // }
-      // })
     },
     play (index) {
       this.$store.commit('changeIndex', index)
