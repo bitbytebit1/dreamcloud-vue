@@ -51,7 +51,7 @@
                     <!-- title -->
                     <div class="subheading text-xs-left wordbreak">{{ props.item.title }}</div>
                     <!-- artist -->
-                    <div @click.stop="$router.push({name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}})" class="artist text-xs-left wordbreak">{{ props.item.artist }}</div>
+                    <span @click.stop="$router.push({name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}})" class="artist text-xs-left wordbreak">{{ props.item.artist }}</span>
                   </div>
                 </v-flex>
               </v-layout>
@@ -123,6 +123,7 @@ export default {
 <style>
 .artist{
   color: grey;
+  float: left;
 }
 .orbit-spinner, .orbit-spinner * {
   box-sizing: border-box;

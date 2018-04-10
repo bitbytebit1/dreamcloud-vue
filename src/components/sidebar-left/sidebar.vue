@@ -1,8 +1,18 @@
 <template>
   <div>
-  <v-list dense>
+  <v-list dense class="pa-0">
 
     <!-- Change to for loop to save the whales... I mean internet -->
+
+
+    <v-list-tile v-if="!loggedIn" ripple @click="closeLeft" :to="{name: 'about'}">
+      <v-list-tile-action>
+        <v-icon>info</v-icon>
+      </v-list-tile-action>
+      <v-list-tile-content>
+        <v-list-tile-title>About</v-list-tile-title>
+      </v-list-tile-content>
+    </v-list-tile>
 
     <v-list-tile v-if="!loggedIn" ripple @click="closeLeft" :to="{path: '/login'}">
       <v-list-tile-action>
@@ -13,6 +23,7 @@
       </v-list-tile-content>
     </v-list-tile>
 
+
     <v-list-tile ripple v-if="loggedIn" @click="closeLeft" :to="{path: '/home'}">
       <v-list-tile-action>
         <v-icon>dashboard</v-icon>
@@ -21,15 +32,12 @@
         <v-list-tile-title>Home</v-list-tile-title>
       </v-list-tile-content>
     </v-list-tile>
-    
-    <v-list-tile ripple @click="closeLeft" v-if="loggedIn" :to="{path: '/settings'}">
-      <v-list-tile-action>
-        <v-icon>settings</v-icon>
-      </v-list-tile-action>
-      <v-list-tile-content>
-        <v-list-tile-title>Settings</v-list-tile-title>
-      </v-list-tile-content>
-    </v-list-tile>
+    <v-list-group v-if="loggedIn" :value="userDrawer" prepend-icon="person" no-action>
+      <v-list-tile ripple slot="activator">
+        <v-list-tile-content>
+          <v-list-tile-title>User</v-list-tile-title>
+        </v-list-tile-content>
+      </v-list-tile>
 
     <v-list-tile ripple class="history-link" @click="closeLeft" v-if="loggedIn" :to="{name:'history', params: {user: $DCFB.UID}}">
       <v-list-tile-action>
@@ -39,9 +47,21 @@
         <v-list-tile-title>History</v-list-tile-title>
       </v-list-tile-content>
       <span class="delete">
-        <delete-button @delete="clearHistory" id="wasd"></delete-button>
+        <delete-button @delete="clearHistory"></delete-button>
       </span>
     </v-list-tile>
+    
+
+    <v-list-tile ripple @click="closeLeft" v-if="loggedIn" :to="{path: '/settings'}">
+      <v-list-tile-action>
+        <v-icon>settings</v-icon>
+      </v-list-tile-action>
+      <v-list-tile-content>
+        <v-list-tile-title>Settings</v-list-tile-title>
+      </v-list-tile-content>
+    </v-list-tile>
+
+    </v-list-group>
   </v-list>
   
   <v-list dense class="pa-0">
@@ -50,15 +70,16 @@
   <v-list dense class="pa-0">
     <user-subscriptions @closeLeft="closeLeft" v-if="loggedIn"></user-subscriptions>
   </v-list>
-  
-  <v-list-tile ripple @click="closeLeft" v-if="!loggedIn" :to="{path: '/tos'}">
-    <v-list-tile-action>
-      <v-icon>forum</v-icon>
-    </v-list-tile-action>
-    <v-list-tile-content>
-      <v-list-tile-title>tos</v-list-tile-title>
-    </v-list-tile-content>
-  </v-list-tile>
+  <v-list dense class="pa-0">
+    <v-list-tile ripple @click="closeLeft" v-if="!loggedIn" :to="{path: '/tos'}">
+      <v-list-tile-action>
+        <v-icon>forum</v-icon>
+      </v-list-tile-action>
+      <v-list-tile-content>
+        <v-list-tile-title>Terms of Use</v-list-tile-title>
+      </v-list-tile-content>
+    </v-list-tile>
+  </v-list>
   </div>
 </template>
 <script>
@@ -71,6 +92,11 @@ export default {
     'user-playlists': userPlaylists,
     'user-subscriptions': userSubscriptions,
     'delete-button': deleteButton
+  },
+  data () {
+    return {
+      userDrawer: false
+    }
   },
   methods: {
     closeLeft () {

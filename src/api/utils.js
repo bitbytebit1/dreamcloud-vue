@@ -13,6 +13,17 @@ export default {
         document.execCommand('copy')
         tmp.remove()
       },
+      uniqueArray (array) {
+        var a = array.concat()
+        for (var i = 0; i < a.length; i++) {
+          for (var j = i + 1; j < a.length; j++) {
+            if (a[i].mp32 === a[j].mp32) {
+              a.splice(j--, 1)
+            }
+          }
+        }
+        return a
+      },
       closeSoftMobi () {
         if (this.isMobile) {
           document.activeElement.blur()

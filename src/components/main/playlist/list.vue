@@ -2,7 +2,7 @@
   <v-flex xs12>
     <!-- table header buttons -->
     <v-card class="elevation-8">
-      <v-card-title class="ma-0 pa-0">
+      <v-card-title v-if="full" class="ma-0 pa-0">
         <v-layout row wrap>
           <!-- header buttons -->
           <v-flex xs6 lg2 class="text-xs-left mt-2">
@@ -154,6 +154,10 @@ export default {
     rowsPerPage: {
       type: [Number, String],
       default: 10
+    },
+    full: {
+      type: [Boolean],
+      default: true
     }
   },
   components: {

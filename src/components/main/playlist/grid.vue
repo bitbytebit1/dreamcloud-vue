@@ -2,7 +2,7 @@
   <v-flex xs12>
     <!-- table header buttons -->
     <v-card class="elevation-8">
-      <v-card-title class="ma-0 pa-0">
+      <v-card-title v-if="full" class="ma-0 pa-0">
         <v-layout row wrap>
           <!-- header buttons -->
           <v-flex xs6 lg2 class="text-xs-left mt-2">
@@ -71,6 +71,7 @@
         :rows-per-page-items='[24, 50, 100, { text: "All", value: -1 }]'
         :search="search"
         :select-all="bSelect"
+        :hide-actions="!full"
         >
         <!-- no data -->
         <v-flex slot="no-data">No matching records</v-flex>
@@ -95,7 +96,7 @@
                 </v-layout>
               </v-container>
             </v-card-media>
-            <v-card-title :class="(!$route.params.artistID || showUploaded) ? 'mb-4': 'mb-2'">
+            <v-card-title :class="showUploaded ? 'mb-4': 'mb-2'">
               <!-- check box -->
               <v-flex @click.stop v-show="bSelect" class="chkbx">
                 <v-checkbox hide-details v-model="selected" :value="props.item" color='primary'></v-checkbox>
@@ -136,6 +137,10 @@ export default {
     rowsPerPage: {
       type: [Number, String],
       default: 10
+    },
+    full: {
+      type: [Boolean],
+      default: true
     },
     showUploaded: {
       type: [Boolean],

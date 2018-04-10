@@ -2,8 +2,8 @@
   <v-flex flexbox>
       <v-container fluid class="grid-list-xs search-results">
         <v-layout row wrap>
-          <list v-if="list" :songs="fixedSongs" :rowsPerPage="rowsPerPage" :sortBy="sortBy" @toggleView="toggleView"></list>
-          <grid v-else :songs="fixedSongs" :rowsPerPage="rowsPerPage" :sortBy="sortBy" :showUploaded="showUploaded" @toggleView="toggleView"></grid>
+          <list v-if="list && !gridView" :songs="fixedSongs" :full="full" :rowsPerPage="rowsPerPage" :sortBy="sortBy" @toggleView="toggleView"></list>
+          <grid v-else :songs="fixedSongs" :full="full" :rowsPerPage="rowsPerPage" :sortBy="sortBy" :showUploaded="showUploaded" @toggleView="toggleView"></grid>
         </v-layout>
       </v-container>
   </v-flex>
@@ -20,17 +20,17 @@ export default {
       type: [Array],
       required: true
     },
-    viewType: {
-      type: [Object],
-      default () {
-        return {
-          list: !0
-        }
-      }
+    gridView: {
+      type: [Boolean],
+      default: false
     },
     rowsPerPage: {
       type: [Number, String],
       default: 10
+    },
+    full: {
+      type: [Boolean],
+      default: true
     },
     sortBy: {
       type: [String],
@@ -48,7 +48,6 @@ export default {
   data () {
     return {
       showScrollToTop: false,
-      // list: this.viewType.list,
       fixd: this.songs
     }
   },
@@ -68,6 +67,7 @@ export default {
         if (!(this.fixd[song].uploaded instanceof Date)) {
           this.fixd[song].uploaded = new Date(this.fixd[song].uploaded)
         } else {
+          // console.log('assuming all dates are ok')
           break
         }
       }
@@ -93,8 +93,8 @@ export default {
 
   @media only screen and (min-width: 600px){
     .search-results{
-      margin-top: 15px!important;
-      margin-bottom: 35px!important;
+      /* margin-top: 15px!important; */
+      margin-bottom: 15px!important;
     }
   }
 

@@ -4,7 +4,7 @@ export default {
   state: {
     drawLeft: true,
     drawRight: true,
-    view_mode: true,
+    view_mode: false,
     auth_state: false,
     bShowStage: true,
     settings: {

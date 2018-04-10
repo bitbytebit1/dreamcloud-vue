@@ -63,7 +63,7 @@
       <v-container fluid fill-height>
         <v-layout justify-center>
           <transition name="fade" mode="out-in">
-            <keep-alive exclude="history">
+            <keep-alive>
               <router-view></router-view>
             </keep-alive>
           </transition>

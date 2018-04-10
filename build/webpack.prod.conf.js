@@ -105,7 +105,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       staticFileGlobs: ['dist/**/*.{js,html,css}'],
       minify: true,
       stripPrefix: 'dist/',
-      runtimeCaching: 
+      runtimeCaching:
       [
         // Match MP3 links, store as cache first for 2 weeks
         {
@@ -143,13 +143,12 @@ const webpackConfig = merge(baseWebpackConfig, {
           }
         },
         {
-          urlPattern:  new RegExp(/fonts.googleapis.com|fonts.gstatic.com/),
-          handler: 'cacheFirst',
-          options: {
-            cache: {
-              name: 'assets1'
-            }
-          }
+          urlPattern: /^https:\/\/fonts\.googleapis\.com\//,
+          handler: 'cacheFirst'
+        },
+        {
+          urlPattern: /^https:\/\/fonts\.gstatic\.com\//,
+          handler: 'cacheFirst'
         }
       ]
     })

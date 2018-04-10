@@ -8,6 +8,7 @@ Vue.use(Router)
 import settings from '@/router/settings/settings'
 import tos from '@/router/tos/tos'
 import history from '@/router/user/history/history'
+import historyRecommended from '@/router/user/history/recommended'
 
 import artist from '@/router/artist/artist'
 
@@ -17,7 +18,7 @@ import song from '@/router/search/song'
 import userPlaylist from '@/router/user/playlists/playlist'
 import playlistsAll from '@/router/user/playlists/all'
 
-import home from '@/router/user/subs/all'
+import home from '@/router/user/home/home'
 import subsAll from '@/router/user/subs/all'
 import userSubOverview from '@/router/user/subs/overview'
 
@@ -25,7 +26,7 @@ import user from '@/router/user/user'
 import login from '@/router/user/login/login'
 import signUp from '@/router/user/login/sign-up'
 import password from '@/router/user/login/password-reset'
-
+import about from '@/router/about/about'
 import stage from '@/router/stage/stage-route'
 // #/s/YouTube/q/sort/page/number of results/filter
 
@@ -66,24 +67,6 @@ let router = new Router({
       component: settings
     },
     {
-      path: '/u/:user/subscriptions',
-      name: 'userSubOverview',
-      component: userSubOverview,
-      props: true
-    },
-    {
-      path: '/u/:user/subscriptions-all',
-      name: 'subsAll',
-      component: subsAll,
-      props: true
-    },
-    {
-      path: '/u/:user/playlists-all',
-      name: 'playlistsAll',
-      component: playlistsAll,
-      props: true
-    },
-    {
       path: '/s/:source/:query',
       name: 'searchPage',
       component: searchpage,
@@ -107,6 +90,25 @@ let router = new Router({
       component: song,
       props: true
     },
+    ,
+    {
+      path: '/u/:user/subscriptions',
+      name: 'userSubOverview',
+      component: userSubOverview,
+      props: true
+    },
+    {
+      path: '/u/:user/subscriptions-all',
+      name: 'subsAll',
+      component: subsAll,
+      props: true
+    },
+    {
+      path: '/u/:user/playlists-all',
+      name: 'playlistsAll',
+      component: playlistsAll,
+      props: true
+    },
     {
       path: '/u/:user/:playlist/:name',
       name: 'userPlaylist',
@@ -120,9 +122,20 @@ let router = new Router({
       props: true
     },
     {
-      path: '/h/:user',
+      path: '/about',
+      name: 'about',
+      component: about,
+    },
+    {
+      path: '/:user/history',
       name: 'history',
       component: history,
+      props: true
+    },
+    {
+      path: '/:user/recommended',
+      name: 'historyRecommended',
+      component: historyRecommended,
       props: true
     }
   ]

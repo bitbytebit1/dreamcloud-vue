@@ -10,6 +10,7 @@ import axios from 'axios'
 import {DCAPIClass} from '@/DCAPIs/DCAPI.js'
 
 import loading from '@/components/misc/loading'
+import historyRecommended from '@/router/user/history/recommended'
 export default {
   name: 'home', 
   components: {

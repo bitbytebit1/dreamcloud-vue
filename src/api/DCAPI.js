@@ -33,7 +33,9 @@ class DCAPIClass {
       this.nextPageToken = ''
       this.YTnextPageTokenString = ''
     }
-    var uid = performance.now()
+    var uid = Math.random()
+    // var uid = Date.now() + Math.random()
+    // var uid = performance.now() // Caused problems on firefox 
     this.aQuery[uid] = {
       aAjax: [],
       aResult: [],
@@ -51,7 +53,7 @@ class DCAPIClass {
     }
     return axios.all(this.aQuery[uid].aAjax).then(() => {
       this.aQuery[uid].hCallback(this.aQuery[uid].aResult)
-      delete this.aQuery[uid]
+      delete this.aQuery[uid] // not necessary?
     })
   }
 

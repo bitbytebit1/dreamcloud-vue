@@ -7,7 +7,7 @@
 /* eslint-disable */
 import deleteButton from '@/components/misc/delete-button'
 export default {
-  name: 'x',
+  name: 'tos',
   data () {
     return {
       x1: `dreamcloud.netlify.com Terms of Service Agreement
@@ -36,7 +36,7 @@ Privacy Policy
 
 Your privacy is important to us. To better protect your privacy we provide this notice explaining our online information practices and the choices you can make about the way your information is collected and used. To make this notice easy to find, we make it available on our homepage and at every point where personally identifiable information may be requested.
 
-Please read the following carefully. If you have any questions or concerns, please send us an email at contact@offliberty.com.
+Please read the following carefully. If you have any questions or concerns, please send us an email at dreamcloud@sharklasers.com.
 
 Gathering and Use of Information
 
