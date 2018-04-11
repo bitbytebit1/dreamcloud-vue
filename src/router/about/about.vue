@@ -107,7 +107,7 @@
 
         <v-flex xs4>
           <v-flex xs12>
-            <v-icon size="100px">money_off</v-icon>
+            <v-icon size="100px">attach_money</v-icon>
           </v-flex>
           <v-flex xs12 class="heading">
             100% free

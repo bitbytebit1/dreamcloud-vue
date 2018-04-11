@@ -54,8 +54,10 @@ export default {
           this.aRecommended.push(d[1])
         }, true, 3))
         axios.all(aAjax).then(() => {
-          console.log('done')
           this.aRecommended= this.$UTILS.uniqueArray(this.aRecommended)
+          if (this.iLimit) {
+            this.aRecommended = this.aRecommended.slice(0, this.iLimit)
+          }
         })
       }
     }

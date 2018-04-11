@@ -1,16 +1,5 @@
 <template>
   <v-flex xs12 lg10>
-    <!-- History -->
-    <router-link :class="textClass" :to="{name:'history', params: {user: $DCFB.UID}}">
-      <h2 class="text-xs-left">Recently played</h2>
-    </router-link>
-    <loading v-if="!auth_state || !aHistory.length"></loading>
-    <div v-else class="mb-2">
-      <playlist rowsPerPage='8' :full="false" :gridView="true" :songs="aHistory"></playlist>
-      <!-- <router-link class="grey--text text--lighten-2" :to="{name:'history', params: {user: $DCFB.UID}}"><h5 class="text-xs-left">SHOW MORE</h5></router-link> -->
-      <!-- <v-btn class="pointer grey--text text--lighten-1" @click="incHistory()">SHOW MORE</v-btn> -->
-    </div>
-    <v-divider color="teal" class="mt-4 mb-4 teal"></v-divider>
     <!-- subsAll -->
     <router-link :class="textClass" :to="{name:'subsAll', params: {user: $DCFB.UID}}">
       <h2 class="text-xs-left">Latest from your subscriptions</h2>
@@ -28,6 +17,19 @@
     <div class="mb-2">
       <historyRecommended :iLimit="8"></historyRecommended>
     </div>
+    <v-divider color="teal" class="mt-4 mb-4 teal"></v-divider>
+
+    <!-- History -->
+    <router-link :class="textClass" :to="{name:'history', params: {user: $DCFB.UID}}">
+      <h2 class="text-xs-left">Recently played</h2>
+    </router-link>
+    <loading v-if="!auth_state || !aHistory.length"></loading>
+    <div v-else class="mb-2">
+      <playlist rowsPerPage='8' :full="false" :gridView="true" :songs="aHistory"></playlist>
+      <!-- <router-link class="grey--text text--lighten-2" :to="{name:'history', params: {user: $DCFB.UID}}"><h5 class="text-xs-left">SHOW MORE</h5></router-link> -->
+      <!-- <v-btn class="pointer grey--text text--lighten-1" @click="incHistory()">SHOW MORE</v-btn> -->
+    </div>
+
   </v-flex>
 </template>
 <script>

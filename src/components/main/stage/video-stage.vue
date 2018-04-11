@@ -133,6 +133,7 @@ export default {
       })
     },
     ytBind () {
+      // Wait for YouTube script to load
       if ((typeof YT === 'undefined') || !YT || !YT.Player) {
         setTimeout(this.ytBind, 100)
         return

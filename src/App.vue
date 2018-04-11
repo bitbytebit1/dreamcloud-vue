@@ -21,7 +21,9 @@
       
       <!-- title -->
       <v-toolbar-title class="hidden-sm-and-down">
-        DreamCloud
+        <router-link :class="textClass" :to="{name:'home'}">
+          DreamCloud
+        </router-link>
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
@@ -127,6 +129,9 @@
       }
     },
     computed: {
+      textClass () {
+        return this.$store.getters.nightMode ? 'black' : 'white'
+      },
       ...mapGetters({
         isYT: 'isYT',
         ytUseVideo: 'ytUseVideo',
@@ -138,13 +143,15 @@
     beforeCreate () {
       this.$vuetify.theme.primary = '#009688'
       // if mobile disable youtube video
-      this.$store.commit('ytUseVideo', !this.$UTILS.isMobile)
+      // this.$store.commit('ytUseVideo', !this.$UTILS.isMobile)
+      this.$store.commit('ytUseVideo', false)
       // if set log in status
       this.$store.commit('authChange', !!this.$DCFB.fb.auth().currentUser)
       this.$DCFB.fb.auth().onAuthStateChanged((user) => {
         if (user) {
-          this.$store.commit('authChange', true)
           this.$DCFB.init(user.uid)
+          this.$store.commit('authChange', true)
+          this.$router.push({name: 'home'})
           this.$DCFB.setting('Night Mode').once('value', (snapshot) => {
             if (snapshot.val() !== null) {
               this.$store.commit('changeSetting', {'setting': 'Night Mode', 'value': snapshot.val()})
@@ -152,7 +159,7 @@
           })
         } else {
           this.$store.commit('authChange', false)
-          // this.$router.replace('/login')
+          this.$router.push({name: 'searchPage', params: {query: ' ', source: 'YouTube'}})
         }
       })
     }
@@ -160,6 +167,10 @@
 </script>
 
 <style>
+  .clear-deco {
+    text-decoration-color: none;
+    text-decoration: none;
+  }
   .pointer{
     cursor: pointer;
   }

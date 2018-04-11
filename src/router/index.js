@@ -54,7 +54,7 @@ let router = new Router({
     },
     {
       path: '/',
-      redirect: '/s/YouTube/%20'
+      redirect: '/about'
     },
     {
       path: '/home',
