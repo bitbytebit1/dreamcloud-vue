@@ -45,7 +45,7 @@ export default {
           (songs) => {
             this.aPlaylists = this.aPlaylists.concat(songs)
             this.aPlaylists.sort(this.$DCAPI.sortDate)
-          }, false, 25)
+          }, false, 150)
       }
     }
   }
