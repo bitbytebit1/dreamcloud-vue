@@ -47,7 +47,7 @@
             <v-icon size="100px">phone_android</v-icon>
           </v-flex>
           <v-flex xs12 class="heading">
-            Play YouTube in the background
+            Play videos in the background
           </v-flex>
         </v-flex>
 
