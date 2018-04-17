@@ -130,7 +130,7 @@
     },
     computed: {
       textClass () {
-        return this.$store.getters.nightMode ? 'black' : 'white'
+        return (this.$store.getters.nightMode ? 'white' : 'black') + '--text hem pointer'
       },
       ...mapGetters({
         isYT: 'isYT',
@@ -143,8 +143,8 @@
     beforeCreate () {
       this.$vuetify.theme.primary = '#009688'
       // if mobile disable youtube video
-      // this.$store.commit('ytUseVideo', !this.$UTILS.isMobile)
-      this.$store.commit('ytUseVideo', false)
+      this.$store.commit('ytUseVideo', !this.$UTILS.isMobile)
+      // this.$store.commit('ytUseVideo', false)
       // if set log in status
       this.$store.commit('authChange', !!this.$DCFB.fb.auth().currentUser)
       this.$DCFB.fb.auth().onAuthStateChanged((user) => {
@@ -167,8 +167,8 @@
 </script>
 
 <style>
-  .clear-deco {
-    text-decoration-color: none;
+  .hem{
+    /* text-decoration-color: none; */
     text-decoration: none;
   }
   .pointer{
