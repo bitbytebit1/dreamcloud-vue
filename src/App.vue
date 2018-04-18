@@ -151,7 +151,7 @@
         if (user) {
           this.$DCFB.init(user.uid)
           this.$store.commit('authChange', true)
-          this.$router.push({name: 'home'})
+          // this.$router.push({name: 'home'})
           this.$DCFB.setting('Night Mode').once('value', (snapshot) => {
             if (snapshot.val() !== null) {
               this.$store.commit('changeSetting', {'setting': 'Night Mode', 'value': snapshot.val()})
