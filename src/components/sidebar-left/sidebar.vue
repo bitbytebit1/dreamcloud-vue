@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mb-1">
   <v-list dense class="pa-0">
 
     <!-- Change to for loop to save the whales... I mean internet -->
@@ -70,7 +70,7 @@
   <v-list dense class="pa-0">
     <user-subscriptions @closeLeft="closeLeft" v-if="loggedIn"></user-subscriptions>
   </v-list>
-  <v-list dense class="pa-0">
+  <v-list dense class="pa-0 mb-5">
     <v-list-tile ripple @click="closeLeft" v-if="!loggedIn" :to="{path: '/tos'}">
       <v-list-tile-action>
         <v-icon>forum</v-icon>

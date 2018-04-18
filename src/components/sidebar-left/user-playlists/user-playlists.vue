@@ -5,8 +5,7 @@
           <v-list-tile-title>Playlists</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
-      <v-list-tile active-class="cyan white--text" ripple @click="closeLeftOnMobile" :to="{name:'playlistsAll', params: {user: UID}}">
-      <!-- <v-list-tile active-class="cyan white--text" ripple @click="closeLeftOnMobile" :to="{path: '/u/playlists/all'}"> -->
+      <v-list-tile active-class="cyan white--text" ripple @click.stop="closeLeftOnMobile" :to="{name:'playlistsAll', params: {user: UID}}">
         <v-list-tile-action>
           <v-icon>toc</v-icon>
         </v-list-tile-action>
@@ -14,27 +13,60 @@
           <v-list-tile-title>All</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
-      
-      <v-list-tile 
-        v-for="subItem in playlistRefs"
-        @click="closeLeftOnMobile" 
+
+      <v-list-tile ripple @click.stop="$refs.search.focus()">
+        <v-list-tile-action @click="search.length > 0 ? search='' : ''">
+          <v-icon>{{search.length > 0 ? 'clear' : 'filter_list'}}</v-icon>
+        </v-list-tile-action>
+        <v-list-tile-content>
+          <!-- filter -->
+          <v-text-field
+            @focus="filterHasFocus = true"
+            @blur="filterHasFocus = false"
+            color="primary"
+            label="Filter"
+            class="filter"
+            single-line
+            hide-details
+            v-model="search"
+            v-on:keyup.enter="$UTILS.closeSoftMobi()"
+            style="top:-10px"
+            ref="search"
+          ></v-text-field>
+        </v-list-tile-content>
+      </v-list-tile>
+    <v-data-iterator
+      v-if="$store.getters.auth_state"
+      :items="playlistRefs"
+      :search="search"
+      :rows-per-page-items="rowsPerPageItems"
+      pagination.sync="pagination"
+      :custom-filter="(items, search, filter) => { search = search.toString().toLowerCase() ; return items.filter(row => filter(row['name_lower'], search)) }"
+      hide-actions
+      no-data-text=""
+    >
+      <v-list-tile
+        slot="item"
+        slot-scope="props"
+        @click.stop="closeLeftOnMobile" 
         id='playlist'
-        :class="isPlaying(UID, subItem['.key'], subItem['name'])"
-        :active-class="isPlaying(UID, subItem['.key'], subItem['name']) || 'cyan white--text'"
-        :to="{path: '/u/' + UID + '/' + subItem['.key'] +  '/' +  encodeURIComponent(subItem['name'])}" 
-        v-bind:key="subItem['.key']"
+        :class="isPlaying(UID, props.item['.key'], props.item['name'])"
+        :active-class="isPlaying(UID, props.item['.key'], props.item['name']) || 'cyan white--text'"
+        :to="{path: '/u/' + UID + '/' + props.item['.key'] +  '/' +  encodeURIComponent(props.item['name'])}" 
+        v-bind:key="props.item['.key']"
         ripple
       >
         <v-list-tile-action>
-          <v-icon :color="isPlaying(UID, subItem['.key'], subItem['name']) ? 'white': ''">music_note</v-icon>
+          <v-icon :color="isPlaying(UID, props.item['.key'], props.item['name']) ? 'white': ''">music_note</v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
-          <v-list-tile-title>{{ subItem['name'] }}</v-list-tile-title>
+          <v-list-tile-title>{{ props.item['name'] }}</v-list-tile-title>
         </v-list-tile-content>
         <span class="delete">
-          <delete-button @delete="playlistDelete" :id="subItem['.key']"></delete-button>
+          <delete-button @delete="playlistDelete" :id="props.item['.key']"></delete-button>
         </span>
       </v-list-tile>
+    </v-data-iterator>
     </v-list-group>
 </template>
 <script>
@@ -49,7 +81,13 @@ export default {
   data () {
     return {
       UID: this.$DCFB.UID,
-      active: false
+      filterHasFocus: false,
+      search: '',
+      active: false,
+      rowsPerPageItems: [{ value: -1 }],
+      pagination: {
+        rowsPerPage: 'All'
+      }
     }
   },
   methods: {
@@ -72,6 +110,9 @@ export default {
 </script>
 
 <style>
+.filter label, .filter input{
+  font-size: 13px;
+}
 .delete {
   display: none!important
 }
