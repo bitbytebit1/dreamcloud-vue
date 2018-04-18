@@ -3,11 +3,13 @@
     <!-- Left column -->
     <v-flex xs12 >
       <!-- Avatar -->
-      <v-flex xs12>
-        <v-avatar class="pointer" size='55px' slot='activator' @click="avatarClicked">
-          <img :src='info.img' class='img-fluid' style='display:inline-block;'/>
-        </v-avatar>
-      </v-flex>
+      <router-link :to="{name: 'artist', params: {source: source, artist: artist, artistID: artistID}}">
+        <v-flex xs12>
+          <v-avatar class="pointer" size='55px' slot='activator'>
+            <img :src='info.img' class='img-fluid' style='display:inline-block;'/>
+          </v-avatar>
+        </v-flex>
+      </router-link>
       <!-- Subscribe Button -->
       <v-flex xl12 class="mt-2">
         <subscribe-button v-if="$store.getters.auth_state" :artistID="artistID" :source="source" :artist="artist" :img="info.img"></subscribe-button>
