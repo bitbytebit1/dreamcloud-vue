@@ -133,7 +133,7 @@ let router = new Router({
       props: true
     },
     {
-      path: '/:user/recommended',
+      path: '/u/:user/recommended',
       name: 'historyRecommended',
       component: historyRecommended,
       props: true
