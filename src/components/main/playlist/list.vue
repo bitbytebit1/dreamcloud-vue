@@ -15,13 +15,8 @@
               <v-icon>{{view_mode ? 'view_module' : 'view_list'}}</v-icon>
             </v-btn>
             <!-- focus search bar button -->
-            <v-btn icon @click="$refs.search.focus()" v-if="!search.length">
-              <v-icon :color="filterHasFocus ? 'primary' : ''">filter_list</v-icon>
-            </v-btn>
-            <v-btn icon v-else @click="search = ''">
-              <v-icon color="primary">
-                clear
-              </v-icon>
+            <v-btn icon @click="search.length > 0 ? search='' : $refs.search.focus()" >
+              <v-icon>{{search.length > 0 ? 'clear': 'filter_list'}}</v-icon>
             </v-btn>
           </v-flex>
           <!-- filter -->
