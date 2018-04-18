@@ -14,7 +14,7 @@
         :key="$store.getters.current_song.trackID"
         ></current-playlist-item> -->
       </transition-group>
-      <infinite-loading v-if="aPlaylist.length" class="flex xs12" ref="infiniteLoading2"  @infinite="infiniteHandler" spinner="default">
+      <infinite-loading v-if="aPlaylist.length" class="flex xs12" ref="infiniteLoading2"  @infinite="infiniteHandler" spinner="default" :distance="600">
         <span slot="no-results">
           End of the line kiddo
         </span>
