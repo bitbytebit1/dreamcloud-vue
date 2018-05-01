@@ -1,7 +1,7 @@
 <template>
-  <v-flex xs12 lg12>
+  <v-flex xs12 :lg10="viewSmall" :lg12="!viewSmall">
     <loading v-if="!auth_state || !aRecommended.length"></loading>
-    <playlist v-else rowsPerPage='84' :showUploaded="true" :full="false" :gridView="true" :songs="aRecommended"></playlist>
+    <playlist v-else rowsPerPage='84' :showUploaded="true" :full="viewSmall" :gridView="true" :songs="aRecommended"></playlist>
   </v-flex>
 </template>
 <script>
@@ -24,7 +24,8 @@ export default {
   data () {
     return {
       aHistory: [],
-      aRecommended: []
+      aRecommended: [],
+      viewSmall: this.$route.name === 'historyRecommended'
     }
   },
   watch: {
@@ -46,7 +47,7 @@ export default {
         aAjax.push(this.$DCAPI.searchInt('', 0, [aRecommended[i].source], aRecommended[i].trackID, (d) => {
           if (aRecommended.some((el => d[0] === el))){
             d.shift() // remove first from res if duplicate
-            console.log('removing dupe')
+            // console.log('removing dupe')
           }
           // if (d.length > 1 && d[0].trackID === aRecommended[i].trackID) {
           // }
