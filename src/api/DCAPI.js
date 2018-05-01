@@ -59,8 +59,8 @@ class DCAPIClass {
 
   search (source, uid) {
     switch (source.toLowerCase()) {
-      case 'bandcamp':
-        return this.bc(uid)
+      // case 'bandcamp':
+      //   return this.bc(uid)
       case 'mixcloud':
         return this.mc(uid)
       case 'soundcloud':
@@ -314,8 +314,8 @@ class DCAPIClass {
       return axios.get('https://api.soundcloud.com/users/' + artistID + '?client_id=' + this.sScKey).then(hCallback)
     } else if (source.toLowerCase().indexOf('mixcloud') > -1) {
       return axios.get('https://api.mixcloud.com/' + artistID + '/').then(hCallback)
-    } else if (source.toLowerCase().indexOf('bandcamp') > -1) {
-      return axios.get(this.bcBase + 'api/v2/getartistinfo/' + encodeURIComponent(atob(artistID))).then(hCallback)
+    // } else if (source.toLowerCase().indexOf('bandcamp') > -1) {
+      // return axios.get(this.bcBase + 'api/v2/getartistinfo/' + encodeURIComponent(atob(artistID))).then(hCallback)
     } else {
       return (Promise.resolve(''))
     }
