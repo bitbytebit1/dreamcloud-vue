@@ -14,9 +14,19 @@
         </v-list-tile-content>
       </v-list-tile>
 
+      <!-- overview -->
+      <v-list-tile ripple @click="closeLeftOnMobile" :to="{name:'playlistOverview', params: {user: UID}}">
+        <v-list-tile-action>
+          <v-icon>view_module</v-icon>
+        </v-list-tile-action>
+        <v-list-tile-content>
+          <v-list-tile-title>Overview</v-list-tile-title>
+        </v-list-tile-content>
+      </v-list-tile>
+
       <v-list-tile ripple @click.stop="$refs.search.focus()">
         <v-list-tile-action @click="search.length > 0 ? search='' : ''">
-          <v-icon>{{search.length > 0 ? 'clear' : 'filter_list'}}</v-icon>
+          <v-icon :color="filterHasFocus ? 'primary' : ''">{{filterLeng > 0 ? 'clear' : 'filter_list'}}</v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
           <!-- filter -->
@@ -88,6 +98,11 @@ export default {
       pagination: {
         rowsPerPage: 'All'
       }
+    }
+  },
+  computed: {
+    filterLeng () {
+      return this.search.length > 0
     }
   },
   methods: {

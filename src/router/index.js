@@ -17,6 +17,7 @@ import song from '@/router/search/song'
 
 import userPlaylist from '@/router/user/playlists/playlist'
 import playlistsAll from '@/router/user/playlists/all'
+import playlistOverview from '@/router/user/playlists/overview'
 
 import home from '@/router/user/home/home'
 import subsAll from '@/router/user/subs/all'
@@ -57,11 +58,6 @@ let router = new Router({
       redirect: '/about'
     },
     {
-      path: '/home',
-      name: 'home',
-      component: home
-    },
-    {
       path: '/settings',
       name: 'settings',
       component: settings
@@ -90,7 +86,12 @@ let router = new Router({
       component: song,
       props: true
     },
-    ,
+    {
+      path: '/u/:user/home',
+      name: 'home',
+      component: home,
+      props: true
+    },
     {
       path: '/u/:user/subscriptions',
       name: 'userSubOverview',
@@ -130,6 +131,12 @@ let router = new Router({
       path: '/:user/history',
       name: 'history',
       component: history,
+      props: true
+    },
+    {
+      path: '/:user/playlist-overview',
+      name: 'playlistOverview',
+      component: playlistOverview,
       props: true
     },
     {
