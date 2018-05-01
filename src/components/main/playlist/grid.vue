@@ -14,7 +14,7 @@
             <v-btn icon @click="$emit('toggleView')">
               <v-icon>{{view_mode ? 'view_module' : 'view_list'}}</v-icon>
             </v-btn>
-            <!-- focus search bar button -->
+            <!-- filter button -->
             <v-btn icon @click="search.length > 0 ? search='' : $refs.search.focus()" >
               <v-icon>{{search.length > 0 ? 'clear': 'filter_list'}}</v-icon>
             </v-btn>
@@ -81,7 +81,7 @@
         >
           <v-card class="dc-crd ma-0 pa-0 pointer" :color="cardColor(props)">
             <!-- image -->
-            <v-card-media v-lazy:background-image="props.item.poster" :height="posterH">
+            <v-card-media v-lazy:background-image="props.item.poster" height="200">
               <v-container fill-height fluid>
                 <v-layout fill-height>
                   <v-flex xs12 align-end flexbox>
@@ -181,9 +181,9 @@ export default {
       drawLeft: 'drawLeft',
       drawRight: 'drawRight'
     }),
-    posterH () {
-      return (!this.drawLeft ? 42 : 0) + 150 + (!this.drawRight ? 42 : 0) + 'px'
-    },
+    // posterH () {
+    //   return (!this.drawLeft ? 42 : 0) + 150 + (!this.drawRight ? 42 : 0) + 'px'
+    // },
     filterLength () {
       return this.search.length && this.$refs.dItera.filteredItems.length ? this.$refs.dItera.filteredItems.length : this.songs.length
     },
