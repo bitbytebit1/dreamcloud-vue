@@ -72,12 +72,16 @@
         </v-layout>
       </v-container>
     </v-content>
-    <v-footer app fixed id="foot">
-
+    <v-footer app fixed id="foot" v-if="bMobi" :style="mobiFoot">
+      <!-- {{$router}} -->
+      <mobileFooter></mobileFooter>
+      <dc-youtube v-show="(ytUseVideo && isYT) && currentActive"></dc-youtube>
+      <dc-audio v-show="(!ytUseVideo || !isYT) && currentActive"></dc-audio>
+    </v-footer>
+    <v-footer v-else app fixed id="foot" style="height: 55px!important">
       <dc-youtube v-show="ytUseVideo && isYT"></dc-youtube>
       <dc-audio v-show="!ytUseVideo || !isYT"></dc-audio>
       <scroll-to-top></scroll-to-top>
-      
     </v-footer>
   <!-- dc keyboard shortcuts -->
   <hks></hks>
@@ -93,6 +97,7 @@
   import sidebar from './components/sidebar-left/sidebar'
   import stage from '@/components/main/stage/stage'
   import scrollToTop from '@/components/footer/scroll-to-top.vue'
+  import mobileFooter from '@/components/footer/mobileFooter'
   import { mapGetters } from 'vuex'
 
   export default {
@@ -105,6 +110,7 @@
       'sidebar': sidebar,
       'current-playlist': currentPlaylist,
       'stage': stage,
+      'mobileFooter': mobileFooter,
       'scroll-to-top': scrollToTop
     },
     data () {
@@ -129,8 +135,19 @@
       }
     },
     computed: {
+      mobiFoot () {
+        return {
+          height: (this.currentActive && this.bMobi ? '128px' : '55px') + ' !important'
+        }
+      },
+      bMobi () {
+        return this.$vuetify.breakpoint.name === 'xs' || this.$vuetify.breakpoint.name === 'sm'
+      },
       textClass () {
         return (this.$store.getters.nightMode ? 'white' : 'black') + '--text hem pointer'
+      },
+      currentActive () {
+        return this.$route.name === 'stage'
       },
       ...mapGetters({
         isYT: 'isYT',
@@ -143,8 +160,8 @@
     beforeCreate () {
       this.$vuetify.theme.primary = '#009688'
       // if mobile disable youtube video
-      this.$store.commit('ytUseVideo', !this.$UTILS.isMobile)
-      // this.$store.commit('ytUseVideo', false)
+      // this.$store.commit('ytUseVideo', !this.$UTILS.isMobile)
+      this.$store.commit('ytUseVideo', false)
       // if set log in status
       this.$store.commit('authChange', !!this.$DCFB.fb.auth().currentUser)
       this.$DCFB.fb.auth().onAuthStateChanged((user) => {
@@ -183,7 +200,7 @@
   @media only screen and (min-width: 600px){
     #foot{
       padding: 0 !important;
-      height: 55px !important;
+      /* height: 55px !important; */
     }
   }
   @media only screen and (max-width: 599px){

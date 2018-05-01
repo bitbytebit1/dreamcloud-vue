@@ -2,7 +2,6 @@
   <div id="dc-audio-container">
     <div id="dc-player">
       <div id="left">
-        <div class="audio-controls"></div>
         <div class="audio-controls">
           <v-btn @click="previous" v-bind="$store.getters.theme" class="primary" icon outline>
             <v-icon>skip_previous</v-icon>
@@ -199,18 +198,13 @@ export default {
   display: none;
 }
 
-#dc-audio-container {
-  width: 100%;
-  margin-top: -12px;
-}
-
 .audio-controls {
   float: left;
 }
 
-#dc-player {
+/* #dc-player {
   padding-top: 5px;
-}
+} */
 
 /* #progress-slider {
   top: -8px
@@ -238,8 +232,16 @@ export default {
   #middle {
     margin-right: 100px;
   }
+  #dc-audio-container {
+    width: 100%;
+    /* margin-top: -45px; */
+  }
 }
 @media only screen and (max-width: 599px){
+  #dc-audio-container {
+    width: 100%;
+    margin-top: -60px;
+  }
   #progress-slider{
     padding: 0!important  
   }

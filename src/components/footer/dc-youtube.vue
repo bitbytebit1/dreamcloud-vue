@@ -103,7 +103,7 @@ export default {
     currentImage () {
       return this.$store.getters.index > -1
         ? this.$store.getters.current_Playlist[this.$store.getters.index].posterLarge
-        : '/static/img/loading.gif'
+        : '/static/img/loading.png'
     }
   },
   methods: {
@@ -221,18 +221,15 @@ export default {
   display: none;
 }
 
-#dc-audio-container {
-  width: 100%;
-  margin-top: -12px;
-}
+
 
 .audio-controls {
   float: left;
 }
 
-#dc-player {
+/* #dc-player {
   padding-top: 5px;
-}
+} */
 
 /* #progress-slider {
   top: -8px
@@ -260,8 +257,16 @@ export default {
   #middle {
     margin-right: 100px;
   }
+  #dc-audio-container {
+    width: 100%;
+    /* margin-top: -60px; */
+  }
 }
 @media only screen and (max-width: 599px){
+  #dc-audio-container {
+    width: 100%;
+    /* margin-top: -60px; */
+  }
   #progress-slider{
     padding: 0!important  
   }
