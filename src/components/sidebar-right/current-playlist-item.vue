@@ -3,7 +3,7 @@
   <v-flex xs12 class="width279" @click.stop="play" :key="index">
     <v-card>
       <!-- image -->
-      <v-card-media v-lazy:background-image="song.poster" height="220px" class="current-card pointer"> 
+      <v-card-media v-lazy:background-image="song.poster" height="200px" class="current-card pointer"> 
         <!-- <v-container grid-list-xs fill-height fluid> -->
           <!-- <v-layout fill-height> -->
             <v-flex xs12 align-center flexbox class="dc-title">

@@ -35,7 +35,7 @@
           xs12
           @click="play(props.index)"
         >
-          <v-card class="mb-2 pointer" color="" >
+          <v-card class="mb-4 pointer" color="" >
             <v-container fluid grid-list-lg>
               <v-layout row>
                 <v-flex xs5>

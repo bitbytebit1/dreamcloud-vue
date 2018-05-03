@@ -1,6 +1,10 @@
 <template>
   <div class="?">
     <v-bottom-nav shift absolute :active.sync="e2" :value="true" color="transparent" v-if="$store.getters.auth_state">
+      <v-btn :color="$route.name === 'home' ? 'primary' : ''"  value="home" :to="{name: 'searchPage'}">
+        <span>Search</span>
+        <v-icon>search</v-icon>
+      </v-btn>
       <v-btn :color="$route.name === 'home' ? 'primary' : ''"  value="home" :to="{name: 'home', params: {user: UID}}">
         <span>Home</span>
         <v-icon>dashboard</v-icon>
