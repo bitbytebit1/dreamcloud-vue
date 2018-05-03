@@ -6,7 +6,11 @@
     </router-link>
     <loading v-if="!auth_state || !aSubscriptions.length"></loading>
     <div v-else class="mb-2">
-      <playlist rowsPerPage='8' :showUploaded="true" :full="false" :gridView="true" :songs="aSubscriptions"></playlist>
+      <playlist :rowsPerPage='iSub' :showUploaded="true" :full="false" :gridView="true" :songs="aSubscriptions"></playlist>
+      <v-flex xs12>
+        <v-btn block color="transparent" class="pointer" @click="iSub += iMore">SHOW MORE</v-btn>
+      </v-flex>
+      <!-- <router-link class="grey--text text--lighten-2" :to="{name:'history', params: {user: $DCFB.UID}}"><h5 class="text-xs-left">SHOW MORE</h5></router-link> -->
     </div>
     <v-divider color="teal" class="mt-4 mb-4 teal"></v-divider>
 
@@ -15,9 +19,10 @@
       <h2 class="text-xs-left">Recommended</h2>
     </router-link>
     <div class="mb-2">
-      <historyRecommended :iLimit="8"></historyRecommended>
+      <historyRecommended :iLimit="iReco" :rowsPerPage='iReco'></historyRecommended>
+      <v-btn block class="pointer" @click="iReco += iMore">SHOW MORE</v-btn>
     </div>
-    <v-divider color="teal" class="mt-4 mb-4 teal"></v-divider>
+    <v-divider color="transparent" class="mt-4 mb-4 teal"></v-divider>
 
     <!-- History -->
     <router-link :class="textClass" :to="{name:'history', params: {user: $DCFB.UID}}">
@@ -25,9 +30,9 @@
     </router-link>
     <loading v-if="!auth_state || !aHistory.length"></loading>
     <div v-else class="mb-2">
-      <playlist rowsPerPage='8' :full="false" :gridView="true" :songs="aHistory"></playlist>
+      <playlist :rowsPerPage='iHist' :full="false" :gridView="true" :songs="aHistory"></playlist>
+      <v-btn block color="transparent" class="pointer" @click="iHist += iMore">SHOW MORE</v-btn>
       <!-- <router-link class="grey--text text--lighten-2" :to="{name:'history', params: {user: $DCFB.UID}}"><h5 class="text-xs-left">SHOW MORE</h5></router-link> -->
-      <!-- <v-btn class="pointer grey--text text--lighten-1" @click="incHistory()">SHOW MORE</v-btn> -->
     </div>
 
   </v-flex>
@@ -45,6 +50,10 @@ export default {
   },
   data () {
     return {
+      iHist: 8,
+      iMore: 16,
+      iReco: 8,
+      iSub: 8,
       aHistory: [],
       aSubscriptions: [],
       aSubscriptionsRoot: []
@@ -70,8 +79,9 @@ export default {
           }, false, 8)
       }
     },
-    incHistory () {
-      this.iHistory = this.iHistory + 8
+    inSub () {
+      this.iSub += this.iMore
+      alert()
     }
   },
   computed: {

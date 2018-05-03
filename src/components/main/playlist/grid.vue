@@ -148,6 +148,11 @@ export default {
     'download-button': downloadButton,
     'share-button': shareButton
   },
+  watch: {
+    'rowsPerPage': function (val) {
+      this.pagination.rowsPerPage = val
+    }
+  },
   data () {
     return {
       filterHasFocus: false,

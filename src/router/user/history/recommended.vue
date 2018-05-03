@@ -1,7 +1,7 @@
 <template>
   <v-flex xs12 :lg10="viewSmall" :lg12="!viewSmall">
     <loading v-if="!auth_state || !aRecommended.length"></loading>
-    <playlist v-else rowsPerPage='84' :showUploaded="true" :full="viewSmall" :gridView="true" :songs="aRecommended"></playlist>
+    <playlist v-else :rowsPerPage='rowsPerPage' :showUploaded="true" :full="viewSmall" :gridView="true" :songs="aRecommended"></playlist>
   </v-flex>
 </template>
 <script>
@@ -19,6 +19,10 @@ export default {
     iLimit: {
       type: [Number],
       default: 0
+    },
+    rowsPerPage: {
+      type: [Number],
+      default: 8
     }
   },
   data () {
@@ -56,9 +60,9 @@ export default {
         }, true, 3))
         axios.all(aAjax).then(() => {
           this.aRecommended= this.$UTILS.uniqueArray(this.aRecommended)
-          if (this.iLimit) {
-            this.aRecommended = this.aRecommended.slice(0, this.iLimit)
-          }
+          // if (this.iLimit) {
+            // // this.aRecommended = this.aRecommended.slice(0, this.iLimit)
+          // }
         })
       }
     }
