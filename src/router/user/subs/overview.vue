@@ -24,6 +24,7 @@
         :items="subscriptions"
         :search="search"
         :rows-per-page-items="rowsPerPageItems"
+        :custom-filter="(items, search, filter) => { search = search.toString().toLowerCase() ; return items.filter(row => filter(row['name_lower'], search)) }"
         pagination.sync="pagination"
         hide-actions
       >
