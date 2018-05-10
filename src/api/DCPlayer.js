@@ -21,9 +21,9 @@ export default {
         DCPlayer.playIndex(DCPlayer.iCurrent)
       },
       pause () {
-        if (DCPlayer.eAudio.hasOwnProperty('pause')) {  
-          DCPlayer.eAudio.pause()
-        }
+        // if (DCPlayer.eAudio.hasOwnProperty('pause')) {  
+        DCPlayer.eAudio.pause()
+        // }
         // else {
         //   console.log('not pausing')
         // }
