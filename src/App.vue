@@ -8,8 +8,7 @@
       enable-resize-watcher
       persistent
       ripple
-      v-model="drawerLeft"
-    >
+      v-model="drawerLeft">
       <sidebar @closeLeft="closeLeft"></sidebar>
     </v-navigation-drawer>
 
@@ -48,10 +47,11 @@
       persistent
       right
       v-model="drawerRight"
-      id="right-draw"
-    >
+      id="right-draw">
       <current-playlist></current-playlist>
     </v-navigation-drawer>
+
+    <!-- Stage -->
     <v-content class="text-xs-center" v-show="bShowStage">
       <v-container fluid fill-height>
         <v-layout justify-center>
@@ -61,6 +61,8 @@
         </v-layout>
       </v-container>
     </v-content>
+
+    <!-- Router view -->
     <v-content class="text-xs-center">
       <v-container fluid fill-height>
         <v-layout justify-center>
@@ -72,16 +74,13 @@
         </v-layout>
       </v-container>
     </v-content>
-    <v-footer app fixed id="foot" v-if="bMobi" :style="mobiFoot">
-      <!-- {{$router}} -->
-      <mobileFooter></mobileFooter>
-      <dc-youtube v-show="(ytUseVideo && isYT) && currentActive"></dc-youtube>
-      <dc-audio v-show="(!ytUseVideo || !isYT) && currentActive"></dc-audio>
-    </v-footer>
-    <v-footer v-else app fixed id="foot" style="height: 55px!important">
-      <dc-youtube v-show="ytUseVideo && isYT"></dc-youtube>
-      <dc-audio v-show="!ytUseVideo || !isYT"></dc-audio>
-      <scroll-to-top></scroll-to-top>
+
+    <!-- Footer -->
+    <v-footer app fixed id="foot" :style="footStyle">
+      <mobileFooter v-show="bMobi"></mobileFooter>
+      <dc-youtube v-show="(ytUseVideo && isYT) && (!bMobi || currentActive)"></dc-youtube>
+      <dc-audio v-show="(!ytUseVideo || !isYT) && (!bMobi || currentActive)"></dc-audio>
+      <scroll-to-top v-if="!bMobi"></scroll-to-top>
     </v-footer>
   <!-- dc keyboard shortcuts -->
   <hks></hks>
@@ -135,7 +134,7 @@
       }
     },
     computed: {
-      mobiFoot () {
+      footStyle () {
         return {
           height: (this.currentActive && this.bMobi ? '128px' : '55px') + ' !important'
         }
