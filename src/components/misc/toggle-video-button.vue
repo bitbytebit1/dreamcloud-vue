@@ -22,7 +22,15 @@ export default {
       let isPlay = this.$store.getters.ytIsPlaying || !this.$DCPlayer.eAudio.paused
       if (this.$store.getters.ytUseVideo) {
         isPlay && this.$DCPlayer.stop()
-        this.$store.getters.ytObject.loadVideoById(this.$store.getters.current_song.trackID, dur)
+        if (!this.$store.getters.ytObject.hasOwnProperty('loadVideoById')) {
+          this.$store.commit('changeIndex', -1)
+          setTimeout(() => {
+            this.$store.commit('changeIndex', this.$DCPlayer.iCurrent)
+          }, 150)
+        } else {
+          this.$store.getters.ytObject.loadVideoById(this.$store.getters.current_song.trackID, dur)
+        }
+
         setTimeout(() => {
           this.$store.getters.ytObject.seekTo(dur)
         }, 250)
