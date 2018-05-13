@@ -22,7 +22,7 @@
       row
       wrap
       class=""
-      :items="aAll"
+      :items="aPlaylist"
       :search="search"
       :rows-per-page-items="rowsPerPageItems"
       :custom-filter="(items, search, filter) => { search = search.toString().toLowerCase() ; return items.filter(row => filter(row['name_lower'], search)) }"
@@ -36,25 +36,17 @@
         sm6
         md4
         lg3
-        class="artist-card"
       >
-        <!-- <v-card :to="{name: 'userPlaylist', params: {user: $route.params['user'], playlist: $route.params['playlist'], name: $route.params['name'] }}" class="pointer"> -->
+      <!-- {{props.item['.key']}} -->
+      <!-- {{props.item.name_lower}} -->
+      <!-- {{props.item.songs[Object.keys(props.item.songs)[0]].poster}} -->
+      <!-- Object.keys(aPlaylist[props.index].songs)[0] -->
         <v-card class="pointer" :to="{name: 'userPlaylist', params: {user: $DCFB.UID, playlist: props.item['.key'], name: props.item.name}}" >
-          <v-card-media :src="aCover[props.index]" height="200px"></v-card-media>
-          <!-- <v-avatar
-            class="mt-2"
-            :size="((!$store.getters.drawLeft ? 21 : 0) + 95 + (!$store.getters.drawRight ? 21 : 0)) + 'px'"
-          > -->
-          <!-- <v-icon>music_note</v-icon> -->
-            <!-- <img
-              :src="aCovr[props.index]"
-              alt=""
-              class="img-1"
-            > -->
-          <!-- </v-avatar> -->
-          <!-- <v-card-media :src="props.item.img" height="200px"></v-card-media> -->
+          <v-card-media :src="props.item.songs[Object.keys(props.item.songs)[0]].poster" height="200px">
+            <span class="songLeng">{{Object.keys(props.item.songs).length}}</span>
+          </v-card-media>
           <v-card-text class="text-xs-center">{{ props.item.name }}</v-card-text>
-          <!-- <v-card-text class="text-xs-center">{{ aPlaylist.length }} songs</v-card-text> -->
+
         </v-card>
       </v-flex>
     </v-data-iterator>
@@ -69,8 +61,6 @@ export default {
   props: ['user'],
   data () {
     return {
-      aAll: [],
-      aCover: [],
       filterHasFocus: false,
       search: '',
       active: true,
@@ -85,24 +75,19 @@ export default {
   },
   methods: {
     bind () {
-      this.$bindAsArray('aPlaylist', this.$DCFB.playlistGetAll(this.user).orderByChild('name_lower'), null, this.allSongs)
-    },
-    allSongs () {
-      // this.aPlaylist.reverse()
-      for (const i1 in this.aPlaylist) {
-        this.aAll.push(this.aPlaylist[i1])
-        for (const i2 in this.aPlaylist[i1].songs) {
-          this.aCover.push(this.aPlaylist[i1].songs[i2].poster)
-          break
-        }
-      }
+      this.$bindAsArray('aPlaylist', this.$DCFB.playlistGetAll(this.user).orderByChild('name_lower'))
     }
   }
 }
 </script>
 
 <style>
-.artist-card{
-  /* min-width: 303px; */
+.songLeng{
+  color: white;
+  text-shadow: 0px 0px 5px black;
+  background: rgba(1, 1, 1, .5);
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
 }
 </style>
