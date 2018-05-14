@@ -50,10 +50,10 @@ export default {
   },
   data () {
     return {
-      iHist: 8,
+      iHist: 12,
       iMore: 16,
-      iReco: 8,
-      iSub: 8,
+      iReco: 12,
+      iSub: 12,
       aHistory: [],
       aSubscriptions: [],
       aSubscriptionsRoot: []
