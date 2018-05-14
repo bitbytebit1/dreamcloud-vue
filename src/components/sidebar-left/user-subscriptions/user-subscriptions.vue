@@ -1,30 +1,17 @@
 <template>
-    <v-list-group :value="active" prepend-icon="people" no-action>
-      <!-- head -->
-      <v-list-tile ripple slot="activator">
-        <v-list-tile-content>
-          <v-list-tile-title>Subscriptions</v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
+    <v-list>
+      <!-- <v-list-tile v-if="loggedIn" ripple @click="closeLeftOnMobile"> -->
+
+      <v-subheader class="pointer" @click="closeLeftOnMobile();$router.push({name: 'userSubOverview', params: {user: $DCFB.UID}})">Subscriptions</v-subheader>
       <!-- all -->
-      <v-list-tile ripple @click="closeLeftOnMobile" :to="{name:'subsAll', params: {user: UID}}">
+      <!-- <v-list-tile ripple @click="closeLeftOnMobile" :to="{name:'subsAll', params: {user: $DCFB.UID}}">
         <v-list-tile-action>
           <v-icon>music_note</v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
-          <v-list-tile-title>All</v-list-tile-title>
+          <v-list-tile-title>Latest</v-list-tile-title>
         </v-list-tile-content>
-      </v-list-tile>
-      
-      <!-- overview -->
-      <v-list-tile ripple @click="closeLeftOnMobile" :to="{name:'userSubOverview', params: {user: UID}}">
-        <v-list-tile-action>
-          <v-icon>view_module</v-icon>
-        </v-list-tile-action>
-        <v-list-tile-content>
-          <v-list-tile-title>Overview</v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
+      </v-list-tile> -->
 
       <!-- filter -->
       <v-list-tile ripple @click.stop="$refs.search.focus()">
@@ -55,10 +42,15 @@
       :search="search"
       :rows-per-page-items="rowsPerPageItems"
       :custom-filter="(items, search, filter) => { search = search.toString().toLowerCase() ; return items.filter(row => filter(row['name_lower'], search)) }"
-      pagination.sync="pagination"
+      :pagination.sync="pagination"
       hide-actions
       no-data-text=""
     >
+      <v-flex slot="footer">
+        <v-btn small block color="transparent" @click="(bShowMore = !bShowMore, pagination.rowsPerPage = bShowMore ? -1 : 7)">
+        {{bShowMore ? 'SHOW LESS' : 'SHOW MORE'}}
+        </v-btn>
+      </v-flex>
       <v-list-tile
         slot="item"
         slot-scope="props"
@@ -81,7 +73,7 @@
         <delete-button @delete="subscriptionDelete" :id="props.item['id']" class="delete"></delete-button>
       </v-list-tile>
     </v-data-iterator>
-    </v-list-group>
+  </v-list>
 </template>
 
 <script>
@@ -93,13 +85,14 @@ export default {
   },
   data () {
     return {
+      bShowMore: false,
       UID: this.$DCFB.UID,
       filterHasFocus: false,
       search: '',
       active: false,
-      rowsPerPageItems: [{ value: -1 }],
+      rowsPerPageItems: [7, { 'text': 'All', 'value': -1 }],
       pagination: {
-        rowsPerPage: 'All'
+        rowsPerPage: 7
       }
     }
   },

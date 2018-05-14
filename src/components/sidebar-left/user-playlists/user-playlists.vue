@@ -1,26 +1,13 @@
 <template>
-    <v-list-group :value="active" prepend-icon="library_music" no-action>
-      <v-list-tile ripple slot="activator">
-        <v-list-tile-content>
-          <v-list-tile-title>Playlists</v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
+    <v-list>
+      <v-subheader class="pointer" @click="closeLeftOnMobile();$router.push({name: 'playlistOverview', params: {user: $DCFB.UID}})">Playlists</v-subheader>
+
       <v-list-tile active-class="cyan white--text" ripple @click.stop="closeLeftOnMobile" :to="{name:'playlistsAll', params: {user: UID}}">
         <v-list-tile-action>
-          <v-icon>toc</v-icon>
+          <v-icon>music_note</v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
           <v-list-tile-title>All</v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
-
-      <!-- overview -->
-      <v-list-tile ripple @click="closeLeftOnMobile" :to="{name:'playlistOverview', params: {user: UID}}">
-        <v-list-tile-action>
-          <v-icon>view_module</v-icon>
-        </v-list-tile-action>
-        <v-list-tile-content>
-          <v-list-tile-title>Overview</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
 
@@ -50,11 +37,16 @@
       :items="playlistRefs"
       :search="search"
       :rows-per-page-items="rowsPerPageItems"
-      pagination.sync="pagination"
+      :pagination.sync="pagination"
       :custom-filter="(items, search, filter) => { search = search.toString().toLowerCase() ; return items.filter(row => filter(row['name_lower'], search)) }"
       hide-actions
       no-data-text=""
     >
+      <v-flex slot="footer">
+        <v-btn small block color="transparent" @click="(bShowMore = !bShowMore, pagination.rowsPerPage = bShowMore ? -1 : 7)">
+        {{bShowMore ? 'SHOW LESS' : 'SHOW MORE'}}
+        </v-btn>
+      </v-flex>
       <v-list-tile
         slot="item"
         slot-scope="props"
@@ -77,7 +69,7 @@
         </span>
       </v-list-tile>
     </v-data-iterator>
-    </v-list-group>
+  </v-list>
 </template>
 <script>
 
@@ -90,13 +82,14 @@ export default {
   },
   data () {
     return {
+      bShowMore: false,
       UID: this.$DCFB.UID,
       filterHasFocus: false,
       search: '',
       active: false,
-      rowsPerPageItems: [{ value: -1 }],
+      rowsPerPageItems: [7, { 'text': 'All', 'value': -1 }],
       pagination: {
-        rowsPerPage: 'All'
+        rowsPerPage: 7
       }
     }
   },
