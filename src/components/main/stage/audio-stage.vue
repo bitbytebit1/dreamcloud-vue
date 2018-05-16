@@ -30,6 +30,8 @@
           <v-flex>
             <span class="subheading wordbreak preline" v-html="timeToSeconds(_description)"></span>
           </v-flex>
+          <!-- COMMENTS -->
+          <songComments :trackID="song.trackID" :source="song.source"></songComments>
         </v-flex>
         <!-- related -->
         <related></related>
@@ -41,12 +43,14 @@
 import related from '@/components/main/stage/stage-related'
 import artistMini from '@/components/misc/artist-mini'
 import youtubeVBtn from '@/components/misc/toggle-video-button'
+import songComments from '@/components/misc/song-comments'
 // import explode from '@/components/misc/explode'
 // /* eslint-disable */
 export default {
   name: 'dc-stage',
   components: {
     // 'explode': explode,
+    'songComments': songComments,
     'artist-mini': artistMini,
     'related': related,
     'youtube-button': youtubeVBtn

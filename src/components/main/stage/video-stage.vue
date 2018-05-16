@@ -49,6 +49,8 @@
           <v-flex xs12>
             <span class="subheading wordbreak" id="stg-dsc" v-html="timeToSeconds(description)"></span>
           </v-flex>
+          <!-- COMMENTS -->
+          <songComments :trackID="song.trackID" :source="song.source"></songComments>
         </v-flex>
         <!-- related -->
         <related></related>
@@ -60,6 +62,8 @@
 import related from '@/components/main/stage/stage-related'
 import artistMini from '@/components/misc/artist-mini'
 import youtubeVBtn from '@/components/misc/toggle-video-button'
+import songComments from '@/components/misc/song-comments'
+
 /* eslint-disable */
 export default {
   name: 'video-stage',
@@ -72,7 +76,8 @@ export default {
   components: {
     'artist-mini': artistMini,
     'youtube-button': youtubeVBtn,
-    'related': related
+    'related': related,
+    'songComments': songComments
   },
   computed: {
     song () {

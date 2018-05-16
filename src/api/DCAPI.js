@@ -33,7 +33,7 @@ class DCAPIClass {
       this.nextPageToken = ''
       this.YTnextPageTokenString = ''
     }
-    var uid = Math.random()
+    var uid = this.genUID()
     // var uid = Date.now() + Math.random()
     // var uid = performance.now() // Caused problems on firefox 
     this.aQuery[uid] = {
@@ -269,7 +269,6 @@ class DCAPIClass {
     } else {
       a = 'https://api.vimeo.com/users/' + this.aQuery[uid].sArtist + '/videos?page=' + (this.aQuery[uid].iPage + 1) + '&per_page=12&sort=date&access_token=' + this.sVimeoKey
     }
-
     return axios.get(a).then((resp) => {
       resp = resp.data.data
       for (var idx in resp) {
@@ -307,6 +306,10 @@ class DCAPIClass {
     return ax
   }
 
+  genUID () {
+    return Math.random()
+  }
+
   getArtistInfo (artistID, source, hCallback) {
     if (source.toLowerCase().indexOf('youtube') > -1) {
       return axios.get('https://www.googleapis.com/youtube/v3/channels?part=snippet&id=' + artistID + '&key=' + this.sYtKey).then(hCallback)
@@ -320,16 +323,59 @@ class DCAPIClass {
       return (Promise.resolve(''))
     }
   }
+    // <img :src="props.item.snippet.topLevelComment.snippet.authorProfileImageUrl">
+    // <v-list-tile-title v-html="props.item.snippet.topLevelComment.snippet.textDisplay"></v-list-tile-title>
+    // <v-list-tile-sub-title v-html="props.item.snippet.topLevelComment.snippet.authorDisplayName"></v-list-tile-sub-title>
+  getSongComments(trackID, iPage, source, maxRes, hCallback) {
+    var model = {
+      artist: '',
+      artistID: '',
+      artistIMG: '',
+      comment: '',
+      commentCreated: ''
+    }
+    var uid = this.genUID()
+    if (source.toLowerCase().indexOf('youtube') > -1) {
+      return axios.get('https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&textFormat=plainText&maxResults=' + maxRes + '&videoId=' + trackID + '&key=' + this.sYtKey).then((resp) => {
+        var ret = resp.data.items.map((item) => {
+          return {
+            artist: item.snippet.topLevelComment.snippet.authorDisplayName,
+            artistID: item.snippet.topLevelComment.snippet.authorChannelId.value,
+            artistIMG: item.snippet.topLevelComment.snippet.authorProfileImageUrl,
+            comment: item.snippet.topLevelComment.snippet.textDisplay,
+            commentCreated: item.snippet.topLevelComment.snippet.publishedAt
+          }
+        })
+        hCallback(ret)
+      })
+    } else if (source.toLowerCase().indexOf('soundcloud') > -1) {
+      return axios.get('https://api.soundcloud.com/tracks/' + trackID + '/comments?client_id=' + this.sScKey).then((resp) => {
+        var ret = resp.data.map((item) => { 
+          return {
+            artist: item.user.username,
+            artistID: item.user.id,
+            artistIMG: item.user.avatar_url,
+            comment: item.body,
+            commentCreated: item.created_at
+          }
+        })
+        hCallback(ret)
+      })
+    }
+
+  }
+  
   getSongDescription (trackID, source, hCallback) {
-    var uid = Date.now()
+    var uid = this.genUID()
     this.aQuery[uid] = {aResult: [], hCallback: hCallback}
     return axios.get('https://www.googleapis.com/youtube/v3/videos?part=snippet&id=' + trackID + '&fields=items/snippet/description&key=' + this.sYtKey).then((resp) => {
       hCallback(resp.data)
     })
   }
-  //
+  
+
   getSongInfo (trackID, source, hCallback) {
-    var uid = Date.now()
+    var uid = this.genUID()
     this.aQuery[uid] = {aResult: [], hCallback: hCallback}
 
     if (source.toLowerCase().indexOf('youtube') > -1) {
