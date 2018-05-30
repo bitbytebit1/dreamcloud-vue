@@ -5,7 +5,7 @@
         <v-flex xs12>
           <h3>Create account</h3>
         </v-flex>
-        <v-flex xs10 offset-xs1 xs10 offset-xs1 offset-lg2 lg8>
+        <v-flex xs10 offset-xs1 offset-lg2 lg8>
           <v-text-field
             label="Email"
             single-line

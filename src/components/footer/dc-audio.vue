@@ -7,7 +7,7 @@
             <v-icon>skip_previous</v-icon>
           </v-btn>
           <v-btn v-if="bLoading" v-bind="$store.getters.theme" class="primary" icon outline>
-            <v-progress-circular id="play-load" indeterminate v-bind:size="25"></v-progress-circular>
+            <v-progress-circular id="play-load" indeterminate v-bind:size="24"></v-progress-circular>
           </v-btn>
           <v-btn v-else v-bind="$store.getters.theme" @click="$DCPlayer.togglePlay" class="primary" icon outline>
             <v-icon>{{play_arrow}}</v-icon>
@@ -18,7 +18,7 @@
         </div>
       </div>
       
-      <div id="right" class="hidden-sm-and-down">
+      <div id="right" class="hidden-xs-only">
         <v-speed-dial hover transition="slide-x-reverse-transition" open-on-hover>
           <v-btn v-bind="$store.getters.theme" @click="toggleMute" :class="volClass" slot="activator" fab hover icon outline small>
             <v-icon>{{volIcon}}</v-icon>
@@ -175,8 +175,8 @@ export default {
 }
 
 #play-load{
-  top: -1px;
-  left: 0px;
+  /* top: -1px; */
+  /* left: 0px; */
   /* width: 42px !important; */
 }
 .slider-wrapper input {

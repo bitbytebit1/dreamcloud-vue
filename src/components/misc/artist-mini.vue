@@ -15,7 +15,6 @@
         <subscribe-button v-if="$store.getters.auth_state" :artistID="artistID" :source="source" :artist="artist" :img="info.img"></subscribe-button>
       </v-flex>
     </v-flex>
-    </v-flex>
   </v-flex>
 </template>
 <script>

@@ -43,7 +43,7 @@ export default {
           if (navigator.share) {
             navigator.share({
               title: song.title,
-              text: song.description,
+              text: song.mp32,
               url: url
             })
               .catch((error) => { return ('Error sharing', error) })

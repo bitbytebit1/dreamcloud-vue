@@ -23,6 +23,10 @@ export default {
     rowsPerPage: {
       type: [Number],
       default: 8
+    },
+    outAr: {
+      type: [Array],
+      default: []
     }
   },
   data () {
@@ -44,6 +48,7 @@ export default {
     getRecommended () {
       var aRecommended = this.aHistory.reverse()
       if (this.iLimit) {
+        this.$emit('done', aRecommended.length)
         aRecommended = aRecommended.slice(0, this.iLimit)
       }
       var aAjax = []

@@ -44,7 +44,7 @@
           <!-- description -->
           <v-card-text @click.stop class="wordbreak" v-html="ytTimeToSeconds(desc)">
           </v-card-text>
-        </transition>
+        <!-- </transition> -->
       </v-slide-y-transition>
     </v-card>
   </v-flex>

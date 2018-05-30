@@ -41,7 +41,7 @@ export default {
           this.$store.commit('ytSwitchTime', false)
         }, 1500)
       } else {
-        isPlay && this.$store.commit('ytStopVideo')
+        this.$store.commit('ytStopVideo')
         this.$DCPlayer.playIndex(this.$DCPlayer.iCurrent).then((dat) => {
           console.log('dc setting current time', dur)
           this.$DCPlayer.eAudio.currentTime = dur

@@ -6,7 +6,7 @@
   
   <v-flex offset-xs1 xs10 v-else class="mt-0 pt-0">
     <loading></loading>
-    <div class="display-2">Nothing playing</div>
+    <div class="display-1">{{$DCPlayer.iCurrent === -2 ? '' : 'Nothing playing'}}</div>
   </v-flex>
 </template>
 <script>

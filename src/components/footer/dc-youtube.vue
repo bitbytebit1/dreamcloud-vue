@@ -10,7 +10,7 @@
             <v-icon>skip_previous</v-icon>
           </v-btn>
           <v-btn v-if="bLoading" v-bind="$store.getters.theme" class="primary" icon outline>
-            <v-progress-circular id="play-load" indeterminate v-bind:size="25"></v-progress-circular>
+            <v-progress-circular id="play-load" indeterminate v-bind:size="24"></v-progress-circular>
           </v-btn>
           <v-btn v-else v-bind="$store.getters.theme" @click="togglePlay" class="primary" icon outline>
             <v-icon>{{sPlayIcon}}</v-icon>
@@ -162,8 +162,8 @@ export default {
 <style>
 
 #play-load{
-  top: -1px;
-  left: 0px;
+  /* top: -1px; */
+  /* left: 0px; */
   /* width: 42px !important; */
 }
 .vol-slider {
@@ -198,7 +198,7 @@ export default {
     background: #d3d3d3;
 }
 #loadingSpinner{
-  top: -2px;
+  /* top: -2px; */
   /* top:10px;   */
   /* width: 52px !important; */
 }

@@ -327,13 +327,6 @@ class DCAPIClass {
     // <v-list-tile-title v-html="props.item.snippet.topLevelComment.snippet.textDisplay"></v-list-tile-title>
     // <v-list-tile-sub-title v-html="props.item.snippet.topLevelComment.snippet.authorDisplayName"></v-list-tile-sub-title>
   getSongComments(trackID, iPage, source, maxRes, hCallback) {
-    var model = {
-      artist: '',
-      artistID: '',
-      artistIMG: '',
-      comment: '',
-      commentCreated: ''
-    }
     var uid = this.genUID()
     if (source.toLowerCase().indexOf('youtube') > -1) {
       return axios.get('https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&textFormat=plainText&maxResults=' + maxRes + '&videoId=' + trackID + '&key=' + this.sYtKey).then((resp) => {

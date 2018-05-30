@@ -8,9 +8,8 @@
     <div v-else class="mb-2">
       <playlist :rowsPerPage='iSub' :showUploaded="true" :full="false" :gridView="true" :songs="aSubscriptions"></playlist>
       <v-flex xs12>
-        <v-btn block color="transparent" class="pointer" @click="iSub += iMore">SHOW MORE</v-btn>
+        <v-btn block class="pointer" @click="iSub += iMore">SHOW MORE</v-btn>
       </v-flex>
-      <!-- <router-link class="grey--text text--lighten-2" :to="{name:'history', params: {user: $DCFB.UID}}"><h5 class="text-xs-left">SHOW MORE</h5></router-link> -->
     </div>
     <v-divider color="teal" class="mt-4 mb-4 teal"></v-divider>
 
@@ -19,10 +18,10 @@
       <h2 class="text-xs-left">Recommended</h2>
     </router-link>
     <div class="mb-2">
-      <historyRecommended :iLimit="iReco" :rowsPerPage='iReco'></historyRecommended>
-      <v-btn block class="pointer" @click="iReco += iMore">SHOW MORE</v-btn>
+      <historyRecommended :iLimit="iReco" :rowsPerPage='iReco' @done='bRecoShow = true'></historyRecommended>
+      <v-btn v-if="bRecoShow" block class="pointer" @click="iReco += iMore">SHOW MORE</v-btn>
     </div>
-    <v-divider color="transparent" class="mt-4 mb-4 teal"></v-divider>
+    <v-divider class="mt-4 mb-4 teal"></v-divider>
 
     <!-- History -->
     <router-link :class="textClass" :to="{name:'history', params: {user: $DCFB.UID}}">
@@ -30,9 +29,8 @@
     </router-link>
     <loading v-if="!auth_state || !aHistory.length"></loading>
     <div v-else class="mb-2">
-      <playlist :rowsPerPage='iHist' :full="false" :gridView="true" :songs="aHistory"></playlist>
-      <v-btn block color="transparent" class="pointer" @click="iHist += iMore">SHOW MORE</v-btn>
-      <!-- <router-link class="grey--text text--lighten-2" :to="{name:'history', params: {user: $DCFB.UID}}"><h5 class="text-xs-left">SHOW MORE</h5></router-link> -->
+      <playlist :rowsPerPage='iHist' :full="false" :gridView="true" :songs="aHistRev"></playlist>
+      <v-btn block class="pointer" @click="iHist += iMore">SHOW MORE</v-btn>
     </div>
 
   </v-flex>
@@ -50,6 +48,7 @@ export default {
   },
   data () {
     return {
+      bRecoShow: false,
       iHist: 12,
       iMore: 16,
       iReco: 12,
@@ -65,7 +64,7 @@ export default {
   methods: {
     bind () {
       if (this.auth_state) {
-        this.$bindAsArray('aHistory', this.$DCFB.history, null, () => { this.aHistory = this.$UTILS.uniqueArray(this.aHistory.reverse()) })
+        this.$bindAsArray('aHistory', this.$DCFB.history)
         this.$bindAsArray('aSubscriptionsRoot', this.$DCFB.subscriptionGet(this.$DCFB.UID), null, this.getAllSubs)
       }
     },
@@ -78,10 +77,6 @@ export default {
             // this.aSubscriptions = this.aSubscriptions.slice(0, 8)
           }, false, 8)
       }
-    },
-    inSub () {
-      this.iSub += this.iMore
-      alert()
     }
   },
   computed: {
@@ -89,6 +84,9 @@ export default {
       auth_state: 'auth_state',
       nightMode: 'nightMode'
     }),
+    aHistRev () {
+      return this.$UTILS.uniqueArray([...this.aHistory].reverse())
+    },
     textClass () {
       return 'home-link grey--text text--' + (this.nightMode ? 'lighten' : 'darken') + '-2'
     }

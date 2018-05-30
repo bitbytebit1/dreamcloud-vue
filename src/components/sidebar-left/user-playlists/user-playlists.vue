@@ -1,7 +1,17 @@
 <template>
+    <!-- V LIST MAIN -->
     <v-list>
-      <v-subheader class="pointer" @click="closeLeftOnMobile();$router.push({name: 'playlistOverview', params: {user: $DCFB.UID}})">Playlists</v-subheader>
+      <!-- HEADER PLAYLIST -->
+      <v-subheader class="pointer" @click="closeLeftOnMobile();$router.push({name: 'playlistOverview', params: {user: UID}})">
+        <div>
+          Playlists
+        </div>
+        <v-btn icon class="ar17" @click.stop="(bShowMore = !bShowMore, pagination.rowsPerPage = bShowMore ? -1 : 7)">
+          <v-icon>{{bShowMore ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}</v-icon>
+        </v-btn>
+      </v-subheader>
 
+      <!-- ALL -->
       <v-list-tile active-class="cyan white--text" ripple @click.stop="closeLeftOnMobile" :to="{name:'playlistsAll', params: {user: UID}}">
         <v-list-tile-action>
           <v-icon>music_note</v-icon>
@@ -11,12 +21,15 @@
         </v-list-tile-content>
       </v-list-tile>
 
+
+      <!-- FILTER -->
       <v-list-tile ripple @click.stop="$refs.search.focus()">
         <v-list-tile-action @click="search.length > 0 ? search='' : ''">
+          <!-- ICON -->
           <v-icon :color="filterHasFocus ? 'primary' : ''">{{filterLeng > 0 ? 'clear' : 'filter_list'}}</v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
-          <!-- filter -->
+          <!-- TEXT FIELD -->
           <v-text-field
             @focus="filterHasFocus = true"
             @blur="filterHasFocus = false"
@@ -32,6 +45,7 @@
           ></v-text-field>
         </v-list-tile-content>
       </v-list-tile>
+    <!-- DATA ITERATOR -->
     <v-data-iterator
       v-if="$store.getters.auth_state"
       :items="playlistRefs"
@@ -42,11 +56,14 @@
       hide-actions
       no-data-text=""
     >
+      <!-- FOOTER -->
       <v-flex slot="footer">
         <v-btn small block color="transparent" @click="(bShowMore = !bShowMore, pagination.rowsPerPage = bShowMore ? -1 : 7)">
         {{bShowMore ? 'SHOW LESS' : 'SHOW MORE'}}
         </v-btn>
       </v-flex>
+
+      <!-- LIST ITEM -->
       <v-list-tile
         slot="item"
         slot-scope="props"
@@ -58,12 +75,17 @@
         v-bind:key="props.item['.key']"
         ripple
       >
+        <!-- ICON -->
         <v-list-tile-action>
           <v-icon :color="isPlaying(UID, props.item['.key'], props.item['name']) ? 'white': ''">music_note</v-icon>
         </v-list-tile-action>
+
+        <!-- NAME -->
         <v-list-tile-content>
           <v-list-tile-title>{{ props.item['name'] }}</v-list-tile-title>
         </v-list-tile-content>
+
+        <!-- DELETE BUTTON -->
         <span class="delete">
           <delete-button @delete="playlistDelete" :id="props.item['.key']"></delete-button>
         </span>
@@ -118,6 +140,10 @@ export default {
 </script>
 
 <style>
+.ar17{
+  position:absolute;
+  right:17px;
+}
 .filter label, .filter input{
   font-size: 13px;
 }

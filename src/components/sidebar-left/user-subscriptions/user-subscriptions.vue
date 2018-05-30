@@ -2,7 +2,12 @@
     <v-list>
       <!-- <v-list-tile v-if="loggedIn" ripple @click="closeLeftOnMobile"> -->
 
-      <v-subheader class="pointer" @click="closeLeftOnMobile();$router.push({name: 'userSubOverview', params: {user: $DCFB.UID}})">Subscriptions</v-subheader>
+      <v-subheader class="pointer" @click="closeLeftOnMobile();$router.push({name: 'userSubOverview', params: {user: $DCFB.UID}})">
+        Subscriptions
+        <v-btn icon class="ar17" @click.stop="(bShowMore = !bShowMore, pagination.rowsPerPage = bShowMore ? -1 : 7)">
+          <v-icon>{{bShowMore ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}</v-icon>
+        </v-btn>
+      </v-subheader>
       <!-- all -->
       <!-- <v-list-tile ripple @click="closeLeftOnMobile" :to="{name:'subsAll', params: {user: $DCFB.UID}}">
         <v-list-tile-action>
@@ -121,6 +126,10 @@ export default {
 </script>
 
 <style>
+.ar17{
+  position:absolute;
+  right:17px;
+}
 .filter label, .filter input{
   font-size: 13px;
 }

@@ -5,11 +5,6 @@
     <!-- <v-progress-circular v-if="loading" indeterminate color="primary"></v-progress-circular> -->
     <loading v-if="loading"></loading>
     
-    <infinite-loading ref="infiniteLoading" v-if="!loading" @infinite="infiniteHandler" spinner="default">
-      <span slot="no-more"></span>
-      <span slot="spinner"></span>
-    </infinite-loading>
-
     <playlist v-if="!loading" sortBy="uploaded" rowsPerPage='84' :songs="searchResults"></playlist>
   
     <!-- <loading :show="loading" spinner="waveDots"></loading> -->
@@ -18,7 +13,6 @@
 
 <script>
 import loading from '@/components/misc/loading'
-import InfiniteLoading from 'vue-infinite-loading'
 import artistInfo from './artist-info.vue'
 
 export default {
@@ -26,7 +20,6 @@ export default {
   props: ['source', 'artist', 'artistID'],
   components: {
     'artist-info': artistInfo,
-    'infinite-loading': InfiniteLoading,
     'loading': loading
   },
   data () {
@@ -43,11 +36,6 @@ export default {
     '$route.params': '_search'
   },
   methods: {
-    infiniteHandler (state) {
-      this.search(this.query, this.source, ++this.iPage, state).then(function () {
-        state.loaded()
-      })
-    },
     _search (sQuery, aSource) {
       this.search(this.$route.params.artistID, this.$route.params.source)
     },
@@ -64,11 +52,12 @@ export default {
         this.loading = false
         // If no results stop infinite loading
         if (!d.length) {
-          state.complete()
+          return
         }
         this.searchResults.push(...d)
 
         this.searchResults = this.$DCAPI.uniqueArray(this.searchResults)
+        this.search(this.query, this.source, ++this.iPage)
       }, '')
     }
   },

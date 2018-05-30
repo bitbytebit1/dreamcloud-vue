@@ -26,14 +26,14 @@
         <!-- Artist name + Song description -->
         <v-flex xs12 lg7 class="subheading text-xs-left pl-3 mt-3 wordbreak">
           <strong>{{ song.artist }}</strong>
-          <!-- Description -->
+          <!-- DESCRIPTION -->
           <v-flex>
             <span class="subheading wordbreak preline" v-html="timeToSeconds(_description)"></span>
           </v-flex>
           <!-- COMMENTS -->
           <songComments :trackID="song.trackID" :source="song.source"></songComments>
         </v-flex>
-        <!-- related -->
+        <!-- RELATED -->
         <related></related>
       </v-layout>
     </v-flex>

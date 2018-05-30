@@ -34,11 +34,10 @@ export default {
   },
   methods: {
     _emit (v) {
+      // Updated vSelect
       this.$emit('update:sQuery', v)
-      // Need to detect network quality also?
-      // if (!this.$UTILS.isMobile) {
+      // Run search
       this.$emit('search', v)
-      // }
     },
     onEnter () {
       this._emit(this.select)

@@ -5,7 +5,7 @@
       <!-- Change to for loop to save the whales... I mean internet -->
 
       <!-- home -->
-      <v-list-tile v-if="loggedIn" ripple @click="closeLeft" :to="{name: 'home'}">
+      <v-list-tile v-if="loggedIn" ripple @click="closeLeft" :to="{name: 'home', params: {user: $DCFB.UID}}">
         <v-list-tile-action>
           <v-icon>dashboard</v-icon>
         </v-list-tile-action>
@@ -15,7 +15,7 @@
       </v-list-tile>
 
       <!-- Subscriptions all -->
-      <v-list-tile v-if="loggedIn" ripple @click="closeLeftOnMobile" :to="{name:'subsAll', params: {user: $DCFB.UID}}">
+      <v-list-tile v-if="loggedIn" ripple @click="closeLeft" :to="{name:'subsAll', params: {user: $DCFB.UID}}">
         <v-list-tile-action>
           <v-icon>music_note</v-icon>
         </v-list-tile-action>

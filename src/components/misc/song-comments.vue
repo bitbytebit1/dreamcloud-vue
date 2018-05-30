@@ -24,7 +24,7 @@
               <v-list-tile-sub-title v-html="props.item.artist"></v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
-          <v-divider></v-divider>
+          <v-divider v-if="props.index !== aComments.length -1"></v-divider>
         </v-list>
       </v-flex>
     </v-data-iterator>

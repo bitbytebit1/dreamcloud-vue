@@ -35,7 +35,7 @@
           xs12
           @click="play(props.index)"
         >
-          <v-card class="mb-4 pointer" color="" >
+          <v-card class="mb-2 pointer" color="" >
             <v-container fluid grid-list-lg>
               <v-layout row>
                 <v-flex xs5>
@@ -111,7 +111,7 @@ export default {
           d.shift()
         }
         this.items = d
-      }, true, 25)
+      }, true, 50)
     },
     hai (source) {
       return source === 'YouTube' ? '86px' : '125px'
