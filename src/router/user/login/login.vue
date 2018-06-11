@@ -27,42 +27,28 @@
             <br />
           </form>
         </v-flex>
-        <v-btn color="primary white--text" :loading="loading1" :disabled="loading1" round type="submit" v-on:click="emailSignInClick">
-          Email
-          <v-icon right dark>lock</v-icon>
-        </v-btn>
-        <div class="text-xs-center">
-          <v-btn :loading="loading4" :disabled="loading4" round class="blue darken-4" dark @click.prevent="signInFB">Facebook
-            <v-icon right dark>lock</v-icon>
-          </v-btn>
-        </div>
-        <div class="text-xs-center">
-          <v-btn :loading="loading2" :disabled="loading2" round class="grey darken-4" dark @click.prevent="signInGitHub">GitHub
-            <v-icon right dark>lock</v-icon>
-          </v-btn>
-        </div>
         <div class="text-xs-center">
           <v-btn :loading="loading3" :disabled="loading3" round class="red" dark @click.prevent="signInGoogle">Google
             <v-icon right dark>lock</v-icon>
           </v-btn>
         </div>
-<!--         
+        <div class="text-xs-center">
+            <v-btn color="primary white--text" :loading="loading1" :disabled="loading1" round type="submit" v-on:click="emailSignInClick">
+              Email
+              <v-icon right dark>lock</v-icon>
+            </v-btn>
+        </div>
+        <!-- <div class="text-xs-center">
+          <v-btn :loading="loading4" :disabled="loading4" round class="blue darken-4" dark @click.prevent="signInFB">Facebook
+            <v-icon right dark>lock</v-icon>
+          </v-btn>
+        </div> -->
+        <div class="text-xs-center">
+          <v-btn :loading="loading2" :disabled="loading2" round class="grey darken-4" dark @click.prevent="signInGitHub">GitHub
+            <v-icon right dark>lock</v-icon>
+          </v-btn>
+        </div>
 
-                    <div class="text-xs-center">
-                      <v-btn round color="blue" dark @click.prevent="onSigninFacebook">Login with Facebook
-                        <v-icon right dark>lock_open</v-icon>
-                      </v-btn>
-                    </div>
-                    <div class="text-xs-center">
-                      <v-btn round dark @click.prevent="onSigninGithub">Login with Github
-                        <v-icon right dark>lock_open</v-icon>
-                      </v-btn>
-                    </div>
-                    <div class="text-xs-center">
-                      <v-btn round color="light-blue" @click.prevent="onSigninTwitter">Login with Twitter
-                        <v-icon right dark>lock_open</v-icon>
-                      </v-btn>
-                    </div> -->
         <iframe id="remember" name="remember" class="hidden" src=""></iframe>
       </v-flex>
     </v-layout>
