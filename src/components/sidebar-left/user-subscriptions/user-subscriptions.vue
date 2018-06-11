@@ -90,14 +90,14 @@ export default {
   },
   data () {
     return {
-      bShowMore: false,
+      bShowMore: true,
       UID: this.$DCFB.UID,
       filterHasFocus: false,
       search: '',
       active: false,
       rowsPerPageItems: [7, { 'text': 'All', 'value': -1 }],
       pagination: {
-        rowsPerPage: 7
+        rowsPerPage: -1
       }
     }
   },
