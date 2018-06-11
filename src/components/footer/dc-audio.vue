@@ -206,9 +206,9 @@ export default {
   padding-top: 5px;
 } */
 
-/* #progress-slider {
-  top: -8px
-} */
+#progress-slider {
+  padding-top: 14px;
+}
 
 #poster {
   height: 35px;
@@ -243,7 +243,7 @@ export default {
     margin-top: -60px;
   }
   #progress-slider{
-    padding: 0!important  
+    padding: 0!important
   }
   #middle{
     float: left;

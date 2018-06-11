@@ -231,9 +231,9 @@ export default {
   padding-top: 5px;
 } */
 
-/* #progress-slider {
-  top: -8px
-} */
+#progress-slider {
+  padding-top: 14px;
+}
 
 #poster {
   height: 35px;
