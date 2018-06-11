@@ -366,6 +366,21 @@ class DCAPIClass {
     })
   }
   
+  getSongPlays (trackID, source, hCallback) {
+    if (source.toLowerCase().indexOf('youtube') > -1) {
+      var a = `https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${trackID}&key=${this.sYtKey}`
+      return axios.get(a).then((resp) => {
+        hCallback(resp.data.items[0].statistics.viewCount)
+      })
+    }
+    if (source.toLowerCase().indexOf('soundcloud') > -1) {
+      var a = `https://api.soundcloud.com/tracks/${trackID}?client_id=${this.sScKey}`
+      return axios.get(a).then((resp) => {
+        hCallback(resp.data.playback_count)
+        // hCallback(resp.data.items[0])
+      })
+    }
+  }
 
   getSongInfo (trackID, source, hCallback) {
     var uid = this.genUID()

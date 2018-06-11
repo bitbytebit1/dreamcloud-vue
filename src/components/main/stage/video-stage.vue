@@ -13,6 +13,7 @@
         <!-- Buttons and uploaded date -->
         <v-flex xs12 class="stage-btns">
           <div class="fl-l blue-grey--text text--lighten-1">
+            {{iViews}}
             {{$DCAPI.calcDate('', song.uploaded)}}
           </div>
           <div class="fl-r">
@@ -93,6 +94,7 @@ export default {
   },
   data () {
     return {
+      iViews: '',
       b_YT_API_INJECTED: false,
       cc: false,
       yt: '',
@@ -105,6 +107,23 @@ export default {
     clearInterval(this.interval)
   },
   methods: {
+    getPlays () {
+      this.$DCAPI.getSongPlays(this.song.trackID, this.song.source, (data) => {
+        this.iViews = this.makeFriendly(data)
+      })
+    },
+    intlFormat (num) {
+      return new Intl.NumberFormat().format(Math.round(num * 10) / 10)
+    },
+    makeFriendly (num) {
+      if (num >= 1000000) {
+        return this.intlFormat(num / 1000000) + 'M views'
+      }
+      if (num >= 1000) {
+        return this.intlFormat(num / 1000) + 'k views'
+      }
+      return this.intlFormat(num) + ' views'
+    },
     toggleCC () {
       this.cc = !this.cc
       if (this.cc) {
@@ -206,6 +225,7 @@ export default {
     if (this.$store.getters.isYT) {
       this.getDesc()
       this.ytBind()
+      this.getPlays()
     }
   },
   updated () {
@@ -218,6 +238,7 @@ export default {
       } else {
         this.$store.getters.ytObject.loadVideoById(this.current_trackID)
       }
+      this.getPlays()
       this.getDesc()
       this.$DCPlayer.pause()
     } else {

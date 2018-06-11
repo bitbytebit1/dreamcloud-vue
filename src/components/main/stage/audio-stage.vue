@@ -14,6 +14,7 @@
         <!-- Buttons and uploaded date -->
         <v-flex xs12 class="stage-btns">
           <div class="fl-l blue-grey--text text--lighten-1">
+            {{iViews}}
             {{$DCAPI.calcDate('', song.uploaded)}}
           </div>
           <div class="fl-r">
@@ -57,7 +58,8 @@ export default {
   },
   data () {
     return {
-      description: ''
+      description: '',
+      iViews: ''
     }
   },
   computed: {
@@ -83,6 +85,23 @@ export default {
     }
   },
   methods: {
+    getPlays () {
+      this.$DCAPI.getSongPlays(this.song.trackID, this.song.source, (data) => {
+        this.iViews = this.makeFriendly(data)
+      })
+    },
+    intlFormat (num) {
+      return new Intl.NumberFormat().format(Math.round(num * 10) / 10)
+    },
+    makeFriendly (num) {
+      if (num >= 1000000) {
+        return this.intlFormat(num / 1000000) + 'M views'
+      }
+      if (num >= 1000) {
+        return this.intlFormat(num / 1000) + 'k views'
+      }
+      return this.intlFormat(num) + ' views'
+    },
     timeToSeconds (value) {
       if (!value) {
         return ''
@@ -100,8 +119,13 @@ export default {
       }
     }
   },
+  created () {
+    this.getDesc()
+    this.getPlays()
+  },
   updated () {
     this.getDesc()
+    this.getPlays()
   }
 }
 </script>
