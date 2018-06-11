@@ -143,7 +143,7 @@
         return this.$vuetify.breakpoint.name === 'xs' || this.$vuetify.breakpoint.name === 'sm'
       },
       textClass () {
-        return (this.$store.getters.nightMode ? 'white' : 'black') + '--text hem pointer'
+        return (this.$store.getters.nightMode ? 'white' : 'black') + '--text noDeco pointer'
       },
       currentActive () {
         return this.$route.name === 'stage'
@@ -160,7 +160,7 @@
       this.$vuetify.theme.primary = '#009688'
       // if mobile disable youtube video
       // this.$store.commit('ytUseVideo', !this.$UTILS.isMobile)
-      this.$store.commit('ytUseVideo', false)
+      // this.$store.commit('ytUseVideo', false)
       // if set log in status
       this.$store.commit('authChange', !!this.$DCFB.fb.auth().currentUser)
       this.$DCFB.fb.auth().onAuthStateChanged((user) => {
@@ -182,7 +182,7 @@
 </script>
 
 <style>
-  .hem{
+  .noDeco{
     /* text-decoration-color: none; */
     text-decoration: none;
   }

@@ -1,5 +1,5 @@
 <template>
-  <v-flex xs12 lg10>
+  <v-flex xs12 lg10 class="mb-2">
     <!-- subsAll -->
     <router-link :class="textClass" :to="{name:'subsAll', params: {user: $DCFB.UID}}">
       <h2 class="text-xs-left">Latest from your subscriptions</h2>

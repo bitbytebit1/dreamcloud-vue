@@ -26,7 +26,9 @@ export default {
     },
     outAr: {
       type: [Array],
-      default: []
+      default: function () {
+        return []
+      }
     }
   },
   data () {
