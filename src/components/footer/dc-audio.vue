@@ -1,6 +1,7 @@
 <template>
   <div id="dc-audio-container">
     <div id="dc-player">
+      <!-- CONTROLS -->
       <div id="left">
         <div class="audio-controls">
           <v-btn @click="previous" v-bind="$store.getters.theme" class="primary" icon outline>
@@ -17,8 +18,9 @@
           </v-btn>
         </div>
       </div>
-      
-      <div id="right" class="hidden-xs-only">
+
+      <!-- VOLUME -->
+      <div id="right" class="hidden-xs-only" @wheel.prevent="onWheel">
         <v-speed-dial hover transition="slide-x-reverse-transition" open-on-hover>
           <v-btn v-bind="$store.getters.theme" @click="toggleMute" :class="volClass" slot="activator" fab hover icon outline small>
             <v-icon>{{volIcon}}</v-icon>
@@ -29,6 +31,7 @@
         </v-speed-dial>
       </div>
 
+      <!-- PROGRESS -->
       <div id="middle">
         <div id="progress">
           <v-container fluid grid-list-md class="pa-0 ma-0">
@@ -42,6 +45,7 @@
       </div>
 
     </div>
+    <!-- AUDIO ELEMENT -->
     <audio controls id="dc-audio"></audio>
   </div>
 </template>
@@ -67,6 +71,13 @@ export default {
     }
   },
   methods: {
+    onWheel (e) {
+      if (e.deltaX > e.deltaY) {
+        this.$DCPlayer.volUp()
+      } else {
+        this.$DCPlayer.volDown()
+      }
+    },
     toggleMute () {
       this.eAudio.muted = !this.eAudio.muted
       this.volIcon = this.eAudio.muted ? 'volume_off' : this.updateVolIcon()
@@ -77,6 +88,7 @@ export default {
       // !0 === this.eAudio.muted && (this.eAudio.muted = !1) // if muted then set not muted, could just set false
     },
     volumeChange2 () {
+      this.volume = this.eAudio.volume * 10
       this.updateVolIcon()
     },
     updateVolIcon () {

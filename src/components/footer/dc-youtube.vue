@@ -21,12 +21,12 @@
         </div>
       </div>
       
-      <div id="right" class="hidden-sm-and-down">
+      <div id="right" class="hidden-xs-only" @wheel.prevent="onWheel">
         <v-speed-dial hover transition="slide-x-reverse-transition" open-on-hover>
-          <v-btn v-bind="$store.getters.theme" @click="toggleMute" :class="volClass" slot="activator" fab hover icon outline small>
+          <v-btn v-bind="$store.getters.theme" @click.prevent="toggleMute" :class="volClass" slot="activator" fab hover icon outline small>
             <v-icon>{{volIcon}}</v-icon>
           </v-btn>
-          <div class="slider-wrapper">
+          <div class="slider-wrapper" @click.prevent>
             <input class="vol-slider pointer" type="range" min="0" max="10" @input="volumeChange" v-model="volume" step="0.01">
           </div>
         </v-speed-dial>
@@ -50,7 +50,7 @@
 </template>
 
 <script>
-// /* eslint-disable */
+/* eslint-disable */
 
 export default {
   name: 'dc-youtube',
@@ -107,6 +107,17 @@ export default {
     }
   },
   methods: {
+    onWheel (e) {
+      if (e.deltaX > e.deltaY) {
+        this.$DCPlayer.volUp()
+        this.volume = +this.volume + 0.5
+      } else {
+        this.volume = +this.volume - 0.5
+        this.$DCPlayer.volDown()
+      }
+      console.log(this.$store.getters.ytObject.getVolume(), this.volume)
+      this.updateVolIcon()
+    },
     toggleMute () {
       if (this.$store.getters.ytObject.isMuted()) {
         this.$store.getters.ytObject.unMute()
@@ -116,7 +127,7 @@ export default {
         this.volIcon = 'volume_off'
       }
     },
-    volumeChange (wasd) {
+    volumeChange () {
       this.updateVolIcon()
       this.$store.getters.ytObject.setVolume(this.volume * 10)
       if (this.$store.getters.ytObject.isMuted()) {
