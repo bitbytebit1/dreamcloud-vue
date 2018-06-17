@@ -25,7 +25,6 @@
               @focus="filterHasFocus = true"
               @blur="filterHasFocus = false"
               color="primary"
-              :class="$vuetify.breakpoint.smAndUp ? 'ma-0' : ''"
               id="flr-txt"
               label="Filter"
               single-line
@@ -91,19 +90,24 @@
                 </v-layout>
               </v-container>
             </v-card-media>
-            <v-card-title :class="showUploaded ? 'mb-4': 'mb-2'">
+            <v-card-title>
               <!-- check box -->
               <v-flex @click.stop v-show="bSelect" class="chkbx">
                 <v-checkbox hide-details v-model="selected" :value="props.item" color='primary'></v-checkbox>
               </v-flex>
               <!-- title -->
-              <div class="text-xs-left subheading grd-txt dc-t wordbreak" :title="props.item.title">{{ props.item.title }}</div>
-              <div class="text-xs-left m1b-2 grd-cnt">
-                <!-- artist -->
-                <div v-if="!$route.params.artistID" class="grd-txt grey--text" @click.stop="bSelect ? checkItem(props.item) : $router.push({name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}})">{{ props.item.artist }}</div>
-                <!-- date -->
-                <div v-if="$route.params.artistID || showUploaded" class="grd-txt grey--text">{{ $DCAPI.calcDate(!1, props.item.uploaded) }}</div>
-              </div>
+              <v-flex class="text-xs-left subheading grd-txt">
+                {{ props.item.title }}
+              </v-flex>
+              <!-- artist -->
+              <v-flex class="text-xs-left grey--text grd-txt" v-if="!$route.params.artistID" @click.stop="bSelect ? checkItem(props.item) : $router.push({name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}})">
+                {{ props.item.artist }}
+              </v-flex>
+              <!-- date -->
+              <v-flex class="text-xs-left grey--text grd-txt" v-if="$route.params.artistID || showUploaded">
+
+                {{ $DCAPI.calcDate(!1, props.item.uploaded) }}
+              </v-flex>
             </v-card-title>
           </v-card>
         </v-flex>
@@ -196,8 +200,10 @@ export default {
       //  returns the full sorted array for use with click
       if (this.$refs.dItera.pagination.rowsPerPage !== -1 && this.songs.length > this.$refs.dItera.pagination.rowsPerPage) {
         var a = this.$refs.dItera.pagination.rowsPerPage
+        // eslint-disable-next-line
         this.$refs.dItera.pagination.rowsPerPage = -1
         var b = this.$refs.dItera.filteredItems.length ? this.$refs.dItera.filteredItems : this.songs
+        // eslint-disable-next-line
         this.$refs.dItera.pagination.rowsPerPage = a
         return b
       } else {
@@ -291,34 +297,18 @@ export default {
 .chkbx{
   position: absolute;
   top: 5px;
-  /* left: 1px; */
 }
 .dc-crd.primary .grd-txt{
   color: white !important;
 }
-.dc-t{
-  max-height: 50px;
-  overflow: hidden;
-}
-.grid-artist{
-    position: absolute;
-    bottom: 5px;
-    width: 100%;
-    left: 0;
-    padding-left: 15px;
-    padding-right: 15px;
-}
-.card__media[lazy=error] {
+.v-card__media[lazy=error] {
   background: center center / cover no-repeat;
 }
-.card__media[lazy=loading] {
+.v-card__media[lazy=loading] {
   background: center center / cover no-repeat;
 }
-.card__media[lazy=loaded] {
+.v-card__media[lazy=loaded] {
   background: center center / cover no-repeat;
-}
-.menu{
-  width: 45px;
 }
 .card-duration{
   color: white;
