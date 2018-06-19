@@ -118,7 +118,7 @@ class DCFB {
 }
 
 export default {
-  install (Vue, options) {
+  install (Vue) {
     Object.defineProperty(Vue.prototype, '$DCFB', { value: new DCFB() })
   }
 }

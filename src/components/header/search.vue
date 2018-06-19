@@ -1,7 +1,7 @@
 <template>
 <span>
   <v-toolbar-items>
-    <autocomplete :sQuery.sync="sQuery" @search="search"></autocomplete>
+    <autocomplete @search="search($event)"></autocomplete>
     <!-- <v-text-field 
       style="max-height: 12px;"
       v-on:keyup.enter='search' 
@@ -11,13 +11,13 @@
       single-line
     >
     </v-text-field> -->
+      <v-btn icon ><v-icon>cloud_circle</v-icon></v-btn>
     <v-menu
-      style="top:20px"
+      style="top:15px"
       :close-on-content-click="false"
       :nudge-bottom="25"
       open-on-hover
     >
-      <v-btn icon slot="activator" class="mt-2"><v-icon>cloud_circle</v-icon></v-btn>
       <v-card>
         <v-list>
           <v-list-tile>
@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import autocomplete from '@/components/misc/autocomplete'
+import autocomplete from '@/components/header/autocomplete'
 
 export default {
   name: 'search',
@@ -102,7 +102,7 @@ export default {
       if (this.aSources.All) {
         return 'all'
       }
-      Object.keys(this.aSources).forEach((key, index) => {
+      Object.keys(this.aSources).forEach((key) => {
         if (this.aSources[key]) {
           ret.push(key)
         }
@@ -123,12 +123,15 @@ export default {
       }
       this.search()
     },
-    __search (sQuery) {
+    __search () {
       this.$router.push({name: 'searchPage', params: {query: this.sQuery, source: this.maSource}})
     },
-    search () {
+    search (query) {
+      if (query) {
+        this.sQuery = query
+      }
       this.$UTILS.closeSoftMobi()
-      this.__search(this.query)
+      this.__search()
     }
   }
 }

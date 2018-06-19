@@ -2,7 +2,7 @@
 import axios from 'axios'
 import store from '../vuex'
 export default {
-  install (Vue, options) {
+  install (Vue) {
     var DCPlayer = {
       aPlaylist: [],
       iCurrent: 0,

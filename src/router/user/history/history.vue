@@ -25,7 +25,7 @@ export default {
   methods: {
     bind () {
       if (this.auth_state) {
-        this.$bindAsArray('aHistory', this.$DCFB.history)
+        this.$bindAsArray('aHistory', this.$DCFB.history.limitToLast(200))
       }
     }
   },

@@ -7,27 +7,17 @@
           <!-- header buttons -->
           <v-flex xs6 lg2 class="text-xs-left mt-2">
             <!-- enable check boxes -->
-            <v-tooltip top>
-              <v-btn slot="activator" v-if="auth_state" @click="bSelect = !bSelect" icon>
-                <v-icon :color="bSelect ? 'primary' : ''">check_box</v-icon>
-              </v-btn>
-              <span>Show checkboxes</span>
-            </v-tooltip>
-
+            <v-btn v-if="auth_state" @click="bSelect = !bSelect" icon>
+              <v-icon :color="bSelect ? 'primary' : ''">check_box</v-icon>
+            </v-btn>
             <!-- toggle view -->
-            <v-tooltip top>
-              <v-btn slot="activator" icon @click="$emit('toggleView')">
-                <v-icon>{{view_mode ? 'view_module' : 'view_list'}}</v-icon>
-              </v-btn>
-              <span>Change view</span>
-            </v-tooltip>
+            <v-btn icon @click="$emit('toggleView')">
+              <v-icon>{{view_mode ? 'view_module' : 'view_list'}}</v-icon>
+            </v-btn>
             <!-- filter button -->
-            <v-tooltip top>
-              <v-btn slot="activator" icon @click="search.length > 0 ? search='' : $refs.search.focus()" >
-                <v-icon>{{search.length > 0 ? 'clear': 'filter_list'}}</v-icon>
-              </v-btn>
-              <span>Filter</span>
-            </v-tooltip>
+            <v-btn icon @click="search.length > 0 ? search='' : $refs.search.focus()" >
+              <v-icon>{{search.length > 0 ? 'clear': 'filter_list'}}</v-icon>
+            </v-btn>
           </v-flex>
           <!-- filter -->
           <v-flex xs5 lg9>
@@ -47,13 +37,9 @@
           <!-- select buttons -->
           <v-flex xs12 lg12 v-if="bSelect" class="text-xs-left">
             <!-- Select all -->
-            <v-tooltip top>
-              <v-btn slot="activator" icon @click="(bSelectAll = !bSelectAll, bSelectAll ? selected = sorted : selected = [])">
-                <!-- <v-icon :color="selected.length === filterLength ? 'primary' : ''">{{selected.length === filterLength ? 'check_box' : selected.length ? 'indeterminate_check_box' : 'check_box_outline_blank' }}</v-icon> -->
-                <v-icon :color="selected.length === filterLength ? 'primary' : ''">{{'done_all' }}</v-icon>
-              </v-btn>
-              <span>Select all</span>
-            </v-tooltip>
+            <v-btn @click="(bSelectAll = !bSelectAll, bSelectAll ? selected = sorted : selected = [])" icon>
+              <v-icon :color="selected.length === filterLength ? 'primary' : ''">{{selected.length === filterLength ? 'check_box' : selected.length ? 'indeterminate_check_box' : 'check_box_outline_blank' }}</v-icon>
+            </v-btn>
 
 
             <download-button :dis="selected.length == 0" :links="selected"></download-button>
@@ -93,12 +79,12 @@
             sm6
             md4
             lg3
-            xl3
+            x12
             @click.stop="!bSelect ? play(props.index) : checkItem(props.item)"
           >
             <v-card class="dc-crd ma-0 pa-0 pointer" :color="cardColor(props)">
               <!-- image -->
-              <v-card-media v-lazy:background-image="props.item.poster" height="200" :key="props.item.poster">
+              <v-card-media v-lazy:background-image="props.item.poster" height="200">
                 <!-- <v-container fill-height fluid> -->
                   <!-- <v-layout fill-height> -->
                     <!-- <v-flex xs12 align-end flexbox> -->
@@ -107,29 +93,6 @@
                     <!-- </v-flex> -->
                   <!-- </v-layout> -->
                 <!-- </v-container> -->
-                <v-flex xs1>
-                  
-                
-                <v-menu transition="slide-y-transition" bottom lazy open-on-hover nudge-bottom="35" class="al17" v-if="!$UTILS.isMobile">
-                  <v-btn icon slot="activator" class="al17" @click.stop>
-                    <v-icon>settings</v-icon>
-                  </v-btn>
-                  <v-list>
-                    <v-list-tile v-if="$store.getters.auth_state">
-                      <add-to-playlist :song="bSelect ? selected :[props.item]"></add-to-playlist>
-                    </v-list-tile>
-                    <v-list-tile>
-                      <download-button :links="bSelect ? selected :[props.item]"></download-button>
-                    </v-list-tile>
-                    <v-list-tile>
-                      <share-button :song="props.item" :url="'https://dreamcloud.netlify.com/#/t/' + props.item.source + '/' + encodeURIComponent(props.item.artist) + '/' + props.item.trackID"></share-button>
-                    </v-list-tile>
-                    <v-list-tile v-if="props.item.key && !bSelect">
-                      <delete-button :id="props.item.key" @delete="bSelect ? removeList() : remove(props.item.key)"></delete-button>
-                    </v-list-tile>
-                  </v-list>
-                </v-menu>
-                </v-flex>
               </v-card-media>
               <v-card-title>
                 <!-- check box -->
@@ -141,7 +104,7 @@
                   {{ props.item.title }}
                 </v-flex>
                 <!-- artist -->
-                <v-flex class="text-xs-left grey--text grd-txt" v-if="$route.name !== 'artist'" @click.stop="bSelect ? checkItem(props.item) : $router.push({name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}})">
+                <v-flex class="text-xs-left grey--text grd-txt" v-if="!$route.params.artistID" @click.stop="bSelect ? checkItem(props.item) : $router.push({name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}})">
                   {{ props.item.artist }}
                 </v-flex>
                 <!-- date -->
@@ -153,7 +116,6 @@
             </v-card>
           </v-flex>
         <!-- </transition-group> -->
-    },
       </v-data-iterator>
     </v-card>
   </v-flex>
@@ -202,7 +164,6 @@ export default {
   },
   data () {
     return {
-      bShow: false,
       filterHasFocus: false,
       bSelectAll: false,
       bSelect: false,
@@ -294,13 +255,14 @@ export default {
     isPlaying (link) {
       return this.$route.path === this.hash && link === this.current_song.mp32 ? 'primary white--text' : ''
     },
+    removeList () {
+      for (const i in this.selected) {
+        this.remove(this.selected[i].key)
+      }
+      this.selected = []
+    },
     remove (key) {
       this.$DCFB.playlistSongDelete(this.$route.params.playlist, key)
-    },
-    removeList () {
-      for (const key in this.selected) {
-        this.remove(this.selected[key].key)
-      }
     },
     play (index) {
       // show stage
@@ -333,15 +295,6 @@ export default {
 </script>
 
 <style>
-.dc-crd:hover .al17 {
-  display:inline-block !important;
-}
-.al17{
-    display: none !important;
-    position: absolute;
-    top: 2px;
-    left: 4px;
-}
 .grd-cnt{
   position: absolute;
   bottom: 0px;
@@ -349,7 +302,6 @@ export default {
 .chkbx{
   position: absolute;
   top: 5px;
-  right: 5px;
 }
 .dc-crd.primary .grd-txt{
   color: white !important;

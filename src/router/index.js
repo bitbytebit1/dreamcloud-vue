@@ -29,6 +29,8 @@ import signUp from '@/router/user/login/sign-up'
 import password from '@/router/user/login/password-reset'
 import about from '@/router/about/about'
 import stage from '@/router/stage/stage-route'
+
+import channelPlaylist from '@/router/channel-playlist/playlist.vue'
 // #/s/YouTube/q/sort/page/number of results/filter
 
 let router = new Router({
@@ -114,6 +116,12 @@ let router = new Router({
       path: '/u/:user/:playlist/:name',
       name: 'userPlaylist',
       component: userPlaylist,
+      props: true
+    },
+    {
+      path: '/p/:title/:source/:artistID/:listID/',
+      name: 'channelPlaylist',
+      component: channelPlaylist,
       props: true
     },
     {

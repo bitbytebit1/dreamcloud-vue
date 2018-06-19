@@ -34,7 +34,7 @@
           <v-container fluid grid-list-md class="pa-0 ma-0">
             <v-layout row wrap>
               <v-flex xs12  class="ml-3 mr-3">
-                <v-slider :max="iDuration" :label="iCurrent" v-model="iProgress"  id="progress-slider" color="primary" thumb-label hide-details></v-slider>
+                <v-slider :max="iDuration" :label="iCurrent" v-model="iProgress"  id="progress-slider-2" color="primary" thumb-label hide-details></v-slider>
                 <!-- @input="changePos" -->
               </v-flex>
             </v-layout>

@@ -1,12 +1,12 @@
 <template>
-  <v-container grid-list-sm>
+  <!-- <v-container grid-list-sm> -->
     <v-layout xs12 row wrap>
-      <transition-group name="slide-fade" mode="in-out">
+      <transition-group name="slide-fade">
         <current-playlist-item
         v-for="(song, index) in aPlaylist"
         :song="song"
         :index="index"
-        :key="song.trackID + index"
+        :key="song.trackID + (index + $store.getters.index)"
         ></current-playlist-item>
         <!-- <current-playlist-item
         :song="$store.getters.current_song"
@@ -28,7 +28,7 @@
         </span>
       </infinite-loading>
     </v-layout>
-  </v-container>
+  <!-- </v-container> -->
 </template>
 
 <script>
@@ -84,35 +84,34 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-.slide-fade-enter-active {
-  transition: all 2s;  
-  /* transform: rotate3d(0, 1, 0, -180deg); */
-}
 
-.slide-fade-leave-active {
-  transition: all 2s;
-  /* transform: rotateY(-360deg); */
-  /* transform: rotate3d(0, 1, 0, 18q0deg); */
-}
+  /* TRANSITIONS */
+  .slide-fade-item{
+    transition: all .4s ease;
+  }
+  /* ENTER */
+  .slide-fade-enter{
+    opacity: 0;
+    /* transform: translateY(-294px); */
+  }
+  .slide-fade-enter-active {
+    transition: all .2s;
+  }
+  .slide-fade-enter-to{
+    opacity: 1;
+  }
 
-.slide-fade-enter{
-  transition: all .5s;
-  /* transform: rotateY(360deg); */
-  transition: all .5s;
-  /* transform: rotate3d(1,2, -360deg, 360deg); */
-  opacity: 1;
-}
+  /* LEAVE */
 
-.slide-fade-leave-to{
-  transition: all .5s;
-  /* transform: rotate3d(1,2, -360deg, 360deg); */
-  opacity: 0;
-}
+  .slide-fade-leave {
 
-.slide-fade-move {
-  transition: transform 1s;
-}
+  }
+  .slide-fade-leave-active {
+    position: absolute;
+  }
+  .slide-fade-leave-to {
+    opacity: 0;
+    /* transform: translateY(-294px); */
+  }
 </style>

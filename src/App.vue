@@ -19,13 +19,13 @@
       <v-toolbar-side-icon @click.stop="leftTog"></v-toolbar-side-icon>
       
       <!-- title -->
-      <v-toolbar-title class="hidden-sm-and-down">
+      <v-toolbar-title class="hidden-sm-and-down" style="width: 230px"  >
         <router-link :class="textClass" :to="{name:'home', params: {user: $DCFB.UID}}">
           DreamCloud
         </router-link>
       </v-toolbar-title>
 
-      <v-spacer></v-spacer>
+      <!-- <v-spacer></v-spacer> -->
 
       <!-- searchbar -->
       <search></search>
@@ -67,9 +67,9 @@
       <v-container fluid fill-height>
         <v-layout justify-center>
           <transition name="fade" mode="out-in">
-            <keep-alive>
+            <!-- <keep-alive> -->
               <router-view></router-view>
-            </keep-alive>
+            <!-- </keep-alive> -->
           </transition>
         </v-layout>
       </v-container>
@@ -91,6 +91,7 @@
   import hks from './components/misc/hks'
   import search from './components/header/search'
   import dcAudio from './components/footer/dc-audio'
+  import dcAudio2 from './components/footer/dc-audio-flex-2.vue'
   import dcYoutube from './components/footer/dc-youtube'
   import currentPlaylist from './components/sidebar-right/current-playlist'
   import sidebar from './components/sidebar-left/sidebar'
@@ -104,6 +105,7 @@
     components: {
       'hks': hks,
       'search': search,
+      'dc-audio2': dcAudio2,
       'dc-audio': dcAudio,
       'dc-youtube': dcYoutube,
       'sidebar': sidebar,
@@ -115,7 +117,7 @@
     data () {
       return {
         drawerLeft: !this.$UTILS.isMobile,
-        drawerRight: !this.$UTILS.isMobile
+        drawerRight: false
       }
     },
     methods: {
@@ -143,7 +145,7 @@
         return this.$vuetify.breakpoint.name === 'xs' || this.$vuetify.breakpoint.name === 'sm'
       },
       textClass () {
-        return (this.$store.getters.nightMode ? 'white' : 'black') + '--text noDeco pointer'
+        return (this.$store.getters.nightMode ? 'white' : 'black') + '--text noDeco pointer hidden-sm-and-down'
       },
       currentActive () {
         return this.$route.name === 'stage'
@@ -172,6 +174,7 @@
               this.$store.commit('changeSetting', {'setting': 'Night Mode', 'value': snapshot.val()})
             }
           })
+          // this.$router.push({name: 'artist', params: {source: 'YouTube', artist: 'Byte', artistID: 'UCtOCUE_GOKz86ZVoigxcllg'}})
         } else {
           this.$store.commit('authChange', false)
           this.$router.push({name: 'searchPage', params: {query: ' ', source: 'YouTube'}})
@@ -227,7 +230,9 @@
 .dchide{
   display: none !important;
 }
-
+.hide{
+  display: none;
+}
 /* width */
 #right-draw::-webkit-scrollbar {
     width: 1px;

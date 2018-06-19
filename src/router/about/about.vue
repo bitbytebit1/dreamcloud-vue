@@ -137,14 +137,9 @@
 /* eslint-disable */
 import deleteButton from '@/components/misc/delete-button'
 export default {
-  name: 'x',
+  name: 'about',
   components: {
     'delete-button': deleteButton
-  },
-  data () {
-    return {
-      x1: 'deleteme?'
-    }
   },
   created () {
     this.$emit('closeLeft')

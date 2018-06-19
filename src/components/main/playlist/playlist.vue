@@ -1,12 +1,12 @@
 <template>
-  <v-flex flexbox>
-      <v-container fluid class="grid-list-xs search-results">
+  <!-- <v-flex flexbox> -->
+      <!-- <v-container fluid class="grid-list-xs search-results"> -->
         <v-layout row wrap>
           <list v-if="list && !gridView" :songs="fixedSongs" :full="full" :rowsPerPage="rowsPerPage" :sortBy="sortBy" @toggleView="toggleView"></list>
           <grid v-else :songs="fixedSongs" :full="full" :rowsPerPage="rowsPerPage" :sortBy="sortBy" :showUploaded="showUploaded" @toggleView="toggleView"></grid>
         </v-layout>
-      </v-container>
-  </v-flex>
+      <!-- </v-container> -->
+  <!-- </v-flex> -->
 </template>
 <script>
 import grid from './grid'
@@ -61,10 +61,12 @@ export default {
       return this.$vuetify.breakpoint.name
     },
     fixedSongs () {
+      // eslint-disable-next-line
       this.fixd = this.songs
       for (let song in this.fixd) {
         // console.log(this.fixd[song])
         if (!(this.fixd[song].uploaded instanceof Date)) {
+          // eslint-disable-next-line
           this.fixd[song].uploaded = new Date(this.fixd[song].uploaded)
         } else {
           // console.log('assuming all dates are ok')

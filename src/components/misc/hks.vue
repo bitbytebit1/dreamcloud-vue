@@ -6,21 +6,6 @@
 /* eslint-disable */
 export default {
   name: 'hks',
-  data () {
-    return {
-      x1: 'deleteme?'
-    }
-  },
-  methods: {
-    x2 () {
-
-    }
-  },
-  computed: {
-    x3 () {
-      
-    }
-  },
   created () {
     window.onkeydown = (e) => {
       e = e || window.event
@@ -29,29 +14,7 @@ export default {
         return
       }
       if (e.keyCode == '70') { // F
-        if (!document.fullscreenElement &&    // alternative standard method
-            !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement ) {  // current working methods
-            e = document.getElementById(this.$store.getters.ytUseVideo && this.$store.getters.isYT ? 'player' : 'stg-pstr')
-            if (e.requestFullscreen) {
-              e.requestFullscreen()
-            } else if (e.msRequestFullscreen) {
-              e.msRequestFullscreen()
-            } else if (e.mozRequestFullScreen) {
-              e.mozRequestFullScreen()
-            } else if (e.webkitRequestFullscreen) {
-              e.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT)
-            }
-        } else {
-          if (document.exitFullscreen) {
-            document.exitFullscreen();
-          } else if (document.msExitFullscreen) {
-            document.msExitFullscreen();
-          } else if (document.mozCancelFullScreen) {
-            document.mozCancelFullScreen();
-          } else if (document.webkitExitFullscreen) {
-            document.webkitExitFullscreen();
-          }
-        }
+        this.$UTILS.toggleFullscreen(this.$store.getters.ytUseVideo && this.$store.getters.isYT ? 'player' : 'stg-pstr')
       } else if (e.keyCode == '32') { // space
           this.$DCPlayer.togglePlay()
           e.preventDefault()

@@ -36,7 +36,6 @@
           @click="play(props.index)"
         >
           <v-card class="mb-2 pointer" color="" >
-            <v-container fluid grid-list-lg>
               <v-layout row>
                 <v-flex xs5>
                   <!-- image -->
@@ -44,18 +43,21 @@
                     :src="props.item.poster"
                     :height="hai(props.item.source)"
                     contain
-                  ></v-card-media>
+                  >
+                      <!-- <span class="abr15" v-text="props.item.duration"/> -->
+                  </v-card-media>
                 </v-flex>
-                <v-flex xs7>
+                <v-flex xs7 class="ml-2">
                   <div>
                     <!-- title -->
                     <div class="subheading text-xs-left wordbreak">{{ props.item.title }}</div>
                     <!-- artist -->
-                    <span @click.stop="$router.push({name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}})" class="artist text-xs-left wordbreak">{{ props.item.artist }}</span>
+                    <div @click.stop="$router.push({name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}})" class="text-xs-left grey--text">{{ props.item.artist }}</div>
+                    <!-- duration -->
+                    <div class="text-xs-left grey--text">{{ props.item.duration }}</div>
                   </div>
                 </v-flex>
               </v-layout>
-            </v-container>
           </v-card>
         </v-flex>
       </v-data-iterator>
@@ -114,13 +116,22 @@ export default {
       }, true, 50)
     },
     hai (source) {
-      return source === 'YouTube' ? '86px' : '125px'
+      if (this.$vuetify.breakpoint.name === "xs") {
+        return source === 'YouTube' ? '119px' : '140px'
+      } else {
+        return source === 'YouTube' ? '119px' : '209px'
+      }
     }
   }
 }
 </script>
 
-<style>
+<style> 
+.abr15 {
+  position: absolute;
+  bottom: 5px;
+  right:15px;
+}
 .artist{
   color: grey;
   float: left;

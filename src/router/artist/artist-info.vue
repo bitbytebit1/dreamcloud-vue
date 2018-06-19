@@ -1,6 +1,6 @@
 <template>
   <v-container grid-list-md text-xs-center :class="$vuetify.breakpoint.name === 'xs'? 'ma-0 pa-0 pt-1' : ''">
-    <v-layout align-center row wrap slot='header'>
+    <v-layout row wrap slot='header'>
 
       <!-- Left column -->
       <v-flex xs12 lg2 >
@@ -18,32 +18,35 @@
 
       <!-- Right column -->
       <v-flex xs12 lg10>
+        <v-layout row wrap align-content-start>
         <!-- Artist Name -->
-        <v-flex xs12 lg12 :class="$vuetify.breakpoint.name === 'xs'? 'headline' : 'headline text-xs-left'">
+        <v-flex xs12 :class="$vuetify.breakpoint.name === 'xs'? 'headline' : 'headline text-xs-left'">
           <strong>{{ artist }}</strong>
         </v-flex>
-        <v-flex style="min-height:65px;" xs12 lg10 :class="$vuetify.breakpoint.name === 'xs'? 'headline' : 'headline text-xs-left'">
-          <!-- Meta -->
-          <v-flex d-flex>
-            <v-tooltip bottom v-for="item in items" v-if="item.data" :key="item.name">
-              <v-btn icon disabled slot="activator">
-                <v-icon>
-                  {{item.icon}}
-                </v-icon>
-                {{item.data}}
-              </v-btn>
-              <span>{{item.name}}</span>
+        <!-- Meta -->
+        <v-flex style="min-height:65px;" xs2 :class="$vuetify.breakpoint.name === 'xs'? 'headline' : 'headline text-xs-left'">
+          <v-flex xs12 class="text-xs-left" style="left:-9px;position:relative;height:31px;" v-for="item in items" v-if="item.data" :key="item.name">
+            <v-tooltip right>
+              <div slot="activator">
+                <v-btn icon disabled>
+                  <v-icon>
+                    {{item.icon}}
+                  </v-icon>
+                </v-btn>
+                <span class="body-2 grey--text">
+                  {{item.data}}
+                </span>
+              </div>
+                <span>{{item.name}}</span>
             </v-tooltip>
-        <!-- <div style="float:left;position:absolute;margin-left:-10px;margin-top:40px">
-          <v-chip outline selected><v-icon color="white">music_note</v-icon></v-chip>
-          <v-chip outline><v-icon color="white">list</v-icon></v-chip>
-        </div> -->
           </v-flex>
+          <!-- <v-flex xs10> -->
         </v-flex>
-      </v-flex>
-      <!-- Description -->
-      <v-flex xs12 offset-xs0 class='text-xs-left pl-3 pr-3 brk wordbreak' v-if="info.description">
-        <p id="">{{ info.description.replace(/\n\s*\n/g, '\n') }}</p>
+        <!-- Description -->
+        <v-flex xs10 class='text-xs-left brk wordbreak' v-if="info.description">
+          {{ info.description.replace(/\n\s*\n/g, '\n') }}
+        </v-flex>
+        </v-layout>
       </v-flex>
     </v-layout>
   </v-container>
@@ -74,7 +77,7 @@ export default {
       return [
         { icon: 'music_note', name: 'Tracks', data: this.info.track_count },
         { icon: 'star', name: 'Followers', data: this.info.followers_count },
-        { icon: 'updated', name: 'Last updated', data: this.info.last_modified ? this.$DCAPI.calcDate(new Date(), this.info.last_modified) : '' },
+        { icon: 'update', name: 'Last updated', data: this.info.last_modified ? this.$DCAPI.calcDate(new Date(), this.info.last_modified) : '' },
         { icon: 'date_range', name: 'Created', data: this.info.created ? this.$DCAPI.calcDate(new Date(), this.info.created) : '' }
       ]
     }

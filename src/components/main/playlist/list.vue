@@ -26,7 +26,6 @@
               @blur="filterHasFocus = false"
               color="primary"
               id="flr-txt"
-              :class="$vuetify.breakpoint.smAndUp ? 'ma-0' : ''"
               label="Filter"
               single-line
               hide-details
@@ -42,11 +41,11 @@
               <v-icon :color="selected.length === filterLength ? 'primary' : ''">{{selected.length === filterLength ? 'check_box' : selected.length ? 'indeterminate_check_box' : 'check_box_outline_blank' }}</v-icon>
             </v-btn>
 
-            <add-to-playlist key="multi" :disabled="selected.length == 0" v-if="$store.getters.auth_state" :song="selected"></add-to-playlist>
-
             <download-button :dis="selected.length == 0" :links="selected"></download-button>
             
             <delete-button :disabled="selected.length == 0" v-if="$route.params.playlist" @delete="removeList"></delete-button>
+            
+            <add-to-playlist key="multi" :disabled="selected.length == 0" v-if="$store.getters.auth_state" :song="selected"></add-to-playlist>
 
             <v-flex d-inline-flex>{{selected.length}} of {{filterLength}}</v-flex>
           </v-flex>
@@ -75,7 +74,7 @@
 
             <!-- image -->
             <td>
-              <img class="mt-2" v-lazy="props.item.poster"/>
+              <img class="mt-2" v-lazy="props.item.poster" :key="props.item.poster"/>
             </td>
 
             <!-- title -->
@@ -207,8 +206,10 @@ export default {
       //  returns the full sorted array for use with click
       if (this.$refs.dtable.pagination.rowsPerPage !== -1 && this.songs.length > this.$refs.dtable.pagination.rowsPerPage) {
         var a = this.$refs.dtable.pagination.rowsPerPage
+        // eslint-disable-next-line
         this.$refs.dtable.pagination.rowsPerPage = -1
         var b = this.$refs.dtable.filteredItems.length ? this.$refs.dtable.filteredItems : this.songs
+        // eslint-disable-next-line
         this.$refs.dtable.pagination.rowsPerPage = a
         return b
       } else {

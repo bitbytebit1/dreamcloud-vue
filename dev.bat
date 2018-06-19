@@ -1,1 +1,3 @@
-npm run dev
+:1
+npm run serve
+goto 1

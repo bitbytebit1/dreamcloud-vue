@@ -18,8 +18,19 @@
             {{$DCAPI.calcDate('', song.uploaded)}}
           </div>
           <div class="fl-r">
+            <!-- fullscreen button -->
+            <v-btn @click="fullscreen" icon>
+              <v-icon>fullscreen</v-icon>
+            </v-btn>
             <!-- yt button -->
             <youtube-button></youtube-button>
+            <!-- share button -->
+            <share-button :song="song" :url="'https://dreamcloud.netlify.com/#/t/' + song.source + '/' + encodeURIComponent(song.artist) + '/' + song.trackID"></share-button>
+            <!-- download button -->
+            <download-button :links="[song]"></download-button>
+            <!-- add to playlist -->
+            <add-to-playlist v-if="$store.getters.auth_state" :song="song"></add-to-playlist>
+
           </div>
         </v-flex> 
         <!-- Artist Picture -->
@@ -44,7 +55,11 @@
 import related from '@/components/main/stage/stage-related'
 import artistMini from '@/components/misc/artist-mini'
 import youtubeVBtn from '@/components/misc/toggle-video-button'
-import songComments from '@/components/misc/song-comments'
+import songComments from '@/components/main/stage/song-comments'
+import addToPlaylist from '@/components/misc/add-to-playlist.vue'
+import shareButton from '@/components/misc/share-button'
+import downloadButton from '@/components/misc/download-button'
+
 // import explode from '@/components/misc/explode'
 // /* eslint-disable */
 export default {
@@ -54,7 +69,10 @@ export default {
     'songComments': songComments,
     'artist-mini': artistMini,
     'related': related,
-    'youtube-button': youtubeVBtn
+    'youtube-button': youtubeVBtn,
+    'add-to-playlist': addToPlaylist,
+    'download-button': downloadButton,
+    'share-button': shareButton
   },
   data () {
     return {
@@ -85,6 +103,9 @@ export default {
     }
   },
   methods: {
+    fullscreen () {
+      this.$UTILS.toggleFullscreen('stg-pstr')
+    },
     getPlays () {
       this.$DCAPI.getSongPlays(this.song.trackID, this.song.source, (data) => {
         this.iViews = this.makeFriendly(data)

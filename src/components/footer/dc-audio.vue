@@ -216,7 +216,7 @@ export default {
 } */
 
 #progress-slider {
-  padding-top: 14px;
+  padding-top: 15px;
 }
 
 #poster {

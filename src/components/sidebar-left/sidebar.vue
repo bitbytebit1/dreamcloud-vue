@@ -153,6 +153,10 @@ export default {
 </script>
 
 <style>
+.ar17{
+  position:absolute !important;
+  right:1px;
+}
 .list__tile--active .delete, .history-link:hover .delete {
   display: inherit!important
 }

@@ -140,10 +140,6 @@ export default {
 </script>
 
 <style>
-.ar17{
-  position:absolute;
-  right:17px;
-}
 .filter label, .filter input{
   font-size: 13px;
 }

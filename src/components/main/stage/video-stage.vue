@@ -17,28 +17,22 @@
             {{$DCAPI.calcDate('', song.uploaded)}}
           </div>
           <div class="fl-r">
+            <!-- fullscreen button -->
+            <v-btn @click="fullscreen" icon>
+              <v-icon>fullscreen</v-icon>
+            </v-btn>
             <!-- closed captions -->
-            <v-btn class="ma-0 pa-0" icon small hover fab @click="toggleCC">
+            <v-btn icon @click="toggleCC">
               <v-icon :color="cc ? 'white' : 'grey'">subtitles</v-icon>
             </v-btn>
             <!-- yt button -->
             <youtube-button></youtube-button>
-
-            <v-speed-dial direction="left" class="stage-btn" open-on-hover>
-              <v-btn slot="activator" class="ma-0 pa-0" icon small hover fab>
-                <v-icon>settings</v-icon>
-              </v-btn>
-              <div class="slider-wrapper">
-                <v-btn icon fab>
-                  <v-icon>people</v-icon>
-                </v-btn>
-              </div>
-            </v-speed-dial>
-          
-            <!-- fullscreen button -->
-            <v-btn @click="fullscreen" class="ma-0 pa-0" icon small hover fab>
-              <v-icon>fullscreen</v-icon>
-            </v-btn>
+            <!-- share button -->
+            <share-button :song="song" :url="'https://dreamcloud.netlify.com/#/t/' + song.source + '/' + encodeURIComponent(song.artist) + '/' + song.trackID"></share-button>
+            <!-- download button -->
+            <download-button :links="[song]"></download-button>
+            <!-- add to playlist -->
+            <add-to-playlist v-if="$store.getters.auth_state" :song="song"></add-to-playlist>
           </div>
         </v-flex>
         <!-- Artist Picture -->
@@ -63,7 +57,11 @@
 import related from '@/components/main/stage/stage-related'
 import artistMini from '@/components/misc/artist-mini'
 import youtubeVBtn from '@/components/misc/toggle-video-button'
-import songComments from '@/components/misc/song-comments'
+import songComments from '@/components/main/stage/song-comments'
+
+import addToPlaylist from '@/components/misc/add-to-playlist.vue'
+import shareButton from '@/components/misc/share-button'
+import downloadButton from '@/components/misc/download-button'
 
 /* eslint-disable */
 export default {
@@ -78,7 +76,10 @@ export default {
     'artist-mini': artistMini,
     'youtube-button': youtubeVBtn,
     'related': related,
-    'songComments': songComments
+    'songComments': songComments,
+    'add-to-playlist': addToPlaylist,
+    'download-button': downloadButton,
+    'share-button': shareButton
   },
   computed: {
     song () {
@@ -140,16 +141,7 @@ export default {
         `<span class="underline pointer" onClick="window.dcYT.seekTo('$&'.split(':').reduce((acc,time) => (60 * acc) + +time));">$&</span>`))
     },
     fullscreen () {
-      var e = document.getElementById('player')
-      if (e.requestFullscreen) {
-        e.requestFullscreen()
-      } else if (e.webkitRequestFullscreen) {
-        e.webkitRequestFullscreen()
-      } else if (e.mozRequestFullScreen) {
-        e.mozRequestFullScreen()
-      } else if (e.msRequestFullscreen) {
-        e.msRequestFullscreen()
-      }
+      this.$UTILS.toggleFullscreen('player')
     },
     getDesc () {
       this.$DCAPI.getSongDescription(this.current_trackID, this.song.source, (resp) => {

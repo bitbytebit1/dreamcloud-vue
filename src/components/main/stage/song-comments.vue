@@ -8,7 +8,6 @@
       hide-actions
       no-data-text=""
     >
-
       <v-flex
         slot="item"
         slot-scope="props"
@@ -37,7 +36,7 @@
                     <router-link class="body-1 grey--text noDeco" :to="{name: 'artist', params: {source: source, artist: props.item.artist, artistID: props.item.artistID}}">
                       <strong>{{props.item.artist}}</strong> 
                     </router-link>
-                    <span>{{$DCAPI.calcDate('', props.item.commentCreated)}}</span></div>
+                    <span>{{' ' + $DCAPI.calcDate('', props.item.commentCreated)}}</span></div>
                   <div class="subheading preline" v-html="timeToSeconds(props.item.comment)"></div>
                 </div>
               </v-flex>

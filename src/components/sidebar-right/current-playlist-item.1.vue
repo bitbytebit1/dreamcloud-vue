@@ -1,37 +1,31 @@
 <template>
  <!-- v-show="!(index === 0 && $store.getters.bShowStage)" -->
-  <v-flex xs12 @click.stop="play" >
+  <v-flex xs12 @click.stop="play" :key="index">
     <v-card>
       <!-- image -->
       <v-card-media v-lazy:background-image="song.poster" height="200px" class="current-card pointer"> 
-          <span class="card-duration" v-text="song.duration"/>
+        <!-- <v-container grid-list-xs fill-height fluid> -->
+          <!-- <v-layout fill-height> -->
+            <v-flex xs12 align-center flexbox class="dc-title">
+              <!-- title -->
+              <span class="crt-ttl wordbreak" v-text="song.title"></span>
+              <div class="text-xs-right">
+                <!-- artist -->
+                <span @click.stop="$router.push({name: 'artist', params: {source: song.source, artist: song.artist, artistID: song.artistID}})" class="subheading white--text dc-artist wordbreak shadow text-xs-right" v-text="song.artist"></span>
+              </div>
+            </v-flex>
+          <!-- </v-layout> -->
+        <!-- </v-container> -->
       </v-card-media>
 
       <!-- song actions -->
-      <v-card-actions @click.stop class="">
-        <v-layout row wrap>
-          <v-flex xs12>
-            {{song.title}}
-          </v-flex>
-          <v-flex xs12>
-            <router-link class="noDeco pointer artist" :to="{name: 'artist', params: {source: song.source, artist: song.artist, artistID: song.artistID}}">
-              {{song.artist}}
-            </router-link>
-          </v-flex>
-          <v-flex xs12>
-            <!-- SHOW MORE -->
-            <v-btn icon @click.stop.native="show = !show" :disabled="!desc">
-              <v-icon>{{ show ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
-            </v-btn>
-            <!-- share button -->
-            <share-button :song="song" :url="'https://dreamcloud.netlify.com/#/t/' + song.source + '/' + encodeURIComponent(song.artist) + '/' + song.trackID"></share-button>
-            <!-- download button -->
-            <download-button :links="[song]"></download-button>
-            <!-- add to playlist -->
-            <add-to-playlist v-if="$store.getters.auth_state" :song="song"></add-to-playlist>
-          </v-flex>
-        </v-layout>
-
+      <v-card-actions @click.stop>
+        <!-- add to playlist -->
+        <add-to-playlist v-if="$store.getters.auth_state" :song="song"></add-to-playlist>
+        <!-- share button -->
+        <share-button :song="song" :url="'https://dreamcloud.netlify.com/#/t/' + song.source + '/' + encodeURIComponent(song.artist) + '/' + song.trackID"></share-button>
+        <!-- download button -->
+        <download-button :links="[song]"></download-button>
         <!-- artist -->
         <!-- <v-btn icon @click.stop :href="artistID">
           <v-icon>person</v-icon>
@@ -41,7 +35,9 @@
           <v-icon>open_in_new</v-icon>
         </v-btn> -->
         <!-- show desc -->
-
+        <v-btn icon @click.stop.native="show = !show" :disabled="!desc">
+          <v-icon>{{ show ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
+        </v-btn>
       </v-card-actions>
 
       <v-slide-y-transition v-if="show">
