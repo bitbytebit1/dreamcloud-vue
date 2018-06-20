@@ -1,3 +1,3 @@
-:1
+:dsaw
 npm run serve
-goto 1
+goto :dsaw
