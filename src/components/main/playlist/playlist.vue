@@ -1,12 +1,12 @@
 <template>
-  <!-- <v-flex flexbox> -->
-      <!-- <v-container fluid class="grid-list-xs search-results"> -->
-        <v-layout row wrap>
-          <list v-if="list && !gridView" :songs="fixedSongs" :full="full" :rowsPerPage="rowsPerPage" :sortBy="sortBy" @toggleView="toggleView"></list>
-          <grid v-else :songs="fixedSongs" :full="full" :rowsPerPage="rowsPerPage" :sortBy="sortBy" :showUploaded="showUploaded" @toggleView="toggleView"></grid>
-        </v-layout>
-      <!-- </v-container> -->
-  <!-- </v-flex> -->
+	<!-- <v-flex flexbox> -->
+	<!-- <v-container fluid class="grid-list-xs search-results"> -->
+	<v-layout row wrap>
+		<list v-if="list && !gridView" :songs="fixedSongs" :full="full" :rowsPerPage="rowsPerPage" :sortBy="sortBy" @toggleView="toggleView"></list>
+		<grid v-else :songs="fixedSongs" :full="full" :rowsPerPage="rowsPerPage" :sortBy="sortBy" :showUploaded="showUploaded" @toggleView="toggleView"></grid>
+	</v-layout>
+	<!-- </v-container> -->
+	<!-- </v-flex> -->
 </template>
 <script>
 import grid from './grid'

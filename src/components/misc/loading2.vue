@@ -1,18 +1,26 @@
 <template>
-  <v-flex justify-center class="loading-flex">
-    <div class="semipolar-spinner">
-      <div class="ring"></div>
-      <div class="ring"></div>
-      <div class="ring"></div>
-      <div class="ring"></div>
-      <div class="ring"></div>
-    </div>
-  </v-flex>
+	<v-flex justify-center class="loading-flex">
+		<div class="semipolar-spinner">
+			<div class="ring" :style="ringStyle"></div>
+			<div class="ring" :style="ringStyle"></div>
+			<div class="ring" :style="ringStyle"></div>
+			<div class="ring" :style="ringStyle"></div>
+			<div class="ring" :style="ringStyle"></div>
+		</div>
+	</v-flex>
 </template>
 
 <script>
 export default {
-  name: 'loading'
+  name: 'loading',
+  computed: {
+    ringStyle () {
+      return {
+        borderTopColor: this.$vuetify.theme.primary,
+        borderLeftColor: this.$vuetify.theme.primary
+      }
+    }
+  }
 }
 </script>
 

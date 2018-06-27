@@ -1,124 +1,124 @@
 <template>
-  <v-flex xs12>
-    <!-- table header buttons -->
-    <v-card class="elevation-8">
-      <v-card-title v-if="full" class="ma-0 pa-0">
-        <v-layout row wrap>
-          <!-- header buttons -->
-          <v-flex xs6 lg2 class="text-xs-left mt-2">
-            <!-- enable check boxes -->
-            <v-btn v-if="auth_state" @click="bSelect = !bSelect" icon>
-              <v-icon :color="bSelect ? 'primary' : ''">check_box</v-icon>
-            </v-btn>
-            <!-- toggle view -->
-            <v-btn icon @click="$emit('toggleView')">
-              <v-icon>{{view_mode ? 'view_module' : 'view_list'}}</v-icon>
-            </v-btn>
-            <!-- filter button -->
-            <v-btn icon @click="search.length > 0 ? search='' : $refs.search.focus()" >
-              <v-icon>{{search.length > 0 ? 'clear': 'filter_list'}}</v-icon>
-            </v-btn>
-          </v-flex>
-          <!-- filter -->
-          <v-flex xs5 lg9>
-            <v-text-field
-              @focus="filterHasFocus = true"
-              @blur="filterHasFocus = false"
-              color="primary"
-              id="flr-txt"
-              label="Filter"
-              single-line
-              hide-details
-              v-model="search"
-              v-on:keyup.enter="$UTILS.closeSoftMobi()"
-              ref="search"
-            ></v-text-field>
-          </v-flex>
-          <!-- select buttons -->
-          <v-flex xs12 lg12 v-if="bSelect" class="text-xs-left">
-            <!-- Select all -->
-            <v-btn @click="(bSelectAll = !bSelectAll, bSelectAll ? selected = sorted : selected = [])" icon>
-              <v-icon :color="selected.length === filterLength ? 'primary' : ''">{{selected.length === filterLength ? 'check_box' : selected.length ? 'indeterminate_check_box' : 'check_box_outline_blank' }}</v-icon>
-            </v-btn>
+	<v-flex xs12>
+		<!-- table header buttons -->
+		<v-card class="elevation-8">
+			<v-card-title v-if="full" class="ma-0 pa-0">
+				<v-layout row wrap>
+					<!-- header buttons -->
+					<v-flex xs6 lg2 class="text-xs-left mt-2">
+						<!-- enable check boxes -->
+						<v-btn v-if="auth_state" @click="bSelect = !bSelect" icon>
+							<v-icon :color="bSelect ? 'primary' : ''">check_box</v-icon>
+						</v-btn>
+						<!-- toggle view -->
+						<v-btn icon @click="$emit('toggleView')">
+							<v-icon>{{view_mode ? 'view_module' : 'view_list'}}</v-icon>
+						</v-btn>
+						<!-- filter button -->
+						<v-btn icon @click="search.length > 0 ? search='' : $refs.search.focus()" >
+							<v-icon>{{search.length > 0 ? 'clear': 'filter_list'}}</v-icon>
+						</v-btn>
+					</v-flex>
+					<!-- filter -->
+					<v-flex xs5 lg9>
+						<v-text-field
+							@focus="filterHasFocus = true"
+							@blur="filterHasFocus = false"
+							color="primary"
+							id="flr-txt"
+							label="Filter"
+							single-line
+							hide-details
+							v-model="search"
+							v-on:keyup.enter="$UTILS.closeSoftMobi()"
+							ref="search"
+						></v-text-field>
+					</v-flex>
+					<!-- select buttons -->
+					<v-flex xs12 lg12 v-if="bSelect" class="text-xs-left">
+						<!-- Select all -->
+						<v-btn @click="(bSelectAll = !bSelectAll, bSelectAll ? selected = sorted : selected = [])" icon>
+							<v-icon :color="selected.length === filterLength ? 'primary' : ''">{{selected.length === filterLength ? 'check_box' : selected.length ? 'indeterminate_check_box' : 'check_box_outline_blank' }}</v-icon>
+						</v-btn>
 
 
-            <download-button :dis="selected.length == 0" :links="selected"></download-button>
+						<download-button :dis="selected.length == 0" :links="selected"></download-button>
 
-            <delete-button :disabled="selected.length == 0" v-if="$route.params.playlist" @delete="removeList"></delete-button>
+						<delete-button :disabled="selected.length == 0" v-if="$route.params.playlist" @delete="removeList"></delete-button>
 
-            <add-to-playlist key="multi" :disabled="selected.length == 0" v-if="auth_state" :song="selected"></add-to-playlist>
+						<add-to-playlist key="multi" :disabled="selected.length == 0" v-if="auth_state" :song="selected"></add-to-playlist>
             
-            <v-flex d-inline-flex>{{selected.length}} of {{filterLength}}</v-flex>
+						<v-flex d-inline-flex>{{selected.length}} of {{filterLength}}</v-flex>
             
-          </v-flex>
-        </v-layout>
-      </v-card-title>
-      <!-- v-data-iterator -->
-      <v-data-iterator
-        class="mt-2"
-        ref="dItera"
-        content-tag='v-layout'
-        row
-        wrap
-        :headers="headers"
-        :items="songs"
-        :pagination.sync="pagination"
-        :rows-per-page-items='[24, 50, 100, { text: "All", value: -1 }]'
-        :search="search"
-        :select-all="bSelect"
-        :hide-actions="!full"
-        >
-        <!-- no data -->
-        <v-flex slot="no-data">No matching records</v-flex>
-        <!-- <transition-group transition="slide-x-transition"> -->
-          <!-- item slot -->
-          <v-flex 
-            slot='item'
-            slot-scope='props'
-            xs12
-            sm6
-            md4
-            lg3
-            x12
-            @click.stop="!bSelect ? play(props.index) : checkItem(props.item)"
-          >
-            <v-card class="dc-crd ma-0 pa-0 pointer" :color="cardColor(props)">
-              <!-- image -->
-              <v-card-media v-lazy:background-image="props.item.poster" height="200">
-                <!-- <v-container fill-height fluid> -->
-                  <!-- <v-layout fill-height> -->
-                    <!-- <v-flex xs12 align-end flexbox> -->
-                      <!-- duration -->
-                      <span class="card-duration" v-text="props.item.duration"/>
-                    <!-- </v-flex> -->
-                  <!-- </v-layout> -->
-                <!-- </v-container> -->
-              </v-card-media>
-              <v-card-title>
-                <!-- check box -->
-                <v-flex @click.stop v-show="bSelect" class="chkbx">
-                  <v-checkbox hide-details v-model="selected" :value="props.item" color='primary'></v-checkbox>
-                </v-flex>
-                <!-- title -->
-                <v-flex class="text-xs-left subheading grd-txt">
-                  {{ props.item.title }}
-                </v-flex>
-                <!-- artist -->
-                <v-flex class="text-xs-left grey--text grd-txt" v-if="!$route.params.artistID" @click.stop="bSelect ? checkItem(props.item) : $router.push({name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}})">
-                  {{ props.item.artist }}
-                </v-flex>
-                <!-- date -->
-                <v-flex class="text-xs-left grey--text grd-txt" v-if="$route.params.artistID || showUploaded">
+					</v-flex>
+				</v-layout>
+			</v-card-title>
+			<!-- v-data-iterator -->
+			<v-data-iterator
+				class="mt-2"
+				ref="dItera"
+				content-tag='v-layout'
+				row
+				wrap
+				:headers="headers"
+				:items="songs"
+				:pagination.sync="pagination"
+				:rows-per-page-items='[24, 50, 100, { text: "All", value: -1 }]'
+				:search="search"
+				:select-all="bSelect"
+				:hide-actions="!full"
+			>
+				<!-- no data -->
+				<v-flex slot="no-data">No matching records</v-flex>
+				<!-- <transition-group transition="slide-x-transition"> -->
+				<!-- item slot -->
+				<v-flex 
+					slot='item'
+					slot-scope='props'
+					xs12
+					sm6
+					md4
+					lg3
+					x12
+					@click.stop="!bSelect ? play(props.index) : checkItem(props.item)"
+				>
+					<v-card class="dc-crd ma-0 pa-0 pointer" :color="cardColor(props)">
+						<!-- image -->
+						<v-card-media v-lazy:background-image="props.item.poster" height="200">
+							<!-- <v-container fill-height fluid> -->
+							<!-- <v-layout fill-height> -->
+							<!-- <v-flex xs12 align-end flexbox> -->
+							<!-- duration -->
+							<span class="card-duration" v-text="props.item.duration"/>
+							<!-- </v-flex> -->
+							<!-- </v-layout> -->
+							<!-- </v-container> -->
+						</v-card-media>
+						<v-card-title>
+							<!-- check box -->
+							<v-flex @click.stop v-show="bSelect" class="chkbx">
+								<v-checkbox hide-details v-model="selected" :value="props.item" color='primary'></v-checkbox>
+							</v-flex>
+							<!-- title -->
+							<v-flex class="text-xs-left subheading grd-txt">
+								{{ props.item.title }}
+							</v-flex>
+							<!-- artist -->
+							<v-flex class="text-xs-left grey--text grd-txt" v-if="!$route.params.artistID" @click.stop="bSelect ? checkItem(props.item) : $router.push({name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}})">
+								{{ props.item.artist }}
+							</v-flex>
+							<!-- date -->
+							<v-flex class="text-xs-left grey--text grd-txt" v-if="$route.params.artistID || showUploaded">
 
-                  {{ $DCAPI.calcDate(!1, props.item.uploaded) }}
-                </v-flex>
-              </v-card-title>
-            </v-card>
-          </v-flex>
-        <!-- </transition-group> -->
-      </v-data-iterator>
-    </v-card>
-  </v-flex>
+								{{ $DCAPI.calcDate(!1, props.item.uploaded) }}
+							</v-flex>
+						</v-card-title>
+					</v-card>
+				</v-flex>
+				<!-- </transition-group> -->
+			</v-data-iterator>
+		</v-card>
+	</v-flex>
 </template>
 <script>
 

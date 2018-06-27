@@ -9,7 +9,11 @@ module.exports = {
   ],
   rules: {
     'no-console': 'off',
-    'no-debugger': 'off'
+    'no-debugger': 'off',
+    'vue/html-indent': [
+      'error',
+      'tab'
+    ]
   },
   parserOptions: {
     parser: 'babel-eslint'

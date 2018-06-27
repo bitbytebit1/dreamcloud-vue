@@ -1,6 +1,6 @@
 <template>
-  <div id="hks">
-  </div>
+	<div id="hks">
+	</div>
 </template>
 <script>
 /* eslint-disable */

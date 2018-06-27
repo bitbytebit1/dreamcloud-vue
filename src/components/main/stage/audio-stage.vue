@@ -1,55 +1,61 @@
 <template>
-  <v-layout row wrap v-show="!show" class="pb-5">
-    <!-- Image -->
-    <v-flex xs12 id="img-bg" v-show="!($store.getters.ytUseVideo && $store.getters.isYT)" @click="$DCPlayer.togglePlay()">
-      <!-- <explode></explode> -->
-      <img :src="song.posterLarge" id="stg-pstr">
-    </v-flex>
-    <v-flex d-flex xs12>
-      <v-layout row wrap id="dc-padding">
-        <!-- Song Title -->
-        <v-flex xs12 class="mt-2">
-          <div class="title text-xs-left">{{$store.getters.current_song.title}}</div >
-        </v-flex> 
-        <!-- Buttons and uploaded date -->
-        <v-flex xs12 class="stage-btns">
-          <div class="fl-l blue-grey--text text--lighten-1">
-            {{iViews}}
-            {{$DCAPI.calcDate('', song.uploaded)}}
-          </div>
-          <div class="fl-r">
-            <!-- fullscreen button -->
-            <v-btn @click="fullscreen" icon>
-              <v-icon>fullscreen</v-icon>
-            </v-btn>
-            <!-- yt button -->
-            <youtube-button></youtube-button>
-            <!-- share button -->
-            <share-button :song="song" :url="'https://dreamcloud.netlify.com/#/t/' + song.source + '/' + encodeURIComponent(song.artist) + '/' + song.trackID"></share-button>
-            <!-- download button -->
-            <download-button :links="[song]"></download-button>
-            <!-- add to playlist -->
-            <add-to-playlist v-if="$store.getters.auth_state" :song="song"></add-to-playlist>
-
-          </div>
-        </v-flex> 
-        <!-- Artist Picture -->
-        <artist-mini :artistID="song.artistID" :source="song.source" :artist="song.artist" :key="song.artistID"></artist-mini>
-        <!-- Artist name + Song description -->
-        <v-flex xs12 lg7 class="subheading text-xs-left pl-3 mt-3 wordbreak">
-          <strong>{{ song.artist }}</strong>
-          <!-- DESCRIPTION -->
-          <v-flex>
-            <span class="subheading wordbreak preline" v-html="timeToSeconds(_description)"></span>
-          </v-flex>
-          <!-- COMMENTS -->
-          <songComments :trackID="song.trackID" :source="song.source"></songComments>
-        </v-flex>
-        <!-- RELATED -->
-        <related></related>
-      </v-layout>
-    </v-flex>
-  </v-layout>
+	<v-layout row wrap v-show="!show" class="pb-5">
+		<!-- IMAGE -->
+		<v-flex xs12 id="img-bg" v-show="!($store.getters.ytUseVideo && $store.getters.isYT)" @click="$DCPlayer.togglePlay()">
+			<img :src="song.posterLarge" id="stg-pstr">
+		</v-flex>
+		<v-flex d-flex xs12>
+			<v-layout row wrap id="dc-padding">
+				<!-- SONG TITLE -->
+				<v-flex xs12 class="mt-2">
+					<div class="title text-xs-left">{{$store.getters.current_song.title}}</div >
+				</v-flex> 
+				<!-- BUTTONS AND UPLOADED DATE/VIEWS AND DIVIDER -->
+				<v-flex xs12 class="stage-btns" :style="stageBorderStyle">
+					<!-- FLOAT LEFT -->
+					<div class="fl-l blue-grey--text text--lighten-1">
+						{{iViews}}
+						{{$DCAPI.calcDate('', song.uploaded)}}
+					</div>
+					<!-- FLOAT RIGHT -->
+					<div class="fl-r">
+						<!-- LINK -->
+						<v-btn :color="btnCol" @click="($UTILS.copyToClipboard(song.mp32), btnFeedback())" icon>
+							<v-icon>link</v-icon>
+						</v-btn>
+						<!-- YT BUTTON -->
+						<youtube-button></youtube-button>
+						<!-- SHARE BUTTON -->
+						<share-button :song="song" :url="'https://dreamcloud.netlify.com/#/t/' + song.source + '/' + encodeURIComponent(song.artist) + '/' + song.trackID"></share-button>
+						<!-- DOWNLOAD BUTTON -->
+						<download-button :links="[song]"></download-button>
+						<!-- ADD TO PLAYLIST -->
+						<add-to-playlist v-if="$store.getters.auth_state" :song="song"></add-to-playlist>
+						<!-- FULLSCREEN BUTTON -->
+						<v-btn @click="fullscreen" icon>
+							<v-icon>fullscreen</v-icon>
+						</v-btn>
+					</div>
+				</v-flex> 
+				<!-- ARTIST PICTURE -->
+				<artist-mini :artistID="song.artistID" :source="song.source" :artist="song.artist" :key="song.artistID"></artist-mini>
+				<!-- ARTIST NAME + SONG DESCRIPTION -->
+				<v-flex xs12 lg7 class="subheading text-xs-left pl-3 mt-3 wordbreak">
+					<strong>{{ song.artist }}</strong>
+					<!-- DESCRIPTION -->
+					<v-flex>
+						<span class="subheading wordbreak preline" v-html="timeToSeconds(_description)"></span>
+					</v-flex>
+					<!-- LYRICS -->
+					<lyrics :title="song.title" :artist="song.artist"></lyrics>
+					<!-- COMMENTS -->
+					<songComments :trackID="song.trackID" :source="song.source"></songComments>
+				</v-flex>
+				<!-- RELATED -->
+				<related></related>
+			</v-layout>
+		</v-flex>
+	</v-layout>
 </template>
 <script>
 import related from '@/components/main/stage/stage-related'
@@ -59,6 +65,7 @@ import songComments from '@/components/main/stage/song-comments'
 import addToPlaylist from '@/components/misc/add-to-playlist.vue'
 import shareButton from '@/components/misc/share-button'
 import downloadButton from '@/components/misc/download-button'
+import lyrics from '@/components/main/stage/lyrics'
 
 // import explode from '@/components/misc/explode'
 // /* eslint-disable */
@@ -69,6 +76,7 @@ export default {
     'songComments': songComments,
     'artist-mini': artistMini,
     'related': related,
+    'lyrics': lyrics,
     'youtube-button': youtubeVBtn,
     'add-to-playlist': addToPlaylist,
     'download-button': downloadButton,
@@ -76,6 +84,7 @@ export default {
   },
   data () {
     return {
+      btnCol: '',
       description: '',
       iViews: ''
     }
@@ -103,6 +112,17 @@ export default {
     }
   },
   methods: {
+    stageBorderStyle () {
+      return {
+        'border-bottom': '1px solid ' + this.$vuetify.theme.primary,
+      }
+    },
+    btnFeedback () {
+      this.btnCol = 'primary'
+      setTimeout(() => {
+        this.btnCol = ''
+      }, 2000)
+    },
     fullscreen () {
       this.$UTILS.toggleFullscreen('stg-pstr')
     },
@@ -157,9 +177,7 @@ export default {
   width: 100% !important;
   }
 }
-.preline{
-  white-space: pre-line;
-}
+
 .fl-l{
   float: left;
   margin-top: 10px;
@@ -178,7 +196,7 @@ export default {
 }
 .stage-btns{
   /* height: 36px; */
-  border-bottom: 1px solid teal;
+  /* border-bottom: 1px solid teal; */
 }
 .stage-btn{
   float: right;

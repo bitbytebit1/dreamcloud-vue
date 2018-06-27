@@ -2,6 +2,7 @@ import router from '../router'
 
 export default {
   state: {
+    user: '',
     drawLeft: true,
     drawRight: true,
     view_mode: false,
@@ -16,16 +17,16 @@ export default {
     drawRightTog (state) {
       state.drawRight = !state.drawRight
     },
-    drawLeftTog (state, payload) {
+    drawLeftTog (state) {
       state.drawLeft = !state.drawLeft
     },
     // view_mode (state, payload) {
     //   state.view_mode = payload
     // },
-    view_mode_toggle (state, payload) {
+    view_mode_toggle (state) {
       state.view_mode = !state.view_mode
     },
-    toggleStage (state, payload) {
+    toggleStage (state) {
       state.bShowStage = !state.bShowStage
       if (state.bShowStage) {
         router.push({name: 'stage'})
@@ -39,6 +40,9 @@ export default {
     ytVideo (state, payload) {
       state.settings['Video'] = Boolean(payload)
     },
+    setUser (state, payload) {
+      state.user = payload
+    },
     authChange (state, payload) {
       state.auth_state = payload
     },
@@ -46,7 +50,10 @@ export default {
       state.settings[payload.setting] = payload.value
     }
   },
-  getters: {
+  getters: { 
+    isAnon: state => state.user.isAnonymous,
+    getUser: state => state.user,
+    uid: state => state.user.uid,
     drawRight: state => state.drawRight,
     drawLeft: state => state.drawLeft,
     view_mode: state => state.view_mode,

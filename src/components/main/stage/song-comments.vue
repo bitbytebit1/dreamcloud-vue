@@ -1,58 +1,58 @@
 <template>
-  <v-flex xs12 class="mr-3 mt-2" :key="String(trackID)">
-    <v-data-iterator
-      content-tag="v-layout"
-      row
-      wrap
-      :items="aComments"
-      hide-actions
-      no-data-text=""
-    >
-      <v-flex
-        slot="item"
-        slot-scope="props"
-        xs12
-      >
-        <v-card>
-          <v-container fluid grid-list-lg>
-            <v-layout row>
-              <v-flex xs2 sm1>
-                <v-card-media
-                  contain
-                >
-                  <router-link class="body-1 grey--text noDeco" :to="{name: 'artist', params: {source: source, artist: props.item.artist, artistID: props.item.artistID}}">
-                    <v-avatar
-                      size="40"
-                      color="grey lighten-4"
-                    >
-                      <img :src="props.item.artistIMG" alt="avatar">
-                    </v-avatar>
-                  </router-link>
-                </v-card-media>
-              </v-flex>
-              <v-flex xs10 sm11>
-                <div>
-                  <div class="body-1 grey--text">
-                    <router-link class="body-1 grey--text noDeco" :to="{name: 'artist', params: {source: source, artist: props.item.artist, artistID: props.item.artistID}}">
-                      <strong>{{props.item.artist}}</strong> 
-                    </router-link>
-                    <span>{{' ' + $DCAPI.calcDate('', props.item.commentCreated)}}</span></div>
-                  <div class="subheading preline" v-html="timeToSeconds(props.item.comment)"></div>
-                </div>
-              </v-flex>
-            </v-layout>
-          </v-container>
-        </v-card>
-        <v-divider v-if="props.index !== aComments.length -1"></v-divider>
-      </v-flex>
-      <v-flex slot="footer" v-if="aComments.length && $DCAPI.YTCommentNext">
-        <v-btn :loading="bLoading" small block color="transparent" @click="getMore">
-          SHOW MORE
-        </v-btn>
-      </v-flex>
+	<v-flex xs12 class="mr-3 mt-2" :key="String(trackID)">
+		<v-data-iterator
+			content-tag="v-layout"
+			row
+			wrap
+			:items="aComments"
+			hide-actions
+			no-data-text=""
+		>
+			<v-flex
+				slot="item"
+				slot-scope="props"
+				xs12
+			>
+				<v-card>
+					<v-container fluid grid-list-lg>
+						<v-layout row>
+							<v-flex xs2 sm1>
+								<v-card-media
+									contain
+								>
+									<router-link class="body-1 grey--text noDeco" :to="{name: 'artist', params: {source: source, artist: props.item.artist, artistID: props.item.artistID}}">
+										<v-avatar
+											size="40"
+											color="grey lighten-4"
+										>
+											<img :src="props.item.artistIMG" alt="avatar">
+										</v-avatar>
+									</router-link>
+								</v-card-media>
+							</v-flex>
+							<v-flex xs10 sm11>
+								<div>
+									<div class="body-1 grey--text">
+										<router-link class="body-1 grey--text noDeco" :to="{name: 'artist', params: {source: source, artist: props.item.artist, artistID: props.item.artistID}}">
+											<strong>{{props.item.artist}}</strong> 
+										</router-link>
+									<span>{{' ' + $DCAPI.calcDate('', props.item.commentCreated)}}</span></div>
+									<div class="subheading preline" v-html="timeToSeconds(props.item.comment)"></div>
+								</div>
+							</v-flex>
+						</v-layout>
+					</v-container>
+				</v-card>
+				<v-divider v-if="props.index !== aComments.length -1"></v-divider>
+			</v-flex>
+			<v-flex slot="footer" v-if="aComments.length && $DCAPI.YTCommentNext">
+				<v-btn :loading="bLoading" small block color="transparent" @click="getMore">
+					SHOW MORE
+				</v-btn>
+			</v-flex>
 
-    </v-data-iterator>
-  </v-flex>
+		</v-data-iterator>
+	</v-flex>
 </template>
 <script>
 /* eslint-disable */
@@ -119,7 +119,5 @@ export default {
 </script>
 
 <style>
-.preline{
-  white-space: pre-line;
-}
+
 </style>

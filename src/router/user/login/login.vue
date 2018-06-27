@@ -1,58 +1,58 @@
 <template>
-  <v-container fluid>
-    <v-layout row wrap justify-center align-center>
-      <v-flex xs12 lg5 flexbox>
-        <v-flex xs12>
-          <h3>Sign in with</h3>
-        </v-flex>
-        <v-flex xs10 offset-xs1 offset-lg2 lg8>
-          <form target="remember" method="post" action="/content/blank" v-if="bShowInput">
-            <v-text-field
-              label="Email"
-              single-line
-              v-model="email"
-              autocomplete="on"
-              v-on:keyup.enter="signIn"
-            ></v-text-field>  
-            <v-text-field
-              label="Password"
-              single-line
-              v-model="password" 
-              autocomplete="on"
-              v-on:keyup.enter="signIn"
-              type="password"
-            ></v-text-field>
-            <h4>Don't have an account yet? You can create one <router-link to="/sign-up">here</router-link>.</h4>
-            <h4><router-link to="/password-reset">Forgot your password?</router-link></h4>
-            <br />
-          </form>
-        </v-flex>
-        <div class="text-xs-center">
-          <v-btn :loading="loading3" :disabled="loading3" round class="red" dark @click.prevent="signInGoogle">Google
-            <v-icon right dark>lock</v-icon>
-          </v-btn>
-        </div>
-        <div class="text-xs-center">
-            <v-btn color="primary white--text" :loading="loading1" :disabled="loading1" round type="submit" v-on:click="emailSignInClick">
-              Email
-              <v-icon right dark>lock</v-icon>
-            </v-btn>
-        </div>
-        <!-- <div class="text-xs-center">
+	<v-container fluid>
+		<v-layout row wrap justify-center align-center>
+			<v-flex xs12 lg5 flexbox>
+				<v-flex xs12>
+					<h3>Sign in with</h3>
+				</v-flex>
+				<v-flex xs10 offset-xs1 offset-lg2 lg8>
+					<form target="remember" method="post" action="/content/blank" v-if="bShowInput">
+						<v-text-field
+							label="Email"
+							single-line
+							v-model="email"
+							autocomplete="on"
+							v-on:keyup.enter="signIn"
+						></v-text-field>  
+						<v-text-field
+							label="Password"
+							single-line
+							v-model="password" 
+							autocomplete="on"
+							v-on:keyup.enter="signIn"
+							type="password"
+						></v-text-field>
+						<h4>Don't have an account yet? You can create one <router-link to="/sign-up">here</router-link>.</h4>
+						<h4><router-link to="/password-reset">Forgot your password?</router-link></h4>
+						<br />
+					</form>
+				</v-flex>
+				<div class="text-xs-center">
+					<v-btn :loading="loading3" :disabled="loading3" round class="red" dark @click.prevent="signInGoogle">Google
+						<v-icon right dark>lock</v-icon>
+					</v-btn>
+				</div>
+				<div class="text-xs-center">
+					<v-btn color="primary white--text" :loading="loading1" :disabled="loading1" round type="submit" v-on:click="emailSignInClick">
+						Email
+						<v-icon right dark>lock</v-icon>
+					</v-btn>
+				</div>
+				<!-- <div class="text-xs-center">
           <v-btn :loading="loading4" :disabled="loading4" round class="blue darken-4" dark @click.prevent="signInFB">Facebook
             <v-icon right dark>lock</v-icon>
           </v-btn>
         </div> -->
-        <div class="text-xs-center">
-          <v-btn :loading="loading2" :disabled="loading2" round class="grey darken-4" dark @click.prevent="signInGitHub">GitHub
-            <v-icon right dark>lock</v-icon>
-          </v-btn>
-        </div>
+				<div class="text-xs-center">
+					<v-btn :loading="loading2" :disabled="loading2" round class="grey darken-4" dark @click.prevent="signInGitHub">GitHub
+						<v-icon right dark>lock</v-icon>
+					</v-btn>
+				</div>
 
-        <iframe id="remember" name="remember" class="hidden" src=""></iframe>
-      </v-flex>
-    </v-layout>
-  </v-container>
+				<iframe id="remember" name="remember" class="hidden" src=""></iframe>
+			</v-flex>
+		</v-layout>
+	</v-container>
 </template>
 
 <script>
@@ -78,19 +78,39 @@
       },
       signIn () {
         this.loading1 = true
-        this.$DCFB.fb.auth().signInWithEmailAndPassword(this.email, this.password).then(
-          user => {
+        // (Anonymous user is signed in at this point.)
+
+        // 1. Create the email and password credential, to upgrade the anonymous user.
+
+        var credential = this.$DCFB.fb.auth.EmailAuthProvider.credential(this.email, this.password)
+
+        // 2. Links the credential to the currently signed in user
+        // (the anonymous user).
+        this.$DCFB.fb.auth().currentUser.linkWithCredential(credential).then((user) => {
+          console.log("Anonymous account successfully upgraded", user)
             this.$store.commit('authChange', true)
             this.$DCFB.init(user.uid)
             this.loading1 = false
             this.$router.replace('home')
-          },
-          err => {
-            this.$store.commit('authChange', false)
-            alert('Oops. ' + err.message)
-            this.loading1 = false
-          }
-        )
+        }, (error) => {
+          console.log("Error upgrading anonymous account", error)
+          this.$store.commit('authChange', false)
+          alert('Error upgrading anonymous account. ' + error)
+          this.loading1 = false
+        })
+        // this.$DCFB.fb.auth().signInWithEmailAndPassword(this.email, this.password).then(
+        //   user => {
+        //     this.$store.commit('authChange', true)
+        //     this.$DCFB.init(user.uid)
+        //     this.loading1 = false
+        //     this.$router.replace('home')
+        //   },
+        //   err => {
+        //     this.$store.commit('authChange', false)
+        //     alert('Error upgrading anonymous account. ' + err)
+        //     this.loading1 = false
+        //   }
+        // )
       },
       signInGitHub () {
         this.loading2 = true
@@ -129,22 +149,33 @@
           )
       },
       signInGoogle () {
+        const func = () => {
+          this.$DCFB.fb.auth().signInWithPopup(new this.$DCFB.fbb.auth.GoogleAuthProvider())
+            .then(
+              user => {
+                this.$DCFB.init(user.uid)
+                this.$store.commit('authChange', true)
+                this.loading3 = false
+                this.$router.replace('home')
+              }
+            )
+            .catch(
+              err => {
+                alert('Oops. ' + err.message)
+                this.loading3 = false
+              }
+            )
+        }
         this.loading3 = true
-        this.$DCFB.fb.auth().signInWithPopup(new this.$DCFB.fbb.auth.GoogleAuthProvider())
-          .then(
-            user => {
-              this.$store.commit('authChange', true)
-              this.$DCFB.init(user.uid)
-              this.loading3 = false
-              this.$router.replace('home')
-            }
-          )
-          .catch(
-            err => {
-              alert('Oops. ' + err.message)
-              this.loading3 = false
-            }
-          )
+        if (this.$store.getters.isAnon) {
+          console.log('Logging in with Gmail but already anon')
+          this.$store.commit('authChange', false)
+          this.$nextTick(() => {
+            this.$DCFB.fb.auth().signOut().then(func)
+          })
+        } else {
+          func()
+        }
       }
     }
   }

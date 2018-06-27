@@ -1,21 +1,21 @@
 <template>
-  <v-container fluid>
-    <v-layout row wrap justify-center align-center>
-      <v-flex xs12 sm12 lg12 flexbox>
-        <h3>Reset your password</h3>
-      </v-flex>
-      <br />
-      <v-flex xs12 sm6 lg4 flexbox>
-        <v-text-field required label="Email Address" v-model="email" :rules="[() =>  validateEmail() || 'Please enter a valid email']" validate-on-blur></v-text-field>
-        <v-btn @click.prevent="reset">
-          Reset
-        </v-btn>
-        <v-alert :color="alertColor" icon="check_circle" v-model="alertShow">
-          {{alertMsg}}
-        </v-alert>        
-      </v-flex>
-    </v-layout>
-  </v-container>
+	<v-container fluid>
+		<v-layout row wrap justify-center align-center>
+			<v-flex xs12 sm12 lg12 flexbox>
+				<h3>Reset your password</h3>
+			</v-flex>
+			<br />
+			<v-flex xs12 sm6 lg4 flexbox>
+				<v-text-field required label="Email Address" v-model="email" :rules="[() =>  validateEmail() || 'Please enter a valid email']" validate-on-blur></v-text-field>
+				<v-btn @click.prevent="reset">
+					Reset
+				</v-btn>
+				<v-alert :color="alertColor" icon="check_circle" v-model="alertShow">
+					{{alertMsg}}
+				</v-alert>        
+			</v-flex>
+		</v-layout>
+	</v-container>
 </template>
 
 <script>

@@ -1,35 +1,34 @@
 <template>
-    <v-dialog dark v-model="menuOpen" max-width="500px">
-    <v-btn slot="activator" class="ml-2" :disabled="disabled" :color='btnCol' icon @click.stop="openMenu" >
-      <v-icon>playlist_add</v-icon>
-    </v-btn>
+	<v-dialog dark v-model="menuOpen" max-width="500px">
+		<v-btn slot="activator" class="ml-2" :disabled="disabled" :color='btnCol' icon @click.stop="openMenu" >
+			<v-icon>playlist_add</v-icon>
+		</v-btn>
 
-      <v-card>
-        <v-card-actions>
-          <v-autocomplete
-            :items="items"
-            return-object
-            item-text="name"
-            item-value="key"
-            :search-input.sync="search"
-            v-model="select"
-            v-on:keyup.enter='enter'
-            no-data-text="Create new playlist"
-            label="Playlist name"
-            color="primary"
-            ref="auto"
-            append-icon=""
-            single-line
-            hide-no-data
-            combobox
-          >
-            <template slot="item" slot-scope="data">
-              <v-list-tile-content @click="clicked(data.item)" v-text="data.item.name"></v-list-tile-content>
-            </template>
-          </v-autocomplete>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+		<v-card>
+			<v-card-actions>
+				<v-autocomplete
+					:items="items"
+					return-object
+					item-text="name"
+					item-value="key"
+					:search-input.sync="search"
+					v-model="select"
+					v-on:keyup.enter='enter'
+					no-data-text="Create new playlist"
+					label="Playlist name"
+					color="primary"
+					ref="auto"
+					append-icon=""
+					single-line
+					hide-no-data
+				>
+					<template slot="item" slot-scope="data">
+						<v-list-tile-content @click="clicked(data.item)" v-text="data.item.name"></v-list-tile-content>
+					</template>
+				</v-autocomplete>
+			</v-card-actions>
+		</v-card>
+	</v-dialog>
 </template>
 <script>
 // /* eslint-disable */
@@ -54,13 +53,11 @@ export default {
       this.emit(this.select)
     },
     emit (v) {
-      if (typeof v === 'string'){
-        this.$DCFB.createNewPlaylist(v, this.song, this.song.length)
-      }
       if (typeof v === 'object'){
-        console.log('add',v['.key'], this.song.length)
         this.$DCFB.playlistSongAdd(v['.key'], this.song)
-      }
+      } else {
+				this.$DCFB.createNewPlaylist(this.search, this.song)
+			}
       this.btnFeedback()
     },
     openMenu () {

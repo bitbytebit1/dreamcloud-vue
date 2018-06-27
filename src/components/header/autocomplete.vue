@@ -1,22 +1,21 @@
 <template>
-  <v-autocomplete
-    :loading="loading"
-    :items="items"
-    :search-input.sync="search"
-    v-model="select"
-    v-on:keyup.enter='enter'
-    color="primary"
-    label="Dream"
-    style="width:200px"
-    append-icon=""
-    single-line
-    hide-no-data
-    combobox
-  >
-    <template slot="item" slot-scope="data">
-      <v-list-tile-content @click="clicked(data.item)" v-text="data.item"></v-list-tile-content>
-    </template>
-  </v-autocomplete>
+	<v-autocomplete
+		v-on:keyup.enter='enter'
+		:loading="loading"
+		:items="items"
+		:search-input.sync="search"
+		v-model="select"
+		color="primary"
+		label="Dream"
+		append-icon=""
+		single-line
+		hide-no-data
+		class="mt-2"
+	>
+		<template slot="item" slot-scope="data">
+			<v-list-tile-content @click="clicked(data.item)" v-text="data.item"></v-list-tile-content>
+		</template>
+	</v-autocomplete>
 </template>
 <script>
 export default {
@@ -25,7 +24,7 @@ export default {
     return {
       loading: false,
       items: [],
-      search: null,
+      search: '',
       select: ''
     }
   },
@@ -39,6 +38,7 @@ export default {
       this.emit(v)
     },
     enter () {
+      // console.log('enter', this.search, this.select)
       this.emit(this.search)
     },
     emit (v) {

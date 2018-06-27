@@ -1,9 +1,9 @@
 <template>
-  <v-flex xs12 lg10>
-    <!-- <loading :show="loading" spinner="waveDots"></loading> -->
+	<v-flex xs12 lg10>
+		<!-- <loading :show="loading" spinner="waveDots"></loading> -->
 
-    <subscription v-for="sub in subscriptions" :index="sub['id']" :key="sub['id']" :id="sub['id']" :name="sub['name']" :source="sub['source']" :img="sub['img']"></subscription>
-  </v-flex>
+		<subscription v-for="sub in subscriptions" :index="sub['id']" :key="sub['id']" :id="sub['id']" :name="sub['name']" :source="sub['source']" :img="sub['img']"></subscription>
+	</v-flex>
 </template>
 <script>
 /* eslint-disable */

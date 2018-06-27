@@ -1,8 +1,8 @@
 <template>
-  <v-flex xs12 lg10 flexbox :key="$route.params.playlist">
-    <loading v-if="!auth_state || !aSongs.length"></loading>
-    <playlist v-else sortBy="uploaded" :showUploaded="!0" :songs="aSongs" rowsPerPage="84"></playlist>
-  </v-flex>
+	<v-flex xs12 lg10 flexbox :key="$route.params.playlist">
+		<loading v-if="!auth_state || !aSongs.length"></loading>
+		<playlist v-else sortBy="uploaded" :showUploaded="!0" :songs="aSongs" rowsPerPage="84"></playlist>
+	</v-flex>
 </template>
 <script>
 import loading from '@/components/misc/loading'

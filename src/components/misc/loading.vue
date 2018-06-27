@@ -1,15 +1,27 @@
 <template>
-  <v-flex justify-center align-center class="loading-flex mt-3">
-    <div class="half-circle-spinner">
-      <div class="circle circle-1"></div>
-      <div class="circle circle-2"></div>
-    </div>
-  </v-flex>
+	<v-flex justify-center align-center class="loading-flex mt-3">
+		<div class="half-circle-spinner">
+			<div class="circle circle-1" :style="circle1Style"></div>
+			<div class="circle circle-2" :style="circle2Style"></div>
+		</div>
+	</v-flex>
 </template>
 
 <script>
 export default {
-  name: 'loading'
+  name: 'loading',
+  computed: {
+    circle1Style () {
+      return Object.assign({
+        borderTopColor: this.$vuetify.theme.primary
+      }, this.circleStyle)
+    },
+    circle2Style () {
+      return Object.assign({
+        borderBottomColor: this.$vuetify.theme.primary
+      }, this.circleStyle)
+    }
+  }
 }
 </script>
 
@@ -17,7 +29,8 @@ export default {
 .loading-flex{
   display:flex;
 }
-.half-circle-spinner, .half-circle-spinner * {tealbox-sizing: border-box;
+.half-circle-spinner, .half-circle-spinner * {
+  box-sizing: border-box;
 }
 
 .half-circle-spinner {

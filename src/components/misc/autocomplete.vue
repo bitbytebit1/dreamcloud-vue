@@ -1,20 +1,20 @@
 <template>
-  <v-select
-    class="vselect pt-4"
-    label="Dream"
-    autocomplete
-    :loading="loading"
-    :items="items"
-    :search-input.sync="search"
-    v-model="select"
-    v-on:keyup.enter='onEnter'
-    append-icon
-    single-line
-  >
-    <template slot="item" slot-scope="data">
-      <v-list-tile-content @click="_emit(data.item)" v-text="data.item"></v-list-tile-content>
-    </template>
-  </v-select>
+	<v-select
+		class="vselect pt-4"
+		label="Dream"
+		autocomplete
+		:loading="loading"
+		:items="items"
+		:search-input.sync="search"
+		v-model="select"
+		v-on:keyup.enter='onEnter'
+		append-icon
+		single-line
+	>
+		<template slot="item" slot-scope="data">
+			<v-list-tile-content @click="_emit(data.item)" v-text="data.item"></v-list-tile-content>
+		</template>
+	</v-select>
 </template>
 <script>
 export default {

@@ -1,11 +1,11 @@
 <template>
-  <v-flex xs12 lg10 xl10 flexbox>
-    <loading v-if="loading"></loading>
-    <playlist :showUploaded="!0" v-if="!loading" rowsPerPage='50' :songs="searchResults"></playlist>  
-    <infinite-loading :distance="210" ref="infiniteLoading" v-if="!loading" @infinite="infiniteHandler" spinner="waveDots">    
-      <span slot="no-more"></span>
-    </infinite-loading>
-  </v-flex>
+	<v-flex xs12 lg10 xl10 flexbox>
+		<loading v-if="loading"></loading>
+		<playlist :showUploaded="!0" v-if="!loading" rowsPerPage='50' :songs="searchResults"></playlist>  
+		<infinite-loading :distance="210" ref="infiniteLoading" v-if="!loading" @infinite="infiniteHandler" spinner="waveDots">    
+			<span slot="no-more"></span>
+		</infinite-loading>
+	</v-flex>
 </template>
 
 <script>

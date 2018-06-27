@@ -1,21 +1,21 @@
 <template>
-  <v-flex xs3 lg1 align-center class="mt-3">
-    <!-- Left column -->
-    <v-flex xs12 >
-      <!-- Avatar -->
-      <router-link :to="{name: 'artist', params: {source: source, artist: artist, artistID: artistID}}">
-        <v-flex xs12>
-          <v-avatar class="pointer" size='55px' slot='activator'>
-            <img :src='info.img' class='img-fluid' style='display:inline-block;'/>
-          </v-avatar>
-        </v-flex>
-      </router-link>
-      <!-- Subscribe Button -->
-      <v-flex xl12 class="mt-2">
-        <subscribe-button v-if="$store.getters.auth_state" :artistID="artistID" :source="source" :artist="artist" :img="info.img"></subscribe-button>
-      </v-flex>
-    </v-flex>
-  </v-flex>
+	<v-flex xs3 lg1 align-center class="mt-3">
+		<!-- Left column -->
+		<v-flex xs12 >
+			<!-- Avatar -->
+			<router-link :to="{name: 'artist', params: {source: source, artist: artist, artistID: artistID}}">
+				<v-flex xs12>
+					<v-avatar class="pointer" size='55px' slot='activator'>
+						<img :src='info.img' class='img-fluid' style='display:inline-block;'/>
+					</v-avatar>
+				</v-flex>
+			</router-link>
+			<!-- Subscribe Button -->
+			<v-flex xl12 class="mt-2">
+				<subscribe-button v-if="$store.getters.auth_state" :artistID="artistID" :source="source" :artist="artist" :img="info.img"></subscribe-button>
+			</v-flex>
+		</v-flex>
+	</v-flex>
 </template>
 <script>
 import subscribeButton from '@/components/misc/subscribe-button'
@@ -63,7 +63,7 @@ export default {
       } else if (this.source.toLowerCase().indexOf('soundcloud') > -1) {
         this.info.created = ''
         this.info.description = ''
-        this.info.img = response.data.avatar_url
+        this.info.img = response.data.avatar_url.replace('large', 't500x500')
         this.info.followers_count = response.data.followers_count
         this.info.last_modified = response.data.last_modified
         this.info.title = response.data.username

@@ -1,14 +1,14 @@
 <template>
-  <!-- <div > -->
-    <transition name="bounce" 
-      v-on:enter="afterEnter"
-    >
-      <!-- <v-btn  > -->
-        <!-- v-if="show" -->
-        <v-icon id="img-play" class="" size="150px" icon >play_arrow</v-icon>
-      <!-- </v-btn> -->
-    </transition>
-  <!-- </div> -->
+	<!-- <div > -->
+	<transition name="bounce" 
+		v-on:enter="afterEnter"
+	>
+		<!-- <v-btn  > -->
+		<!-- v-if="show" -->
+		<v-icon id="img-play" class="" size="150px" icon >play_arrow</v-icon>
+		<!-- </v-btn> -->
+	</transition>
+	<!-- </div> -->
 </template>
 <script>
 /* eslint-disable */

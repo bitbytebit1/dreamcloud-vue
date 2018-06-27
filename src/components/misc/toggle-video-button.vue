@@ -1,7 +1,7 @@
 <template>
-    <v-btn icon v-show="$store.getters.isYT" :disabled="!$store.getters.isYT" @click.stop="clicked" class="ma-0 pa-0" fab small>
-      <v-icon :color="color">ondemand_video</v-icon>
-    </v-btn>
+	<v-btn icon v-show="$store.getters.isYT" :disabled="!$store.getters.isYT" @click.stop="clicked" class="ma-0 pa-0" fab small>
+		<v-icon :color="color">ondemand_video</v-icon>
+	</v-btn>
 </template>
 <script>
 export default {
@@ -42,8 +42,8 @@ export default {
         }, 1500)
       } else {
         this.$store.commit('ytStopVideo')
-        this.$DCPlayer.playIndex(this.$DCPlayer.iCurrent).then((dat) => {
-          console.log('dc setting current time', dur)
+        this.$DCPlayer.playIndex(this.$DCPlayer.iCurrent).then(() => {
+          // console.log('dc setting current time', dur)
           this.$DCPlayer.eAudio.currentTime = dur
           if (!isPlay) {
             // console.log('dc pausing')

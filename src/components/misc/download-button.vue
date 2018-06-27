@@ -1,7 +1,7 @@
 <template>
-  <v-btn :color="color" :disabled="dis" @click.stop="download" icon>
-    <v-icon :color="color ==='green' ? 'white': ''">file_download</v-icon>
-  </v-btn>
+	<v-btn :color="color" :disabled="dis" @click.stop="download" icon>
+		<v-icon :color="color ==='green' ? 'white': ''">file_download</v-icon>
+	</v-btn>
 </template>
 <script>
 export default {

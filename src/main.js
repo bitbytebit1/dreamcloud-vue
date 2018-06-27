@@ -61,6 +61,11 @@
 
   import './registerServiceWorker'
 
+  Vue.use(Vuetify, {
+    theme: {
+      primary: '#009688', // #E53935
+    }
+  })
   
   new Vue({
     router,

@@ -1,7 +1,7 @@
 <template>
-  <v-flex>
-    <div id="stg-desc">{{ x1 }}</div>
-  </v-flex>
+	<v-flex>
+		<div id="preline">{{ x1 }}</div>
+	</v-flex>
 </template>
 <script>
 /* eslint-disable */
@@ -117,7 +117,4 @@ I HAVE READ THIS AGREEMENT AND AGREE TO ALL OF THE PROVISIONS CONTAINED ABOVE.`
 </script>
 
 <style>
-#stg-dsc{
-  white-space: pre-line;
-}
 </style>

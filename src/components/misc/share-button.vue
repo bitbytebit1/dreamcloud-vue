@@ -1,7 +1,7 @@
 <template>
-  <v-btn :color="color" icon @click.stop="share">
-    <v-icon>share</v-icon>
-  </v-btn>
+	<v-btn :color="color" icon @click.stop="share">
+		<v-icon>share</v-icon>
+	</v-btn>
 </template>
 <script>
 // /* eslint-disable */

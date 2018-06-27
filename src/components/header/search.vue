@@ -1,8 +1,9 @@
 <template>
-<span>
-  <v-toolbar-items>
-    <autocomplete @search="search($event)"></autocomplete>
-    <!-- <v-text-field 
+	<v-toolbar-items>
+		<!-- <v-toolbar-title class="mt-2"> -->
+		<autocomplete @search="search($event)"></autocomplete>
+		<!-- </v-toolbar-title> -->
+		<!-- <v-text-field 
       style="max-height: 12px;"
       v-on:keyup.enter='search' 
       v-model='sQuery'
@@ -11,67 +12,72 @@
       single-line
     >
     </v-text-field> -->
-      <v-btn icon ><v-icon>cloud_circle</v-icon></v-btn>
-    <v-menu
-      style="top:15px"
-      :close-on-content-click="false"
-      :nudge-bottom="25"
-      open-on-hover
-    >
-      <v-card>
-        <v-list>
-          <v-list-tile>
-            <!-- <img src='../img/All.png'> -->
-            <v-list-tile-action>
-              <v-switch v-model="aSources.All" color="primary"></v-switch>
-            </v-list-tile-action>
-            <v-list-tile-title>All</v-list-tile-title>
-          </v-list-tile>
+    
+		<v-menu
+			:close-on-content-click="false"
+			:nudge-bottom="25"
+			open-on-hover
+		>
+			<v-toolbar-title slot="activator">
+				<v-btn icon slot="activator">
+					<v-icon>
+						cloud_circle
+					</v-icon>
+				</v-btn>
+			</v-toolbar-title>
+			<v-card>
+				<v-list>
+					<v-list-tile>
+						<!-- <img src='../img/All.png'> -->
+						<v-list-tile-action>
+							<v-switch v-model="aSources.All" color="primary"></v-switch>
+						</v-list-tile-action>
+						<v-list-tile-title>All</v-list-tile-title>
+					</v-list-tile>
 
-          <!-- <v-list-tile> -->
-            <!-- <img src='../img/bc.png'> -->
-            <!-- <v-list-tile-action>
+					<!-- <v-list-tile> -->
+					<!-- <img src='../img/bc.png'> -->
+					<!-- <v-list-tile-action>
               <v-switch v-model="aSources.Bandcamp" color="primary"></v-switch>
             </v-list-tile-action>
             <v-list-tile-title>Bandcamp</v-list-tile-title>
           </v-list-tile>
            -->
-          <v-list-tile>
-            <!-- <img src='../img/mc.png'> -->
-            <v-list-tile-action>
-              <v-switch v-model="aSources.MixCloud" color="primary"></v-switch>
-            </v-list-tile-action>
-            <v-list-tile-title>Mixcloud</v-list-tile-title>
-          </v-list-tile>
+					<v-list-tile>
+						<!-- <img src='../img/mc.png'> -->
+						<v-list-tile-action>
+							<v-switch v-model="aSources.MixCloud" color="primary"></v-switch>
+						</v-list-tile-action>
+						<v-list-tile-title>Mixcloud</v-list-tile-title>
+					</v-list-tile>
           
-          <v-list-tile>
-            <!-- <img src='../img/sc.png'> -->
-            <v-list-tile-action>
-              <v-switch v-model="aSources.SoundCloud" color="primary"></v-switch>
-            </v-list-tile-action>
-            <v-list-tile-title>SoundCloud</v-list-tile-title>
-          </v-list-tile>
+					<v-list-tile>
+						<!-- <img src='../img/sc.png'> -->
+						<v-list-tile-action>
+							<v-switch v-model="aSources.SoundCloud" color="primary"></v-switch>
+						</v-list-tile-action>
+						<v-list-tile-title>SoundCloud</v-list-tile-title>
+					</v-list-tile>
 
-          <v-list-tile>
-            <!-- <img src='../img/yt.png'> -->
-            <v-list-tile-action>
-              <v-switch v-model="aSources.YouTube" color="primary"></v-switch>
-            </v-list-tile-action>
-            <v-list-tile-title>YouTube</v-list-tile-title>
-          </v-list-tile>
+					<v-list-tile>
+						<!-- <img src='../img/yt.png'> -->
+						<v-list-tile-action>
+							<v-switch v-model="aSources.YouTube" color="primary"></v-switch>
+						</v-list-tile-action>
+						<v-list-tile-title>YouTube</v-list-tile-title>
+					</v-list-tile>
 
-          <v-list-tile>
-            <!-- <img src='../img/vm.png'> -->
-            <v-list-tile-action>
-              <v-switch v-model="aSources.Vimeo" color="primary"></v-switch>
-            </v-list-tile-action>
-            <v-list-tile-title>Vimeo</v-list-tile-title>
-          </v-list-tile>
-        </v-list>
-      </v-card>
-    </v-menu>    
-  </v-toolbar-items>
-  </span>
+					<v-list-tile>
+						<!-- <img src='../img/vm.png'> -->
+						<v-list-tile-action>
+							<v-switch v-model="aSources.Vimeo" color="primary"></v-switch>
+						</v-list-tile-action>
+						<v-list-tile-title>Vimeo</v-list-tile-title>
+					</v-list-tile>
+				</v-list>
+			</v-card>
+		</v-menu>    
+	</v-toolbar-items>
 </template>
 
 <script>

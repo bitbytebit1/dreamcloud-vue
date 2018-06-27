@@ -1,34 +1,34 @@
 <template>
-  <!-- <v-container grid-list-sm> -->
-    <v-layout xs12 row wrap>
-      <transition-group name="slide-fade">
-        <current-playlist-item
-        v-for="(song, index) in aPlaylist"
-        :song="song"
-        :index="index"
-        :key="song.trackID + (index + $store.getters.index)"
-        ></current-playlist-item>
-        <!-- <current-playlist-item
+	<!-- <v-container grid-list-sm> -->
+	<v-layout xs12 row wrap>
+		<transition-group name="slide-fade">
+			<current-playlist-item
+				v-for="(song, index) in aPlaylist"
+				:song="song"
+				:index="index"
+				:key="song.trackID + (index + $store.getters.index)"
+			></current-playlist-item>
+			<!-- <current-playlist-item
         :song="$store.getters.current_song"
         :index="$store.getters.current_Index"
         :key="$store.getters.current_song.trackID"
         ></current-playlist-item> -->
-      </transition-group>
-      <infinite-loading v-if="aPlaylist.length" class="flex xs12" ref="infiniteLoading2"  @infinite="infiniteHandler" spinner="default" :distance="600">
-        <span slot="no-results">
-          End of the line kiddo
-        </span>
-        <span slot="no-more">
-          End of the line kiddo
-        </span>
-        <span slot="spinner">
-          <v-flex class="text-xs-center">
-            <v-progress-circular indeterminate color="primary"></v-progress-circular>
-          </v-flex>
-        </span>
-      </infinite-loading>
-    </v-layout>
-  <!-- </v-container> -->
+		</transition-group>
+		<infinite-loading v-if="aPlaylist.length" class="flex xs12" ref="infiniteLoading2"  @infinite="infiniteHandler" spinner="default" :distance="600">
+			<span slot="no-results">
+				End of the line kiddo
+			</span>
+			<span slot="no-more">
+				End of the line kiddo
+			</span>
+			<span slot="spinner">
+				<v-flex class="text-xs-center">
+					<v-progress-circular indeterminate color="primary"></v-progress-circular>
+				</v-flex>
+			</span>
+		</infinite-loading>
+	</v-layout>
+	<!-- </v-container> -->
 </template>
 
 <script>

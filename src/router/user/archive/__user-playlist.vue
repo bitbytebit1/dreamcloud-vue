@@ -1,8 +1,8 @@
 <template>
-  <div>
-    <h1>/u/{{user}}/{{playlist}}</h1>
-    <playlist :songs="aSongs"></playlist>
-  </div>
+	<div>
+		<h1>/u/{{user}}/{{playlist}}</h1>
+		<playlist :songs="aSongs"></playlist>
+	</div>
 </template>
 <script>
 export default {

@@ -1,6 +1,6 @@
 <template>
-    <v-btn small v-if="subscribed.length" @click="unsubscribe"  class="ma-0 pa-0" color="primary white--text">Subscribed</v-btn>
-    <v-btn v-else small @click="subscribe"  class="ma-0 pa-0">Subscribe</v-btn>
+	<v-btn small v-if="subscribed.length" @click="unsubscribe"  class="ma-0 pa-0" color="primary white--text">Subscribed</v-btn>
+	<v-btn v-else small @click="subscribe"  class="ma-0 pa-0">Subscribe</v-btn>
 </template>
 <script>
 export default {

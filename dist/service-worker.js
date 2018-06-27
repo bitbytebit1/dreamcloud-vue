@@ -11,10 +11,10 @@
  * See https://goo.gl/2aRDsh
  */
 
-importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.2.0/workbox-sw.js");
+importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.3.0/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.be5caed643859227e3b887bc186a845f.js"
+  "/precache-manifest.a5f2dc8659a5ba7a210634eacb71bc5c.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "dreamcloud"});

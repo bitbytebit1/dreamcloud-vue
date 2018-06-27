@@ -1,11 +1,11 @@
 <template>
-  <v-flex xs12 lg10 flexbox :key="$route.params.playlist">
-    <!-- <loading v-if="!auth_state || !allSongs.length"></loading> -->
-    <loading v-if="!auth_state || aPlaylists.length === 0"></loading>
+	<v-flex xs12 lg10 flexbox :key="$route.params.playlist">
+		<!-- <loading v-if="!auth_state || !allSongs.length"></loading> -->
+		<loading v-if="!auth_state || aPlaylists.length === 0"></loading>
     
-    <playlist v-else :songs="aPlaylists" :showUploaded="!0" sortBy="uploaded" rowsPerPage="84"></playlist>
+		<playlist v-else :songs="aPlaylists" :showUploaded="!0" sortBy="uploaded" rowsPerPage="84"></playlist>
 
-  </v-flex>
+	</v-flex>
 </template>
 <script>
 import loading from '@/components/misc/loading'

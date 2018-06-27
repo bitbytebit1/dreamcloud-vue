@@ -1,8 +1,8 @@
 <template>
-  <v-flex xs12 :lg10="viewSmall" :lg12="!viewSmall">
-    <loading v-if="!auth_state || !aRecommended.length"></loading>
-    <playlist v-else :rowsPerPage='rowsPerPage' :showUploaded="true" :full="viewSmall" :gridView="true" :songs="aRecommended"></playlist>
-  </v-flex>
+	<v-flex xs12 :lg10="viewSmall" :lg12="!viewSmall">
+		<loading v-if="!auth_state || !aRecommended.length"></loading>
+		<playlist v-else :rowsPerPage='rowsPerPage' :showUploaded="true" :full="viewSmall" :gridView="true" :songs="aRecommended"></playlist>
+	</v-flex>
 </template>
 <script>
 import axios from 'axios'
@@ -58,10 +58,7 @@ export default {
         aAjax.push(this.$DCAPI.searchInt('', 0, [aRecommended[i].source], aRecommended[i].trackID, (d) => {
           if (aRecommended.some((el => d[0] === el))){
             d.shift() // remove first from res if duplicate
-            // console.log('removing dupe')
           }
-          // if (d.length > 1 && d[0].trackID === aRecommended[i].trackID) {
-          // }
           this.aRecommended.push(d[0])
           this.aRecommended.push(d[1])
         }, true, 3))

@@ -1,68 +1,67 @@
 <template>
-    <v-flex xs12 lg4 class="mt-3">
-      <!-- Loading -->
-      <v-flex 
-        xs2
-        offset-xs5
-        lg2 
-        offset-lg5
-        v-if="loading"
-      >
-        <div class="orbit-spinner">
-          <div class="orbit"></div>
-          <div class="orbit"></div>
-          <div class="orbit"></div>
-        </div>
-      </v-flex>
-      <!-- v-data-iterator -->
-      <v-data-iterator
-        hide-actions
-        content-tag='v-layout'
-        row
-        wrap
-        :items='items'
-        :rows-per-page-items='rowsPerPageItems'
-        :pagination.sync='pagination'
-        :id='String(song.trackID)'
-      >
-        <!-- blank no data -->
-        <v-flex slot="no-data"></v-flex>
+	<v-flex xs12 lg4 class="mt-3">
+		<!-- Loading -->
+		<v-flex 
+			xs2
+			offset-xs5
+			lg2 
+			offset-lg5
+			v-if="loading"
+		>
+			<div class="orbit-spinner">
+				<div class="orbit"></div>
+				<div class="orbit"></div>
+				<div class="orbit"></div>
+			</div>
+		</v-flex>
+		<!-- v-data-iterator -->
+		<v-data-iterator
+			hide-actions
+			content-tag='v-layout'
+			row
+			wrap
+			:items='items'
+			:rows-per-page-items='rowsPerPageItems'
+			:pagination.sync='pagination'
+			:id='String(song.trackID)'
+		>
+			<!-- blank no data -->
+			<v-flex slot="no-data"></v-flex>
 
-        <!-- related song -->
-        <v-flex 
-          slot='item'
-          slot-scope='props'
-          xs12
-          @click="play(props.index)"
-        >
-          <v-card class="mb-2 pointer" color="" >
-              <v-layout row>
-                <v-flex xs5>
-                  <!-- image -->
-                  <v-card-media
-                    :src="props.item.poster"
-                    :height="hai(props.item.source)"
-                    contain
-                  >
-                      <!-- <span class="abr15" v-text="props.item.duration"/> -->
-                  </v-card-media>
-                </v-flex>
-                <v-flex xs7 class="ml-2">
-                  <div>
-                    <!-- title -->
-                    <div class="subheading text-xs-left wordbreak">{{ props.item.title }}</div>
-                    <!-- artist -->
-                    <div @click.stop="$router.push({name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}})" class="text-xs-left grey--text">{{ props.item.artist }}</div>
-                    <!-- duration -->
-                    <div class="text-xs-left grey--text">{{ props.item.duration }}</div>
-                  </div>
-                </v-flex>
-              </v-layout>
-          </v-card>
-        </v-flex>
-      </v-data-iterator>
-    </v-flex>      
-    <!-- </v-container> -->
+			<!-- related song -->
+			<v-flex 
+				slot='item'
+				slot-scope='props'
+				xs12
+				@click="play(props.index)"
+			>
+				<v-card class="mb-2 pointer" color="" >
+					<v-layout row>
+						<v-flex xs5>
+							<!-- image -->
+							<v-card-media
+								:src="props.item.poster"
+								:height="hai(props.item.source)"
+							>
+								<!-- <span class="abr15" v-text="props.item.duration"/> -->
+							</v-card-media>
+						</v-flex>
+						<v-flex xs7 class="ml-2">
+							<div>
+								<!-- title -->
+								<div class="subheading text-xs-left wordbreak">{{ props.item.title }}</div>
+								<!-- artist -->
+								<div @click.stop="$router.push({name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}})" class="text-xs-left grey--text">{{ props.item.artist }}</div>
+								<!-- duration -->
+								<div class="text-xs-left grey--text">{{ props.item.duration }}</div>
+							</div>
+						</v-flex>
+					</v-layout>
+				</v-card>
+			</v-flex>
+		</v-data-iterator>
+	</v-flex>      
+	<!-- </v-container> -->
 </template>
 <script>
 import { mapGetters } from 'vuex'

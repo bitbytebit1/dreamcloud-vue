@@ -1,49 +1,57 @@
 <template>
-  <div id="dc-audio-container" class="yt">
-    <div id="dc-player">
-      <div id="left">
-        <div class="audio-controls">
-          <!-- <img id="poster" :src="currentImage"> -->
-        </div>
-        <div class="audio-controls">
-          <v-btn @click="previous" v-bind="$store.getters.theme" class="primary" icon outline>
-            <v-icon>skip_previous</v-icon>
-          </v-btn>
-          <v-btn :loading="bLoading" v-bind="$store.getters.theme" @click="togglePlay" class="primary" icon outline>
-            <v-icon>{{sPlayIcon}}</v-icon>
-          </v-btn>
-          <v-btn @click="next" v-bind="$store.getters.theme" class="primary" icon outline>
-            <v-icon>skip_next</v-icon>
-          </v-btn>
-        </div>
-      </div>
+	<div id="dc-audio-container" class="yt">
+		<div id="dc-player">
+			<div id="left">
+				<div class="audio-controls">
+					<!-- <img id="poster" :src="currentImage"> -->
+				</div>
+				<div class="audio-controls">
+					<v-btn @click="previous" v-bind="$store.getters.theme" class="primary" icon outline>
+						<v-icon>skip_previous</v-icon>
+					</v-btn>
+					<v-btn :loading="bLoading" v-bind="$store.getters.theme" @click="togglePlay" class="primary" icon outline>
+						<v-icon>{{sPlayIcon}}</v-icon>
+					</v-btn>
+					<v-btn @click="next" v-bind="$store.getters.theme" class="primary" icon outline>
+						<v-icon>skip_next</v-icon>
+					</v-btn>
+				</div>
+			</div>
       
-      <div id="right" class="hidden-xs-only" @wheel.prevent="onWheel">
-        <v-speed-dial hover transition="slide-x-reverse-transition" open-on-hover>
-          <v-btn v-bind="$store.getters.theme" @click.prevent="toggleMute" :class="volClass" slot="activator" fab hover icon outline small>
-            <v-icon>{{volIcon}}</v-icon>
-          </v-btn>
-          <div class="slider-wrapper" @click.prevent>
-            <input class="vol-slider pointer" type="range" min="0" max="10" @input="volumeChange" v-model="volume" step="0.01">
-          </div>
-        </v-speed-dial>
-      </div>
+			<div id="right" class="hidden-xs-only" @wheel.prevent="onWheel">
+				<v-speed-dial hover transition="slide-x-reverse-transition" open-on-hover>
+					<v-btn v-bind="$store.getters.theme" @click.prevent="toggleMute" :class="volClass" slot="activator" fab hover icon outline small>
+						<v-icon>{{volIcon}}</v-icon>
+					</v-btn>
+					<div class="slider-wrapper" @click.prevent>
+						<input class="vol-slider pointer" type="range" min="0" max="10" @input="volumeChange" v-model="volume" step="0.01">
+					</div>
+				</v-speed-dial>
+			</div>
 
-      <div id="middle">
-        <div id="progress">
-          <v-container fluid grid-list-md class="pa-0 ma-0">
-            <v-layout row wrap>
-              <v-flex xs12  class="ml-3 mr-3">
-                <v-slider :max="iDuration" :label="iCurrent" v-model="iProgress"  id="progress-slider-2" color="primary" thumb-label hide-details></v-slider>
-                <!-- @input="changePos" -->
-              </v-flex>
-            </v-layout>
-          </v-container>
-        </div>
-      </div>
+			<div id="middle">
+				<div id="progress">
+					<v-container fluid grid-list-md class="pa-0 ma-0">
+						<v-layout row wrap>
+							<v-flex xs12  class="ml-3 mr-3">
+								<v-slider thumb-label :max="iDuration" :label="iCurrent" v-model="iProgress"  id="progress-slider-2" color="primary" hide-details>
+									<template
+										slot="thumb-label"
+										slot-scope="props"
+									>
+										<span>
+											{{ secondsToDuration(iProgress) }}
+										</span>
+									</template>
+								</v-slider>
+							</v-flex>
+						</v-layout>
+					</v-container>
+				</div>
+			</div>
 
-    </div>
-  </div>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -112,7 +120,7 @@ export default {
         this.volume = +this.volume - 0.5
         this.$DCPlayer.volDown()
       }
-      console.log(this.$store.getters.ytObject.getVolume(), this.volume)
+      // console.log(this.$store.getters.ytObject.getVolume(), this.volume)
       this.updateVolIcon()
     },
     toggleMute () {
@@ -169,11 +177,11 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
 
-#play-load{
+/* #play-load{ */
   /* top: -1px; */
   /* left: 0px; */
   /* width: 42px !important; */
-}
+/* } */
 .vol-slider {
     -webkit-appearance: none;
     width: 100%;
@@ -187,7 +195,7 @@ export default {
 
 .vol-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
-    appearance: none;
+    /* appearance: none; */
     width: 20px;
     height: 25px;
     background: teal;
@@ -205,11 +213,11 @@ export default {
 .vol-slider::-webkit-slider-runnable-track {
     background: #d3d3d3;
 }
-#loadingSpinner{
+/* #loadingSpinner{ */
   /* top: -2px; */
   /* top:10px;   */
   /* width: 52px !important; */
-}
+/* } */
 .slider-wrapper input {
   width: 150px;
   height: 20px;

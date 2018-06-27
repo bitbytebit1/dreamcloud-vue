@@ -65,6 +65,9 @@ export default {
         let f = Math.floor(Math.log(a) / Math.log(c));
         return `${parseFloat((a / Math.pow(c, f)).toFixed(d))  } ${  e[f]}`;
       },
+      isFullscreen () {
+        return !document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement
+      },
       toggleFullscreen(element) {
         var mouseEvent = () => {
           var timeoutSet = false
@@ -77,8 +80,7 @@ export default {
             }, 500)
           }
         }
-        if (!document.fullscreenElement && // alternative standard method
-          !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) { // current working methods
+        if (Utils.isFullscreen()) { // current working methods
           let e = document.getElementById(element);
           if (e.requestFullscreen) {
             e.requestFullscreen();
@@ -89,8 +91,18 @@ export default {
           } else if (e.webkitRequestFullscreen) {
             e.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
           }
+          let exitHandler = () =>  {
+              if (Utils.isFullscreen()) {
+                document.querySelector('#app').removeEventListener('mousemove', mouseEvent)
+                document.querySelector('#app').style.cursor = 'auto'
+              }
+          }  
           document.querySelector('#app').style.cursor = 'none'
           document.querySelector('#app').addEventListener('mousemove', mouseEvent)
+          document.addEventListener('fullscreenchange', exitHandler);
+          document.addEventListener('webkitfullscreenchange', exitHandler);
+          document.addEventListener('mozfullscreenchange', exitHandler);
+          document.addEventListener('MSFullscreenChange', exitHandler);
         } else {
           document.querySelector('#app').removeEventListener('mousemove', mouseEvent)
           document.querySelector('#app').style.cursor = 'auto'

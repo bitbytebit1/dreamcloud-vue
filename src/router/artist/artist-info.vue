@@ -1,55 +1,54 @@
 <template>
-  <v-container grid-list-md text-xs-center :class="$vuetify.breakpoint.name === 'xs'? 'ma-0 pa-0 pt-1' : ''">
-    <v-layout row wrap slot='header'>
+	<!-- <v-container grid-list-md text-xs-center :class="$vuetify.breakpoint.name === 'xs'? 'ma-0 pa-0 pt-1' : ''"> -->
+	<v-layout row wrap style="min-height:145px">
 
-      <!-- Left column -->
-      <v-flex xs12 lg2 >
-        <!-- Avatar -->
-        <v-flex xl12>
-          <v-avatar size='100px' slot='activator'>
-            <img :src='info.img' class='img-fluid' style='display:inline-block;'/>
-          </v-avatar>
-        </v-flex>
-        <!-- Subscribe Button -->
-        <v-flex xl12>
-          <subscribe-button v-if="$store.getters.auth_state" :artistID="artistID" :source="source" :artist="artist" :img="info.img"></subscribe-button>
-        </v-flex>
-      </v-flex>
+		<!-- LEFT COLUMN -->
+		<v-flex xs12 lg2 >
+			<!-- AVATAR -->
+			<v-flex xl12>
+				<v-avatar size='100px' slot='activator'>
+					<img :src='info.img' class='img-fluid' style='display:inline-block;'/>
+				</v-avatar>
+			</v-flex>
+			<!-- SUBSCRIBE BUTTON -->
+			<v-flex xl12 class="mt-2">
+				<subscribe-button v-if="$store.getters.auth_state" :artistID="artistID" :source="source" :artist="artist" :img="info.img"></subscribe-button>
+			</v-flex>
+		</v-flex>
 
-      <!-- Right column -->
-      <v-flex xs12 lg10>
-        <v-layout row wrap align-content-start>
-        <!-- Artist Name -->
-        <v-flex xs12 :class="$vuetify.breakpoint.name === 'xs'? 'headline' : 'headline text-xs-left'">
-          <strong>{{ artist }}</strong>
-        </v-flex>
-        <!-- Meta -->
-        <v-flex style="min-height:65px;" xs2 :class="$vuetify.breakpoint.name === 'xs'? 'headline' : 'headline text-xs-left'">
-          <v-flex xs12 class="text-xs-left" style="left:-9px;position:relative;height:31px;" v-for="item in items" v-if="item.data" :key="item.name">
-            <v-tooltip right>
-              <div slot="activator">
-                <v-btn icon disabled>
-                  <v-icon>
-                    {{item.icon}}
-                  </v-icon>
-                </v-btn>
-                <span class="body-2 grey--text">
-                  {{item.data}}
-                </span>
-              </div>
-                <span>{{item.name}}</span>
-            </v-tooltip>
-          </v-flex>
-          <!-- <v-flex xs10> -->
-        </v-flex>
-        <!-- Description -->
-        <v-flex xs10 class='text-xs-left brk wordbreak' v-if="info.description">
-          {{ info.description.replace(/\n\s*\n/g, '\n') }}
-        </v-flex>
-        </v-layout>
-      </v-flex>
-    </v-layout>
-  </v-container>
+		<!-- RIGHT COLUMN -->
+		<v-flex xs12 lg10>
+			<v-layout row wrap align-content-start>
+				<!-- ARTIST NAME -->
+				<v-flex xs12 :class="$vuetify.breakpoint.name === 'xs'? 'headline' : 'headline text-xs-left'">
+					<strong>{{ artist }}</strong>
+				</v-flex>
+				<!-- META -->
+				<v-flex xs12 lg2 :class="$vuetify.breakpoint.name === 'xs'? 'headline' : 'headline text-xs-left'">
+					<v-flex xs12 class="text-xs-left" style="left:-9px;position:relative;height:31px;" v-for="item in items" v-if="item.data" :key="item.name">
+						<v-tooltip right>
+							<div slot="activator">
+								<v-btn icon disabled>
+									<v-icon>
+										{{item.icon}}
+									</v-icon>
+								</v-btn>
+								<span class="body-2 grey--text">
+									{{item.data}}
+								</span>
+							</div>
+							<span>{{item.name}}</span>
+						</v-tooltip>
+					</v-flex>
+				</v-flex>
+				<!-- DESCRIPTION -->
+				<v-flex xs12 lg10 class='text-xs-left preline wordbreak ma-0 pa-0 px-2' v-if="info.description">
+					{{ info.description }}
+				</v-flex>
+			</v-layout>
+		</v-flex>
+	</v-layout>
+	<!-- </v-container> -->
 </template>
 <script>
 import subscribeButton from '@/components/misc/subscribe-button'
@@ -89,10 +88,12 @@ export default {
         this.info.description = response.data.items[0].snippet.description
         this.info.img = response.data.items[0].snippet.thumbnails.default.url
         this.info.title = response.data.items[0].snippet.title
+        this.info.followers_count = response.data.items[0].statistics.subscriberCount
+        this.info.track_count = response.data.items[0].statistics.videoCount
       } else if (this.source.toLowerCase().indexOf('soundcloud') > -1) {
         this.info.created = ''
         this.info.description = ''
-        this.info.img = response.data.avatar_url
+        this.info.img = response.data.avatar_url.replace('large', 't500x500')
         this.info.followers_count = response.data.followers_count
         this.info.last_modified = response.data.last_modified
         this.info.title = response.data.username
@@ -106,7 +107,6 @@ export default {
         this.info.title = response.data.username
         this.info.track_count = response.data.cloudcast_count
       } else if (this.source.toLowerCase().indexOf('bandcamp') > -1) {
-        console.log(this.response)
         this.info.created = response.data.created
         this.info.img = response.data.img
         this.info.last_modified = response.data.last
@@ -118,7 +118,5 @@ export default {
 </script>
 
 <style>
-.brk{
-  white-space: pre-line;
-}
+
 </style>

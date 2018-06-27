@@ -1,50 +1,59 @@
 <template>
-  <div id="dc-audio-container">
-    <div id="dc-player">
-      <!-- CONTROLS -->
-      <div id="left">
-        <div class="audio-controls">
-          <v-btn @click="previous" v-bind="$store.getters.theme" class="primary" icon outline>
-            <v-icon>skip_previous</v-icon>
-          </v-btn>
-          <v-btn :loading="bLoading" v-bind="$store.getters.theme" @click="$DCPlayer.togglePlay" class="primary" icon outline>
-            <v-icon>{{play_arrow}}</v-icon>
-          </v-btn>
-          <v-btn @click="next" v-bind="$store.getters.theme" class="primary" icon outline>
-            <v-icon>skip_next</v-icon>
-          </v-btn>
-        </div>
-      </div>
+	<div id="dc-audio-container">
+		<div id="dc-player">
+			<!-- CONTROLS -->
+			<div id="left">
+				<div class="audio-controls">
+					<v-btn @click="previous" v-bind="$store.getters.theme" class="primary" icon outline>
+						<v-icon>skip_previous</v-icon>
+					</v-btn>
+					<v-btn :loading="bLoading" v-bind="$store.getters.theme" @click="$DCPlayer.togglePlay" class="primary" icon outline>
+						<v-icon>{{play_arrow}}</v-icon>
+					</v-btn>
+					<v-btn @click="next" v-bind="$store.getters.theme" class="primary" icon outline>
+						<v-icon>skip_next</v-icon>
+					</v-btn>
+				</div>
+			</div>
 
-      <!-- VOLUME -->
-      <div id="right" class="hidden-xs-only" @wheel.prevent="onWheel">
-        <v-speed-dial hover transition="slide-x-reverse-transition" open-on-hover>
-          <v-btn v-bind="$store.getters.theme" @click="toggleMute" :class="volClass" slot="activator" fab hover icon outline small>
-            <v-icon>{{volIcon}}</v-icon>
-          </v-btn>
-          <div class="slider-wrapper">
-            <input class="vol-slider pointer" type="range" min="0" max="10" @input="volumeChange" v-model="volume" step="0.01">
-          </div>
-        </v-speed-dial>
-      </div>
+			<!-- VOLUME -->
+			<div id="right" class="hidden-xs-only" @wheel.prevent="onWheel">
+				<v-speed-dial hover transition="slide-x-reverse-transition" open-on-hover>
+					<v-btn v-bind="$store.getters.theme" @click="toggleMute" :class="volClass" slot="activator" fab hover icon outline small>
+						<v-icon>{{volIcon}}</v-icon>
+					</v-btn>
+					<div class="slider-wrapper">
+						<input class="vol-slider pointer" type="range" min="0" max="10" @input="volumeChange" v-model="volume" step="0.01">
+					</div>
+				</v-speed-dial>
+			</div>
 
-      <!-- PROGRESS -->
-      <div id="middle">
-        <div id="progress">
-          <v-container fluid grid-list-md class="pa-0 ma-0">
-            <v-layout row wrap>
-              <v-flex xs12 class="ml-3 mr-3">
-                <v-slider :max="eAudio.duration" :label="currentTime" @input="changePos" v-model="progress" id="progress-slider" color="primary" hide-details></v-slider>
-              </v-flex>
-            </v-layout>
-          </v-container>
-        </div>  
-      </div>
+			<!-- PROGRESS -->
+			<div id="middle">
+				<div id="progress">
+					<!-- <v-container fluid grid-list-md class="pa-0 ma-0"> -->
+					<v-layout row wrap>
+						<v-flex xs12 class="ml-3 mr-3">
+							<v-slider thumb-label :max="eAudio.duration" :label="currentTime" @input="changePos" v-model="progress" color="primary" hide-details>
+								<template
+									slot="thumb-label"
+									slot-scope="props"
+								>
+									<span>
+										{{ secondsToDuration(progress) }}
+									</span>
+								</template>
+							</v-slider>
+						</v-flex>
+					</v-layout>
+					<!-- </v-container> -->
+				</div>  
+			</div>
 
-    </div>
-    <!-- AUDIO ELEMENT -->
-    <audio controls id="dc-audio"></audio>
-  </div>
+		</div>
+		<!-- AUDIO ELEMENT -->
+		<audio controls id="dc-audio"></audio>
+	</div>
 </template>
 
 <script>
@@ -171,7 +180,7 @@ export default {
 
 .vol-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
-    appearance: none;
+    /* appearance: none; */
     width: 20px;
     height: 25px;
     background: teal;
@@ -183,11 +192,11 @@ export default {
     background: teal;
 }
 
-#play-load{
+/* #play-load{ */
   /* top: -1px; */
   /* left: 0px; */
   /* width: 42px !important; */
-}
+/* } */
 .slider-wrapper input {
   width: 150px;
   height: 20px;
@@ -215,9 +224,8 @@ export default {
   padding-top: 5px;
 } */
 
-#progress-slider {
-  padding-top: 15px;
-}
+/* #progress-slider { */
+  /* padding-top: 15px; */
 
 #poster {
   height: 35px;

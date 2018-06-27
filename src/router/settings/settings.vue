@@ -1,51 +1,81 @@
 <template>
-<!-- 
+	<!-- 
   <v-layout  row> -->
-    <v-flex v-if="$store.getters.auth_state" xs10 offset-xs1 lg10 offset-lg1 class="mt-3">
-      <h5 class="text-xs-center">Settings</h5>
-      <template v-for="setting in settings">
+	<v-flex v-if="$store.getters.auth_state" xs10 offset-xs1 lg10 offset-lg1 class="mt-3">
+		<h5 class="text-xs-center">Settings</h5>
+		<template v-for="setting in settings">
+			<h5 :key="setting.name" class="text-xs-left">{{setting.name}}</h5>
+			<v-divider :key="setting.name + 1"></v-divider>
+			<v-flex v-for="option in setting.options" xs12 class="mt-2" :key="option.name">
+				<v-layout row>
+					<v-flex xs3 lg2 class="text-xs-left pl-4">
+						{{option.name}}
+					</v-flex>
+					<v-flex xs1 offset-xs7 lg1 offset-lg9>
+						<v-switch color="primary" @change="settingChanged(option.name, option.state)" v-model="option.state"></v-switch>
+					</v-flex>
+				</v-layout>
+			</v-flex>
+		</template>
 
-      <h5 :key="setting.name" class="text-xs-left">{{setting.name}}</h5>
-      <v-divider :key="setting.name + 1"></v-divider>
-      <v-flex v-for="option in setting.options" xs12 class="mt-2" :key="option.name">
-        <v-layout row>
-          <v-flex xs3 lg2 class="text-xs-left pl-4">
-            {{option.name}}
-          </v-flex>
-          <v-flex xs1 offset-xs7 lg1 offset-lg9>
-            <v-switch @change="settingChanged(option.name, option.state)" v-model="option.state"></v-switch>
-          </v-flex>
-        </v-layout>
-      </v-flex>
-      </template>
+		<h5 class="text-xs-left">Local Storage</h5>
+		<v-divider></v-divider>
+		<v-flex xs12 class="mt-2">
+			<v-layout row>
+				<v-flex xs5 lg2 class="text-xs-left pl-4">
+					Space
+				</v-flex>
+				<v-flex xs1 offset-xs7 lg3 offset-lg8>
+					{{usage}} of {{quota}}
+					<br/>({{percentage}} %)
+					<!-- <v-switch @change="settingChanged(option.name, option.state)" v-model="option.state"></v-switch> -->
+				</v-flex>
+			</v-layout>
+		</v-flex>
 
-      <h5 class="text-xs-left">Local Storage</h5>
-      <v-divider></v-divider>
-      <v-flex xs12 class="mt-2">
-        <v-layout row>
-          <v-flex xs3 lg1 class="text-xs-left pl-4">
-            Space
-          </v-flex>
-          <v-flex xs1 offset-xs7 lg2 offset-lg9>
-            {{usage}} of {{quota}}<br/>({{percentage}} %)
-            <!-- <v-switch @change="settingChanged(option.name, option.state)" v-model="option.state"></v-switch> -->
-          </v-flex>
-        </v-layout>
-      </v-flex>
 
-    <h2>Dream with us on <a href="https://discord.gg/RzP7dwA" target="_blank">Discord</a></h2>
+		<h5 class="text-xs-left">Theme</h5>
+		<v-divider></v-divider>
+		<v-flex xs12 class="mt-2">
+			<v-layout row >
+				<v-flex xs5 lg2 class="text-xs-left">
+					Primary color
+				</v-flex>
+				<v-flex xs1 offset-xs7 lg1 offset-lg9 class="text-xs-left">
+					<input type="color" :v-model="$vuetify.theme.primary" :value="$vuetify.theme.primary" v-on:input="setColor">
+					<!-- <v-switch @change="settingChanged(option.name, option.state)" v-model="option.state"></v-switch> -->
+				</v-flex>
+			</v-layout>
+		</v-flex>
 
-    <v-btn v-on:click="logout">Logout</v-btn>
 
-    </v-flex>
-  <!-- </v-layout> -->
+		<h2>Dream with us on <a href="https://discord.gg/RzP7dwA" target="_blank">Discord</a></h2>
+
+		<router-link class="noDeco" :to="{name: 'login'}">
+      
+			<v-btn >
+        <v-icon color="primary">face</v-icon>
+        &nbsp; Login
+      </v-btn>
+		</router-link>
+		<v-btn v-on:click="logout">
+      <v-icon color="primary">pool</v-icon>
+      &nbsp; Logout
+    </v-btn>
+
+	</v-flex>
+	<!-- </v-layout> -->
 </template>
 <script>
 export default {
   name: 'settings',
   data () {
     return {
+      percentage: 0,
+      quota: 0,
+      usage: 0,
       observer: false,
+      sColor: '',
       settings: [
         {
           name: 'UI',
@@ -81,11 +111,14 @@ export default {
     }
   },
   methods: {
+    setColor (sColor) {
+      this.$vuetify.theme.primary = sColor.srcElement.value
+    },
     get_storage_estimate () {
       this.get_storage_estimate_wrap().then((estimate) => {
         this.usage = this.$UTILS.formatBytes(estimate.usage)
         this.quota = this.$UTILS.formatBytes(estimate.quota)
-        this.percentage = (estimate.usage / estimate.quota).toFixed(2)
+        this.percentage = (estimate.usage / estimate.quota).toFixed(2) * 10
       })
     },
     get_storage_estimate_wrap () {

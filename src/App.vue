@@ -1,90 +1,90 @@
 <template>
-  <v-app v-bind="theme">
-    <!-- left drawer -->
-    <v-navigation-drawer
-      app
-      clipped
-      disable-route-watcher
-      enable-resize-watcher
-      persistent
-      ripple
-      v-model="drawerLeft">
-      <sidebar @closeLeft="closeLeft"></sidebar>
-    </v-navigation-drawer>
+	<v-app v-bind="theme">
+		<!-- left drawer -->
+		<v-navigation-drawer
+			app
+			clipped
+			disable-route-watcher
+			enable-resize-watcher
+			persistent
+			ripple
+			v-model="drawerLeft">
+			<sidebar @closeLeft="closeLeft"></sidebar>
+		</v-navigation-drawer>
 
-    <!-- header -->
-    <v-toolbar app fixed clipped-left dense>
+		<!-- header -->
+		<v-toolbar app fixed clipped-left dense>
       
-      <!-- toggle left draw button -->
-      <v-toolbar-side-icon @click.stop="leftTog"></v-toolbar-side-icon>
+			<!-- toggle left draw button -->
+			<v-toolbar-side-icon @click.stop="leftTog"></v-toolbar-side-icon>
       
-      <!-- title -->
-      <v-toolbar-title class="hidden-sm-and-down" style="width: 230px"  >
-        <router-link :class="textClass" :to="{name:'home', params: {user: $DCFB.UID}}">
-          DreamCloud
-        </router-link>
-      </v-toolbar-title>
+			<!-- title -->
+			<v-toolbar-title class="hidden-sm-and-down" style="width: 230px"  >
+				<router-link :class="textClass" :to="{name:'home', params: {user: $DCFB.UID}}">
+					DreamCloud
+				</router-link>
+			</v-toolbar-title>
 
-      <!-- <v-spacer></v-spacer> -->
+			<!-- <v-spacer></v-spacer> -->
 
-      <!-- searchbar -->
-      <search></search>
+			<!-- searchbar -->
+			<search></search>
 
-      <v-spacer></v-spacer>
-      <!-- toggle stage button -->
-      <v-toolbar-side-icon @click.stop="$store.commit('toggleStage')"><v-icon>music_video</v-icon></v-toolbar-side-icon>
+			<v-spacer></v-spacer>
+			<!-- toggle stage button -->
+			<v-toolbar-side-icon @click.stop="$store.commit('toggleStage')"><v-icon>music_video</v-icon></v-toolbar-side-icon>
 
-      <!-- toggle right draw button -->
-      <v-toolbar-side-icon @click.stop="rightTog"><v-icon>playlist_play</v-icon></v-toolbar-side-icon>
+			<!-- toggle right draw button -->
+			<v-toolbar-side-icon @click.stop="rightTog"><v-icon>playlist_play</v-icon></v-toolbar-side-icon>
 
-    </v-toolbar>
+		</v-toolbar>
 
-    <!-- right drawer -->
-    <v-navigation-drawer
-      app
-      disable-route-watcher
-      enable-resize-watcher
-      persistent
-      right
-      v-model="drawerRight"
-      id="right-draw">
-      <current-playlist></current-playlist>
-    </v-navigation-drawer>
+		<!-- right drawer -->
+		<v-navigation-drawer
+			app
+			disable-route-watcher
+			enable-resize-watcher
+			persistent
+			right
+			v-model="drawerRight"
+			id="right-draw">
+			<current-playlist></current-playlist>
+		</v-navigation-drawer>
 
-    <!-- Stage -->
-    <v-content class="text-xs-center" v-show="bShowStage">
-      <v-container fluid fill-height>
-        <v-layout justify-center>
-          <v-flex xs12>
-            <stage></stage>
-          </v-flex>
-        </v-layout>
-      </v-container>
-    </v-content>
+		<!-- Stage -->
+		<v-content class="text-xs-center" v-show="bShowStage">
+			<v-container fluid fill-height>
+				<v-layout justify-center>
+					<v-flex xs12>
+						<stage></stage>
+					</v-flex>
+				</v-layout>
+			</v-container>
+		</v-content>
 
-    <!-- Router view -->
-    <v-content class="text-xs-center">
-      <v-container fluid fill-height>
-        <v-layout justify-center>
-          <transition name="fade" mode="out-in">
-            <!-- <keep-alive> -->
-              <router-view></router-view>
-            <!-- </keep-alive> -->
-          </transition>
-        </v-layout>
-      </v-container>
-    </v-content>
+		<!-- Router view -->
+		<v-content class="text-xs-center">
+			<v-container fluid fill-height>
+				<v-layout justify-center>
+					<transition name="fade" mode="out-in">
+						<!-- <keep-alive> -->
+						<router-view></router-view>
+						<!-- </keep-alive> -->
+					</transition>
+				</v-layout>
+			</v-container>
+		</v-content>
 
-    <!-- Footer -->
-    <v-footer app fixed id="foot" :style="footStyle">
-      <mobileFooter v-show="bMobi"></mobileFooter>
-      <dc-youtube v-show="(ytUseVideo && isYT) && (!bMobi || currentActive)"></dc-youtube>
-      <dc-audio v-show="(!ytUseVideo || !isYT) && (!bMobi || currentActive)"></dc-audio>
-      <scroll-to-top v-if="!bMobi"></scroll-to-top>
-    </v-footer>
-  <!-- dc keyboard shortcuts -->
-  <hks></hks>
-  </v-app>
+		<!-- Footer -->
+		<v-footer app fixed id="foot" :style="footStyle">
+			<mobileFooter v-show="bMobi"></mobileFooter>
+			<dc-youtube v-show="(ytUseVideo && isYT) && (!bMobi || currentActive)"></dc-youtube>
+			<dc-audio v-show="(!ytUseVideo || !isYT) && (!bMobi || currentActive)"></dc-audio>
+			<scroll-to-top v-if="!bMobi"></scroll-to-top>
+		</v-footer>
+		<!-- dc keyboard shortcuts -->
+		<hks></hks>
+	</v-app>
 </template>
 
 <script>
@@ -116,8 +116,8 @@
     },
     data () {
       return {
-        drawerLeft: !this.$UTILS.isMobile,
-        drawerRight: false
+        drawerLeft: this.bMobi,
+        drawerRight: this.bMobi
       }
     },
     methods: {
@@ -159,32 +159,46 @@
       })
     },
     beforeCreate () {
-      this.$vuetify.theme.primary = '#009688'
-      // if mobile disable youtube video
-      // this.$store.commit('ytUseVideo', !this.$UTILS.isMobile)
-      // this.$store.commit('ytUseVideo', false)
-      // if set log in status
-      this.$store.commit('authChange', !!this.$DCFB.fb.auth().currentUser)
+      // Set them
+      // this.$vuetify.theme.primary = '#009688'
+
+      // On Firebase auth state change
       this.$DCFB.fb.auth().onAuthStateChanged((user) => {
-        if (user) {
-          this.$DCFB.init(user.uid)
-          this.$store.commit('authChange', true)
-          this.$DCFB.setting('Night Mode').once('value', (snapshot) => {
-            if (snapshot.val() !== null) {
-              this.$store.commit('changeSetting', {'setting': 'Night Mode', 'value': snapshot.val()})
-            }
-          })
-          // this.$router.push({name: 'artist', params: {source: 'YouTube', artist: 'Byte', artistID: 'UCtOCUE_GOKz86ZVoigxcllg'}})
-        } else {
-          this.$store.commit('authChange', false)
-          this.$router.push({name: 'searchPage', params: {query: ' ', source: 'YouTube'}})
-        }
+        // console.log(this.$DCFB.fb.auth().currentUser)
+        // Toggle auth state to false
+        this.$store.commit('authChange', false)
+        this.$nextTick(() => {
+          // Set auth state
+          this.$store.commit('authChange', !!user)
+          // If logged in
+          if (!user) {
+            // Sign in anonymously
+            this.$DCFB.fb.auth().signInAnonymously()
+
+          } else {
+            // Update store
+            this.$store.commit('setUser', user)
+            // Initialise DCFB plugin
+            this.$DCFB.init(user.uid)
+            // Initialise settings
+            this.$DCFB.setting('Night Mode').once('value', (snapshot) => {
+              if (snapshot.val() !== null) {
+                this.$store.commit('changeSetting', {'setting': 'Night Mode', 'value': snapshot.val()})
+              }
+            })
+          }
+        })
       })
     }
   }
 </script>
 
 <style>
+  html, body {
+    /* height: 100%; */
+    overflow:auto
+    /* margin: 0; padding:0; height: 100%; overflow: hidden */
+  }
   .noDeco{
     /* text-decoration-color: none; */
     text-decoration: none;
@@ -192,6 +206,9 @@
   .pointer{
     cursor: pointer;
   }
+	.preline{
+		white-space: pre-line;
+	}
   .wordbreak{
     word-break: break-word;
   }
@@ -233,7 +250,7 @@
 .hide{
   display: none;
 }
-/* width */
+width */
 #right-draw::-webkit-scrollbar {
     width: 1px;
 }
