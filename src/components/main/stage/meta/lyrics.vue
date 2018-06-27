@@ -1,17 +1,15 @@
 <template>
-	<div v-if="lyrics">
-		<br>
-		<a class="primary--background" :href="lyricsURL">{{ lyricsURL }}</a>
-		<br>
+	<div v-if="lyrics" >
+		<!-- <a :href="`${lyricsServer}/search/${this.query}`">{{ `${lyricsServer}/search/${this.query}` }}</a><br> -->
+		<a class="primary--background" :href="lyricsURL">{{ lyricsURL }}</a><br>
 		<div class="wordbreak preline">{{ lyrics }}</div>
 	</div>
-	<div v-else-if="bLoading">
-		<a :href="`${lyricsServer}/search/${this.query}`">{{ `${lyricsServer}/search/${this.query}` }}</a>
+	<div v-else-if="bLoading" class="grey--text text-darken-2">
+		<!-- <a :href="`${lyricsServer}/search/${this.query}`">{{ `${lyricsServer}/search/${this.query}` }}</a><br> -->
 		Loading lyrics...
 	</div>
-	<div v-else>
-		<a :href="`${lyricsServer}/search/${this.query}`">{{ `${lyricsServer}/search/${this.query}` }}</a>
-		<br>
+	<div v-else class="grey--text text-darken-2">
+		<!-- <a :href="`${lyricsServer}/search/${this.query}`">{{ `${lyricsServer}/search/${this.query}` }}</a><br> -->
 		No lyrics available
 	</div>
 </template>
@@ -33,31 +31,35 @@ export default {
 			bLoading: false,
 			lyrics: '',
 			lyricsURL: ''
-    }
+		}
 	},
 	computed: {
 		query () {
 			return this.title
-			.replace(/Audio/g, '')
-			.replace(/Official Video/g, '')
-			.replace(/ HD /g, '')
-			.replace(/Video/g, '')
-			.replace(/Lyrics/g, '')
-			.replace(/[^\w ]/g, '')
+			.replace(/Audio/gi, '')
+			.replace(/Official Audio/gi, '')
+			.replace(/Video/gi, '')
+			.replace(/Music Video/gi, '')
+			.replace(/Official Video/gi, '')
+			.replace(/Official Music Video/gi, '')
+			.replace(/ HD /gi, '')
+			.replace(/Lyrics/gi, '')
+			.replace(/[^\w ]/gi, '')
 			.toLowerCase()
 		}
 	},
   methods: {
     getLyrics () {
-			console.log('getting lyrics for', this.query)
+			var titleBkp  = this.title
+			// console.log('getting lyrics for', this.query, this.$parent.$options._componentTag)
 			this.bLoading = true
 			this.lyrics = ''
 			// SEARCH USING CLEANED TITLE
 			axios.get(`${this.lyricsServer}/search/${this.query}`).then((resp) => {
-				var data = resp.data.data
-				if (data.length) {
+				var resp = resp.data.data
+				if (resp.length) {
 					// PARSE RESULTS, CHECK IF MATCHING TITLE
-					var song = data.find((song) => {
+					var song = resp.find((song) => {
 						return this.query.indexOf(song.title.replace(/[^\w ]/g, '').toLowerCase()) > -1
 					})
 					if (song) {
@@ -69,19 +71,20 @@ export default {
 						})
 					// DARKWING WORKAROUND
 					} else {
-						// PARSE RESULTS CHECKING ARTIST NAME
-						var song = data.find((song) => {
-							return this.query.indexOf(song.primary_artist.name.replace(/[^\w ]/g, '').toLowerCase()) > -1
+						console.log('darkwing')
+						// PARSE RESULTS CHECKING ARTIST NAME AGAINST QUERY
+						var artist = resp.find((item) => {
+							return this.query.indexOf(item.primary_artist.name.replace(/[^\w ]/g, '').toLowerCase()) > -1
 						})
-						if (song) {
-							// SUCCESS, WE FOUND THE ARTIST, SCRUB ARTIST NAME FROM SEARCH STRING TO REDUCE FALSE POSITIVES
-							var songName = this.query.replace(song.primary_artist.name.toLowerCase(), '')
+						if (artist) {
+							// SUCCESS, WE FOUND THE ARTIST, SCRUB ARTIST NAME FROM QUERY TO REDUCE FALSE POSITIVES
+							var songName = this.query.replace(artist.primary_artist.name.toLowerCase(), '')
 							var f = (iPage) => {
 								// GET ALL SONGS BY ARTIST
 								axios.get(`${this.lyricsServer}/songsByArtist/${song.primary_artist.id}/${iPage}`).then((resp2) => {
-									var data = resp2.data.data
+									var resp2 = resp2.data.data
 									// FIND FOR SONG TITLE IN RESULTS
-									var song2 = data.find((song) => {
+									var song2 = resp2.find((song) => {
 										return songName.indexOf(song.title.replace(/[^\w ]/g, '').toLowerCase()) > -1
 									})
 									// IF NO LUCK, TRY AGAIN
@@ -92,7 +95,12 @@ export default {
 											this.bLoading = false
 										})
 									} else {
-										f(++iPage)
+										// SANITY CHECK
+										if (titleBkp === this.title) {
+											f(++iPage)
+										} else {
+											console.log('INSANE')
+										}
 									}
 								}).catch((err) => {
 									console.log('error', err)
@@ -104,6 +112,7 @@ export default {
 						}
 					}
 				} else {
+
 					this.bLoading = false
 				}
 			})

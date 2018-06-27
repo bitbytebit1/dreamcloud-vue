@@ -4,7 +4,7 @@
 		<v-flex xs12 id="img-bg" v-show="!($store.getters.ytUseVideo && $store.getters.isYT)" @click="$DCPlayer.togglePlay()">
 			<img :src="song.posterLarge" id="stg-pstr">
 		</v-flex>
-		<v-flex d-flex xs12>
+		<v-flex d-flex xs12 v-if="!show">
 			<v-layout row wrap id="dc-padding">
 				<!-- SONG TITLE -->
 				<v-flex xs12 class="mt-2">
@@ -47,7 +47,7 @@
 						<span class="subheading wordbreak preline" v-html="timeToSeconds(_description)"></span>
 					</v-flex>
 					<!-- LYRICS -->
-					<lyrics :title="song.title" :artist="song.artist"></lyrics>
+					<!-- <lyrics :title="song.title" :tra="song.artistID"></lyrics> -->
 					<!-- COMMENTS -->
 					<songComments :trackID="song.trackID" :source="song.source"></songComments>
 				</v-flex>
@@ -58,14 +58,14 @@
 	</v-layout>
 </template>
 <script>
-import related from '@/components/main/stage/stage-related'
-import artistMini from '@/components/misc/artist-mini'
-import youtubeVBtn from '@/components/misc/toggle-video-button'
-import songComments from '@/components/main/stage/song-comments'
-import addToPlaylist from '@/components/misc/add-to-playlist.vue'
-import shareButton from '@/components/misc/share-button'
-import downloadButton from '@/components/misc/download-button'
-import lyrics from '@/components/main/stage/lyrics'
+import related from					'@/components/main/stage/meta/related'
+import artistMini from 			'@/components/main/stage/meta/artist-mini'
+import youtubeVBtn from 		'@/components/main/stage/meta/toggle-video-button'
+import songComments from 		'@/components/main/stage/meta/comments'
+import lyrics from 					'@/components/main/stage/meta/lyrics'
+import addToPlaylist from 	'@/components/buttons/add-to-playlist.vue'
+import shareButton from			'@/components/buttons/share-button'
+import downloadButton from 	'@/components/buttons/download-button'
 
 // import explode from '@/components/misc/explode'
 // /* eslint-disable */
@@ -161,12 +161,17 @@ export default {
     }
   },
   created () {
+		console.log('audio created')
     this.getDesc()
     this.getPlays()
   },
   updated () {
-    this.getDesc()
-    this.getPlays()
+		if (this.$store.getters.ytUseVideo && this.$store.getters.isYT) {
+			this.getDesc()
+			this.getPlays()
+		}
+		// console.log('audio updated')
+
   }
 }
 </script>

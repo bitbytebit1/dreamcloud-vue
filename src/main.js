@@ -51,9 +51,9 @@
     router
   })
   
-  import audioStage from '@/components/main/stage/audio-stage'
+  import audioStage from '@/components/main/stage/audio'
   Vue.component('audio-stage', audioStage)
-  import videoStage from '@/components/main/stage/video-stage'
+  import videoStage from '@/components/main/stage/video'
   Vue.component('video-stage', videoStage)
   import playlist from '@/components/main/playlist/playlist.vue'
   Vue.component('playlist', playlist)

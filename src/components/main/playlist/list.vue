@@ -130,10 +130,10 @@
 
 <script>
 // /* eslint-disable */
-import addToPlaylist from '@/components/misc/add-to-playlist.vue'
-import deleteButton from '@/components/misc/delete-button'
-import shareButton from '@/components/misc/share-button'
-import downloadButton from '@/components/misc/download-button'
+import addToPlaylist from '@/components/buttons/add-to-playlist.vue'
+import deleteButton from '@/components/buttons/delete-button'
+import shareButton from '@/components/buttons/share-button'
+import downloadButton from '@/components/buttons/download-button'
 import { mapGetters } from 'vuex'
 
 export default {

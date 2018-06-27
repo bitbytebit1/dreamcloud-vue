@@ -1,10 +1,10 @@
 <template>
 	<v-layout row wrap v-show="$store.getters.ytUseVideo && $store.getters.isYT" class="pb-5">
 		<!-- VIDEO -->
-		<v-flex xs12 :id="String(this.current_trackID)">
+		<v-flex xs12>
 			<div id="player"></div>
 		</v-flex>
-		<v-flex d-flex xs12>
+		<v-flex d-flex xs12 v-if="$store.getters.ytUseVideo && $store.getters.isYT">
 			<v-layout row wrap id="dc-padding">
 				<!-- SONG TITLE -->
 				<v-flex xs12 class="mt-2">
@@ -49,7 +49,7 @@
 						<span class="subheading wordbreak preline" v-html="timeToSeconds(description)"></span>
 					</v-flex>
 					<!-- LYRICS -->
-					<lyrics :title="song.title" :artist="song.artist"></lyrics>
+					<!-- <lyrics :title="song.title" :artist="song.artist"></lyrics> -->
 					<!-- COMMENTS -->
 					<songComments :trackID="song.trackID" :source="song.source"></songComments>
 				</v-flex>
@@ -61,15 +61,17 @@
 	</v-layout>
 </template>
 <script>
-import lyrics from '@/components/main/stage/lyrics'
-import related from '@/components/main/stage/stage-related'
-import artistMini from '@/components/misc/artist-mini'
-import youtubeVBtn from '@/components/misc/toggle-video-button'
-import songComments from '@/components/main/stage/song-comments'
 
-import addToPlaylist from '@/components/misc/add-to-playlist.vue'
-import shareButton from '@/components/misc/share-button'
-import downloadButton from '@/components/misc/download-button'
+import related from					'@/components/main/stage/meta/related'
+import artistMini from 			'@/components/main/stage/meta/artist-mini'
+import youtubeVBtn from 		'@/components/main/stage/meta/toggle-video-button'
+import songComments from 		'@/components/main/stage/meta/comments'
+import lyrics from 					'@/components/main/stage/meta/lyrics'
+import addToPlaylist from 	'@/components/buttons/add-to-playlist.vue'
+import shareButton from			'@/components/buttons/share-button'
+import downloadButton from 	'@/components/buttons/download-button'
+
+import { mapGetters } from 'vuex'
 
 /* eslint-disable */
 export default {
@@ -91,6 +93,12 @@ export default {
     'share-button': shareButton
   },
   computed: {
+    ...mapGetters({
+      current_song: 'current_song',
+      index: 'index',
+      hash: 'hash',
+      current_song: 'current_song'
+    }),
     stageBorderStyle () {
       return {
         'border-bottom': '1px solid ' + this.$vuetify.theme.primary,
@@ -234,15 +242,17 @@ export default {
     }
   },
   mounted () {
-    if (this.$store.getters.isYT) {
-      this.getDesc()
+		if (this.$store.getters.isYT) {
+			// console.log('vid mounted')
       this.ytBind()
+      this.getDesc()
       this.getPlays()
     }
   },
   updated () {
     // if new song
     if (this.$store.getters.isYT && this.currentID !== this.current_trackID && this.$store.getters.ytUseVideo && !this.$store.getters.ytSwitchTime) {
+			// console.log('vid updated')
       this.currentID = this.current_trackID
       // if not already attached to iframe
       if (!this.$store.getters.ytObject.hasOwnProperty('loadVideoById')) {

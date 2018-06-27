@@ -54,9 +54,9 @@
 	</v-flex>
 </template>
 <script>
-import addToPlaylist from '@/components/misc/add-to-playlist.vue'
-import shareButton from '@/components/misc/share-button'
-import downloadButton from '@/components/misc/download-button'
+import addToPlaylist from '@/components/buttons/add-to-playlist.vue'
+import shareButton from '@/components/buttons/share-button'
+import downloadButton from '@/components/buttons/download-button'
 
 export default {
   props: ['song', 'index'],

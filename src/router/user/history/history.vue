@@ -7,7 +7,7 @@
 <script>
 /* eslint-disable */
 import loading from '@/components/misc/loading'
-import deleteButton from '@/components/misc/delete-button'
+import deleteButton from '@/components/buttons/delete-button'
 import { mapGetters } from 'vuex'
 export default {
   name: 'history',

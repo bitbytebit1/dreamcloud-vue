@@ -135,12 +135,8 @@
 </template>
 <script>
 /* eslint-disable */
-import deleteButton from '@/components/misc/delete-button'
 export default {
   name: 'about',
-  components: {
-    'delete-button': deleteButton
-  },
   created () {
     this.$emit('closeLeft')
   },

@@ -18,7 +18,7 @@
 	</v-flex>
 </template>
 <script>
-import subscribeButton from '@/components/misc/subscribe-button'
+import subscribeButton from '@/components/buttons/subscribe-button'
 export default {
   name: 'artist-mini',
   props: ['artistID', 'source', 'artist'],
@@ -58,7 +58,7 @@ export default {
       if (this.source.toLowerCase().indexOf('youtube') > -1) {
         this.info.created = response.data.items[0].snippet.publishedAt
         this.info.description = response.data.items[0].snippet.description
-        this.info.img = response.data.items[0].snippet.thumbnails.default.url
+        this.info.img = response.data.items[0].snippet.thumbnails.high.url
         this.info.title = response.data.items[0].snippet.title
       } else if (this.source.toLowerCase().indexOf('soundcloud') > -1) {
         this.info.created = ''

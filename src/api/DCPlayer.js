@@ -17,7 +17,7 @@ export default {
       next () {
         // Increment unless end of playlist.
         DCPlayer.iCurrent = (DCPlayer.iCurrent < DCPlayer.aPlaylist.length - 1 ? DCPlayer.iCurrent + 1 : 0)
-        store.commit('changeIndex', DCPlayer.iCurrent)
+        // store.commit('changeIndex', DCPlayer.iCurrent)
         DCPlayer.playIndex(DCPlayer.iCurrent)
       },
       pause () {
@@ -36,7 +36,7 @@ export default {
       },
       previous () {
         DCPlayer.iCurrent = (DCPlayer.iCurrent > 0 ? DCPlayer.iCurrent - 1 : DCPlayer.aPlaylist.length - 1)
-        store.commit('changeIndex', DCPlayer.iCurrent)
+        // store.commit('changeIndex', DCPlayer.iCurrent)
         DCPlayer.playIndex(DCPlayer.iCurrent)
       },
       playIndex (index) {

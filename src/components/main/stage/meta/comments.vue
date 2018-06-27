@@ -56,7 +56,6 @@
 </template>
 <script>
 /* eslint-disable */
-import deleteButton from '@/components/misc/delete-button'
 export default {
   name: 'songComments',
   watch: {
@@ -71,9 +70,6 @@ export default {
       type: [String],
       default: ''
     }
-  },
-  components: {
-    'delete-button': deleteButton
   },
   data () {
     return {

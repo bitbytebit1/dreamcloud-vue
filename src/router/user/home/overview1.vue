@@ -56,7 +56,7 @@
 </template>
 <script>
 // /* eslint-disable */
-// import deleteButton from '@/components/misc/delete-button'
+// import deleteButton from '@/components/buttons/delete-button'
 export default {
   name: 'userSubOverview',
   props: ['user'],

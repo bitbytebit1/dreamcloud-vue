@@ -51,7 +51,7 @@
 	<!-- </v-container> -->
 </template>
 <script>
-import subscribeButton from '@/components/misc/subscribe-button'
+import subscribeButton from '@/components/buttons/subscribe-button'
 export default {
   name: 'artist-info',
   props: ['artistID', 'source', 'artist'],

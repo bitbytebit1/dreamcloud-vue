@@ -114,7 +114,7 @@
 <script>
 import userPlaylists from '@/components/sidebar-left/user-playlists/user-playlists'
 import userSubscriptions from '@/components/sidebar-left/user-subscriptions/user-subscriptions'
-import deleteButton from '@/components/misc/delete-button'
+import deleteButton from '@/components/buttons/delete-button'
 export default {
   name: 'sidebar',
   components: {
