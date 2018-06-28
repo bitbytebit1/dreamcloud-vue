@@ -66,7 +66,7 @@ export default {
     return {
       show: false,
       desc: this.song.description,
-      youtubelink: `http://www.youtube.com/embed/${this.song.trackID}?autoplay=1&mute=1&controls=1&enablejsapi=1`,
+      youtubelink: `https://www.youtube.com/embed/${this.song.trackID}?autoplay=1&mute=1&controls=1&enablejsapi=1`,
       artistID: `#/a/${this.song.source}/${encodeURIComponent(this.song.artist)}/${this.song.artistID}`
     }
   },

@@ -96,7 +96,7 @@ export default {
     /* transform: translateY(-294px); */
   }
   .slide-fade-enter-active {
-    transition: all .2s;
+    transition: all 1s ease-in;
   }
   .slide-fade-enter-to{
     opacity: 1;

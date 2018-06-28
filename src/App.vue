@@ -13,7 +13,8 @@
 		</v-navigation-drawer>
 
 		<!-- header -->
-		<v-toolbar app fixed clipped-left dense>
+		<v-toolbar app fixed clipped-left dense clipped-right1
+>
       
 			<!-- toggle left draw button -->
 			<v-toolbar-side-icon @click.stop="leftTog"></v-toolbar-side-icon>
@@ -32,7 +33,7 @@
 
 			<v-spacer></v-spacer>
 			<!-- toggle stage button -->
-			<v-toolbar-side-icon @click.stop="$store.commit('toggleStage')"><v-icon>music_video</v-icon></v-toolbar-side-icon>
+			<v-toolbar-side-icon v-if="!bMobi" @click.stop="$store.commit('toggleStage')"><v-icon>music_video</v-icon></v-toolbar-side-icon>
 
 			<!-- toggle right draw button -->
 			<v-toolbar-side-icon @click.stop="rightTog"><v-icon>playlist_play</v-icon></v-toolbar-side-icon>
@@ -46,6 +47,7 @@
 			enable-resize-watcher
 			persistent
 			right
+			clipped1
 			v-model="drawerRight"
 			id="right-draw">
 			<current-playlist></current-playlist>
@@ -67,9 +69,9 @@
 			<v-container fluid fill-height>
 				<v-layout justify-center>
 					<transition name="fade" mode="out-in">
-						<!-- <keep-alive> -->
-						<router-view></router-view>
-						<!-- </keep-alive> -->
+						<keep-alive>
+							<router-view></router-view>
+						</keep-alive>
 					</transition>
 				</v-layout>
 			</v-container>
@@ -196,7 +198,7 @@
 <style>
   html, body {
     /* height: 100%; */
-    overflow:auto
+    /* overflow:auto */
     /* margin: 0; padding:0; height: 100%; overflow: hidden */
   }
   .noDeco{
@@ -232,7 +234,7 @@
     }
   }
 
-/* .fade-enter {
+.fade-enter {
   opacity: 0;
 }
 
@@ -243,7 +245,7 @@
 .fade-leave-active {
   transition: opacity .3s ease;
   opacity: 0;
-} */
+}
 .dchide{
   display: none !important;
 }

@@ -318,7 +318,7 @@ class DCAPIClass {
   getChannelPlaylists (artistID, source, maxRes, nextPage, hCallback) {
     var uid = this.genUID()
     if (source.toLowerCase().indexOf('soundcloud') > -1) {
-      axios.get(`http://api.soundcloud.com/users/${artistID}/playlists?client_id=${this.sScKey}`).then((resp) => {
+      axios.get(`https://api.soundcloud.com/users/${artistID}/playlists?client_id=${this.sScKey}`).then((resp) => {
         var img1 = ''
         let ret = {
           data: resp.data.map((item) => {
@@ -376,7 +376,7 @@ class DCAPIClass {
 
   getChannelSubscriptions (artistID, source, maxRes, nextPage, hCallback) {
     if (source.toLowerCase().indexOf('soundcloud') > -1) {
-      let url = nextPage || `http://api.soundcloud.com/users/${artistID}/followings?client_id=${this.sScKey}`
+      let url = nextPage || `https://api.soundcloud.com/users/${artistID}/followings?client_id=${this.sScKey}`
       axios.get(url).then((resp) => {
         let ret = {
           nextPage: resp.data.next_href, 
@@ -419,7 +419,7 @@ class DCAPIClass {
   getChannelPlaylistItems (listID, source, maxRes, hCallback) {
     var uid = this.genUID()
     if (source.toLowerCase().indexOf('soundcloud') > -1) {
-      return axios.get(`http://api.soundcloud.com/playlists/${listID}?client_id=${this.sScKey}`).then((resp) => {
+      return axios.get(`https://api.soundcloud.com/playlists/${listID}?client_id=${this.sScKey}`).then((resp) => {
         var ret = resp.data.tracks
         // .filter(item => typeof item.snippet.thumbnails !== 'undefined')
         .map((item) => {

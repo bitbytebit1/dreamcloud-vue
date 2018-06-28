@@ -1,7 +1,7 @@
 <template>
 	<v-flex flexbox xs12 lg10>
 		<v-container fluid grid-list-md>
-			<v-flex xs12 class="mr-4 ml-4 mb-3">
+			<v-flex xs12 class="mb-3">
 				<!-- filter -->
 				<v-text-field
 					@focus="filterHasFocus = true"
@@ -39,7 +39,7 @@
 				>
 					<!-- <v-card :to="{name: 'userPlaylist', params: {user: $route.params['user'], playlist: $route.params['playlist'], name: $route.params['name'] }}" class="pointer"> -->
 					<v-card :to="{name: 'artist', params: {source: props.item.source, artist: props.item.name, artistID: props.item.id }}" class="pointer" >
-						<v-avatar
+						<!-- <v-avatar
 							class="mt-2"
 							:size="((!$store.getters.drawLeft ? 21 : 0) + 95 + (!$store.getters.drawRight ? 21 : 0)) + 'px'"
 						>
@@ -47,8 +47,8 @@
 								:src="props.item.img"
 								alt=""
 							>
-						</v-avatar>
-						<!-- <v-card-media :src="props.item.img" height="200px"></v-card-media> -->
+						</v-avatar> -->
+						<v-card-media :src="props.item.img" height="200px"></v-card-media>
 						<v-card-text class="text-xs-center">{{ props.item.name }}</v-card-text>
 					</v-card>
 				</v-flex>
@@ -58,7 +58,7 @@
 </template>
 <script>
 // /* eslint-disable */
-// import deleteButton from '@/components/misc/delete-button'
+// import deleteButton from '@/components/buttons/delete-button'
 export default {
   name: 'userSubOverview',
   props: ['user'],

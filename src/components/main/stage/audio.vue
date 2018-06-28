@@ -97,6 +97,11 @@ export default {
       set (newVar) {
         this.description = newVar
       }
+		},
+    stageBorderStyle () {
+      return {
+        'border-bottom': '1px solid ' + this.$vuetify.theme.primary,
+      }
     },
     show () {
       return this.ytUseVideo && this.$store.getters.isYT
@@ -112,11 +117,6 @@ export default {
     }
   },
   methods: {
-    stageBorderStyle () {
-      return {
-        'border-bottom': '1px solid ' + this.$vuetify.theme.primary,
-      }
-    },
     btnFeedback () {
       this.btnCol = 'primary'
       setTimeout(() => {

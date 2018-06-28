@@ -12,7 +12,7 @@
 		</v-subheader>
 
 		<!-- ALL -->
-		<v-list-tile active-class="cyan white--text" ripple @click.stop="closeLeftOnMobile" :to="{name:'playlistsAll', params: {user: UID}}">
+		<v-list-tile active-class="primary white--text" ripple @click.stop="closeLeftOnMobile" :to="{name:'playlistsAll', params: {user: UID}}">
 			<v-list-tile-action>
 				<v-icon>music_note</v-icon>
 			</v-list-tile-action>
@@ -70,7 +70,7 @@
 				@click.stop="closeLeftOnMobile" 
 				id='playlist'
 				:class="isPlaying(UID, props.item['.key'], props.item['name'])"
-				:active-class="isPlaying(UID, props.item['.key'], props.item['name']) || 'cyan white--text'"
+				:active-class="isPlaying(UID, props.item['.key'], props.item['name']) || 'primary white--text'"
 				:to="{path: '/u/' + UID + '/' + props.item['.key'] +  '/' +  encodeURIComponent(props.item['name'])}" 
 				v-bind:key="props.item['.key']"
 				ripple
@@ -125,6 +125,7 @@ export default {
   },
   methods: {
     isPlaying (s, n, id) {
+			// console.log(this.$store.getters.hash, '=', '/u/' + s + '/' + n + '/' + encodeURIComponent(id), this.$store.getters.hash === '/u/' + s + '/' + n + '/' + encodeURIComponent(id))
       return this.$store.getters.hash === '/u/' + s + '/' + n + '/' + encodeURIComponent(id) ? 'primary white--text' : ''
     },
     closeLeftOnMobile () {

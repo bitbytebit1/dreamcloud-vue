@@ -103,8 +103,8 @@
 							<v-flex xs1>
                 
 								<!-- SONG ACTIONS DROPDOWN MENU -->
-								<v-menu transition="slide-y-transition" bottom lazy open-on-hover nudge-top="10" nudge-left="30" class="ar4" v-if="!$UTILS.isMobile">
-									<v-btn icon slot="activator" class="ar4" @click.stop>
+								<v-menu bottom open-on-hover close-on-click lazy nudge-top="10" nudge-left="30" class="ar4" v-if="!$UTILS.isMobile">
+									<v-btn icon slot="activator" class="ar14" @click.stop>
 										<v-icon>settings</v-icon>
 									</v-btn>
 									<v-list>
@@ -318,6 +318,9 @@ export default {
 </script>
 
 <style>
+.dc-crd:hover .ar4 {
+  display:inline-block !important;
+}
 .dc-crd:hover .ar4 {
   display:inline-block !important;
 }

@@ -5,7 +5,13 @@
 			<!-- Change to for loop to save the whales... I mean internet -->
 
 			<!-- home -->
-			<v-list-tile v-if="loggedIn" ripple @click="closeLeft" :to="{name: 'home', params: {user: $DCFB.UID}}">
+			<v-list-tile 
+				v-if="loggedIn" 
+				ripple 
+				@click="closeLeft" 
+				:to="{name: 'home', params: {user: $DCFB.UID}}"
+				exact-active-class="primary white--text"
+			>
 				<v-list-tile-action>
 					<v-icon>dashboard</v-icon>
 				</v-list-tile-action>
@@ -15,7 +21,7 @@
 			</v-list-tile>
 
 			<!-- Subscriptions all -->
-			<v-list-tile v-if="loggedIn" ripple @click="closeLeft" :to="{name:'subsAll', params: {user: $DCFB.UID}}">
+			<v-list-tile v-if="loggedIn" exact-active-class="primary white--text" ripple @click="closeLeft" :to="{name:'subsAll', params: {user: $DCFB.UID}}">
 				<v-list-tile-action>
 					<v-icon>whatshot</v-icon>
 				</v-list-tile-action>
@@ -45,7 +51,7 @@
       </v-list-tile> -->
 
 			<!-- history -->
-			<v-list-tile ripple class="history-link" @click="closeLeft" v-if="loggedIn" :to="{name:'history', params: {user: $DCFB.UID}}">
+			<v-list-tile ripple exact-active-class="primary white--text" class="history-link" @click="closeLeft" v-if="loggedIn" :to="{name:'history', params: {user: $DCFB.UID}}">
 				<v-list-tile-action>
 					<v-icon>history</v-icon>
 				</v-list-tile-action>
@@ -58,7 +64,7 @@
 			</v-list-tile>
 
 			<!-- about -->
-			<v-list-tile v-if="!loggedIn" ripple @click="closeLeft" :to="{name: 'about'}">
+			<v-list-tile v-if="!loggedIn" exact-active-class="primary white--text" ripple @click="closeLeft" :to="{name: 'about'}">
 				<v-list-tile-action>
 					<v-icon>info</v-icon>
 				</v-list-tile-action>
@@ -68,7 +74,7 @@
 			</v-list-tile>
 
 			<!-- login -->
-			<v-list-tile v-if="!loggedIn" ripple @click="closeLeft" :to="{path: '/login'}">
+			<v-list-tile v-if="!loggedIn" exact-active-class="primary white--text" ripple @click="closeLeft" :to="{path: '/login'}">
 				<v-list-tile-action>
 					<v-icon>person</v-icon>
 				</v-list-tile-action>
@@ -78,7 +84,7 @@
 			</v-list-tile>
       
 			<!-- settings -->
-			<v-list-tile ripple @click="closeLeft" v-if="loggedIn" :to="{path: '/settings'}">
+			<v-list-tile ripple @click="closeLeft" exact-active-class="primary white--text" v-if="loggedIn" :to="{path: '/settings'}">
 				<v-list-tile-action>
 					<v-icon>settings</v-icon>
 				</v-list-tile-action>

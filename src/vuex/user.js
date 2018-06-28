@@ -50,7 +50,7 @@ export default {
       state.settings[payload.setting] = payload.value
     }
   },
-  getters: { 
+  getters: {
     isAnon: state => state.user.isAnonymous,
     getUser: state => state.user,
     uid: state => state.user.uid,
@@ -60,7 +60,8 @@ export default {
     bShowStage: state => state.bShowStage,
     auth_state: state => state.auth_state,
     ytVideo: state => Boolean(state.settings['Video']),
-    nightMode: state => Boolean(state.settings['Night Mode']),
+		nightMode: state => Boolean(state.settings['Night Mode']),
+		textColor: state => state.settings['Night Mode'] ? 'white--text' : 'black--text'	,
     theme: state => state.settings['Night Mode'] ? {'dark': true} : {'light': true}
   }
 }

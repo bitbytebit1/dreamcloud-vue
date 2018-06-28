@@ -54,7 +54,7 @@
 				@click="closeLeftOnMobile"
 				id="subscription"
 				:class="isPlaying(props.item['source'], props.item['name'], props.item['id'])"
-				:active-class="isPlaying(props.item['source'], props.item['name'], props.item['id']) || 'cyan white--text'"
+				:active-class="isPlaying(props.item['source'], props.item['name'], props.item['id']) || 'primary white--text'"
 				:to="{path: '/a/'  + props.item['source'] +  '/' + encodeURIComponent(props.item['name']) +  '/' + props.item['id']}"
 				v-bind:key="props.item['.key']"
 				ripple

@@ -1,7 +1,7 @@
 <template>
 	<v-flex flexbox xs12 lg10>
 		<v-container fluid grid-list-md>
-			<v-flex xs12 >
+			<v-flex xs12 class="mb-3">
 				<!-- filter -->
 				<v-text-field
 					@focus="filterHasFocus = true"
@@ -21,7 +21,6 @@
 				content-tag="v-layout"
 				row
 				wrap
-				class=""
 				:items="aPlaylist"
 				:search="search"
 				:rows-per-page-items="rowsPerPageItems"

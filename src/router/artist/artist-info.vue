@@ -86,7 +86,7 @@ export default {
       if (this.source.toLowerCase().indexOf('youtube') > -1) {
         this.info.created = response.data.items[0].snippet.publishedAt
         this.info.description = response.data.items[0].snippet.description
-        this.info.img = response.data.items[0].snippet.thumbnails.default.url
+        this.info.img = response.data.items[0].snippet.thumbnails.high.url
         this.info.title = response.data.items[0].snippet.title
         this.info.followers_count = response.data.items[0].statistics.subscriberCount
         this.info.track_count = response.data.items[0].statistics.videoCount

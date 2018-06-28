@@ -7,7 +7,7 @@
       </v-btn> -->
 			<v-btn :color="$route.name === 'home' ? 'primary' : ''"  value="home" :to="{name: 'home', params: {user: UID}}">
 				<span>Home</span>
-				<v-icon>dashboard</v-icon>
+				<v-icon>home</v-icon>
 			</v-btn>
 			<v-btn :color="$route.name === 'stage' ? 'primary' : ''" value="stage" :to="{name: 'stage'}">
 				<span>Current</span>

@@ -184,13 +184,14 @@ export default {
       }
       if (!this.$store.getters.ytUseVideo) {
         return
-      }
+			}
+			
       this.$DCPlayer.pause()
       if (!this.yt) {
         this.yt = new YT.Player('player', {
           width: '100%',
           videoId: this.current_trackID,
-          height: window.innerHeight * 0.6 + 'px',
+					
           enablejsapi: 1,
           playerVars: {
             autoplay: 1,        // Auto-play the video on load

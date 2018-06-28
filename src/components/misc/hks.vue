@@ -9,7 +9,7 @@ export default {
   created () {
     window.onkeydown = (e) => {
       e = e || window.event
-      // console.log(e.keyCode)
+      // console.log(e)
       if (document.activeElement.tagName === 'INPUT') {
         return
       }
@@ -29,7 +29,7 @@ export default {
       } else if (e.keyCode == '38') { // up
           this.$DCPlayer.volUp()
           e.preventDefault()
-      } else if (e.keyCode == '39') { // right
+			} else if (e.keyCode == '39') { // right
           if (e.altKey){
             this.$DCPlayer.next()
             this.$DCFB.historyPush(this.$store.getters.current_song)
