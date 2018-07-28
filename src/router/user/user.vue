@@ -1,0 +1,121 @@
+<template>
+  <v-flex xl12 flexbox>
+    <h2>Essential Links</h2>
+    <ul>
+      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
+      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
+      <li><a href="https://gitter.im/vuejs/vue" target="_blank">Gitter Chat</a></li>
+      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
+      <br>
+    </ul>
+    <h2>Ecosystem</h2>
+    <ul>
+      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
+      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
+      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
+      <li><a href="https://vuetifyjs.com/components/data-tables" target="_blank">vuetify</a></li>
+      <li><a href="https://material.io/icons" target="_blank">material.io</a></li>
+      <li><a href="https://peachscript.github.io/vue-infinite-loading/#!/properties" target="_blank">infinite-loading</a></li>
+      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
+    </ul>
+    <h2>Overview</h2>
+    <v-flex xl12>
+      <loading :show="loading" spinner="spinner"></loading>
+      Currently using {{usage}} of {{quota}} ({{percentage}} %)
+      <v-btn v-on:click="clear">Clear Cache</v-btn>
+    </v-flex>
+
+    <v-btn v-on:click="logout">Logout</v-btn>
+  </v-flex>
+</template>
+
+<script>
+/* eslint-disable */
+import loading from '@/components/misc/inf-loading.vue'
+
+export default {
+  name: 'user',
+  components:{
+    'loading': loading
+  },
+  // mixins: [DCFB],
+  data () {
+    return {
+      loading: true,
+      usage: 0,
+      quota: 0,
+      percentage: 0
+    }
+  },
+  created () {
+    this.get_storage_estimate()
+  },
+  methods: {
+    get_storage_estimate () {
+      this.get_storage_estimate_wrap().then((estimate) => {
+        this.loading = false
+        this.usage = this.$UTILS.formatBytes(estimate.usage)
+        this.quota = this.$UTILS.formatBytes(estimate.quota)
+        this.percentage =  (estimate.usage / estimate.quota).toFixed(2);
+      })
+    },
+    get_storage_estimate_wrap () {
+      if ('storage' in navigator && 'estimate' in navigator.storage) {
+        // We've got the real thing! Return its response.
+        return navigator.storage.estimate();
+      }
+
+      if ('webkitTemporaryStorage' in navigator &&
+          'queryUsageAndQuota' in navigator.webkitTemporaryStorage) {
+        // Return a promise-based wrapper that will follow the expected interface.
+        return new Promise(function(resolve, reject) {
+          navigator.webkitTemporaryStorage.queryUsageAndQuota(
+            function(usage, quota) {resolve({usage: usage, quota: quota})},
+            reject
+          );
+        });
+      }
+
+      // If we can't estimate the values, return a Promise that resolves with NaN.
+      return Promise.resolve({usage: NaN, quota: NaN});
+    },
+    logout () {
+      this.$DCFB.fb.auth().signOut().then(() => {
+        this.$router.replace('login')
+      })
+    },
+    clear () {
+      caches.keys().then((names) => {
+        for (let name of names){
+          caches.delete(name)
+        }
+        this.get_storage_estimate()
+      })
+    }
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+#hello{
+  width: 100%
+}
+h1, h2 {
+  font-weight: normal;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  display: inline-block;
+  margin: 0 10px;
+}
+
+a {
+  color: #42b983;
+}
+</style>

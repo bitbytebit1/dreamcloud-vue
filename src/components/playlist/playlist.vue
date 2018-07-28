@@ -1,52 +1,17 @@
 <template>
-  <v-flex flexbox>
-      <!-- <div class="well"> && !$UTILS.isMobile -->
-        <!-- <button class="btn btn-primary" @click='sort'>Sort Date</button>   -->
-        <!-- <button class="btn btn-primary" @click='toggleView'>Toggle Playlist View</button> -->
-      <!-- </div> -->
-      <v-container v-if="!list" fluid v-bind="{ [`grid-list-${_size}`]: true }">
-        <v-layout row wrap>
-            <v-flex lg10>
-              <v-text-field
-              color="teal"
-              :class="$vuetify.breakpoint.smAndUp ? 'ml-4' : ''"
-              label="Filter"
-              single-line
-              hide-details
-              v-on:keyup.enter="$UTILS.closeSoftMobi()"
-              ref="search"
-              ></v-text-field>
-            </v-flex>
-            <v-flex lg2 :class="$vuetify.breakpoint.name === 'xs' ? '' : 'pt-2'">
-              <v-btn icon>
-                <v-icon>filter_list</v-icon>
-              </v-btn> 
-              <v-btn icon @click="toggleView">
-                <v-icon>view_headline</v-icon>
-              </v-btn>
-            </v-flex>
-          <!-- <v-flex> -->
-            <column
-              v-for="(song, index) in songs"
-              :song="song"
-              :index="index"
-              :key="index" 
-            >
-            </column>
-          <!-- </v-flex> -->
-        </v-layout>
-      </v-container>
-        <v-container v-if="list && !$UTILS.isMobile">
-          <list :sortBy="sortBy" @toggleView="toggleView" :songs="songs"></list>
-      </v-container>
-      <list @toggleView="toggleView" v-if="list && $UTILS.isMobile" :songs="songs"></list>
-      <scroll-to-top></scroll-to-top>
-  </v-flex>
+  <!-- <v-flex flexbox> -->
+  <!-- <v-container fluid class="grid-list-xs search-results"> -->
+  <v-layout row wrap>
+    <list v-if="list && !gridView" :songs="fixedSongs" :full="full" :rowsPerPage="rowsPerPage" :sortBy="sortBy" @toggleView="toggleView"></list>
+    <grid v-else :songs="fixedSongs" :full="full" :rowsPerPage="rowsPerPage" :sortBy="sortBy" :showUploaded="showUploaded" @toggleView="toggleView"></grid>
+  </v-layout>
+  <!-- </v-container> -->
+  <!-- </v-flex> -->
 </template>
 <script>
-import column from './column.vue'
-import list from './list.vue'
-import scrollToTop from '../misc/scroll-to-top.vue'
+import grid from './grid'
+import list from './list'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'playlist',
@@ -55,41 +20,56 @@ export default {
       type: [Array],
       required: true
     },
-    viewType: {
-      type: [Object],
-      default () {
-        return { full: true, list: !0 }
-      }
+    gridView: {
+      type: [Boolean],
+      default: false
+    },
+    rowsPerPage: {
+      type: [Number, String],
+      default: 10
+    },
+    full: {
+      type: [Boolean],
+      default: true
     },
     sortBy: {
       type: [String],
       default: ''
+    },
+    showUploaded: {
+      type: [Boolean],
+      default: false
     }
   },
-
   components: {
-    'column': column,
-    'list': list,
-    'scroll-to-top': scrollToTop
+    'grid': grid,
+    'list': list
   },
   data () {
     return {
       showScrollToTop: false,
-      list: this.viewType.list,
       fixd: this.songs
     }
   },
   computed: {
+    ...mapGetters({
+      list: 'view_mode'
+    }),
     _size () {
       // returns xs to xl depending on view port.
       // used to set padding around elements.
       return this.$vuetify.breakpoint.name
     },
     fixedSongs () {
-      for (let song in this.songs) {
+      // eslint-disable-next-line
+      this.fixd = this.songs
+      for (let song in this.fixd) {
+        // console.log(this.fixd[song])
         if (!(this.fixd[song].uploaded instanceof Date)) {
+          // eslint-disable-next-line
           this.fixd[song].uploaded = new Date(this.fixd[song].uploaded)
         } else {
+          // console.log('assuming all dates are ok')
           break
         }
       }
@@ -105,14 +85,24 @@ export default {
       this.songs.sort(this.$DCAPI.sortDate)
     },
     toggleView () {
-      this.list = !this.list
+      this.$store.commit('view_mode_toggle')
     }
   }
 }
 </script>
 
 <style>
-#search-results{
-  margin-bottom: 10px
-}
+
+  @media only screen and (min-width: 600px){
+    .search-results{
+      /* margin-top: 15px!important; */
+      margin-bottom: 15px!important;
+    }
+  }
+
+  @media only screen and (max-width: 599px){
+    .search-results{
+      margin-bottom: 42px!important;
+    }
+  }
 </style>

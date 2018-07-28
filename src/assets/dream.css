@@ -1,0 +1,162 @@
+/* GENERAL UTILITIES */
+.hidden{
+  display: none !important;
+}
+/* GENERAL TYPOGRAPHY */
+.fwl{
+  font-weight: 300!important;
+}
+/* DARK THEME */
+.theme--dark{
+  background-color: #161616 !important;
+  color: #fff !important;
+}
+.theme--dark .fillPlace, .theme--dark .v-avatar{
+  background-color: #1d1d1d !important;
+  color: #fff !important;
+}
+/* LAZY LOADING */
+.theme--dark .v-card__media[lazy=loading],
+.theme--dark .v-card__media[lazy=loaded],
+.theme--dark .v-card__media[lazy=error],
+.theme--dark td.pstr-sm.pdiv div[lazy=loading],
+.theme--dark td.pstr-sm.pdiv div[lazy=loaded],
+.theme--dark td.pstr-sm.pdiv div[lazy=error]{
+  background-color: #1d1d1d !important;
+  /* border: 1px solid rgba(255, 255, 255, .1); */
+}
+/* CARD */
+.theme--dark .v-card:not(.primary){
+  background-color: #161616 !important;
+  color: #fff !important;
+}
+/* SIDEBAR */
+.theme--dark .v-navigation-drawer{
+  background-color: #161616 !important;
+  color: #fff !important;
+}
+/* HEADER + FOOTER */
+.theme--dark #foot{
+  background-color: #191919 !important;
+  color: #fff !important;
+}
+.theme--dark #navbar{
+  background-color: #191919 !important;
+  color: #fff !important;
+}
+/* TABLE */
+.theme--dark .v-table{
+  background-color: #161616 !important;
+  color: #fff !important;
+}
+.theme--dark .v-datatable__actions{
+  background-color: #161616 !important;
+  color: #fff !important;
+}
+/* LIST */
+.theme--dark .v-list{
+  background-color: #161616 !important;
+  color: #fff !important;
+}
+/* TABS */
+.theme--dark .v-tabs__bar{
+  background-color: #161616 !important;
+  color: #fff !important;
+}
+
+
+/* JET BLACK THEME */
+.theme-jet-black{
+  background-color: #000 !important;
+  color: #fff !important;
+}
+.theme-jet-black .fillPlace, .theme-jet-black .v-avatar{
+  background-color: #1d1d1d !important;
+  color: #fff !important;
+}
+/* LAZY LOADING */
+.theme-jet-black .v-card__media[lazy=loading],
+.theme-jet-black .v-card__media[lazy=loaded],
+.theme-jet-black .v-card__media[lazy=error],
+.theme-jet-black td.pstr-sm.pdiv div[lazy=loading],
+.theme-jet-black td.pstr-sm.pdiv div[lazy=loaded],
+.theme-jet-black td.pstr-sm.pdiv div[lazy=error]{
+  background-color: #1d1d1d !important;
+  border: 1px solid rgba(29, 29, 29, .2);
+}
+/* CARD */
+.theme-jet-black .v-card:not(.primary){
+  background-color: #000 !important;
+  color: #fff !important;
+}
+/* SIDEBAR */
+.theme-jet-black .v-navigation-drawer{
+  background-color: #000 !important;
+  color: #fff !important;
+}
+/* HEADER + FOOTER */
+.theme-jet-black #foot{
+  background-color: #000 !important;
+  color: #fff !important;
+}
+.theme-jet-black #navbar{
+  background-color: #000 !important;
+  color: #fff !important;
+}
+/* TABLE */
+.theme-jet-black .v-table{
+  background-color: #000 !important;
+  color: #fff !important;
+}
+.theme-jet-black .v-datatable__actions{
+  background-color: #000 !important;
+  color: #fff !important;
+}
+/* LIST */
+.theme-jet-black .v-list{
+  background-color: #000 !important;
+  color: #fff !important;
+}
+/* TABS */
+.theme-jet-black .v-tabs__bar{
+  background-color: #000 !important;
+  color: #fff !important;
+}
+/* .theme-jet-black .v-input input{
+  background-color: #000 !important;
+  color: #fff !important;
+}
+.theme-jet-black .v-input label{
+  background-color: #000 !important;
+  color: #fff !important;
+} */
+div.application.theme--light.theme-jet-black .v-navigation-drawer .v-icon,
+div.application.theme--light.theme-jet-black #foot .v-icon,
+div.application.theme--light.theme-jet-black #navbar .v-icon,
+div.application.theme--light.theme-jet-black .v-navigation-drawer .v-icon,
+{
+  color: #fff !important;
+}
+/* LIGHT */
+div.application.theme--light .fillPlace{
+  background-color: #e3e3e3;
+}
+div.application.theme--light .v-avatar[lazy=error], div.application.theme--light .v-avatar[lazy=loading] {
+  background-color: #e3e3e3;
+}
+.v-avatar[lazy=loaded] {
+  background-color: #e3e3e3;
+  background: center center / cover no-repeat;
+}
+div.application.theme--light .v-card__media[lazy=error], div.application.theme--light .v-card__media[lazy=loading] {
+  background-color: #e3e3e3;
+}
+div.application.theme--dark .fillPlace{
+  background-color: #616161;
+}
+div.application.theme--dark .v-avatar[lazy=error], div.application.theme--dark .v-avatar[lazy=loading] {
+  background-color: #616161;
+}
+div.application.theme--dark .v-card__media[lazy=error], div.application.theme--dark .v-card__media[lazy=loading] {
+  background-color: #616161;
+}
