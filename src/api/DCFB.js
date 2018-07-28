@@ -1,8 +1,11 @@
-import firebase from 'firebase'
+
+var firebase = require('firebase/app')
+require('firebase/auth')
+require('firebase/database')
+
 // http://2ality.com/2014/09/es6-modules-final.html
 // https://www.firebase.com/docs/web/guide/saving-data.html
 // https://github.com/vuejs/vuefire/issues/18
-// /* eslint-disable */
 var config = {
   apiKey: 'AIzaSyDSaKaRsDvmOicthSOJGvSF4iQC2ZprwFw',
   authDomain: 'dreamcloud-3f276.firebaseapp.com',

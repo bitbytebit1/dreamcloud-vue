@@ -4,16 +4,12 @@ module.exports = {
     node: true
   },
   'extends': [
-    "plugin:vue/essential",
-    "eslint:recommended"
+    'plugin:vue/essential',
+    'eslint:recommended'
   ],
   rules: {
-    'no-console': 'off',
-    'no-debugger': 'off',
-    'vue/html-indent': [
-      'error',
-      'tab'
-    ]
+    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
   },
   parserOptions: {
     parser: 'babel-eslint'

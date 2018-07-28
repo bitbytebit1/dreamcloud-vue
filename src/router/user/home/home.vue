@@ -1,46 +1,52 @@
 <template>
-	<v-flex xs12 lg10 class="mb-2">
-		<!-- subsAll -->
-		<!-- <v-flex xs12 v-if="aSubscriptionsRoot.length">
-			<router-link :class="textClass" :to="{name:'subsAll', params: {user: $DCFB.UID}}">
-				<h2 class="text-xs-left">Latest from your subscriptions</h2>
-			</router-link>
-			<div v-if="!auth_state || !aSubscriptionsRoot.length || (100 / aSubscriptionsRoot.length) * bLoadingSubs < 90">
-				<div v-if="bLoadingSubs">
-					<v-progress-linear :value="Math.floor((100 / aSubscriptionsRoot.length) * bLoadingSubs)" height="5" color="primary"></v-progress-linear>
-					Loaded {{bLoadingSubs}} of {{aSubscriptionsRoot.length}}
-				</div>
-			</div>
-			<div v-else class="mb-2">
-				<playlist :rowsPerPage='iSub' :showUploaded="true" :full="false" :gridView="true" :songs="aSubscriptions"></playlist>
-				<v-flex xs12>
-					<v-btn block class="pointer" @click="iSub += iMore">SHOW MORE</v-btn>
-				</v-flex>
-			</div>
-			<v-divider v-if="!bLoadingSubs"  class="mt-4 mb-4"></v-divider>
-		</v-flex> -->
+  <v-flex xs12 lg10 class="mb-2">
+    <!-- subsAll -->
+    <!-- <v-flex xs12 v-if="aSubscriptionsRoot.length">
+      <router-link :class="textClass" :to="{name:'subsAll', params: {user: $DCFB.UID}}">
+        <h2 class="text-xs-left">Latest from your subscriptions</h2>
+      </router-link>
+      <div v-if="!auth_state || !aSubscriptionsRoot.length || (100 / aSubscriptionsRoot.length) * bLoadingSubs < 90">
+        <div v-if="bLoadingSubs">
+          <v-progress-linear :value="Math.floor((100 / aSubscriptionsRoot.length) * bLoadingSubs)" height="5" color="primary"></v-progress-linear>
+          Loaded {{bLoadingSubs}} of {{aSubscriptionsRoot.length}}
+        </div>
+      </div>
+      <div v-else class="mb-2">
+        <playlist :rowsPerPage='iSub' :showUploaded="true" :full="false" :gridView="true" :songs="aSubscriptions"></playlist>
+        <v-flex xs12>
+          <v-btn block class="pointer" @click="iSub += iMore">SHOW MORE</v-btn>
+        </v-flex>
+      </div>
+      <v-divider v-if="!bLoadingSubs"  class="mt-4 mb-4"></v-divider>
+    </v-flex> -->
 
-		<!-- Recommended -->
-		<router-link :class="textClass" :to="{name:'historyRecommended', params: {user: $DCFB.UID}}">
-			<h2 class="text-xs-left">Recommended</h2>
-		</router-link>
-		<div class="mb-2">
-			<historyRecommended :iLimit="iReco" :rowsPerPage='iReco' @done='bRecoShow = true'></historyRecommended>
-			<v-btn v-if="bRecoShow" block class="pointer" @click="iReco += iMore">SHOW MORE</v-btn>
-		</div>
-		<v-divider color="primary" class="mt-4 mb-4"></v-divider>
+    <!-- Recommended -->
+    
+    <div v-if="!bFail">
+      <router-link :class="textClass" :to="{name:'historyRecommended', params: {user: $DCFB.UID}}">
+        <h2 class="text-xs-left">Recommended</h2>
+      </router-link>
+      <div class="mb-2">
+        <historyRecommended :iLimit="iReco" :rowsPerPage='iReco' @done='recoDone'></historyRecommended>
+        <v-btn v-if="bRecoShow" block class="pointer mt-3" @click="iReco += iMore">SHOW MORE</v-btn>
+      </div>
+      <v-divider color="primary" class="mt-4 mb-4"></v-divider>
 
-		<!-- History -->
-		<router-link :class="textClass" :to="{name:'history', params: {user: $DCFB.UID}}">
-			<h2 class="text-xs-left">Recently played</h2>
-		</router-link>
-		<loading v-if="!auth_state || !aHistory.length"></loading>
-		<div v-else class="mb-2">
-			<playlist :rowsPerPage='iHist' :full="false" :gridView="true" :songs="aHistRev"></playlist>
-			<v-btn block class="pointer" @click="iHist += iMore">SHOW MORE</v-btn>
-		</div>
+    <!-- History -->
+      <router-link :class="textClass" :to="{name:'history', params: {user: $DCFB.UID}}">
+        <h2 class="text-xs-left">Recently played</h2>
+      </router-link>
+      <div class="mb-2">
+        <playlist :rowsPerPage='iHist' :full="false" :gridView="true" :songs="aHistRev"></playlist>
+        <v-btn block class="pointer mt-3" @click="iHist += iMore">SHOW MORE</v-btn>
+      </div>
+    </div>
+    
+    <div v-else-if="bFail">
+      Go listen to some music first
+    </div>
 
-	</v-flex>
+  </v-flex>
 </template>
 <script>
 // /* eslint-disable */
@@ -55,6 +61,7 @@ export default {
   },
   data () {
     return {
+      bFail: false,
       bLoadingSubs: 0,
       bRecoShow: false,
       iHist: 12,
@@ -67,13 +74,26 @@ export default {
     }
   },
   watch: {
-    'auth_state': 'bind'
+    'auth_state': {
+      immediate: true,
+      handler: 'bind'
+    }
   },
   methods: {
+    recoDone () {
+      this.bRecoShow = true
+      this.$store.dispatch('loadIndeterm', false)
+    },
     bind () {
       if (this.auth_state) {
-        this.$bindAsArray('aHistory', this.$DCFB.history)
-        // this.$bindAsArray('aSubscriptionsRoot', this.$DCFB.subscriptionGet(this.$DCFB.UID), null, this.getAllSubs)
+        this.$store.dispatch('loadIndeterm', true)
+        this.$bindAsArray('aHistory', this.$DCFB.history, null, () => {
+          if (!this.aHistory.length) {
+            this.$store.dispatch('loadIndeterm', false)
+            // this.$router.push({name: 'searchPage', params: {query: ' ', source: 'YouTube'}})
+            this.bFail = true
+          }
+        })
       }
     },
     getAllSubs () {
@@ -99,12 +119,19 @@ export default {
       // eslint-disable-next-line
       return this.$UTILS.uniqueArray([...this.aHistory].reverse())
     },
+    aHistRevLeng () {
+      // eslint-disable-next-line
+      return this.$UTILS.uniqueArray([...this.aHistory].reverse())
+    },
     textClass () {
       return 'home-link grey--text text--' + (this.nightMode ? 'lighten' : 'darken') + '-2'
     }
   },
   created () {
-    this.bind()
+    // this.bind()
+  },
+  updated () {
+    // this.$store.dispatch('loadIndeterm', false)
   }
 }
 </script>

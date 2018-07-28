@@ -1,8 +1,8 @@
 <template>
-	<v-flex xs12 lg10 flexbox :key="$route.params.playlist">
-		<loading v-if="!auth_state || !aSongs.length"></loading>
-		<playlist v-else sortBy="uploaded" :showUploaded="!0" :songs="aSongs" rowsPerPage="84"></playlist>
-	</v-flex>
+  <v-flex xs12 lg10 flexbox :key="$route.params.playlist">
+    <div class="headline fwl text-xs-left pl-2 pt-2">Library</div>
+    <playlist sortBy="uploaded" :showUploaded="!0" :songs="aSongs" rowsPerPage="84"></playlist>
+  </v-flex>
 </template>
 <script>
 import loading from '@/components/misc/loading'
@@ -37,12 +37,17 @@ export default {
         for (const i2 in this.userlist[i1].songs) {
           this.aSongs.push(this.userlist[i1].songs[i2])
         }
+        this.$store.commit('loadValue', (100 / this.userlist.length) * i1)
       }
+      setTimeout(() => {
+        this.$store.commit('loadActive', false)
+      }, 350)
     },
     bind () {
       // only bind if logged in
       if (this.auth_state) {
         // this.$bindAsArray('userlist', this.$DCFB.playlists, null, this.allSongs)
+        this.$store.commit('loadActive', true)
         this.$bindAsArray('userlist', this.$DCFB.playlistGetAll(this.user), null, this.allSongs)
       }
     }

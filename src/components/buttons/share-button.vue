@@ -1,7 +1,7 @@
 <template>
-	<v-btn :color="color" icon @click.stop="share">
-		<v-icon>share</v-icon>
-	</v-btn>
+  <v-btn :color="color" icon @click.stop="share">
+    <v-icon>share</v-icon>
+  </v-btn>
 </template>
 <script>
 // /* eslint-disable */
@@ -19,7 +19,7 @@ export default {
   },
   methods: {
     share () {
-      this.color = 'green'
+      this.color = 'primary'
       this.$UTILS.share(this.url, this.song)
       setTimeout(() => {
         this.color = ''

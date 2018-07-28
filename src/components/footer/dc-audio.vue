@@ -1,59 +1,59 @@
 <template>
-	<div id="dc-audio-container">
-		<div id="dc-player">
-			<!-- CONTROLS -->
-			<div id="left">
-				<div class="audio-controls">
-					<v-btn @click="previous" v-bind="$store.getters.theme" class="primary" icon outline>
-						<v-icon>skip_previous</v-icon>
-					</v-btn>
-					<v-btn :loading="bLoading" v-bind="$store.getters.theme" @click="$DCPlayer.togglePlay" class="primary" icon outline>
-						<v-icon>{{play_arrow}}</v-icon>
-					</v-btn>
-					<v-btn @click="next" v-bind="$store.getters.theme" class="primary" icon outline>
-						<v-icon>skip_next</v-icon>
-					</v-btn>
-				</div>
-			</div>
+  <div id="dc-audio-container">
+    <div id="dc-player">
+      <!-- CONTROLS -->
+      <div id="left">
+        <div class="audio-controls">
+          <v-btn @click="previous" v-bind="$store.getters.theme" class="primary" icon outline>
+            <v-icon>skip_previous</v-icon>
+          </v-btn>
+          <v-btn :loading="bLoading" v-bind="$store.getters.theme" @click="$DCPlayer.togglePlay" class="primary" icon outline>
+            <v-icon>{{play_arrow}}</v-icon>
+          </v-btn>
+          <v-btn @click="next" v-bind="$store.getters.theme" class="primary" icon outline>
+            <v-icon>skip_next</v-icon>
+          </v-btn>
+        </div>
+      </div>
 
-			<!-- VOLUME -->
-			<div id="right" class="hidden-xs-only" @wheel.prevent="onWheel">
-				<v-speed-dial hover transition="slide-x-reverse-transition" open-on-hover>
-					<v-btn v-bind="$store.getters.theme" @click="toggleMute" :class="volClass" slot="activator" fab hover icon outline small>
-						<v-icon>{{volIcon}}</v-icon>
-					</v-btn>
-					<div class="slider-wrapper">
-						<input class="vol-slider pointer" type="range" min="0" max="10" @input="volumeChange" v-model="volume" step="0.01">
-					</div>
-				</v-speed-dial>
-			</div>
+      <!-- VOLUME -->
+      <div id="right" class="hidden-xs-only" @wheel.prevent="onWheel">
+        <v-speed-dial hover transition="slide-x-reverse-transition" open-on-hover>
+          <v-btn v-bind="$store.getters.theme" @click="toggleMute" :class="volClass" slot="activator" fab hover icon outline small>
+            <v-icon>{{volIcon}}</v-icon>
+          </v-btn>
+          <div class="slider-wrapper">
+            <input class="vol-slider pointer" type="range" min="0" max="10" @input="volumeChange" v-model="volume" step="0.01">
+          </div>
+        </v-speed-dial>
+      </div>
 
-			<!-- PROGRESS -->
-			<div id="middle">
-				<div id="progress">
-					<!-- <v-container fluid grid-list-md class="pa-0 ma-0"> -->
-					<v-layout row wrap>
-						<v-flex xs12 class="ml-3 mr-3">
-							<v-slider thumb-label :max="eAudio.duration" :label="currentTime" @input="changePos" v-model="progress" color="primary" hide-details>
-								<template
-									slot="thumb-label"
-									slot-scope="props"
-								>
-									<span>
-										{{ secondsToDuration(progress) }}
-									</span>
-								</template>
-							</v-slider>
-						</v-flex>
-					</v-layout>
-					<!-- </v-container> -->
-				</div>  
-			</div>
+      <!-- PROGRESS -->
+      <div id="middle">
+        <div id="progress">
+          <!-- <v-container fluid grid-list-md class="pa-0 ma-0"> -->
+          <v-layout row wrap>
+            <v-flex xs12 class="ml-3 mr-3">
+              <v-slider :thumb-size="thumbSize" thumb-label :max="eAudio.duration" :label="currentTime" @input="changePos" v-model="progress" color="primary" hide-details>
+                <template
+                  slot="thumb-label"
+                  slot-scope="props"
+                >
+                  <span>
+                    {{ secondsToDuration(progress) }}
+                  </span>
+                </template>
+              </v-slider>
+            </v-flex>
+          </v-layout>
+          <!-- </v-container> -->
+        </div>  
+      </div>
 
-		</div>
-		<!-- AUDIO ELEMENT -->
-		<audio controls id="dc-audio"></audio>
-	</div>
+    </div>
+    <!-- AUDIO ELEMENT -->
+    <audio controls id="dc-audio"></audio>
+  </div>
 </template>
 
 <script>
@@ -72,6 +72,10 @@ export default {
     }
   },
   computed: {
+    thumbSize () {
+      // if song is over an hour increase progress thumb label size
+      return this.iProgress > 3601 ? '55' : '35'
+    },
     volClass () {
       return this.volIcon === 'volume_off' ? 'red' : 'primary'
     }
@@ -132,7 +136,7 @@ export default {
       if (isNaN(ms)) {
         return '00:00'
       }
-      var seconds = parseInt(ms, 10)
+      var seconds = Math.ceil(ms)
       var hh = Math.floor(seconds / 3600)
       var mm = Math.floor((seconds - (hh * 3600)) / 60)
       var ss = seconds - (hh * 3600) - (mm * 60)

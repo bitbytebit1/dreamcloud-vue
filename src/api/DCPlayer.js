@@ -104,6 +104,17 @@ export default {
           DCPlayer.eAudio.currentTime += 10
         }
       },
+      toggleMute () {
+        if (store.getters.ytUseVideo && store.getters.isYT) {
+          if (this.$store.getters.ytObject.isMuted()) {
+            this.$store.getters.ytObject.unMute()
+          } else {
+            this.$store.getters.ytObject.mute()
+          }
+        } else {
+          this.eAudio.muted = !this.eAudio.muted
+        }
+      },
       togglePlay () {
         if (store.getters.ytUseVideo && store.getters.isYT) {
           if (store.getters.ytIsPlaying) {

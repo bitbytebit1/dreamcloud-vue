@@ -1,10 +1,10 @@
 <template>
-	<v-flex justify-center align-center class="loading-flex mt-3">
-		<div class="half-circle-spinner">
-			<div class="circle circle-1" :style="circle1Style"></div>
-			<div class="circle circle-2" :style="circle2Style"></div>
-		</div>
-	</v-flex>
+  <v-flex justify-center align-center class="loading-flex mt-3">
+    <div class="half-circle-spinner">
+      <div class="circle circle-1" :style="circle1Style"></div>
+      <div class="circle circle-2" :style="circle2Style"></div>
+    </div>
+  </v-flex>
 </template>
 
 <script>

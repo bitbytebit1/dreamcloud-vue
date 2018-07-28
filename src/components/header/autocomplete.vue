@@ -1,25 +1,24 @@
 <template>
-	<v-autocomplete
-		v-on:keyup.enter='enter'
-		:loading="loading"
-		:items="items"
-		:search-input.sync="search"
-		v-model="select"
-		color="primary"
-		label="Dream"
-		append-icon=""
-		single-line
-		hide-no-data
-		class="mt-2"
-	>
-		<template slot="item" slot-scope="data">
-			<v-list-tile-content @click="clicked(data.item)" v-text="data.item"></v-list-tile-content>
-		</template>
-	</v-autocomplete>
+  <v-autocomplete
+    v-on:keyup.enter='enter'
+    :loading="loading"
+    :items="items"
+    :search-input.sync="search"
+    v-model="select"
+    color="primary"
+    label="dream"
+    append-icon=""
+    single-line
+    hide-no-data
+    class="mt-2"
+  >
+    <template slot="item" slot-scope="data">
+      <v-list-tile-content @click="clicked(data.item)" v-text="data.item"></v-list-tile-content>
+    </template>
+  </v-autocomplete>
 </template>
 <script>
 export default {
-  props: ['sQuery'],
   data () {
     return {
       loading: false,
@@ -38,8 +37,13 @@ export default {
       this.emit(v)
     },
     enter () {
-      // console.log('enter', this.search, this.select)
+      // console.log('enter 1', this.search, '2', this.select)
+      // console.log(this.select)
+      // console.log(this.search)
       this.emit(this.search)
+      // this.$nextTick(() => {
+      // console.log(this.search)
+      // })
     },
     emit (v) {
       this.$emit('search', v)

@@ -1,13 +1,13 @@
 <template>
-	<v-flex justify-center class="loading-flex">
-		<div class="semipolar-spinner">
-			<div class="ring" :style="ringStyle"></div>
-			<div class="ring" :style="ringStyle"></div>
-			<div class="ring" :style="ringStyle"></div>
-			<div class="ring" :style="ringStyle"></div>
-			<div class="ring" :style="ringStyle"></div>
-		</div>
-	</v-flex>
+  <v-flex justify-center class="loading-flex">
+    <div class="semipolar-spinner">
+      <div class="ring" :style="ringStyle"></div>
+      <div class="ring" :style="ringStyle"></div>
+      <div class="ring" :style="ringStyle"></div>
+      <div class="ring" :style="ringStyle"></div>
+      <div class="ring" :style="ringStyle"></div>
+    </div>
+  </v-flex>
 </template>
 
 <script>

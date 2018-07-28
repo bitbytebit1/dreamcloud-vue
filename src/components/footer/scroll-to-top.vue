@@ -1,16 +1,16 @@
 <template>
-	<!-- <v-fab-transition transition="slide-y-reverse-transition"> -->
-	<v-btn
-		fixed
-		v-bind="$store.getters.theme"
-		@click="scrollToTop"
-		class="scrollToTop primary"
-		outline 
-		icon  
-	>
-		<v-icon>{{showScrollToTop ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}</v-icon>
-	</v-btn>
-	<!-- </v-fab-transition> -->
+  <!-- <v-fab-transition transition="slide-y-reverse-transition"> -->
+  <v-btn
+    fixed
+    v-bind="$store.getters.theme"
+    @click="scrollToTop"
+    class="scrollToTop primary"
+    outline 
+    icon  
+  >
+    <v-icon>{{showScrollToTop ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}</v-icon>
+  </v-btn>
+  <!-- </v-fab-transition> -->
 </template>
 <script>
 export default {

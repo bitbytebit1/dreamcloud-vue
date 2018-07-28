@@ -1,10 +1,10 @@
 <template>
-	<v-flex xs12 v-show="show" class="loading">
-		<infinite-loading :ref="reff" @infinite="infiniteHandler" :spinner="spinner">
-			<span slot="no-more"></span>
-			<span v-if="!spinner" slot="spinner"></span>
-		</infinite-loading>
-	</v-flex>
+  <v-flex xs12 v-show="show" class="loading">
+    <infinite-loading :ref="reff" @infinite="infiniteHandler" :spinner="spinner">
+      <span slot="no-more"></span>
+      <span v-if="!spinner" slot="spinner"></span>
+    </infinite-loading>
+  </v-flex>
 </template>
 <script>
 import InfiniteLoading from 'vue-infinite-loading'

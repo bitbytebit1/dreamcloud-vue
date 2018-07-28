@@ -1,10 +1,10 @@
 <template>
-	<v-flex xs12 lg10 flexbox :key="this.$route.params.playlist">
-		<!-- <h3>{{name}}</h3> -->
-		<loading v-if="!aSongs.length"></loading>
-		<!-- show all items since it's a user playlist -->
-		<playlist v-else :showUploaded="true" :songs="aSongs" rowsPerPage='250'></playlist>
-	</v-flex>
+  <v-flex xs12 lg10 flexbox :key="this.$route.params.playlist">
+    <div class="headline fwl text-xs-left pl-2 pt-2">{{name}}</div>
+    <!-- <loading v-if="!aSongs.length"></loading> -->
+    <!-- show all items since it's a user playlist -->
+    <playlist :showUploaded="true" :songs="aSongs" rowsPerPage='250'></playlist>
+  </v-flex>
 </template>
 <script>
 import loading from '@/components/misc/loading'
@@ -29,7 +29,10 @@ export default {
   methods: {
     bind (usr, plylist) {
       // this.$unbind('aSongs')
-      this.$bindAsArray('aSongs', this.$DCFB.playlistGet(this.$route.params.user, this.$route.params.playlist))
+      this.$store.dispatch('loadIndeterm', true)
+      this.$bindAsArray('aSongs', this.$DCFB.playlistGet(this.$route.params.user, this.$route.params.playlist), null, () => {
+        this.$store.dispatch('loadIndeterm', false)
+      })
     }
   }
   // firebase () {

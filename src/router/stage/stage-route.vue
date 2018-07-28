@@ -1,5 +1,5 @@
 <template>
-	<div :id="trackID"></div>  
+  <div :id="trackID"></div>  
 </template>
 
 <script>

@@ -1,7 +1,7 @@
 <template>
-	<v-flex>
-		<div id="preline">{{ x1 }}</div>
-	</v-flex>
+  <v-flex>
+    <div id="preline">{{ x1 }}</div>
+  </v-flex>
 </template>
 <script>
 /* eslint-disable */

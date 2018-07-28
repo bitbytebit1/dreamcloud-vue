@@ -1,7 +1,7 @@
 <template>
-	<div class="?">
-		<h1>{{ x1 }}</h1>
-	</div>
+  <div class="?">
+    <h1>{{ x1 }}</h1>
+  </div>
 </template>
 <script>
 // /* eslint-disable */

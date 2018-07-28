@@ -1,32 +1,32 @@
 <template>
-	<v-flex xl12 flexbox>
-		<h2>Essential Links</h2>
-		<ul>
-			<li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-			<li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-			<li><a href="https://gitter.im/vuejs/vue" target="_blank">Gitter Chat</a></li>
-			<li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-			<br>
-		</ul>
-		<h2>Ecosystem</h2>
-		<ul>
-			<li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-			<li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-			<li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-			<li><a href="https://vuetifyjs.com/components/data-tables" target="_blank">vuetify</a></li>
-			<li><a href="https://material.io/icons" target="_blank">material.io</a></li>
-			<li><a href="https://peachscript.github.io/vue-infinite-loading/#!/properties" target="_blank">infinite-loading</a></li>
-			<li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-		</ul>
-		<h2>Overview</h2>
-		<v-flex xl12>
-			<loading :show="loading" spinner="spinner"></loading>
-			Currently using {{usage}} of {{quota}} ({{percentage}} %)
-			<v-btn v-on:click="clear">Clear Cache</v-btn>
-		</v-flex>
+  <v-flex xl12 flexbox>
+    <h2>Essential Links</h2>
+    <ul>
+      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
+      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
+      <li><a href="https://gitter.im/vuejs/vue" target="_blank">Gitter Chat</a></li>
+      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
+      <br>
+    </ul>
+    <h2>Ecosystem</h2>
+    <ul>
+      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
+      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
+      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
+      <li><a href="https://vuetifyjs.com/components/data-tables" target="_blank">vuetify</a></li>
+      <li><a href="https://material.io/icons" target="_blank">material.io</a></li>
+      <li><a href="https://peachscript.github.io/vue-infinite-loading/#!/properties" target="_blank">infinite-loading</a></li>
+      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
+    </ul>
+    <h2>Overview</h2>
+    <v-flex xl12>
+      <loading :show="loading" spinner="spinner"></loading>
+      Currently using {{usage}} of {{quota}} ({{percentage}} %)
+      <v-btn v-on:click="clear">Clear Cache</v-btn>
+    </v-flex>
 
-		<v-btn v-on:click="logout">Logout</v-btn>
-	</v-flex>
+    <v-btn v-on:click="logout">Logout</v-btn>
+  </v-flex>
 </template>
 
 <script>

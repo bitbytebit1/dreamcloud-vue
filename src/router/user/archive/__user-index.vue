@@ -1,10 +1,10 @@
 <template>
-	<div class="container">
-		<div class="row">
-			<h1>/u/{{user}}</h1>
-			<h2>{{aPlaylist}}</h2>
-		</div>
-	</div>
+  <div class="container">
+    <div class="row">
+      <h1>/u/{{user}}</h1>
+      <h2>{{aPlaylist}}</h2>
+    </div>
+  </div>
 </template>
 <script>
 export default {

@@ -3,6 +3,8 @@ export default {
     ytUseVideo: true,
     ytSwitchTime: false,
     ytObject: [],
+    ytDuration: 0,
+    ytCurrentTime: 0,
     ytState: {
       data: -1,
       target: {
@@ -11,9 +13,7 @@ export default {
         pauseVideo: () => '',
         playVideo: () => ''
       }
-    },
-    ytDuration: 0,
-    ytCurrentTime: 0
+    }
   },
   mutations: {
     ytSwitchTime: (state, payload) => { state.ytSwitchTime = payload },
@@ -27,22 +27,20 @@ export default {
         try { state.ytObject.stopVideo() } catch (err) {}
       }
     },
-    ytToggleVideo: (state, payload) => {
-      state.ytUseVideo = state.ytUseVideo = !state.ytUseVideo
-    }
+    ytToggleVideo: (state, payload) => { state.ytUseVideo = state.ytUseVideo = !state.ytUseVideo }
   },
 
   getters: {
     ytUseVideo: state => state.ytUseVideo,
     ytObject: state => state.ytObject,
     ytState: state => state.ytState,
-    // ytDuration: state => state.ytObject.getDuration(),
-    // ytCurrentTime: state => state.ytObject.getCurrentTime()
     ytDuration: state => state.ytDuration,
     ytCurrentTime: state => state.ytCurrentTime,
     ytIsPlaying: state => state.ytState === 1,
     ytIsPaused: state => state.ytState === 2,
     isYT: (state, getters) => getters.current_source === 'YouTube'
+    // ytDuration: state => state.ytObject.getDuration(),
+    // ytCurrentTime: state => state.ytObject.getCurrentTime()
   }
 }
 

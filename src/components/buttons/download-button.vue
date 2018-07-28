@@ -1,7 +1,7 @@
 <template>
-	<v-btn :color="color" :disabled="dis" @click.stop="download" icon>
-		<v-icon :color="color ==='green' ? 'white': ''">file_download</v-icon>
-	</v-btn>
+  <v-btn :color="color" :disabled="dis" @click.stop="download" icon>
+    <v-icon :color="color ==='primary' ? 'white': ''">file_download</v-icon>
+  </v-btn>
 </template>
 <script>
 export default {
@@ -12,7 +12,7 @@ export default {
   },
   methods: {
     download () {
-      this.color = 'green'
+      this.color = 'primary'
       setTimeout(() => {
         this.color = ''
       }, 2000)

@@ -1,11 +1,11 @@
 <template>
-	<v-flex xs12 lg10 xl10 flexbox>
-		<loading v-if="loading"></loading>
-		<playlist :showUploaded="!0" v-if="!loading" rowsPerPage='50' :songs="searchResults"></playlist>  
-		<infinite-loading :distance="210" ref="infiniteLoading" v-if="!loading" @infinite="infiniteHandler" spinner="waveDots">    
-			<span slot="no-more"></span>
-		</infinite-loading>
-	</v-flex>
+  <v-flex xs12 lg10 xl10 flexbox>
+    <!-- <loading v-if="loading"></loading> -->
+    <playlist :showUploaded="!0" v-if="!loading" rowsPerPage='50' :songs="searchResults"></playlist>  
+    <infinite-loading :distance="210" ref="infiniteLoading" v-if="!loading" @infinite="infiniteHandler" spinner="waveDots">    
+      <span slot="no-more"></span>
+    </infinite-loading>
+  </v-flex>
 </template>
 
 <script>
@@ -38,6 +38,7 @@ export default {
     }
   },
   created () {
+    this.$store.dispatch('loadIndeterm', true)
     this._query = this.query
     this._source = this.splitSource
     this.search(this.query, this._source)
@@ -58,11 +59,13 @@ export default {
     _search (sQuery, aSource) {
       this._query = this.$route.params.source
       this.search(this.$route.params.query, this.splitSource)
+      this.$store.dispatch('loadIndeterm', true)
     },
     search (sQuery, aSource, iPage = 0) {
       // console.log(this)
       // If first page show loading
-      this.loading = !iPage
+      // this.loading = !iPage
+
       // If not param set use internal
       this._query = sQuery || this._query
       // If not  ”    ”   ”   ”
@@ -71,6 +74,9 @@ export default {
       this.searchResults = !iPage ? [] : this.searchResults
       return this.$DCAPI.searchInt(this._query, iPage, this._source, '', (d) => {
         this.loading = false
+        if (iPage === 0) {
+          this.$store.dispatch('loadIndeterm', false)
+        }
         // If no results stop infinite loading
         if (!d.length) {
           this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete')

@@ -1,8 +1,8 @@
 <template>
-	<div>
-		<h1>/u/{{user}}/{{playlist}}</h1>
-		<playlist :songs="aSongs"></playlist>
-	</div>
+  <div>
+    <h1>/u/{{user}}/{{playlist}}</h1>
+    <playlist :songs="aSongs"></playlist>
+  </div>
 </template>
 <script>
 export default {
@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     _search () {
-      console.log('searching')
+      // console.log('searching')
       this.search(this.$route.params.user, this.$route.params.playlist)
     },
     search (sUser, sPlaylist) {
