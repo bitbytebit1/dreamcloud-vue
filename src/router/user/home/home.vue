@@ -1,5 +1,8 @@
 <template>
-  <v-flex xs12 lg10 class="mb-2">
+  <v-flex 
+    xs12 
+    lg10 
+    class="mb-2">
     <!-- subsAll -->
     <!-- <v-flex xs12 v-if="aSubscriptionsRoot.length">
       <router-link :class="textClass" :to="{name:'subsAll', params: {user: $DCFB.UID}}">
@@ -23,22 +26,42 @@
     <!-- Recommended -->
     
     <div v-if="!bFail">
-      <router-link :class="textClass" :to="{name:'historyRecommended', params: {user: $DCFB.UID}}">
+      <router-link 
+        :class="textClass" 
+        :to="{name:'historyRecommended', params: {user: $DCFB.UID}}">
         <h2 class="text-xs-left">Recommended</h2>
       </router-link>
       <div class="mb-2">
-        <historyRecommended :iLimit="iReco" :rowsPerPage='iReco' @done='recoDone'></historyRecommended>
-        <v-btn v-if="bRecoShow" block class="pointer mt-3" @click="iReco += iMore">SHOW MORE</v-btn>
+        <historyRecommended 
+          :i-limit="iReco" 
+          :rows-per-page='iReco' 
+          @done='recoDone'/>
+        <v-btn 
+          v-if="bRecoShow" 
+          block 
+          class="pointer mt-3" 
+          @click="iReco += iMore">SHOW MORE</v-btn>
       </div>
-      <v-divider color="primary" class="mt-4 mb-4"></v-divider>
+      <v-divider 
+        color="primary" 
+        class="mt-4 mb-4"/>
 
-    <!-- History -->
-      <router-link :class="textClass" :to="{name:'history', params: {user: $DCFB.UID}}">
+      <!-- History -->
+      <router-link 
+        :class="textClass" 
+        :to="{name:'history', params: {user: $DCFB.UID}}">
         <h2 class="text-xs-left">Recently played</h2>
       </router-link>
       <div class="mb-2">
-        <playlist :rowsPerPage='iHist' :full="false" :gridView="true" :songs="aHistRev"></playlist>
-        <v-btn block class="pointer mt-3" @click="iHist += iMore">SHOW MORE</v-btn>
+        <playlist 
+          :rows-per-page='iHist' 
+          :full="false" 
+          :grid-view="true" 
+          :songs="aHistRev"/>
+        <v-btn 
+          block 
+          class="pointer mt-3" 
+          @click="iHist += iMore">SHOW MORE</v-btn>
       </div>
     </div>
     
@@ -54,7 +77,7 @@ import loading from '@/components/misc/loading'
 import historyRecommended from '@/router/user/history/recommended'
 import { mapGetters } from 'vuex'
 export default {
-  name: 'history',
+  name: 'History',
   components: {
     'loading': loading,
     'historyRecommended': historyRecommended

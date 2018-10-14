@@ -1,12 +1,49 @@
 <template>
-  <v-btn v-bind="$props" class="del-btn" @click.stop="emitDelete" @mouseleave="clicks = clickedTwice ? 2 : 0" :color="color" icon>
-    <v-icon :color="clickedOnce  ? 'white': ''">{{dlIcn}}</v-icon>
-  </v-btn>
+  <v-list-tile 
+    v-if="inList" 
+    ripple 
+    @click.stop="emitDelete" 
+    @mouseleave="clicks = clickedTwice ? 2 : 0" >
+    <v-list-tile-title>Delete from playlist</v-list-tile-title>
+    <v-list-tile-action>
+      <v-btn 
+        :color="color" 
+        icon>
+        <v-icon :color="clickedOnce ? 'whit1e': ''">{{ dlIcn }}</v-icon>
+      </v-btn>
+    </v-list-tile-action>
+  </v-list-tile>
+  <v-tooltip 
+    v-else 
+    top >
+    <v-btn 
+      slot="activator" 
+      v-bind="$props" 
+      :color="color" 
+      class="del-btn" 
+      icon 
+      @click.stop="emitDelete" 
+      @mouseleave="clicks = clickedTwice ? 2 : 0">
+      <v-icon :color="clickedOnce ? 'white': ''">{{ dlIcn }}</v-icon>
+    </v-btn>
+    <span>Delete from playlist</span>
+  </v-tooltip>
+
+
 </template>
 <script>
 export default {
-  name: 'delete-button',
-  props: ['id', 'disabled', 'colour'],
+  name: 'DeleteButton',
+  props: {
+    id: {
+      type: [String, Number],
+      default: ''
+    },
+    inList: {
+      type: Boolean,
+      default: false
+    }
+  },
   data () {
     return {
       clicks: 0
@@ -41,7 +78,5 @@ export default {
 </script>
 
 <style>
-.del-btn{
-  min-width: 36px!important
-}
+
 </style>

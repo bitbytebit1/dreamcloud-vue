@@ -1,17 +1,6 @@
-import axios from 'axios'
-// import bandcampScraper from 'bandcamp-scraper'
+
 /* eslint-disable */
-// var bandcamp = require('bandcamp-scraper')
-// var artistUrl = 'http://musique.coeurdepirate.com/';
-// console.log(bandcamp.search)
-// bandcamp.getAlbumUrls(artistUrl, function(error, albumUrls) {
-//   if (error) {
-//     console.log('error', error);
-//   } else {
-//     console.log('success', albumUrls);
-//   }
-// });
-// console.log(bandcamp.search)
+import axios from 'axios'
 export
 class DCAPIClass {
   constructor() {
@@ -81,7 +70,11 @@ class DCAPIClass {
         break
     }
   }
+
   bc(uid) {
+    if (this.aQuery[uid].bRelated) {
+      return Promise.resolve()
+    }
     if (this.aQuery[uid].iPage && this.aQuery[uid].sArtist) {
       return
     }
@@ -160,8 +153,9 @@ class DCAPIClass {
       // console.log('sc no token, DIE', this.SCnextPageToken)
       return Promise.resolve()
     }
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       axios.get(a).then((resp) => {
+        // console.log(a, resp)
         var img, img2
         if (resp.data.next_href) {
           // console.log('next token', resp.data.next_href)
@@ -174,11 +168,15 @@ class DCAPIClass {
         resp = resp.data.collection
         for (var idx in resp) {
           // Replace missing images with user avatar
-          if (!resp[idx].artwork_url) {
-            resp[idx].artwork_url = resp[idx].user.avatar_url.replace('large', 't500x500')
+          if (!resp[idx].artwork_url && resp[idx].user.avatar_url) {
+            img = resp[idx].user.avatar_url.replace('i1', 'i2').replace('-large', '-t300x300')
+            img2 = resp[idx].user.avatar_url.replace('-large', '-t500x500')  
+          } else if (!resp[idx].user.avatar_url && !resp[idx].user.avatar_url) {
+            img = img2 = './img/icons/no-image.png'
+          } else  {
+            img = resp[idx].artwork_url.replace('i1', 'i2').replace('-large', '-t300x300')
+            img2 = resp[idx].artwork_url.replace('-large', '-t500x500')  
           }
-          img = resp[idx].artwork_url.replace('i1', 'i2').replace('-large', '-t300x300')
-          img2 = resp[idx].artwork_url.replace('-large', '-t500x500')
           this.pushResult(
             uid, // uid:
             resp[idx].user.username, // artist:
@@ -208,8 +206,9 @@ class DCAPIClass {
           // console.log('sc success', this.aQuery[uid].aResult.length, 'was looking for', this.aQuery[uid].iLimit)
           resolve()
         }
-      }).catch((err) => {
-        reject(err)
+      }).catch(() => {
+        // reject(err)
+        resolve()
       })
     })
   }
@@ -277,6 +276,9 @@ class DCAPIClass {
   }
 
   vim(uid) {
+    if (this.aQuery[uid].bRelated) {
+      return Promise.resolve()
+    }
     var a
     if (this.aQuery[uid].sArtist !== 'undefined') {
       a = 'https://api.vimeo.com/videos?page=' + (this.aQuery[uid].iPage + 1) + '&per_page=12&query=' + this.aQuery[uid].sQuery + '&sort=relevant&access_token=' + this.sVimeoKey
@@ -285,28 +287,111 @@ class DCAPIClass {
     }
     return axios.get(a).then((resp) => {
       resp = resp.data.data
-      for (var idx in resp) {
-        this.pushResult(
-          uid, // uid:
-          resp[idx].user.name, // artist:
-          resp[idx].user.uri.replace(/\/users\/(.*?)/ig, 'user'), // artistID:
-          this.parseDate(resp[idx].user.created_time), // created:
-          resp[idx].description, // description:
-          this.secondstominutes(resp[idx].duration), // duration:
-          'https://dream.tribe.nu/r3/off/?q=' + resp[idx].link, // mp3:
-          resp[idx].link, // mp32:
-          resp[idx].pictures.sizes[2].link, // poster:
-          resp[idx].pictures.sizes[resp[idx].pictures.sizes.length - 1].link, // posterLarge:
-          'vimeo', // source:
-          resp[idx].name, // title:
-          resp[idx].link // trackID:
-        )
+      if (resp.length) {
+        for (var idx in resp) {
+          console.log(resp[idx])
+          this.pushResult(
+            uid, // uid:
+            resp[idx].user.name, // artist:
+            resp[idx].user.uri.replace(/\/users\/(.*?)/ig, 'user'), // artistID:
+            this.parseDate(resp[idx].user.created_time), // created:
+            resp[idx].description, // description:
+            this.secondstominutes(resp[idx].duration), // duration:
+            'https://dream.tribe.nu/r3/off/?q=' + resp[idx].link, // mp3:
+            resp[idx].link, // mp32:
+            resp[idx].pictures.sizes[2].link, // poster:
+            resp[idx].pictures.sizes[resp[idx].pictures.sizes.length - 1].link, // posterLarge:
+            'vimeo', // source:
+            resp[idx].name, // title:
+            resp[idx].link // trackID:
+          )
+        }
       }
     })
   }
 
   genUID() {
     return Math.random()
+  }
+
+  getTrendingSC(source) {
+    // 
+    return new Promise((resolve, reject) => {
+      // NONO CORS.IO BADOPSEC
+      
+      axios.get(`https://cors.io/?https://api-v2.soundcloud.com/charts?kind=top&genre=soundcloud%3Agenres%3Aall-music&high_tier_only=false&client_id=${this.sScKey}&limit=50&offset=0`).then((resp) => {
+        // console.log(resp)
+        let ret = {
+          nextPage: '',
+          data: resp.data.collection
+            // .filter(item => typeof item.snippet.thumbnails !== 'undefined')
+            .map((item) => {
+              // console.log(item)
+              var img, img2
+              if (!item.track.artwork_url && item.track.user.avatar_url) {
+                img = item.track.user.avatar_url.replace('i1', 'i2').replace('-large', '-t300x300')
+                img2 = item.track.user.avatar_url.replace('-large', '-t500x500')  
+              } else if (!item.track.user.avatar_url && !item.track.user.avatar_url) {
+                img = img2 = './img/icons/no-image.png'
+              } else  {
+                img = item.track.artwork_url.replace('i1', 'i2').replace('-large', '-t300x300')
+                img2 = item.track.artwork_url.replace('-large', '-t500x500')  
+              }
+              return {
+                artist: item.track.user.username, // artist:
+                artistID: item.track.user_id, // artistID:
+                uploaded: this.parseDate(item.track.created_at), // created:
+                description: item.track.description, // description:
+                duration: this.secondstominutes(Math.floor(item.track.duration / 1E3)), // duration:
+                mp3: item.track.stream_url + '?client_id=' + this.sScKey, // mp3:
+                mp32: item.track.permalink_url, // mp32:
+                poster: img, // poster:
+                posterLarge: img2, // posterLarge:
+                source: 'SoundCloud', // source:
+                title: item.track.title, // title:
+                trackID: item.track.id // trackID:
+              }
+            })
+        }
+        resolve(ret)
+      })
+      .catch((error) => {
+        console.log(error)
+        reject()
+      })
+    })
+  }
+  
+  getTrendingYT (nextPage = '') {
+    return new Promise((resolve, reject) => {
+      axios.get(`https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet&pageToken=${nextPage}&videoCategoryId=10&chart=mostPopular&regionCode=SE&maxResults=50&key=${this.sYtKey}`)
+      .then((resp) => {
+        // console.log(resp)
+        let ret = {
+          nextPage: resp.data.nextPageToken,
+          data: resp.data.items.map((item) => {
+            return {
+              duration: this.timeHMS(item.contentDetails.duration),
+              title: item.snippet.title,
+              poster: item.snippet.thumbnails.medium.url,
+              posterLarge: item.snippet.thumbnails.high.url,
+              description: item.snippet.description,
+              trackID: item.id,
+              uploaded: this.parseDate(item.snippet.publishedAt),
+              artist: item.snippet.channelTitle,
+              artistID: item.snippet.channelId,
+              source: 'YouTube'
+            }
+          })
+        }
+        resolve(ret)
+      })
+      .catch((error) => {
+        console.log(error)
+        reject()
+      })
+    })
+
   }
 
   getChannelPlaylists(artistID, source, maxRes, nextPage, hCallback) {
@@ -445,33 +530,33 @@ class DCAPIClass {
         hCallback(ret)
       })
     } else if (source.toLowerCase().indexOf('youtube') > -1) {
+      // GET ITEMS
       return axios.get(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,contentDetails&playlistId=${listID}&pageToken=${nextPage}&maxResults=${maxRes}&key=${this.sYtKey}`).then((resp) => {
         var IDs = resp.data.items.map((item) => {
           return item.contentDetails.videoId
         }).join(',')
+        // GET DURATION
         axios.get(`https://www.googleapis.com/youtube/v3/videos?id=${IDs}&part=contentDetails&key=${this.sYtKey}`).then((resp2) => {
           var x = []
+          // SET DURATION
           for (var i in resp2.data.items) {
             x[resp2.data.items[i].id] = this.timeHMS(resp2.data.items[i].contentDetails.duration)
           }
+          // CREATE CALLBACK OBJECT
           let ret = {
             nextPage: resp.data.nextPageToken,
             data: resp.data.items
+              // NO THUMNAIL == NOT VAILD YT SONG?
               .filter(item => typeof item.snippet.thumbnails !== 'undefined')
               .map((item) => {
-                // console.log(item)
-                if (typeof item.snippet.thumbnails === 'undefined') {
-                  return
-                }
                 return {
-                  // uid: uid,                                                                                   // uid:
                   artist: item.snippet.channelTitle, // artist:
                   artistID: item.snippet.channelId, // artistID:
                   uploaded: this.parseDate(item.snippet.publishedAt), // created:
                   description: item.snippet.description, // description:
-                  duration: x[item.id.videoId], // duration:
-                  mp3: `https://dream.tribe.nu/r3/off/?q=https://www.youtube.com/watch?v=${item.id.videoId}`, // mp3:
-                  mp32: `https://www.youtube.com/watch?v=${item.id.videoId}`, // mp32:
+                  duration: x[item.contentDetails.videoId], // duration:
+                  mp3: `https://dream.tribe.nu/r3/off/?q=https://www.youtube.com/watch?v=${item.contentDetails.videoId}`, // mp3:
+                  mp32: `https://www.youtube.com/watch?v=${item.contentDetails.videoId}`, // mp32:
                   poster: item.snippet.thumbnails.medium.url, // poster:
                   posterLarge: item.snippet.thumbnails.high.url, // posterLarge:
                   source: 'YouTube', // source:
@@ -599,13 +684,13 @@ class DCAPIClass {
       return axios.get(a).then((resp) => {
         hCallback(resp.data.items[0].statistics.viewCount)
       })
-    }
-    if (source.toLowerCase().indexOf('soundcloud') > -1) {
+    } else if (source.toLowerCase().indexOf('soundcloud') > -1) {
       var a = `https://api.soundcloud.com/tracks/${trackID}?client_id=${this.sScKey}`
       return axios.get(a).then((resp) => {
         hCallback(resp.data.playback_count)
-        // hCallback(resp.data.items[0])
       })
+    } else {
+      hCallback(-1)
     }
   }
 
@@ -641,7 +726,6 @@ class DCAPIClass {
       return axios.get('https://api.soundcloud.com/tracks/' + trackID + '?client_id=' + this.sScKey).then((resp) => {
         resp = resp.data
         // alert(resp.data)
-        // console.log(resp)
         this.pushResult(
           uid,
           resp.user.username, // artist:
@@ -651,8 +735,8 @@ class DCAPIClass {
           this.secondstominutes(Math.floor(resp.duration / 1E3)), // duration:
           resp.stream_url + '?client_id=' + this.sScKey, // mp3:
           resp.permalink_url, // mp32:
-          resp.artwork_url.replace('i1', 'i2').replace('-large', '-t300x300'), // poster:
-          resp.artwork_url.replace('-large', '-t500x500'), // posterLarge:
+          typeof resp.artwork_url === 'string' ? resp.artwork_url.replace('i1', 'i2').replace('-large', '-t300x300') : './img/icons/no-image.png', // poster:
+          typeof resp.artwork_url === 'string' ? resp.artwork_url.replace('-large', '-t500x500') : './img/icons/no-image.png', // posterLarge:
           'SoundCloud', // source:
           resp.title, // title:
           resp.id // trackID:

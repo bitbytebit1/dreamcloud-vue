@@ -1,57 +1,84 @@
+
+const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
+
 module.exports = {
+  configureWebpack: {
+    plugins: [
+      new VuetifyLoaderPlugin()
+    ]
+  },
+  lintOnSave: undefined,
+  devServer: {
+    overlay: {
+      warnings: true,
+      errors: true
+    }
+  },
   pwa: {
     themeColor: '#000000',
     workboxOptions: {
+      importScripts: ['update-available.js'],
       runtimeCaching: [
         {
-          urlPattern: new RegExp(/^https:\/\/fonts\.googleapis\.com\/|^https:\/\/fonts\.gstatic\.com\//),
+          urlPattern: /^https:\/\/fonts\.googleapis\.com\/|^https:\/\/fonts\.gstatic\.com\//,
           handler: 'cacheFirst',
           options: {
             cacheName: 'font-cache',
-            // expire after one hour
             expiration: {
-              maxEntries: 100,
-              maxAgeSeconds: 3600,
+              maxEntries: 100
             },
             cacheableResponse: {
-              statuses: [0, 200]
+              statuses: [
+                0,
+                200
+              ]
             }
           }
         },
-        // songs
         {
-          urlPattern: new RegExp(/^http:\/\/www\.saveitoffline\.com\/process|^http:\/\/www\.s\d{1,2}\.saveitoffline\.com|^http:\/\/www\.saveitoffline\.com\/get\/\?i|api\.soundcloud\.com\/tracks\/.+\/stream/),
+          urlPattern: /^https:\/\/www\.saveitoffline\.com\/process|^https:\/\/www\.s\d{1,2}\.saveitoffline\.com|^https:\/\/www\.saveitoffline\.com\/get\/\?i|^https:\/\/api\.soundcloud\.com\/tracks\/.+\/stream/,
           handler: 'cacheFirst',
           options: {
             cacheName: 'song-cache',
-            // two weeks
             expiration: {
-              maxAgeSeconds: 1.21e+6
+              maxAgeSeconds: 1210000
             },
-            // 0 is opaque
             cacheableResponse: {
-              statuses: [0, 200, 302]
+              statuses: [
+                0,
+                200,
+                302
+              ]
             }
           }
         },
-        // soundcloud images
         {
-          urlPattern: new RegExp(/^https:\/\/sndcdn\.com/),
+          urlPattern: /^https:\/\/sndcdn\.com/,
           handler: 'cacheFirst',
           options: {
             cacheName: 'song-cache',
-            // two weeks
             expiration: {
               maxEntries: 500,
-              maxAgeSeconds: 1.21e+6
+              maxAgeSeconds: 1210000
             },
-            // 0 is opaque
             cacheableResponse: {
-              statuses: [0, 200]
+              statuses: [
+                0,
+                200
+              ]
             }
           }
         }
       ]
-    }
-  }
+    },
+    name: 'dreamcloud'
+  },
+  // plugins: new VuetifyLoaderPlugin(),
+  baseUrl: undefined,
+  outputDir: undefined,
+  assetsDir: undefined,
+  runtimeCompiler: undefined,
+  productionSourceMap: false,
+  parallel: undefined,
+  css: undefined,
 }

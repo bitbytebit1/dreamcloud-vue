@@ -1,28 +1,43 @@
 <template>
   <v-container fluid >
-    <v-layout row wrap>
+    <v-layout 
+      row 
+      wrap>
 
       <v-flex xs2>
         <v-layout>
           <!-- <v-flex xs3> -->
-          <img id="poster" :src="currentImage">
+          <img 
+            id="poster" 
+            :src="currentImage">
           <!-- </v-flex> -->
 
           <!-- <v-flex xs3> -->
-          <v-btn icon @click="previous">
+          <v-btn 
+            icon 
+            @click="previous">
             <v-icon>skip_previous</v-icon>
           </v-btn>
           <!-- </v-flex> -->
 
           <!-- <v-flex xs3> -->
-          <v-progress-circular v-if="bLoading" indeterminate v-bind:size="25" color="white"></v-progress-circular>
-          <v-btn icon v-else @click="togglePlay">
-            <v-icon>{{play_arrow}}</v-icon>
+          <v-progress-circular 
+            v-if="bLoading" 
+            :size="25" 
+            indeterminate 
+            color="white"/>
+          <v-btn 
+            v-else 
+            icon 
+            @click="togglePlay">
+            <v-icon>{{ play_arrow }}</v-icon>
           </v-btn>
           <!-- </v-flex> -->
 
           <!-- <v-flex xs3> -->
-          <v-btn icon @click="next">
+          <v-btn 
+            icon 
+            @click="next">
             <v-icon>skip_next</v-icon>
           </v-btn>
           <!-- </v-flex> -->
@@ -31,21 +46,37 @@
       </v-flex>
       
       <v-flex xs9>
-        <v-slider @input="changePos" v-model="progress" id="progress-slider" max="10000" hide-details></v-slider>
+        <v-slider 
+          id="progress-slider" 
+          v-model="progress" 
+          max="10000" 
+          hide-details 
+          @input="changePos"/>
       </v-flex>
      
       <v-flex xs1>
         <v-speed-dial hover>
-          <v-btn slot="activator" fab hover>
+          <v-btn 
+            slot="activator" 
+            fab 
+            hover>
             <v-icon>volume_up</v-icon>
             <v-icon>close</v-icon>
           </v-btn>
           <div class="slider-wrapper">
-            <input type="range" min="0" max="10"  @input="volumeChange" v-model="volume" step="1">
+            <input 
+              v-model="volume" 
+              type="range" 
+              min="0" 
+              max="10" 
+              step="1" 
+              @input="volumeChange">
           </div>
         </v-speed-dial>
       </v-flex>
-      <audio controls id="dc-audio"></audio>
+      <audio 
+        id="dc-audio" 
+        controls/>
       
     </v-layout>
   </v-container>
@@ -53,7 +84,7 @@
 
 <script>
 export default {
-  name: 'dcAudio',
+  name: 'DcAudio',
   data () {
     return {
       bLoading: false,
@@ -71,7 +102,7 @@ export default {
     }
   },
   methods: {
-    volumeChange (wasd) {
+    volumeChange () {
       this.eAudio.volume = this.volume / 10
     },
     changePos (pos) {
@@ -90,7 +121,7 @@ export default {
     updated () {
       this.progress = Math.floor(((100 / this.eAudio.duration) * this.eAudio.currentTime) * 100)
     },
-    playing (wasd) {
+    playing () {
       this.play_arrow = 'pause'
       this.bLoading = false
     },

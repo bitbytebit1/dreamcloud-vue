@@ -1,46 +1,73 @@
 <template>
   <!-- v-show="!(index === 0 && $store.getters.bShowStage)" -->
-  <v-flex xs12 @click.stop="play" >
+  <v-flex 
+    xs12 
+    @click.stop="play" >
     <v-card>
       <!-- image -->
-      <v-card-media v-lazy:background-image="song.poster" height="200px" class="current-card pointer"> 
-        <span class="card-duration" v-text="song.duration"/>
-      </v-card-media>
+      <v-img
+        :aspect-ratio="song.source === 'YouTube' ? 16/9 : '1'"
+        :src="song.posterLarge"
+        :lazy-src="song.posterLarge"
+        class="fillPlace"
+      >
+        <v-layout
+          slot="placeholder"
+          fill-height
+          align-center
+          justify-center
+          ma-0
+        >
+          <v-progress-circular 
+            indeterminate 
+            color="grey lighten-5"/>
+        </v-layout>
+        <span 
+          class="card-duration" 
+          v-text="song.duration"/>
+      </v-img>
 
       <!-- song actions -->
-      <v-card-actions @click.stop class="">
-        <v-layout row wrap>
+      <v-card-actions 
+        class="" 
+        @click.stop>
+        <v-layout 
+          row 
+          wrap>
           <v-flex xs12>
-            {{song.title}}
+            {{ song.title }}
           </v-flex>
           <v-flex xs12>
-            <router-link class="noDeco pointer artist" :to="{name: 'artist', params: {source: song.source, artist: song.artist, artistID: song.artistID}}">
-              {{song.artist}}
+            <router-link 
+              :to="{name: 'artist', params: {source: song.source, artist: song.artist, artistID: song.artistID}}" 
+              class="noDeco pointer artist">
+              {{ song.artist }}
             </router-link>
           </v-flex>
           <v-flex xs12>
             <!-- SHOW MORE -->
-            <v-btn icon @click.stop.native="show = !show" :disabled="!desc">
-              <v-icon>{{ show ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
-            </v-btn>
+            <v-tooltip top>
+              <v-btn 
+                slot="activator" 
+                :disabled="!desc" 
+                icon 
+                @click.stop.native="show = !show">
+                <v-icon>{{ show ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
+              </v-btn>
+              <span>Show description</span>
+            </v-tooltip>
             <!-- share button -->
-            <share-button :song="song" :url="'https://dreamcloud.netlify.com/#/t/' + song.source + '/' + encodeURIComponent(song.artist) + '/' + song.trackID"></share-button>
+            <share-button 
+              :song="song" 
+              :url="'https://dreamcloud.netlify.com/#/t/' + song.source + '/' + encodeURIComponent(song.artist) + '/' + song.trackID"/>
             <!-- download button -->
-            <download-button :links="[song]"></download-button>
+            <download-button :links="[song]"/>
             <!-- add to playlist -->
-            <add-to-playlist v-if="$store.getters.auth_state" :song="song"></add-to-playlist>
+            <add-to-playlist 
+              v-if="$store.getters.auth_state" 
+              :song="song"/>
           </v-flex>
         </v-layout>
-
-        <!-- artist -->
-        <!-- <v-btn icon @click.stop :href="artistID">
-          <v-icon>person</v-icon>
-        </v-btn> -->
-        <!-- open source -->
-        <!-- <v-btn icon @click.stop target="_blank" :href="song.mp32">
-          <v-icon>open_in_new</v-icon>
-        </v-btn> -->
-        <!-- show desc -->
 
       </v-card-actions>
       
@@ -49,11 +76,13 @@
       <v-slide-y-transition v-if="show">
         <!-- description -->
         <div>
-          <v-card-text>
+          <!-- <v-card-text>
             <lyrics v-if="!index" :title="song.title" :artist="song.artist"></lyrics>
-          </v-card-text>
-          <v-card-text @click.stop class="wordbreak" v-html="ytTimeToSeconds(desc)">
-          </v-card-text>
+          </v-card-text> -->
+          <v-card-text 
+            class="wordbreak" 
+            @click.stop 
+            v-html="ytTimeToSeconds(desc)"/>
         </div>
         <!-- </transition> -->
       </v-slide-y-transition>
@@ -67,8 +96,20 @@ import downloadButton from '@/components/buttons/download-button'
 import lyrics from '@/components/stage/meta/lyrics'
 
 export default {
-  props: ['song', 'index'],
-  name: 'current-playlist-item',
+  // props: ['song', 'index'],
+  props: {
+    song: {
+      type: Object,
+      default() {
+        return []
+      }
+    },
+    index: {
+      type: Number,
+      default: 0
+    }
+  },
+  name: 'CurrentPlaylistItem',
   components: {
     'add-to-playlist': addToPlaylist,
     'download-button': downloadButton,

@@ -2,28 +2,64 @@
   <div id="dc-audio-container">
     <div id="dc-player">
       <!-- CONTROLS -->
-      <div id="left">
-        <div class="audio-controls">
-          <v-btn @click="previous" v-bind="$store.getters.theme" class="primary" icon outline>
+      <div 
+        id="left" 
+        class="fl-l">
+        <div class="fl-l">
+          <v-btn 
+            class="primary" 
+            icon 
+            outline 
+            @click="previous">
             <v-icon>skip_previous</v-icon>
           </v-btn>
-          <v-btn :loading="bLoading" v-bind="$store.getters.theme" @click="$DCPlayer.togglePlay" class="primary" icon outline>
-            <v-icon>{{play_arrow}}</v-icon>
+          <v-btn 
+            :loading="bLoading" 
+            class="primary" 
+            icon 
+            outline 
+            @click="$DCPlayer.togglePlay">
+            <v-icon>{{ play_arrow }}</v-icon>
           </v-btn>
-          <v-btn @click="next" v-bind="$store.getters.theme" class="primary" icon outline>
+          <v-btn 
+            class="primary" 
+            icon 
+            outline 
+            @click="next">
             <v-icon>skip_next</v-icon>
           </v-btn>
         </div>
       </div>
 
       <!-- VOLUME -->
-      <div id="right" class="hidden-xs-only" @wheel.prevent="onWheel">
-        <v-speed-dial hover transition="slide-x-reverse-transition" open-on-hover>
-          <v-btn v-bind="$store.getters.theme" @click="toggleMute" :class="volClass" slot="activator" fab hover icon outline small>
-            <v-icon>{{volIcon}}</v-icon>
+      <div 
+        id="right" 
+        class="hidden-xs-only" 
+        @wheel.prevent="onWheel">
+        <v-speed-dial 
+          hover 
+          transition="slide-x-reverse-transition" 
+          open-on-hover>
+          <v-btn 
+            slot="activator" 
+            :class="volClass" 
+            fab 
+            hover 
+            icon 
+            outline 
+            small 
+            @click="toggleMute">
+            <v-icon>{{ volIcon }}</v-icon>
           </v-btn>
           <div class="slider-wrapper">
-            <input class="vol-slider pointer" type="range" min="0" max="10" @input="volumeChange" v-model="volume" step="0.01">
+            <input 
+              v-model="volume" 
+              class="vol-slider pointer" 
+              type="range" 
+              min="0" 
+              max="10" 
+              step="0.01" 
+              @input="volumeChange">
           </div>
         </v-speed-dial>
       </div>
@@ -32,9 +68,21 @@
       <div id="middle">
         <div id="progress">
           <!-- <v-container fluid grid-list-md class="pa-0 ma-0"> -->
-          <v-layout row wrap>
-            <v-flex xs12 class="ml-3 mr-3">
-              <v-slider :thumb-size="thumbSize" thumb-label :max="eAudio.duration" :label="currentTime" @input="changePos" v-model="progress" color="primary" hide-details>
+          <v-layout 
+            row 
+            wrap>
+            <v-flex 
+              xs12 
+              class="ml-3 mr-3">
+              <v-slider 
+                :thumb-size="thumbSize" 
+                :max="eAudio.duration" 
+                :label="currentTime" 
+                v-model="progress" 
+                thumb-label 
+                color="primary" 
+                hide-details 
+                @input="changePos">
                 <template
                   slot="thumb-label"
                   slot-scope="props"
@@ -52,13 +100,15 @@
 
     </div>
     <!-- AUDIO ELEMENT -->
-    <audio controls id="dc-audio"></audio>
+    <audio 
+      id="dc-audio" 
+      controls/>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'dcAudio',
+  name: 'DcAudio',
   data () {
     return {
       bLoading: false,
@@ -102,7 +152,7 @@ export default {
       this.updateVolIcon()
     },
     updateVolIcon () {
-      return (this.volIcon = this.eAudio.volume > 0.5 ? 'volume_up' : this.eAudio.volume <= 0 || this.eAudio.muted ? 'volume_off' : 'volume_down')
+      return (this.volIcon = this.eAudio.volume > 0.5 ? 'volume_up' : this.eAudio.volume === 0 || this.eAudio.muted ? 'volume_off' : 'volume_down')
     },
     changePos (pos) {
       if (!isNaN(pos)) {
@@ -220,10 +270,6 @@ export default {
   display: none;
 }
 
-.audio-controls {
-  float: left;
-}
-
 /* #dc-player {
   padding-top: 5px;
 } */
@@ -243,13 +289,15 @@ export default {
 #left {
   margin-top: 7px;
   margin-left: 7px;
-  float: left;
 }
 #right {
   float: right;
   margin-top: 5px !important;  
 }
-@media only screen and (min-width: 600px){
+@media only screen and (min-width: 960px){
+  #progress .v-input--slider{
+    margin-top: 16px;
+  }
   #middle {
     margin-right: 100px;
   }
@@ -258,7 +306,10 @@ export default {
     /* margin-top: -45px; */
   }
 }
-@media only screen and (max-width: 599px){
+@media only screen and (max-width: 959px){
+  #progress .v-input--slider{
+    margin-top: 0px;
+  }
   #dc-audio-container {
     width: 100%;
     margin-top: -60px;

@@ -1,15 +1,23 @@
 <template>
-  <v-flex xs12 v-show="show" class="loading">
-    <infinite-loading :ref="reff" @infinite="infiniteHandler" :spinner="spinner">
-      <span slot="no-more"></span>
-      <span v-if="!spinner" slot="spinner"></span>
+  <v-flex 
+    v-show="show" 
+    xs12 
+    class="loading">
+    <infinite-loading 
+      :ref="reff" 
+      :spinner="spinner" 
+      @infinite="infiniteHandler">
+      <span slot="no-more"/>
+      <span 
+        v-if="!spinner" 
+        slot="spinner"/>
     </infinite-loading>
   </v-flex>
 </template>
 <script>
 import InfiniteLoading from 'vue-infinite-loading'
 export default {
-  name: 'loading',
+  name: 'Loading',
   props: {
     show: {
       type: [Boolean],

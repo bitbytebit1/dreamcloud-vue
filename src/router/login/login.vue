@@ -1,55 +1,99 @@
 <template>
   <v-container fluid>
-    <v-layout row wrap justify-center align-center>
-      <v-flex xs12 lg5 flexbox>
+    <v-layout 
+      row 
+      wrap 
+      justify-center 
+      align-center>
+      <v-flex 
+        xs12 
+        lg5 
+        flexbox>
         <v-flex xs12>
           <h3>Sign in with</h3>
         </v-flex>
-        <v-flex xs10 offset-xs1 offset-lg2 lg8>
-          <form target="remember" method="post" action="/content/blank" v-if="bShowInput">
+        <v-flex 
+          xs10 
+          offset-xs1 
+          offset-lg2 
+          lg8>
+          <form 
+            v-if="bShowInput" 
+            target="remember" 
+            method="post" 
+            action="/content/blank" 
+            @submit.prevent>
             <v-text-field
+              v-model="email"
               label="Email"
               single-line
-              v-model="email"
               autocomplete="on"
-              v-on:keyup.enter="signIn"
-            ></v-text-field>  
+              @keyup.enter="signIn"
+            />  
             <v-text-field
+              v-model="password"
               label="Password"
-              single-line
-              v-model="password" 
+              single-line 
               autocomplete="on"
-              v-on:keyup.enter="signIn"
               type="password"
-            ></v-text-field>
+              @keyup.enter="signIn"
+            />
             <h4>Don't have an account yet? You can create one <router-link to="/sign-up">here</router-link>.</h4>
             <h4><router-link to="/password-reset">Forgot your password?</router-link></h4>
-            <br />
+            <br >
           </form>
         </v-flex>
         <div class="text-xs-center">
-          <v-btn :loading="loading3" :disabled="loading3" round class="red" dark @click.prevent="signInGoogle">Google
+          <v-btn 
+            :loading="loading3" 
+            :disabled="loading3" 
+            round 
+            class="red" 
+            dark 
+            @click.prevent="signInGoogle">Google
             <v-icon right>lock</v-icon>
           </v-btn>
         </div>
         <div class="text-xs-center">
-          <v-btn color="primary white--text" :loading="loading1" :disabled="loading1" round type="submit" v-on:click="emailSignInClick">
+          <v-btn 
+            :loading="loading1" 
+            :disabled="loading1" 
+            color="primary white--text" 
+            round 
+            type="submit" 
+            @click="emailSignInClick">
             Email
             <v-icon right>lock</v-icon>
           </v-btn>
         </div>
         <div class="text-xs-center">
-          <v-btn :loading="loading4" :disabled="loading4" round class="blue darken-4" dark @click.prevent="signInFB">Facebook
+          <v-btn 
+            :loading="loading4" 
+            :disabled="loading4" 
+            round 
+            class="blue darken-4" 
+            dark 
+            @click.prevent="signInFB">Facebook
             <v-icon right>lock</v-icon>
           </v-btn>
         </div>
         <div class="text-xs-center">
-          <v-btn :loading="loading2" :disabled="loading2" round class="grey darken-4" dark @click.prevent="signInGitHub">GitHub
+          <v-btn 
+            :loading="loading2" 
+            :disabled="loading2" 
+            round 
+            class="grey darken-4" 
+            dark 
+            @click.prevent="signInGitHub">GitHub
             <v-icon right>lock</v-icon>
           </v-btn>
         </div>
 
-        <iframe id="remember" name="remember" class="hidden" src=""></iframe>
+        <iframe 
+          id="remember" 
+          name="remember" 
+          class="hidden" 
+          src=""/>
       </v-flex>
     </v-layout>
   </v-container>
@@ -57,7 +101,7 @@
 
 <script>
   export default {
-    name: 'login',
+    name: 'Login',
     data () {
       return {
         bShowInput: false,
@@ -150,7 +194,7 @@
           this.$DCFB.fb.auth().signInWithPopup(new this.$DCFB.fbb.auth.GoogleAuthProvider())
             .then(
               user => {
-                console.log(user)
+                // console.log(user)
                 this.$DCFB.init(user.uid)
                 this.$store.commit('authChange', true)
                 this.loading3 = false

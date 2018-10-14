@@ -1,63 +1,103 @@
 <template>
-  <v-layout row wrap v-show="!show" class="pb-5">
+  <v-layout 
+    v-show="!show" 
+    row 
+    wrap 
+    class="pb-5">
     <!-- IMAGE -->
-    <v-flex xs12 id="img-bg" v-show="!($store.getters.ytUseVideo && $store.getters.isYT)" @click="$DCPlayer.togglePlay()">
+    <v-flex 
+      v-show="!($store.getters.ytUseVideo && $store.getters.isYT)" 
+      id="img-bg" 
+      xs12 
+      @click="$DCPlayer.togglePlay()">
       <div class="pstr-wrapper">
-        <div v-lazy:background-image="song.posterLarge" :style="{ 'background': 'center center no-repeat' }" id="pstr" :key="song.poster"></div>
+        <div 
+          v-lazy:background-image="song.posterLarge" 
+          id="pstr" 
+          :style="{ 'background': 'center center no-repeat' }" 
+          :key="song.poster"/>
       </div>
     </v-flex>
-    <v-flex d-flex xs12 v-if="!show">
-      <v-layout row wrap id="dc-padding">
+    <v-flex 
+      v-if="!show" 
+      dFlex 
+      xs12>
+      <v-layout 
+        id="dc-padding" 
+        row 
+        wrap>
         <!-- SONG TITLE -->
-        <v-flex xs12 class="mt-2">
-          <div class="title fwl text-xs-left">{{$store.getters.current_song.title}}</div >
+        <v-flex 
+          xs12 
+          class="mt-2">
+          <div class="title fwl text-xs-left">{{ $store.getters.current_song.title }}</div >
         </v-flex> 
         <!-- BUTTONS AND UPLOADED DATE/VIEWS AND DIVIDER -->
-        <v-flex xs12 class="stage-btns" :style="stageBorderStyle">
+        <v-flex 
+          :style="stageBorderStyle" 
+          xs12 
+          class="stage-btns">
           <!-- FLOAT LEFT -->
-          <div class="fl-l blue-grey--text text--lighten-1">
-            {{iViews}}
-            {{$DCAPI.calcDate('', song.uploaded)}}
+          <div class="fl-l blue-grey--text text--lighten-1 mt-3">
+            {{ iViews > -1 ? iViews + ' • ' : '' }}{{ $DCAPI.calcDate('', song.uploaded) }}
           </div>
           <!-- FLOAT RIGHT -->
           <div class="fl-r">
             <!-- LINK -->
-            <v-btn :color="btnCol" @click="($UTILS.copyToClipboard(song.mp32), btnFeedback())" icon>
+            <!-- <v-btn :color="btnCol" @click="($UTILS.copyToClipboard(song.mp32), btnFeedback())" icon>
               <v-icon>link</v-icon>
-            </v-btn>
+            </v-btn> -->
             <!-- YT BUTTON -->
-            <youtube-button></youtube-button>
+            <youtube-button/>
             <!-- SHARE BUTTON -->
-            <share-button :song="song" :url="'https://dreamcloud.netlify.com/#/t/' + song.source + '/' + encodeURIComponent(song.artist) + '/' + song.trackID"></share-button>
+            <share-button 
+              :song="song" 
+              :url="'https://dreamcloud.netlify.com/#/t/' + song.source + '/' + encodeURIComponent(song.artist) + '/' + song.trackID"/>
             <!-- DOWNLOAD BUTTON -->
-            <download-button :links="[song]"></download-button>
+            <download-button :links="[song]"/>
             <!-- ADD TO PLAYLIST -->
-            <add-to-playlist v-if="$store.getters.auth_state" :song="song"></add-to-playlist>
+            <add-to-playlist 
+              v-if="auth_state" 
+              :song="song"/>
             <!-- WIDE SCREEN BUTTON -->
-            <v-btn @click="widescreen" icon v-if="$vuetify.breakpoint.lgAndUp">
+            <v-btn 
+              v-if="$vuetify.breakpoint.lgAndUp" 
+              icon 
+              @click="widescreen">
               <v-icon>crop_16_9</v-icon>
             </v-btn>
             <!-- FULLSCREEN BUTTON -->
-            <v-btn @click="fullscreen" icon>
+            <v-btn 
+              icon 
+              @click="fullscreen">
               <v-icon>fullscreen</v-icon>
             </v-btn>
           </div>
         </v-flex> 
         <!-- ARTIST PICTURE -->
-        <artist-mini :artistID="song.artistID" :source="song.source" :artist="song.artist" :key="song.artistID"></artist-mini>
+        <artist-mini 
+          :artistID="song.artistID" 
+          :source="song.source" 
+          :artist="song.artist" 
+          :key="song.artistID"/>
         <!-- ARTIST NAME + SONG DESCRIPTION -->
-        <v-flex xs12 lg7 class="title fwl text-xs-left song-meta mt-3 wordbreak">
+        <v-flex 
+          xs12 
+          lg7 
+          class="title fwl text-xs-left song-meta mt-3 wordbreak">
           {{ song.artist }}
           <!-- DESCRIPTION -->
           <v-flex>
-            <span class="subheading wordbreak fwl preline" v-html="timeToSeconds(_description)"></span>
+            <span 
+              class="subheading wordbreak fwl preline" 
+              v-html="timeToSeconds(_description)"/>
           </v-flex>
           <v-tabs
-            class=""
-            v-model="tab"
             ref="tabs"
+            v-model="tab"
+            class="mt-3"
           >
-            <v-tabs-slider color="primary"></v-tabs-slider>
+            <v-tabs-slider color="primary"/>
             <v-tab >
               Comments
             </v-tab>
@@ -72,21 +112,26 @@
           <v-tabs-items v-model="tab">
             <v-tab-item>
               <!-- COMMENTS -->
-              <songComments :trackID="song.trackID" :source="song.source"></songComments>
+              <songComments 
+                :trackID="song.trackID" 
+                :source="song.source"/>
             </v-tab-item>
             <v-tab-item>
               <!-- LYRICS -->
-              <lyrics :getEm="getLyrics" :title="song.title" :artist="song.artist"></lyrics>
+              <lyrics 
+                :getEm="getLyrics" 
+                :title="song.title" 
+                :artist="song.artist"/>
             </v-tab-item>
             <v-tab-item v-if="$vuetify.breakpoint.mdAndDown">
               <!-- RELATED -->
-              <related></related>
+              <related/>
             </v-tab-item>
           </v-tabs-items>
         </v-flex>
         
         <!-- RELATED -->
-        <related v-if="$vuetify.breakpoint.lgAndUp"></related>
+        <related v-if="$vuetify.breakpoint.lgAndUp"/>
       </v-layout>
     </v-flex>
   </v-layout>
@@ -101,10 +146,17 @@ import lyrics from '@/components/stage/meta/lyrics'
 import addToPlaylist from '@/components/buttons/add-to-playlist.vue'
 import shareButton from '@/components/buttons/share-button'
 import downloadButton from '@/components/buttons/download-button'
-// import explode from '@/components/misc/explode'
+import { mapGetters } from 'vuex'
+
 // /* eslint-disable */
 export default {
-  name: 'dc-stage',
+  name: 'DcStage',
+  watch: {
+    current_trackID: {
+      immediate: true,
+      handler: 'trackChanged'
+    }
+  },
   components: {
     // 'explode': explode,
     'songComments': songComments,
@@ -126,6 +178,12 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      song: 'current_song',
+      current_trackID: 'current_trackID',
+      ytUseVideo: 'ytUseVideo',
+      auth_state: 'auth_state'
+    }),
     getLyrics () {
       return this.tab === 1
     },
@@ -144,26 +202,17 @@ export default {
     },
     show () {
       return this.ytUseVideo && this.$store.getters.isYT
-    },
-    ytUseVideo () {
-      return this.$store.getters.ytUseVideo
-    },
-    song () {
-      return this.$store.getters.current_song
-    },
-    current_trackID () {
-      return this.$store.getters.current_trackID ? this.$store.getters.current_trackID : 'player'
     }
   },
   methods: {
+    trackChanged () {
+      this.getDesc()
+      this.getPlays()
+    },
     widescreen () {
       this.bWide = !(this.$store.getters.drawLeft || this.$store.getters.drawRight)
-      // if this.bWide() {
       this.$store.commit('drawRight', this.bWide)
       this.$store.commit('drawLeft', this.bWide)
-      // } else {
-      // }
-      // }
     },
     btnFeedback () {
       this.btnCol = 'primary'
@@ -207,23 +256,12 @@ export default {
         this._description = this.song.description
       }
     }
-  },
-  created () {
-    // console.log('audio created')
-    this.getDesc()
-    this.getPlays()
-  },
-  updated () {
-    this.getDesc()
-    if (this.$store.getters.isYT) {
-      this.getPlays()
-    }
   }
 }
 </script>
 
 <style>
-.pstr-wrapper {position: relative; padding-bottom: 40%; /* 16:9 */  padding-top: 25px;}
+.pstr-wrapper {position: relative; padding-bottom: 38%; /* 16:9 */  padding-top: 25px;}
 .pstr-wrapper #pstr {position: absolute; top: 0; left: 0; width: 100%; height: 100%;}
 
 
@@ -239,10 +277,6 @@ export default {
 }
 
 
-.fl-l{
-  float: left;
-  margin-top: 10px;
-}
 
 #img-bg{
   background-color:black;

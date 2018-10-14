@@ -1,19 +1,28 @@
 <template>
   <v-autocomplete
-    v-on:keyup.enter='enter'
+    ref="auto"
     :loading="loading"
     :items="items"
     :search-input.sync="search"
     v-model="select"
+    class="autoSearch mx-3"
     color="primary"
-    label="dream"
+    label="Search"
     append-icon=""
     single-line
     hide-no-data
-    class="mt-2"
+    hide-details
+    flat
+    solo
+    clearable
+    @keyup.enter='enter'
   >
-    <template slot="item" slot-scope="data">
-      <v-list-tile-content @click="clicked(data.item)" v-text="data.item"></v-list-tile-content>
+    <template 
+      slot="item" 
+      slot-scope="data">
+      <v-list-tile-content 
+        @click="clicked(data.item)" 
+        v-text="data.item"/>
     </template>
   </v-autocomplete>
 </template>
@@ -23,8 +32,8 @@ export default {
     return {
       loading: false,
       items: [],
-      search: '',
-      select: ''
+      search: null,
+      select: null
     }
   },
   watch: {
@@ -37,13 +46,9 @@ export default {
       this.emit(v)
     },
     enter () {
-      // console.log('enter 1', this.search, '2', this.select)
-      // console.log(this.select)
-      // console.log(this.search)
+      // oh why why why
+      this.$refs.auto.$children[0].isActive = false
       this.emit(this.search)
-      // this.$nextTick(() => {
-      // console.log(this.search)
-      // })
     },
     emit (v) {
       this.$emit('search', v)
@@ -67,15 +72,15 @@ export default {
   /* color : inherit !important; */
   /* background : 0 !important; */
 /* } */
-/* @media only screen and (min-width: 600px){
-  .vselect{
-    width: 380px!important;
+@media only screen and (min-width: 600px){
+  .autoSearch{
+    /* margin-top: 8px!important; */
   }
 }
 @media only screen and (max-width: 599px){
-  .vselect{
-    width: 175px!important;
+  .autoSearch{
+    /* margin-top: 4px!important; */
   }
-} */
+}
 
 </style>

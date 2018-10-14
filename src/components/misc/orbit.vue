@@ -1,9 +1,20 @@
 <template>
-  <v-flex xs12>
-    <div class="orbit-spinner" :style="spinnerStyle">
-      <div class="orbit one" :style="orbitStyle"></div>
-      <div class="orbit two" :style="orbitStyle"></div>
-      <div class="orbit three" :style="orbitStyle"></div>
+  <v-flex 
+    xs12 
+    justify-center 
+    class="loading-flex">
+    <div 
+      :style="spinnerStyle" 
+      class="orbit-spinner">
+      <div 
+        :style="orbitStyle" 
+        class="orbit one"/>
+      <div 
+        :style="orbitStyle" 
+        class="orbit two"/>
+      <div 
+        :style="orbitStyle" 
+        class="orbit three"/>
     </div>
   </v-flex>
 </template>
@@ -42,6 +53,9 @@
 </script>
 
 <style scoped>
+  .loading-flex{
+    display:flex;
+  }
   .orbit-spinner, .orbit-spinner * {
     box-sizing: border-box;
   }

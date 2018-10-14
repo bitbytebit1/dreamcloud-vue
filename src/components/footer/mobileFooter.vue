@@ -1,31 +1,62 @@
 <template>
   <div class="?">
-    <v-bottom-nav shift absolute :active.sync="e2" :value="true" color="transparent" v-if="$store.getters.auth_state">
+    <!-- :active.sync="e2" 
+    shift  -->
+    <v-bottom-nav 
+      v-if="$store.getters.auth_state" 
+      :value="true" 
+      absolute 
+      shift
+      color="transparent">
       <!-- <v-btn :color="$route.name === 'home' ? 'primary' : ''"  value="home" :to="{name: 'searchPage'}">
         <span>Search</span>
         <v-icon>search</v-icon>
       </v-btn> -->
-      <v-btn color="primary" flat value="home" :to="{name: 'historyRecommended', params: {user: UID}}">
+      <v-btn 
+        :to="{name: 'historyRecommended', params: {user: UID}}" 
+        color="primary" 
+        flat 
+        value="home">
         <span>Home</span>
         <v-icon>home</v-icon>
       </v-btn>
-      <v-btn color="primary" flat value="subsAll" :to="{name: 'subsAll', params: {user: UID}}">
+      <v-btn 
+        :to="{name: 'subsAll', params: {user: UID}}" 
+        color="primary" 
+        flat 
+        value="subsAll">
         <span>Latest</span>
         <v-icon>whatshot</v-icon>
       </v-btn>
-      <v-btn color="primary" flat value="stage" :to="{name: 'stage'}">
+      <v-btn 
+        :to="{name: 'stage'}" 
+        color="primary" 
+        flat 
+        value="stage">
         <span>Current</span>
         <v-icon>music_video</v-icon>
       </v-btn>
-      <v-btn color="primary" flat value="playlistOverview" :to="{name: 'playlistOverview', params: {user: UID}}">
+      <v-btn 
+        :to="{name: 'playlistOverview', params: {user: UID}}" 
+        color="primary" 
+        flat 
+        value="playlistOverview">
         <span>Playlists</span>
         <v-icon>library_music</v-icon>
       </v-btn>
-      <v-btn color="primary" flat value="userSubOverview" :to="{name: 'userSubOverview', params: {user: UID}}">
+      <v-btn 
+        :to="{name: 'userSubOverview', params: {user: UID}}" 
+        color="primary" 
+        flat 
+        value="userSubOverview">
         <span>Following</span>
         <v-icon>people</v-icon>
       </v-btn>
-      <v-btn color="primary" flat value="settings" :to="{name: 'settings'}">
+      <v-btn 
+        :to="{name: 'settings'}" 
+        color="primary" 
+        flat 
+        value="settings">
         <span>Settings</span>
         <v-icon>settings</v-icon>
       </v-btn>

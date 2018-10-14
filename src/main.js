@@ -10,9 +10,20 @@
   
   Vue.config.productionTip = false
   
-  import Vuetify from 'vuetify'
-  Vue.use(Vuetify)
-  import('../node_modules/vuetify/dist/vuetify.min.css')
+  import Vuetify, { VLayout } from 'vuetify/lib'
+  import 'vuetify/src/stylus/app.styl'
+  // Vue.use(Vuetify)
+
+  Vue.use(Vuetify, {
+    components: {
+      VLayout
+    }
+  })
+  // import Vuetify from 'vuetify'
+  // Vue.use(Vuetify)
+  // import('../node_modules/vuetify/dist/vuetify.min.css')
+
+
   import('@/assets/dream.css')
   
   import App from './App'
@@ -55,9 +66,6 @@
   Vue.component('video-stage', videoStage)
   import playlist from '@/components/playlist/playlist.vue'
   Vue.component('playlist', playlist)
-  
-
-  // import './registerServiceWorker'
 
   Vue.use(Vuetify, {
     theme: {

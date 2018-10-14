@@ -1,14 +1,52 @@
 <template>
-  <v-btn :color="color" icon @click.stop="share">
-    <v-icon>share</v-icon>
-  </v-btn>
+  <v-list-tile 
+    v-if="inList" 
+    ripple 
+    @click.stop="share">
+    <v-list-tile-title>Copy to clipboard</v-list-tile-title>
+    <v-list-tile-action>
+      <v-btn 
+        :color="color" 
+        icon>
+        <v-icon>share</v-icon>
+      </v-btn>
+    </v-list-tile-action>
+  </v-list-tile>
+
+  <v-tooltip 
+    v-else 
+    top >
+    <v-btn 
+      slot="activator" 
+      :color="color" 
+      icon 
+      @click.stop="share">
+      <v-icon>share</v-icon>
+    </v-btn>
+    <span>Share link</span>
+  </v-tooltip>
 </template>
 <script>
 // /* eslint-disable */
 import deleteButton from '@/components/buttons/delete-button'
 export default {
-  name: 'share-button',
-  props: ['url', 'song', 'colour'],
+  name: 'ShareButton',
+  props: {
+    url: {
+      type: String,
+      default: ''
+    },
+    song: {
+      type: [Object, Array],
+      default() {
+        return []
+      }
+    },
+    inList: {
+      type: Boolean,
+      default: false
+    }
+  },
   data () {
     return {
       color: ''

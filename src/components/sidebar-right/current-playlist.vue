@@ -1,20 +1,44 @@
 <template>
   <!-- <v-container grid-list-sm> -->
-  <v-layout xs12 row wrap class="sideright">
+  <v-layout 
+    row 
+    wrap 
+    class="sideright">
     <transition-group name="slide-fade">
       <current-playlist-item
         v-for="(song, index) in aPlaylist"
         :song="song"
         :index="index"
         :key="song.trackID + (index + $store.getters.index)"
-      ></current-playlist-item>
+      />
       <!-- <current-playlist-item
         :song="$store.getters.current_song"
         :index="$store.getters.current_Index"
         :key="$store.getters.current_song.trackID"
         ></current-playlist-item> -->
     </transition-group>
-    <infinite-loading v-if="aPlaylist.length" class="flex xs12" ref="infiniteLoading2"  @infinite="infiniteHandler" spinner="default" :distance="600">
+    <v-flex xs12>
+      <v-card v-if="!aPlaylist.length">
+        <v-card-title primary-title>
+          <v-layout 
+            row 
+            wrap>
+            <jumbo
+              :discover="false"
+              error=""
+              subheading="Nothing playing"
+            />
+          </v-layout>
+        </v-card-title>
+      </v-card>
+    </v-flex>
+    <infinite-loading 
+      v-if="aPlaylist.length" 
+      ref="infiniteLoading2" 
+      :distance="600" 
+      class="flex xs12" 
+      spinner="default" 
+      @infinite="infiniteHandler">
       <span slot="no-results">
         End of the line kiddo
       </span>
@@ -23,7 +47,9 @@
       </span>
       <span slot="spinner">
         <v-flex class="text-xs-center">
-          <v-progress-circular indeterminate color="primary"></v-progress-circular>
+          <v-progress-circular 
+            indeterminate 
+            color="primary"/>
         </v-flex>
       </span>
     </infinite-loading>
@@ -34,10 +60,12 @@
 <script>
 import item from './current-playlist-item'
 // import vueNiceScrollbar from 'vue-nice-scrollbar'
+import jum from '@/components/misc/jumbo'
+
 import InfiniteLoading from 'vue-infinite-loading'
 import { mapGetters } from 'vuex'
 export default {
-  name: 'current-playlist',
+  name: 'CurrentPlaylist',
   data () {
     return {
       numberOfItems: 5,
@@ -54,6 +82,7 @@ export default {
   },
   components: {
     'infinite-loading': InfiniteLoading,
+    'jumbo': jum,
     'current-playlist-item': item
   },
   computed: {
@@ -104,9 +133,9 @@ export default {
 
   /* LEAVE */
 
-  .slide-fade-leave {
+  /* .slide-fade-leave {
 
-  }
+  } */
   .slide-fade-leave-active {
     position: absolute;
   }

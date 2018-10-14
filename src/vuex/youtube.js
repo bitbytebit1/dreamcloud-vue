@@ -24,10 +24,12 @@ export default {
     ytCurrentTime: (state, payload) => { state.ytCurrentTime = payload },
     ytStopVideo: state => {
       if (state.ytState === 1) {
-        try { state.ytObject.stopVideo() } catch (err) {}
+        if(typeof state.ytObject.stopVideo === 'function') {
+          state.ytObject.stopVideo()
+        }
       }
     },
-    ytToggleVideo: (state, payload) => { state.ytUseVideo = state.ytUseVideo = !state.ytUseVideo }
+    ytToggleVideo: (state) => { state.ytUseVideo = state.ytUseVideo = !state.ytUseVideo }
   },
 
   getters: {

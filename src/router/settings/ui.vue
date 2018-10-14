@@ -1,36 +1,46 @@
 <template>
   <div class="ma-0 pa-0">
     <h3 class="text-xs-left pa-3">UI</h3>
-    <v-divider class="primary"></v-divider>
-      <v-list subheader>
-        <v-list-tile
-          @click="listViewSmall = !listViewSmall"
-          ripple
-        >
-          <v-list-tile-content>
-            List view small pictures
-          </v-list-tile-content>
-          <!-- ~~~~~~~~~~~~~~~~~~ -->
-          <v-list-tile-action>
-            <v-switch ref="listViewSmall" hide-details height="20" color="primary" class="fl-r pa-0 ma-0" v-model="listViewSmall"></v-switch>
-          </v-list-tile-action>
-        </v-list-tile>
-        <v-divider></v-divider>
-        <!-- ||||||||||||||||||||||-->
-        <v-list-tile
-          @click="showVideoOnClick = !showVideoOnClick"
-          ripple
-        >
+    <v-divider class="primary"/>
+    <v-list subheader>
+      <v-list-tile
+        ripple
+        @click="listViewSmall = !listViewSmall"
+      >
+        <v-list-tile-content>
+          List view small pictures
+        </v-list-tile-content>
+        <v-list-tile-action>
+          <v-switch 
+            ref="listViewSmall" 
+            v-model="listViewSmall" 
+            hide-details 
+            height="20" 
+            color="primary" 
+            class="fl-r pa-0 ma-0"/>
+        </v-list-tile-action>
+      </v-list-tile>
+      <v-divider/>
 
-          <v-list-tile-content>
-            Show video on song
-          </v-list-tile-content>
+      <v-list-tile
+        ripple
+        @click="showVideoOnClick = !showVideoOnClick"
+      >
+        <v-list-tile-content>
+          Show current song on click
+        </v-list-tile-content>
 
-          <v-list-tile-action>
-            <v-switch hide-details height="20" color="primary" class="fl-r pa-0 ma-0" v-model="showVideoOnClick"></v-switch>
-          </v-list-tile-action>
-        </v-list-tile>
-      </v-list>
+        <v-list-tile-action>
+          <v-switch 
+            v-model="showVideoOnClick" 
+            hide-details 
+            height="20" 
+            color="primary" 
+            class="fl-r pa-0 ma-0"/>
+        </v-list-tile-action>
+      </v-list-tile>
+      <v-divider/>
+    </v-list>
   </div>
 </template>
 <script>

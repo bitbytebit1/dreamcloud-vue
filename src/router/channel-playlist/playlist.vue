@@ -1,15 +1,40 @@
 <template>
-  <v-flex xs12 lg10 flexbox :key="this.$route.params.playlist">
-    <div class="headline fwl text-xs-center pb-2">{{title}}</div>
+  <v-flex 
+    :key="this.$route.params.playlist" 
+    xs12 
+    lg10 
+    flexbox>
+    <div class="headline fwl text-xs-center pb-2">{{ title }}</div>
 
     <!-- show all items since it's a user playlist -->
-    <playlist :showUploaded="true" :songs="aSongs" rowsPerPage='250'></playlist>
+    <playlist 
+      :show-uploaded="true" 
+      :songs="aSongs" 
+      rows-per-page='250'/>
   </v-flex>
 </template>
 <script>
 export default {
-  name: 'channel-playlist',
-  props: ['listID', 'artistID', 'title', 'source'],
+  name: 'ChannelPlaylist',
+  // props: ['listID', 'artistID', 'title', 'source'],
+  props: {
+    listID: {
+      type: String,
+      default: ''
+    },
+    artistID: {
+      type: [String, Number],
+      default: ''
+    },
+    title: {
+      type: String,
+      default: ''
+    },
+    source: {
+      type: String,
+      default: ''
+    }
+  },
   watch: {
     'listID': {
       handler: 'getPlaylistItems',
@@ -25,10 +50,10 @@ export default {
     getPlaylistItems () {
       let f = (sToken) => {
         let sanity = this.listID
+        this.$store.dispatch('loadIndeterm', true)
         this.$DCAPI.getChannelPlaylistItems(this.listID, this.source, 50, sToken, (resp) => {
           if (sanity === this.listID) {
             this.aSongs.push(...resp.data)
-            // this.$store.dispatch('loadIndeterm', false)
             this.$store.dispatch('loadIndeterm', false)
             // this.aSongs = this.aSongs.concat(resp.data)
             if (resp.nextPage) {

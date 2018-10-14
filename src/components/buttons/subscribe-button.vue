@@ -1,10 +1,32 @@
 <template>
-  <v-btn small @click.prevent="toggleSub" class="ma-0 pa-0" :color="btnColor">{{subbed ? 'Subscribed' : 'Subscribe' }}</v-btn>
+  <v-btn 
+    :color="btnColor" 
+    small 
+    class="ma-0 pa-0" 
+    @click.prevent="toggleSub">{{ subbed ? 'Subscribed' : 'Subscribe' }}</v-btn>
 </template>
 <script>
 export default {
-  name: 'subscribe-button',
-  props: ['source', 'artist', 'artistID', 'img'],
+  name: 'SubscribeButton',
+  // props: ['source', 'artist', 'artistID', 'img'],
+  props: {
+    artistID: {
+      type: [String, Number],
+      default: ''
+    },
+    source: {
+      type: String,
+      default: ''
+    },
+    artist: {
+      type: String,
+      default: ''
+    },
+    img: {
+      type: String,
+      default: ''
+    }
+  },
   watch: {
     'artistID': {
       immediate: true,

@@ -1,29 +1,49 @@
 <template>
-<v-card>
-  <v-card-title>
-    <div v-if="lyrics" >
-      <!-- <a :href="`${lyricsServer}/search/${this.query}`">{{ `${lyricsServer}/search/${this.query}` }}</a><br> -->
-      <a class="primary--background" :href="lyricsURL">{{ lyricsURL }}</a><br>
+  <v-card>
+    <v-card-title v-if="lyrics">
+      <a 
+        :href="lyricsURL" 
+        class="primary--background">{{ lyricsURL }}</a><br>
       <div class="wordbreak preline">{{ lyrics }}</div>
-    </div>
-    <div v-else-if="bLoading">
+    </v-card-title>
+
+    <v-card-title v-else-if="bLoading">
       <!-- <a :href="`${lyricsServer}/search/${this.query}`">{{ `${lyricsServer}/search/${this.query}` }}</a><br> -->
-      {{loadingText + loadingTextAppend}}
-    </div>
-    <div v-else-if="iTried">
-      <!-- <a :href="`${lyricsServer}/search/${this.ww}`">{{ `${lyricsServer}/search/${this.ww}` }}</a><br> -->
+      {{ loadingText + loadingTextAppend }}
+    </v-card-title>
+
+    <v-card-title v-else-if="iTried">
       No lyrics available
-    </div>
-  </v-card-title>
-</v-card>
+    </v-card-title>
+  
+    <v-card-title 
+      v-else 
+      class="pointer" 
+      @click="(getLyrics)">
+      Click to load lyrics
+    </v-card-title>
+  </v-card>
 
 </template>
 <script>
 import axios from 'axios'
 // /* eslint-disable */
 export default {
-  name: 'lyrics',
-  props: ['title', 'artist', 'getEm'],
+  name: 'Lyrics',
+  props: {
+    title: {
+      type: String,
+      default: ''
+    },
+    artist: {
+      type: String,
+      default: ''
+    },
+    getEm: {
+      type: Boolean,
+      default: false
+    }
+  },
   watch: {
     title: {
       immediate: true,
@@ -79,7 +99,7 @@ export default {
       clearInterval(intv)
     },
     getLyrics () {
-      if (this.getEm && !this.lyrics) {
+      if (!this.lyrics) {
         var title = this.title
         this.bLoading = true
         this.lyrics = ''

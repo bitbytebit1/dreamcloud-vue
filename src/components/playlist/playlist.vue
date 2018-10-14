@@ -1,9 +1,25 @@
 <template>
   <!-- <v-flex flexbox> -->
   <!-- <v-container fluid class="grid-list-xs search-results"> -->
-  <v-layout row wrap>
-    <list v-if="list && !gridView" :songs="fixedSongs" :full="full" :rowsPerPage="rowsPerPage" :sortBy="sortBy" @toggleView="toggleView"></list>
-    <grid v-else :songs="fixedSongs" :full="full" :rowsPerPage="rowsPerPage" :sortBy="sortBy" :showUploaded="showUploaded" @toggleView="toggleView"></grid>
+  <v-layout 
+    row 
+    wrap 
+    pb-5>
+    <list 
+      v-if="list && !gridView" 
+      :songs="fixedSongs" 
+      :full="full" 
+      :rows-per-page="rowsPerPage" 
+      :sort-by="sortBy" 
+      @toggleView="toggleView"/>
+    <grid 
+      v-else 
+      :songs="fixedSongs" 
+      :full="full" 
+      :rows-per-page="rowsPerPage" 
+      :sort-by="sortBy" 
+      :show-uploaded="showUploaded" 
+      @toggleView="toggleView"/>
   </v-layout>
   <!-- </v-container> -->
   <!-- </v-flex> -->
@@ -14,7 +30,7 @@ import list from './list'
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'playlist',
+  name: 'Playlist',
   props: {
     songs: {
       type: [Array],

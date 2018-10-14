@@ -1,9 +1,21 @@
 <template>
-  <v-flex xs12 lg10 xl10 flexbox>
+  <v-flex 
+    xs12 
+    lg10 
+    flexbox>
     <!-- <loading v-if="loading"></loading> -->
-    <playlist :showUploaded="!0" v-if="!loading" rowsPerPage='50' :songs="searchResults"></playlist>  
-    <infinite-loading :distance="210" ref="infiniteLoading" v-if="!loading" @infinite="infiniteHandler" spinner="waveDots">    
-      <span slot="no-more"></span>
+    <playlist 
+      v-if="!loading" 
+      :show-uploaded="!0" 
+      :songs="searchResults" 
+      rows-per-page='50'/>  
+    <infinite-loading 
+      v-if="!loading" 
+      ref="infiniteLoading" 
+      :distance="210" 
+      spinner="waveDots" 
+      @infinite="infiniteHandler">    
+      <span slot="no-more"/>
     </infinite-loading>
   </v-flex>
 </template>
@@ -13,12 +25,20 @@ import InfiniteLoading from 'vue-infinite-loading'
 import loading from '@/components/misc/loading'
 
 export default {
-  name: 'searchpage',
-  props: ['query', 'source'],
+  name: 'Searchpage',
+  // props: ['query', 'source'],
+  props: {
+    query: {
+      type: String,
+      default: ''
+    },
+    source: {
+      type: String,
+      default: ''
+    }
+  },
   data () {
     return {
-      _query: '',
-      _source: '',
       loading: false,
       searchResults: [],
       iPage: 0
@@ -31,48 +51,29 @@ export default {
   computed: {
     splitSource () {
       return this.source.split('-')
-      // if (this.source.length > 1) {
-      //   return this.source.split('-')
-      // }
-      // return this.source
     }
   },
-  created () {
-    this.$store.dispatch('loadIndeterm', true)
-    this._query = this.query
-    this._source = this.splitSource
-    this.search(this.query, this._source)
-  },
-  // beforeRouteUpdate (to) {
-  //   console.log(to)
-  //   this.search(to.params.query, to.params.source)
-  // },
   watch: {
-    '$route.params': '_search'
+    '$route.params': {
+      immediate: true,
+      handler: 'searchInt'
+    }
   },
   methods: {
     infiniteHandler ($state) {
-      this.search(this._query, this._source, ++this.iPage).then(function () {
+      this.search(++this.iPage).then(function () {
         $state.loaded()
       })
     },
-    _search (sQuery, aSource) {
-      this._query = this.$route.params.source
-      this.search(this.$route.params.query, this.splitSource)
+    searchInt () {
       this.$store.dispatch('loadIndeterm', true)
+      this.search(0)
     },
-    search (sQuery, aSource, iPage = 0) {
-      // console.log(this)
-      // If first page show loading
-      // this.loading = !iPage
+    search (iPage) {
 
-      // If not param set use internal
-      this._query = sQuery || this._query
-      // If not  ”    ”   ”   ”
-      this._source = aSource || this._source
-      // If first page clear search results array.
       this.searchResults = !iPage ? [] : this.searchResults
-      return this.$DCAPI.searchInt(this._query, iPage, this._source, '', (d) => {
+
+      return this.$DCAPI.searchInt(this.$route.params.query, iPage, this.splitSource, '', (d) => {
         this.loading = false
         if (iPage === 0) {
           this.$store.dispatch('loadIndeterm', false)

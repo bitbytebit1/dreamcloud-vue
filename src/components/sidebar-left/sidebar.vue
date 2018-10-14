@@ -1,32 +1,17 @@
 <template>
   <div class="mb-1">
-    <v-list dense class="pa-0">
+    <v-list 
+      dense 
+      class="pa-0">
 
       <!-- Change to for loop to save the whales... I mean internet -->
 
-      <!-- home -->
-      <!-- <v-list-tile 
-        v-if="loggedIn" 
-        ripple 
-        @click="closeLeft" 
-        :to="{name: 'home', params: {user: $DCFB.UID}}"
-        exact-active-class="primary white--text"
-      >
-        <v-list-tile-action>
-          <v-icon>home</v-icon>
-        </v-list-tile-action>
-        <v-list-tile-content>
-          <v-list-tile-title>Home</v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile> -->
-
       <!-- RECOMMENDED -->
       <v-list-tile 
-        v-if="loggedIn" 
+        :to="{name: 'historyRecommended', params: {user: UID}}" 
         ripple 
-        @click="closeLeft" 
-        :to="{name: 'historyRecommended', params: {user: $DCFB.UID}}"
-        exact-active-class="primary white--text"
+        active-class="primary white--text"
+        @click="closeLeft"
       >
         <v-list-tile-action>
           <v-icon>home</v-icon>
@@ -36,38 +21,71 @@
         </v-list-tile-content>
       </v-list-tile>
 
-      <!-- Subscriptions all -->
-      <v-list-tile v-if="loggedIn" exact-active-class="primary white--text" ripple @click="closeLeft" :to="{name:'subsAll', params: {user: $DCFB.UID}}">
+      <!-- trending -->
+      <v-list-tile 
+        :to="{name: 'trending'}" 
+        ripple 
+        active-class="primary white--text"
+        @click="closeLeft"
+      >
         <v-list-tile-action>
           <v-icon>whatshot</v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
+          <v-list-tile-title>Trending</v-list-tile-title>
+        </v-list-tile-content>
+      </v-list-tile>
+
+      <!-- CURRENTLY PLAYING
+      <v-list-tile 
+        ripple 
+        @click="closeLeft" 
+        :to="{name: 'stage'}"
+        active-class="primary white--text"
+      >
+        <v-list-tile-action>
+          <v-icon>music_video</v-icon>
+        </v-list-tile-action>
+        <v-list-tile-content>
+          <v-list-tile-title>Current</v-list-tile-title>
+        </v-list-tile-content>
+      </v-list-tile> -->
+
+      <v-list-tile 
+        :to="{name: 'explore'}" 
+        active-class="primary white--text" 
+        ripple 
+        @click="closeLeft">
+        <v-list-tile-action>
+          <v-icon>public</v-icon>
+        </v-list-tile-action>
+        <v-list-tile-content>
+          <v-list-tile-title>Explore</v-list-tile-title>
+        </v-list-tile-content>
+      </v-list-tile>
+
+
+      <!-- Subscriptions all -->
+      <v-list-tile 
+        :to="{name:'subsAll', params: {user: UID}}" 
+        active-class="primary white--text" 
+        ripple 
+        @click="closeLeft">
+        <v-list-tile-action>
+          <v-icon>people</v-icon>
+        </v-list-tile-action>
+        <v-list-tile-content>
           <v-list-tile-title>Subscriptions</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
 
-      <!-- Subscriptions Overview -->
-      <!-- <v-list-tile v-if="loggedIn" ripple @click="closeLeftOnMobile" :to="{name:'userSubOverview', params: {user: $DCFB.UID}}">
-        <v-list-tile-action>
-          <v-icon>view_module</v-icon>
-        </v-list-tile-action>
-        <v-list-tile-content>
-          <v-list-tile-title>Subscriptions</v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile> -->
-
-      <!-- Playlist Overview -->
-      <!-- <v-list-tile v-if="loggedIn" ripple @click="closeLeftOnMobile" :to="{name:'playlistOverview', params: {user: $DCFB.UID}}">
-        <v-list-tile-action>
-          <v-icon>view_module</v-icon>
-        </v-list-tile-action>
-        <v-list-tile-content>
-          <v-list-tile-title>Playlists</v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile> -->
-
       <!-- history -->
-      <v-list-tile ripple exact-active-class="primary white--text" class="history-link" @click="closeLeft" v-if="loggedIn" :to="{name:'history', params: {user: $DCFB.UID}}">
+      <v-list-tile 
+        :to="{name:'history', params: {user: UID}}" 
+        ripple 
+        active-class="primary white--text" 
+        class="history-link" 
+        @click="closeLeft">
         <v-list-tile-action>
           <v-icon>history</v-icon>
         </v-list-tile-action>
@@ -75,22 +93,22 @@
           <v-list-tile-title>History</v-list-tile-title>
         </v-list-tile-content>
         <span class="delete">
-          <delete-button @delete="clearHistory"></delete-button>
+          <delete-button @delete="clearHistory"/>
         </span>
       </v-list-tile>
 
       <!-- about -->
-      <v-list-tile v-if="!loggedIn" exact-active-class="primary white--text" ripple @click="closeLeft" :to="{name: 'about'}">
+      <!-- <v-list-tile v-if="!loggedIn" active-class="primary white--text" ripple @click="closeLeft" :to="{name: 'about'}">
         <v-list-tile-action>
           <v-icon>info</v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
           <v-list-tile-title>About</v-list-tile-title>
         </v-list-tile-content>
-      </v-list-tile>
+      </v-list-tile> -->
 
       <!-- login -->
-      <v-list-tile v-if="!loggedIn" exact-active-class="primary white--text" ripple @click="closeLeft" :to="{path: '/login'}">
+      <!-- <v-list-tile v-if="!loggedIn" active-class="primary white--text" ripple @click="closeLeft" :to="{path: '/login'}">
         <v-list-tile-action>
           <v-icon>person</v-icon>
         </v-list-tile-action>
@@ -98,9 +116,13 @@
           <v-list-tile-title>Login</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
-      
+       -->
       <!-- settings -->
-      <v-list-tile ripple @click="closeLeft" exact-active-class="primary white--text" v-if="loggedIn" :to="{path: '/settings'}">
+      <v-list-tile 
+        :to="{path: '/settings'}" 
+        ripple 
+        active-class="primary white--text" 
+        @click="closeLeft">
         <v-list-tile-action>
           <v-icon>settings</v-icon>
         </v-list-tile-action>
@@ -111,18 +133,22 @@
     </v-list>
     
     <!-- Playists -->
-    <v-list dense class="pa-0">
-      <user-playlists @closeLeft="closeLeft" v-if="loggedIn"></user-playlists>
+    <v-list 
+      dense 
+      class="pa-0">
+      <user-playlists @closeLeft="closeLeft"/>
     </v-list>
     
     <!-- Subscriptions -->
-    <v-list dense class="pa-0">
-      <user-subscriptions @closeLeft="closeLeft" v-if="loggedIn"></user-subscriptions>
+    <v-list 
+      dense 
+      class="pa-0">
+      <user-subscriptions @closeLeft="closeLeft"/>
     </v-list>
 
     <!-- tos -->
-    <v-list dense class="pa-0 mb-5">
-      <v-list-tile ripple @click="closeLeft" v-if="!loggedIn" :to="{path: '/tos'}">
+    <!-- <v-list dense class="pa-0 mb-5">
+      <v-list-tile ripple @click="closeLeft" :to="{path: '/tos'}">
         <v-list-tile-action>
           <v-icon>forum</v-icon>
         </v-list-tile-action>
@@ -130,7 +156,7 @@
           <v-list-tile-title>Terms of Use</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
-    </v-list>
+    </v-list> -->
   </div>
 </template>
 <script>
@@ -138,7 +164,7 @@ import userPlaylists from '@/components/sidebar-left/user-playlists/user-playlis
 import userSubscriptions from '@/components/sidebar-left/user-subscriptions/user-subscriptions'
 import deleteButton from '@/components/buttons/delete-button'
 export default {
-  name: 'sidebar',
+  name: 'Sidebar',
   components: {
     'user-playlists': userPlaylists,
     'user-subscriptions': userSubscriptions,
@@ -158,6 +184,9 @@ export default {
     }
   },
   computed: {
+    UID () {
+      return this.$store.getters.uid
+    },
     loginPath () {
       return '/' + this.loginText.toLowerCase()
     },

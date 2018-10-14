@@ -1,27 +1,37 @@
 <template>
   <v-container fluid>
-    <v-layout row wrap justify-center align-center>
-      <v-flex xs12 lg5>
+    <v-layout 
+      row 
+      wrap 
+      justify-center 
+      align-center>
+      <v-flex 
+        xs12 
+        lg5>
         <v-flex xs12>
           <h3>Create account</h3>
         </v-flex>
-        <v-flex xs10 offset-xs1 offset-lg2 lg8>
+        <v-flex 
+          xs10 
+          offset-xs1 
+          offset-lg2 
+          lg8>
           <v-text-field
+            v-model="email"
             label="Email"
             single-line
-            v-model="email"
             autocomplete="on"
-            v-on:keyup.enter="signIn"
-          ></v-text-field>  
+            @keyup.enter="signIn"
+          />  
           <v-text-field
+            v-model="password"
             label="Password"
-            single-line
-            v-model="password" 
+            single-line 
             autocomplete="on"
-            v-on:keyup.enter="signIn"
             type="password"
-          ></v-text-field>    
-          <v-btn v-on:click="signUp">Sign Up</v-btn>
+            @keyup.enter="signIn"
+          />    
+          <v-btn @click="signUp">Sign Up</v-btn>
           <h5>or go back to <router-link to="/login">login</router-link>.</h5>
         </v-flex>
       </v-flex>
@@ -32,7 +42,7 @@
 <script>
   // /* eslint-disable */
   export default {
-    name: 'signUp',
+    name: 'SignUp',
     data () {
       return {
         email: '',
@@ -42,7 +52,7 @@
     methods: {
       signUp () {
         this.$DCFB.fb.auth().createUserWithEmailAndPassword(this.email, this.password).then(
-          (user) => {
+          () => {
             this.$router.replace('user')
           },
           (err) => {

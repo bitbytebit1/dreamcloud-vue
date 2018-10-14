@@ -1,28 +1,31 @@
 <template>
-  <v-flex xs12 lg4 class="mt-3">
+  <v-flex 
+    xs12 
+    lg4 
+    class="mt-3">
     <!-- Loading -->
     <v-flex 
-      xs2
-      offset-xs5
-      lg2 
-      offset-lg5
       v-if="loading"
+      xs2
+      offset-xs5 
+      lg2
+      offset-lg5
     >
-      <orbit></orbit>
+      <orbit/>
     </v-flex>
     <!-- v-data-iterator -->
     <v-data-iterator
-      hide-actions
-      content-tag='v-layout'
-      row
-      wrap
       :items='items'
       :rows-per-page-items='rowsPerPageItems'
       :pagination.sync='pagination'
       :id='String(song.trackID)'
+      hide-actions
+      content-tag='v-layout'
+      row
+      wrap
     >
       <!-- blank no data -->
-      <v-flex slot="no-data"></v-flex>
+      <v-flex slot="no-data"/>
 
       <!-- related song -->
       <v-flex 
@@ -31,23 +34,41 @@
         xs12
         @click="play(props.index)"
       >
-        <v-card class="mb-2 pointer" color="" >
+        <v-card 
+          class="mb-2 pointer" 
+          color="" >
           <v-layout row>
             <v-flex xs5>
               <!-- image -->
-              <v-card-media
-                :src="props.item.poster"
-                :height="hai(props.item.source)"
+              <v-img
+                :aspect-ratio="props.item.source === 'YouTube' ? 16/9 : '1'"
+                :src="props.item.posterLarge"
+                :lazy-src="props.item.posterLarge"
+                class="fillPlace"
               >
-                <!-- <span class="abr15" v-text="props.item.duration"/> -->
-              </v-card-media>
+                <v-layout
+                  slot="placeholder"
+                  fill-height
+                  align-center
+                  justify-center
+                  ma-0
+                >
+                  <v-progress-circular 
+                    indeterminate 
+                    color="grey lighten-5"/>
+                </v-layout>
+              </v-img>
             </v-flex>
-            <v-flex xs7 class="ml-2">
+            <v-flex 
+              xs7 
+              class="ma-2">
               <div>
                 <!-- title -->
                 <div class="subheading text-xs-left wordbreak">{{ props.item.title }}</div>
                 <!-- artist -->
-                <div @click.stop="$router.push({name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}})" class="text-xs-left grey--text">{{ props.item.artist }}</div>
+                <div 
+                  class="text-xs-left grey--text" 
+                  @click.stop="$router.push({name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}})">{{ props.item.artist }}</div>
                 <!-- duration -->
                 <div class="text-xs-left grey--text">{{ props.item.duration }}</div>
               </div>
@@ -65,7 +86,7 @@ import { mapGetters } from 'vuex'
 
 // /* eslint-disable */
 export default {
-  name: 'stage-related',
+  name: 'StageRelated',
   components: {
     'orbit': orbit
   },
@@ -107,11 +128,12 @@ export default {
       this.items = []
       this.$DCAPI.searchInt('', 0, [this.song.source], this.trackID, (d) => {
         this.loading = false
-        if (d[0].trackID === this.trackID) {
-          // alert('removing dupe first')
-          d.shift()
+        if (d.length) {
+          if (d[0].trackID === this.trackID) {
+            d.shift()
+          }
+          this.items = d
         }
-        this.items = d
       }, true, 50)
     },
     hai (source) {

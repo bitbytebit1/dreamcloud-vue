@@ -1,7 +1,7 @@
 <template>
   <v-toolbar-items>
     <!-- <v-toolbar-title class="mt-2"> -->
-    <autocomplete @search="search($event)"></autocomplete>
+    <autocomplete @search="search($event)"/>
     <!-- </v-toolbar-title> -->
     <!-- <v-text-field 
       style="max-height: 12px;"
@@ -12,15 +12,16 @@
       single-line
     >
     </v-text-field> -->
-    <v-divider></v-divider>
+    <v-divider/>
     <v-menu
-      class="mr-5"
       :close-on-content-click="false"
       :nudge-bottom="25"
+      class="mr-5"
       open-on-hover
+      z-index="10"
     >
       <v-toolbar-title slot="activator">
-        <v-btn icon slot="activator">
+        <v-btn icon>
           <v-icon>
             cloud_circle
           </v-icon>
@@ -31,15 +32,19 @@
           <v-list-tile>
             <!-- <img src='../img/All.png'> -->
             <v-list-tile-action>
-              <v-switch v-model="aSources.All" color="primary"></v-switch>
+              <v-switch 
+                v-model="aSources.All" 
+                color="primary"/>
             </v-list-tile-action>
             <v-list-tile-title>All</v-list-tile-title>
           </v-list-tile>
 
           <v-list-tile>
-          <!-- <img src='../img/bc.png'> -->
-          <v-list-tile-action>
-              <v-switch v-model="aSources.Bandcamp" color="primary"></v-switch>
+            <!-- <img src='../img/bc.png'> -->
+            <v-list-tile-action>
+              <v-switch 
+                v-model="aSources.Bandcamp" 
+                color="primary"/>
             </v-list-tile-action>
             <v-list-tile-title>Bandcamp</v-list-tile-title>
           </v-list-tile>
@@ -47,7 +52,9 @@
           <v-list-tile>
             <!-- <img src='../img/mc.png'> -->
             <v-list-tile-action>
-              <v-switch v-model="aSources.MixCloud" color="primary"></v-switch>
+              <v-switch 
+                v-model="aSources.MixCloud" 
+                color="primary"/>
             </v-list-tile-action>
             <v-list-tile-title>Mixcloud</v-list-tile-title>
           </v-list-tile>
@@ -55,7 +62,9 @@
           <v-list-tile>
             <!-- <img src='../img/sc.png'> -->
             <v-list-tile-action>
-              <v-switch v-model="aSources.SoundCloud" color="primary"></v-switch>
+              <v-switch 
+                v-model="aSources.SoundCloud" 
+                color="primary"/>
             </v-list-tile-action>
             <v-list-tile-title>SoundCloud</v-list-tile-title>
           </v-list-tile>
@@ -63,7 +72,9 @@
           <v-list-tile>
             <!-- <img src='../img/yt.png'> -->
             <v-list-tile-action>
-              <v-switch v-model="aSources.YouTube" color="primary"></v-switch>
+              <v-switch 
+                v-model="aSources.YouTube" 
+                color="primary"/>
             </v-list-tile-action>
             <v-list-tile-title>YouTube</v-list-tile-title>
           </v-list-tile>
@@ -71,7 +82,9 @@
           <v-list-tile>
             <!-- <img src='../img/vm.png'> -->
             <v-list-tile-action>
-              <v-switch v-model="aSources.Vimeo" color="primary"></v-switch>
+              <v-switch 
+                v-model="aSources.Vimeo" 
+                color="primary"/>
             </v-list-tile-action>
             <v-list-tile-title>Vimeo</v-list-tile-title>
           </v-list-tile>
@@ -85,7 +98,7 @@
 import autocomplete from '@/components/header/autocomplete'
 
 export default {
-  name: 'search',
+  name: 'Search',
   components: {
     'autocomplete': autocomplete
   },

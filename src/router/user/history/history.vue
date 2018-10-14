@@ -1,31 +1,40 @@
 <template>
-  <v-flex xs12 lg10>
-    <div class="headline fwl text-xs-left pl-2 pt-2">History</div>
-    <!-- <loading v-if="!auth_state || !aHistory.length"></loading> -->
-    <playlist rowsPerPage='84' :songs="aHistRev"></playlist>
+  <v-flex 
+    xs12 
+    lg10>
+    <div 
+      v-if="bLoading || aHistRev.length" 
+      class="headline fwl text-xs-left pl-2 pt-2">History</div>
+    <playlist 
+      v-if="bLoading || aHistRev.length" 
+      :songs="aHistRev" 
+      rows-per-page='84'/>
+    <jumbo
+      v-else-if="bFailed"
+      title="Here is supposed to be your history"
+      subheading="But it looks like you haven't listened to any music yet"
+    />
   </v-flex>
 </template>
 <script>
 /* eslint-disable */
-import loading from '@/components/misc/loading'
+import jumbo from '@/components/misc/jumbo'
 import deleteButton from '@/components/buttons/delete-button'
 import { mapGetters } from 'vuex'
 export default {
   props: ['user'],
   name: 'history',
   components: {
-    'loading': loading
+    'jumbo': jumbo
   },
   data () {
     return {
-      aHistory: []
+      aHistory: [],
+      bLoading: false,
+      bFailed: false
     }
   },
   watch: {
-    // 'user': {
-    //   handler: 'bind',
-    //   immediate: true
-    // },s
     'auth_state': {
       handler: 'bind',
       immediate: true
@@ -35,7 +44,12 @@ export default {
     bind () {
       if (this.auth_state) {
         this.$store.dispatch('loadIndeterm', true)
-        this.$bindAsArray('aHistory', this.$DCFB.history.limitToLast(200), null, () => { this.$store.dispatch('loadIndeterm', false) })
+        this.bFailed = false
+        this.$bindAsArray('aHistory', this.$DCFB.history.limitToLast(200), null, () => { 
+          this.$store.dispatch('loadIndeterm', false)
+          this.bLoading = false
+          this.bFailed  = !this.aHistory.length
+        })
       }
     }
   },
@@ -45,9 +59,9 @@ export default {
       return this.$UTILS.uniqueArray([...this.aHistory].reverse())
     }
   },
-  created () {
-    this.bind()
-  }
+  // created () {
+    // this.bind()
+  // }
 }
 </script>
 

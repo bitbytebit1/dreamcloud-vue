@@ -1,22 +1,31 @@
 <template>
   <!-- 
   <v-layout  row> -->
-  <v-flex v-if="$store.getters.auth_state" xs10 offset-xs1 lg10 offset-lg1 class="ma-0">
+  <v-flex 
+    v-if="$store.getters.auth_state" 
+    xs10 
+    offset-xs1 
+    lg10 
+    offset-lg1 
+    class="ma-0">
     <div class="headline fwl text-xs-left pl-2 pt-2 pb-2">Settings</div>
 
-    <account></account>
+    <extra/>
     <br>
 
-    <ui></ui>
+    <account/>
     <br>
 
-    <localStorage></localStorage>
+    <ui/>
     <br>
 
-    <hotkeys></hotkeys>
+    <localStorage/>
     <br>
 
-    <theme></theme>
+    <hotkeys/>
+    <br>
+
+    <theme/>
     <br>
 
   </v-flex>
@@ -28,10 +37,12 @@ import theme from '@/router/settings/theme'
 import localStorage from '@/router/settings/localStorage'
 import hotkeys from '@/router/settings/hotkeys'
 import account from '@/router/settings/account'
+import extra from '@/router/settings/extra'
 
 export default {
-  name: 'settings',
+  name: 'Settings',
   components: {
+    'extra': extra,
     'account': account,
     'hotkeys': hotkeys,
     'theme': theme,
@@ -40,7 +51,8 @@ export default {
   },
   data () {
     return {
-      nightState: this.$store.getters.nightMode
+      nightState: this.$store.getters.nightModem,
+      updated: ''
     }
   }
 }

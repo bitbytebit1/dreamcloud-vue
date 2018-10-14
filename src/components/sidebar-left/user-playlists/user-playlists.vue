@@ -2,17 +2,28 @@
   <!-- V LIST MAIN -->
   <v-list>
     <!-- HEADER PLAYLIST -->
-    <v-subheader class="pointer" @click="closeLeftOnMobile();$router.push({name: 'playlistOverview', params: {user: UID}})">
+    <v-subheader 
+      class="pointer" 
+      @click="closeLeftOnMobile();$router.push({name: 'playlistOverview', params: {user: uid}})">
       <div>
         Playlists
       </div>
-      <v-btn v-if="bUIShowMore" icon class="ar17" @click.stop="(bShowMore = !bShowMore, pagination.rowsPerPage = bShowMore ? -1 : 7)">
-        <v-icon>{{bShowMore ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}</v-icon>
+      <v-btn 
+        v-if="bUIShowMore" 
+        icon 
+        class="ar17" 
+        @click.stop="(bShowMore = !bShowMore, pagination.rowsPerPage = bShowMore ? -1 : 7)">
+        <v-icon>{{ bShowMore ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
       </v-btn>
     </v-subheader>
 
     <!-- ALL -->
-    <v-list-tile v-if="playlists.length" active-class="primary white--text" ripple @click.stop="closeLeftOnMobile" :to="{name:'playlistsAll', params: {user: UID}}">
+    <v-list-tile 
+      v-if="playlists.length" 
+      :to="{name:'playlistsAll', params: {user: uid}}" 
+      active-class="secondary white--text" 
+      ripple 
+      @click.stop="closeLeftOnMobile">
       <v-list-tile-action>
         <v-icon>music_note</v-icon>
       </v-list-tile-action>
@@ -23,26 +34,27 @@
 
 
     <!-- FILTER -->
-    <v-list-tile ripple @click.stop="$refs.search.focus()">
+    <v-list-tile 
+      ripple 
+      @click.stop="$refs.search.focus()">
       <v-list-tile-action @click="search.length > 0 ? search='' : ''">
         <!-- ICON -->
-        <v-icon :color="filterHasFocus ? 'primary' : ''">{{filterLeng > 0 ? 'clear' : 'filter_list'}}</v-icon>
+        <v-icon :color="filterHasFocus ? 'primary' : ''">{{ filterLeng > 0 ? 'clear' : 'filter_list' }}</v-icon>
       </v-list-tile-action>
       <v-list-tile-content>
         <!-- TEXT FIELD -->
         <v-text-field
-          @focus="filterHasFocus = true"
-          @blur="filterHasFocus = false"
+          ref="search"
+          v-model="search"
           color="primary"
           label="Filter"
-          class="filter"
+          class="filter ma-0 pa-0"
           single-line
           hide-details
-          v-model="search"
-          v-on:keyup.enter="$UTILS.closeSoftMobi()"
-          style="top:-10px"
-          ref="search"
-        ></v-text-field>
+          @focus="filterHasFocus = true"
+          @blur="filterHasFocus = false"
+          @keyup.enter="$UTILS.closeSoftMobi()"
+        />
       </v-list-tile-content>
     </v-list-tile>
     <!-- DATA ITERATOR -->
@@ -58,27 +70,33 @@
       no-results-text="No matching playlists"
     >
       <!-- FOOTER -->
-      <v-flex slot="footer" v-if="bUIShowMore">
-        <v-btn small block color="transparent" @click="(bShowMore = !bShowMore, pagination.rowsPerPage = bShowMore ? -1 : 7)">
-          {{bShowMore ? 'SHOW LESS' : 'SHOW MORE'}}
+      <v-flex 
+        v-if="bUIShowMore" 
+        slot="footer">
+        <v-btn 
+          small 
+          block 
+          color="transparent" 
+          @click="(bShowMore = !bShowMore, pagination.rowsPerPage = bShowMore ? -1 : 7)">
+          {{ bShowMore ? 'SHOW LESS' : 'SHOW MORE' }}
         </v-btn>
       </v-flex>
 
       <!-- LIST ITEM -->
       <v-list-tile
-        slot="item"
-        slot-scope="props"
-        @click.stop="closeLeftOnMobile" 
         id='playlist'
-        :class="isPlaying(UID, props.item['.key'], props.item['name'])"
-        :active-class="isPlaying(UID, props.item['.key'], props.item['name']) || 'primary white--text'"
-        :to="{path: '/u/' + UID + '/' + props.item['.key'] +  '/' +  encodeURIComponent(props.item['name'])}" 
-        v-bind:key="props.item['.key']"
+        slot="item"
+        slot-scope="props" 
+        :class="isPlaying(uid, props.item['.key'], props.item['name'])"
+        :active-class="isPlaying(uid, props.item['.key'], props.item['name']) || 'secondary white--text'"
+        :to="{path: '/u/' + uid + '/' + props.item['.key'] + '/' + encodeURIComponent(props.item['name'])}"
+        :key="props.item['.key']" 
         ripple
+        @click.stop="closeLeftOnMobile"
       >
         <!-- ICON -->
         <v-list-tile-action>
-          <v-icon :color="isPlaying(UID, props.item['.key'], props.item['name']) ? 'white': ''">music_note</v-icon>
+          <v-icon :color="isPlaying(uid, props.item['.key'], props.item['name']) ? 'white': ''">music_note</v-icon>
         </v-list-tile-action>
 
         <!-- NAME -->
@@ -88,7 +106,9 @@
 
         <!-- DELETE BUTTON -->
         <span class="delete">
-          <delete-button @delete="playlistDelete" :id="props.item['.key']"></delete-button>
+          <delete-button 
+            :id="props.item['.key']" 
+            @delete="playlistDelete"/>
         </span>
       </v-list-tile>
     </v-data-iterator>
@@ -98,15 +118,22 @@
 
 // /* eslint-disable */
 import deleteButton from '@/components/buttons/delete-button'
+import { mapGetters } from 'vuex'
 export default {
-  name: 'user-playlists',
+  name: 'UserPlaylists',
   components: {
     'delete-button': deleteButton
   },
+  watch: {
+    auth_state: {
+      immediate: true,
+      handler: 'bind'
+    }
+  },
   data () {
     return {
+      playlists: [],
       bShowMore: false,
-      UID: this.$DCFB.UID,
       filterHasFocus: false,
       search: '',
       active: false,
@@ -117,6 +144,10 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      auth_state: 'auth_state',
+      uid: 'uid'
+    }),
     bUIShowMore () {
       return this.$store.getters.auth_state && this.playlists.length > 7
     },
@@ -125,6 +156,11 @@ export default {
     }
   },
   methods: {
+    bind () {
+      if (this.auth_state) {
+        this.$bindAsArray('playlists', this.$DCFB.playlistsRefs.orderByChild('name_lower'))
+      }
+    },
     isPlaying (s, n, id) {
       // console.log(this.$store.getters.hash, '=', '/u/' + s + '/' + n + '/' + encodeURIComponent(id), this.$store.getters.hash === '/u/' + s + '/' + n + '/' + encodeURIComponent(id))
       return this.$store.getters.hash === '/u/' + s + '/' + n + '/' + encodeURIComponent(id) ? 'primary white--text' : ''
@@ -134,11 +170,6 @@ export default {
     },
     playlistDelete (playlistID) {
       this.$DCFB.playlistDelete(playlistID)
-    }
-  },
-  firebase () {
-    return {
-      playlists: this.$DCFB.playlistsRefs.orderByChild('name_lower')
     }
   }
 }

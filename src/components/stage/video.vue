@@ -1,66 +1,113 @@
 <template>
-  <v-layout row wrap v-show="$store.getters.ytUseVideo && $store.getters.isYT" class="pb-5 ma-0 pa-0">
+  <v-layout 
+    v-show="$store.getters.ytUseVideo && $store.getters.isYT" 
+    row 
+    wrap 
+    class="pb-5 ma-0 pa-0">
     <!-- VIDEO -->
     <v-flex xs12>
       <div class="video-wrapper">
-        <div id="player"></div>
+        <div id="player"/>
       </div>
     </v-flex>
-    <v-flex d-flex xs12 v-if="$store.getters.ytUseVideo && $store.getters.isYT">
-      <v-layout row wrap id="dc-padding">
+    <v-flex 
+      v-if="$store.getters.ytUseVideo && $store.getters.isYT" 
+      dFlex 
+      xs12>
+      <v-layout 
+        id="dc-padding" 
+        row 
+        wrap>
         <!-- SONG TITLE -->
-        <v-flex xs12 class="mt-2">
-          <div class="title fwl text-xs-left">{{$store.getters.current_song.title}}</div >
+        <v-flex 
+          xs12 
+          class="mt-2">
+          <div class="title fwl text-xs-left">{{ $store.getters.current_song.title }}</div >
         </v-flex>
         <!-- BUTTONS AND UPLOADED DATE/VIEWS AND DIVIDER -->
-        <v-flex xs12 class="stage-btns" :style="stageBorderStyle">
-          <div class="fl-l blue-grey--text text--lighten-1">
-            {{iViews}}
-            {{$DCAPI.calcDate('', song.uploaded)}}
+        <v-flex 
+          :style="stageBorderStyle" 
+          xs12 
+          class="stage-btns">
+          <!-- FLOAT LEFT -->
+          <div class="fl-l blue-grey--text text--lighten-1 mt-3">
+            {{ iViews }} • {{ $DCAPI.calcDate('', song.uploaded) }}
           </div>
+          <!-- FLOAT RIGHT -->
           <div class="fl-r">
             <!-- LINK -->
-            <v-btn :color="btnCol" @click="($UTILS.copyToClipboard(song.mp32), btnFeedback())" icon>
+            <!-- <v-btn :color="btnCol" @click="($UTILS.copyToClipboard(song.mp32), btnFeedback())" icon>
               <v-icon>link</v-icon>
-            </v-btn>
+            </v-btn> -->
             <!-- CLOSED CAPTIONS -->
-            <v-btn icon @click="toggleCC">
+            <v-btn 
+              icon 
+              @click="toggleCC">
               <v-icon :color="cc ? 'white' : 'grey'">subtitles</v-icon>
             </v-btn>
             <!-- YT BUTTON -->
-            <youtube-button></youtube-button>
+            <youtube-button/>
             <!-- SHARE BUTTON -->
-            <share-button :song="song" :url="'https://dreamcloud.netlify.com/#/t/' + song.source + '/' + encodeURIComponent(song.artist) + '/' + song.trackID"></share-button>
+            <share-button 
+              :song="song" 
+              :url="'https://dreamcloud.netlify.com/#/t/' + song.source + '/' + encodeURIComponent(song.artist) + '/' + song.trackID"/>
             <!-- DOWNLOAD BUTTON -->
-            <download-button :links="[song]"></download-button>
+            <download-button :links="[song]"/>
             <!-- ADD TO PLAYLIST -->
-            <add-to-playlist v-if="$store.getters.auth_state" :song="song"></add-to-playlist>
+            <add-to-playlist 
+              v-if="$store.getters.auth_state" 
+              :song="song"/>
             <!-- WIDE SCREEN BUTTON -->
-            <v-btn @click="widescreen" icon v-if="$vuetify.breakpoint.lgAndUp">
-              <v-icon>{{bWide ? 'crop_3_2' :'crop_16_9'}}</v-icon>
-            </v-btn>
+            <v-tooltip 
+              v-if="$vuetify.breakpoint.lgAndUp" 
+              top>
+              <v-btn 
+                slot="activator" 
+                icon 
+                @click="widescreen">
+                <v-icon>{{ bWide ? 'crop_3_2' :'crop_16_9' }}</v-icon>
+              </v-btn>
+              <span>{{ bWide ? 'Wide' :'Default' }}</span>
+            </v-tooltip>
             <!-- FULLSCREEN BUTTON -->
-            <v-btn @click="fullscreen" icon>
-              <v-icon>fullscreen</v-icon>
-            </v-btn>
+            <v-tooltip 
+              top
+            >
+              <v-btn 
+                slot="activator" 
+                icon 
+                @click="fullscreen">
+                <v-icon>fullscreen</v-icon>
+              </v-btn>
+              <span>Fullscreen</span>
+            </v-tooltip>
           </div>
         </v-flex>
         <!-- ARTIST PICTURE -->
-        <artist-mini :artistID="song.artistID" :source="song.source" :artist="song.artist" :key="song.artistID"></artist-mini>
+        <artist-mini 
+          :artistID="song.artistID" 
+          :source="song.source" 
+          :artist="song.artist" 
+          :key="song.artistID"/>
         <!-- ARTIST NAME + SONG DESCRIPTION -->
-        <v-flex xs12 lg7 class="title fwl text-xs-left song-meta mt-3">
+        <v-flex 
+          xs12 
+          lg7 
+          class="title fwl text-xs-left song-meta mt-3">
           {{ song.artist }}
           <!-- DESCRIPTION -->
           <v-flex xs12>
-            <span class="subheading fwl wordbreak preline" v-html="timeToSeconds(description)"></span>
+            <span 
+              class="subheading fwl wordbreak preline" 
+              v-html="timeToSeconds(description)"/>
           </v-flex>
 
           <v-tabs
-            class=""
-            v-model="tab"
             ref="tabs"
+            v-model="tab"
+            class="mt-3"
           >
-            <v-tabs-slider color="primary"></v-tabs-slider>
+            <v-tabs-slider color="primary"/>
             <v-tab >
               Comments
             </v-tab>
@@ -75,21 +122,26 @@
           <v-tabs-items v-model="tab">
             <v-tab-item>
               <!-- COMMENTS -->
-              <songComments :trackID="song.trackID" :source="song.source"></songComments>
+              <songComments 
+                :trackID="song.trackID" 
+                :source="song.source"/>
             </v-tab-item>
             <v-tab-item>
               <!-- LYRICS -->
-              <lyrics :getEm="getLyrics" :title="song.title" :artist="song.artist"></lyrics>
+              <lyrics 
+                :getEm="getLyrics" 
+                :title="song.title" 
+                :artist="song.artist"/>
             </v-tab-item>
             <v-tab-item v-if="$vuetify.breakpoint.mdAndDown">
               <!-- RELATED -->
-              <related></related>
+              <related/>
             </v-tab-item>
           </v-tabs-items>
         </v-flex>
         
         <!-- RELATED -->
-        <related v-if="$vuetify.breakpoint.lgAndUp"></related>
+        <related v-if="$vuetify.breakpoint.lgAndUp"/>
       </v-layout>
     </v-flex>
   </v-layout>
@@ -110,11 +162,17 @@ import { mapGetters } from 'vuex'
 /* eslint-disable */
 export default {
   name: 'video-stage',
-  created () {
+  beforeCreate () {
     var tag = document.createElement('script')
     tag.src = 'https://www.youtube.com/iframe_api'
     var fst = document.getElementsByTagName('script')[0]
     fst.parentNode.insertBefore(tag, fst)
+  },
+  watch: {
+  trackID: {
+      immediate: true,
+      handler: 'trackChanged'
+    }
   },
   components: {
     'artist-mini': artistMini,
@@ -131,7 +189,8 @@ export default {
       current_song: 'current_song',
       index: 'index',
       hash: 'hash',
-      current_song: 'current_song'
+      trackID: 'trackID',
+      ytUseVideo: 'ytUseVideo'
     }),
     getLyrics () {
       return this.tab === 1
@@ -148,8 +207,8 @@ export default {
       return { 'hidden': this.$store.getters.ytShowVideo }
       // return this.$store.getters.ytShowVideo
     },
-    current_trackID () {
-      return this.$store.getters.current_trackID ? this.$store.getters.current_trackID : 'player'
+    trackID () {
+      return this.$store.getters.current_trackID
     }
   },
   data () {
@@ -216,7 +275,7 @@ export default {
       this.$UTILS.toggleFullscreen('player')
     },
     getDesc () {
-      this.$DCAPI.getSongDescription(this.current_trackID, this.song.source, (resp) => {
+      this.$DCAPI.getSongDescription(this.trackID, this.song.source, (resp) => {
         this.description = resp.items[0].snippet.description.trim()
       })
     },
@@ -234,7 +293,7 @@ export default {
       if (!this.yt) {
         this.yt = new YT.Player('player', {
           width: '100%',
-          videoId: this.current_trackID,
+          videoId: this.trackID,
           
           enablejsapi: 1,
           playerVars: {
@@ -284,36 +343,28 @@ export default {
       } else { // if (state.data === 5 || state.data === 3 || state.data === 2) {
         clearInterval(this.interval)
       }
-    }
-  },
-  mounted () {
-    if (this.$store.getters.isYT) {
-      // console.log('vid mounted')
-      this.ytBind()
-      this.getDesc()
-      this.getPlays()
-    }
-  },
-  updated () {
-    // if new song
-    if (this.$store.getters.isYT && this.currentID !== this.current_trackID && this.$store.getters.ytUseVideo && !this.$store.getters.ytSwitchTime) {
-      // console.log('vid updated')
-      this.currentID = this.current_trackID
-      // if not already attached to iframe
-      if (!this.$store.getters.ytObject.hasOwnProperty('loadVideoById')) {
-        this.ytBind()
-      } else {
-        this.$store.getters.ytObject.loadVideoById(this.current_trackID)
+    },
+    trackChanged () {
+      if (this.$store.getters.isYT && this.ytUseVideo) {
+        if (!this.$store.getters.ytObject.hasOwnProperty('loadVideoById')) {
+          this.ytBind()
+        } else {
+          this.$store.getters.ytObject.loadVideoById(this.trackID)
+        }
+        this.getPlays()
+        this.getDesc()
+        this.$DCPlayer.pause()
       }
-      this.getPlays()
-      this.getDesc()
-      this.$DCPlayer.pause()
-    } else {
-      // This stores the last trackID to ensure we don't load the same video twice by accident.
-      // It's tied to the div above, there's a much better way to do this.
-      this.currentID = this.current_trackID
     }
-  }
+  },
+  // mounted () {
+  //   if (this.$store.getters.isYT) {
+  //     // console.log('vid mounted')
+  //     this.ytBind()
+  //     this.getDesc()
+  //     this.getPlays()
+  //   }
+  // }
 }
 </script>
 
@@ -324,18 +375,13 @@ export default {
   }
 }
 
-.video-wrapper {position: relative; padding-bottom: 40%; /* 56.25% 16:9 */  padding-top: 25px;}
+.video-wrapper {position: relative; padding-bottom: 38%; /* 56.25% 16:9 */  padding-top: 25px;}
 .video-wrapper iframe {position: absolute; top: 0; left: 0; width: 100%; height: 100%;}
 
 
 .video-wrapper {
   background-color: black;
   /* height: 90%; */
-}
-
-.fl-l{
-  float: left;
-  margin-top: 10px;
 }
 
 #img-bg{

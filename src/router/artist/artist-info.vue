@@ -1,56 +1,109 @@
 <template>
   <!-- <v-container grid-list-md text-xs-center :class="$vuetify.breakpoint.name === 'xs'? 'ma-0 pa-0 pt-1' : ''"> -->
-  <v-layout row wrap id="artistInfo" class="ma-0 pa-0 pb-2">
-    <!-- <v-btn color="success" @click.stop='$UTILS.copyToClipboard(debugLink)'>Copy</v-btn> -->
+  <v-layout 
+    id="artistInfo" 
+    row 
+    wrap 
+    class="ma-0 pa-0 pb-2">
     <!-- LEFT COLUMN -->
-    <v-flex xs12 lg1 style="min-width:180px">
+    <v-flex 
+      xs12 
+      lg1 
+      style="min-width:180px">
       <!-- AVATAR -->
-      <v-flex xl12 class="pt-2">
-        <v-avatar size='100px' v-lazy:background-image='info.img'>
-          <!-- <img :src='info.img' style='display:inline-block;'/> -->
+      <v-flex 
+        xl12 
+        class="pt-2">
+        <v-avatar size='100px'>
+          <img :src='info.img'>
         </v-avatar>
       </v-flex>
       <!-- SUBSCRIBE BUTTON -->
-      <v-flex xl12 class="mt-4 pt-2">
-        <subscribe-button :artistID="artistID" :source="source" :artist="artist" :img="info.img"></subscribe-button>
+      <v-flex 
+        xl12 
+        class="mt-4 pt-2">
+        <subscribe-button 
+          :artistID="artistID" 
+          :source="source" 
+          :artist="artist" 
+          :img="info.img"/>
+          <!-- <v-btn color="success" @click.stop='$UTILS.copyToClipboard(debugLink)'>Copy</v-btn> -->
       </v-flex>
     </v-flex>
 
     <!-- RIGHT COLUMN -->
-    <v-flex xs12 lg10 id="artist-right">
+    <v-flex 
+      id="artist-right" 
+      xs12 
+      lg10>
       <!-- ARTIST NAME -->
-      <v-flex xs12 lg10 :class="$vuetify.breakpoint.name === 'xs'? 'headline fwl' : 'headline fwl text-xs-left pl-2 pt-2'">
+      <v-flex 
+        :class="$vuetify.breakpoint.name === 'xs'? 'headline fwl' : 'headline fwl text-xs-left pl-2 pt-2'" 
+        xs12 
+        lg10>
         {{ artist }}
       </v-flex>
-      <v-layout row wrap align-content-start>
+      <v-layout 
+        row 
+        wrap 
+        alignContentStart>
         <!-- META -->
         <!-- {{ descHeight }} -->
-        <v-flex xs12 :class="$vuetify.breakpoint.name === 'xs'? 'headline' : 'headline text-xs-left'">
-          <v-layout row wrap align-content-start>
-            <div xs4 class="text-xs-left fl-r pr-3" style="" v-for="item in items" v-if="item.data" :key="item.name">
-              <v-tooltip right>
+        <v-flex 
+          :class="$vuetify.breakpoint.name === 'xs'? 'headline' : 'headline text-xs-left'" 
+          xs12>
+          <v-layout 
+            row 
+            wrap 
+            alignContentStart>
+            <div 
+              v-for="item in items" 
+              v-if="item.data" 
+              :key="item.name" 
+              xs4 
+              class="text-xs-left fl-r pr-3" 
+              style="">
+              <v-tooltip left>
                 <div slot="activator">
-                  <v-btn icon disabled>
+                  <v-btn 
+                    icon 
+                    disabled>
                     <v-icon>
-                      {{item.icon}}
+                      {{ item.icon }}
                     </v-icon>
                   </v-btn>
                   <span class="body-2 grey--text">
-                    {{item.data}}
+                    {{ item.data }}
                   </span>
                 </div>
-                <span>{{item.name}}</span>
+                <span>{{ item.name }}</span>
               </v-tooltip>
             </div>
           </v-layout>
         </v-flex>
         <!-- DESCRIPTION -->
-        <v-flex xs12 id="desc" class='text-xs-left preline wordbreak ma-0 pa-0'  style="width: 100%">
-          <div v-if="info.description" id="descCont" :class="descClass" class="subheading fwl text-xs-left preline wordbreak">{{ info.description }}</div>
+        <v-flex 
+          id="desc" 
+          xs12 
+          class='text-xs-left preline wordbreak ma-0 pa-0 px-2' 
+          style="width: 100%">
+          <div 
+            v-if="info.description" 
+            id="descCont" 
+            :class="descClass" 
+            class="subheading fwl text-xs-left preline wordbreak">{{ info.description }}</div>
         </v-flex>
         <!-- SHOW MORE -->
-        <v-flex xs12 class="text-xs-left">
-          <v-btn v-show="descHeight > 63" flat small block class="text-xs-left" @click="bHide = !bHide">{{bHide ? 'SHOW MORE': 'SHOW LESS' }}</v-btn> 
+        <v-flex 
+          xs12 
+          class="text-xs-left">
+          <v-btn 
+            v-show="descHeight > 63" 
+            flat 
+            small 
+            block 
+            class="text-xs-left" 
+            @click="bHide = !bHide">{{ bHide ? 'SHOW MORE': 'SHOW LESS' }}</v-btn> 
         </v-flex>
       </v-layout>
     </v-flex>
@@ -60,8 +113,21 @@
 <script>
 import subscribeButton from '@/components/buttons/subscribe-button'
 export default {
-  name: 'artist-info',
-  props: ['artistID', 'source', 'artist'],
+  name: 'ArtistInfo',
+  props: {
+    artistID: {
+      type: [String, Number],
+      default: ''
+    },
+    source: {
+      type: String,
+      default: ''
+    },
+    artist: {
+      type: String,
+      default: ''
+    }
+  },
   components: {
     'subscribe-button': subscribeButton
   },
@@ -151,7 +217,7 @@ export default {
 }
   @media only screen and (min-width: 600px){
     #artist-right{
-      min-height: 165px;
+      min-height: 173px;
     }
   }
   @media only screen and (max-width: 599px){

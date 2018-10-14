@@ -1,20 +1,35 @@
 <template>
-  <v-flex xs12 :lg10="viewSmall" :lg12="!viewSmall">
-    <div class="headline fwl text-xs-left pl-2 pt-2">Home</div>
+  <v-flex 
+    :lg10="viewSmall" 
+    :lg12="!viewSmall" 
+    xs12>
+    <div 
+      v-if="bLoading || aRecommended.length" 
+      class="headline fwl text-xs-left pl-2 pt-2">Home</div>
     <!-- <loading v-if="!auth_state || !aRecommended.length"></loading> -->
-    <playlist :rowsPerPage='rowsPerPage' :showUploaded="true" :songs="aRecommended2"></playlist>
+    <playlist 
+      v-if="bLoading || aRecommended.length" 
+      :rows-per-page='rowsPerPage' 
+      :show-uploaded="true" 
+      :songs="aRecommended2"/>
+    <!-- title="Here is supposed to be a playlists generated from your recent history" -->
+    <jumbo
+      v-else-if="bFailed"
+      title="We wanted to recommend you some music based on your history"
+      subheading="But you haven't listened to any music yet"
+    />
   </v-flex>
 </template>
 <script>
 import axios from 'axios'
 /* eslint-disable */
-import loading from '@/components/misc/loading'
+import jumbo from '@/components/misc/jumbo'
 import deleteButton from '@/components/buttons/delete-button'
 import { mapGetters } from 'vuex'
 export default {
   name: 'recommended',
   components: {
-    'loading': loading
+    'jumbo': jumbo
   },
   props: {
     iLimit: {
@@ -28,9 +43,11 @@ export default {
   },
   data () {
     return {
-      bWait: true,
+      bLoading: false,
+      bFailed: false,
       iLoaded: 1,
       aRecommended: [],
+      bLoaded: false,
       viewSmall: this.$route.name === 'historyRecommended'
     }
   },
@@ -43,18 +60,31 @@ export default {
   methods: {
     bind () {
       if (this.auth_state) {
+        this.bFailed = false
         this.$store.commit('loadActive', true)
         this.$bindAsArray('aHistory', this.$DCFB.history.limitToLast(this.iLimit), null, this.getRecommended)
       }
     },
     getRecommended () {
-      var aRecommended = this.aHistory.reverse()
-      if (this.iLimit) {
-        aRecommended = aRecommended.slice(0, this.iLimit)
+      if (!this.aHistory.length) {
+        this.$store.commit('loadActive', false)
+        this.bLoading = false
+        this.bFailed = !this.aHistory.length
+        return
       }
-      aRecommended = this.$UTILS.uniqueArray(aRecommended)
+      this.bLoading = true
+      // promise array
       var aAjax = []
+      // reverse firebase array
+      var aRecommended = this.aHistory.reverse()
+      // strip out duplicates
+      // aRecommended = this.$UTILS.uniqueArray(aRecommended)
+      // reset counter
+      this.iLoaded = 1
+
+      // loop through history array
       for (var i = 0; i < aRecommended.length - 1; i++) {
+        // get 2 recommended songs for each item in history
         aAjax.push(this.$DCAPI.searchInt('', 0, [aRecommended[i].source], aRecommended[i].trackID, (d) => {
           this.iLoaded++
           if (d.length) {
@@ -67,8 +97,31 @@ export default {
         }, true, 2))
       }
       axios.all(aAjax).then(() => {
-        this.aRecommended = this.$UTILS.uniqueArray(this.aRecommended)
-        this.bWait = false
+        let un = (array) => {
+          var ret = []
+          // ret.push(array[0])
+          var dupe = false
+          for (let i = 0; i < array.length - 1; i++) {
+            dupe = false
+            for (let n = 0; n < ret.length - 1; n++) {
+              // console.log(i, array.length)
+              // console.log(typeof array[i])
+              // console.log(typeof array[i + 1])
+              // console.log(n, i)
+              if (typeof array[i] === 'undefined' || ret[n].trackID == array[i].trackID) {
+                dupe = true
+                break
+              }
+            }
+            if (!dupe) {
+              ret.push(array[i])
+            }
+            // console.log(`ARRAY LENGTH ${ret.length} ||| CHECKED INDEX ${array[i].title} ||| dupe ${dupe}`)
+          }
+          return ret
+        }
+        this.aRecommended = un(this.aRecommended)
+        this.bLoading = false
         setTimeout(() => {
           this.$store.commit('loadActive', false)
         }, 200)
@@ -78,8 +131,11 @@ export default {
   computed: {
     ...mapGetters({auth_state: 'auth_state'}),
     aRecommended2 () {
-      return this.bWait ? [] : this.aRecommended
+      return this.bLoading ? [] : this.aRecommended
     }
+  },
+  destroyed () {
+    this.$store.commit('loadActive', false)
   }
 }
 </script>

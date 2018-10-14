@@ -1,5 +1,12 @@
 <template>
-  <v-btn icon v-show="$store.getters.isYT" :disabled="!$store.getters.isYT" @click.stop="clicked" class="ma-0 pa-0" fab small>
+  <v-btn 
+    v-show="$store.getters.isYT" 
+    :disabled="!$store.getters.isYT" 
+    icon 
+    class="ma-0 pa-0" 
+    fab 
+    small 
+    @click.stop="clicked">
     <v-icon :color="color">ondemand_video</v-icon>
   </v-btn>
 </template>

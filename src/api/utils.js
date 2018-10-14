@@ -19,7 +19,7 @@ export default {
         for (let i = 0; i < array.length - 1; i++) {
           dupe = false
           for (let n = 0; n < ret.length - 1; n++) {
-            if (ret[n].trackID === array[i].trackID) {
+            if (typeof array[i] === 'undefined' || ret[n].trackID === array[i].trackID) {
               dupe = true
               break
             }

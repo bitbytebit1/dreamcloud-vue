@@ -1,20 +1,21 @@
 <template>
   <!-- <v-fab-transition transition="slide-y-reverse-transition"> -->
   <v-btn
-    fixed
     v-bind="$store.getters.theme"
-    @click="scrollToTop"
+    :class="$store.getters.textColor"
+    fixed
     class="scrollToTop primary"
-    outline 
-    icon  
+    outline
+    icon 
+    @click="scrollToTop"  
   >
-    <v-icon>{{showScrollToTop ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}</v-icon>
+    <v-icon>{{ showScrollToTop ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
   </v-btn>
   <!-- </v-fab-transition> -->
 </template>
 <script>
 export default {
-  name: 'scroll-to-top',
+  name: 'ScrollToTop',
   data () {
     return {
       showScrollToTop: false,

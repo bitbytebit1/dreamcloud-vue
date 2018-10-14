@@ -8,6 +8,7 @@ export default {
     view_mode: false,
     auth_state: false,
     bShowStage: true,
+    isMobile: false,
     settings: {
       'Night Mode': false,
       'List Small': false,

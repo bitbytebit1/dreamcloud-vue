@@ -1,8 +1,11 @@
 <template>
-  <v-flex xs12 lg10 class="mb-2">
-      <genres></genres>
-      <!-- <div class="headline fwl text-xs-left">Popular Artists</div> -->
-      <!-- <div class="headline fwl text-xs-left">Recent playlists</div> -->
+  <v-flex 
+    xs12 
+    lg10 
+    class="mb-2">
+    <genres/>
+    <!-- <div class="headline fwl text-xs-left">Popular Artists</div> -->
+    <!-- <div class="headline fwl text-xs-left">Recent playlists</div> -->
 
   </v-flex>
 </template>
@@ -11,7 +14,7 @@
 import genres from '@/router/user/home/genres'
 import { mapGetters } from 'vuex'
 export default {
-  name: 'history',
+  name: 'History',
   components: {
     'genres': genres
   },

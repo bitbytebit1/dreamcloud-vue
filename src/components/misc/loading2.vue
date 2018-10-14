@@ -1,18 +1,30 @@
 <template>
-  <v-flex justify-center class="loading-flex">
+  <v-flex 
+    justify-center 
+    class="loading-flex">
     <div class="semipolar-spinner">
-      <div class="ring" :style="ringStyle"></div>
-      <div class="ring" :style="ringStyle"></div>
-      <div class="ring" :style="ringStyle"></div>
-      <div class="ring" :style="ringStyle"></div>
-      <div class="ring" :style="ringStyle"></div>
+      <div 
+        :style="ringStyle" 
+        class="ring"/>
+      <div 
+        :style="ringStyle" 
+        class="ring"/>
+      <div 
+        :style="ringStyle" 
+        class="ring"/>
+      <div 
+        :style="ringStyle" 
+        class="ring"/>
+      <div 
+        :style="ringStyle" 
+        class="ring"/>
     </div>
   </v-flex>
 </template>
 
 <script>
 export default {
-  name: 'loading',
+  name: 'Loading',
   computed: {
     ringStyle () {
       return {
