@@ -3,26 +3,33 @@
     xs12 
     lg10 
     flexbox>
-    <!-- <loading v-if="loading"></loading> -->
+    <!-- <loading v-if="loading"></loading> --> 
     <playlist 
-      v-if="!loading" 
+      v-if="!loading && !bFailed" 
       :show-uploaded="!0" 
       :songs="searchResults" 
-      rows-per-page='50'/>  
+      rows-per-page='50'/> 
     <infinite-loading 
       v-if="!loading" 
       ref="infiniteLoading" 
       :distance="210" 
       spinner="waveDots" 
-      @infinite="infiniteHandler">    
+      @infinite="infiniteHandler">
       <span slot="no-more"/>
+      <span slot="no-results"/>
     </infinite-loading>
+    <jumbo 
+      v-if="bFailed" 
+      :subheading="`Couldn't find '${$route.params.query}' on ${$route.params.source}`" 
+      error="No hits Boss"
+    />
   </v-flex>
 </template>
 
 <script>
 import InfiniteLoading from 'vue-infinite-loading'
 import loading from '@/components/misc/loading'
+import jumbo from '@/components/misc/jumbo'
 
 export default {
   name: 'Searchpage',
@@ -41,12 +48,14 @@ export default {
     return {
       loading: false,
       searchResults: [],
-      iPage: 0
+      iPage: 0,
+      bFailed: false
     }
   },
   components: {
     'infinite-loading': InfiniteLoading,
-    'loading': loading
+    'loading': loading,
+    'jumbo': jumbo
   },
   computed: {
     splitSource () {
@@ -67,6 +76,7 @@ export default {
     },
     searchInt () {
       this.$store.dispatch('loadIndeterm', true)
+      this.bFailed = false
       this.search(0)
     },
     search (iPage) {
@@ -81,8 +91,10 @@ export default {
         // If no results stop infinite loading
         if (!d.length) {
           this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete')
+          this.bFailed = true
+        } else {
+          this.searchResults.push(...d)
         }
-        this.searchResults.push(...d)
       }, '')
     }
   }

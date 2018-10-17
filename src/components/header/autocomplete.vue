@@ -1,5 +1,6 @@
 <template>
   <v-autocomplete
+    id="searchInput"
     ref="auto"
     :loading="loading"
     :items="items"

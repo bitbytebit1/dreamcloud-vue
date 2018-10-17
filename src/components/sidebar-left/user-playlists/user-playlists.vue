@@ -22,7 +22,7 @@
       v-if="playlists.length" 
       :to="{name:'playlistsAll', params: {user: uid}}" 
       active-class="secondary white--text" 
-      ripple 
+       
       @click.stop="closeLeftOnMobile">
       <v-list-tile-action>
         <v-icon>music_note</v-icon>
@@ -35,7 +35,7 @@
 
     <!-- FILTER -->
     <v-list-tile 
-      ripple 
+       
       @click.stop="$refs.search.focus()">
       <v-list-tile-action @click="search.length > 0 ? search='' : ''">
         <!-- ICON -->
@@ -91,7 +91,7 @@
         :active-class="isPlaying(uid, props.item['.key'], props.item['name']) || 'secondary white--text'"
         :to="{path: '/u/' + uid + '/' + props.item['.key'] + '/' + encodeURIComponent(props.item['name'])}"
         :key="props.item['.key']" 
-        ripple
+        
         @click.stop="closeLeftOnMobile"
       >
         <!-- ICON -->

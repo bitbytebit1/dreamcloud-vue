@@ -4,16 +4,25 @@
   <v-layout 
     row 
     wrap 
-    pb-5>
+    pb-5
+  >
     <list 
-      v-if="list && !gridView" 
+      v-if="list == '2' && !gridView" 
+      :songs="fixedSongs" 
+      :full="full" 
+      :rows-per-page="rowsPerPage"
+      :sort-by="sortBy" 
+      :bMini="true" 
+      @toggleView="toggleView"/>
+    <list 
+      v-if="list == '1' && !gridView" 
       :songs="fixedSongs" 
       :full="full" 
       :rows-per-page="rowsPerPage" 
       :sort-by="sortBy" 
       @toggleView="toggleView"/>
     <grid 
-      v-else 
+      v-if="list == '0' && !gridView" 
       :songs="fixedSongs" 
       :full="full" 
       :rows-per-page="rowsPerPage" 

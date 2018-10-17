@@ -165,7 +165,6 @@ export default {
           this.aComments = this.aComments.concat(dat)
         } else {
           this.noComments = true
-          console.log('no comments')
         }
       })
     },

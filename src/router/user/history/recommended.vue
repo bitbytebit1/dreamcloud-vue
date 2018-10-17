@@ -78,48 +78,48 @@ export default {
       // reverse firebase array
       var aRecommended = this.aHistory.reverse()
       // strip out duplicates
-      // aRecommended = this.$UTILS.uniqueArray(aRecommended)
       // reset counter
       this.iLoaded = 1
+      let un = (array) => {
+        var ret = []
+        // ret.push(array[0])
+        var dupe = false
+        for (let i = 0; i < array.length - 1; i++) {
+          dupe = false
+          for (let n = 0; n < ret.length - 1; n++) {
+            // console.log(i, array.length)
+            // console.log(typeof array[i])
+            // console.log(typeof array[i + 1])
+            // console.log(n, i)
+            if (typeof array[i] === 'undefined' || ret[n].trackID == array[i].trackID) {
+              dupe = true
+              break
+            }
+          }
+          if (!dupe) {
+            ret.push(array[i])
+          }
+          // console.log(`ARRAY LENGTH ${ret.length} ||| CHECKED INDEX ${array[i].title} ||| dupe ${dupe}`)
+        }
+        return ret
+      }
+      aRecommended = un(aRecommended)
 
       // loop through history array
       for (var i = 0; i < aRecommended.length - 1; i++) {
         // get 2 recommended songs for each item in history
         aAjax.push(this.$DCAPI.searchInt('', 0, [aRecommended[i].source], aRecommended[i].trackID, (d) => {
           this.iLoaded++
+          this.$store.commit('loadValue',  (100 / aRecommended.length) * this.iLoaded)
           if (d.length) {
             this.aRecommended.push(d[0])
             this.aRecommended.push(d[1])
           }
 
-          this.$store.commit('loadValue',  (100 / aRecommended.length) * this.iLoaded)
 
         }, true, 2))
       }
       axios.all(aAjax).then(() => {
-        let un = (array) => {
-          var ret = []
-          // ret.push(array[0])
-          var dupe = false
-          for (let i = 0; i < array.length - 1; i++) {
-            dupe = false
-            for (let n = 0; n < ret.length - 1; n++) {
-              // console.log(i, array.length)
-              // console.log(typeof array[i])
-              // console.log(typeof array[i + 1])
-              // console.log(n, i)
-              if (typeof array[i] === 'undefined' || ret[n].trackID == array[i].trackID) {
-                dupe = true
-                break
-              }
-            }
-            if (!dupe) {
-              ret.push(array[i])
-            }
-            // console.log(`ARRAY LENGTH ${ret.length} ||| CHECKED INDEX ${array[i].title} ||| dupe ${dupe}`)
-          }
-          return ret
-        }
         this.aRecommended = un(this.aRecommended)
         this.bLoading = false
         setTimeout(() => {

@@ -1,14 +1,18 @@
 <template>
   <div class="?">
-    <!-- :active.sync="e2" 
-    shift  -->
     <v-bottom-nav 
       v-if="$store.getters.auth_state" 
+      :active.sync="current" 
       :value="true" 
       absolute 
       shift
-      color="transparent">
-      <!-- <v-btn :color="$route.name === 'home' ? 'primary' : ''"  value="home" :to="{name: 'searchPage'}">
+      color="transparent"
+    >
+      <!-- <v-btn 
+        :click="() => { document.getElementById('searchInput').click() }" 
+        color="primary"
+        value="searchPage"
+      >
         <span>Search</span>
         <v-icon>search</v-icon>
       </v-btn> -->
@@ -52,40 +56,35 @@
         <span>Following</span>
         <v-icon>people</v-icon>
       </v-btn>
-      <v-btn 
+      <!-- <v-btn 
         :to="{name: 'settings'}" 
         color="primary" 
         flat 
         value="settings">
         <span>Settings</span>
         <v-icon>settings</v-icon>
-      </v-btn>
+      </v-btn> -->
     </v-bottom-nav>
   </div>
 </template>
 <script>
 /* eslint-disable */
 
-import deleteButton from '@/components/buttons/delete-button'
 export default {
-  name: 'x',
+  name: 'mobFoot',
   data () {
     return {
-      e2: 3
-    }
-  },
-  components: {
-    'delete-button': deleteButton
-  },
-  methods: {
-    x2 () {
-
+      current: this.$route.name
     }
   },
   computed: {
     UID () {
       return this.$DCFB.UID
     }
+    // active () {
+    //   console.log(this.$route)
+    //   return this.$route.name
+    // }
   }
 }
 </script>

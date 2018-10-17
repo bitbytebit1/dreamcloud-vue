@@ -115,7 +115,7 @@ export default {
       return this.$vuetify.breakpoint.xsOnly ? '277' : '385'
     },
     cardHeight2 () {
-      return this.$vuetify.breakpoint.xsOnly ? '190' : '300'
+      return this.$vuetify.breakpoint.xsOnly ? '190' : '280'
     }
   },
   methods: {

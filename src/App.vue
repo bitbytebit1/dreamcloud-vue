@@ -126,9 +126,9 @@
             :key="$route.fullPath" 
             name="  fade" 
             mode="out-in"> -->
-          <!-- <keep-alive> -->
-          <router-view/>
-          <!-- </keep-alive> -->
+          <keep-alive include="home,subsAll,playlistOverview,userSubOverview">
+            <router-view/>
+          </keep-alive>
           <!-- </transition> -->
         </v-layout>
       </v-container>
@@ -140,9 +140,10 @@
       :style="footStyle" 
       app 
       fixed>
-      <mobileFooter v-show="bMobi"/>
-      <dc-youtube v-show="(ytUseVideo && isYT) && (!bMobi || currentActive)"/>
-      <dc-audio v-show="(!ytUseVideo || !isYT) && (!bMobi || currentActive)"/>
+      <mobileFooter v-if="bMobi"/>
+      <!-- && (bMobi || currentActive) -->
+      <dc-youtube v-show="(ytUseVideo && isYT)"/>
+      <dc-audio v-show="(!ytUseVideo || !isYT)"/>
       <scroll-to-top v-if="!bMobi"/>
       <!-- <v-flex xs12 xl12> -->
       <!-- <v-btn block large color="primary ">Get started</v-btn> -->
@@ -225,8 +226,11 @@
       }),
       footStyle () {
         return {
-          height: (this.currentActive && this.bMobi ? '128px' : '56px') + ' !important'
+          height: (this.bMobi ? '128px' : '56px') + ' !important'
         }
+        // return {
+        //   height: (this.currentActive && this.bMobi ? '128px' : '56px') + ' !important'
+        // }
       },
       bMobi () {
         return this.$vuetify.breakpoint.name === 'xs' || this.$vuetify.breakpoint.name === 'sm'
@@ -297,7 +301,7 @@
             this.$router.push({name: 'historyRecommended', user: this.uid})
           }
           // set isMobile in store for router guard (close menus on back)
-          // this.$store.commit('isMobile', this.$vuetify.breakpoint.smAndDown)
+          this.$store.commit('isMobile', this.$vuetify.breakpoint.smAndDown)
 
           // Get settings
           this.$DCFB.settings.once('value', (snapshot) => {
@@ -364,26 +368,26 @@
     z-index: 2147483647 !important;
   }
   @media only screen and (min-width: 600px){
-    #main-cont{
+    /* #main-cont{ */
       /* margin-top: 35px; */
       /* margin-bottom: 35px; */
-    }
+    /* } */
     #foot{
       padding: 0 !important;
       /* height: 55px !important; */
     }
   }
   @media only screen and (max-width: 599px){
-    #main-cont{
+    /* #main-cont{ */
       /* margin-top: 16px !important; */
-    }
+    /* } */
     #foot .v-input {
       margin-top: -10px;
     }
-    .container {
+    /* .container { */
       /* padding: 0 !important; */
       /* margin: 0 !important; */
-    }
+    /* } */
     #foot{
       padding: 0 !important;
       /* height: 75px !important; */
@@ -408,7 +412,7 @@
 .hide{
   display: none;
 }
-width */
+
 #right-draw::-webkit-scrollbar {
     width: 1px;
 }

@@ -126,7 +126,7 @@ export default {
         {
           headline: 'One click download',
           description: 'Batch download mp4 or mp3 with one smooth click',
-          moreText: '',
+          moreText: ';]',
           img: './img/about/cloud.png'
         },
         {

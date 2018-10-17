@@ -9,7 +9,7 @@
       <!-- RECOMMENDED -->
       <v-list-tile 
         :to="{name: 'historyRecommended', params: {user: UID}}" 
-        ripple 
+         
         active-class="primary white--text"
         @click="closeLeft"
       >
@@ -24,7 +24,7 @@
       <!-- trending -->
       <v-list-tile 
         :to="{name: 'trending'}" 
-        ripple 
+         
         active-class="primary white--text"
         @click="closeLeft"
       >
@@ -38,7 +38,7 @@
 
       <!-- CURRENTLY PLAYING
       <v-list-tile 
-        ripple 
+         
         @click="closeLeft" 
         :to="{name: 'stage'}"
         active-class="primary white--text"
@@ -54,7 +54,7 @@
       <v-list-tile 
         :to="{name: 'explore'}" 
         active-class="primary white--text" 
-        ripple 
+         
         @click="closeLeft">
         <v-list-tile-action>
           <v-icon>public</v-icon>
@@ -69,7 +69,7 @@
       <v-list-tile 
         :to="{name:'subsAll', params: {user: UID}}" 
         active-class="primary white--text" 
-        ripple 
+         
         @click="closeLeft">
         <v-list-tile-action>
           <v-icon>people</v-icon>
@@ -82,7 +82,7 @@
       <!-- history -->
       <v-list-tile 
         :to="{name:'history', params: {user: UID}}" 
-        ripple 
+         
         active-class="primary white--text" 
         class="history-link" 
         @click="closeLeft">
@@ -98,7 +98,7 @@
       </v-list-tile>
 
       <!-- about -->
-      <!-- <v-list-tile v-if="!loggedIn" active-class="primary white--text" ripple @click="closeLeft" :to="{name: 'about'}">
+      <!-- <v-list-tile v-if="!loggedIn" active-class="primary white--text"  @click="closeLeft" :to="{name: 'about'}">
         <v-list-tile-action>
           <v-icon>info</v-icon>
         </v-list-tile-action>
@@ -108,7 +108,7 @@
       </v-list-tile> -->
 
       <!-- login -->
-      <!-- <v-list-tile v-if="!loggedIn" active-class="primary white--text" ripple @click="closeLeft" :to="{path: '/login'}">
+      <!-- <v-list-tile v-if="!loggedIn" active-class="primary white--text"  @click="closeLeft" :to="{path: '/login'}">
         <v-list-tile-action>
           <v-icon>person</v-icon>
         </v-list-tile-action>
@@ -120,7 +120,7 @@
       <!-- settings -->
       <v-list-tile 
         :to="{path: '/settings'}" 
-        ripple 
+         
         active-class="primary white--text" 
         @click="closeLeft">
         <v-list-tile-action>
@@ -148,7 +148,7 @@
 
     <!-- tos -->
     <!-- <v-list dense class="pa-0 mb-5">
-      <v-list-tile ripple @click="closeLeft" :to="{path: '/tos'}">
+      <v-list-tile  @click="closeLeft" :to="{path: '/tos'}">
         <v-list-tile-action>
           <v-icon>forum</v-icon>
         </v-list-tile-action>
@@ -185,7 +185,7 @@ export default {
   },
   computed: {
     UID () {
-      return this.$store.getters.uid
+      return this.$store.getters.uid || Math.random()
     },
     loginPath () {
       return '/' + this.loginText.toLowerCase()

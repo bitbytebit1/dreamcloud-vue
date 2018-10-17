@@ -44,18 +44,6 @@
               </v-btn>
               <span>Filter</span>
             </v-tooltip>
-
-            <!-- FOCUS SEARCH BAR BUTTON -->
-            <v-tooltip top>
-              <v-btn 
-                slot="activator" 
-                icon 
-                @click="bInfo = !bInfo">
-                <v-icon :color="bInfo ? 'primary': ''">info</v-icon>
-              </v-btn>
-              <span>Filter</span>
-            </v-tooltip>
-
           </v-flex>
           <!-- FILTER -->
           <v-flex 
@@ -198,11 +186,12 @@
         </template> -->
         <template 
           slot="items" 
-          slot-scope="props">
+          slot-scope="props"
+        >
           <tr 
             :key="props.index" 
             :id="bSelect ? 'nulld' : ''" 
-            :class="isPlaying(props.item.trackID) ? 'mb-3 primary white--text pointer' : 'mb-3 pointer'" 
+            :class="isPlaying(props.item.trackID) ? 'primary white--text mb-3 pointer wordbreak' : 'mb-3 pointer wordbreak'" 
             @click.stop="!bSelect ? play(props.index) : props.selected = !props.selected">
             <!-- CHECK_BOX -->
             <td v-if="bSelect">
@@ -215,7 +204,7 @@
 
             <!-- IMAGE -->
             <td 
-              v-if="bInfo" 
+              v-if="!bMini" 
               class="pa-2">
               <v-img
                 :aspect-ratio="aspect"
@@ -239,6 +228,7 @@
             
             <!-- TITLE + ARTIST + UPLOADED + DURATION + DESCRIPTION-->
             <td 
+              v-if="!bMini"
               :colspan="!$route.params.artistID ? '2' : '1'" 
               class="text-xs-left">
               <!-- TITLE -->
@@ -258,10 +248,44 @@
                 <span> • {{ date(props.item.uploaded) }} • {{ props.item.duration }}</span>
                 <!-- DESCRIPTION -->
                 <div 
-                  v-if="!$vuetify.breakpoint.xs && bInfo" 
+                  v-if="!$vuetify.breakpoint.xs" 
                   class="preline wordbreak mh-2 mt-2">{{ props.item.description }}</div>
               </div>
             </td>
+
+            <!-- TITLE -->
+            <td 
+              v-if="bMini" 
+              :class="$vuetify.breakpoint.name === 'xs' ? 'subheading text-xs-left' : 'dc-t text-xs-left'">
+              {{ props.item.title }}
+            </td>
+
+            <!-- ARTIST -->
+            <td v-if="bMini">
+              <a 
+                v-if="!$route.params.artistID && !bSelect" 
+                :class="artistClass(props.item.trackID)" 
+                :href="shareArtistURL(props.item)" 
+                @click.stop>{{ props.item.artist }}</a>
+              <span 
+                v-else-if="!bSelect" 
+                :class="artistClass"
+              >{{ props.item.artist }}</span>
+            </td>
+            <!-- DURATION -->
+            <td 
+              v-if="bMini" 
+            >
+              {{ props.item.duration }}
+            </td>
+            <!-- UPLOADED -->
+            <td 
+              v-if="!$vuetify.breakpoint.xs" 
+            >
+              {{ date(props.item.uploaded) }}
+            </td>
+
+
             <!-- ACTIONS -->
             <td 
               v-if="!bSelect" 
@@ -285,8 +309,9 @@
 // /* eslint-disable */
 import addToPlaylist from '@/components/buttons/add-to-playlist.vue'
 import deleteButton from '@/components/buttons/delete-button'
-import shareButton from '@/components/buttons/share-button'
 import downloadButton from '@/components/buttons/download-button'
+import shareButton from '@/components/buttons/share-button'
+import offlineButton from '@/components/buttons/offline-button.vue'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -296,6 +321,10 @@ export default {
     songs: {
       type: [Array],
       required: true
+    },
+    bMini: {
+      type: [Boolean],
+      default: false
     },
     sortBy: {
       type: [String],
@@ -314,11 +343,11 @@ export default {
     'add-to-playlist': addToPlaylist,
     'delete-button': deleteButton,
     'download-button': downloadButton,
-    'share-button': shareButton
+    'share-button': shareButton,
+    'offlineButton': offlineButton
   },
   data () {
     return {
-      bInfo: false,
       chosenSong: [],
       dialog: false,
       bSelectAll: false,
@@ -337,9 +366,9 @@ export default {
       ],
       today: new Date(),
       headers: [
-        { text: 'Duration', value: 'duration', align: 'left', width: this.$vuetify.breakpoint.xs ? '45%' : '22%' , class: 'pTh' },
         { text: 'Title', value: 'title', align: 'left', class: 'ma-0 pa-0'},
-        { text: 'Date', value: 'uploaded', align: 'left', class: 'ma-0 pa-0' },
+        { text: 'Duration', value: 'duration', align: 'center', class: 'ma-0 pa-0' },
+        { text: 'Date', value: 'uploaded', align: 'center', class: 'ma-0 pa-0' },
         // { text: '', value: '', align: 'left', sortable: false }
       ]
     }
@@ -347,8 +376,8 @@ export default {
   created () {
     // if NOT on user page add artist add artist header for sorting
     if (!this.$route.params.artistID) {
-      this.headers.splice(3, 0, { text: 'Artist', value: 'artist', align: 'center', class: 'ma-0 pa-0'})
-      // this.headers.splice(4, 0, { text: 'Date', value: 'uploaded', align: 'left' })
+      this.headers.splice(1, 0, { text: 'Artist', value: 'artist', align: 'center', class: 'ma-0 pa-0'})
+      // this.headers.splice(4, 0, { text: 'Date', value: 'uploaded', align: 'center1' })
       // this.headers.splice(4, 0, { text: '', value: 'source', align: 'left'})
     } else {
       // this.headers.splice(3, 0, { text: 'Date', value: 'uploaded', align: 'left' })

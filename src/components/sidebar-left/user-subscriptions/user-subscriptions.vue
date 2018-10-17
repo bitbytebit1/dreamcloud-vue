@@ -1,6 +1,6 @@
 <template>
   <v-list>
-    <!-- <v-list-tile v-if="loggedIn" ripple @click="closeLeftOnMobile"> -->
+    <!-- <v-list-tile v-if="loggedIn"  @click="closeLeftOnMobile"> -->
 
     <v-subheader 
       class="pointer" 
@@ -18,7 +18,7 @@
 
     <!-- filter -->
     <v-list-tile 
-      ripple 
+       
       @click.stop="$refs.search.focus()">
       <v-list-tile-action @click="search.length > 0 ? search='' : ''">
         <!-- icon -->
@@ -70,7 +70,7 @@
         :active-class="isPlaying(props.item['source'], props.item['name'], props.item['id']) || 'secondary white--text'"
         :to="{path: '/a/' + props.item['source'] + '/' + encodeURIComponent(props.item['name']) + '/' + props.item['id']}"
         :key="props.item['.key']"
-        ripple
+        
         @click="closeLeftOnMobile"
       >
         <v-list-tile-action color="green">
