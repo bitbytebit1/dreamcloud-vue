@@ -2,7 +2,8 @@
   <v-flex 
     xs12 
     lg10 
-    class="mb-2">
+    class="mb-2"
+  >
     <genres/>
     <!-- <div class="headline fwl text-xs-left">Popular Artists</div> -->
     <!-- <div class="headline fwl text-xs-left">Recent playlists</div> -->

@@ -2,10 +2,12 @@
   <v-container 
     fluid 
     grid-list-md 
-    justify-start>
+    justify-start
+  >
     <v-flex 
       xs12 
-      class="mr-4 ml-4 mb-3">
+      class="mr-4 ml-4 mb-3"
+    >
       <!-- filter -->
       <v-text-field
         id="flr-txt"
@@ -44,7 +46,8 @@
         <!-- <v-card :to="{name: 'userPlaylist', params: {user: $route.params['user'], playlist: $route.params['playlist'], name: $route.params['name'] }}" class="pointer"> -->
         <v-card 
           :to="{name: 'artist', params: {source: props.item.source, artist: props.item.name, artistID: props.item.id }}" 
-          class="pointer" >
+          class="pointer"
+        >
           <v-avatar
             :size="((!$store.getters.drawLeft ? 21 : 0) + 95 + (!$store.getters.drawRight ? 21 : 0)) + 'px'"
             class="mt-2"

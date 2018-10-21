@@ -2,7 +2,8 @@
   <v-flex 
     xs12 
     lg10 
-    class="mb-2">
+    class="mb-2"
+  >
     <!-- subsAll -->
     <!-- <v-flex xs12 v-if="aSubscriptionsRoot.length">
       <router-link :class="textClass" :to="{name:'subsAll', params: {user: $DCFB.UID}}">
@@ -28,29 +29,34 @@
     <div v-show="bRecoShow">
       <router-link 
         :class="textClass" 
-        :to="{name:'historyRecommended', params: {user: $DCFB.UID}}">
+        :to="{name:'home', params: {user: $DCFB.UID}}"
+      >
         <h2 class="text-xs-left">Recommended</h2>
       </router-link>
       <div class="mb-2">
-        <historyRecommended 
+        <home 
           :i-limit="iReco" 
           :rows-per-page='iReco' 
-          @done='recoDone'/>
+          @done='recoDone'
+        />
         <v-btn 
           v-if="bRecoShow" 
           block 
           class="pointer" 
-          @click="iReco += iMore">SHOW MORE</v-btn>
+          @click="iReco += iMore"
+        >SHOW MORE</v-btn>
       </div>
       <v-divider 
         color="primary" 
-        class="mt-4 mb-4"/>
+        class="mt-4 mb-4"
+      />
     </div>
     <!-- History -->
     <div v-if="aHistRev.length">
       <router-link 
         :class="textClass" 
-        :to="{name:'history', params: {user: $DCFB.UID}}">
+        :to="{name:'history', params: {user: $DCFB.UID}}"
+      >
         <h2 class="text-xs-left">Recently played</h2>
       </router-link>
       <div class="mb-2">
@@ -58,11 +64,13 @@
           :rows-per-page='iHist' 
           :full="false" 
           :grid-view="true" 
-          :songs="aHistRev"/>
+          :songs="aHistRev"
+        />
         <v-btn 
           block 
           class="pointer" 
-          @click="iHist += iMore">SHOW MORE</v-btn>
+          @click="iHist += iMore"
+        >SHOW MORE</v-btn>
       </div>
     </div>
     
@@ -75,13 +83,13 @@
 <script>
 // /* eslint-disable */
 import loading from '@/components/misc/loading'
-import historyRecommended from '@/router/user/history/recommended'
+import home from '@/router/user/history/recommended'
 import { mapGetters } from 'vuex'
 export default {
   name: 'History',
   components: {
     'loading': loading,
-    'historyRecommended': historyRecommended
+    'home': home
   },
   data () {
     return {
@@ -116,12 +124,12 @@ export default {
       // console.log(this.aSubscriptionsRoot.length)
       for (var sub in this.aSubscriptionsRoot) {
         this.$DCAPI.searchInt(0, 0, [this.aSubscriptionsRoot[sub].source], this.aSubscriptionsRoot[sub].id,
-          (songs) => {
-            this.bLoadingSubs++
-            this.aSubscriptions = this.aSubscriptions.concat(songs)
-            this.aSubscriptions.sort(this.$DCAPI.sortDate)
-            // this.aSubscriptions = this.aSubscriptions.slice(0, 8)
-          }, false, 8)
+                              (songs) => {
+                                this.bLoadingSubs++
+                                this.aSubscriptions = this.aSubscriptions.concat(songs)
+                                this.aSubscriptions.sort(this.$DCAPI.sortDate)
+                                // this.aSubscriptions = this.aSubscriptions.slice(0, 8)
+        }, false, 8)
       }
     }
   },
