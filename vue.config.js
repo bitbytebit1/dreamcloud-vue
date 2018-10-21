@@ -68,6 +68,24 @@ module.exports = {
               ]
             }
           }
+        },
+        // Match search API links, store as cache first for 1 hour
+        {
+          urlPattern: new RegExp(/youtube\/v3\/search|api.mixcloud|api\.soundcloud\.com\/users|api\.soundcloud\.com\/tracks|api.vimeo.com?/),
+          handler: 'cacheFirst',
+          options: {
+            cacheName: 'searchh-cache',
+            expiration: {
+              maxEntries: 500,
+              maxAgeSeconds: 3600
+            },
+            cacheableResponse: {
+              statuses: [
+                0,
+                200
+              ]
+            }
+          }
         }
       ]
     },
