@@ -3,14 +3,16 @@
     :key="this.$route.params.playlist" 
     xs12 
     lg10 
-    flexbox>
+    flexbox
+  >
     <div class="headline fwl text-xs-center pb-2">{{ title }}</div>
 
     <!-- show all items since it's a user playlist -->
     <playlist 
       :show-uploaded="true" 
       :songs="aSongs" 
-      rows-per-page='250'/>
+      rows-per-page='250'
+    />
   </v-flex>
 </template>
 <script>
@@ -62,7 +64,6 @@ export default {
           }
         })
       }
-      // this.$store.dispatch('loadIndeterm', true)
       // this.$store.dispatch('loadIndeterm', true)
       this.aSongs = []
       f('')

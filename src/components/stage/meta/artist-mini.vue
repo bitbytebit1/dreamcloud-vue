@@ -3,7 +3,8 @@
     xs3 
     lg1 
     alignCenter 
-    class="mt-3">
+    class="mt-3"
+  >
     <!-- Left column -->
     <v-flex xs12 >
       <!-- Avatar -->
@@ -12,24 +13,28 @@
           <v-avatar 
             slot='activator' 
             class="pointer" 
-            size='55px'>
+            size='55px'
+          >
             <img 
               :src='info.img' 
               class='img-fluid' 
-              style='display:inline-block;'>
+              style='display:inline-block;'
+            >
           </v-avatar>
         </v-flex>
       </router-link>
       <!-- Subscribe Button -->
       <v-flex 
         xl12 
-        class="mt-2">
+        class="mt-2"
+      >
         <subscribe-button 
           v-if="$store.getters.auth_state" 
           :artistID="artistID" 
           :source="source" 
           :artist="artist" 
-          :img="info.img"/>
+          :img="info.img"
+        />
       </v-flex>
     </v-flex>
   </v-flex>

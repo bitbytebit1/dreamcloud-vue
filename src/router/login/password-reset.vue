@@ -4,12 +4,14 @@
       row 
       wrap 
       justify-center 
-      align-center>
+      align-center
+    >
       <v-flex 
         xs12 
         sm12 
         lg12 
-        flexbox>
+        flexbox
+      >
         <h3>Reset your password</h3>
       </v-flex>
       <br >
@@ -17,20 +19,23 @@
         xs12 
         sm6 
         lg4 
-        flexbox>
+        flexbox
+      >
         <v-text-field 
           v-model="email" 
           :rules="[() => validateEmail() || 'Please enter a valid email']" 
           required 
           label="Email Address" 
-          validate-on-blur/>
+          validate-on-blur
+        />
         <v-btn @click.prevent="reset">
           Reset
         </v-btn>
         <v-alert 
           :color="alertColor" 
           v-model="alertShow" 
-          icon="check_circle">
+          icon="check_circle"
+        >
           {{ alertMsg }}
         </v-alert>        
       </v-flex>

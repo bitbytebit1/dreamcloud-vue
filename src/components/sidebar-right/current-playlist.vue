@@ -1,9 +1,10 @@
 <template>
   <!-- <v-container grid-list-sm> -->
   <v-layout 
+    v-if="$store.getters.drawRight"
     row 
-    wrap 
-    class="sideright">
+    wrap
+  >
     <transition-group name="slide-fade">
       <current-playlist-item
         v-for="(song, index) in aPlaylist"
@@ -22,7 +23,8 @@
         <v-card-title primary-title>
           <v-layout 
             row 
-            wrap>
+            wrap
+          >
             <jumbo
               :discover="false"
               error=""
@@ -38,7 +40,8 @@
       :distance="600" 
       class="flex xs12" 
       spinner="default" 
-      @infinite="infiniteHandler">
+      @infinite="infiniteHandler"
+    >
       <span slot="no-results">
         End of the line kiddo
       </span>
@@ -49,7 +52,8 @@
         <v-flex class="text-xs-center">
           <v-progress-circular 
             indeterminate 
-            color="primary"/>
+            color="primary"
+          />
         </v-flex>
       </span>
     </infinite-loading>

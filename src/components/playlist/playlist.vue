@@ -13,14 +13,16 @@
       :rows-per-page="rowsPerPage"
       :sort-by="sortBy" 
       :bMini="true" 
-      @toggleView="toggleView"/>
+      @toggleView="toggleView"
+    />
     <list 
       v-if="list == '1' && !gridView" 
       :songs="fixedSongs" 
       :full="full" 
       :rows-per-page="rowsPerPage" 
       :sort-by="sortBy" 
-      @toggleView="toggleView"/>
+      @toggleView="toggleView"
+    />
     <grid 
       v-if="list == '0' && !gridView" 
       :songs="fixedSongs" 
@@ -28,7 +30,8 @@
       :rows-per-page="rowsPerPage" 
       :sort-by="sortBy" 
       :show-uploaded="showUploaded" 
-      @toggleView="toggleView"/>
+      @toggleView="toggleView"
+    />
   </v-layout>
   <!-- </v-container> -->
   <!-- </v-flex> -->

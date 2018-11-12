@@ -2,39 +2,48 @@
   <v-flex 
     :style="{ 'background-image': background }" 
     xs12 
-    class="ma-0 pa-0 1 bg-rp">
+    class="ma-0 pa-0 1 bg-rp"
+  >
 
     <v-parallax 
       src="" 
-      height="2900">
+      height="2900"
+    >
       <v-container grid-list-lg>
         <v-layout 
           row 
           wrap 
-          justify-center>
+          justify-center
+        >
           <v-flex 
             xs12 
-            style="height:250px">
+            style="height:250px"
+          >
             <img 
               height="250" 
-              src="@/assets/logo-blue.png" >
+              src="@/assets/logo-blue.png"
+            >
           </v-flex>
           <v-flex 
             xs12 
-            xl7>
+            xl7
+          >
             <v-btn 
               :to="{name: 'explore'}" 
               block 
               large 
-              color="primary white--text">get started </v-btn>
+              color="primary white--text"
+            >get started </v-btn>
           </v-flex>
           <v-flex 
             xs12 
-            xl7>
+            xl7
+          >
             <v-card class="ma-0 mt-2">
               <v-container 
                 fluid 
-                grid-list-lg>
+                grid-list-lg
+              >
                 <v-layout row>
                   <v-flex xs5>
                     <v-card-media
@@ -45,7 +54,8 @@
                   </v-flex>
                   <v-flex 
                     xs7 
-                    class="text-xs-left">
+                    class="text-xs-left"
+                  >
                     <div>
                       <div class="headline">Search</div>
                       <div>Bandcamp, Mixcloud, Soundcloud, YouTube and Vimeo</div>
@@ -58,10 +68,12 @@
 
             <v-card 
               class="ma-0 mt-2" 
-              href="https://discord.gg/RzP7dwA">
+              href="https://discord.gg/RzP7dwA"
+            >
               <v-container 
                 fluid 
-                grid-list-lg>
+                grid-list-lg
+              >
                 <v-layout row>
                   <v-flex xs5>
                     <v-card-media
@@ -72,7 +84,8 @@
                   </v-flex>
                   <v-flex 
                     xs7 
-                    class="text-xs-left">
+                    class="text-xs-left"
+                  >
                     <div>
                       <div class="headline">Vibrant Community</div>
                       <div>Join our friendly community and contribute to the development</div>
@@ -86,7 +99,8 @@
             <v-card class="ma-0 mt-2">
               <v-container 
                 fluid 
-                grid-list-lg>
+                grid-list-lg
+              >
                 <v-layout row>
                   <v-flex xs5>
                     <v-card-media
@@ -97,7 +111,8 @@
                   </v-flex>
                   <v-flex 
                     xs7 
-                    class="text-xs-left">
+                    class="text-xs-left"
+                  >
                     <div>
                       <div class="headline">Listen to music</div>
                       <div>Organise all your music in one place</div>
@@ -111,7 +126,8 @@
             <v-card class="ma-0 mt-2">
               <v-container 
                 fluid 
-                grid-list-lg>
+                grid-list-lg
+              >
                 <v-layout row>
                   <v-flex xs5>
                     <v-card-media
@@ -122,7 +138,8 @@
                   </v-flex>
                   <v-flex 
                     xs7 
-                    class="text-xs-left">
+                    class="text-xs-left"
+                  >
                     <div>
                       <div class="headline">Share with your friends</div>
                       <div>Share on mobile or desktop</div>
@@ -136,7 +153,8 @@
             <v-card class="ma-0 mt-2">
               <v-container 
                 fluid 
-                grid-list-lg>
+                grid-list-lg
+              >
                 <v-layout row>
                   <v-flex xs5>
                     <v-card-media
@@ -147,7 +165,8 @@
                   </v-flex>
                   <v-flex 
                     xs7 
-                    class="text-xs-left">
+                    class="text-xs-left"
+                  >
                     <div>
                       <div class="headline">Access your library on any platform</div>
                       <div>Android, iOS, MacOSX, Windows and Linux</div>
@@ -161,7 +180,8 @@
             <v-card class="ma-0 mt-2">
               <v-container 
                 fluid 
-                grid-list-lg>
+                grid-list-lg
+              >
                 <v-layout row>
                   <v-flex xs5>
                     <v-card-media
@@ -172,7 +192,8 @@
                   </v-flex>
                   <v-flex 
                     xs7 
-                    class="text-xs-left">
+                    class="text-xs-left"
+                  >
                     <div>
                       <div class="headline">Save energy</div>
                       <div>Save data and battery life while on the move in audio only mode</div>
@@ -186,7 +207,8 @@
             <v-card class="ma-0 mt-2">
               <v-container 
                 fluid 
-                grid-list-lg>
+                grid-list-lg
+              >
                 <v-layout row>
                   <v-flex xs5>
                     <v-card-media
@@ -197,7 +219,8 @@
                   </v-flex>
                   <v-flex 
                     xs7 
-                    class="text-xs-left">
+                    class="text-xs-left"
+                  >
                     <div>
                       <div class="headline">Unlimited use</div>
                       <div>100% free with no limitations</div>
@@ -211,7 +234,8 @@
             <v-card class="ma-0 mt-2">
               <v-container 
                 fluid 
-                grid-list-lg>
+                grid-list-lg
+              >
                 <v-layout row>
                   <v-flex xs5>
                     <v-card-media
@@ -222,7 +246,8 @@
                   </v-flex>
                   <v-flex 
                     xs7 
-                    class="text-xs-left">
+                    class="text-xs-left"
+                  >
                     <div>
                       <div class="headline">Stay up to date</div>
                       <div>Customizable home feeds from your favourite artists</div>
@@ -236,7 +261,8 @@
             <v-card class="ma-0 mt-2">
               <v-container 
                 fluid 
-                grid-list-lg>
+                grid-list-lg
+              >
                 <v-layout row>
                   <v-flex xs5>
                     <v-card-media
@@ -247,7 +273,8 @@
                   </v-flex>
                   <v-flex 
                     xs7 
-                    class="text-xs-left">
+                    class="text-xs-left"
+                  >
                     <div>
                       <div class="headline">One click download</div>
                       <div>Batch download mp4 or mp3 with one smooth click</div>
@@ -261,7 +288,8 @@
             <v-card class="ma-0 mt-2">
               <v-container 
                 fluid 
-                grid-list-lg>
+                grid-list-lg
+              >
                 <v-layout row>
                   <v-flex xs5>
                     <v-card-media
@@ -272,7 +300,8 @@
                   </v-flex>
                   <v-flex 
                     xs7 
-                    class="text-xs-left">
+                    class="text-xs-left"
+                  >
                     <div>
                       <div class="headline">Always available offline</div>
                       <div>No internet? No problem! Using the power of PWAs you'll always have access to your music.</div>
@@ -296,8 +325,8 @@ export default {
   computed: {
     background () {
       return this.$store.getters.nightMode 
-      ? 'url("https://www.toptal.com/designers/subtlepatterns/patterns/random_grey_variations.png")' 
-      : 'url("https://www.toptal.com/designers/subtlepatterns/patterns/escheresque.png")'
+        ? 'url("https://www.toptal.com/designers/subtlepatterns/patterns/random_grey_variations.png")' 
+        : 'url("https://www.toptal.com/designers/subtlepatterns/patterns/escheresque.png")'
     }
   }
 }

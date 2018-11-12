@@ -1,10 +1,12 @@
 <template>
   <v-flex 
     xs12 
-    lg10>
+    lg10
+  >
     <div 
       v-if="loading" 
-      class="loading">
+      class="loading"
+    >
       Loading...
     </div>
     <playlist :songs="searchResults"/>

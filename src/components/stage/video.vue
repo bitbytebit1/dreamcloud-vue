@@ -3,7 +3,8 @@
     v-show="$store.getters.ytUseVideo && $store.getters.isYT" 
     row 
     wrap 
-    class="pb-5 ma-0 pa-0">
+    class="pb-5 ma-0 pa-0"
+  >
     <!-- VIDEO -->
     <v-flex xs12>
       <div class="video-wrapper">
@@ -13,22 +14,26 @@
     <v-flex 
       v-if="$store.getters.ytUseVideo && $store.getters.isYT" 
       dFlex 
-      xs12>
+      xs12
+    >
       <v-layout 
         id="dc-padding" 
         row 
-        wrap>
+        wrap
+      >
         <!-- SONG TITLE -->
         <v-flex 
           xs12 
-          class="mt-2">
+          class="mt-2"
+        >
           <div class="title fwl text-xs-left">{{ $store.getters.current_song.title }}</div >
         </v-flex>
         <!-- BUTTONS AND UPLOADED DATE/VIEWS AND DIVIDER -->
         <v-flex 
           :style="stageBorderStyle" 
           xs12 
-          class="stage-btns">
+          class="stage-btns"
+        >
           <!-- FLOAT LEFT -->
           <div class="fl-l blue-grey--text text--lighten-1 mt-3">
             {{ iViews }} • {{ $DCAPI.calcDate('', song.uploaded) }}
@@ -40,31 +45,44 @@
               <v-icon>link</v-icon>
             </v-btn> -->
             <!-- CLOSED CAPTIONS -->
-            <v-btn 
-              icon 
-              @click="toggleCC">
-              <v-icon :color="cc ? 'white' : 'grey'">subtitles</v-icon>
-            </v-btn>
+            <v-tooltip 
+              v-if="$vuetify.breakpoint.lgAndUp" 
+              top
+            >
+              <v-btn 
+                slot="activator" 
+                icon 
+                @click="toggleCC"
+              >
+                <v-icon :color="cc ? 'white' : 'grey'">subtitles</v-icon>
+              </v-btn>
+              <span>Subtitles</span>
+            </v-tooltip>
+
             <!-- YT BUTTON -->
-            <youtube-button/>
+            <youtube-button slot="activator" />
             <!-- SHARE BUTTON -->
             <share-button 
               :song="song" 
-              :url="'https://dreamcloud.netlify.com/#/t/' + song.source + '/' + encodeURIComponent(song.artist) + '/' + song.trackID"/>
+              :url="'https://dreamcloud.netlify.com/#/t/' + song.source + '/' + encodeURIComponent(song.artist) + '/' + song.trackID"
+            />
             <!-- DOWNLOAD BUTTON -->
             <download-button :links="[song]"/>
             <!-- ADD TO PLAYLIST -->
             <add-to-playlist 
               v-if="$store.getters.auth_state" 
-              :song="song"/>
+              :song="song"
+            />
             <!-- WIDE SCREEN BUTTON -->
             <v-tooltip 
               v-if="$vuetify.breakpoint.lgAndUp" 
-              top>
+              top
+            >
               <v-btn 
                 slot="activator" 
                 icon 
-                @click="widescreen">
+                @click="widescreen"
+              >
                 <v-icon>{{ bWide ? 'crop_3_2' :'crop_16_9' }}</v-icon>
               </v-btn>
               <span>{{ bWide ? 'Wide' :'Default' }}</span>
@@ -76,7 +94,8 @@
               <v-btn 
                 slot="activator" 
                 icon 
-                @click="fullscreen">
+                @click="fullscreen"
+              >
                 <v-icon>fullscreen</v-icon>
               </v-btn>
               <span>Fullscreen</span>
@@ -88,18 +107,21 @@
           :artistID="song.artistID" 
           :source="song.source" 
           :artist="song.artist" 
-          :key="song.artistID"/>
+          :key="song.artistID"
+        />
         <!-- ARTIST NAME + SONG DESCRIPTION -->
         <v-flex 
           xs12 
           lg7 
-          class="title fwl text-xs-left song-meta mt-3">
+          class="title fwl text-xs-left song-meta mt-3"
+        >
           {{ song.artist }}
           <!-- DESCRIPTION -->
           <v-flex xs12>
             <span 
               class="subheading fwl wordbreak preline" 
-              v-html="timeToSeconds(description)"/>
+              v-html="timeToSeconds(description)"
+            />
           </v-flex>
 
           <v-tabs
@@ -124,14 +146,16 @@
               <!-- COMMENTS -->
               <songComments 
                 :trackID="song.trackID" 
-                :source="song.source"/>
+                :source="song.source"
+              />
             </v-tab-item>
             <v-tab-item>
               <!-- LYRICS -->
               <lyrics 
                 :getEm="getLyrics" 
                 :title="song.title" 
-                :artist="song.artist"/>
+                :artist="song.artist"
+              />
             </v-tab-item>
             <v-tab-item v-if="$vuetify.breakpoint.mdAndDown">
               <!-- RELATED -->

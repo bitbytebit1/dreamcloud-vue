@@ -3,16 +3,19 @@
     flexbox 
     xs12 
     lg10 
-    class="ma-0 pa-0">
+    class="ma-0 pa-0"
+  >
     <div class="headline fwl text-xs-left pl-2 pt-2">Playlists</div>
 
     <v-container 
       fluid 
       grid-list-md 
-      class="ma-0 pa-0">
+      class="ma-0 pa-0"
+    >
       <v-flex 
         xs12 
-        class="mb-3">
+        class="mb-3"
+      >
         <!-- filter -->
         <v-text-field
           id="flr-txt"
@@ -54,7 +57,8 @@
           <!-- Object.keys(aPlaylist[props.index].songs)[0] -->
           <v-card 
             :to="{name: 'userPlaylist', params: {user: $DCFB.UID, playlist: props.item['.key'], name: props.item.name}}" 
-            class="pointer" >
+            class="pointer"
+          >
             <!-- IMAGE -->
             <v-img
               :src="props.item.songs[Object.keys(props.item.songs)[0]].poster"

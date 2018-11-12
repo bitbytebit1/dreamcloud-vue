@@ -3,7 +3,8 @@
     <v-card-title v-if="lyrics">
       <a 
         :href="lyricsURL" 
-        class="primary--background">{{ lyricsURL }}</a><br>
+        class="primary--background"
+      >{{ lyricsURL }}</a><br>
       <div class="wordbreak preline">{{ lyrics }}</div>
     </v-card-title>
 
@@ -19,7 +20,8 @@
     <v-card-title 
       v-else 
       class="pointer" 
-      @click="(getLyrics)">
+      @click="(getLyrics)"
+    >
       Click to load lyrics
     </v-card-title>
   </v-card>

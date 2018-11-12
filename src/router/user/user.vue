@@ -1,24 +1,29 @@
 <template>
   <v-flex 
     xs10 
-    xl8>
+    xl8
+  >
     <h1 class="display-1 fwl">Index for user {{ $route.params.user.substring(0,6) }}</h1>
     <v-container grid-list-lg>
         
       <v-layout 
         row 
-        wrap>
+        wrap
+      >
         <v-flex 
           v-for="item in items" 
           :key="item.index" 
-          xs12>
+          xs12
+        >
           <v-card 
             :to="item.route" 
             color="" 
-            class="">
+            class=""
+          >
             <v-container 
               fluid 
-              grid-list-lg>
+              grid-list-lg
+            >
               <v-layout row>
                 <v-flex xs7>
                   <div>

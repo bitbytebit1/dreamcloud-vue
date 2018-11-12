@@ -7,7 +7,7 @@
     class="scrollToTop primary"
     outline
     icon 
-    @click="scrollToTop"  
+    @click="scrollToTop"
   >
     <v-icon>{{ showScrollToTop ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
   </v-btn>

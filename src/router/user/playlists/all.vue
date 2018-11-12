@@ -3,13 +3,15 @@
     :key="$route.params.playlist" 
     xs12 
     lg10 
-    flexbox>
+    flexbox
+  >
     <div class="headline fwl text-xs-left pl-2 pt-2">Library</div>
     <playlist 
       :show-uploaded="!0" 
       :songs="aSongs" 
       sort-by="uploaded" 
-      rows-per-page="84"/>
+      rows-per-page="84"
+    />
   </v-flex>
 </template>
 <script>

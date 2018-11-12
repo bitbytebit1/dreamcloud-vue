@@ -1,23 +1,29 @@
 <template>
   <v-flex 
     justify-center 
-    class="loading-flex">
+    class="loading-flex"
+  >
     <div class="semipolar-spinner">
       <div 
         :style="ringStyle" 
-        class="ring"/>
+        class="ring"
+      />
       <div 
         :style="ringStyle" 
-        class="ring"/>
+        class="ring"
+      />
       <div 
         :style="ringStyle" 
-        class="ring"/>
+        class="ring"
+      />
       <div 
         :style="ringStyle" 
-        class="ring"/>
+        class="ring"
+      />
       <div 
         :style="ringStyle" 
-        class="ring"/>
+        class="ring"
+      />
     </div>
   </v-flex>
 </template>

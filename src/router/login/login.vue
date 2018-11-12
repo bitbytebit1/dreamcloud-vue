@@ -4,11 +4,13 @@
       row 
       wrap 
       justify-center 
-      align-center>
+      align-center
+    >
       <v-flex 
         xs12 
         lg5 
-        flexbox>
+        flexbox
+      >
         <v-flex xs12>
           <h3>Sign in with</h3>
         </v-flex>
@@ -16,13 +18,15 @@
           xs10 
           offset-xs1 
           offset-lg2 
-          lg8>
+          lg8
+        >
           <form 
             v-if="bShowInput" 
             target="remember" 
             method="post" 
             action="/content/blank" 
-            @submit.prevent>
+            @submit.prevent
+          >
             <v-text-field
               v-model="email"
               label="Email"
@@ -50,7 +54,8 @@
             round 
             class="red" 
             dark 
-            @click.prevent="signInGoogle">Google
+            @click.prevent="signInGoogle"
+          >Google
             <v-icon right>lock</v-icon>
           </v-btn>
         </div>
@@ -61,7 +66,8 @@
             color="primary white--text" 
             round 
             type="submit" 
-            @click="emailSignInClick">
+            @click="emailSignInClick"
+          >
             Email
             <v-icon right>lock</v-icon>
           </v-btn>
@@ -73,7 +79,8 @@
             round 
             class="blue darken-4" 
             dark 
-            @click.prevent="signInFB">Facebook
+            @click.prevent="signInFB"
+          >Facebook
             <v-icon right>lock</v-icon>
           </v-btn>
         </div>
@@ -84,7 +91,8 @@
             round 
             class="grey darken-4" 
             dark 
-            @click.prevent="signInGitHub">GitHub
+            @click.prevent="signInGitHub"
+          >GitHub
             <v-icon right>lock</v-icon>
           </v-btn>
         </div>
@@ -93,134 +101,135 @@
           id="remember" 
           name="remember" 
           class="hidden" 
-          src=""/>
+          src=""
+        />
       </v-flex>
     </v-layout>
   </v-container>
 </template>
 
 <script>
-  export default {
-    name: 'Login',
-    data () {
-      return {
-        bShowInput: false,
-        email: '',
-        password: '',
-        loading1: false,
-        loading2: false,
-        loading3: false,
-        loading4: false
+export default {
+  name: 'Login',
+  data () {
+    return {
+      bShowInput: false,
+      email: '',
+      password: '',
+      loading1: false,
+      loading2: false,
+      loading3: false,
+      loading4: false
+    }
+  },
+  methods: {
+    emailSignInClick () {
+      if (this.bShowInput) {
+        this.signIn()
       }
+      this.bShowInput = true
     },
-    methods: {
-      emailSignInClick () {
-        if (this.bShowInput) {
-          this.signIn()
+    signIn () {
+      this.loading1 = true
+      // (Anonymous user is signed in at this point.)
+      // 1. Create the email and password credential, to upgrade the anonymous user.
+      // var credential = this.$DCFB.fb.auth.EmailAuthProvider.credential(this.email, this.password)
+      // 2. Links the credential to the currently signed in user
+      // (the anonymous user).
+      // this.$DCFB.fb.auth().currentUser.linkWithCredential(credential).then((user) => {
+      //   console.log('Anonymous account successfully upgraded', user)
+      //   this.$store.commit('authChange', true)
+      //   this.$DCFB.init(user.uid)
+      //   this.loading1 = false
+      //   this.$router.replace('home')
+      // }, (error) => {
+      //   console.log('Error upgrading anonymous account', error)
+      //   this.$store.commit('authChange', false)
+      //   alert('Error upgrading anonymous account. ' + error)
+      //   this.loading1 = false
+      // })
+      this.$DCFB.fb.auth().signInWithEmailAndPassword(this.email, this.password).then(
+        user => {
+          this.$store.commit('authChange', true)
+          this.$DCFB.init(user.uid)
+          this.loading1 = false
+          this.$router.replace('home')
+        },
+        err => {
+          this.$store.commit('authChange', false)
+          alert('Error upgrading anonymous account. ' + err)
+          this.loading1 = false
         }
-        this.bShowInput = true
-      },
-      signIn () {
-        this.loading1 = true
-        // (Anonymous user is signed in at this point.)
-        // 1. Create the email and password credential, to upgrade the anonymous user.
-        // var credential = this.$DCFB.fb.auth.EmailAuthProvider.credential(this.email, this.password)
-        // 2. Links the credential to the currently signed in user
-        // (the anonymous user).
-        // this.$DCFB.fb.auth().currentUser.linkWithCredential(credential).then((user) => {
-        //   console.log('Anonymous account successfully upgraded', user)
-        //   this.$store.commit('authChange', true)
-        //   this.$DCFB.init(user.uid)
-        //   this.loading1 = false
-        //   this.$router.replace('home')
-        // }, (error) => {
-        //   console.log('Error upgrading anonymous account', error)
-        //   this.$store.commit('authChange', false)
-        //   alert('Error upgrading anonymous account. ' + error)
-        //   this.loading1 = false
-        // })
-        this.$DCFB.fb.auth().signInWithEmailAndPassword(this.email, this.password).then(
+      )
+    },
+    signInGitHub () {
+      this.loading2 = true
+      this.$DCFB.fb.auth().signInWithPopup(new this.$DCFB.fbb.auth.GithubAuthProvider())
+        .then(
           user => {
             this.$store.commit('authChange', true)
             this.$DCFB.init(user.uid)
-            this.loading1 = false
+            this.loading2 = false
             this.$router.replace('home')
-          },
-          err => {
-            this.$store.commit('authChange', false)
-            alert('Error upgrading anonymous account. ' + err)
-            this.loading1 = false
           }
         )
-      },
-      signInGitHub () {
-        this.loading2 = true
-        this.$DCFB.fb.auth().signInWithPopup(new this.$DCFB.fbb.auth.GithubAuthProvider())
+        .catch(
+          err => {
+            alert('Oops. ' + err.message)
+            this.loading2 = false
+          }
+        )
+    },
+    signInFB () {
+      this.loading4 = true
+      this.$DCFB.fb.auth().signInWithPopup(new this.$DCFB.fbb.auth.FacebookAuthProvider())
+        .then(
+          user => {
+            this.$store.commit('authChange', true)
+            this.$DCFB.init(user.uid)
+            this.loading4 = false
+            this.$router.replace('home')
+          }
+        )
+        .catch(
+          err => {
+            alert('Oops. ' + err.message)
+            this.loading2 = false
+          }
+        )
+    },
+    signInGoogle () {
+      const func = () => {
+        this.$DCFB.fb.auth().signInWithPopup(new this.$DCFB.fbb.auth.GoogleAuthProvider())
           .then(
             user => {
-              this.$store.commit('authChange', true)
+              // console.log(user)
               this.$DCFB.init(user.uid)
-              this.loading2 = false
+              this.$store.commit('authChange', true)
+              this.loading3 = false
               this.$router.replace('home')
             }
           )
           .catch(
             err => {
               alert('Oops. ' + err.message)
-              this.loading2 = false
+              this.loading3 = false
             }
           )
-      },
-      signInFB () {
-        this.loading4 = true
-        this.$DCFB.fb.auth().signInWithPopup(new this.$DCFB.fbb.auth.FacebookAuthProvider())
-          .then(
-            user => {
-              this.$store.commit('authChange', true)
-              this.$DCFB.init(user.uid)
-              this.loading4 = false
-              this.$router.replace('home')
-            }
-          )
-          .catch(
-            err => {
-              alert('Oops. ' + err.message)
-              this.loading2 = false
-            }
-          )
-      },
-      signInGoogle () {
-        const func = () => {
-          this.$DCFB.fb.auth().signInWithPopup(new this.$DCFB.fbb.auth.GoogleAuthProvider())
-            .then(
-              user => {
-                // console.log(user)
-                this.$DCFB.init(user.uid)
-                this.$store.commit('authChange', true)
-                this.loading3 = false
-                this.$router.replace('home')
-              }
-            )
-            .catch(
-              err => {
-                alert('Oops. ' + err.message)
-                this.loading3 = false
-              }
-            )
-        }
-        this.loading3 = true
-        if (this.$store.getters.isAnon) {
-          // console.log('Logging in with Gmail but already anon')
-          this.$store.commit('authChange', false)
-          this.$nextTick(() => {
-            this.$DCFB.fb.auth().signOut().then(func)
-          })
-        } else {
-          func()
-        }
+      }
+      this.loading3 = true
+      if (this.$store.getters.isAnon) {
+        // console.log('Logging in with Gmail but already anon')
+        this.$store.commit('authChange', false)
+        this.$nextTick(() => {
+          this.$DCFB.fb.auth().signOut().then(func)
+        })
+      } else {
+        func()
       }
     }
   }
+}
 </script>
 
 <style scoped>  /* "scoped" attribute limit the CSS to this component only */

@@ -11,7 +11,8 @@
           <v-btn 
             v-if="discover" 
             :to="{name: 'explore'}" 
-            color="primary white--text" >discover new music<v-icon right>explore</v-icon></v-btn> 
+            color="primary white--text"
+          >discover new music<v-icon right>explore</v-icon></v-btn> 
         </v-flex>
       </v-layout>
     </v-container>
@@ -23,7 +24,7 @@ import loading from '@/components/misc/orbit'
 export default {
   name: 'Jumbo',
   components: {
-   'loading': loading 
+    'loading': loading 
   },
   props: {
     subheading: {

@@ -20,7 +20,8 @@
         :to="{name: 'historyRecommended', params: {user: UID}}" 
         color="primary" 
         flat 
-        value="home">
+        value="home"
+      >
         <span>Home</span>
         <v-icon>home</v-icon>
       </v-btn>
@@ -28,7 +29,8 @@
         :to="{name: 'subsAll', params: {user: UID}}" 
         color="primary" 
         flat 
-        value="subsAll">
+        value="subsAll"
+      >
         <span>Latest</span>
         <v-icon>whatshot</v-icon>
       </v-btn>
@@ -36,7 +38,8 @@
         :to="{name: 'stage'}" 
         color="primary" 
         flat 
-        value="stage">
+        value="stage"
+      >
         <span>Current</span>
         <v-icon>music_video</v-icon>
       </v-btn>
@@ -44,7 +47,8 @@
         :to="{name: 'playlistOverview', params: {user: UID}}" 
         color="primary" 
         flat 
-        value="playlistOverview">
+        value="playlistOverview"
+      >
         <span>Playlists</span>
         <v-icon>library_music</v-icon>
       </v-btn>
@@ -52,7 +56,8 @@
         :to="{name: 'userSubOverview', params: {user: UID}}" 
         color="primary" 
         flat 
-        value="userSubOverview">
+        value="userSubOverview"
+      >
         <span>Following</span>
         <v-icon>people</v-icon>
       </v-btn>

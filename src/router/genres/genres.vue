@@ -3,16 +3,19 @@
     :style="{ 'background-image': background }" 
     xs12 
     lg12 
-    class="bg-rp">
+    class="bg-rp"
+  >
     <v-flex 
       xs12 
       lg10 
       offset-lg1 
-      class="my-3">
+      class="my-3"
+    >
       
       <v-jumbotron 
         :gradient="`to top, ${$store.getters.nightMode ? '#424242' : '#ffffff'}, ${$vuetify.theme.primary}`" 
-        dark>
+        dark
+      >
         <v-container fill-height>
           <v-layout align-center>
             <v-flex text-xs-center>
@@ -30,14 +33,16 @@
         >
           <div 
             slot="header" 
-            class="subheading">
+            class="subheading"
+          >
             <!-- <v-icon @click.stop="">play_arrow</v-icon> -->
             {{ genre.name }}
           </div>
           <v-card>
             <v-container 
               grid-list-lg 
-              fluid>
+              fluid
+            >
               <v-data-iterator
                 :items="genre.items"
                 :rows-per-page-items='[{ text: "All", value: -1 }]'
@@ -52,10 +57,12 @@
                   xs6 
                   sm4 
                   md4 
-                  lg2>
+                  lg2
+                >
                   <v-card 
                     :to="{name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID }}" 
-                    flat>
+                    flat
+                  >
                     <v-img
                       :src="props.item.img"
                       :lazy-src="props.item.img"
@@ -71,7 +78,8 @@
                       >
                         <v-progress-circular 
                           indeterminate 
-                          color="grey lighten-5"/>
+                          color="grey lighten-5"
+                        />
                       </v-layout>
                     </v-img>
                     <v-card-title>
@@ -82,7 +90,8 @@
                         :artistID="props.item.artistID" 
                         :source="props.item.source" 
                         :artist="props.item.artist" 
-                        :img="props.item.img"/>
+                        :img="props.item.img"
+                      />
                     </v-card-actions>
                   </v-card>
                 </v-flex>
@@ -106,8 +115,8 @@ export default {
   computed: {
     background () {
       return this.$store.getters.nightMode 
-      ? 'url("https://www.toptal.com/designers/subtlepatterns/patterns/random_grey_variations.png")' 
-      : 'url("https://www.toptal.com/designers/subtlepatterns/patterns/escheresque.png")'
+        ? 'url("https://www.toptal.com/designers/subtlepatterns/patterns/random_grey_variations.png")' 
+        : 'url("https://www.toptal.com/designers/subtlepatterns/patterns/escheresque.png")'
     }
   },
   data () {

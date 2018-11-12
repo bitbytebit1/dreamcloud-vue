@@ -2,12 +2,14 @@
   <v-flex 
     xs12 
     lg10 
-    flexbox>
+    flexbox
+  >
     <div class="headline fwl text-xs-left pl-2 pt-2">{{ name }}</div>
     <playlist 
       :show-uploaded="true" 
       :songs="aSongs" 
-      rows-per-page='250'/>
+      rows-per-page='250'
+    />
   </v-flex>
 </template>
 <script>

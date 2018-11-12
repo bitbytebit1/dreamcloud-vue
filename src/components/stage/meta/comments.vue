@@ -1,7 +1,8 @@
 <template>
   <v-flex 
     xs12 
-    class="">
+    class=""
+  >
     <v-data-iterator
       v-if="show"
       :items="aComments"
@@ -22,7 +23,8 @@
               <!-- IMAGE -->
               <router-link 
                 :to="{name: 'artist', params: {source: source, artist: props.item.artist, artistID: props.item.artistID}}" 
-                class="body-1 grey--text noDeco">
+                class="body-1 grey--text noDeco"
+              >
                 <v-avatar
                   class="mt-1 comAv"
                   size="40"
@@ -30,7 +32,8 @@
                 >
                   <img 
                     :src="props.item.artistIMG" 
-                    alt="avatar">
+                    alt="avatar"
+                  >
                 </v-avatar>
               </router-link>
             </v-flex>
@@ -40,7 +43,8 @@
                   <!-- ARTIST -->
                   <router-link 
                     :to="{name: 'artist', params: {source: source, artist: props.item.artist, artistID: props.item.artistID}}" 
-                    class="body-1 grey--text noDeco">
+                    class="body-1 grey--text noDeco"
+                  >
                     <strong>{{ props.item.artist }}</strong> 
                   </router-link>
                 <!-- CREATED -->
@@ -48,7 +52,8 @@
                 <!-- COMMENT -->
                 <div 
                   class="body-1 preline py-1" 
-                  v-html="timeToSeconds(props.item.comment)"/>
+                  v-html="timeToSeconds(props.item.comment)"
+                />
               </div>
             </v-flex>
           </v-layout>
@@ -57,27 +62,31 @@
             v-if="props.item.totalReplyCount" 
             :total-reply-count="props.item.totalReplyCount" 
             :comment-thread="props.item.commentID" 
-            :source="source"/>
+            :source="source"
+          />
         </v-card>
         <v-divider v-if="props.index !== aComments.length -1"/>
       </v-flex>
       <v-flex 
         v-if="aComments.length && $DCAPI.YTCommentNext && !source.toLowerCase() === 'soundcloud'" 
-        slot="footer">
+        slot="footer"
+      >
         <v-btn 
           :loading="bLoading" 
           small 
           block 
           color="transparent" 
           class="comMor" 
-          @click="getMore">
+          @click="getMore"
+        >
           SHOW MORE
         </v-btn>
       </v-flex>
     </v-data-iterator>
     <v-layout 
       row 
-      wrap>
+      wrap
+    >
       <v-flex xs12>
         <v-card v-if="noComments">
           <v-card-title>

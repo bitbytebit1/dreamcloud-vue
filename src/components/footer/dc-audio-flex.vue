@@ -2,20 +2,23 @@
   <v-container fluid >
     <v-layout 
       row 
-      wrap>
+      wrap
+    >
 
       <v-flex xs2>
         <v-layout>
           <!-- <v-flex xs3> -->
           <img 
             id="poster" 
-            :src="currentImage">
+            :src="currentImage"
+          >
           <!-- </v-flex> -->
 
           <!-- <v-flex xs3> -->
           <v-btn 
             icon 
-            @click="previous">
+            @click="previous"
+          >
             <v-icon>skip_previous</v-icon>
           </v-btn>
           <!-- </v-flex> -->
@@ -25,11 +28,13 @@
             v-if="bLoading" 
             :size="25" 
             indeterminate 
-            color="white"/>
+            color="white"
+          />
           <v-btn 
             v-else 
             icon 
-            @click="togglePlay">
+            @click="togglePlay"
+          >
             <v-icon>{{ play_arrow }}</v-icon>
           </v-btn>
           <!-- </v-flex> -->
@@ -37,7 +42,8 @@
           <!-- <v-flex xs3> -->
           <v-btn 
             icon 
-            @click="next">
+            @click="next"
+          >
             <v-icon>skip_next</v-icon>
           </v-btn>
           <!-- </v-flex> -->
@@ -51,7 +57,8 @@
           v-model="progress" 
           max="10000" 
           hide-details 
-          @input="changePos"/>
+          @input="changePos"
+        />
       </v-flex>
      
       <v-flex xs1>
@@ -59,7 +66,8 @@
           <v-btn 
             slot="activator" 
             fab 
-            hover>
+            hover
+          >
             <v-icon>volume_up</v-icon>
             <v-icon>close</v-icon>
           </v-btn>
@@ -70,13 +78,15 @@
               min="0" 
               max="10" 
               step="1" 
-              @input="volumeChange">
+              @input="volumeChange"
+            >
           </div>
         </v-speed-dial>
       </v-flex>
       <audio 
         id="dc-audio" 
-        controls/>
+        controls
+      />
       
     </v-layout>
   </v-container>
@@ -97,8 +107,8 @@ export default {
   computed: {
     currentImage () {
       return this.$store.getters.index > -1
-      ? this.$store.getters.current_Playlist[this.$store.getters.index].posterLarge
-      : '/static/img/loading.gif'
+        ? this.$store.getters.current_Playlist[this.$store.getters.index].posterLarge
+        : '/static/img/loading.gif'
     }
   },
   methods: {

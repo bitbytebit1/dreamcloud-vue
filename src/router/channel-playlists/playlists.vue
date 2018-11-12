@@ -1,7 +1,8 @@
 <template>
   <v-flex 
     xs12 
-    lg12>
+    lg12
+  >
     <v-card flat>
       <v-card-title class="ma-0 pa-0">
         <v-flex xs12 >
@@ -25,7 +26,8 @@
       <v-container 
         grid-list-lg 
         class="pa-0" 
-        fluid>
+        fluid
+      >
         <v-data-iterator
           :items="aPlaylist"
           :search="search"
@@ -53,7 +55,8 @@
             <!-- Object.keys(aPlaylist[props.index].songs)[0] -->
             <v-card 
               :to="{name: 'channelPlaylist', params: {listID: props.item.listID, artistID: props.item.artistID, title: props.item.title, source: props.item.source}}" 
-              class="pointer dc-crd" >
+              class="pointer dc-crd"
+            >
               <v-img
                 :aspect-ratio="props.item.source === 'YouTube' ? 16/9 : '1'"
                 :src="props.item.img"

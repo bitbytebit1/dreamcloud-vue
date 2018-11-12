@@ -2,10 +2,14 @@
   <div class="mb-1">
     <v-list 
       dense 
-      class="pa-0">
+      class="pa-0"
+    >
 
       <!-- Change to for loop to save the whales... I mean internet -->
+      <!-- login -->
 
+
+      
       <!-- RECOMMENDED -->
       <v-list-tile 
         :to="{name: 'historyRecommended', params: {user: UID}}" 
@@ -135,28 +139,19 @@
     <!-- Playists -->
     <v-list 
       dense 
-      class="pa-0">
+      class="pa-0"
+    >
       <user-playlists @closeLeft="closeLeft"/>
     </v-list>
     
     <!-- Subscriptions -->
     <v-list 
       dense 
-      class="pa-0">
+      class="pa-0"
+    >
       <user-subscriptions @closeLeft="closeLeft"/>
     </v-list>
 
-    <!-- tos -->
-    <!-- <v-list dense class="pa-0 mb-5">
-      <v-list-tile  @click="closeLeft" :to="{path: '/tos'}">
-        <v-list-tile-action>
-          <v-icon>forum</v-icon>
-        </v-list-tile-action>
-        <v-list-tile-content>
-          <v-list-tile-title>Terms of Use</v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
-    </v-list> -->
   </div>
 </template>
 <script>

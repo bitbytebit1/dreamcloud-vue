@@ -3,7 +3,8 @@
     :color="btnColor" 
     small 
     class="ma-0 pa-0" 
-    @click.prevent="toggleSub">{{ subbed ? 'Subscribed' : 'Subscribe' }}</v-btn>
+    @click.prevent="toggleSub"
+  >{{ subbed ? 'Subscribed' : 'Subscribe' }}</v-btn>
 </template>
 <script>
 export default {

@@ -1,7 +1,8 @@
 <template>
   <v-app 
     v-bind="theme" 
-    :class="blackClass">
+    :class="blackClass"
+  >
     <v-snackbar
       v-model="snackbar"
       :timeout="0"
@@ -24,6 +25,7 @@
         dismiss
       </v-btn>
     </v-snackbar>
+    
     <!-- left drawer -->
     <v-navigation-drawer
       id="sideleft"
@@ -34,7 +36,8 @@
       disable-resize-watcher
       persistent
       ripple
-      width="240">
+      width="240"
+    >
       <sidebar @closeLeft="closeLeft"/>
     </v-navigation-drawer>
 
@@ -45,7 +48,8 @@
       dense 
       fixed 
       clipped-left 
-      clipped-right>
+      clipped-right
+    >
       <v-progress-linear
         id="loader"
         :active="loadActive"
@@ -61,24 +65,24 @@
       <!-- title -->
       <v-toolbar-title 
         class="hidden-sm-and-down fwl title" 
-        style="width: 121px" >
+        style="width: 121px"
+      >
         <router-link 
           :class="textClass" 
-          :to="{name:'historyRecommended', params: {user: uid}}">
-          dreamcloud 
+          :to="{name:'home', params: {user: uid}}"
+        >
+          dreamcloud
         </router-link>
       </v-toolbar-title>
 
-      <!-- <v-spacer></v-spacer> -->
-
-      <!-- searchbar -->
       <search/>
 
       <v-spacer/>
       <!-- toggle stage button -->
       <v-toolbar-side-icon 
         v-if="!bMobi" 
-        @click.stop="$store.commit('toggleStage')"><v-icon>music_video</v-icon></v-toolbar-side-icon>
+        @click.stop="$store.commit('toggleStage')"
+      ><v-icon>music_video</v-icon></v-toolbar-side-icon>
 
       <!-- toggle right draw button -->
       <v-toolbar-side-icon @click.stop="rightTog"><v-icon>playlist_play</v-icon></v-toolbar-side-icon>
@@ -94,18 +98,21 @@
       disable-resize-watcher
       persistent
       right
-      width="260">
-      <current-playlist/>
+      width="260"
+    >
+      <current-playlist />
     </v-navigation-drawer>
 
     <!-- Stage -->
     <v-content 
       v-show="bShowStage" 
-      class="text-xs-center">
+      class="text-xs-center"
+    >
       <v-container 
         fluid 
         fill-height 
-        class="pa-0">
+        class="pa-0"
+      >
         <v-layout justify-center>
           <v-flex xs12>
             <stage/>
@@ -120,13 +127,14 @@
         id="main-cont" 
         fluid 
         fill-height 
-        class="pa-0 ma-0">
+        class="pa-0 ma-0"
+      >
         <v-layout justify-center>
           <!-- <transition 
             :key="$route.fullPath" 
             name="  fade" 
             mode="out-in"> -->
-          <keep-alive include="home,subsAll,playlistOverview,userSubOverview">
+          <keep-alive :max="4">
             <router-view/>
           </keep-alive>
           <!-- </transition> -->
@@ -139,7 +147,8 @@
       id="foot" 
       :style="footStyle" 
       app 
-      fixed>
+      fixed
+    >
       <mobileFooter v-if="bMobi"/>
       <!-- && (bMobi || currentActive) -->
       <dc-youtube v-show="(ytUseVideo && isYT)"/>
@@ -157,113 +166,116 @@
 </template>
 
 <script>
-  import hks from './components/misc/hks'
-  import search from './components/header/search'
-  import dcAudio from './components/footer/dc-audio'
-  import dcYoutube from './components/footer/dc-youtube'
-  import currentPlaylist from './components/sidebar-right/current-playlist'
-  import sidebar from './components/sidebar-left/sidebar'
-  import stage from '@/components/stage/stage'
-  import mobileFooter from '@/components/footer/mobileFooter'
-  import scrollToTop from '@/components/footer/scroll-to-top.vue'
-  import { mapGetters } from 'vuex'
+import hks from './components/misc/hks'
+import search from './components/header/search'
+import dcAudio from './components/footer/dc-audio'
+import dcYoutube from './components/footer/dc-youtube'
+import currentPlaylist from './components/sidebar-right/current-playlist'
+import sidebar from './components/sidebar-left/sidebar'
+import stage from '@/components/stage/stage'
+import mobileFooter from '@/components/footer/mobileFooter'
+import scrollToTop from '@/components/footer/scroll-to-top.vue'
+import { mapGetters } from 'vuex'
 
-  export default {
-    name: 'App',
-    data () {
+export default {
+  name: 'App',
+  data () {
+    return {
+      snackbar: false,
+      swReg: '',
+      refreshing: false
+    }
+  },
+  components: {
+    'hks': hks,
+    'search': search,
+    'dc-audio': dcAudio,
+    'dc-youtube': dcYoutube,
+    'sidebar': sidebar,
+    'current-playlist': currentPlaylist,
+    'stage': stage,
+    'scroll-to-top': scrollToTop,
+    'mobileFooter': mobileFooter
+  },
+  methods: {
+    leftTog () {
+      this.$store.commit('drawLeftTog')
+    },
+    rightTog () {
+      this.$store.commit('drawRightTog')
+    },
+    closeLeft () {
+      if (this.$UTILS.isMobile) {
+        this.$store.commit('drawLeft', false)
+        // console.log('toggle left')
+        this.drawLeft = false
+      }
+    },
+    listenForWaitingServiceWorker (reg, callback) {
+      function awaitStateChange() {
+        reg.installing.addEventListener('statechange', function() {
+          if (this.state === 'installed') callback(reg);
+        });
+      }
+      if (!reg) return;
+      if (reg.waiting) return callback(reg);
+      if (reg.installing) awaitStateChange();
+      reg.addEventListener('updatefound', awaitStateChange);
+    }
+  },
+  computed: {
+    ...mapGetters({
+      uid: 'uid',
+      blackClass: 'blackClass',
+      isYT: 'isYT',
+      ytUseVideo: 'ytUseVideo',
+      bShowStage: 'bShowStage',
+      theme: 'theme',
+      loadValue: 'loadValue',
+      loadActive: 'loadActive',
+      ytFullScreen: 'ytFullScreen'
+    }),
+    footStyle () {
       return {
-        snackbar: false,
-        swReg: '',
-        refreshing: false
+        height: (this.bMobi ? '128px' : '56px') + ' !important'
+      }
+      // return {
+      //   height: (this.currentActive && this.bMobi ? '128px' : '56px') + ' !important'
+      // }
+    },
+    bMobi () {
+      return this.$vuetify.breakpoint.name === 'xs' || this.$vuetify.breakpoint.name === 'sm'
+    },
+    textClass () {
+      return (this.$store.getters.nightMode ? 'white' : 'black') + '--text noDeco pointer hidden-sm-and-down'
+    },
+    currentActive () {
+      return this.$route.name === 'stage'
+    },
+    drawRight: {
+      get () {
+        return this.$store.getters.drawRight
+      },
+      set (value) {
+        this.$store.commit('drawRight', value)
       }
     },
-    components: {
-      'hks': hks,
-      'search': search,
-      'dc-audio': dcAudio,
-      'dc-youtube': dcYoutube,
-      'sidebar': sidebar,
-      'current-playlist': currentPlaylist,
-      'stage': stage,
-      'scroll-to-top': scrollToTop,
-      'mobileFooter': mobileFooter
-    },
-    methods: {
-      leftTog () {
-        this.$store.commit('drawLeftTog')
+    drawLeft: {
+      get () {
+        return this.$store.getters.drawLeft
       },
-      rightTog () {
-        this.$store.commit('drawRightTog')
-      },
-      closeLeft () {
-        if (this.$UTILS.isMobile) {
-          this.drawLeft = false
-        }
-      },
-      listenForWaitingServiceWorker (reg, callback) {
-        function awaitStateChange() {
-          reg.installing.addEventListener('statechange', function() {
-            if (this.state === 'installed') callback(reg);
-          });
-        }
-        if (!reg) return;
-        if (reg.waiting) return callback(reg);
-        if (reg.installing) awaitStateChange();
-        reg.addEventListener('updatefound', awaitStateChange);
+      set (value) {
+        this.$store.commit('drawLeft', value)
       }
-    },
-    computed: {
-      ...mapGetters({
-        uid: 'uid',
-        blackClass: 'blackClass',
-        isYT: 'isYT',
-        ytUseVideo: 'ytUseVideo',
-        bShowStage: 'bShowStage',
-        theme: 'theme',
-        loadValue: 'loadValue',
-        loadActive: 'loadActive',
-        ytFullScreen: 'ytFullScreen'
-      }),
-      footStyle () {
-        return {
-          height: (this.bMobi ? '128px' : '56px') + ' !important'
-        }
-        // return {
-        //   height: (this.currentActive && this.bMobi ? '128px' : '56px') + ' !important'
-        // }
-      },
-      bMobi () {
-        return this.$vuetify.breakpoint.name === 'xs' || this.$vuetify.breakpoint.name === 'sm'
-      },
-      textClass () {
-        return (this.$store.getters.nightMode ? 'white' : 'black') + '--text noDeco pointer hidden-sm-and-down'
-      },
-      currentActive () {
-        return this.$route.name === 'stage'
-      },
-      drawRight: {
-        get () {
-          return this.$store.getters.drawRight
-        },
-        set (value) {
-          this.$store.commit('drawRight', value)
-        }
-      },
-      drawLeft: {
-        get () {
-          return this.$store.getters.drawLeft
-        },
-        set (value) {
-          this.$store.commit('drawLeft', value)
-        }
-      }
-    },
-    beforeCreate () {
+    }
+  },
+  created () {
+    if ('serviceWorker' in navigator) {
       navigator.serviceWorker.addEventListener('controllerchange', () => {
-          if (this.refreshing) return
-          this.refreshing = true
-          window.location.reload()
-        }
+        if (this.refreshing) return
+        this.refreshing = true
+        window.location.reload()
+      }
       )
       navigator.serviceWorker.getRegistration().then(e => {
         this.swReg = e
@@ -271,49 +283,51 @@
           this.snackbar = true
         })
       })
-      // Set theme
-      this.$vuetify.theme.primary = '#009688'
-      this.$store.commit('ytUseVideo', !this.bMobi)
-      // On Firebase auth state change
-      this.$DCFB.fb.auth().onAuthStateChanged((user) => {
-        // console.log(this.$DCFB.fb.auth().currentUser)
-        // Toggle auth state to false
-        this.$store.commit('authChange', false)
-        this.$nextTick(() => {
-          // Set auth state
-          this.$store.commit('authChange', !!user)
-          // If logged in
-          if (!user) {
-            // Sign in anonymously
-            this.$DCFB.fb.auth().signInAnonymously()
-          } else {
-            // Update store
-            this.$store.commit('setUser', user)
+    }
+    // Set theme
+    this.$vuetify.theme.primary = '#009688'
+    this.$store.commit('ytUseVideo', !this.bMobi)
+    // On Firebase auth state change
+    this.$DCFB.fb.auth().onAuthStateChanged((user) => {
+      // console.log(this.$DCFB.fb.auth().currentUser)
+      // Toggle auth state to false
+      this.$store.commit('authChange', false)
+      this.$nextTick(() => {
+        // Set auth state
+        this.$store.commit('authChange', !!user)
+        // If logged in
+        if (!user) {
+          // Sign in anonymously and wait, WAIT PLS
+          this.$DCFB.fb.auth().signInAnonymously()
+          return
+        } else {
+          // Update store
+          this.$store.commit('setUser', user)
+        }
+
+        // Initialise DCFB plugin
+        this.$DCFB.init(user.uid)
+
+        // redirect to somewhere meaningful
+        if (user.isAnonymous && !this.$route.name) {
+          this.$router.push({name: 'about'})
+        } else if (!this.$route.name) {
+          this.$router.push({name: 'home', user: user.uid})
+        }
+        // set isMobile in store for router guard (close menus on back)
+        this.$store.commit('isMobile', this.$vuetify.breakpoint.smAndDown)
+
+        // Get settings
+        this.$DCFB.settings.once('value', (snapshot) => {
+          if (snapshot.val() !== null) {
+            this.$store.commit('settings', snapshot.val())
           }
-
-          // Initialise DCFB plugin
-          this.$DCFB.init(user.uid)
-
-          // redirect to somewhere meaningful
-          if (user.isAnonymous && !this.$route.name) {
-            this.$router.push({name: 'about'})
-          } else if (!this.$route.name) {
-            this.$router.push({name: 'historyRecommended', user: this.uid})
-          }
-          // set isMobile in store for router guard (close menus on back)
-          this.$store.commit('isMobile', this.$vuetify.breakpoint.smAndDown)
-
-          // Get settings
-          this.$DCFB.settings.once('value', (snapshot) => {
-            if (snapshot.val() !== null) {
-              this.$store.commit('settings', snapshot.val())
-            }
-            // this.listViewSmall = !!snapshot
-          })
+          // this.listViewSmall = !!snapshot
         })
       })
-    }
+    })
   }
+}
 </script>
 
 <style>
@@ -368,19 +382,20 @@
     z-index: 2147483647 !important;
   }
   @media only screen and (min-width: 600px){
-    /* #main-cont{ */
-      /* margin-top: 35px; */
+    #main-cont{
+      /* padding-top: 20px !important; */
       /* margin-bottom: 35px; */
-    /* } */
+    }
     #foot{
       padding: 0 !important;
       /* height: 55px !important; */
     }
   }
   @media only screen and (max-width: 599px){
-    /* #main-cont{ */
-      /* margin-top: 16px !important; */
-    /* } */
+    #main-cont{
+      padding-bottom: 90px !important;
+      /* margin-top: 106px !important; */
+    }
     #foot .v-input {
       margin-top: -10px;
     }

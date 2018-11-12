@@ -2,15 +2,18 @@
   <v-flex 
     v-show="show" 
     xs12 
-    class="loading">
+    class="loading"
+  >
     <infinite-loading 
       :ref="reff" 
       :spinner="spinner" 
-      @infinite="infiniteHandler">
+      @infinite="infiniteHandler"
+    >
       <span slot="no-more"/>
       <span 
         v-if="!spinner" 
-        slot="spinner"/>
+        slot="spinner"
+      />
     </infinite-loading>
   </v-flex>
 </template>

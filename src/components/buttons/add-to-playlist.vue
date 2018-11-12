@@ -1,19 +1,22 @@
 <template>
   <span 
     :class="{w100: inList}" 
-    style="display:inline-block">
+    style="display:inline-block"
+  >
     <!-- LIST -->
     <v-list-tile 
       v-if="inList" 
       ripple 
       class="w100" 
-      @click.stop="openMenu">
+      @click.stop="openMenu"
+    >
       <v-list-tile-title>Add to playlist</v-list-tile-title>
       <v-list-tile-action>
         <v-btn 
           :disabled="disabled" 
           :color='btnCol' 
-          icon>
+          icon
+        >
           <v-icon>playlist_add</v-icon>
         </v-btn>    
       </v-list-tile-action>
@@ -22,14 +25,16 @@
     <!-- BUTTON ONLY -->
     <v-tooltip 
       v-else 
-      top >
+      top
+    >
       <v-btn 
         slot="activator" 
         :disabled="disabled" 
         :color='btnCol' 
         class="ml-2" 
         icon 
-        @click.stop="openMenu" >
+        @click.stop="openMenu"
+      >
         <v-icon>playlist_add</v-icon>
       </v-btn>
       <span>Add to playist</span>
@@ -39,11 +44,13 @@
     <v-dialog 
       v-model="menuOpen" 
       dark 
-      maxWidth="500px">
+      maxWidth="500px"
+    >
       <!-- height="385" -->
       <v-card 
         :height="cardHeight1" 
-        flat>
+        flat
+      >
         <v-card-text class="title fwl ma-0 pa-2">
           Add to playlist
         </v-card-text>
@@ -69,10 +76,12 @@
           >
             <template 
               slot="item" 
-              slot-scope="data">
+              slot-scope="data"
+            >
               <v-list-tile-content 
                 @click="clicked(data.item)" 
-                v-text="data.item.name"/>
+                v-text="data.item.name"
+              />
             </template>
           </v-autocomplete>
         </v-card-actions>

@@ -3,19 +3,22 @@
     v-if="inList" 
     ripple 
     @click.stop="emitDelete" 
-    @mouseleave="clicks = clickedTwice ? 2 : 0" >
-    <v-list-tile-title>Delete from playlist</v-list-tile-title>
+    @mouseleave="clicks = clickedTwice ? 2 : 0"
+  >
+    <v-list-tile-title>Delete</v-list-tile-title>
     <v-list-tile-action>
       <v-btn 
         :color="color" 
-        icon>
+        icon
+      >
         <v-icon :color="clickedOnce ? 'whit1e': ''">{{ dlIcn }}</v-icon>
       </v-btn>
     </v-list-tile-action>
   </v-list-tile>
   <v-tooltip 
     v-else 
-    top >
+    top
+  >
     <v-btn 
       slot="activator" 
       v-bind="$props" 
@@ -23,10 +26,11 @@
       class="del-btn" 
       icon 
       @click.stop="emitDelete" 
-      @mouseleave="clicks = clickedTwice ? 2 : 0">
+      @mouseleave="clicks = clickedTwice ? 2 : 0"
+    >
       <v-icon :color="clickedOnce ? 'white': ''">{{ dlIcn }}</v-icon>
     </v-btn>
-    <span>Delete from playlist</span>
+    <span>Delete</span>
   </v-tooltip>
 
 

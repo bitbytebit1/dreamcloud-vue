@@ -21,7 +21,8 @@
             class="fl-r" 
             type="color" 
             @input="setPrimary" 
-            @change="setPrimary">
+            @change="setPrimary"
+          >
         </v-list-tile-action>
       </v-list-tile>
       <v-divider/>
@@ -42,7 +43,8 @@
             type="color" 
             value="" 
             @input="setHeadFoot" 
-            @change="setHeadFoot">
+            @change="setHeadFoot"
+          >
         </v-list-tile-action>
       </v-list-tile>
       <v-divider/>
@@ -63,7 +65,8 @@
             type="color" 
             value="" 
             @input="setSide" 
-            @change="setSide">
+            @change="setSide"
+          >
         </v-list-tile-action>
       </v-list-tile>
       <v-divider/>
@@ -84,7 +87,8 @@
             type="color" 
             value="" 
             @input="setApp" 
-            @change="setApp">
+            @change="setApp"
+          >
         </v-list-tile-action>
       </v-list-tile>
       <v-divider/>
@@ -106,7 +110,8 @@
             type="color" 
             value="" 
             @input="setCard" 
-            @change="setCard">
+            @change="setCard"
+          >
         </v-list-tile-action>
       </v-list-tile>
       <v-divider/>
@@ -128,7 +133,8 @@
             height="20" 
             color="primary" 
             class="fl-r pa-0 ma-0" 
-            @change="blackState ? '' : nightMode()"/>
+            @change="blackState ? '' : nightMode()"
+          />
         </v-list-tile-action>
       </v-list-tile>
       <v-divider/>
@@ -149,7 +155,8 @@
             height="20" 
             color="primary" 
             class="fl-r pa-0 ma-0" 
-            @change="blackMode"/>
+            @change="blackMode"
+          />
         </v-list-tile-action>
       </v-list-tile>
       <v-divider/>
@@ -169,7 +176,8 @@
             small 
             icon 
             class="fl-r pa-0 ma-0" 
-            @click="randomTheme">
+            @click="randomTheme"
+          >
             <v-icon>cached</v-icon>
           </v-btn>
         </v-list-tile-action>
@@ -190,7 +198,8 @@
             ref="resetTheme" 
             small 
             icon 
-            class="fl-r pa-0 ma-0">
+            class="fl-r pa-0 ma-0"
+          >
             <v-icon>restore</v-icon>
           </v-btn>
         </v-list-tile-action>

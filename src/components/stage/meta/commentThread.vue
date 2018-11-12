@@ -3,20 +3,24 @@
     <v-layout 
       row 
       wrap 
-      class="ma-0 pa-0">
+      class="ma-0 pa-0"
+    >
       <v-flex 
         xs1 
         sm1 
-        style="min-width:64px"/>
+        style="min-width:64px"
+      />
       <v-flex 
         xs11 
         class="pointer body-1 comMor" 
-        @click="show = !show">
+        @click="show = !show"
+      >
         {{ show ? `Hide ${totalReplyCount} replies` : `Show ${totalReplyCount} replies` }} 
         <v-icon size="18">{{ show ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
         <orbit 
           v-if="bLoading" 
-          class="my-3 ml-4"/>
+          class="my-3 ml-4"
+        />
       </v-flex>
     </v-layout>
 
@@ -39,21 +43,26 @@
       >
         <v-card 
           class="py-2" 
-          flat>
+          flat
+        >
           <v-layout row>
             <v-flex 
               xs1 
               sm1 
-              style="min-width:64px">
+              style="min-width:64px"
+            >
               <router-link 
                 :to="{name: 'artist', params: {source: source, artist: props.item.artist, artistID: props.item.artistID}}" 
-                class="body-1 grey--text noDeco pl-2">
+                class="body-1 grey--text noDeco pl-2"
+              >
                 <v-avatar 
                   size="40" 
-                  color="grey lighten-4">
+                  color="grey lighten-4"
+                >
                   <img 
                     :src="props.item.artistIMG" 
-                    alt="avatar">
+                    alt="avatar"
+                  >
                 </v-avatar>
               </router-link>
             </v-flex>
@@ -63,14 +72,16 @@
                   <!-- ARTIST -->
                   <router-link 
                     :to="{name: 'artist', params: {source: source, artist: props.item.artist, artistID: props.item.artistID}}" 
-                    class="body-1 grey--text noDeco">
+                    class="body-1 grey--text noDeco"
+                  >
                     <strong>{{ props.item.artist }}</strong> 
                   </router-link>
                 <!-- CREATED -->
                 <span>{{ ' ' + $DCAPI.calcDate('', props.item.commentCreated) }}</span></div>
                 <div 
                   class="body-1 preline py-1" 
-                  v-html="timeToSeconds(props.item.comment)"/>
+                  v-html="timeToSeconds(props.item.comment)"
+                />
               </div>
             </v-flex>
           </v-layout>

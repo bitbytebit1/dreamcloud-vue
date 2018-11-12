@@ -3,12 +3,14 @@
     flexbox 
     xs12 
     lg10 
-    class="ma-0 pa-0">
+    class="ma-0 pa-0"
+  >
     <div class="headline fwl text-xs-left pl-2 pt-2">Subscriptions</div>
     <v-container 
       fluid 
       grid-list-md 
-      class="ma-0 pa-0">
+      class="ma-0 pa-0"
+    >
       <v-layout 
         row 
         wrap
@@ -17,7 +19,8 @@
 
         <v-flex 
           xs12 
-          class="mb-3">
+          class="mb-3"
+        >
           <!-- filter -->
           <v-text-field
             ref="search"
@@ -57,7 +60,8 @@
             <v-card 
               :to="{name: 'artist', params: {source: props.item.source, artist: props.item.name, artistID: props.item.id }}" 
               :key="props.item.name_lower" 
-              class="pointer">
+              class="pointer"
+            >
               <v-avatar
                 :size="((!$store.getters.drawLeft && !$UTILS.isMobile ? 21 : 0) + 95 + (!$store.getters.drawRight && !$UTILS.isMobile ? 21 : 0)) + 'px'"
                 class="mt-2"

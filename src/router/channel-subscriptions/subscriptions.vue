@@ -23,7 +23,8 @@
       <v-container 
         grid-list-lg 
         class="pa-0" 
-        fluid>
+        fluid
+      >
         <v-data-iterator
           v-if="$store.getters.auth_state"
           :items="aSubs"
@@ -47,7 +48,8 @@
             <!-- <v-card :to="{name: 'userPlaylist', params: {user: $route.params['user'], playlist: $route.params['playlist'], name: $route.params['name'] }}" class="pointer"> -->
             <v-card 
               :to="{name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID }}" 
-              class="pointer dc-crd">
+              class="pointer dc-crd"
+            >
               <v-layout row>
                 <v-flex xs2>
                   <v-img

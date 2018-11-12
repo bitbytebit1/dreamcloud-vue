@@ -2,19 +2,22 @@
   <v-flex 
     xs12 
     lg10 
-    flexbox>
+    flexbox
+  >
     <!-- <loading v-if="loading"></loading> --> 
     <playlist 
       v-if="!loading && !bFailed" 
       :show-uploaded="!0" 
       :songs="searchResults" 
-      rows-per-page='50'/> 
+      rows-per-page='-1'
+    /> 
     <infinite-loading 
       v-if="!loading" 
       ref="infiniteLoading" 
       :distance="210" 
       spinner="waveDots" 
-      @infinite="infiniteHandler">
+      @infinite="infiniteHandler"
+    >
       <span slot="no-more"/>
       <span slot="no-results"/>
     </infinite-loading>

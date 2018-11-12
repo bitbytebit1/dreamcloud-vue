@@ -2,7 +2,8 @@
   <v-flex 
     xs12 
     lg10 
-    class="pt-3">
+    class="pt-3"
+  >
     <v-tabs
       v-model="tab"
       dark
@@ -22,7 +23,8 @@
       :show-uploaded="!0" 
       :sort-by="null" 
       :songs="songs" 
-      rows-per-page="-1"/>
+      rows-per-page="-1"
+    />
   </v-flex>
 </template>
 <script>
@@ -62,7 +64,7 @@ export default {
         return this.sc
       }
       if (this.tab == 2) {
-      return this.yt
+        return this.yt
       }
     },
     all () {

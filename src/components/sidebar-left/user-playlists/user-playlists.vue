@@ -4,7 +4,8 @@
     <!-- HEADER PLAYLIST -->
     <v-subheader 
       class="pointer" 
-      @click="closeLeftOnMobile();$router.push({name: 'playlistOverview', params: {user: uid}})">
+      @click="closeLeftOnMobile();$router.push({name: 'playlistOverview', params: {user: uid}})"
+    >
       <div>
         Playlists
       </div>
@@ -12,7 +13,8 @@
         v-if="bUIShowMore" 
         icon 
         class="ar17" 
-        @click.stop="(bShowMore = !bShowMore, pagination.rowsPerPage = bShowMore ? -1 : 7)">
+        @click.stop="(bShowMore = !bShowMore, pagination.rowsPerPage = bShowMore ? -1 : 7)"
+      >
         <v-icon>{{ bShowMore ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
       </v-btn>
     </v-subheader>
@@ -23,7 +25,8 @@
       :to="{name:'playlistsAll', params: {user: uid}}" 
       active-class="secondary white--text" 
        
-      @click.stop="closeLeftOnMobile">
+      @click.stop="closeLeftOnMobile"
+    >
       <v-list-tile-action>
         <v-icon>music_note</v-icon>
       </v-list-tile-action>
@@ -36,7 +39,8 @@
     <!-- FILTER -->
     <v-list-tile 
        
-      @click.stop="$refs.search.focus()">
+      @click.stop="$refs.search.focus()"
+    >
       <v-list-tile-action @click="search.length > 0 ? search='' : ''">
         <!-- ICON -->
         <v-icon :color="filterHasFocus ? 'primary' : ''">{{ filterLeng > 0 ? 'clear' : 'filter_list' }}</v-icon>
@@ -72,12 +76,14 @@
       <!-- FOOTER -->
       <v-flex 
         v-if="bUIShowMore" 
-        slot="footer">
+        slot="footer"
+      >
         <v-btn 
           small 
           block 
           color="transparent" 
-          @click="(bShowMore = !bShowMore, pagination.rowsPerPage = bShowMore ? -1 : 7)">
+          @click="(bShowMore = !bShowMore, pagination.rowsPerPage = bShowMore ? -1 : 7)"
+        >
           {{ bShowMore ? 'SHOW LESS' : 'SHOW MORE' }}
         </v-btn>
       </v-flex>
@@ -105,10 +111,13 @@
         </v-list-tile-content>
 
         <!-- DELETE BUTTON -->
-        <span class="delete">
+        <span 
+          class="delete"
+        >
           <delete-button 
             :id="props.item['.key']" 
-            @delete="playlistDelete"/>
+            @delete="playlistDelete"
+          />
         </span>
       </v-list-tile>
     </v-data-iterator>

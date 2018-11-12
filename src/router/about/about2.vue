@@ -1,44 +1,54 @@
 <template>
   <v-flex 
     xs12 
-    class="ma-0 pa-0 nyafarious">
+    class="ma-0 pa-0 nyafarious"
+  >
 
     <v-parallax 
       src="" 
-      height="2300">
+      height="2300"
+    >
       <v-container grid-list-lg>
         <v-layout 
           row 
           wrap 
-          justify-center>
+          justify-center
+        >
           <v-flex 
             xs12 
-            style="height:250px">
+            style="height:250px"
+          >
             <img 
               height="250" 
-              src="@/assets/logo-blue.png" >
+              src="@/assets/logo-blue.png"
+            >
           </v-flex>
           <v-flex 
             xs12 
-            xl7>
+            xl7
+          >
             <v-btn 
               :to="{name: 'explore'}" 
               block 
               large 
-              color="primary white--text">get started </v-btn>
+              color="primary white--text"
+            >get started </v-btn>
           </v-flex>
           <v-flex 
             xs12 
-            xl7>
+            xl7
+          >
             <v-dialog
               max-width="3000"
             >
               <v-card 
                 slot="activator"
-                class="ma-0 mt-2 btn">
+                class="ma-0 mt-2 btn"
+              >
                 <v-container 
                   fluid 
-                  grid-list-lg>
+                  grid-list-lg
+                >
                   <v-layout row>
                     <v-flex xs5>
                       <v-card-media
@@ -49,7 +59,8 @@
                     </v-flex>
                     <v-flex 
                       xs7 
-                      class="text-xs-left">
+                      class="text-xs-left"
+                    >
                       <div>
                         <div class="headline">Search</div>
                         <div>Bandcamp, Mixcloud, Soundcloud, YouTube and Vimeo</div>
@@ -77,10 +88,12 @@
 
             <v-card 
               class="ma-0 mt-2 btn" 
-              href="https://discord.gg/RzP7dwA">
+              href="https://discord.gg/RzP7dwA"
+            >
               <v-container 
                 fluid 
-                grid-list-lg>
+                grid-list-lg
+              >
                 <v-layout row>
                   <v-flex xs5>
                     <v-card-media
@@ -91,7 +104,8 @@
                   </v-flex>
                   <v-flex 
                     xs7 
-                    class="text-xs-left">
+                    class="text-xs-left"
+                  >
                     <div>
                       <div class="headline">Vibrant Community</div>
                       <div>Join our friendly community and contribute to the development</div>
@@ -106,10 +120,12 @@
             >
               <v-card 
                 slot="activator"
-                class="ma-0 mt-2 btn">
+                class="ma-0 mt-2 btn"
+              >
                 <v-container 
                   fluid 
-                  grid-list-lg>
+                  grid-list-lg
+                >
                   <v-layout row>
                     <v-flex xs5>
                       <v-card-media
@@ -120,7 +136,8 @@
                     </v-flex>
                     <v-flex 
                       xs7 
-                      class="text-xs-left">
+                      class="text-xs-left"
+                    >
                       <div>
                         <div class="headline">Listen to music</div>
                         <div>Organise all your music in one place</div>

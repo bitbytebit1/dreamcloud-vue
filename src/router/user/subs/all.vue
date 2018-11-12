@@ -3,17 +3,20 @@
     :key="$route.params.playlist" 
     xs12 
     lg10 
-    flexbox>
+    flexbox
+  >
     <div 
       v-if="bLoading || aPlaylists2.length" 
-      class="headline fwl text-xs-left pl-2 pt-2">Latest from your subscriptions</div>
+      class="headline fwl text-xs-left pl-2 pt-2"
+    >Latest from your subscriptions</div>
 
     <playlist 
       v-if="bLoading || aPlaylists2.length" 
       :songs="aPlaylists" 
       :show-uploaded="!0" 
       sort-by="uploaded" 
-      rows-per-page="50"/>
+      rows-per-page="50"
+    />
 
     <jumbo 
       v-else
@@ -83,16 +86,16 @@ export default {
       }, 3000)
       for (var sub in this.subscriptions) {
         this.$DCAPI.searchInt(0, 0, [this.subscriptions[sub].source], this.subscriptions[sub].id,
-          (songs) => {
-            this.bLoadedSubs += 1
-            !impatient && this.$store.commit('loadValue', (100 / this.subscriptions.length) * this.bLoadedSubs)
-            this.aPlaylists2 = this.aPlaylists2.concat(songs)
-            this.aPlaylists2.sort(this.$DCAPI.sortDate)
-            if (this.subscriptions.length === this.bLoadedSubs || impatient) {
-              !impatient && this.$store.commit('loadValue', 0)
-              this.aPlaylists = this.aPlaylists2
-            }
-          }, false, 5)
+                              (songs) => {
+                                this.bLoadedSubs += 1
+                                !impatient && this.$store.commit('loadValue', (100 / this.subscriptions.length) * this.bLoadedSubs)
+                                this.aPlaylists2 = this.aPlaylists2.concat(songs)
+                                this.aPlaylists2.sort(this.$DCAPI.sortDate)
+                                if (this.subscriptions.length === this.bLoadedSubs || impatient) {
+                                  !impatient && this.$store.commit('loadValue', 0)
+                                  this.aPlaylists = this.aPlaylists2
+                                }
+        }, false, 5)
       }
     }
   }

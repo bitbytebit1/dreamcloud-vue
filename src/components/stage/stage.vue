@@ -2,7 +2,8 @@
   <v-flex 
     v-if="$store.getters.index !== -1" 
     d-flex 
-    xs12>
+    xs12
+  >
     <video-stage/>
     <audio-stage/>
   </v-flex>

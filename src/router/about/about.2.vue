@@ -2,36 +2,43 @@
   <v-flex 
     :style="{ 'background-image': background }" 
     xs12 
-    class="ma-0 pa-0 pb-3 bg-rp">
+    class="ma-0 pa-0 pb-3 bg-rp"
+  >
     <v-container grid-list-lg>
       <v-layout 
         row 
         wrap 
-        justify-center>
+        justify-center
+      >
         <!-- LOGO -->
         <v-flex 
           xs12 
-          style="height:250px">
+          style="height:250px"
+        >
           <img 
             height="250" 
-            src="@/assets/logo-blue.png" >
+            src="@/assets/logo-blue.png"
+          >
         </v-flex>
         <!-- GET STARTED BUTTON -->
         <v-flex 
           xs12 
           lg9 
-          xl7>
+          xl7
+        >
           <v-btn 
             :to="{name: 'explore'}" 
             block 
             large 
-            color="primary white--text">get started </v-btn>
+            color="primary white--text"
+          >get started </v-btn>
         </v-flex>
         <!-- ABOUT FEATURE DIALOG -->
         <v-dialog 
           v-model="dialog" 
           scrollable 
-          width="500">
+          width="500"
+        >
           <v-card>
             <!-- HEADER -->
             <v-card-title primary-title>
@@ -41,14 +48,16 @@
             <!-- DESCRIPTION -->
             <v-card-text 
               style="height: 300px;" 
-              class="preline wordbreak">
+              class="preline wordbreak"
+            >
               {{ items[cardIndex].moreText }}
             </v-card-text>
             <v-divider/>
             <v-card-actions>
               <v-btn 
                 color="blue darken-1"  
-                @click.native="dialog = false">Close</v-btn>
+                @click.native="dialog = false"
+              >Close</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -59,11 +68,13 @@
           :key="index" 
           xs12 
           lg9 
-          xl7>
+          xl7
+        >
           <v-card class="ma-0">
             <v-container 
               fluid 
-              grid-list-lg>
+              grid-list-lg
+            >
               <v-layout row>
                 <v-flex xs5>
                   <!-- IMAGE -->
@@ -75,7 +86,8 @@
                 </v-flex>
                 <v-flex 
                   xs7 
-                  class="text-xs-left">
+                  class="text-xs-left"
+                >
                   <div>
                     <!-- TEXT -->
                     <div class="headline">{{ item.headline }}</div>
@@ -87,7 +99,8 @@
                     class="ma-0" 
                     color="primary" 
                     dark 
-                    @click="(cardIndex = index, dialog = true)">Read more</v-btn>
+                    @click="(cardIndex = index, dialog = true)"
+                  >Read more</v-btn>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -181,8 +194,8 @@ export default {
   computed: {
     background () {
       return this.$store.getters.nightMode 
-      ? 'url("https://www.toptal.com/designers/subtlepatterns/patterns/random_grey_variations.png")' 
-      : 'url("https://www.toptal.com/designers/subtlepatterns/patterns/escheresque.png")'
+        ? 'url("https://www.toptal.com/designers/subtlepatterns/patterns/random_grey_variations.png")' 
+        : 'url("https://www.toptal.com/designers/subtlepatterns/patterns/escheresque.png")'
     }
   }
 }

@@ -2,7 +2,8 @@
   <!-- v-show="!(index === 0 && $store.getters.bShowStage)" -->
   <v-flex 
     xs12 
-    @click.stop="play" >
+    @click.stop="play"
+  >
     <v-card>
       <!-- image -->
       <v-img
@@ -20,27 +21,32 @@
         >
           <v-progress-circular 
             indeterminate 
-            color="grey lighten-5"/>
+            color="grey lighten-5"
+          />
         </v-layout>
         <span 
           class="card-duration" 
-          v-text="song.duration"/>
+          v-text="song.duration"
+        />
       </v-img>
 
       <!-- song actions -->
       <v-card-actions 
         class="" 
-        @click.stop>
+        @click.stop
+      >
         <v-layout 
           row 
-          wrap>
+          wrap
+        >
           <v-flex xs12>
             {{ song.title }}
           </v-flex>
           <v-flex xs12>
             <router-link 
               :to="{name: 'artist', params: {source: song.source, artist: song.artist, artistID: song.artistID}}" 
-              class="noDeco pointer artist">
+              class="noDeco pointer artist"
+            >
               {{ song.artist }}
             </router-link>
           </v-flex>
@@ -51,7 +57,8 @@
                 slot="activator" 
                 :disabled="!desc" 
                 icon 
-                @click.stop.native="show = !show">
+                @click.stop.native="show = !show"
+              >
                 <v-icon>{{ show ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
               </v-btn>
               <span>Show description</span>
@@ -59,13 +66,15 @@
             <!-- share button -->
             <share-button 
               :song="song" 
-              :url="'https://dreamcloud.netlify.com/#/t/' + song.source + '/' + encodeURIComponent(song.artist) + '/' + song.trackID"/>
+              :url="'https://dreamcloud.netlify.com/#/t/' + song.source + '/' + encodeURIComponent(song.artist) + '/' + song.trackID"
+            />
             <!-- download button -->
             <download-button :links="[song]"/>
             <!-- add to playlist -->
             <add-to-playlist 
               v-if="$store.getters.auth_state" 
-              :song="song"/>
+              :song="song"
+            />
           </v-flex>
         </v-layout>
 
@@ -82,7 +91,8 @@
           <v-card-text 
             class="wordbreak" 
             @click.stop 
-            v-html="ytTimeToSeconds(desc)"/>
+            v-html="ytTimeToSeconds(desc)"
+          />
         </div>
         <!-- </transition> -->
       </v-slide-y-transition>

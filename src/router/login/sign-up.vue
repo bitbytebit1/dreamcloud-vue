@@ -4,10 +4,12 @@
       row 
       wrap 
       justify-center 
-      align-center>
+      align-center
+    >
       <v-flex 
         xs12 
-        lg5>
+        lg5
+      >
         <v-flex xs12>
           <h3>Create account</h3>
         </v-flex>
@@ -15,7 +17,8 @@
           xs10 
           offset-xs1 
           offset-lg2 
-          lg8>
+          lg8
+        >
           <v-text-field
             v-model="email"
             label="Email"
@@ -41,27 +44,27 @@
 
 <script>
   // /* eslint-disable */
-  export default {
-    name: 'SignUp',
-    data () {
-      return {
-        email: '',
-        password: ''
-      }
-    },
-    methods: {
-      signUp () {
-        this.$DCFB.fb.auth().createUserWithEmailAndPassword(this.email, this.password).then(
-          () => {
-            this.$router.replace('user')
-          },
-          (err) => {
-            alert('Oops. ' + err.message)
-          }
-        )
-      }
+export default {
+  name: 'SignUp',
+  data () {
+    return {
+      email: '',
+      password: ''
+    }
+  },
+  methods: {
+    signUp () {
+      this.$DCFB.fb.auth().createUserWithEmailAndPassword(this.email, this.password).then(
+        () => {
+          this.$router.replace('user')
+        },
+        (err) => {
+          alert('Oops. ' + err.message)
+        }
+      )
     }
   }
+}
 </script>
 
 <style scoped>

@@ -2,13 +2,15 @@
   <v-flex 
     xs12 
     lg10 
-    class="mt-3">
+    class="mt-3"
+  >
     <artist-info 
       ref="artistInfo" 
       :artistID="artistID" 
       :source="source" 
       :artist="artist" 
-      :key="artistID"/>
+      :key="artistID"
+    />
     <v-tabs
       ref="tabs"
       v-model="tab"
@@ -30,7 +32,8 @@
         <playlist 
           :songs="searchResults" 
           sortBy="uploaded" 
-          rowsPerPage='84'/>
+          rowsPerPage='84'
+        />
       </v-tab-item>
       <v-tab-item>
         <playlists :aPlaylist="aPlaylists"/>
@@ -81,9 +84,9 @@ export default {
   },
   watch: {
     '$route.params.artistID': {
-        immediate: true,
-        handler: '_search'
-      }
+      immediate: true,
+      handler: '_search'
+    }
   },
   methods: {
     getSubs (artistID, source) {

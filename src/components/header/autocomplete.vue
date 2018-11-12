@@ -20,10 +20,12 @@
   >
     <template 
       slot="item" 
-      slot-scope="data">
+      slot-scope="data"
+    >
       <v-list-tile-content 
         @click="clicked(data.item)" 
-        v-text="data.item"/>
+        v-text="data.item"
+      />
     </template>
   </v-autocomplete>
 </template>

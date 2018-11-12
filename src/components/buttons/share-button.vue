@@ -2,12 +2,14 @@
   <v-list-tile 
     v-if="inList" 
     ripple 
-    @click.stop="share">
+    @click.stop="share"
+  >
     <v-list-tile-title>Copy to clipboard</v-list-tile-title>
     <v-list-tile-action>
       <v-btn 
         :color="color" 
-        icon>
+        icon
+      >
         <v-icon>share</v-icon>
       </v-btn>
     </v-list-tile-action>
@@ -15,12 +17,14 @@
 
   <v-tooltip 
     v-else 
-    top >
+    top
+  >
     <v-btn 
       slot="activator" 
       :color="color" 
       icon 
-      @click.stop="share">
+      @click.stop="share"
+    >
       <v-icon>share</v-icon>
     </v-btn>
     <span>Share link</span>

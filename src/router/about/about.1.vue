@@ -2,11 +2,13 @@
   <v-flex xs12>
     <v-container 
       fill-height 
-      fluid>
+      fluid
+    >
       <v-layout 
         fill-height 
         row 
-        wrap>
+        wrap
+      >
         <v-flex xs12>
           <h1 class="display-3 fwl">dreamcloud?</h1>
         </v-flex>
@@ -16,7 +18,8 @@
           </v-flex>
           <v-flex 
             xs12 
-            class="heading">
+            class="heading"
+          >
             Listen to music
           </v-flex>
         </v-flex>
@@ -27,7 +30,8 @@
           </v-flex>
           <v-flex 
             xs12 
-            class="heading">
+            class="heading"
+          >
             One click download
           </v-flex>
         </v-flex>
@@ -38,7 +42,8 @@
           </v-flex>
           <v-flex 
             xs12 
-            class="heading">
+            class="heading"
+          >
             Watch videos
           </v-flex>
         </v-flex>
@@ -50,7 +55,8 @@
           </v-flex>
           <v-flex 
             xs12 
-            class="heading">
+            class="heading"
+          >
             Save mobile data
           </v-flex>
         </v-flex>
@@ -61,7 +67,8 @@
           </v-flex>
           <v-flex 
             xs12 
-            class="heading">
+            class="heading"
+          >
             Play videos in the background
           </v-flex>
         </v-flex>
@@ -72,7 +79,8 @@
           </v-flex>
           <v-flex 
             xs12 
-            class="heading">
+            class="heading"
+          >
             Cross-platform
           </v-flex>
         </v-flex>
@@ -83,7 +91,8 @@
           </v-flex>
           <v-flex 
             xs12 
-            class="heading">
+            class="heading"
+          >
             Follow artists
           </v-flex>
         </v-flex>
@@ -94,7 +103,8 @@
           </v-flex>
           <v-flex 
             xs12 
-            class="heading">
+            class="heading"
+          >
             Create playlists
           </v-flex>
         </v-flex>
@@ -105,7 +115,8 @@
           </v-flex>
           <v-flex 
             xs12 
-            class="heading">
+            class="heading"
+          >
             Share with your friends
           </v-flex>
         </v-flex>
@@ -116,7 +127,8 @@
           </v-flex>
           <v-flex 
             xs12 
-            class="heading">
+            class="heading"
+          >
             Stay up to date
           </v-flex>
         </v-flex>
@@ -127,7 +139,8 @@
           </v-flex>
           <v-flex 
             xs12 
-            class="heading">
+            class="heading"
+          >
             Discover new music
           </v-flex>
         </v-flex>
@@ -138,7 +151,8 @@
           </v-flex>
           <v-flex 
             xs12 
-            class="heading">
+            class="heading"
+          >
             100% free
           </v-flex>
         </v-flex>

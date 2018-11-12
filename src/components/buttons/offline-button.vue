@@ -3,12 +3,14 @@
     v-if="inList" 
     :disabled="disabled" 
     ripple 
-    @click.stop="toggleOffline">
+    @click.stop="toggleOffline"
+  >
     <v-list-tile-title>Save offline</v-list-tile-title>
     <v-list-tile-action>
       <v-btn 
         :loading="loading" 
-        icon>
+        icon
+      >
         <v-icon :color="btnColor">{{ btnIcon }}</v-icon>
       </v-btn>
     </v-list-tile-action>
@@ -18,7 +20,8 @@
     :disabled="disabled" 
     :loading="loading" 
     icon 
-    @click.stop="toggleOffline">
+    @click.stop="toggleOffline"
+  >
     <v-icon :color="btnColor">{{ btnIcon }}</v-icon>
   </v-btn>
 </template>

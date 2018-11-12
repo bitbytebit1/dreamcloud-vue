@@ -2,14 +2,17 @@
   <v-flex 
     justify-center 
     align-center 
-    class="loading-flex mt-3">
+    class="loading-flex mt-3"
+  >
     <div class="half-circle-spinner">
       <div 
         :style="circle1Style" 
-        class="circle circle-1"/>
+        class="circle circle-1"
+      />
       <div 
         :style="circle2Style" 
-        class="circle circle-2"/>
+        class="circle circle-2"
+      />
     </div>
   </v-flex>
 </template>

@@ -2,7 +2,8 @@
   <v-flex 
     xs12 
     lg4 
-    class="mt-3">
+    class="mt-3"
+  >
     <!-- Loading -->
     <v-flex 
       v-if="loading"
@@ -36,7 +37,8 @@
       >
         <v-card 
           class="mb-2 pointer" 
-          color="" >
+          color=""
+        >
           <v-layout row>
             <v-flex xs5>
               <!-- image -->
@@ -55,20 +57,23 @@
                 >
                   <v-progress-circular 
                     indeterminate 
-                    color="grey lighten-5"/>
+                    color="grey lighten-5"
+                  />
                 </v-layout>
               </v-img>
             </v-flex>
             <v-flex 
               xs7 
-              class="ma-2">
+              class="ma-2"
+            >
               <div>
                 <!-- title -->
                 <div class="subheading text-xs-left wordbreak">{{ props.item.title }}</div>
                 <!-- artist -->
                 <div 
                   class="text-xs-left grey--text" 
-                  @click.stop="$router.push({name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}})">{{ props.item.artist }}</div>
+                  @click.stop="$router.push({name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}})"
+                >{{ props.item.artist }}</div>
                 <!-- duration -->
                 <div class="text-xs-left grey--text">{{ props.item.duration }}</div>
               </div>

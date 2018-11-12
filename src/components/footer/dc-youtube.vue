@@ -1,18 +1,21 @@
 <template>
   <div 
     id="dc-audio-container" 
-    class="yt">
+    class="yt"
+  >
     <div id="dc-player">
       <!-- CONTROLS -->
       <div 
         id="left" 
-        class="fl-l">
+        class="fl-l"
+      >
         <div class="fl-l">
           <v-btn 
             class="primary" 
             icon 
             outline 
-            @click="previous">
+            @click="previous"
+          >
             <v-icon>skip_previous</v-icon>
           </v-btn>
           <v-btn 
@@ -20,14 +23,16 @@
             class="primary" 
             icon 
             outline 
-            @click="togglePlay">
+            @click="togglePlay"
+          >
             <v-icon>{{ sPlayIcon }}</v-icon>
           </v-btn>
           <v-btn 
             class="primary" 
             icon 
             outline 
-            @click="next">
+            @click="next"
+          >
             <v-icon>skip_next</v-icon>
           </v-btn>
         </div>
@@ -37,11 +42,13 @@
       <div 
         id="right" 
         class="hidden-xs-only" 
-        @wheel.prevent="onWheel">
+        @wheel.prevent="onWheel"
+      >
         <v-speed-dial 
           hover 
           transition="slide-x-reverse-transition" 
-          open-on-hover>
+          open-on-hover
+        >
           <v-btn 
             slot="activator" 
             :class="volClass" 
@@ -50,12 +57,14 @@
             icon 
             outline 
             small 
-            @click.prevent="toggleMute">
+            @click.prevent="toggleMute"
+          >
             <v-icon>{{ volIcon }}</v-icon>
           </v-btn>
           <div 
             class="slider-wrapper" 
-            @click.prevent>
+            @click.prevent
+          >
             <input 
               v-model="volume" 
               class="vol-slider pointer" 
@@ -63,7 +72,8 @@
               min="0" 
               max="100" 
               step="1" 
-              @input="volumeChange">
+              @input="volumeChange"
+            >
           </div>
         </v-speed-dial>
       </div>
@@ -73,10 +83,12 @@
         <div id="progress">
           <v-layout 
             row 
-            wrap>
+            wrap
+          >
             <v-flex 
               xs12 
-              class="ml-3 mr-3">
+              class="ml-3 mr-3"
+            >
               <v-slider 
                 :thumb-size="thumbSize" 
                 :max="iDuration" 
@@ -84,7 +96,8 @@
                 v-model="iProgress" 
                 thumb-label 
                 color="primary" 
-                hide-details>
+                hide-details
+              >
                 <template
                   slot="thumb-label"
                   slot-scope="props"

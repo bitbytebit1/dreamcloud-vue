@@ -4,22 +4,26 @@
     <v-card class="elevation-0">
       <v-card-title 
         v-if="full" 
-        class="ma-0 pa-0">
+        class="ma-0 pa-0"
+      >
         <v-layout 
           row 
-          wrap>
+          wrap
+        >
           <!-- HEADER BUTTONS -->
           <v-flex 
             xs6 
             lg2 
-            class="text-xs-left mt-2">
+            class="text-xs-left mt-2"
+          >
             <!-- ENABLE CHECK BOXES -->
             <v-tooltip top>
               <v-btn 
                 v-if="auth_state" 
                 slot="activator" 
                 icon 
-                @click="bSelect = !bSelect">
+                @click="bSelect = !bSelect"
+              >
                 <v-icon :color="bSelect ? 'primary' : ''">check_box</v-icon>
               </v-btn>
               <span>Select multiple songs</span>
@@ -30,7 +34,8 @@
               <v-btn 
                 slot="activator" 
                 icon 
-                @click="$emit('toggleView')">
+                @click="$emit('toggleView')"
+              >
                 <v-icon>{{ view_mode ? 'view_module' : 'view_list' }}</v-icon>
               </v-btn>
               <span>Change view</span>
@@ -40,7 +45,8 @@
               <v-btn 
                 slot="activator" 
                 icon 
-                @click="search.length > 0 ? search='' : $refs.search.focus()" >
+                @click="search.length > 0 ? search='' : $refs.search.focus()"
+              >
                 <v-icon>{{ search.length > 0 ? 'clear': 'filter_list' }}</v-icon>
               </v-btn>
               <span>Filter</span>
@@ -49,7 +55,8 @@
           <!-- FILTER -->
           <v-flex 
             xs5 
-            lg9>
+            lg9
+          >
             <v-text-field
               id="flr-txt"
               ref="search"
@@ -68,15 +75,18 @@
             v-if="bSelect" 
             xs12 
             lg12 
-            class="text-xs-left">
+            class="text-xs-left"
+          >
             <!-- SELECT ALL -->
             <v-tooltip 
               slot="activator" 
-              top>
+              top
+            >
               <v-btn 
                 slot="activator" 
                 icon 
-                @click="(bSelectAll = !bSelectAll, bSelectAll ? selected = Object.assign([], sorted) : selected = [])">
+                @click="(bSelectAll = !bSelectAll, bSelectAll ? selected = Object.assign([], sorted) : selected = [])"
+              >
                 <v-icon :color="selected.length === filterLength ? 'primary' : ''">done_all</v-icon>
               </v-btn>
               <span>Select all</span>
@@ -84,18 +94,21 @@
 
             <download-button 
               :dis="selected.length == 0" 
-              :links="selected"/>
+              :links="selected"
+            />
 
             <delete-button 
               v-if="$route.params.playlist" 
               :disabled="selected.length == 0" 
-              @delete="removeList"/>
+              @delete="removeList"
+            />
 
             <add-to-playlist 
               v-if="auth_state" 
               key="multi" 
               :disabled="selected.length == 0" 
-              :song="selected"/>
+              :song="selected"
+            />
             
             <v-flex d-inline-flex>{{ selected.length }} of {{ filterLength }}</v-flex>
             
@@ -106,7 +119,8 @@
       <v-container 
         grid-list-lg 
         class="pa-0" 
-        fluid>
+        fluid
+      >
         <v-data-iterator
           ref="dItera"
           :headers="headers"
@@ -128,24 +142,29 @@
               <v-list>
                 <add-to-playlist 
                   :in-list="true" 
-                  :song="bSelect ? selected : [chosenSong]"/>
+                  :song="bSelect ? selected : [chosenSong]"
+                />
                 <share-button 
                   :in-list="true" 
                   :song="chosenSong" 
-                  :url="'https://dreamcloud.netlify.com/#/t/' + chosenSong.source + '/' + encodeURIComponent(chosenSong.artist) + '/' + chosenSong.trackID"/>
+                  :url="'https://dreamcloud.netlify.com/#/t/' + chosenSong.source + '/' + encodeURIComponent(chosenSong.artist) + '/' + chosenSong.trackID"
+                />
                 <delete-button 
                   v-if="chosenSong.key && !bSelect" 
                   :in-list="true" 
                   :id="chosenSong.key" 
-                  @delete="bSelect ? removeList() : remove(chosenSong.key)"/>
+                  @delete="bSelect ? removeList() : remove(chosenSong.key)"
+                />
                 <download-button 
                   :in-list="true" 
-                  :links="bSelect ? selected : [chosenSong]"/>
+                  :links="bSelect ? selected : [chosenSong]"
+                />
                 <offlineButton 
                   :in-list="true" 
                   :link1="chosenSong.mp32" 
                   :link2="chosenSong.mp3" 
-                  :track-id="chosenSong.trackID"/>
+                  :track-id="chosenSong.trackID"
+                />
               </v-list>
             </v-dialog>
           </template>
@@ -154,7 +173,8 @@
             <v-layout 
               row 
               wrap 
-              class="ma-0 pa-0">
+              class="ma-0 pa-0"
+            >
               <v-flex 
                 v-for="n in 36" 
                 :key="n" 
@@ -163,7 +183,8 @@
                 md4 
                 lg3 
                 xl2 
-                class="ma-0">
+                class="ma-0"
+              >
                 <v-card class="dc-crd ma-0 pa-0 pointer"> 
                   <!-- IMAGE -->
                   <v-img
@@ -183,14 +204,16 @@
                     <!-- TITLE -->
                     <v-flex 
                       xs10 
-                      class="dumTitle fillPlace pa-0 pt-1"/>
+                      class="dumTitle fillPlace pa-0 pt-1"
+                    />
                     <!-- ARTIST -->
                     <!-- <v-flex xs9 class="dumArtist fillPlace pa-0 pt-1" v-if="$route.name !== 'artist'"> -->
                     <!-- </v-flex> -->
                     <!-- DATE -->
                     <v-flex 
                       xs4 
-                      class="dumDate fillPlace pa-0 pt-1" />
+                      class="dumDate fillPlace pa-0 pt-1"
+                    />
                   </v-card-title>
                 </v-card>
               </v-flex>
@@ -206,11 +229,13 @@
             md4
             lg2
             xl2
-            @click.stop="!bSelect ? play(props.index) : checkItem(props.item)"
+            @click.stop="props.item.listID ? $router.push({name: 'channelPlaylist', params: {listID: props.item.listID, artistID: props.item.artistID, title: props.item.title, source: props.item.source}}) : !bSelect ? play(props.index) : checkItem(props.item)"
           >
             <!-- :color="cardColor(props)"  -->
             <v-card 
-              class="dc-crd ma-0 pa-0 pointer">
+              :color="cardColor(props)" 
+              class="dc-crd ma-0 pa-0 pointer"
+            >
               <!-- IMAGE -->
               <!-- :aspect-ratio="$route.source !== 'YouTube' ? 16/9 : '1'" -->
               <!-- :aspect-ratio="props.item.source === 'YouTube' ? 16/9 : '1'" -->
@@ -231,25 +256,29 @@
                 >
                   <v-progress-circular 
                     indeterminate 
-                    color="grey lighten-5"/>
+                    color="grey lighten-5"
+                  />
                 </v-layout>
               </v-img>
               <!-- TITLE -->
               <v-card-title class="pa-0">
                 <v-layout 
                   row 
-                  wrap>
+                  wrap
+                >
                   <v-flex xs10>
                     <!-- CHECK BOX -->
                     <v-flex 
                       v-show="bSelect" 
                       class="chkbx pa-1" 
-                      @click.stop>
+                      @click.stop
+                    >
                       <v-checkbox 
                         v-model="selected" 
                         :value="props.item" 
                         hide-details 
-                        color='primary'/>
+                        color='primary'
+                      />
                     </v-flex>
                     <!-- TITLE -->
                     <v-flex class="text-xs-left body-2 grd-txt pa-0 pt-1">
@@ -259,13 +288,15 @@
                     <v-flex 
                       v-if="$route.name !== 'artist'" 
                       class="text-xs-left grey--text grd-txt pa-0 pt-1" 
-                      @click.stop="bSelect ? checkItem(props.item) : $router.push({name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}})">
+                      @click.stop="bSelect ? checkItem(props.item) : $router.push({name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}})"
+                    >
                       {{ props.item.artist }}
                     </v-flex>
                     <!-- DATE -->
                     <v-flex 
                       v-if="$route.params.artistID || showUploaded" 
-                      class="text-xs-left grey--text grd-txt pa-0 pt-1">
+                      class="text-xs-left grey--text grd-txt pa-0 pt-1"
+                    >
                       {{ $DCAPI.calcDate(!1, props.item.uploaded) }} • {{ props.item.duration }}
                     </v-flex>
                   </v-flex>
@@ -273,12 +304,14 @@
                   <v-flex 
                     xs2 
                     class="ma-0 pa-0 pt-2" 
-                    @click.stop>
+                    @click.stop
+                  >
                     <v-btn 
                       icon 
                       small 
                       class="men fl-r ma-0 pa-0 mt-1" 
-                      @click="(chosenSong = props.item, dialog = true)">
+                      @click="(chosenSong = props.item, dialog = true)"
+                    >
                       <v-icon>more_vert</v-icon>
                     </v-btn>
                   </v-flex>

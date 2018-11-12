@@ -7,7 +7,8 @@
     offset-xs1 
     lg10 
     offset-lg1 
-    class="ma-0">
+    class="ma-0"
+  >
     <div class="headline fwl text-xs-left pl-2 pt-2 pb-2">Settings</div>
 
     <extra/>

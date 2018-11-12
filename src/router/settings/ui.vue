@@ -17,7 +17,8 @@
             hide-details 
             height="20" 
             color="primary" 
-            class="fl-r pa-0 ma-0"/>
+            class="fl-r pa-0 ma-0"
+          />
         </v-list-tile-action>
       </v-list-tile>
       <v-divider/>
@@ -36,7 +37,8 @@
             hide-details 
             height="20" 
             color="primary" 
-            class="fl-r pa-0 ma-0"/>
+            class="fl-r pa-0 ma-0"
+          />
         </v-list-tile-action>
       </v-list-tile>
       <v-divider/>

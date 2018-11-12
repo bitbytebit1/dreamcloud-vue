@@ -4,14 +4,16 @@
 
     <v-subheader 
       class="pointer" 
-      @click="closeLeftOnMobile();$router.push({name: 'userSubOverview', params: {user: uid}})">
+      @click="closeLeftOnMobile();$router.push({name: 'userSubOverview', params: {user: uid}})"
+    >
       Subscriptions
       <!-- Show more button -->
       <v-btn 
         v-if="bUIShowMore" 
         icon 
         class="ar17" 
-        @click.stop="(bShowMore = !bShowMore, pagination.rowsPerPage = bShowMore ? -1 : 7)">
+        @click.stop="(bShowMore = !bShowMore, pagination.rowsPerPage = bShowMore ? -1 : 7)"
+      >
         <v-icon>{{ bShowMore ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
       </v-btn>
     </v-subheader>
@@ -19,7 +21,8 @@
     <!-- filter -->
     <v-list-tile 
        
-      @click.stop="$refs.search.focus()">
+      @click.stop="$refs.search.focus()"
+    >
       <v-list-tile-action @click="search.length > 0 ? search='' : ''">
         <!-- icon -->
         <v-icon :color="filterHasFocus ? 'primary' : ''">{{ filterLeng > 0 ? 'clear' : 'filter_list' }}</v-icon>
@@ -53,12 +56,14 @@
     >
       <v-flex 
         v-if="bUIShowMore" 
-        slot="footer">
+        slot="footer"
+      >
         <v-btn 
           small 
           block 
           color="transparent" 
-          @click="(bShowMore = !bShowMore, pagination.rowsPerPage = bShowMore ? -1 : 7)">
+          @click="(bShowMore = !bShowMore, pagination.rowsPerPage = bShowMore ? -1 : 7)"
+        >
           {{ bShowMore ? 'SHOW LESS' : 'SHOW MORE' }}
         </v-btn>
       </v-flex>
@@ -76,10 +81,12 @@
         <v-list-tile-action color="green">
           <v-avatar 
             slot='activator' 
-            size='35px' >
+            size='35px'
+          >
             <img 
               :src="props.item['img']" 
-              :class="['sub-' + props.item['source']]">
+              :class="['sub-' + props.item['source']]"
+            >
           </v-avatar>
         </v-list-tile-action>
         <v-list-tile-content>
@@ -88,7 +95,8 @@
         <delete-button 
           :id="props.item['id']" 
           class="delete" 
-          @delete="subscriptionDelete"/>
+          @delete="subscriptionDelete"
+        />
       </v-list-tile>
     </v-data-iterator>
   </v-list>

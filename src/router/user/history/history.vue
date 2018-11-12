@@ -1,14 +1,17 @@
 <template>
   <v-flex 
     xs12 
-    lg10>
+    lg10
+  >
     <div 
       v-if="bLoading || aHistRev.length" 
-      class="headline fwl text-xs-left pl-2 pt-2">History</div>
+      class="headline fwl text-xs-left pl-2 pt-2"
+    >History</div>
     <playlist 
       v-if="bLoading || aHistRev.length" 
       :songs="aHistRev" 
-      rows-per-page='84'/>
+      rows-per-page='84'
+    />
     <jumbo
       v-else-if="bFailed"
       title="Here is supposed to be your history"

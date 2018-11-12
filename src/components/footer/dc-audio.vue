@@ -4,13 +4,15 @@
       <!-- CONTROLS -->
       <div 
         id="left" 
-        class="fl-l">
+        class="fl-l"
+      >
         <div class="fl-l">
           <v-btn 
             class="primary" 
             icon 
             outline 
-            @click="previous">
+            @click="previous"
+          >
             <v-icon>skip_previous</v-icon>
           </v-btn>
           <v-btn 
@@ -18,14 +20,16 @@
             class="primary" 
             icon 
             outline 
-            @click="$DCPlayer.togglePlay">
+            @click="$DCPlayer.togglePlay"
+          >
             <v-icon>{{ play_arrow }}</v-icon>
           </v-btn>
           <v-btn 
             class="primary" 
             icon 
             outline 
-            @click="next">
+            @click="next"
+          >
             <v-icon>skip_next</v-icon>
           </v-btn>
         </div>
@@ -35,11 +39,13 @@
       <div 
         id="right" 
         class="hidden-xs-only" 
-        @wheel.prevent="onWheel">
+        @wheel.prevent="onWheel"
+      >
         <v-speed-dial 
           hover 
           transition="slide-x-reverse-transition" 
-          open-on-hover>
+          open-on-hover
+        >
           <v-btn 
             slot="activator" 
             :class="volClass" 
@@ -48,7 +54,8 @@
             icon 
             outline 
             small 
-            @click="toggleMute">
+            @click="toggleMute"
+          >
             <v-icon>{{ volIcon }}</v-icon>
           </v-btn>
           <div class="slider-wrapper">
@@ -59,7 +66,8 @@
               min="0" 
               max="10" 
               step="0.01" 
-              @input="volumeChange">
+              @input="volumeChange"
+            >
           </div>
         </v-speed-dial>
       </div>
@@ -70,10 +78,12 @@
           <!-- <v-container fluid grid-list-md class="pa-0 ma-0"> -->
           <v-layout 
             row 
-            wrap>
+            wrap
+          >
             <v-flex 
               xs12 
-              class="ml-3 mr-3">
+              class="ml-3 mr-3"
+            >
               <v-slider 
                 :thumb-size="thumbSize" 
                 :max="eAudio.duration" 
@@ -82,7 +92,8 @@
                 thumb-label 
                 color="primary" 
                 hide-details 
-                @input="changePos">
+                @input="changePos"
+              >
                 <template
                   slot="thumb-label"
                   slot-scope="props"
@@ -102,7 +113,8 @@
     <!-- AUDIO ELEMENT -->
     <audio 
       id="dc-audio" 
-      controls/>
+      controls
+    />
   </div>
 </template>
 

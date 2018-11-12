@@ -34,7 +34,8 @@
             <v-list-tile-action>
               <v-switch 
                 v-model="aSources.All" 
-                color="primary"/>
+                color="primary"
+              />
             </v-list-tile-action>
             <v-list-tile-title>All</v-list-tile-title>
           </v-list-tile>
@@ -44,7 +45,8 @@
             <v-list-tile-action>
               <v-switch 
                 v-model="aSources.Bandcamp" 
-                color="primary"/>
+                color="primary"
+              />
             </v-list-tile-action>
             <v-list-tile-title>Bandcamp</v-list-tile-title>
           </v-list-tile>
@@ -54,7 +56,8 @@
             <v-list-tile-action>
               <v-switch 
                 v-model="aSources.MixCloud" 
-                color="primary"/>
+                color="primary"
+              />
             </v-list-tile-action>
             <v-list-tile-title>Mixcloud</v-list-tile-title>
           </v-list-tile>
@@ -64,7 +67,8 @@
             <v-list-tile-action>
               <v-switch 
                 v-model="aSources.SoundCloud" 
-                color="primary"/>
+                color="primary"
+              />
             </v-list-tile-action>
             <v-list-tile-title>SoundCloud</v-list-tile-title>
           </v-list-tile>
@@ -74,7 +78,8 @@
             <v-list-tile-action>
               <v-switch 
                 v-model="aSources.YouTube" 
-                color="primary"/>
+                color="primary"
+              />
             </v-list-tile-action>
             <v-list-tile-title>YouTube</v-list-tile-title>
           </v-list-tile>
@@ -84,7 +89,8 @@
             <v-list-tile-action>
               <v-switch 
                 v-model="aSources.Vimeo" 
-                color="primary"/>
+                color="primary"
+              />
             </v-list-tile-action>
             <v-list-tile-title>Vimeo</v-list-tile-title>
           </v-list-tile>
