@@ -1,6 +1,6 @@
 <template>
   <v-layout 
-    v-show="$store.getters.ytUseVideo && $store.getters.isYT" 
+    v-show="ytUseVideo && isYT" 
     row 
     wrap 
     class="pb-5 ma-0 pa-0"
@@ -12,7 +12,7 @@
       </div>
     </v-flex>
     <v-flex 
-      v-if="$store.getters.ytUseVideo && $store.getters.isYT" 
+      v-if="ytUseVideo && isYT" 
       dFlex 
       xs12
     >
@@ -26,7 +26,7 @@
           xs12 
           class="mt-2"
         >
-          <div class="title fwl text-xs-left">{{ $store.getters.current_song.title }}</div >
+          <div class="title fwl text-xs-left">{{ song.title }}</div >
         </v-flex>
         <!-- BUTTONS AND UPLOADED DATE/VIEWS AND DIVIDER -->
         <v-flex 
@@ -210,11 +210,15 @@ export default {
   },
   computed: {
     ...mapGetters({
-      current_song: 'current_song',
+      song: 'current_song',
       index: 'index',
       hash: 'hash',
-      trackID: 'trackID',
-      ytUseVideo: 'ytUseVideo'
+      trackID: 'current_trackID',
+      ytUseVideo: 'ytUseVideo',
+      ytObject: 'ytObject',
+      drawLeft: 'drawLeft',
+      drawRight: 'drawRight',
+      isYT: 'isYT'
     }),
     getLyrics () {
       return this.tab === 1
@@ -223,16 +227,6 @@ export default {
       return {
         'border-bottom': '1px solid ' + this.$vuetify.theme.primary,
       }
-    },
-    song () {
-      return this.$store.getters.current_song
-    },
-    showClass () {
-      return { 'hidden': this.$store.getters.ytShowVideo }
-      // return this.$store.getters.ytShowVideo
-    },
-    trackID () {
-      return this.$store.getters.current_trackID
     }
   },
   data () {
@@ -253,7 +247,7 @@ export default {
   },
   methods: {
     widescreen () {
-      this.bWide = !(this.$store.getters.drawLeft || this.$store.getters.drawRight)
+      this.bWide = !(this.drawLeft || this.drawRight)
       this.$store.commit('drawRight', this.bWide)
       this.$store.commit('drawLeft', this.bWide)
     },
@@ -264,7 +258,7 @@ export default {
       }, 2000)
     },
     getPlays () {
-      this.$DCAPI.getSongPlays(this.song.trackID, this.song.source, (data) => {
+      this.$DCAPI.getSongPlays(this.trackID, this.song.source, (data) => {
         this.iViews = this.makeFriendly(data)
       })
     },
@@ -309,7 +303,7 @@ export default {
         setTimeout(this.ytBind, 100)
         return
       }
-      if (!this.$store.getters.ytUseVideo) {
+      if (!this.ytUseVideo) {
         return
       }
       
@@ -318,7 +312,6 @@ export default {
         this.yt = new YT.Player('player', {
           width: '100%',
           videoId: this.trackID,
-          
           enablejsapi: 1,
           playerVars: {
             autoplay: 1,        // Auto-play the video on load
@@ -347,7 +340,7 @@ export default {
     ytReady (state) {
       this.$store.commit('ytObject', state.target)
       // this.$store.commit('ytState', state.data)
-      this.$store.getters.ytObject.playVideo()
+      this.ytObject.playVideo()
       window.dcYT = this.yt
     },
     ytChanged (state) {
@@ -355,25 +348,26 @@ export default {
       this.$store.commit('ytState', state.data)
       // if playing set duration amd interval to set current time.
       if (state.data === 1) {
-        this.$store.commit('ytDuration', this.$store.getters.ytObject.getDuration())
+        this.$store.commit('ytDuration', this.ytObject.getDuration())
         this.interval = setInterval(() => {
-          this.$store.commit('ytCurrentTime', this.$store.getters.ytObject.getCurrentTime())
+          this.$store.commit('ytCurrentTime', this.ytObject.getCurrentTime())
         }, 250)
       } else if (state.data === 0) {
         clearInterval(this.interval)
         this.$store.commit('ytCurrentTime', 0)
         this.$DCPlayer.next()
-        this.$DCFB.historyPush(this.$store.getters.current_song)
+        this.$DCFB.historyPush(this.song)
       } else { // if (state.data === 5 || state.data === 3 || state.data === 2) {
         clearInterval(this.interval)
       }
     },
     trackChanged () {
-      if (this.$store.getters.isYT && this.ytUseVideo) {
-        if (!this.$store.getters.ytObject.hasOwnProperty('loadVideoById')) {
+      if (this.isYT && this.ytUseVideo) {
+        // console.log('changing song')
+        if (!this.ytObject.hasOwnProperty('loadVideoById')) {
           this.ytBind()
         } else {
-          this.$store.getters.ytObject.loadVideoById(this.trackID)
+          this.ytObject.loadVideoById(this.trackID)
         }
         this.getPlays()
         this.getDesc()

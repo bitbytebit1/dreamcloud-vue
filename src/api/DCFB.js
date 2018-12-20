@@ -3,6 +3,8 @@ var firebase = require('firebase/app')
 require('firebase/auth')
 require('firebase/database')
 
+// import store from '../vuex'
+
 // http://2ality.com/2014/09/es6-modules-final.html
 // https://www.firebase.com/docs/web/guide/saving-data.html
 // https://github.com/vuejs/vuefire/issues/18
@@ -14,7 +16,14 @@ var config = {
   storageBucket: 'dreamcloud-3f276.appspot.com',
   messagingSenderId: '137974869044'
 }
-
+// window.addEventListener('beforeunload', (event) => {
+//   // Cancel the event as stated by the standard.
+//   event.preventDefault();
+//   console.log('wasd')
+//   // Chrome requires returnValue to be set.
+//   event.returnValue = 'wasssd';
+// })
+  
 class DCFB {
   constructor () {
     this.playlists = ''
@@ -33,6 +42,75 @@ class DCFB {
     this.playlistsRefs = this.db.ref('users/' + UID + '/PlaylistsNames')
     this.subscriptions = this.db.ref('users/' + UID + '/Subscriptions')
     this.history = this.db.ref('users/' + UID + '/History')
+
+    if (window.localStorage) {
+
+      // if not same user clear LS
+      if(this.getLoc('dcu') !== UID) {
+        this.setLoc('playlist', null)
+        this.setLoc('playlistrefs', null)
+        this.setLoc('subscriptions', null)
+        this.setLoc('settings', null)
+      }
+      //set current UID
+      this.setLoc('dcu', UID)
+
+      // Get settings
+      this.settings.on('value', (snap) => {
+        if (snap.val() !== null) {
+          this.setLoc('settings', JSON.stringify(snap.val()))
+        } 
+      })
+
+      // Get playlistsRefs
+      this.playlistsRefs.on('value', (snap) => {
+        if (snap.val() !== null) {
+          this.setLoc('playlistsRefs', JSON.stringify(snap.val()))
+        }
+      })
+
+      // Get playlists
+      this.playlists.on('value', (snap) => {
+        if (snap.val() !== null) {
+          this.setLoc('playlists', JSON.stringify(snap.val()))
+        }
+
+      })
+
+      // Get subscriptions
+      this.subscriptions.on('value', (snap) => {
+        if (snap.val() !== null) {
+          this.setLoc('subscriptions', JSON.stringify(snap.val()))
+        }
+      })
+
+      var connectedRef = firebase.database().ref(".info/connected")
+      connectedRef.on("value", (snap) => {
+        if (snap.val() === true) {
+          // alert("connected");
+        } else {
+          // alert("not connected");
+          let a = JSON.parse(this.getLoc('playlists'))
+          let b = JSON.parse(this.getLoc('playlistsRefs'))
+          let c = JSON.parse(this.getLoc('subscriptions'))
+          let d = JSON.parse(this.getLoc('settings'))
+          // store.commit('subscriptions', a)
+
+          a && this.playlists.update(a)
+          b && this.playlistsRefs.update(b)
+          c && this.subscriptions.update(c)
+          d && this.settings.update(d)
+        }
+      })
+    }
+  }
+
+  setLoc (a, b) {
+    return window.localStorage.setItem(a, b)
+  }
+
+  getLoc (a) {
+    return window.localStorage.getItem(a)
   }
 
   setting (name) {

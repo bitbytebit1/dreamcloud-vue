@@ -31,7 +31,6 @@
       <v-tab-item>
         <playlist 
           :songs="searchResults" 
-          sortBy="uploaded" 
           rowsPerPage='84'
         />
       </v-tab-item>
@@ -83,13 +82,14 @@ export default {
     }
   },
   watch: {
-    '$route.params.artistID': {
+    '$route.params': {
       immediate: true,
       handler: '_search'
     }
   },
   methods: {
     getSubs (artistID, source) {
+
       this.aSubs = []
       this.sTokenSubs = ''
       let func = () => {
@@ -134,6 +134,9 @@ export default {
       func()
     },
     _search () {
+      if (!this.$route.params.artistID || !this.$route.params.source) {
+        return
+      }
       this.tab = 0
       this.aPlaylists = []
       this.aSubs = []

@@ -69,18 +69,32 @@
               :song="song"
             />
             <!-- WIDE SCREEN BUTTON -->
-            <v-btn 
+            <v-tooltip 
               v-if="$vuetify.breakpoint.lgAndUp" 
-              icon 
-              @click="widescreen">
-              <v-icon>crop_16_9</v-icon>
-            </v-btn>
+              top
+            >
+              <v-btn 
+                slot="activator" 
+                icon 
+                @click="widescreen"
+              >
+                <v-icon>{{ bWide ? 'crop_3_2' :'crop_16_9' }}</v-icon>
+              </v-btn>
+              <span>{{ bWide ? 'Wide' :'Default' }}</span>
+            </v-tooltip>
             <!-- FULLSCREEN BUTTON -->
-            <v-btn 
-              icon 
-              @click="fullscreen">
-              <v-icon>fullscreen</v-icon>
-            </v-btn>
+            <v-tooltip 
+              top
+            >
+              <v-btn 
+                slot="activator" 
+                icon 
+                @click="fullscreen"
+              >
+                <v-icon>fullscreen</v-icon>
+              </v-btn>
+              <span>Fullscreen</span>
+            </v-tooltip>
           </div>
         </v-flex> 
         <!-- ARTIST PICTURE -->

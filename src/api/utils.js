@@ -2,9 +2,10 @@ export default {
   install (Vue) {
     var Utils = {
       isMobile: window.matchMedia('only screen and (max-width: 599px)').matches,
+      isSafari : /^((?!chrome|android).)*safari/i.test(navigator.userAgent),
       isOnline: () => (window.navigator.onLine),
-      setLoc: (a, b) => localStorage.setItem(a, b),
-      getLoc: a => localStorage.getItem(a),
+      setLoc: (a, b) => window.localStorage && window.localStorage.setItem(a, b),
+      getLoc: a => window.localStorage && window.localStorage.getItem(a),
       copyToClipboard (sText) {
         let tmp = document.createElement('input')
         document.body.appendChild(tmp)

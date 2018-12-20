@@ -1,7 +1,7 @@
 <template>
   <!-- <v-container grid-list-sm> -->
+  <!-- v-if="$store.getters.drawRight" -->
   <v-layout 
-    v-if="$store.getters.drawRight"
     row 
     wrap
   >
@@ -72,13 +72,13 @@ export default {
   name: 'CurrentPlaylist',
   data () {
     return {
-      numberOfItems: 5,
+      numberOfItems: 4,
       infState: ''
     }
   },
   watch: {
     hash () {
-      this.numberOfItems = 5
+      this.numberOfItems = 4
       if (this.infState) {
         this.infState.reset()
       }
@@ -100,7 +100,7 @@ export default {
   },
   methods: {
     infiniteHandler ($state) {
-      this.numberOfItems += 5
+      this.numberOfItems += 4
       var tmp = Math.min(this.$store.getters.current_Playlist.length, this.$store.getters.index + this.numberOfItems)
       if (tmp === this.$store.getters.current_Playlist.length) {
         $state.complete()

@@ -32,7 +32,10 @@
           :artist="artist" 
           :img="info.img"
         />
-        <!-- <v-btn color="success" @click.stop='$UTILS.copyToClipboard(debugLink)'>Copy</v-btn> -->
+        <!-- <v-btn 
+          color="primary" 
+          @click.stop='$UTILS.copyToClipboard(debugLink)'
+        >Copy</v-btn> -->
       </v-flex>
     </v-flex>
 

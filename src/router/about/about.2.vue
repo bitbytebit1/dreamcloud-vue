@@ -55,7 +55,7 @@
             <v-divider/>
             <v-card-actions>
               <v-btn 
-                color="blue darken-1"  
+                color="primary"  
                 @click.native="dialog = false"
               >Close</v-btn>
             </v-card-actions>

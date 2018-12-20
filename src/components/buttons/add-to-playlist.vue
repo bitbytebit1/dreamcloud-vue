@@ -58,7 +58,7 @@
           <v-autocomplete
             ref="auto"
             v-model="select"
-            :menuProps="`{ maxHeight: '${cardHeight2}', contentClass: 'noShadow pt-1'}`"
+            :menu-props="{ maxHeight: cardHeight2, contentClass: 'noShadow pt-1'}"
             :items="items"
             :searchInput.sync="search"
             class="ma-0"
@@ -68,9 +68,10 @@
             no-data-text="Create new playlist"
             label="Name"
             color="primary"
+            clearable
+            hideNoData
             returnObject
             singleLine
-            hideNoData
             @keyup.enter='enter'
             @click:append="enter"
           >
@@ -121,10 +122,10 @@ export default {
   },
   computed: {
     cardHeight1 () {
-      return this.$vuetify.breakpoint.xsOnly ? '277' : '385'
+      return this.$vuetify.breakpoint.xsOnly ? '277' : '400'
     },
     cardHeight2 () {
-      return this.$vuetify.breakpoint.xsOnly ? '190' : '280'
+      return this.$vuetify.breakpoint.xsOnly ? '188' : '280'
     }
   },
   methods: {

@@ -22,9 +22,9 @@
       <span slot="no-results"/>
     </infinite-loading>
     <jumbo 
-      v-if="bFailed" 
+      v-if="bFailed && !!$route.params.source" 
       :subheading="`Couldn't find '${$route.params.query}' on ${$route.params.source}`" 
-      error="No hits Boss"
+      error="Try again"
     />
   </v-flex>
 </template>
@@ -92,7 +92,7 @@ export default {
           this.$store.dispatch('loadIndeterm', false)
         }
         // If no results stop infinite loading
-        if (!d.length) {
+        if (!d.length && !this.searchResults.length) {
           this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete')
           this.bFailed = true
         } else {

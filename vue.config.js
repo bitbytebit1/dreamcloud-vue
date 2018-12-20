@@ -36,7 +36,7 @@ module.exports = {
           }
         },
         {
-          urlPattern: /^https:\/\/www\.saveitoffline\.com\/process|^https:\/\/www\.s\d{1,2}\.saveitoffline\.com|^https:\/\/www\.saveitoffline\.com\/get\/\?i|^https:\/\/api\.soundcloud\.com\/tracks\/.+\/stream/,
+          urlPattern: /^https:\/\/cors\.io\/\?https:\/\/www\.saveitoffline\.com\/process|^https:\/\/www\.s\d{1,2}\.saveitoffline\.com|^https:\/\/www\.saveitoffline\.com\/get\/\?i|^https:\/\/www\.s\d{1,2}\.saveoffline\.com|^https:\/\/www\.saveoffline\.com\/get\/\?i|^https:\/\/api\.soundcloud\.com\/tracks\/.+\/stream|^https:\/\/sndcdn\.com/,
           handler: 'cacheFirst',
           options: {
             cacheName: 'song-cache',
@@ -52,32 +52,15 @@ module.exports = {
             }
           }
         },
+        // Match search API links, store as cache first for 3 hours
         {
-          urlPattern: /^https:\/\/sndcdn\.com/,
-          handler: 'cacheFirst',
-          options: {
-            cacheName: 'song-cache',
-            expiration: {
-              maxEntries: 500,
-              maxAgeSeconds: 1210000
-            },
-            cacheableResponse: {
-              statuses: [
-                0,
-                200
-              ]
-            }
-          }
-        },
-        // Match search API links, store as cache first for 1 hour
-        {
-          urlPattern: new RegExp(/youtube\/v3\/search|api.mixcloud|api\.soundcloud\.com\/users|api\.soundcloud\.com\/tracks|api.vimeo.com?/),
+          urlPattern: new RegExp(/^https:\/\/www\.googleapis\.com\/youtube\/v3|https:\/\/api\.mixcloud|^https:\/\/api\.soundcloud\.com\/users|^https:\/\/api\.soundcloud\.com\/tracks|^https:\/\/api.vimeo.com?/),
           handler: 'cacheFirst',
           options: {
             cacheName: 'searchh-cache',
             expiration: {
               maxEntries: 500,
-              maxAgeSeconds: 3600
+              maxAgeSeconds: 10800
             },
             cacheableResponse: {
               statuses: [

@@ -178,11 +178,11 @@
               <v-flex 
                 v-for="n in 36" 
                 :key="n" 
-                xs12 
-                sm6 
-                md4 
-                lg3 
-                xl2 
+                xs12
+                sm6
+                md4
+                lg2
+                xl2
                 class="ma-0"
               >
                 <v-card class="dc-crd ma-0 pa-0 pointer"> 
@@ -229,7 +229,15 @@
             md4
             lg2
             xl2
-            @click.stop="props.item.listID ? $router.push({name: 'channelPlaylist', params: {listID: props.item.listID, artistID: props.item.artistID, title: props.item.title, source: props.item.source}}) : !bSelect ? play(props.index) : checkItem(props.item)"
+            @click.stop="
+              // nasty ternary, if playlist push
+              props.item.listID 
+                ? $router.push({name: 'channelPlaylist', params: {listID: props.item.listID, artistID: props.item.artistID, title: props.item.title, source: props.item.source}}) 
+                : 
+                  !bSelect 
+                    ? play(props.index)
+                    : checkItem(props.item)
+            "
           >
             <!-- :color="cardColor(props)"  -->
             <v-card 
@@ -237,27 +245,60 @@
               class="dc-crd ma-0 pa-0 pointer"
             >
               <!-- IMAGE -->
-              <!-- :aspect-ratio="$route.source !== 'YouTube' ? 16/9 : '1'" -->
-              <!-- :aspect-ratio="props.item.source === 'YouTube' ? 16/9 : '1'" -->
-              <!-- :aspect-ratio="$route.name === 'artist' ? '' : 16/9" -->
-              <!-- :aspect-ratio="16/9" -->
               <v-img
                 :aspect-ratio="aspect"
                 :src="props.item.posterLarge"
                 :lazy-src="props.item.posterLarge"
                 class="fillPlace"
               >
-                <v-layout
-                  slot="placeholder"
-                  fill-height
-                  align-center
-                  justify-center
-                  ma-0
+                <v-layout 
+                  class="men text-xs-right"
+                  align-end 
+                  justify-end
+                  row
                 >
-                  <v-progress-circular 
-                    indeterminate 
-                    color="grey lighten-5"
-                  />
+                  <!-- YOUTUBE BUTTON -->
+                  <v-flex 
+                    xs2
+                    ma-0
+                    pa-0
+                  >
+                    <v-tooltip 
+                      top 
+                      dark
+                    >
+                      <v-btn 
+                        slot="activator"
+                        color='white'
+                        flat 
+                        icon 
+                        small
+                        @click.stop="playProxy(props, true)"
+                      >
+                        <v-icon light>remove_red_eye</v-icon>
+                      </v-btn>
+                      <span>Watch</span>
+                    </v-tooltip>
+                  </v-flex>
+
+                  <!-- PLAY AUDIO BUTTON -->
+                  <!-- <v-flex 
+                    xs12
+                  >
+                    <v-tooltip top>
+                      <v-btn 
+                        slot="activator"
+                        color='white'
+                        flat 
+                        icon 
+                        @click.stop="playProxy(props, false)"
+                      >
+                        <v-icon light>play_arrow</v-icon>
+                      </v-btn>
+                      <span>Play</span>
+                    </v-tooltip>
+                  </v-flex>
+                </v-layout> -->
                 </v-layout>
               </v-img>
               <!-- TITLE -->
@@ -287,10 +328,15 @@
                     <!-- ARTIST -->
                     <v-flex 
                       v-if="$route.name !== 'artist'" 
-                      class="text-xs-left grey--text grd-txt pa-0 pt-1" 
+                      class="text-xs-left grd-txt pa-0 pt-1" 
                       @click.stop="bSelect ? checkItem(props.item) : $router.push({name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}})"
                     >
-                      {{ props.item.artist }}
+                      <router-link 
+                        :to="{name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}}"
+                        class="noDeco grey--text grd-txt" 
+                      >
+                        {{ props.item.artist }}
+                      </router-link>
                     </v-flex>
                     <!-- DATE -->
                     <v-flex 
@@ -306,15 +352,22 @@
                     class="ma-0 pa-0 pt-2" 
                     @click.stop
                   >
-                    <v-btn 
-                      icon 
-                      small 
-                      class="men fl-r ma-0 pa-0 mt-1" 
-                      @click="(chosenSong = props.item, dialog = true)"
+                    <v-tooltip 
+                      top
                     >
-                      <v-icon>more_vert</v-icon>
-                    </v-btn>
+                      <v-btn 
+                        slot="activator"
+                        icon 
+                        small 
+                        class="men fl-r ma-0 pa-0 mt-1" 
+                        @click="(chosenSong = props.item, dialog = true)"
+                      >
+                        <v-icon>more_vert</v-icon>
+                      </v-btn>
+                      <span>Show more</span>
+                    </v-tooltip>
                   </v-flex>
+                  
                 </v-layout>
               </v-card-title>
             </v-card>
@@ -406,7 +459,8 @@ export default {
       current_song: 'current_song',
       view_mode: 'view_mode',
       drawLeft: 'drawLeft',
-      drawRight: 'drawRight'
+      drawRight: 'drawRight',
+      isYT: 'isYT'
     }),
     aspect () {
       return this.$route.name === 'artist' && this.$route.params.source !== 'YouTube'  ? '' : 16/9
@@ -430,6 +484,17 @@ export default {
     }
   },
   methods: {
+    playProxy (props, bShow) {
+      // Fix for mobile on first play
+      if (this.$store.getters.index === -1 && this.$UTILS.isMobile) this.$DCPlayer.eAudio.play()
+
+      // store current value
+      let a = this.showVideo
+      this.$store.commit('showVideo', bShow)
+      this.play(props.index)
+      // restore old value after ^call
+      this.$store.commit('showVideo', a)
+    },
     cardColor (props) {
       if (this.bSelect) {
         return this.selected.some(el => el === props.item) ? 'primary' : ''
@@ -471,12 +536,17 @@ export default {
       }
     },
     play (index) {
-      if (this.$store.getters.index === index && this.hash === this.$route.path) {
+      // if (this.$store.getters.index === index && this.hash === this.$route.path) {
+      if (this.sorted[index].trackID == this.$store.getters.current_song.trackID) {
         return this.$DCPlayer.togglePlay()
       }
+      // console.log('playing')
       // show stage
+
       if (this.showVideo) {
-        this.$router.push({name: 'stage'})
+        // console.log('showing stage')
+        // this.$router.push({name: 'stage'})
+        this.$store.commit('toggleStage')
       }
       // Fix for mobile on first play
       if (this.$store.getters.index === -1 && this.$UTILS.isMobile) this.$DCPlayer.eAudio.play()
@@ -491,18 +561,22 @@ export default {
 </script>
 <style>
 
-  @media only screen and (max-width: 599px){
-
+  @media only screen and (max-width: 1262px){
+    .dc-crd .men {
+      display:flex !important;
+    }
   }
-  @media only screen and (min-width: 600px){
+  @media only screen and (min-width: 1263px){
     .dc-crd:hover .men {
-      display:inline-block !important;
+      /* transition: opacity 0.2s 1s ease; Mouse enter: delay */
+      display:flex !important;
     }
     .men{
-        display: none !important;
-        /* position: absolute !important; */
-        /* top: 2px; */
-        /* right: 5px; */
+      /* transition: 1s 3s; */
+      display: none !important;
+      /* position: absolute !important; */
+      /* top: 2px; */
+      /* right: 5px; */
     }
   }
 .dumTitle{

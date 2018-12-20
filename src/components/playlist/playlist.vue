@@ -7,7 +7,7 @@
     pb-5
   >
     <list 
-      v-if="list == '2' && !gridView" 
+      v-if="list == '1' && !gridView" 
       :songs="fixedSongs" 
       :full="full" 
       :rows-per-page="rowsPerPage"
@@ -16,7 +16,7 @@
       @toggleView="toggleView"
     />
     <list 
-      v-if="list == '1' && !gridView" 
+      v-if="list == '2' && !gridView" 
       :songs="fixedSongs" 
       :full="full" 
       :rows-per-page="rowsPerPage" 

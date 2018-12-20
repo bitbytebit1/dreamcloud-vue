@@ -1,166 +1,147 @@
 <template>
   <v-flex 
-    xs12 
-    lg10 
-    class="mb-2">
-    <!-- subsAll -->
-    <!-- <v-flex xs12 v-if="aSubscriptionsRoot.length">
-      <router-link :class="textClass" :to="{name:'subsAll', params: {user: $DCFB.UID}}">
-        <h2 class="text-xs-left">Latest from your subscriptions</h2>
-      </router-link>
-      <div v-if="!auth_state || !aSubscriptionsRoot.length || (100 / aSubscriptionsRoot.length) * bLoadingSubs < 90">
-        <div v-if="bLoadingSubs">
-          <v-progress-linear :value="Math.floor((100 / aSubscriptionsRoot.length) * bLoadingSubs)" height="5" color="primary"></v-progress-linear>
-          Loaded {{bLoadingSubs}} of {{aSubscriptionsRoot.length}}
-        </div>
-      </div>
-      <div v-else class="mb-2">
-        <playlist :rowsPerPage='iSub' :showUploaded="true" :full="false" :gridView="true" :songs="aSubscriptions"></playlist>
-        <v-flex xs12>
-          <v-btn block class="pointer" @click="iSub += iMore">SHOW MORE</v-btn>
-        </v-flex>
-      </div>
-      <v-divider v-if="!bLoadingSubs"  class="mt-4 mb-4"></v-divider>
-    </v-flex> -->
-
-    <!-- Recommended -->
-    
-    <div v-if="!bFail">
-      <router-link 
-        :class="textClass" 
-        :to="{name:'historyRecommended', params: {user: $DCFB.UID}}">
-        <h2 class="text-xs-left">Recommended</h2>
-      </router-link>
-      <div class="mb-2">
-        <historyRecommended 
-          :i-limit="iReco" 
-          :rows-per-page='iReco' 
-          @done='recoDone'/>
-        <v-btn 
-          v-if="bRecoShow" 
-          block 
-          class="pointer mt-3" 
-          @click="iReco += iMore">SHOW MORE</v-btn>
-      </div>
-      <v-divider 
-        color="primary" 
-        class="mt-4 mb-4"/>
-
-      <!-- History -->
-      <router-link 
-        :class="textClass" 
-        :to="{name:'history', params: {user: $DCFB.UID}}">
-        <h2 class="text-xs-left">Recently played</h2>
-      </router-link>
-      <div class="mb-2">
-        <playlist 
-          :rows-per-page='iHist' 
-          :full="false" 
-          :grid-view="true" 
-          :songs="aHistRev"/>
-        <v-btn 
-          block 
-          class="pointer mt-3" 
-          @click="iHist += iMore">SHOW MORE</v-btn>
-      </div>
-    </div>
-    
-    <div v-else-if="bFail">
-      Go listen to some music first
-    </div>
-
+    :lg10="viewSmall" 
+    :lg12="!viewSmall" 
+    xs12
+  >
+    <div 
+      v-if="bLoading || aRecommended.length" 
+      class="headline fwl text-xs-left pl-2 pt-2"
+    >Home</div>
+    <!-- <loading v-if="!auth_state || !aRecommended.length"></loading> -->
+    <playlist 
+      v-if="bLoading || aRecommended.length" 
+      :rows-per-page='rowsPerPage' 
+      :show-uploaded="true" 
+      :songs="aRecommended2"
+    />
+    <!-- title="Here is supposed to be a playlists generated from your recent history" -->
+    <jumbo
+      v-else-if="bFailed"
+      title="We wanted to recommend you some music based on your history"
+      subheading="But you haven't listened to any music yet"
+    />
   </v-flex>
 </template>
 <script>
-// /* eslint-disable */
-import loading from '@/components/misc/loading'
-import historyRecommended from '@/router/user/history/recommended'
+import axios from 'axios'
+/* eslint-disable */
+import jumbo from '@/components/misc/jumbo'
+import deleteButton from '@/components/buttons/delete-button'
 import { mapGetters } from 'vuex'
 export default {
-  name: 'History',
+  name: 'home',
   components: {
-    'loading': loading,
-    'historyRecommended': historyRecommended
+    'jumbo': jumbo
+  },
+  props: {
+    iLimit: {
+      type: [Number],
+      default: 100
+    },
+    rowsPerPage: {
+      type: [Number],
+      default: 100
+    }
   },
   data () {
     return {
-      bFail: false,
-      bLoadingSubs: 0,
-      bRecoShow: false,
-      iHist: 12,
-      iMore: 16,
-      iReco: 12,
-      iSub: 12,
-      aHistory: [],
-      aSubscriptions: [],
-      aSubscriptionsRoot: []
+      bLoading: false,
+      bFailed: false,
+      iLoaded: 1,
+      aRecommended: [],
+      bLoaded: false,
+      viewSmall: this.$route.name === 'home'
     }
   },
   watch: {
     'auth_state': {
       immediate: true,
       handler: 'bind'
-    }
+    },
   },
   methods: {
-    recoDone () {
-      this.bRecoShow = true
-      this.$store.dispatch('loadIndeterm', false)
-    },
     bind () {
       if (this.auth_state) {
-        this.$store.dispatch('loadIndeterm', true)
-        this.$bindAsArray('aHistory', this.$DCFB.history, null, () => {
-          if (!this.aHistory.length) {
-            this.$store.dispatch('loadIndeterm', false)
-            // this.$router.push({name: 'searchPage', params: {query: ' ', source: 'YouTube'}})
-            this.bFail = true
-          }
-        })
+        this.bFailed = false
+        this.$store.commit('loadActive', true)
+        this.$bindAsArray('aHistory', this.$DCFB.history.limitToLast(this.iLimit), null, this.getRecommended)
       }
     },
-    getAllSubs () {
-      this.bLoadingSubs = 0
-      // console.log(this.aSubscriptionsRoot.length)
-      for (var sub in this.aSubscriptionsRoot) {
-        this.$DCAPI.searchInt(0, 0, [this.aSubscriptionsRoot[sub].source], this.aSubscriptionsRoot[sub].id,
-          (songs) => {
-            this.bLoadingSubs++
-            this.aSubscriptions = this.aSubscriptions.concat(songs)
-            this.aSubscriptions.sort(this.$DCAPI.sortDate)
-            // this.aSubscriptions = this.aSubscriptions.slice(0, 8)
-          }, false, 8)
+    getRecommended () {
+      if (!this.aHistory.length) {
+        this.$store.commit('loadActive', false)
+        this.bLoading = false
+        this.bFailed = !this.aHistory.length
+        return
       }
+      this.bLoading = true
+      // promise array
+      var aAjax = []
+      // reverse firebase array
+      var aRecommended = this.aHistory.reverse()
+      // strip out duplicates
+      // reset counter
+      this.iLoaded = 1
+      let un = (array) => {
+        var ret = []
+        // ret.push(array[0])
+        var dupe = false
+        for (let i = 0; i < array.length - 1; i++) {
+          dupe = false
+          for (let n = 0; n < ret.length - 1; n++) {
+            // console.log(i, array.length)
+            // console.log(typeof array[i])
+            // console.log(typeof array[i + 1])
+            // console.log(n, i)
+            if (typeof array[i] === 'undefined' || ret[n].trackID == array[i].trackID) {
+              dupe = true
+              break
+            }
+          }
+          if (!dupe) {
+            ret.push(array[i])
+          }
+          // console.log(`ARRAY LENGTH ${ret.length} ||| CHECKED INDEX ${array[i].title} ||| dupe ${dupe}`)
+        }
+        return ret
+      }
+      aRecommended = un(aRecommended)
+
+      // loop through history array
+      for (var i = 0; i < aRecommended.length - 1; i++) {
+        // get 2 recommended songs for each item in history
+        aAjax.push(this.$DCAPI.searchInt('', 0, [aRecommended[i].source], aRecommended[i].trackID, (d) => {
+          this.iLoaded++
+          this.$store.commit('loadValue',  (100 / aRecommended.length) * this.iLoaded)
+          if (d.length) {
+            this.aRecommended.push(d[0])
+            this.aRecommended.push(d[1])
+          }
+
+
+        }, true, 2))
+      }
+      axios.all(aAjax).then(() => {
+        this.aRecommended = un(this.aRecommended)
+        this.bLoading = false
+        setTimeout(() => {
+          this.$store.commit('loadActive', false)
+        }, 200)
+      })
     }
   },
   computed: {
-    ...mapGetters({
-      auth_state: 'auth_state',
-      nightMode: 'nightMode'
-    }),
-    aHistRev () {
-      // eslint-disable-next-line
-      return this.$UTILS.uniqueArray([...this.aHistory].reverse())
-    },
-    aHistRevLeng () {
-      // eslint-disable-next-line
-      return this.$UTILS.uniqueArray([...this.aHistory].reverse())
-    },
-    textClass () {
-      return 'home-link grey--text text--' + (this.nightMode ? 'lighten' : 'darken') + '-2'
+    ...mapGetters({auth_state: 'auth_state'}),
+    aRecommended2 () {
+      return this.bLoading ? [] : this.aRecommended
     }
   },
-  created () {
-    // this.bind()
-  },
-  updated () {
-    // this.$store.dispatch('loadIndeterm', false)
+  destroyed () {
+    this.$store.commit('loadActive', false)
   }
 }
 </script>
 
 <style>
-.home-link{
-  text-decoration: none;
-}
 </style>

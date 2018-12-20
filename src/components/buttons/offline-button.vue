@@ -2,6 +2,7 @@
   <v-list-tile 
     v-if="inList" 
     :disabled="disabled" 
+    :id="trackID"
     ripple 
     @click.stop="toggleOffline"
   >
@@ -76,22 +77,26 @@ export default {
       }
       )
     },
-    toggleOffline: function () {
+    toggleOffline () {
       if (!this.loading) {
         this.loading = true
         this.status ? this.offlineOff() : this.offlineOn()
       }
     },
-    offlineOn: function () {
-      this.link1.indexOf('soundcloud') === -1 ? this.$DCPlayer.getAudio(this.link1, (e) => {
+    offlineOn () {
+      this.link1.indexOf('soundcloud') === -1 
+      ? this.$DCPlayer.getAudio(this.link1, (e) => {
         this.downloadAudio(e).then(() => {
+          this.loading = false
           this.checkOfflineStatus()
         })
-      }) : this.downloadAudio(this.link2).then(function () {
+      }) 
+      : this.downloadAudio(this.link2).then(() => {
+        this.loading = false
         this.checkOfflineStatus()
       })
     },
-    offlineOff: function () {
+    offlineOff () {
       if ('caches' in window) {
         window.caches.open('song-cache').then((cache) => {
           this.$DCPlayer.getAudio(this.link1, (s) => {
@@ -105,7 +110,7 @@ export default {
         this.disabled = true
       }
     },
-    checkOfflineStatus: function () {
+    checkOfflineStatus () {
       if ('caches' in window) {
         window.caches.open('song-cache').then((cache) => {
           cache.match(this.c_link).then((e) => {
@@ -119,16 +124,16 @@ export default {
     }
   },
   computed: {
-    btnColor: function () {
+    btnColor () {
       return this.status ? 'green' : ''
     },
-    btnIcon: function () {
+    btnIcon () {
       return this.status ? 'offline_pin' : 'offline_bolt'
     },
     isSc () {
       return this.link1.indexOf('soundcloud') > -1
     },
-    c_link: function () {
+    c_link () {
       return this.isSc ? this.link2 : 'https://www.saveitoffline.com/process/?type=audio&url=' + this.link1
     }
   }

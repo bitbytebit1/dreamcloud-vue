@@ -60,7 +60,7 @@
             class="pointer"
           >
             <!-- IMAGE -->
-            <v-img
+            <!-- <v-img
               :src="props.item.songs[Object.keys(props.item.songs)[0]].poster"
               :lazy-src="props.item.songs[Object.keys(props.item.songs)[0]].poster"
               aspect-ratio="1"
@@ -75,8 +75,24 @@
                 class="grey--text"
               >Loading</v-layout>
               <span class="songLeng">{{ Object.keys(props.item.songs).length }}</span>
-            </v-img>
+            </v-img> -->
+            <v-avatar
+              :size="((!$store.getters.drawLeft && !$UTILS.isMobile ? 21 : 0) + 95 + (!$store.getters.drawRight && !$UTILS.isMobile ? 21 : 0)) + 'px'"
+              class="mt-2"
+            >
+              <!-- <img
+                :src="props.item.songs[Object.keys(props.item.songs)[0]].poster"
+                alt=""
+              > -->
+              <v-img
+                :src="props.item.songs[Object.keys(props.item.songs)[0]].poster"
+                :lazy-src="props.item.songs[Object.keys(props.item.songs)[0]].poster"
+                aspect-ratio="1"
+                class="fillPlace"
+              />
+            </v-avatar>
             <v-card-text class="text-xs-center">{{ props.item.name }}</v-card-text>
+            <span class="sl">{{ Object.keys(props.item.songs).length }}</span>
 
           </v-card>
         </v-flex>
@@ -120,10 +136,10 @@ export default {
 </script>
 
 <style>
-.songLeng{
+.sl{
   color: white;
-  text-shadow: 0px 0px 5px black;
-  background: rgba(1, 1, 1, .5);
+  /* text-shadow: 0px 0px 5px black; */
+  /* background: rgba(1, 1, 1, .5); */
   position: absolute;
   bottom: 0px;
   right: 0px;

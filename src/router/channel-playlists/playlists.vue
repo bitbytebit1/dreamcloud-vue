@@ -62,15 +62,7 @@
                 :src="props.item.img"
                 :lazy-src="props.item.img"
               >
-                <v-layout
-                  slot="placeholder"
-                  fill-height
-                  align-center
-                  justify-center
-                  ma-0
-                >
-                  <!-- <span class="songLeng">{{props.item.numberOfSongs}}</span> -->
-                </v-layout>
+                <span class="songLeng">{{ props.item.numberOfSongs }}</span>
               </v-img>
               <v-card-text class="text-xs-center subheading">{{ props.item.title }}</v-card-text>
             </v-card>

@@ -57,7 +57,7 @@ export default {
         },
         { 
           text: 'Home',
-          route: {name: 'historyRecommended', params: {user: this.$route.params.user}},
+          route: {name: 'home', params: {user: this.$route.params.user}},
           icon: 'home'
         },
         { 

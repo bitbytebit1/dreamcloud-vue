@@ -134,7 +134,7 @@
             :key="$route.fullPath" 
             name="  fade" 
             mode="out-in"> -->
-          <keep-alive :max="4">
+          <keep-alive :max="2">
             <router-view/>
           </keep-alive>
           <!-- </transition> -->
@@ -294,14 +294,14 @@ export default {
       this.$store.commit('authChange', false)
       this.$nextTick(() => {
         // Set auth state
-        this.$store.commit('authChange', !!user)
-        // If logged in
+        this.$store.commit('authChange', !!user) // dirty !! to convert int to bool
+        // If not logged in
         if (!user) {
           // Sign in anonymously and wait, WAIT PLS
           this.$DCFB.fb.auth().signInAnonymously()
           return
         } else {
-          // Update store
+          // Update store with user uid
           this.$store.commit('setUser', user)
         }
 

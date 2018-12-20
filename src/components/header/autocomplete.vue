@@ -1,12 +1,11 @@
 <template>
   <v-autocomplete
-    id="searchInput"
     ref="auto"
     :loading="loading"
     :items="items"
     :search-input.sync="search"
     v-model="select"
-    class="autoSearch mx-3"
+    class="mx-3"
     color="primary"
     label="Search"
     append-icon=""
@@ -71,19 +70,4 @@ export default {
 }
 </script>
 <style>
-/* .list__tile__mask { */
-  /* color : inherit !important; */
-  /* background : 0 !important; */
-/* } */
-@media only screen and (min-width: 600px){
-  .autoSearch{
-    /* margin-top: 8px!important; */
-  }
-}
-@media only screen and (max-width: 599px){
-  .autoSearch{
-    /* margin-top: 4px!important; */
-  }
-}
-
 </style>

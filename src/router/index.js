@@ -133,8 +133,8 @@ let router = new Router({
     },
     {
       path: '/u/:user/home',
-      name: 'historyRecommended',
-      component: () => import(/* webpackChunkName: "historyRecommended"*/ '@/router/user/history/recommended'),
+      name: 'home',
+      component: () => import(/* webpackChunkName: "home"*/ '@/router/user/home/home'),
       props: true
     }
   ]
@@ -142,11 +142,14 @@ let router = new Router({
 
 router.beforeEach((to, from, next) => {
   // close navbar on back
-  if (store.getters.isMobile && (store.getters.drawLeft || store.getters.drawRight)) {
+  if (store.getters.isMobile && (store.getters.drawLeft || store.getters.drawRight) && window.popStateDetected) {
+    window.popStateDetected = false
+    // console.log(to, from)
     store.commit('drawLeft', false)
     store.commit('drawRight', false)
     next(false)
   } else if (store.getters.bShowStage && to.name !== 'stage') {
+    // console.log('disabled stage')
     store.commit('bShowStage', false)
     next()
   } else {

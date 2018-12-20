@@ -73,6 +73,12 @@
     }
   })
   
+  // used to catch back on mobile
+  window.popStateDetected = false
+  window.addEventListener('popstate', () => {
+    window.popStateDetected = true
+  })
+
   new Vue({
     router,
     store,

@@ -1,1 +1,1 @@
-call vue ui
+vue ui

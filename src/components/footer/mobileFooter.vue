@@ -1,8 +1,7 @@
 <template>
   <div class="?">
     <v-bottom-nav 
-      v-if="$store.getters.auth_state" 
-      :active.sync="current" 
+      :active.sync="active" 
       :value="true" 
       absolute 
       shift
@@ -17,7 +16,7 @@
         <v-icon>search</v-icon>
       </v-btn> -->
       <v-btn 
-        :to="{name: 'historyRecommended', params: {user: UID}}" 
+        :to="{name: 'home', params: {user: uid}}" 
         color="primary" 
         flat 
         value="home"
@@ -26,7 +25,7 @@
         <v-icon>home</v-icon>
       </v-btn>
       <v-btn 
-        :to="{name: 'subsAll', params: {user: UID}}" 
+        :to="{name: 'subsAll', params: {user: uid}}" 
         color="primary" 
         flat 
         value="subsAll"
@@ -44,7 +43,7 @@
         <v-icon>music_video</v-icon>
       </v-btn>
       <v-btn 
-        :to="{name: 'playlistOverview', params: {user: UID}}" 
+        :to="{name: 'playlistOverview', params: {user: uid}}" 
         color="primary" 
         flat 
         value="playlistOverview"
@@ -53,7 +52,7 @@
         <v-icon>library_music</v-icon>
       </v-btn>
       <v-btn 
-        :to="{name: 'userSubOverview', params: {user: UID}}" 
+        :to="{name: 'userSubOverview', params: {user: uid}}" 
         color="primary" 
         flat 
         value="userSubOverview"
@@ -74,22 +73,22 @@
 </template>
 <script>
 /* eslint-disable */
-
+import { mapGetters } from 'vuex'
 export default {
   name: 'mobFoot',
-  data () {
-    return {
-      current: this.$route.name
-    }
-  },
   computed: {
-    UID () {
-      return this.$DCFB.UID
+    uid () {
+      return this.$store.getters.uid || Math.random()
+    },
+    active : {
+      get () {
+        // console.log(this.$route)
+        // return this.$route.name
+        return
+      },
+      set (v) {
+      }
     }
-    // active () {
-    //   console.log(this.$route)
-    //   return this.$route.name
-    // }
   }
 }
 </script>

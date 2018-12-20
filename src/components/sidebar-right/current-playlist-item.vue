@@ -4,7 +4,9 @@
     xs12 
     @click.stop="play"
   >
-    <v-card>
+    <v-card
+      class="pointer"
+    >
       <!-- image -->
       <v-img
         :aspect-ratio="song.source === 'YouTube' ? 16/9 : '1'"
@@ -12,18 +14,6 @@
         :lazy-src="song.posterLarge"
         class="fillPlace"
       >
-        <v-layout
-          slot="placeholder"
-          fill-height
-          align-center
-          justify-center
-          ma-0
-        >
-          <v-progress-circular 
-            indeterminate 
-            color="grey lighten-5"
-          />
-        </v-layout>
         <span 
           class="card-duration" 
           v-text="song.duration"
@@ -81,7 +71,6 @@
       </v-card-actions>
       
 
-      <!-- lyrics -->
       <v-slide-y-transition v-if="show">
         <!-- description -->
         <div>
@@ -89,9 +78,9 @@
             <lyrics v-if="!index" :title="song.title" :artist="song.artist"></lyrics>
           </v-card-text> -->
           <v-card-text 
-            class="wordbreak" 
-            @click.stop 
-            v-html="ytTimeToSeconds(desc)"
+            class="wordbreak preline" 
+            @click.stop
+            v-html="timeToSeconds(desc)"
           />
         </div>
         <!-- </transition> -->
@@ -138,30 +127,25 @@ export default {
     'show': 'ifShowGetDesc'
   },
   methods: {
-    dcTimeToSeconds (value) {
-      if (!value) {
-        return ''
-      }
-      return (value.replace(/\n/g, '<br>').replace(/(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)([0-5]?\d)/g, `
-        <span class="underline pointer" onClick="document.getElementById('dc-audio').currentTime = '$&'.split(':').reduce((acc,time) => (60 * acc) + +time)">$&</span>`))
-    },
-    ytTimeToSeconds (value) {
-      if (!value) {
-        return ''
-      }
-      return (value.replace(/\n/g, '<br>').replace(/(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)([0-5]?\d)/g, `
-        <span class="underline pointer" 
-          onClick="
-            event.stopPropagation();
-            document.getElementById('dc-audio').currentTime = '$&'.split(':').reduce((acc,time) => (60 * acc) + +time);
-          "
-        >
-          $&
-        </span>`))
-    },
     ifShowGetDesc (newVal) {
       if (newVal && this.song.source === 'YouTube') {
         this.getDesc()
+      }
+    },
+    timeToSeconds (value) {
+      if (!value) {
+        return ''
+      }
+      if (this.song.source === 'YouTube' && this.$store.getters.ytUseVideo) {
+        return (value.replace(
+          /(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)([0-5]?\d)/g,
+          `<span class="underline pointer" onClick="window.dcYT.seekTo('$&'.split(':').reduce((acc,time) => (60 * acc) + +time));">$&</span>`))
+      } else {
+        return (
+          value.replace(
+            /(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)([0-5]?\d)/g,
+            `<span class="underline pointer" onClick="document.getElementById('dc-audio').currentTime = '$&'.split(':').reduce((acc,time) => (60 * acc) + +time)">$&</span>`)
+        )
       }
     },
     getDesc () {

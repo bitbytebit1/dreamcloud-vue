@@ -114,6 +114,7 @@
     <audio 
       id="dc-audio" 
       controls
+      preload="auto"
     />
   </div>
 </template>

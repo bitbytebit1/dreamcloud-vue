@@ -1,7 +1,6 @@
 export default {
   state: {
     ytUseVideo: true,
-    ytSwitchTime: false,
     ytObject: [],
     ytDuration: 0,
     ytCurrentTime: 0,
@@ -16,7 +15,6 @@ export default {
     }
   },
   mutations: {
-    ytSwitchTime: (state, payload) => { state.ytSwitchTime = payload },
     ytUseVideo: (state, payload) => { state.ytUseVideo = payload },
     ytObject: (state, payload) => { state.ytObject = payload },
     ytState: (state, payload) => { state.ytState = payload },

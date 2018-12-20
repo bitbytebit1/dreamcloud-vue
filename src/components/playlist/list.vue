@@ -4,22 +4,26 @@
     <v-card class="elevation-0">
       <v-card-title 
         v-if="full" 
-        class="ma-0 pa-0">
+        class="ma-0 pa-0"
+      >
         <v-layout 
           row 
-          wrap>
+          wrap
+        >
           <!-- HEADER BUTTONS -->
           <v-flex 
             xs6 
             lg2 
-            class="text-xs-left mt-2">
+            class="text-xs-left mt-2"
+          >
             <!-- ENABLE CHECK BOXES -->
             <v-tooltip top >
               <v-btn 
                 v-if="$store.getters.auth_state" 
                 slot="activator" 
                 icon 
-                @click="(bSelect = !bSelect, bSelect ? headers.unshift({ class: 'ma-0', width: '10px', text: '', value: '', align: 'left', sortable: false }): headers.shift())">
+                @click="(bSelect = !bSelect, bSelect ? headers.unshift({ class: 'ma-0', width: '10px', text: '', value: '', align: 'left', sortable: false }): headers.shift())"
+              >
                 <v-icon :color="bSelect ? 'primary' : ''">check_box</v-icon>
               </v-btn>
               <span>Select multiple songs</span>
@@ -29,7 +33,8 @@
               <v-btn 
                 slot="activator" 
                 icon 
-                @click="$emit('toggleView')">
+                @click="$emit('toggleView')"
+              >
                 <v-icon>{{ view_mode ? 'view_module' : 'view_list' }}</v-icon>
               </v-btn>
               <span>Change view</span>
@@ -39,7 +44,8 @@
               <v-btn 
                 slot="activator" 
                 icon 
-                @click="search.length > 0 ? search = '' : $refs.search.focus()">
+                @click="search.length > 0 ? search = '' : $refs.search.focus()"
+              >
                 <v-icon>{{ search.length > 0 ? 'clear': 'filter_list' }}</v-icon>
               </v-btn>
               <span>Filter</span>
@@ -48,7 +54,8 @@
           <!-- FILTER -->
           <v-flex 
             xs5 
-            lg9>
+            lg9
+          >
             <v-text-field
               id="flr-txt"
               ref="search"
@@ -67,13 +74,15 @@
             v-if="bSelect" 
             xs8 
             lg5 
-            class="text-xs-left">
+            class="text-xs-left"
+          >
             <!-- SELECT ALL -->
             <v-tooltip top>
               <v-btn 
                 slot="activator" 
                 icon 
-                @click="(bSelectAll = !bSelectAll, bSelectAll ? selected = sorted : selected = [])">
+                @click="(bSelectAll = !bSelectAll, bSelectAll ? selected = sorted : selected = [])"
+              >
                 <v-icon :color="selected.length === filterLength ? 'primary' : ''">done_all</v-icon>
               </v-btn>
               <span>Select all</span>
@@ -81,18 +90,21 @@
 
             <download-button 
               :dis="selected.length == 0" 
-              :links="selected"/>
+              :links="selected"
+            />
             
             <delete-button 
               v-if="$route.params.playlist" 
               :disabled="selected.length == 0" 
-              @delete="removeList"/>
+              @delete="removeList"
+            />
             
             <add-to-playlist 
               v-if="$store.getters.auth_state" 
               key="multi" 
               :disabled="selected.length == 0" 
-              :song="selected"/>
+              :song="selected"
+            />
 
             <v-flex d-inline-flex>{{ selected.length }} of {{ filterLength }}</v-flex>
           </v-flex>
@@ -118,65 +130,94 @@
             <v-list>
               <add-to-playlist 
                 :in-list="true" 
-                :song="bSelect ? selected : [chosenSong]"/>
+                :song="bSelect ? selected : [chosenSong]"
+              />
               <share-button 
                 :in-list="true" 
                 :song="chosenSong" 
-                :url="'https://dreamcloud.netlify.com/#/t/' + chosenSong.source + '/' + encodeURIComponent(chosenSong.artist) + '/' + chosenSong.trackID"/>
-              <delete-button 
-                v-if="chosenSong.key && !bSelect" 
-                :in-list="true" 
-                :id="chosenSong.key" 
-                @delete="bSelect ? removeList() : remove(chosenSong.key)"/>
-              <download-button 
-                :in-list="true" 
-                :links="bSelect ? selected : [chosenSong]"/>
-              <offlineButton 
-                :in-list="true" 
-                :link1="chosenSong.mp32" 
-                :link2="chosenSong.mp3" 
-                :track-id="chosenSong.trackID"/>
+                :url="'https://dreamcloud.netlify.com/#/t/' + chosenSong.source + '/' + encodeURIComponent(chosenSong.artist) + '/' + chosenSong.trackID"
+              />
+              <delete-button
+                v-if="chosenSong.key && !bSelect"
+                :in-list="true"
+                :id="chosenSong.key"
+                @delete="bSelect ? removeList() : remove(chosenSong.key)"
+              />
+              <download-button
+                :in-list="true"
+                :links="bSelect ? selected : [chosenSong]"
+              />
+              <offlineButton
+                :in-list="true"
+                :link1="chosenSong.mp32"
+                :link2="chosenSong.mp3"
+                :track-id="chosenSong.trackID"
+                :key="chosenSong.trackID"
+              />
             </v-list>
           </v-dialog>
         </template>
 
-        <template slot="no-data">
+        <template 
+          slot="no-data"
+        >
           <tr 
             v-for="n in 36" 
-            :key="n">
+            :key="n"
+          >
             <!-- IMAGE -->
-            <td class="pa-2">
+            <td 
+              v-if="!bMini" 
+              class="pa-2" 
+            >
               <v-img
                 :aspect-ratio="aspect"
-                max-height="290"
-                src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                :class="imgClass"
                 class="fillPlace"
+                src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
               >
                 <v-layout 
                   slot="placeholder" 
                   fill-height 
                   align-center 
                   justify-center 
-                  ma-0 >
-                  <v-progress-circular 
-                    indeterminate 
-                    color="grey lighten-5"/>
+                  ma-0
+                  grey--text
+                >
+                  Loading
                 </v-layout>
               </v-img>
+            </td> 
+            <td 
+              v-else 
+              class="fillPlace1 text-xs-left"
+            >
+              Loading
             </td>
 
             <!-- ARTIST -->
-            <td v-if="!$route.params.artistID">
-              <!-- <a v-if="!bSelect" @click.stop :class="artistClass(props.item.mp32)" :href="shareArtistURL(props.item)">{{ props.item.artist }}</a> -->
-              <!-- <span :class="artistClass" v-else>{{ props.item.artist }}</span> -->
-            </td>
+            <td 
+              v-if="!$route.params.artistID" 
+              class="fillPlace1 dumTd "
+            />
 
             <!-- UPLOADED -->
-            <td class="text-xs-left hidden-xs-only">
-              <!-- {{ date(props.item.uploaded)}} -->
-            </td>
+            <td class="fillPlace1"/>
             <!-- ACTIONS -->
-            <td/>
+            <td class="fillPlace1 dumTd">
+              <v-btn 
+                icon 
+                small 
+              >
+                <v-icon>remove_red_eye</v-icon>
+              </v-btn>
+              <v-btn 
+                icon 
+                small 
+              >
+                <v-icon>more_vert</v-icon>
+              </v-btn>
+            </td>
           </tr>
         </template>
         <!-- <template slot="expand" slot-scope="props">
@@ -192,36 +233,75 @@
             :key="props.index" 
             :id="bSelect ? 'nulld' : ''" 
             :class="isPlaying(props.item.trackID) ? 'primary white--text mb-3 pointer wordbreak' : 'mb-3 pointer wordbreak'" 
-            @click.stop="!bSelect ? play(props.index) : props.selected = !props.selected">
+            @click.stop="props.item.listID ? $router.push({name: 'channelPlaylist', params: {listID: props.item.listID, artistID: props.item.artistID, title: props.item.title, source: props.item.source}}) : !bSelect ? play(props.index) : props.selected = !props.selected"
+          >
             <!-- CHECK_BOX -->
             <td v-if="bSelect">
               <v-checkbox 
                 :color="isPlaying(props.item.trackID) ? 'white' : 'primary'" 
                 v-model="props.selected" 
                 class="" 
-                hide-details/>
+                hide-details
+              />
             </td>
-
+            <!-- ~~~~~~~~~~~~ NOT MINI ~~~~~~~~~~~~ -->
             <!-- IMAGE -->
             <td 
               v-if="!bMini" 
-              class="pa-2">
+              class="pa-2"
+            >
               <v-img
                 :aspect-ratio="aspect"
                 :src="props.item.posterLarge"
                 :lazy-src="props.item.posterLarge"
-                class="fillPlace"
+                :class="imgClass"
+                class="fillPlace dc-crd"
               >
-                <v-layout
-                  slot="placeholder"
+                <v-layout 
+                  align-end 
+                  justify-end 
                   fill-height
-                  align-center
-                  justify-center
-                  ma-0
+                  class="men text-xs-right"
                 >
-                  <v-progress-circular 
-                    indeterminate 
-                    color="grey lighten-5"/>
+                  <!-- WATCH BUTTON -->
+                  <!-- SHOWS STAGE ON CLICK -->
+                  <v-flex 
+                    xs12
+                  >
+                    <v-tooltip 
+                      top 
+                      dark
+                    >
+                      <v-btn 
+                        slot="activator"
+                        color='white'
+                        flat 
+                        icon 
+                        @click.stop="playProxy(props, true)"
+                      >
+                        <v-icon light>remove_red_eye</v-icon>
+                      </v-btn>
+                      <span>Watch</span>
+                    </v-tooltip>
+                  </v-flex>
+
+                  <!-- PLAY AUDIO BUTTON -->
+                  <!-- <v-flex 
+                    xs12
+                  >
+                    <v-tooltip top>
+                      <v-btn 
+                        slot="activator"
+                        color='white'
+                        flat 
+                        icon 
+                        @click.stop="playProxy(props, false)"
+                      >
+                        <v-icon light>play_arrow</v-icon>
+                      </v-btn>
+                      <span>Play</span>
+                    </v-tooltip>
+                  </v-flex> -->
                 </v-layout>
               </v-img>
             </td>
@@ -230,43 +310,73 @@
             <td 
               v-if="!bMini"
               :colspan="!$route.params.artistID ? '2' : '1'" 
-              class="text-xs-left">
+              class="text-xs-left"
+            >
               <!-- TITLE -->
-              <div :class="$vuetify.breakpoint.name === 'xs' ? 'subheading' : 'dc-t'">{{ props.item.title }}</div>
+              <div :class="$vuetify.breakpoint.name === 'xs' ? 'body-1 ' : 'dc-t'">{{ props.item.title }}</div>
               <div class="ma-0 pa-0">
                 <!-- ARTIST -->
                 <a 
                   v-if="!$route.params.artistID && !bSelect" 
                   :class="artistClass(props.item.trackID)" 
                   :href="shareArtistURL(props.item)" 
-                  @click.stop>{{ props.item.artist }}</a>
+                  @click.stop
+                >{{ props.item.artist }} • </a>
                 <span 
-                  v-else-if="!bSelect" 
+                  v-else-if="bSelect" 
                   :class="artistClass"
-                >{{ props.item.artist }}</span>
+                >{{ props.item.artist }} • </span>
                 <!-- UPLOADED + DURATION -->
-                <span> • {{ date(props.item.uploaded) }} • {{ props.item.duration }}</span>
+                <span>{{ date(props.item.uploaded) }} • {{ props.item.duration }}</span>
                 <!-- DESCRIPTION -->
                 <div 
                   v-if="!$vuetify.breakpoint.xs" 
-                  class="preline wordbreak mh-2 mt-2">{{ props.item.description }}</div>
+                  class="preline wordbreak mh-2 mt-2"
+                >{{ props.item.description }}</div>
               </div>
             </td>
 
+            <!-- ~~~~~~~~~~~~  MINI ~~~~~~~~~~~~ -->
             <!-- TITLE -->
             <td 
               v-if="bMini" 
-              :class="$vuetify.breakpoint.name === 'xs' ? 'subheading text-xs-left' : 'dc-t text-xs-left'">
+              :class="$vuetify.breakpoint.name === 'xs' ? ' text-xs-left pa-0 ma-0' : 'dc-t text-xs-left pa-0 ma-0'"
+            >
+              <v-tooltip 
+              
+                v-if="$vuetify.breakpoint.name !== 'xs'"
+                top 
+                dark
+                ma-0
+                pa-0
+              >
+                <v-btn 
+                  slot="activator"
+                  flat 
+                  icon 
+                  ma-0
+                  pa-0
+                  @click.stop="playProxy(props, true)"
+                >
+                  <v-icon>remove_red_eye</v-icon>
+                </v-btn>
+                <span>Watch</span>
+              </v-tooltip>
               {{ props.item.title }}
             </td>
 
             <!-- ARTIST -->
-            <td v-if="bMini">
+            <td 
+              v-if="bMini && !$route.params.artistID"
+              class="ma-0 pa-0"
+            >
               <a 
-                v-if="!$route.params.artistID && !bSelect" 
+                v-if="!$route.params.artistID" 
                 :class="artistClass(props.item.trackID)" 
                 :href="shareArtistURL(props.item)" 
-                @click.stop>{{ props.item.artist }}</a>
+                
+                @click.stop
+              >{{ props.item.artist }}</a>
               <span 
                 v-else-if="!bSelect" 
                 :class="artistClass"
@@ -274,31 +384,36 @@
             </td>
             <!-- DURATION -->
             <td 
-              v-if="bMini" 
+              v-if="bMini"
             >
               {{ props.item.duration }}
             </td>
             <!-- UPLOADED -->
             <td 
-              v-if="!$vuetify.breakpoint.xs" 
+              v-if="!$vuetify.breakpoint.xs && bMini"
             >
               {{ date(props.item.uploaded) }}
             </td>
+
+            <!-- </td> -->
 
 
             <!-- ACTIONS -->
             <td 
               v-if="!bSelect" 
-              @click.stop>
+              @click.stop
+            >
               <v-btn 
                 icon 
                 small 
-                @click="(chosenSong = props.item, dialog = true)">
+                @click="(chosenSong = props.item, dialog = true)"
+              >
                 <v-icon>more_vert</v-icon>
               </v-btn>
             </td>
 
           </tr>
+
         </template>
       </v-data-table>
     </v-card>
@@ -364,26 +479,10 @@ export default {
       actions: [
         {'icon': 'file_download', func: this.download}
       ],
-      today: new Date(),
-      headers: [
-        { text: 'Title', value: 'title', align: 'left', class: 'ma-0 pa-0'},
-        { text: 'Duration', value: 'duration', align: 'center', class: 'ma-0 pa-0' },
-        { text: 'Date', value: 'uploaded', align: 'center', class: 'ma-0 pa-0' },
-        // { text: '', value: '', align: 'left', sortable: false }
-      ]
+      today: new Date()
     }
   },
   created () {
-    // if NOT on user page add artist add artist header for sorting
-    if (!this.$route.params.artistID) {
-      this.headers.splice(1, 0, { text: 'Artist', value: 'artist', align: 'center', class: 'ma-0 pa-0'})
-      // this.headers.splice(4, 0, { text: 'Date', value: 'uploaded', align: 'center1' })
-      // this.headers.splice(4, 0, { text: '', value: 'source', align: 'left'})
-    } else {
-      // this.headers.splice(3, 0, { text: 'Date', value: 'uploaded', align: 'left' })
-      // this.headers.splice(4, 0, { text: '', value: 'source', align: 'left' })
-    }
-    // this.headers.push({ text: '', value: '', align: 'left', sortable: false })
     // set key to use based on whether this is a playlist
     this.itemKey = this.$route.params.playlist ? 'key' : 'mp32'
   },
@@ -393,15 +492,46 @@ export default {
       listViewSmall: 'listViewSmall',
       view_mode: 'view_mode'
     }),
+    headers () {
+      let r = []
+      if (this.bMini) {
+        r = [
+          { text: 'Title', value: 'title', align: 'center', class: 'ma-0 pa-0', width: this.$vuetify.breakpoint.xs ? '45%' : '42%'},
+          { text: 'Duration', value: 'duration', align: 'center'},
+          // { text: 'Duration', value: 'duration', align: 'center', class: 'ma-0 pa-0' },
+          { text: 'Date', value: 'uploaded', align: 'center', class: 'ma-0 pa-0' },
+          // { text: '', value: '', align: 'left', sortable: false }
+          { text: 'Description', value: 'description', align: 'center', class: 'hidden'}
+        ]
+      } else {
+        r = [
+          { text: 'Title', value: 'title', align: 'center', class: 'ma-0 pa-0', width: this.listViewSmall ? '14%' : this.$vuetify.breakpoint.xs ? '15%' : '15%'},
+          { text: 'Duration', value: 'duration', align: 'center'},
+          // { text: 'Duration', value: 'duration', align: 'center', class: 'ma-0 pa-0' },
+          { text: 'Date', value: 'uploaded', align: 'center', class: 'ma-0 pa-0' },
+          { text: 'Description', value: 'description', align: 'center', class: 'hidden'}
+          // { text: '', value: '', align: 'left', sortable: false }
+        ]
+      }
+      if (!this.$route.params.artistID) {
+        r.splice(1, 0, { text: 'Artist', value: 'artist', align: 'center' })
+        // r.splice(4, 0, { text: '', value: '', align: 'center' })
+      } else {
+        // r.splice(4, 0, { text: '', value: '', align: 'center' })
+      }
+      return r
+    },
     aspect () {
-      return this.$route.name === 'artist' && this.$route.params.source !== 'YouTube'  ? '' : 16/9
+      return this.$route.name === 'artist' && this.$route.params.source !== 'YouTube'  ? '' : 16 / 9
     },
     imgClass () {
       // console.log(this.$store.getters.listViewSmall)
-      return this.listViewSmall ? 'pstr-sm pdiv' : 'pstr-lg pdiv'
+      return this.listViewSmall ? 'simg' : ''
     },
     sorted () {
       //  returns the full sorted array for use with click
+
+      // if pagination != 'all' and songs.length is longer then current items per page
       if (this.$refs.dtable.pagination.rowsPerPage !== -1 && this.songs.length > this.$refs.dtable.pagination.rowsPerPage) {
         var a = this.$refs.dtable.pagination.rowsPerPage
         // eslint-disable-next-line
@@ -422,13 +552,25 @@ export default {
     }
   },
   methods: {
+    playProxy (props, bShow) {
+      // Fix for mobile on first play DIRTY DUPE, SEE PLAY
+      if (this.$store.getters.index === -1 && this.$UTILS.isMobile) this.$DCPlayer.eAudio.play()
+
+      // store current value
+      let a = this.showVideo
+      this.$store.commit('showVideo', bShow)
+      this.play(props.index)
+      // restore old value after ^call
+      this.$store.commit('showVideo', a)
+    },
     artistClass (trackID) {
       return {
+        'white--text': this.isPlaying(trackID),
         'text-xs-left': true,
         'artist-dark': this.$store.getters.theme.dark,
         'artist-light': this.$store.getters.theme.light,
-        'noDeco': true,
-        'white--text': this.isPlaying(trackID)
+        'grd-txt':  true,
+        'noDeco': true
       }
     },
     addSong (song) {
@@ -465,7 +607,7 @@ export default {
       return this.$DCAPI.calcDate(this.today, date)
     },
     play (index) {
-      if (this.$store.getters.index === index && this.hash === this.$route.path) {
+      if (this.sorted[index].trackID == this.$store.getters.current_song.trackID) {
         return this.$DCPlayer.togglePlay()
       }
       // show stage
@@ -485,13 +627,44 @@ export default {
 </script>
 
 <style>
-.dc-t{
-  font-size: 18px;
-}
-.mh-2{
-  max-height: 99px;
-  overflow:hidden;
-}
+  .tr.primary .grd-txt{
+    color: white !important;
+  }
+  @media only screen and (max-width: 1262px){
+    .tr .men {
+      display:flex !important;
+    }
+  }
+  @media only screen and (min-width: 1263px){
+    .tr:hover .men {
+      display:flex !important;
+    }
+    .men{
+        display: none !important;
+        /* position: absolute !important; */
+        /* top: 2px; */
+        /* right: 5px; */
+    }
+  }
+  .dumTd{
+    padding: 4px!important;
+    height: 20px!important;
+  }
+  .simg{
+    height: 99px !important;
+    /* width: 99px !important; */
+  }
+  .dc-t{
+    font-size: 18px;
+  }
+  .mh-2{
+    max-height: 99px !important;
+    overflow:hidden !important;
+  }
+  .mh-2{
+    max-height: 99px;
+    overflow:hidden;
+  }
   table {
     border-collapse:separate; 
     border-spacing: 0 5em;
@@ -505,10 +678,10 @@ export default {
     user-select: none;           /* Non-prefixed version, currently supported by Chrome and Opera */
   }
   .artist-dark{
-    color: white !important;
+    color: white
   }
   .artist-light{
-    color: black !important;
+    color: black
   }
   .hidden{
     display: none;

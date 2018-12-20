@@ -66,7 +66,7 @@ class DCAPIClass {
       case 'vimeo':
         return this.vim(uid)
       default:
-        console.log('!source', source)
+        // console.log('!source', source)
         break
     }
   }
@@ -222,7 +222,7 @@ class DCAPIClass {
     if (this.aQuery[uid].bRelated) {
       a = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=${this.aQuery[uid].iLimit}&relatedToVideoId=${this.aQuery[uid].sArtist}&type=video&key=${this.sYtKey}`
     } else if (this.aQuery[uid].sArtist === '') {
-      a = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=${this.aQuery[uid].iLimit}&type=video&q=${this.aQuery[uid].sQuery}&key=${this.sYtKey}${this.YTnextPageTokenString}`
+      a = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=${this.aQuery[uid].iLimit}&type=video,playlist&q=${this.aQuery[uid].sQuery}&key=${this.sYtKey}${this.YTnextPageTokenString}`
     } else {
       a = `https://www.googleapis.com/youtube/v3/search?part=snippet&order=date&maxResults=${this.aQuery[uid].iLimit}&type=video&channelId=${this.aQuery[uid].sArtist}&key=${this.sYtKey}${this.YTnextPageTokenString}`
     }
@@ -233,6 +233,7 @@ class DCAPIClass {
         try {
           this.nextPageToken = resp.data.nextPageToken
           resp = resp.data.items
+          // build array x with all videoIds
           var x = []
           for (var idx in resp) {
             x.push(resp[idx].id.videoId)
@@ -242,24 +243,46 @@ class DCAPIClass {
             axios.get(`https://www.googleapis.com/youtube/v3/videos?id=${x.join(',')}&part=contentDetails&key=${this.sYtKey}`).then((resp2) => {
               var x = []
               for (var i in resp2.data.items) {
+                // set x.videoId to the duration
+                // console.log(resp2.data.items[i])
                 x[resp2.data.items[i].id] = this.timeHMS(resp2.data.items[i].contentDetails.duration)
               }
               for (var i in resp) {
-                this.aQuery[uid].aResult.push({
-                  // uid: uid,                                                                                         // uid:
-                  artist: resp[i].snippet.channelTitle, // artist:
-                  artistID: resp[i].snippet.channelId, // artistID:
-                  uploaded: this.parseDate(resp[i].snippet.publishedAt), // created:
-                  description: resp[i].snippet.description, // description:
-                  duration: x[resp[i].id.videoId], // duration:
-                  mp3: `https://dream.tribe.nu/r3/off/?q=https://www.youtube.com/watch?v=${resp[i].id.videoId}`, // mp3:
-                  mp32: `https://www.youtube.com/watch?v=${resp[i].id.videoId}`, // mp32:
-                  poster: resp[i].snippet.thumbnails.medium.url, // poster:
-                  posterLarge: resp[i].snippet.thumbnails.high.url, // posterLarge:
-                  source: 'YouTube', // source:
-                  title: resp[i].snippet.title, // title:
-                  trackID: resp[i].id.videoId // trackID:
-                })
+                // console.log(resp[i])
+                if (this.aQuery[uid].sArtist === '' && resp[i].id.kind === 'youtube#playlist') {
+                  // console.log(resp[i])
+                  this.aQuery[uid].aResult.push({
+                    // uid: uid,                                                                                         // uid:
+                    artist: resp[i].snippet.channelTitle, // artist:
+                    artistID: resp[i].snippet.channelId, // artistID:
+                    description: resp[i].snippet.description, // description:
+                    duration: 'Playlist', // duration:
+                    mp32: `https://www.youtube.com/watch?v=${resp[i].id.videoId}`, // mp32:
+                    poster: resp[i].snippet.thumbnails.medium.url, // poster:
+                    posterLarge: resp[i].snippet.thumbnails.high.url, // posterLarge:
+                    source: 'YouTube', // source:
+                    title: resp[i].snippet.title, // title:
+                    trackID: resp[i].id.playlistId, // trackID:
+                    listID: resp[i].id.playlistId,
+                    uploaded: this.parseDate(resp[i].snippet.publishedAt) // uploaded:
+                  })
+                } else {
+                  // console.log(resp[i])
+                  this.aQuery[uid].aResult.push({
+                    // uid: uid,                                                                                         // uid:
+                    artist: resp[i].snippet.channelTitle, // artist:
+                    artistID: resp[i].snippet.channelId, // artistID:
+                    description: resp[i].snippet.description, // description:
+                    duration: x[resp[i].id.videoId], // duration:
+                    mp32: `https://www.youtube.com/watch?v=${resp[i].id.videoId}`, // mp32:
+                    poster: resp[i].snippet.thumbnails.medium.url, // poster:
+                    posterLarge: resp[i].snippet.thumbnails.high.url, // posterLarge:
+                    source: 'YouTube', // source:
+                    title: resp[i].snippet.title, // title:
+                    trackID: resp[i].id.videoId, // trackID:
+                    uploaded: this.parseDate(resp[i].snippet.publishedAt) // uploaded:
+                  })
+                }
               }
               // console.log('resolving', resp)
               resolve()
@@ -289,7 +312,6 @@ class DCAPIClass {
       resp = resp.data.data
       if (resp.length) {
         for (var idx in resp) {
-          console.log(resp[idx])
           this.pushResult(
             uid, // uid:
             resp[idx].user.name, // artist:
@@ -307,7 +329,7 @@ class DCAPIClass {
           )
         }
       }
-    })
+    }).catch(false)
   }
 
   genUID() {
@@ -356,7 +378,7 @@ class DCAPIClass {
         resolve(ret)
       })
       .catch((error) => {
-        console.log(error)
+        // console.log(error)
         reject()
       })
     })
@@ -387,7 +409,7 @@ class DCAPIClass {
         resolve(ret)
       })
       .catch((error) => {
-        console.log(error)
+        // console.log(error)
         reject()
       })
     })
@@ -432,7 +454,7 @@ class DCAPIClass {
       })
     } else if (source.toLowerCase().indexOf('youtube') > -1) {
       return axios.get(`https://www.googleapis.com/youtube/v3/playlists?part=snippet,contentDetails&pageToken=${nextPage}&channelId=${artistID}&maxResults=${maxRes}&key=${this.sYtKey}`).then((resp) => {
-        let ret = {
+        hCallback({
           nextPage: resp.data.nextPageToken,
           data: resp.data.items.map((item) => {
             return {
@@ -447,8 +469,7 @@ class DCAPIClass {
               source: source
             }
           })
-        }
-        hCallback(ret)
+        })
       })
     }
   }

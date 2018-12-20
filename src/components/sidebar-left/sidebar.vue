@@ -12,9 +12,9 @@
       
       <!-- RECOMMENDED -->
       <v-list-tile 
-        :to="{name: 'historyRecommended', params: {user: UID}}" 
-         
-        active-class="primary white--text"
+        :to="{name: 'home', params: {user: UID}}" 
+        :class="isPorA('home')"
+        :active-class="isPorA('home')"
         @click="closeLeft"
       >
         <v-list-tile-action>
@@ -28,8 +28,8 @@
       <!-- trending -->
       <v-list-tile 
         :to="{name: 'trending'}" 
-         
-        active-class="primary white--text"
+        :class="isPorA('trending')"
+        :active-class="isPorA('trending')"
         @click="closeLeft"
       >
         <v-list-tile-action>
@@ -57,9 +57,10 @@
 
       <v-list-tile 
         :to="{name: 'explore'}" 
-        active-class="primary white--text" 
-         
-        @click="closeLeft">
+        :class="isPorA('explore')"
+        :active-class="isPorA('explore')"
+        @click="closeLeft"
+      >
         <v-list-tile-action>
           <v-icon>public</v-icon>
         </v-list-tile-action>
@@ -72,9 +73,10 @@
       <!-- Subscriptions all -->
       <v-list-tile 
         :to="{name:'subsAll', params: {user: UID}}" 
-        active-class="primary white--text" 
-         
-        @click="closeLeft">
+        :class="isPorA('subsAll')" 
+        :active-class="isPorA('subsAll')"
+        @click="closeLeft"
+      >
         <v-list-tile-action>
           <v-icon>people</v-icon>
         </v-list-tile-action>
@@ -86,10 +88,11 @@
       <!-- history -->
       <v-list-tile 
         :to="{name:'history', params: {user: UID}}" 
-         
-        active-class="primary white--text" 
+        :class="isPorA('history')"
+        :active-class="isPorA('history')"
         class="history-link" 
-        @click="closeLeft">
+        @click="closeLeft"
+      >
         <v-list-tile-action>
           <v-icon>history</v-icon>
         </v-list-tile-action>
@@ -124,9 +127,9 @@
       <!-- settings -->
       <v-list-tile 
         :to="{path: '/settings'}" 
-         
-        active-class="primary white--text" 
-        @click="closeLeft">
+        active-class="secondary white--text"
+        @click="closeLeft"
+      >
         <v-list-tile-action>
           <v-icon>settings</v-icon>
         </v-list-tile-action>
@@ -176,7 +179,10 @@ export default {
     },
     clearHistory () {
       this.$DCFB.historyClear()
-    }
+    },
+    isPorA (v) {
+      return this.$store.getters.hash.indexOf(v) > -1 ? 'primary white--text' : this.$route.name == v ? 'secondary white--text' :  ''
+    },
   },
   computed: {
     UID () {

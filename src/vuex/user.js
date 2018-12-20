@@ -5,7 +5,7 @@ export default {
     user: '',
     drawLeft: false,
     drawRight: false,
-    view_mode: 2, // 0 GRID, 1 LIST1, 2 LIST2
+    view_mode: 0, // 0 GRID, 1 TABLE, 2 TABLE W PICS
     auth_state: false,
     bShowStage: true,
     isMobile: false
