@@ -70,7 +70,10 @@
           lg9 
           xl7
         >
-          <v-card class="ma-0">
+          <v-card 
+            class="ma-0
+            elevation-5" 
+          >
             <v-container 
               fluid 
               grid-list-lg
