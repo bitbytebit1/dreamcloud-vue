@@ -36,7 +36,7 @@
     attempt: 1
   })
   
-  import UtilsPlug from '@/api/Utils.js'
+  import UtilsPlug from '@/api/utils.js'
   Vue.use(UtilsPlug)
   
   import DCAPIPlug from '@/api/DCAPI.js'
