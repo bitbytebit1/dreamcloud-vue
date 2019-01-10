@@ -1,6 +1,6 @@
 <template>
+  <!-- :style="{ 'background-image': background }"  -->
   <v-flex 
-    :style="{ 'background-image': background }" 
     xs12 
     class="ma-0 pa-0 pb-3 bg-rp"
   >
@@ -190,14 +190,14 @@ export default {
       ]
     }
     
-  },
-  computed: {
-    background () {
-      return this.$store.getters.nightMode 
-        ? 'url("https://www.toptal.com/designers/subtlepatterns/patterns/random_grey_variations.png")' 
-        : 'url("https://www.toptal.com/designers/subtlepatterns/patterns/escheresque.png")'
-    }
   }
+  // computed: {
+  //   background () {
+  //     return this.$store.getters.nightMode 
+  //       ? 'url("https://www.toptal.com/designers/subtlepatterns/patterns/random_grey_variations.png")' 
+  //       : 'url("https://www.toptal.com/designers/subtlepatterns/patterns/escheresque.png")'
+  //   }
+  // }
 }
 </script>
 <style>
