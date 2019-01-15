@@ -59,7 +59,8 @@
               <span>Filter</span>
             </v-tooltip>
           </v-flex>
-          <!-- FILTER -->
+          <!-- FILTER --> 
+          <!-- MOVE TO BEFORE BUTTONS ON MOBILE ONLY USING FLEX PROP -->
           <v-flex 
             xs5 
             lg9
@@ -495,6 +496,7 @@ export default {
   created () {
     // set key to use based on whether this is a playlist
     this.itemKey = this.$route.params.playlist ? 'key' : 'mp32'
+
   },
   computed: {
     ...mapGetters({
@@ -543,10 +545,14 @@ export default {
 
       // if pagination != 'all' and songs.length is longer then current items per page
       if (this.$refs.dtable.pagination.rowsPerPage !== -1 && this.songs.length > this.$refs.dtable.pagination.rowsPerPage) {
+        //backup rowsPerPage value
         var a = this.$refs.dtable.pagination.rowsPerPage
+        // set to all
         // eslint-disable-next-line
         this.$refs.dtable.pagination.rowsPerPage = -1
+        //if we are filtering then  filtereditems  if not this.songs
         var b = this.$refs.dtable.filteredItems.length ? this.$refs.dtable.filteredItems : this.songs
+        // resest the rowsPerPage value to previously saved
         // eslint-disable-next-line
         this.$refs.dtable.pagination.rowsPerPage = a
         return b
@@ -562,6 +568,7 @@ export default {
     }
   },
   methods: {
+    // Watch
     playProxy (props, bShow) {
       // Fix for mobile on first play DIRTY DUPE, SEE PLAY
       if (this.$store.getters.index === -1 && this.$UTILS.isMobile) this.$DCPlayer.eAudio.play()
