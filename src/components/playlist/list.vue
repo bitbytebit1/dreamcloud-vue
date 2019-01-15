@@ -12,8 +12,8 @@
         >
           <!-- HEADER BUTTONS -->
           <v-flex 
-            xs6 
-            lg2 
+            xs12 
+            lg3 
             class="text-xs-left mt-2"
           >
             <!-- ENABLE CHECK BOXES -->
@@ -62,7 +62,7 @@
           <!-- FILTER --> 
           <!-- MOVE TO BEFORE BUTTONS ON MOBILE ONLY USING FLEX PROP -->
           <v-flex 
-            xs5 
+            xs12 
             lg9
           >
             <v-text-field
