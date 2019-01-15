@@ -1,7 +1,7 @@
 export default {
   state: {
     settings: {
-      'Night Mode': false,
+      'Night Mode': true,
       'List Small': false,
       'Show Video': true,
       'Show Watch Button': true,
