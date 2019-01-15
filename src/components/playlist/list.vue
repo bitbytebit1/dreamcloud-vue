@@ -163,6 +163,7 @@
                 :track-id="chosenSong.trackID"
                 :key="chosenSong.trackID"
               />
+
             </v-list>
           </v-dialog>
         </template>
@@ -576,7 +577,7 @@ export default {
       // store current value
       let a = this.showVideo
       this.$store.commit('showVideo', bShow)
-      this.play(props.index)
+      this.play(props.index , false)
       // restore old value after ^call
       this.$store.commit('showVideo', a)
     },
@@ -623,8 +624,8 @@ export default {
     date (date) {
       return this.$DCAPI.calcDate(this.today, date)
     },
-    play (index) {
-      if (this.sorted[index].trackID == this.$store.getters.current_song.trackID) {
+    play (index, pauseIfSame = true) {
+      if (pauseIfSame && this.sorted[index].trackID == this.$store.getters.current_song.trackID) {
         return this.$DCPlayer.togglePlay()
       }
       // show stage
