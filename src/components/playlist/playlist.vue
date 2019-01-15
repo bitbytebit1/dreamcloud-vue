@@ -8,29 +8,35 @@
   >
     <list 
       v-if="list == '1' && !gridView" 
-      :songs="fixedSongs" 
+      :songs="songsActual" 
       :full="full" 
       :rows-per-page="rowsPerPage"
       :sort-by="sortBy" 
       :bMini="true" 
       @toggleView="toggleView"
+      @shuffleOn="shuffle"
+      @shuffleOff="shuffle(songs)"
     />
     <list 
       v-if="list == '2' && !gridView" 
-      :songs="fixedSongs" 
+      :songs="songsActual" 
       :full="full" 
       :rows-per-page="rowsPerPage" 
       :sort-by="sortBy" 
       @toggleView="toggleView"
+      @shuffleOn="shuffle"
+      @shuffleOff="shuffle(songs)"
     />
     <grid 
       v-if="list == '0' && !gridView" 
-      :songs="fixedSongs" 
+      :songs="songsActual" 
       :full="full" 
       :rows-per-page="rowsPerPage" 
       :sort-by="sortBy" 
       :show-uploaded="showUploaded" 
       @toggleView="toggleView"
+      @shuffleOn="shuffle"
+      @shuffleOff="shuffle(songs)"
     />
   </v-layout>
   <!-- </v-container> -->
@@ -76,35 +82,44 @@ export default {
   data () {
     return {
       showScrollToTop: false,
-      fixd: this.songs
+      fixd: this.songs,
+      songsActual: this.songs
+    }
+  },
+  watch: {
+    songs: {
+      immediate: true,
+      handler: 'burp'
     }
   },
   computed: {
     ...mapGetters({
       list: 'view_mode'
-    }),
-    _size () {
-      // returns xs to xl depending on view port.
-      // used to set padding around elements.
-      return this.$vuetify.breakpoint.name
-    },
-    fixedSongs () {
-      // eslint-disable-next-line
+    })
+  },
+  methods: {
+    burp () {
       this.fixd = this.songs
-      for (let song in this.fixd) {
+      for (let song in this.songsActual) {
         // console.log(this.fixd[song])
-        if (!(this.fixd[song].uploaded instanceof Date)) {
+        if (!(this.songsActual[song].uploaded instanceof Date)) {
           // eslint-disable-next-line
-          this.fixd[song].uploaded = new Date(this.fixd[song].uploaded)
+          this.songsActual[song].uploaded = new Date(this.songsActual[song].uploaded)
         } else {
           // console.log('assuming all dates are ok')
           break
         }
       }
-      return this.fixd
-    }
-  },
-  methods: {
+      this.songsActual = this.fixd
+    },
+    shuffle ($event) {
+      console.log('shufflez', $event[0].trackID)
+      this.songsActual = $event
+      // wait for data table to update
+      // this.$nextTick(() => {
+      //   this.play(0)
+      // })
+    },
     play (index) {
       this.$store.commit('setNPlay', {songs: this.songs, current: index, path: this.$route.path})
       return this.$DCPlayer.setNPlay(this.songs, index)

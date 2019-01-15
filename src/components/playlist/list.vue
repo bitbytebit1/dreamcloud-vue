@@ -39,6 +39,14 @@
               </v-btn>
               <span>Change view</span>
             </v-tooltip>
+
+            <!-- SHUFFLE BUTTON -->
+            <shuffle-button 
+              :songs="songs" 
+              @shuffleOn="$emit('shuffleOn', $event)"
+              @shuffleOff="$emit('shuffleOff')"
+            />
+            
             <!-- FOCUS SEARCH BAR BUTTON -->
             <v-tooltip top>
               <v-btn 
@@ -424,6 +432,7 @@
 // /* eslint-disable */
 import addToPlaylist from '@/components/buttons/add-to-playlist.vue'
 import deleteButton from '@/components/buttons/delete-button'
+import shuffleButton from '@/components/buttons/shuffle-button'
 import downloadButton from '@/components/buttons/download-button'
 import shareButton from '@/components/buttons/share-button'
 import offlineButton from '@/components/buttons/offline-button.vue'
@@ -459,6 +468,7 @@ export default {
     'delete-button': deleteButton,
     'download-button': downloadButton,
     'share-button': shareButton,
+    'shuffleButton': shuffleButton,
     'offlineButton': offlineButton
   },
   data () {

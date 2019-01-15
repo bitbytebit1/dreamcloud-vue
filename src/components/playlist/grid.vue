@@ -40,6 +40,14 @@
               </v-btn>
               <span>Change view</span>
             </v-tooltip>
+
+            <!-- SHUFFLE BUTTON -->
+            <shuffle-button 
+              :songs="songs" 
+              @shuffleOn="$emit('shuffleOn', $event)"
+              @shuffleOff="$emit('shuffleOff')"
+            />
+
             <!-- FILTER BUTTON -->
             <v-tooltip top>
               <v-btn 
@@ -378,7 +386,7 @@
   </v-flex>
 </template>
 <script>
-
+import shuffleButton from '@/components/buttons/shuffle-button'
 import offlineButton from '@/components/buttons/offline-button.vue'
 import addToPlaylist from '@/components/buttons/add-to-playlist.vue'
 import deleteButton from '@/components/buttons/delete-button'
@@ -417,6 +425,7 @@ export default {
     'add-to-playlist': addToPlaylist,
     'delete-button': deleteButton,
     'download-button': downloadButton,
+    'shuffleButton': shuffleButton,
     'share-button': shareButton
   },
   watch: {
