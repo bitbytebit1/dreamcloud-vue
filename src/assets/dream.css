@@ -140,3 +140,11 @@ div.application.theme--light .fillPlace{
 div.application.theme--dark .fillPlace{
   background-color: #616161;
 }
+/* ANCHOR LINKS */
+div.application.theme--light a{
+  color: #000;
+}
+
+div.application.theme--dark a{
+  color: white;
+}

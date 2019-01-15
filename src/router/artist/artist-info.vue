@@ -46,13 +46,18 @@
       lg10
     >
       <!-- ARTIST NAME -->
-      <v-flex 
-        :class="$vuetify.breakpoint.name === 'xs'? 'headline fwl' : 'headline fwl text-xs-left pl-2 pt-2'" 
-        xs12 
-        lg10
+      <router-link 
+        :to="{name: 'artist', params: {source: source, artist: artist, artistID: artistID}}" 
+        class="noDeco pointer"
       >
-        {{ artist }}
-      </v-flex>
+        <v-flex 
+          :class="$vuetify.breakpoint.name === 'xs'? 'headline fwl' : 'headline fwl text-xs-left pl-2 pt-2'" 
+          xs12 
+          lg10
+        >
+          {{ artist }}
+        </v-flex>
+      </router-link>
       <v-layout 
         row 
         wrap 
