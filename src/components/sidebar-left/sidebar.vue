@@ -180,6 +180,7 @@ export default {
     clearHistory () {
       this.$DCFB.historyClear()
     },
+    // Playing or active
     isPorA (v) {
       return this.$store.getters.hash.indexOf(v) > -1 ? 'primary white--text' : this.$route.name == v ? 'secondary white--text' :  ''
     },
