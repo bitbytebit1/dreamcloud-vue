@@ -85,7 +85,7 @@
               >
                 <v-icon>{{ bWide ? 'crop_3_2' :'crop_16_9' }}</v-icon>
               </v-btn>
-              <span>{{ bWide ? 'Wide' :'Default' }}</span>
+              <span>{{ bWide ? 'Wide' :'Narrow' }}</span>
             </v-tooltip>
             <!-- FULLSCREEN BUTTON -->
             <v-tooltip 
