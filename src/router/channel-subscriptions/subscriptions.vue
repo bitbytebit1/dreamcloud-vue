@@ -78,6 +78,12 @@
                 <v-flex xs8>
                   <div class="h200 text-xs-left pl-4 pr-4">
                     <div class="headline">{{ props.item.artist }}</div>
+                    <subscribe-button 
+                      :artistID="props.item.artistID" 
+                      :source="props.item.source" 
+                      :artist="props.item.artist" 
+                      :img="props.item.img"
+                    />
                     <div class="grey--text">Uploads {{ props.item.numberOfSongs }}</div>
                     <div class="">{{ props.item.description }}</div>
                     <!-- <div>{{props.item.numberOfSongs}}</div> -->
@@ -95,7 +101,7 @@
 </template>
 <script>
 // /* eslint-disable */
-// import deleteButton from '@/components/buttons/delete-button'
+import subscribeButton from '@/components/buttons/subscribe-button'
 export default {
   name: 'UserSubOverview',
   props: {
@@ -105,6 +111,9 @@ export default {
         return []
       }
     }
+  },
+  components: {
+    'subscribeButton': subscribeButton
   },
   data () {
     return {
