@@ -1,10 +1,14 @@
 <template>
-  <v-btn 
-    icon
-    @click="toggle"
-  >
-    <v-icon :color="color">shuffle</v-icon>
-  </v-btn>
+  <v-tooltip top>
+    <v-btn 
+      slot="activator"
+      icon
+      @click="toggle"
+    >
+      <v-icon :color="color">shuffle</v-icon>
+    </v-btn>
+    <span> {{ bShuffle ? 'Unshuffle' : 'Shuffle' }}</span>
+  </v-tooltip>
 </template>
 <script>
 import { mapGetters } from 'vuex'
