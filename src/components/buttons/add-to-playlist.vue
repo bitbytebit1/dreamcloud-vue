@@ -66,7 +66,7 @@
             itemText="name"
             appendIcon="add"
             no-data-text="Create new playlist"
-            label="Name"
+            label="Playlist name"
             color="primary"
             clearable
             hideNoData
