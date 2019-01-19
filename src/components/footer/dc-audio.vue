@@ -96,7 +96,6 @@
               >
                 <template
                   slot="thumb-label"
-                  slot-scope="props"
                 >
                   <span>
                     {{ secondsToDuration(progress) }}
@@ -177,14 +176,18 @@ export default {
       this.progress = Math.floor(this.eAudio.currentTime)
     },
     playing () {
+      this.$store.commit('dcIsLoading', false)
+      this.$store.commit('dcIsPlaying', true)
       this.duration = this.secondsToDuration(this.eAudio.duration.toFixed(0))
       this.play_arrow = 'pause'
       this.bLoading = false
     },
     paused () {
+      this.$store.commit('dcIsPlaying', false)
       this.play_arrow = 'play_arrow'
     },
     loading () {
+      this.$store.commit('dcIsLoading', true)
       this.bLoading = true
     },
     next () {

@@ -55,6 +55,7 @@ export default {
           // console.log('playing audio')
           store.commit('ytStopVideo')
         }
+        store.commit('dcIsLoading', true)
         if(DCPlayer.aPlaylist[index].source == 'SoundCloud')
           return DCPlayer.setAudioSrc(DCPlayer.aPlaylist[index].mp3)
         else
