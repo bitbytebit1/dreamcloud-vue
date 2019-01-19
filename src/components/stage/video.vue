@@ -351,7 +351,8 @@ export default {
         this.$store.commit('ytDuration', this.ytObject.getDuration())
         this.interval = setInterval(() => {
           this.$store.commit('ytCurrentTime', this.ytObject.getCurrentTime())
-        }, 250)
+        }, 500)
+      // ENDED
       } else if (state.data === 0) {
         clearInterval(this.interval)
         this.$store.commit('ytCurrentTime', 0)
