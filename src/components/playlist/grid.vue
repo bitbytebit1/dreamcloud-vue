@@ -294,6 +294,9 @@
                             >{{ $store.getters.isPlaying && isPlaying (props.item.trackID)? 'pause' : 'play_arrow' }}</v-icon>
                           </v-btn>
                         </div>
+                        <div style="position:absolute;bottom:0;right:0">
+                          <add-to-queue :song="props.item"/>
+                        </div>
                       </div>
                     </v-expand-transition>
 
@@ -397,11 +400,11 @@
 import shuffleButton from '@/components/buttons/shuffle-button'
 import offlineButton from '@/components/buttons/offline-button.vue'
 import addToPlaylist from '@/components/buttons/add-to-playlist.vue'
+import addToQueue from '@/components/buttons/add-to-queue.vue'
 import deleteButton from '@/components/buttons/delete-button'
 import shareButton from '@/components/buttons/share-button'
 import downloadButton from '@/components/buttons/download-button'
 import { mapGetters } from 'vuex'
-// /* eslint-disable */
 export default {
   name: 'Grid',
   props: {
@@ -429,6 +432,7 @@ export default {
     }
   },
   components: {
+    'add-to-queue': addToQueue,
     'offlineButton': offlineButton,
     'add-to-playlist': addToPlaylist,
     'delete-button': deleteButton,

@@ -10,6 +10,9 @@ export default {
       state.current_Index = payload.current
       state.current_Hash = payload.path
     },
+    current_Playlist (state, payload) {
+      state.current_Playlist = payload
+    },
     changeIndex (state, payload) {
       state.current_Index = payload
     }
