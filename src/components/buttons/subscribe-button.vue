@@ -1,9 +1,10 @@
 <template>
   <v-btn 
-    :color="btnColor" 
-    small 
-    class="ma-0 pa-0" 
-    @click.prevent="toggleSub"
+    :color="btnColor"  
+    round
+    small
+    outline
+    @click.prevent="toggleSub" 
   >{{ subbed ? 'Subscribed' : 'Subscribe' }}</v-btn>
 </template>
 <script>
