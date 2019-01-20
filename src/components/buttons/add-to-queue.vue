@@ -1,5 +1,14 @@
 <template>
+  <v-list-tile 
+    v-if="inList" 
+    ripple 
+    @click.stop="add"
+  >
+    <v-list-tile-title>Add to queue</v-list-tile-title>
+  </v-list-tile>
+
   <v-tooltip 
+    v-else
     top
   >
     <v-btn 
@@ -8,7 +17,7 @@
       @click.stop="add"
     >
       <v-icon>
-        playlist_add
+        add_to_queue
       </v-icon>
     </v-btn>
     <span>{{ t }}</span>
@@ -22,6 +31,12 @@ export default {
       type: Object,
       default() {
         return {}
+      }
+    },
+    inList: {
+      type: Boolean,
+      default() {
+        return false
       }
     }
   },

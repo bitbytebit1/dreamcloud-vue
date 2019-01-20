@@ -7,14 +7,6 @@
     @click.stop="toggleOffline"
   >
     <v-list-tile-title>Save offline</v-list-tile-title>
-    <v-list-tile-action>
-      <v-btn 
-        :loading="loading" 
-        icon
-      >
-        <v-icon :color="btnColor">{{ btnIcon }}</v-icon>
-      </v-btn>
-    </v-list-tile-action>
   </v-list-tile>
   <v-btn 
     v-else 

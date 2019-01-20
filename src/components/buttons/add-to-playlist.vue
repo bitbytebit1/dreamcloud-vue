@@ -11,15 +11,7 @@
       @click.stop="openMenu"
     >
       <v-list-tile-title>Add to playlist</v-list-tile-title>
-      <v-list-tile-action>
-        <v-btn 
-          :disabled="disabled" 
-          :color='btnCol' 
-          icon
-        >
-          <v-icon>playlist_add</v-icon>
-        </v-btn>    
-      </v-list-tile-action>
+
     </v-list-tile>
 
     <!-- BUTTON ONLY -->
@@ -120,6 +112,12 @@ export default {
       select: ''
     }
   },
+  watch: {
+    auth_state: {
+      immediate: true,
+      handler: 'bind'
+    }
+  },
   computed: {
     cardHeight1 () {
       return this.$vuetify.breakpoint.xsOnly ? '277' : '400'
@@ -145,7 +143,6 @@ export default {
     },
     openMenu () {
       this.menuOpen = !this.menuOpen
-      // this.$emit('opened', true)
       setTimeout(() => {
         // VTFY CLASS
         this.$refs.auto.$el.querySelector('.v-select__slot').click()
@@ -155,23 +152,18 @@ export default {
     btnFeedback () {
       this.$store.dispatch('snack', { b: true, c:'primary', s:'Added to playlist' })
       //  this.menuOpen = this.$UTILS.isMobile ? false : true
-      this.playlistName = ''
+      // this.playlistName = ''
       this.btnCol = 'green'
       setTimeout(() => {
         this.menuOpen = false
-        this.$emit('opened', false)
+        // this.$emit('opened', false)
         this.btnCol = ''
       }, 420)
     },
     bind () {
-      if (this.artistID && this.$store.getters.auth_state) {
-        this.$bindAsArray('subscribed', this.$DCFB.subscriptions.child(this.artistID))
+      if (this.$store.getters.auth_state) {
+        this.$bindAsArray('items', this.$DCFB.playlists.orderByChild('name_lower'))
       }
-    }
-  },
-  created () {
-    if (this.$store.getters.auth_state) {
-      this.$bindAsArray('items', this.$DCFB.playlists.orderByChild('name_lower'))
     }
   }
 }
