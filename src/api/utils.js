@@ -56,9 +56,11 @@ export default {
           } else {
             Utils.downloadLink(`whatsapp://send?text=${encodeURIComponent(url)}`)
           }
+          return 0
           // this.$parent.setIframeSrc('') // double check if this works.
         } else {
           Utils.copyToClipboard(encodeURI(url))
+          return 1
         }
       },
       formatBytes (a, b) {

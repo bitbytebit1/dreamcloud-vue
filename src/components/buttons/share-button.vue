@@ -62,7 +62,11 @@ export default {
   methods: {
     share () {
       this.color = 'primary'
-      this.$UTILS.share(this.url, this.song)
+      if(this.$UTILS.share(this.url, this.song)) {
+        this.$store.commit('snack', { b: true, c:'primary', s:'Link copied to clipboard' })
+      } else {
+        this.$store.commit('snack', { b: true, c:'primary', s:'Opening share menu' })
+      }
       setTimeout(() => {
         this.color = ''
       }, 2000)

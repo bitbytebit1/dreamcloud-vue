@@ -49,6 +49,7 @@ export default {
   },
   methods: {
     download () {
+      this.$store.dispatch('snack', { b: true, c:'primary', s:'Downloading' })
       this.color = 'primary'
       setTimeout(() => {
         this.color = ''

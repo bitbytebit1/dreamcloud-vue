@@ -3,6 +3,7 @@
     v-bind="theme" 
     :class="blackClass"
   >
+    <snackbar/>
     <v-snackbar
       v-model="snackbar"
       :timeout="0"
@@ -168,6 +169,7 @@
 <script>
 import hks from './components/misc/hks'
 import search from './components/header/search'
+import snackbar from './components/header/snackbar'
 import dcAudio from './components/footer/dc-audio'
 import dcYoutube from './components/footer/dc-youtube'
 import currentPlaylist from './components/sidebar-right/current-playlist'
@@ -188,6 +190,7 @@ export default {
   },
   components: {
     'hks': hks,
+    'snackbar': snackbar,
     'search': search,
     'dc-audio': dcAudio,
     'dc-youtube': dcYoutube,

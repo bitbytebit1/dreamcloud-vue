@@ -1,6 +1,5 @@
 <template>
   <v-tooltip 
-    :color="c" 
     top
   >
     <v-btn 
@@ -8,9 +7,7 @@
       icon
       @click.stop="add"
     >
-      <v-icon
-        :color="c"
-      >
+      <v-icon>
         playlist_add
       </v-icon>
     </v-btn>
@@ -37,6 +34,7 @@ export default {
   methods: {
     add () {
       this.c = 'green'
+      this.$store.dispatch('snack', { b: true, c:'primary', s:'Added to queue' })
       // if first song in playlist
       this.$store.getters.index === -1
         ? this.$store.commit('setNPlay', {songs: [this.song], current: 0, path: this.$route.path})

@@ -75,6 +75,7 @@ export default {
           this.clicks = 0
         }, 2000)
         this.$emit('delete', this.id)
+        this.$store.dispatch('snack', { b: true, c:'red', s:'Delete' })
       }
     }
   }

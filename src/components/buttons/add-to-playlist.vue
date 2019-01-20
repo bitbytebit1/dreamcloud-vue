@@ -153,6 +153,7 @@ export default {
       }, 600)
     },
     btnFeedback () {
+      this.$store.dispatch('snack', { b: true, c:'primary', s:'Added to playlist' })
       //  this.menuOpen = this.$UTILS.isMobile ? false : true
       this.playlistName = ''
       this.btnCol = 'green'
