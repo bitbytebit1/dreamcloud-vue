@@ -77,6 +77,52 @@
               @keyup.enter="$UTILS.closeSoftMobi()"
             />
           </v-flex>
+          <!-- RIGHT CLICK MENU -->
+          <v-menu
+            v-model="showMenu"
+            :position-x="x"
+            :position-y="y"
+            absolute
+            offset-y
+            lazy
+          >
+            <v-list >
+              <add-to-queue 
+                :in-list="true" 
+                :song="bSelect ? selected : chosenSong"
+                @click.native="showMenu = false"
+              />
+              <add-to-playlist 
+                :in-list="true" 
+                :song="bSelect ? selected : [chosenSong]"
+                @click.native="showMenu = false"
+              />
+              <share-button 
+                :in-list="true" 
+                :song="chosenSong" 
+                :url="'https://dreamcloud.netlify.com/#/t/' + chosenSong.source + '/' + encodeURIComponent(chosenSong.artist) + '/' + chosenSong.trackID"
+                @click.native="showMenu = false"
+              />
+              <delete-button 
+                v-if="chosenSong.key && !bSelect" 
+                :in-list="true" 
+                :id="chosenSong.key" 
+                @delete="bSelect ? removeList() : remove(chosenSong.key)"
+              />
+              <download-button 
+                :in-list="true" 
+                :links="bSelect ? selected : [chosenSong]"
+                @click.native="showMenu = false"
+              />
+              <offlineButton 
+                :in-list="true" 
+                :link1="chosenSong.mp32" 
+                :link2="chosenSong.mp3" 
+                :track-id="chosenSong.trackID"
+                @click.native="showMenu = false"
+              />
+            </v-list>
+          </v-menu>
           <!-- SELECT BUTTONS -->
           <v-flex 
             v-if="bSelect" 
@@ -141,40 +187,6 @@
           row
           wrap
         >
-          <template slot="footer">
-            <v-dialog
-              v-model="dialog"
-              max-width="500px"
-            >
-              <v-list>
-                <add-to-playlist 
-                  :in-list="true" 
-                  :song="bSelect ? selected : [chosenSong]"
-                />
-                <share-button 
-                  :in-list="true" 
-                  :song="chosenSong" 
-                  :url="'https://dreamcloud.netlify.com/#/t/' + chosenSong.source + '/' + encodeURIComponent(chosenSong.artist) + '/' + chosenSong.trackID"
-                />
-                <delete-button 
-                  v-if="chosenSong.key && !bSelect" 
-                  :in-list="true" 
-                  :id="chosenSong.key" 
-                  @delete="bSelect ? removeList() : remove(chosenSong.key)"
-                />
-                <download-button 
-                  :in-list="true" 
-                  :links="bSelect ? selected : [chosenSong]"
-                />
-                <offlineButton 
-                  :in-list="true" 
-                  :link1="chosenSong.mp32" 
-                  :link2="chosenSong.mp3" 
-                  :track-id="chosenSong.trackID"
-                />
-              </v-list>
-            </v-dialog>
-          </template>
           <!-- NO DATA -->
           <template slot="no-data">
             <v-layout 
@@ -256,13 +268,14 @@
               <v-card 
                 slot-scope="{ hover }"
                 class="dc-crd ma-0 pa-0 pointer outline"
+                @contextmenu="show($event, props.item)"
               >
                 <!-- IMAGE -->
                 <v-img
                   :aspect-ratio="aspect"
                   :src="props.item.posterLarge"
                   :lazy-src="props.item.posterLarge"
-                  class="fillPlace"
+                  class="fillPlace nosel"
                 >
                   <v-layout 
                     class="text-xs-center"
@@ -273,7 +286,7 @@
                     <v-expand-transition>
                       <div
                         v-if="hover || isPlaying(props.item.trackID)"
-                        class="d-flex text-xs-center transition-fast-in-fast-out black v-card--reveal"
+                        class="d-flex text-xs-center transition-fast-in-fast-out v-card--reveal"
                         style="height: 100%;"
                       >
                         <div>
@@ -294,6 +307,9 @@
                             >{{ $store.getters.isPlaying && isPlaying (props.item.trackID)? 'pause' : 'play_arrow' }}</v-icon>
                           </v-btn>
                         </div>
+                        <!-- <div style="position:absolute;bottom:0;right:0">
+                          <add-to-queue :song="props.item"/>
+                        </div> -->
                       </div>
                     </v-expand-transition>
 
@@ -375,11 +391,11 @@
                           icon 
                           small 
                           class="men fl-r ma-0 pa-0 mt-1" 
-                          @click="(chosenSong = props.item, dialog = true)"
+                          @click="show($event, props.item)"
                         >
                           <v-icon>more_vert</v-icon>
                         </v-btn>
-                        <span>Show more</span>
+                        <span>{{ $vuetify.breakpoint.smAndDown ? 'Open long press menu' : 'Open right click menu' }}</span>
                       </v-tooltip>
                     </v-flex>
                   
@@ -397,11 +413,11 @@
 import shuffleButton from '@/components/buttons/shuffle-button'
 import offlineButton from '@/components/buttons/offline-button.vue'
 import addToPlaylist from '@/components/buttons/add-to-playlist.vue'
+import addToQueue from '@/components/buttons/add-to-queue.vue'
 import deleteButton from '@/components/buttons/delete-button'
 import shareButton from '@/components/buttons/share-button'
 import downloadButton from '@/components/buttons/download-button'
 import { mapGetters } from 'vuex'
-// /* eslint-disable */
 export default {
   name: 'Grid',
   props: {
@@ -429,6 +445,7 @@ export default {
     }
   },
   components: {
+    'add-to-queue': addToQueue,
     'offlineButton': offlineButton,
     'add-to-playlist': addToPlaylist,
     'delete-button': deleteButton,
@@ -443,6 +460,9 @@ export default {
   },
   data () {
     return {
+      showMenu: false,
+      x: 0,
+      y: 0,
       chosenSong: [],
       dialog: false,
       bShow: false,
@@ -501,6 +521,16 @@ export default {
     }
   },
   methods: {
+    show (e, song) {
+      this.chosenSong = song
+      e.preventDefault()
+      this.showMenu = false
+      this.x = e.clientX
+      this.y = e.clientY
+      this.$nextTick(() => {
+        this.showMenu = true
+      })
+    },
     playProxy (props, bShow) {
       // Fix for mobile on first play
       if (this.$store.getters.index === -1 && this.$UTILS.isMobile) this.$DCPlayer.eAudio.play()

@@ -1,19 +1,12 @@
 <template>
   <v-list-tile 
     v-if="inList" 
+    :class="color" 
     ripple 
-    @click.stop="emitDelete" 
-    @mouseleave="clicks = clickedTwice ? 2 : 0"
+    @click.stop="emitDelete"
+    @mouseleave="clicks = clickedTwice ? 2 : 0" 
   >
-    <v-list-tile-title>Delete</v-list-tile-title>
-    <v-list-tile-action>
-      <v-btn 
-        :color="color" 
-        icon
-      >
-        <v-icon :color="clickedOnce ? 'whit1e': ''">{{ dlIcn }}</v-icon>
-      </v-btn>
-    </v-list-tile-action>
+    <v-list-tile-title>{{ dlTxt }}</v-list-tile-title>
   </v-list-tile>
   <v-tooltip 
     v-else 
@@ -57,6 +50,9 @@ export default {
     dlIcn () {
       return this.clickedOnce ? 'delete' : this.clickedTwice ? 'delete_forever' : 'delete'
     },
+    dlTxt () {
+      return this.clickedOnce ? 'Click again to delete' : this.clickedTwice ? 'Deleted' : 'Delete'
+    },
     color () {
       return this.clickedOnce ? 'red lighten-1' : this.clickedTwice ? 'green lighten-1' : this.colour
     },
@@ -75,6 +71,9 @@ export default {
           this.clicks = 0
         }, 2000)
         this.$emit('delete', this.id)
+        if (!this.inList) {
+          this.$store.dispatch('snack', { b: true, c:'green', s:'Deleted' })
+        }
       }
     }
   }

@@ -5,14 +5,6 @@
     @click.stop="download"
   >
     <v-list-tile-title>Download</v-list-tile-title>
-    <v-list-tile-action>
-      <v-btn 
-        :color="color" 
-        icon
-      >
-        <v-icon :color="color ==='primary' ? 'white': ''">file_download</v-icon>
-      </v-btn>
-    </v-list-tile-action>
   </v-list-tile>
   <v-tooltip 
     v-else 
@@ -49,6 +41,7 @@ export default {
   },
   methods: {
     download () {
+      this.$store.dispatch('snack', { b: true, c:'primary', s:'Downloading' })
       this.color = 'primary'
       setTimeout(() => {
         this.color = ''

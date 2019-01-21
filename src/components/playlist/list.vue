@@ -241,7 +241,7 @@
         >
           <tr 
             :key="props.index" 
-            :id="bSelect ? 'nulld' : ''" 
+            :id="bSelect ? 'nosel' : ''" 
             :class="isPlaying(props.item.trackID) ? 'primary white--text mb-3 pointer wordbreak' : 'mb-3 pointer wordbreak'" 
             @click.stop="props.item.listID ? $router.push({name: 'channelPlaylist', params: {listID: props.item.listID, artistID: props.item.artistID, title: props.item.title, source: props.item.source}}) : !bSelect ? play(props.index) : props.selected = !props.selected"
           >
@@ -687,14 +687,7 @@ export default {
     border-collapse:separate; 
     border-spacing: 0 5em;
   }
-  tr#nulld{
-    -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none;   /* Safari */
-    -khtml-user-select: none;    /* Konqueror HTML */
-    -moz-user-select: none;      /* Firefox */
-    -ms-user-select: none;       /* Internet Explorer/Edge */
-    user-select: none;           /* Non-prefixed version, currently supported by Chrome and Opera */
-  }
+
   .artist-dark{
     color: white
   }

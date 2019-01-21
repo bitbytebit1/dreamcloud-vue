@@ -4,7 +4,8 @@
     round
     small
     outline
-    @click.prevent="toggleSub" 
+    content-class="ma-0" 
+    @click.prevent="toggleSub"
   >{{ subbed ? 'Subscribed' : 'Subscribe' }}</v-btn>
 </template>
 <script>
