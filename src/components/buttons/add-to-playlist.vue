@@ -42,18 +42,19 @@
       <v-card 
         :height="cardHeight1" 
         flat
+        style="overflow-x: hidden;"
       >
-        <v-card-text class="title fwl ma-0 pa-2">
+        <v-card-text class="title fwl ma-0 pa-0 pl-2 pt-2">
           Add to playlist
         </v-card-text>
-        <v-card-actions>
+        <div :style="{height: 44 + +cardHeight2 + 'px'}">
           <v-autocomplete
             ref="auto"
             v-model="select"
             :menu-props="{ maxHeight: cardHeight2, contentClass: 'noShadow pt-1'}"
             :items="items"
             :searchInput.sync="search"
-            class="ma-0"
+            class="ma-0 px-2"
             itemValue="key"
             itemText="name"
             appendIcon="add"
@@ -62,6 +63,7 @@
             color="primary"
             clearable
             hideNoData
+            open-on-clear
             returnObject
             singleLine
             @keyup.enter='enter'
@@ -72,12 +74,22 @@
               slot-scope="data"
             >
               <v-list-tile-content 
-                @click="clicked(data.item)" 
+                :key="data.item['.key']" 
+                @click="clicked(data.item)"
                 v-text="data.item.name"
               />
             </template>
           </v-autocomplete>
-        </v-card-actions>
+        </div>
+        <div class="text-xs-right">
+          <v-btn 
+            color="primary" 
+            @click.stop="enter"
+          >Add</v-btn>
+        </div>
+        <!-- 438
+        345 -->
+        
       </v-card>
     </v-dialog>
   </span>
@@ -120,10 +132,10 @@ export default {
   },
   computed: {
     cardHeight1 () {
-      return this.$vuetify.breakpoint.xsOnly ? '277' : '400'
+      return this.$vuetify.breakpoint.xsOnly ? '316' : '438'
     },
     cardHeight2 () {
-      return this.$vuetify.breakpoint.xsOnly ? '188' : '280'
+      return this.$vuetify.breakpoint.xsOnly ? '188' : '310'
     }
   },
   methods: {
