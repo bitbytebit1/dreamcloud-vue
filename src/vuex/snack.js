@@ -26,7 +26,7 @@ export default {
       setTimeout(() => {
         commit('snackt', setTimeout(() => {
           commit('snackb', false)
-        }, 6000))
+        }, 2000))
         commit('snack', payload)
       }, 250)
     }

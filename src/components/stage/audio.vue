@@ -304,9 +304,6 @@ export default {
   }
 }
 
-
-
-
 /* .stage-btns{ */
   /* height: 36px; */
   /* border-bottom: 1px solid teal; */

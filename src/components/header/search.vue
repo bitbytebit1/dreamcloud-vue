@@ -23,7 +23,7 @@
       <v-toolbar-title slot="activator">
         <v-btn icon>
           <v-icon>
-            cloud_circle
+            search
           </v-icon>
         </v-btn>
       </v-toolbar-title>
