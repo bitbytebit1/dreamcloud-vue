@@ -3,7 +3,7 @@
     :value="$store.getters.snackb"
     :color="$store.getters.snackc"
     top
-    auto-height
+    right
   >
     {{ $store.getters.snacks }}
     <v-btn

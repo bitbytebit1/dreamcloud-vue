@@ -9,11 +9,11 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "firebase": "^5.5.8",
+    "firebase": "^5.8.0",
     "firebaseui": "^3.4.1",
     "register-service-worker": "^1.5.2",
     "vue": "^2.5.17",
-    "vue-analytics": "^5.16.0",
+    "vue-analytics": "^5.16.2",
     "vue-infinite-loading": "^2.4.0",
     "vue-jsonp": "^0.1.8",
     "vue-lazyload": "^1.2.3",
@@ -21,7 +21,7 @@
     "vuefire": "^1.4.5",
     "vuetify": "1.3.7",
     "vuetify-loader": "1.0.6",
-    "vuex": "^3.0.1"
+    "vuex": "^3.1.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.1.1",

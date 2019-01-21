@@ -60,6 +60,8 @@
         height="2"
       />
 
+      <!-- debug button -->
+      <!-- <v-toolbar-side-icon @click.stop="$store.dispatch('snack', { b: true, c:'green', s:'wat' })"/> -->
       <!-- toggle left draw button -->
       <v-toolbar-side-icon @click.stop="leftTog"/>
       
@@ -80,10 +82,10 @@
 
       <v-spacer/>
       <!-- toggle stage button -->
-      <v-toolbar-side-icon 
+      <!-- <v-toolbar-side-icon 
         v-if="!bMobi" 
         @click.stop="$store.commit('toggleStage')"
-      ><v-icon>music_video</v-icon></v-toolbar-side-icon>
+      ><v-icon>music_video</v-icon></v-toolbar-side-icon> -->
 
       <!-- toggle right draw button -->
       <v-toolbar-side-icon @click.stop="rightTog"><v-icon>playlist_play</v-icon></v-toolbar-side-icon>
@@ -385,10 +387,10 @@ export default {
     z-index: 2147483647 !important;
   }
   @media only screen and (min-width: 600px){
-    #main-cont{
+    /* #main-cont{ */
       /* padding-top: 20px !important; */
       /* margin-bottom: 35px; */
-    }
+    /* } */
     #foot{
       padding: 0 !important;
       /* height: 55px !important; */

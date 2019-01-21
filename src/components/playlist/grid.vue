@@ -13,7 +13,7 @@
           <!-- HEADER BUTTONS -->
           <v-flex 
             xs6 
-            lg2 
+            lg3 
             class="text-xs-left mt-2"
           >
             <!-- ENABLE CHECK BOXES -->
@@ -62,7 +62,7 @@
           <!-- FILTER -->
           <v-flex 
             xs5 
-            lg9
+            lg8
           >
             <v-text-field
               id="flr-txt"
@@ -293,16 +293,12 @@
                           <v-btn 
                             slot="activator"
                             :loading="$store.getters.isLoading && isPlaying (props.item.trackID)"
-                            flat 
-                            icon 
-                            outline
-                            large
-                            centered
-                            class="opaq"
+                            fab 
+                            dark  
+                            color="primary"
                             @click.stop="playProxy(props, false)"
                           >
                             <v-icon 
-                              light
                               large
                             >{{ $store.getters.isPlaying && isPlaying (props.item.trackID)? 'pause' : 'play_arrow' }}</v-icon>
                           </v-btn>
@@ -618,7 +614,7 @@ export default {
   align-items: center;
   bottom: 0;
   justify-content: center;
-  opacity: .5;
+  /* opacity: .6; */
   position: absolute;
   width: 100%;
 }

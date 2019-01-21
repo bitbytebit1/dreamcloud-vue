@@ -40,12 +40,11 @@
         </v-list-tile-content>
       </v-list-tile>
 
-      <!-- CURRENTLY PLAYING
+      <!-- CURRENTLY PLAYING -->
       <v-list-tile 
-         
-        @click="closeLeft" 
-        :to="{name: 'stage'}"
+        :to="{name: 'stage'}" 
         active-class="primary white--text"
+        @click="closeLeft"
       >
         <v-list-tile-action>
           <v-icon>music_video</v-icon>
@@ -53,7 +52,7 @@
         <v-list-tile-content>
           <v-list-tile-title>Current</v-list-tile-title>
         </v-list-tile-content>
-      </v-list-tile> -->
+      </v-list-tile>
 
       <v-list-tile 
         :to="{name: 'explore'}" 
