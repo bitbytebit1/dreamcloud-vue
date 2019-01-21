@@ -635,10 +635,10 @@ export default {
       // Fix for mobile on first play
       if (this.$store.getters.index === -1 && this.$UTILS.isMobile) this.$DCPlayer.eAudio.play()
       // If not first page fix index
-      index = this.pagination.page === 1 ? index : (this.pagination.rowsPerPage * (this.pagination.page - 1)) + index
+      let newi = this.pagination.page === 1 ? index : (this.pagination.rowsPerPage * (this.pagination.page - 1)) + index
       this.$store.commit('setNPlay', {songs: this.sorted, current: index, path: this.$route.path})
-      this.$DCPlayer.setNPlay(this.sorted, index)
-      this.$DCFB.historyPush(this.sorted[index])
+      this.$DCPlayer.setNPlay(this.sorted, newi)
+      this.$DCFB.historyPush(this.sorted[newi])
     }
   }
 }
