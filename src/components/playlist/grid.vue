@@ -275,7 +275,7 @@
                   :aspect-ratio="aspect"
                   :src="props.item.posterLarge"
                   :lazy-src="props.item.posterLarge"
-                  class="fillPlace"
+                  class="fillPlace nosel"
                 >
                   <v-layout 
                     class="text-xs-center"
@@ -286,7 +286,7 @@
                     <v-expand-transition>
                       <div
                         v-if="hover || isPlaying(props.item.trackID)"
-                        class="d-flex text-xs-center transition-fast-in-fast-out black v-card--reveal"
+                        class="d-flex text-xs-center transition-fast-in-fast-out v-card--reveal"
                         style="height: 100%;"
                       >
                         <div>

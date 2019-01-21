@@ -8,7 +8,7 @@
     <!-- IMAGE -->
     <v-flex 
       v-show="!($store.getters.ytUseVideo && $store.getters.isYT)" 
-      id="img-bg" 
+      class="nosel"
       xs12 
       @click="$DCPlayer.togglePlay()"
     >
@@ -306,15 +306,7 @@ export default {
 
 
 
-#img-bg{
-  background-color:black;
-  /* make div not selectable */
-  -moz-user-select: -moz-none;
-  -khtml-user-select: none;
-  -webkit-user-select: none;
-  -o-user-select: none;
-  user-select: none;
-}
+
 /* .stage-btns{ */
   /* height: 36px; */
   /* border-bottom: 1px solid teal; */
