@@ -162,15 +162,15 @@ export default {
       }, 600)
     },
     btnFeedback () {
+      this.menuOpen = false
       this.$store.dispatch('snack', { b: true, c:'primary', s:'Added to playlist' })
       //  this.menuOpen = this.$UTILS.isMobile ? false : true
       // this.playlistName = ''
-      this.btnCol = 'green'
-      setTimeout(() => {
-        this.menuOpen = false
-        // this.$emit('opened', false)
-        this.btnCol = ''
-      }, 420)
+      // this.btnCol = 'green'
+      // setTimeout(() => {
+      // this.btnCol = ''
+      // this.$emit('opened', false)
+      // }, 420)
     },
     bind () {
       if (this.$store.getters.auth_state) {

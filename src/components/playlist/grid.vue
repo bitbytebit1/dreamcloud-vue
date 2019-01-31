@@ -78,7 +78,11 @@
             />
           </v-flex>
           <!-- RIGHT CLICK MENU -->
-          <v-menu
+          <context-menu 
+            ref="con" 
+            @delete="bSelect ? removeList() : remove(chosenSong.key)"
+          />
+          <!-- <v-menu
             v-model="showMenu"
             :position-x="x"
             :position-y="y"
@@ -89,7 +93,7 @@
             <v-list >
               <add-to-queue 
                 :in-list="true" 
-                :song="bSelect ? selected : chosenSong"
+                :song="bSelect ? selected : [chosenSong]"
                 @click.native="showMenu = false"
               />
               <add-to-playlist 
@@ -122,7 +126,7 @@
                 @click.native="showMenu = false"
               />
             </v-list>
-          </v-menu>
+          </v-menu> -->
           <!-- SELECT BUTTONS -->
           <v-flex 
             v-if="bSelect" 
@@ -238,6 +242,7 @@
               </v-flex>
             </v-layout>
           </template>
+
           <!-- imsert transition here -->
           <!-- ITEM SLOT -->
           <v-flex 
@@ -268,7 +273,7 @@
               <v-card 
                 slot-scope="{ hover }"
                 class="dc-crd ma-0 pa-0 pointer outline"
-                @contextmenu="show($event, props.item)"
+                @contextmenu="$refs.con.show($event, bSelect ? selected : [props.item])"
               >
                 <!-- IMAGE -->
                 <v-img
@@ -291,7 +296,6 @@
                       >
                         <div>
                           <v-btn 
-                            slot="activator"
                             :loading="$store.getters.isLoading && isPlaying (props.item.trackID)"
                             fab 
                             dark  
@@ -387,7 +391,7 @@
                           icon 
                           small 
                           class="men fl-r ma-0 pa-0 mt-1" 
-                          @click="show($event, props.item)"
+                          @click="$refs.con.show($event, bSelect ? selected : [props.item])"
                         >
                           <v-icon>more_vert</v-icon>
                         </v-btn>
@@ -406,15 +410,14 @@
   </v-flex>
 </template>
 <script>
+import contextMenu from '@/components/buttons/context-menu'
 import shuffleButton from '@/components/buttons/shuffle-button'
-import offlineButton from '@/components/buttons/offline-button.vue'
-import addToPlaylist from '@/components/buttons/add-to-playlist.vue'
-import addToQueue from '@/components/buttons/add-to-queue.vue'
+import addToPlaylist from '@/components/buttons/add-to-playlist'
 import deleteButton from '@/components/buttons/delete-button'
-import shareButton from '@/components/buttons/share-button'
 import downloadButton from '@/components/buttons/download-button'
 import { mapGetters } from 'vuex'
 export default {
+
   name: 'Grid',
   props: {
     songs: {
@@ -441,13 +444,11 @@ export default {
     }
   },
   components: {
-    'add-to-queue': addToQueue,
-    'offlineButton': offlineButton,
+    'context-menu': contextMenu,
     'add-to-playlist': addToPlaylist,
     'delete-button': deleteButton,
     'download-button': downloadButton,
-    'shuffleButton': shuffleButton,
-    'share-button': shareButton
+    'shuffleButton': shuffleButton
   },
   watch: {
     'rowsPerPage': function (val) {
@@ -456,9 +457,6 @@ export default {
   },
   data () {
     return {
-      showMenu: false,
-      x: 0,
-      y: 0,
       chosenSong: [],
       dialog: false,
       bShow: false,
@@ -517,16 +515,7 @@ export default {
     }
   },
   methods: {
-    show (e, song) {
-      this.chosenSong = song
-      e.preventDefault()
-      this.showMenu = false
-      this.x = e.clientX
-      this.y = e.clientY
-      this.$nextTick(() => {
-        this.showMenu = true
-      })
-    },
+
     playProxy (props, bShow) {
       // Fix for mobile on first play
       if (this.$store.getters.index === -1 && this.$UTILS.isMobile) this.$DCPlayer.eAudio.play()

@@ -78,6 +78,11 @@
               @keyup.enter="$UTILS.closeSoftMobi()"
             />
           </v-flex>
+          <!-- RIGHT CLICK MENU -->
+          <context-menu 
+            ref="con" 
+            @delete="bSelect ? removeList() : remove(chosenSong.key)"
+          />
           <!-- SELECT BUTTONS -->
           <v-flex 
             v-if="bSelect" 
@@ -131,43 +136,6 @@
         v-model="selected"
         class="dtable"
       >
-        <template slot="footer">
-          <v-dialog
-            v-model="dialog"
-            max-width="500px"
-          >
-            <v-list>
-              <add-to-playlist 
-                :in-list="true" 
-                :song="bSelect ? selected : [chosenSong]"
-              />
-              <share-button 
-                :in-list="true" 
-                :song="chosenSong" 
-                :url="'https://dreamcloud.netlify.com/#/t/' + chosenSong.source + '/' + encodeURIComponent(chosenSong.artist) + '/' + chosenSong.trackID"
-              />
-              <delete-button
-                v-if="chosenSong.key && !bSelect"
-                :in-list="true"
-                :id="chosenSong.key"
-                @delete="bSelect ? removeList() : remove(chosenSong.key)"
-              />
-              <download-button
-                :in-list="true"
-                :links="bSelect ? selected : [chosenSong]"
-              />
-              <offlineButton
-                :in-list="true"
-                :link1="chosenSong.mp32"
-                :link2="chosenSong.mp3"
-                :track-id="chosenSong.trackID"
-                :key="chosenSong.trackID"
-              />
-
-            </v-list>
-          </v-dialog>
-        </template>
-
         <template 
           slot="no-data"
         >
@@ -239,43 +207,73 @@
           slot="items" 
           slot-scope="props"
         >
-          <tr 
-            :key="props.index" 
-            :id="bSelect ? 'nosel' : ''" 
-            :class="isPlaying(props.item.trackID) ? 'primary white--text mb-3 pointer wordbreak' : 'mb-3 pointer wordbreak'" 
-            @click.stop="props.item.listID ? $router.push({name: 'channelPlaylist', params: {listID: props.item.listID, artistID: props.item.artistID, title: props.item.title, source: props.item.source}}) : !bSelect ? play(props.index) : props.selected = !props.selected"
+          <v-hover 
+            :value="isPlaying(props.item.trackID)"
+            :disabled="isPlaying(props.item.trackID)"
           >
-            <!-- CHECK_BOX -->
-            <td v-if="bSelect">
-              <v-checkbox 
-                :color="isPlaying(props.item.trackID) ? 'white' : 'primary'" 
-                v-model="props.selected" 
-                class="" 
-                hide-details
-              />
-            </td>
-            <!-- ~~~~~~~~~~~~ NOT MINI ~~~~~~~~~~~~ -->
-            <!-- IMAGE -->
-            <td 
-              v-if="!bMini" 
-              class="pa-2"
+            <tr 
+              slot-scope="{ hover }" 
+              :key="props.index" 
+              :id="bSelect ? 'nosel' : ''" 
+              :class="isPlaying(props.item.trackID) ? 'primary white--text mb-3 pointer wordbreak' : 'mb-3 pointer wordbreak'"
+              @click.stop="props.item.listID ? $router.push({name: 'channelPlaylist', params: {listID: props.item.listID, artistID: props.item.artistID, title: props.item.title, source: props.item.source}}) : !bSelect ? play(props.index) : props.selected = !props.selected"
+              @contextmenu="$refs.con.show($event, bSelect ? selected : [props.item])"
             >
-              <v-img
-                :aspect-ratio="aspect"
-                :src="props.item.posterLarge"
-                :lazy-src="props.item.posterLarge"
-                :class="imgClass"
-                class="fillPlace dc-crd"
+              <!-- CHECK_BOX -->
+              <td v-if="bSelect">
+                <v-checkbox 
+                  :color="isPlaying(props.item.trackID) ? 'white' : 'primary'" 
+                  v-model="props.selected" 
+                  class="" 
+                  hide-details
+                />
+              </td>
+              <!-- ~~~~~~~~~~~~ NOT MINI ~~~~~~~~~~~~ -->
+              <!-- IMAGE -->
+              <td 
+                v-if="!bMini" 
+                class="pa-2"
               >
-                <v-layout 
-                  align-end 
-                  justify-end 
-                  fill-height
-                  class="men text-xs-right"
+                <v-img
+                  :aspect-ratio="aspect"
+                  :src="props.item.posterLarge"
+                  :lazy-src="props.item.posterLarge"
+                  :class="imgClass"
+                  class="fillPlace dc-crd"
                 >
+                  <v-layout 
+                    align-end 
+                    justify-end 
+                    fill-height
+                    class="men text-xs-right"
+                  >
+                    <v-expand-transition>
+                      <div
+                        v-if="hover || isPlaying(props.item.trackID)"
+                        class="d-flex text-xs-center transition-fast-in-fast-out v-card--reveal"
+                        style="height: 100%;"
+                      >
+                        <div>
+                          <v-btn 
+                            :loading="$store.getters.isLoading && isPlaying (props.item.trackID)"
+                            fab 
+                            dark  
+                            color="primary"
+                            @click.stop="playProxy(props, false)"
+                          >
+                            <v-icon 
+                              large
+                            >{{ $store.getters.isPlaying && isPlaying (props.item.trackID) ? 'pause' : 'play_arrow' }}</v-icon>
+                          </v-btn>
+                        </div>
+                      <!-- <div style="position:absolute;bottom:0;right:0">
+                          <add-to-queue :song="props.item"/>
+                        </div> -->
+                      </div>
+                    </v-expand-transition>
                   <!-- WATCH BUTTON -->
                   <!-- SHOWS STAGE ON CLICK -->
-                  <v-flex 
+                  <!-- <v-flex 
                     xs12
                   >
                     <v-tooltip 
@@ -293,7 +291,7 @@
                       </v-btn>
                       <span>Watch</span>
                     </v-tooltip>
-                  </v-flex>
+                  </v-flex> -->
 
                   <!-- PLAY AUDIO BUTTON -->
                   <!-- <v-flex 
@@ -312,118 +310,118 @@
                       <span>Play</span>
                     </v-tooltip>
                   </v-flex> -->
-                </v-layout>
-              </v-img>
-            </td>
+                  </v-layout>
+                </v-img>
+              </td>
             
-            <!-- TITLE + ARTIST + UPLOADED + DURATION + DESCRIPTION-->
-            <td 
-              v-if="!bMini"
-              :colspan="!$route.params.artistID ? '2' : '1'" 
-              class="text-xs-left"
-            >
-              <!-- TITLE -->
-              <div :class="$vuetify.breakpoint.name === 'xs' ? 'body-1 ' : 'dc-t'">{{ props.item.title }}</div>
-              <div class="ma-0 pa-0">
-                <!-- ARTIST -->
-                <a 
-                  v-if="!$route.params.artistID && !bSelect" 
-                  :class="artistClass(props.item.trackID)" 
-                  :href="shareArtistURL(props.item)" 
-                  @click.stop
-                >{{ props.item.artist }} • </a>
-                <span 
-                  v-else-if="bSelect" 
-                  :class="artistClass"
-                >{{ props.item.artist }} • </span>
-                <!-- UPLOADED + DURATION -->
-                <span>{{ date(props.item.uploaded) }} • {{ props.item.duration }}</span>
-                <!-- DESCRIPTION -->
-                <div 
-                  v-if="!$vuetify.breakpoint.xs" 
-                  class="preline wordbreak mh-2 mt-2"
-                >{{ props.item.description }}</div>
-              </div>
-            </td>
-
-            <!-- ~~~~~~~~~~~~  MINI ~~~~~~~~~~~~ -->
-            <!-- TITLE -->
-            <td 
-              v-if="bMini" 
-              :class="$vuetify.breakpoint.name === 'xs' ? ' text-xs-left pa-0 ma-0' : 'dc-t text-xs-left pa-0 ma-0'"
-            >
-              <v-tooltip 
-              
-                v-if="$vuetify.breakpoint.name !== 'xs'"
-                top 
-                dark
-                ma-0
-                pa-0
+              <!-- TITLE + ARTIST + UPLOADED + DURATION + DESCRIPTION-->
+              <td 
+                v-if="!bMini"
+                :colspan="!$route.params.artistID ? '2' : '1'" 
+                class="text-xs-left"
               >
-                <v-btn 
-                  slot="activator"
-                  flat 
-                  icon 
+                <!-- TITLE -->
+                <div :class="$vuetify.breakpoint.name === 'xs' ? 'body-1 ' : 'dc-t'">{{ props.item.title }}</div>
+                <div class="ma-0 pa-0">
+                  <!-- ARTIST -->
+                  <a 
+                    v-if="!$route.params.artistID && !bSelect" 
+                    :class="artistClass(props.item.trackID)" 
+                    :href="shareArtistURL(props.item)" 
+                    @click.stop
+                  >{{ props.item.artist }} • </a>
+                  <span 
+                    v-else-if="bSelect" 
+                    :class="artistClass"
+                  >{{ props.item.artist }} • </span>
+                  <!-- UPLOADED + DURATION -->
+                  <span>{{ date(props.item.uploaded) }} • {{ props.item.duration }}</span>
+                  <!-- DESCRIPTION -->
+                  <div 
+                    v-if="!$vuetify.breakpoint.xs" 
+                    class="preline wordbreak mh-2 mt-2"
+                  >{{ props.item.description }}</div>
+                </div>
+              </td>
+
+              <!-- ~~~~~~~~~~~~  MINI ~~~~~~~~~~~~ -->
+              <!-- TITLE -->
+              <td 
+                v-if="bMini" 
+                :class="$vuetify.breakpoint.name === 'xs' ? ' text-xs-left pa-0 ma-0' : 'dc-t text-xs-left pa-0 ma-0'"
+              >
+                <v-tooltip 
+              
+                  v-if="$vuetify.breakpoint.name !== 'xs'"
+                  top 
+                  dark
                   ma-0
                   pa-0
-                  @click.stop="playProxy(props, true)"
                 >
-                  <v-icon>remove_red_eye</v-icon>
-                </v-btn>
-                <span>Watch</span>
-              </v-tooltip>
-              {{ props.item.title }}
-            </td>
+                  <v-btn 
+                    slot="activator"
+                    flat 
+                    icon 
+                    ma-0
+                    pa-0
+                    @click.stop="playProxy(props, true)"
+                  >
+                    <v-icon>remove_red_eye</v-icon>
+                  </v-btn>
+                  <span>Watch</span>
+                </v-tooltip>
+                {{ props.item.title }}
+              </td>
 
-            <!-- ARTIST -->
-            <td 
-              v-if="bMini && !$route.params.artistID"
-              class="ma-0 pa-0"
-            >
-              <a 
-                v-if="!$route.params.artistID" 
-                :class="artistClass(props.item.trackID)" 
-                :href="shareArtistURL(props.item)" 
-                
-                @click.stop
-              >{{ props.item.artist }}</a>
-              <span 
-                v-else-if="!bSelect" 
-                :class="artistClass"
-              >{{ props.item.artist }}</span>
-            </td>
-            <!-- DURATION -->
-            <td 
-              v-if="bMini"
-            >
-              {{ props.item.duration }}
-            </td>
-            <!-- UPLOADED -->
-            <td 
-              v-if="!$vuetify.breakpoint.xs && bMini"
-            >
-              {{ date(props.item.uploaded) }}
-            </td>
-
-            <!-- </td> -->
-
-
-            <!-- ACTIONS -->
-            <td 
-              v-if="!bSelect" 
-              @click.stop
-            >
-              <v-btn 
-                icon 
-                small 
-                @click="(chosenSong = props.item, dialog = true)"
+              <!-- ARTIST -->
+              <td 
+                v-if="bMini && !$route.params.artistID"
+                class="ma-0 pa-0"
               >
-                <v-icon>more_vert</v-icon>
-              </v-btn>
-            </td>
+                <a 
+                  v-if="!$route.params.artistID" 
+                  :class="artistClass(props.item.trackID)" 
+                  :href="shareArtistURL(props.item)" 
+                
+                  @click.stop
+                >{{ props.item.artist }}</a>
+                <span 
+                  v-else-if="!bSelect" 
+                  :class="artistClass"
+                >{{ props.item.artist }}</span>
+              </td>
+              <!-- DURATION -->
+              <td 
+                v-if="bMini"
+              >
+                {{ props.item.duration }}
+              </td>
+              <!-- UPLOADED -->
+              <td 
+                v-if="!$vuetify.breakpoint.xs && bMini"
+              >
+                {{ date(props.item.uploaded) }}
+              </td>
 
-          </tr>
+              <!-- </td> -->
 
+
+              <!-- ACTIONS -->
+              <td 
+                v-if="!bSelect" 
+                @click.stop
+              >
+                <v-btn 
+                  icon 
+                  small 
+                  @click="$refs.con.show($event, bSelect ? selected : [props.item])"
+                >
+                  <v-icon>more_vert</v-icon>
+                </v-btn>
+              </td>
+
+            </tr>
+          </v-hover>
         </template>
       </v-data-table>
     </v-card>
@@ -432,6 +430,7 @@
 
 <script>
 // /* eslint-disable */
+import contextMenu from '@/components/buttons/context-menu'
 import addToPlaylist from '@/components/buttons/add-to-playlist.vue'
 import deleteButton from '@/components/buttons/delete-button'
 import shuffleButton from '@/components/buttons/shuffle-button'
@@ -466,6 +465,7 @@ export default {
     }
   },
   components: {
+    'context-menu': contextMenu,
     'add-to-playlist': addToPlaylist,
     'delete-button': deleteButton,
     'download-button': downloadButton,

@@ -33,7 +33,7 @@ export default {
       default: ''
     },
     song: {
-      type: [Object, Array],
+      type: [Object],
       default() {
         return []
       }
@@ -51,10 +51,15 @@ export default {
   components: {
     'delete-button': deleteButton
   },
+  computed : {
+    surl () {
+      return 'https://dreamcloud.netlify.com/#/t/' + this.song.source + '/' + encodeURIComponent(this.song.artist) + '/' + this.song.trackID
+    }
+  },
   methods: {
     share () {
       this.color = 'primary'
-      if(this.$UTILS.share(this.url, this.song)) {
+      if(this.$UTILS.share(this.surl, this.song)) {
         this.$store.commit('snack', { b: true, c:'primary', s:'Link copied to clipboard' })
       } else {
         this.$store.commit('snack', { b: true, c:'primary', s:'Opening share menu' })

@@ -28,7 +28,7 @@ export default {
   name: 'AddToQueue',
   props: {
     song: {
-      type: Object,
+      type: [Object, Array],
       default() {
         return {}
       }
@@ -48,12 +48,13 @@ export default {
   },
   methods: {
     add () {
+      let a = Array.isArray(this.song) ? this.song : [this.song]
       this.c = 'green'
       this.$store.dispatch('snack', { b: true, c:'primary', s:'Added to queue' })
       // if first song in playlist
       this.$store.getters.index === -1
-        ? this.$store.commit('setNPlay', {songs: [this.song], current: 0, path: this.$route.path})
-        : this.$store.commit('current_Playlist', [...this.$store.getters.current_Playlist, this.song])
+        ? this.$store.commit('setNPlay', {songs: a, current: 0, path: this.$route.path})
+        : this.$store.commit('current_Playlist', [...this.$store.getters.current_Playlist, ...a])
     }
   }
 }
