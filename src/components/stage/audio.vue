@@ -14,9 +14,8 @@
     >
       <div class="pstr-wrapper">
         <div 
-          v-lazy:background-image="song.posterLarge" 
           id="pstr" 
-          :style="{ 'background': 'center center no-repeat' }" 
+          :style="{ 'background': 'center center no-repeat' , 'background-image' : 'url(' + song.posterLarge + ')'}" 
           :key="song.poster"
         />
       </div>

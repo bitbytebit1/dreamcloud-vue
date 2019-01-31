@@ -71,7 +71,6 @@
                   alt=""
                 >
               </v-avatar>
-              <!-- <v-card-media v-lazy:background-image="props.item.img" height="200px"></v-card-media> -->
               <v-card-text class="text-xs-center">{{ props.item.name }}</v-card-text>
             </v-card>
           </v-flex>

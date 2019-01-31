@@ -66,14 +66,6 @@
                       class="grey--text"
                     />
                   </v-img>
-                  <!-- <v-card-media
-                    v-lazy:background-image="props.item.img"
-                    :key="props.item.img"
-                    height="200px"
-                  ></v-card-media> -->
-                  <!-- <v-badge right  color="red">
-                    <span slot="badge">{{props.item.newItemCount}}</span>
-                  </v-badge> -->
                 </v-flex>
                 <v-flex xs8>
                   <div class="h200 text-xs-left pl-4 pr-4">

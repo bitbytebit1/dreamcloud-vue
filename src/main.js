@@ -30,12 +30,6 @@
   import router from './router'
   import store from './vuex'
   
-  import VueLazyload from 'vue-lazyload'
-  Vue.use(VueLazyload, {
-    preLoad: 1.6,
-    attempt: 1
-  })
-  
   import UtilsPlug from '@/api/utils.js'
   Vue.use(UtilsPlug)
   
