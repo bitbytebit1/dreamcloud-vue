@@ -80,7 +80,7 @@
           <!-- RIGHT CLICK MENU -->
           <context-menu 
             ref="con" 
-            @delete="bSelect ? removeList() : remove(chosenSong.key)"
+            @delete="bSelect ? removeList() : remove($event)"
           />
           <!-- <v-menu
             v-model="showMenu"
