@@ -53,7 +53,7 @@ export default {
   name: 'Artist',
   props: {
     artistID: {
-      type: String,
+      type: [String, Number],
       default: ''
     },
     source: {
@@ -61,7 +61,7 @@ export default {
       default: ''
     },
     artist: {
-      type: String,
+      type: [String],
       default: ''
     }
   },
