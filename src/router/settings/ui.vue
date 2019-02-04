@@ -5,30 +5,10 @@
     <v-list subheader>
       <v-list-tile
         ripple
-        @click="listViewSmall = !listViewSmall"
-      >
-        <v-list-tile-content>
-          List view small pictures
-        </v-list-tile-content>
-        <v-list-tile-action>
-          <v-switch 
-            ref="listViewSmall" 
-            v-model="listViewSmall" 
-            hide-details 
-            height="20" 
-            color="primary" 
-            class="fl-r pa-0 ma-0"
-          />
-        </v-list-tile-action>
-      </v-list-tile>
-      <v-divider/>
-
-      <v-list-tile
-        ripple
         @click="showVideo = !showVideo"
       >
         <v-list-tile-content>
-          Show current song on click
+          Go to current tab on song click
         </v-list-tile-content>
 
         <v-list-tile-action>
@@ -72,10 +52,6 @@ import { mapGetters } from 'vuex'
 
 export default {
   watch: {
-    'listViewSmall': {
-      immediate: false,
-      handler: 'hListViewSmall'
-    },
     'showVideo': {
       immediate: false,
       handler: 'hShowVideo'
@@ -91,7 +67,6 @@ export default {
   },
   data () {
     return {
-      listViewSmall: this.$store.getters.listViewSmall,
       showVideo: this.$store.getters.showVideo,
       showWatchB: this.$store.getters.showWatchB
     }
@@ -105,11 +80,6 @@ export default {
       this.showWshowVideoatchB = n
       // console.log('Show Video On Click', this.showVideoOnClick)
       this.settingChanged('Show Video', this.showVideo)
-    },
-    hListViewSmall (n) {
-      this.listViewSmall = n
-      // console.log('List Small', this.listViewSmall)
-      this.settingChanged('List Small', this.listViewSmall)
     },
     settingChanged (name, value) {
       this.$DCFB.settingChange(name, value)

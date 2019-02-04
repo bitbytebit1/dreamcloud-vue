@@ -2,7 +2,6 @@ export default {
   state: {
     settings: {
       'Night Mode': true,
-      'List Small': false,
       'Show Video': true,
       'Show Watch Button': true,
       'Black': false,
@@ -14,7 +13,6 @@ export default {
     ytVideo: state => Boolean(state.settings['Video']),
     black: state => Boolean(state.settings['Black']),
     blackClass: state => state.settings['Black'] ? 'theme-jet-black' : '',
-    listViewSmall: state => Boolean(state.settings['List Small']),
     nightMode: state => Boolean(state.settings['Night Mode']),
     showVideo: state => Boolean(state.settings['Show Video']),
     textColor: state => state.settings['Night Mode'] ? 'white--text' : 'black--text',

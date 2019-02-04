@@ -150,7 +150,6 @@
             >
               <v-img
                 :aspect-ratio="aspect"
-                :class="imgClass"
                 class="fillPlace"
                 src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
               >
@@ -238,7 +237,6 @@
                   :aspect-ratio="aspect"
                   :src="props.item.posterLarge"
                   :lazy-src="props.item.posterLarge"
-                  :class="imgClass"
                   class="fillPlace dc-crd"
                 >
                   <v-layout 
@@ -502,7 +500,6 @@ export default {
   computed: {
     ...mapGetters({
       showVideo: 'showVideo',
-      listViewSmall: 'listViewSmall',
       view_mode: 'view_mode'
     }),
     headers () {
@@ -536,10 +533,6 @@ export default {
     },
     aspect () {
       return this.$route.name === 'artist' && this.$route.params.source !== 'YouTube'  ? '' : 16 / 9
-    },
-    imgClass () {
-      // console.log(this.$store.getters.listViewSmall)
-      return this.listViewSmall ? 'simg' : ''
     },
     sorted () {
       //  returns the full sorted array for use with click
@@ -667,10 +660,6 @@ export default {
   .dumTd{
     padding: 4px!important;
     height: 20px!important;
-  }
-  .simg{
-    height: 99px !important;
-    /* width: 99px !important; */
   }
   .dc-t{
     font-size: 18px;
