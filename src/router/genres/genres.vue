@@ -344,6 +344,7 @@ export default {
             { a: "Frankie Knuckles", s: "YouTube", ai: "UCGpjbS7U2isnZVGns3J9Ckg", i: "https://yt3.ggpht.com/AdcshOophS0nG2yWS-JfqppVDFAMBT10j8bypQAHYesbOGktxhsnVx2gaIUS3-cvJKLTwMz9aR-znPbt=s800-mo-c-c0xffffffff-rj-k-no" },
             { a: "Kym Mazelle", s: "YouTube", ai: "UCpLr8sXJqc-BmUjC1vMqnsA", i: "https://yt3.ggpht.com/GmnVUnVN9FJXKs90cxBgZrWN3dFB7wXmRwWCOIOfBM0_HyI2azt32OK6MX5CwOPESr3QIpcgKWqhCMSX=s800-mo-c-c0xffffffff-rj-k-no" },
             { a: "Larry Heard", s: "YouTube", ai: "UCLhLg21tnAtPKvcFODfRAXQ", i: "https://yt3.ggpht.com/A25Zk05a5MEqHU4HUUDy7maaJd6Zw8Vh2CQkvaP-7PZ9erQrrSHlG3BKKhzDSq3hmgiAWvgPijQzDEdJaQ=s800-mo-c-c0xffffffff-rj-k-no" },
+            { a: "Moodymann - Topic", s: "YouTube", ai: "UCJp1ISlPtHPs4ZLdlAmd4-g", i: "https://yt3.ggpht.com/j5pSfxcEsw7kJxv1EVuSL1arN1PpNdeOOgzeqeolyBdZF9d_5QeLGJR_E0rqNYMaqQVllTGHw0AeJVJqwA=s800-mo-c-c0xffffffff-rj-k-no" },
             { a: "Phuture Noize", s: "YouTube", ai: "UCASv7c0bxfN9QF7z7lVsUZA", i: "https://yt3.ggpht.com/4WuTMQ9HtaVzONb2X21o6883M4zA_C1gSq16Co-ykuupabMvvtFwlT-XsFULYoUFYKguj5r_npCZpvuFPQ=s800-mo-c-c0xffffffff-rj-k-no" },
             { a: "Tiësto", s: "YouTube", ai: "UC8VSaPhuiHkjobAgNpRqLIA", i: "https://yt3.ggpht.com/nZeRTqyvHYm7vwEruQV4DCBLifuLCE6c19WhgvNX50D3RutLbn9LBts4g6P8-IAhi541e1nqy77wXuJNmg=s800-mo-c-c0xffffffff-rj-k-no" },
             { a: "Zedd", s: "YouTube", ai: "UCGVGIqHPzwLhZg8KQNVaRbA", i: "https://yt3.ggpht.com/N0lFRjOCk7Y1-YNdXYdHq-aajwp1nIk8_FkQUIZp9KTDozK8oZq451LTp2EuHfPzhZz-jgxZbVEq83rfUw=s800-mo-c-c0xffffffff-rj-k-no" },
@@ -405,6 +406,7 @@ export default {
           name: 'Rock',
           items: [
             { a: "AD/DC", s: "YouTube", ai: "UCmPuJ2BltKsGE2966jLgCnw", i: "https://yt3.ggpht.com/a-/ACSszfHpdA9T-J0S2RMoUvL37wl2SwRFcbF8A9zYfg=s800-mo-c-c0xffffffff-rj-k-no" },
+            { a: "Black Sabbath", s: "YouTube", ai: "UCLCELUuoHbkUxZ9EMHTYebg", i: "https://yt3.ggpht.com/flcFg31tAteDIL6Oj5CRucyVBwk2EQh9SBnPCQJnZ3JA8-cvMlBOABxoZ_eXOhP8CljG9kNKpdrmVpGuug=s800-mo-c-c0xffffffff-rj-k-no" },
             { a: "The Beatles", s: "YouTube", ai: "UC2XdaAVUannpujzv32jcouQ", i: "https://yt3.ggpht.com/gdTyVeIdiOczsrtBrmHCxMZUEsIySP6BpQlyeSX0LIJyJ83pLAPfwjJywPO26ZBiNNHySoRlOpOvzswV=s800-mo-c-c0xffffffff-rj-k-no" },
             { a: "Elvis Presely", s: "YouTube", ai: "UChgxarBUCnPJV871-46bJ2g", i: "https://yt3.ggpht.com/1StP4iAp_r8Q4waKlCeH8z4WhsUb_SNccrif_K2RT81xG6FNmCbKAXJUDps-lc1xhMqCuxwRoDZVRmoecqU=s800-mo-c-c0xffffffff-rj-k-no" },
             { a: "Guns N' Roses", s: "YouTube", ai: "UCSLbbBoUqpin6BE34whSOvA", i: "https://yt3.ggpht.com/S4_JLRIDlrHghB8L_sP2jheceusmJzWpNB4ny5-5y-IydbnxjgIazl2R0CyW2SK2l6oVNx-Kpns3nLBb=s800-mo-c-c0xffffffff-rj-k-no" },
