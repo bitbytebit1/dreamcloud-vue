@@ -300,7 +300,7 @@
                             fab 
                             dark  
                             color="primary"
-                            @click.stop="playProxy(props, false)"
+                            @click.stop="play(props.index)"
                           >
                             <v-icon 
                               large
@@ -515,18 +515,18 @@ export default {
     }
   },
   methods: {
+    // USED TO EITHER WATCH OR PLAY SONG
+    // playProxy (props, bShow) {
+    //   // Fix for mobile on first play
+    //   if (this.$store.getters.index === -1 && this.$UTILS.isMobile) this.$DCPlayer.eAudio.play()
 
-    playProxy (props, bShow) {
-      // Fix for mobile on first play
-      if (this.$store.getters.index === -1 && this.$UTILS.isMobile) this.$DCPlayer.eAudio.play()
-
-      // store current value
-      let a = this.showVideo
-      this.$store.commit('showVideo', bShow)
-      this.play(props.index)
-      // restore old value after ^call
-      this.$store.commit('showVideo', a)
-    },
+    //   // store current value
+    //   let a = this.showVideo
+    //   this.$store.commit('showVideo', bShow)
+    //   this.play(props.index)
+    //   // restore old value after ^call
+    //   this.$store.commit('showVideo', a)
+    // },
     cardColor (props) {
       if (this.bSelect) {
         return this.selected.some(el => el === props.item) ? 'primary' : ''
