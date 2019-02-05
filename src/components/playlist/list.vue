@@ -343,32 +343,40 @@
               </td>
 
               <!-- ~~~~~~~~~~~~  MINI ~~~~~~~~~~~~ -->
-              <!-- TITLE -->
+              <!-- TITLE + PLAY BUTTON -->
               <td 
                 v-if="bMini" 
                 :class="$vuetify.breakpoint.name === 'xs' ? ' text-xs-left pa-0 ma-0' : 'dc-t text-xs-left pa-0 ma-0'"
               >
-                <v-tooltip 
-              
-                  v-if="$vuetify.breakpoint.name !== 'xs'"
-                  top 
-                  dark
-                  ma-0
-                  pa-0
+                <!-- PLAY BUTTON -->
+                <v-layout 
+                  row 
+                  wrap
+                  align-center
                 >
-                  <v-btn 
-                    slot="activator"
-                    flat 
-                    icon 
-                    ma-0
-                    pa-0
-                    @click.stop="playProxy(props, true)"
+                  
+                  <v-flex
+                    v-if="$vuetify.breakpoint.smAndUp"
+                    sm2
                   >
-                    <v-icon>remove_red_eye</v-icon>
-                  </v-btn>
-                  <span>Watch</span>
-                </v-tooltip>
-                {{ props.item.title }}
+                    <v-btn 
+                      :loading="$store.getters.isLoading && isPlaying (props.item.trackID)"
+                      :class="isPlaying (props.item.trackID) ? '' : 'mouseme'"
+                      icon
+                      @click.stop="play(props.index)"
+                    >
+                      <v-icon 
+                        large
+                      >{{ $store.getters.isPlaying && isPlaying (props.item.trackID)? 'pause' : 'play_arrow' }}</v-icon>
+                    </v-btn>
+                  </v-flex>
+                  <v-flex 
+                    sm10 
+                    xs12
+                  >
+                    {{ props.item.title }}
+                  </v-flex>
+                </v-layout>
               </td>
 
               <!-- ARTIST -->
@@ -638,6 +646,14 @@ export default {
 </script>
 
 <style>
+  .mouseme{
+    width:35px;
+    opacity: 0.0;
+  }
+  tr:hover .mouseme{
+    opacity: 1!important;
+  }
+
   .tr.primary .grd-txt{
     color: white !important;
   }
