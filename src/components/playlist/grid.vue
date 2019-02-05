@@ -575,11 +575,6 @@ export default {
       // console.log('playing')
       // show stage
 
-      if (this.showVideo) {
-        // console.log('showing stage')
-        // this.$router.push({name: 'stage'})
-        this.$store.commit('toggleStage')
-      }
       // Fix for mobile on first play
       if (this.$store.getters.index === -1 && this.$UTILS.isMobile) this.$DCPlayer.eAudio.play()
       // If not first page fix index
@@ -587,6 +582,11 @@ export default {
       this.$store.commit('setNPlay', {songs: this.sorted, current: index, path: this.$route.path})
       this.$DCPlayer.setNPlay(this.sorted, newi)
       this.$DCFB.historyPush(this.sorted[newi])
+      if (this.showVideo) {
+        // console.log('showing stage')
+        this.$router.push({name: 'auto', params: { artist: this.sorted[newi].artist,  trackID: this.sorted[newi].trackID,  source: this.sorted[newi].source }})
+        // this.$store.commit('toggleStage')
+      }
     }
   }
 }

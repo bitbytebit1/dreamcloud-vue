@@ -63,6 +63,12 @@ let router = new Router({
       props: true
     },
     {
+      path: '/c/:source/:artist/:trackID',
+      name: 'auto',
+      component: () => import(/* webpackChunkName: "stage"*/ '@/router/song/auto'),
+      props: true
+    },
+    {
       path: '/t/:source/:artist/:trackID',
       name: 'song',
       component: () => import(/* webpackChunkName: "song"*/ '@/router/song/song'),
@@ -148,7 +154,7 @@ router.beforeEach((to, from, next) => {
     store.commit('drawLeft', false)
     store.commit('drawRight', false)
     next(false)
-  } else if (store.getters.bShowStage && to.name !== 'stage') {
+  } else if (store.getters.bShowStage && (to.name !== 'stage' || to.name !== 'current')) {
     // console.log('disabled stage')
     store.commit('bShowStage', false)
     next()
