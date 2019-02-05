@@ -32,6 +32,7 @@
           :artist="artist" 
           :img="info.img"
         />
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~COPY BUTTON ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
         <!-- <v-btn 
           color="primary" 
           @click.stop='$UTILS.copyToClipboard(debugLink)'
@@ -172,7 +173,7 @@ export default {
   },
   computed: {
     debugLink () {
-      return '{ artist: "' + this.artist + '", source: "' + this.source + '", artistID: "' + this.artistID + '", img: "' + this.info.img + '" },\n\n'
+      return '{ a: "' + this.artist + '", s: "' + this.source + '", ai: "' + this.artistID + '", i: "' + this.info.img + '" },\n\n'
     },
     descClass () {
       return this.bHide ? 'chop' : ''
