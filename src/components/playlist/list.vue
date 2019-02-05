@@ -144,6 +144,7 @@
             :key="n"
           >
             <!-- IMAGE -->
+
             <td 
               v-if="!bMini" 
               class="pa-2" 
@@ -166,8 +167,9 @@
               </v-img>
             </td> 
             <td 
-              v-else 
-              class="fillPlace1 text-xs-left"
+              v-if="bMini" 
+              class="text-xs-left pa-0 ma-0 body-1"
+              style="padding-left:42px !important;"
             >
               Loading
             </td>
@@ -179,15 +181,15 @@
             />
 
             <!-- UPLOADED -->
-            <td class="fillPlace1"/>
+            <td 
+              v-if="bMini" 
+              class="fillPlace1"
+            />
             <!-- ACTIONS -->
-            <td class="fillPlace1 dumTd">
-              <v-btn 
-                icon 
-                small 
-              >
-                <v-icon>remove_red_eye</v-icon>
-              </v-btn>
+            <td 
+              v-if="bMini" 
+              class="fillPlace1 dumTd"
+            >
               <v-btn 
                 icon 
                 small 
@@ -223,7 +225,6 @@
                 <v-checkbox 
                   :color="isPlaying(props.item.trackID) ? 'white' : 'primary'" 
                   v-model="props.selected" 
-                  class="" 
                   hide-details
                 />
               </td>
@@ -237,13 +238,12 @@
                   :aspect-ratio="aspect"
                   :src="props.item.posterLarge"
                   :lazy-src="props.item.posterLarge"
-                  class="fillPlace dc-crd"
+                  class="fillPlace"
                 >
                   <v-layout 
                     align-end 
                     justify-end 
                     fill-height
-                    class="men text-xs-right"
                   >
                     <v-expand-transition>
                       <div
@@ -264,50 +264,8 @@
                             >{{ $store.getters.isPlaying && isPlaying (props.item.trackID) ? 'pause' : 'play_arrow' }}</v-icon>
                           </v-btn>
                         </div>
-                      <!-- <div style="position:absolute;bottom:0;right:0">
-                          <add-to-queue :song="props.item"/>
-                        </div> -->
                       </div>
                     </v-expand-transition>
-                  <!-- WATCH BUTTON -->
-                  <!-- SHOWS STAGE ON CLICK -->
-                  <!-- <v-flex 
-                    xs12
-                  >
-                    <v-tooltip 
-                      top 
-                      dark
-                    >
-                      <v-btn 
-                        slot="activator"
-                        color='white'
-                        flat 
-                        icon 
-                        @click.stop="playProxy(props, true)"
-                      >
-                        <v-icon light>remove_red_eye</v-icon>
-                      </v-btn>
-                      <span>Watch</span>
-                    </v-tooltip>
-                  </v-flex> -->
-
-                  <!-- PLAY AUDIO BUTTON -->
-                  <!-- <v-flex 
-                    xs12
-                  >
-                    <v-tooltip top>
-                      <v-btn 
-                        slot="activator"
-                        color='white'
-                        flat 
-                        icon 
-                        @click.stop="playProxy(props, false)"
-                      >
-                        <v-icon light>play_arrow</v-icon>
-                      </v-btn>
-                      <span>Play</span>
-                    </v-tooltip>
-                  </v-flex> -->
                   </v-layout>
                 </v-img>
               </td>
@@ -337,7 +295,7 @@
                   <!-- DESCRIPTION -->
                   <div 
                     v-if="!$vuetify.breakpoint.xs" 
-                    class="preline wordbreak mh-2 mt-2"
+                    class="preline wordbreak mh-2 mt-12"
                   >{{ props.item.description }}</div>
                 </div>
               </td>
@@ -681,12 +639,8 @@ export default {
     font-size: 18px;
   }
   .mh-2{
-    max-height: 99px !important;
+    max-height: 60px !important;
     overflow:hidden !important;
-  }
-  .mh-2{
-    max-height: 99px;
-    overflow:hidden;
   }
   table {
     border-collapse:separate; 
