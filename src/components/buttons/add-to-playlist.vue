@@ -57,7 +57,7 @@
             class="ma-0 px-2"
             itemValue="key"
             itemText="name"
-            appendIcon="add"
+            appendIcon=""
             no-data-text="Create new playlist"
             label="Playlist name"
             color="primary"
@@ -67,7 +67,6 @@
             returnObject
             singleLine
             @keyup.enter='enter'
-            @click:append="enter"
           >
             <template 
               slot="item" 
@@ -154,8 +153,9 @@ export default {
       this.btnFeedback()
     },
     openMenu () {
+      this.$emit('clicked')
       this.menuOpen = !this.menuOpen
-      setTimeout(() => {
+      setTimeout(() => { // nextTick better?
         // VTFY CLASS
         this.$refs.auto.$el.querySelector('.v-select__slot').click()
         this.$refs.auto.$el.querySelector('input').focus()

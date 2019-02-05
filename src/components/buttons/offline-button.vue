@@ -70,6 +70,7 @@ export default {
       )
     },
     toggleOffline () {
+      this.$emit('clicked')
       if (!this.loading) {
         this.loading = true
         this.status ? this.offlineOff() : this.offlineOn()

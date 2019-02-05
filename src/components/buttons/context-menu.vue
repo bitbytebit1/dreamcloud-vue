@@ -11,17 +11,31 @@
       <add-to-queue 
         :in-list="true" 
         :song="a"
-        @click.native="b = false"
-      />
-      <add-to-playlist 
-        :in-list="true" 
-        :song="a"
-        @click.native="b = false"
+        @clicked="b = false"
       />
       <share-button 
         :in-list="true" 
         :song="a[0]"
-        @click.native="b = false"
+        @clicked="b = false"
+      />
+      <download-button 
+        :in-list="true" 
+        :links="a"
+        @clicked="b = false"
+      />
+      <offlineButton 
+        :in-list="true" 
+        :link1="a.mp32" 
+        :link2="a.mp3" 
+        :track-id="a.trackID"
+        @clicked="b = false"
+      />
+
+      <v-divider/>
+      <add-to-playlist 
+        :in-list="true" 
+        :song="a"
+        @clicked="b = false"
       />
       <delete-button 
         v-if="a.length && a[0].key" 
@@ -29,18 +43,8 @@
         :id="a[0].key" 
         @delete="$emit('delete', $event)"
       />
-      <download-button 
-        :in-list="true" 
-        :links="a"
-        @click.native="b = false"
-      />
-      <offlineButton 
-        :in-list="true" 
-        :link1="a.mp32" 
-        :link2="a.mp3" 
-        :track-id="a.trackID"
-        @click.native="b = false"
-      />
+      <v-divider/>
+      <go-to-artist :song="a"/>
     </v-list>
   </v-menu>
 </template>
@@ -51,6 +55,7 @@ import addToQueue from '@/components/buttons/add-to-queue'
 import deleteButton from '@/components/buttons/delete-button'
 import shareButton from '@/components/buttons/share-button'
 import downloadButton from '@/components/buttons/download-button'
+import goToArtist from '@/components/buttons/go-to-artist'
 export default {
   components: {
     'add-to-queue': addToQueue,
@@ -58,7 +63,8 @@ export default {
     'add-to-playlist': addToPlaylist,
     'delete-button': deleteButton,
     'download-button': downloadButton,
-    'share-button': shareButton
+    'share-button': shareButton,
+    'go-to-artist': goToArtist
   },
   data () {
     return {
@@ -72,12 +78,12 @@ export default {
     show (e, a) {
       this.a = a
       e.preventDefault()
-      this.b = false
+      // this.b = false
       this.x = e.clientX
       this.y = e.clientY
-      this.$nextTick(() => {
-        this.b = true
-      })
+      // this.$nextTick(() => {
+      this.b = true
+      // })
     }
   }
 }

@@ -69,6 +69,7 @@ export default {
       if (this.clicks === 2) {
         setTimeout(() => {
           this.clicks = 0
+          this.$emit('clicked')
         }, 2000)
         this.$emit('delete', this.id)
         if (!this.inList) {

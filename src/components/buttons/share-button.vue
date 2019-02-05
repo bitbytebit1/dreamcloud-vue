@@ -58,6 +58,7 @@ export default {
   },
   methods: {
     share () {
+      this.$emit('clicked')
       this.color = 'primary'
       if(this.$UTILS.share(this.surl, this.song)) {
         this.$store.commit('snack', { b: true, c:'primary', s:'Link copied to clipboard' })

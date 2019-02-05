@@ -48,6 +48,7 @@ export default {
   },
   methods: {
     add () {
+      this.$emit('clicked')
       let a = Array.isArray(this.song) ? this.song : [this.song]
       this.c = 'green'
       this.$store.dispatch('snack', { b: true, c:'primary', s:'Added to queue' })
