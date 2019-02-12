@@ -65,7 +65,7 @@ export default {
       if (this.auth_state) {
         this.bFailed = false
         this.$store.commit('loadActive', true)
-        this.$bindAsArray('aHistory', this.$DCFB.history.limitToLast(this.iLimit), null, this.getRecommended)
+        this.$bindAsArray('aHistory', this.$DCFB.fbhistory.limitToLast(this.iLimit), null, this.getRecommended)
       }
     },
     getRecommended () {

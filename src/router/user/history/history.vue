@@ -48,7 +48,7 @@ export default {
       if (this.auth_state) {
         this.$store.dispatch('loadIndeterm', true)
         this.bFailed = false
-        this.$bindAsArray('aHistory', this.$DCFB.history.limitToLast(200), null, () => { 
+        this.$bindAsArray('aHistory', this.$DCFB.fbhistory.limitToLast(200), null, () => { 
           this.$store.dispatch('loadIndeterm', false)
           this.bLoading = false
           this.bFailed  = !this.aHistory.length

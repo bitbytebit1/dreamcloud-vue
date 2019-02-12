@@ -118,7 +118,7 @@ export default {
     bind () {
       if (this.auth_state) {
         this.$store.dispatch('loadIndeterm', true)
-        this.$bindAsArray('aHistory', this.$DCFB.history, null, () => {
+        this.$bindAsArray('aHistory', this.$DCFB.fbhistory, null, () => {
           if (!this.aHistory.length) {
             this.$store.dispatch('loadIndeterm', false)
             // this.$router.push({name: 'searchPage', params: {query: ' ', source: 'YouTube'}})
