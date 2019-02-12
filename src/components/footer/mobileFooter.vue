@@ -1,20 +1,10 @@
 <template>
   <div class="?">
     <v-bottom-nav 
-      :active.sync="active" 
       :value="true" 
       absolute 
-      shift
       color="transparent"
     >
-      <!-- <v-btn 
-        :click="() => { document.getElementById('searchInput').click() }" 
-        color="primary"
-        value="searchPage"
-      >
-        <span>Search</span>
-        <v-icon>search</v-icon>
-      </v-btn> -->
       <v-btn 
         :to="{name: 'home', params: {user: uid}}" 
         color="primary" 
@@ -34,10 +24,9 @@
         <v-icon>whatshot</v-icon>
       </v-btn>
       <v-btn 
-        :to="{name: 'stage'}" 
-        color="primary" 
+        :to="{name: 'auto', params: currentParams}" 
         flat 
-        value="stage"
+        color="primary" 
       >
         <span>Current</span>
         <v-icon>music_video</v-icon>
@@ -60,14 +49,6 @@
         <span>Following</span>
         <v-icon>people</v-icon>
       </v-btn>
-      <!-- <v-btn 
-        :to="{name: 'settings'}" 
-        color="primary" 
-        flat 
-        value="settings">
-        <span>Settings</span>
-        <v-icon>settings</v-icon>
-      </v-btn> -->
     </v-bottom-nav>
   </div>
 </template>
@@ -77,14 +58,17 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'mobFoot',
   computed: {
+    currentParams () {
+      return this.$store.getters.current_Playlist.length > 0 ?  { artist: this.$store.getters.current_song.artist, trackID: this.$store.getters.current_song.trackID, source: this.$store.getters.current_song.source } : { artist: 'x', trackID: 'y', source: 'z' } 
+    },
     uid () {
       return this.$store.getters.uid || Math.random()
     },
     active : {
       get () {
         // console.log(this.$route)
-        // return this.$route.name
-        return
+        return this.$route.name
+        // return
       },
       set (v) {
       }
