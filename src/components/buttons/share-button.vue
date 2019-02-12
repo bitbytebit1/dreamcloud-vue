@@ -4,7 +4,7 @@
     ripple 
     @click.stop="share"
   >
-    <v-list-tile-title>Copy to clipboard</v-list-tile-title>
+    <v-list-tile-title>{{ btnTxt }}</v-list-tile-title>
   </v-list-tile>
 
   <v-tooltip 
@@ -19,7 +19,7 @@
     >
       <v-icon>share</v-icon>
     </v-btn>
-    <span>Share link</span>
+    <span>{{ btnTxt }}</span>
   </v-tooltip>
 </template>
 <script>
@@ -54,6 +54,9 @@ export default {
   computed : {
     surl () {
       return 'https://dreamcloud.netlify.com/#/t/' + this.song.source + '/' + encodeURIComponent(this.song.artist) + '/' + this.song.trackID
+    },
+    btnTxt () {
+      return this.$vuetify.breakpoint.smAndDown ? 'Share' : 'Copy to clipboard'
     }
   },
   methods: {
