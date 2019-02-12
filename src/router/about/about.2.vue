@@ -2,9 +2,10 @@
   <!-- :style="{ 'background-image': background }"  -->
   <v-flex 
     xs12 
+    lg10
     class="ma-0 pa-0 pb-3 bg-rp"
   >
-    <v-container grid-list-lg>
+    <v-container grid-list-xl>
       <v-layout 
         row 
         wrap 
@@ -23,15 +24,15 @@
         <!-- GET STARTED BUTTON -->
         <v-flex 
           xs12 
-          lg9 
-          xl7
+          lg12
         >
-          <v-btn 
+          <!-- <v-btn 
             :to="{name: 'explore'}" 
             block 
             large 
             color="primary white--text"
-          >get started </v-btn>
+          >get started </v-btn> -->
+          <autocomplete/>
         </v-flex>
         <!-- ABOUT FEATURE DIALOG -->
         <v-dialog 
@@ -67,56 +68,76 @@
           v-for="(item, index) in items" 
           :key="index" 
           xs12 
-          lg9 
-          xl7
+          lg4 
         >
-          <v-card 
-            class="ma-0
-            elevation-5" 
-          >
-            <v-container 
-              fluid 
-              grid-list-lg
+          <v-hover>
+            <v-card 
+              slot-scope="{ hover }"
+              class="ma-0 elevation-5" 
             >
-              <v-layout row>
-                <v-flex xs5>
-                  <!-- IMAGE -->
-                  <v-img
-                    :src="item.img"
-                    height="180"
-                    contain
-                  />
-                </v-flex>
-                <v-flex 
-                  xs7 
-                  class="text-xs-left"
+              <v-container 
+                fluid 
+                grid-list-xs
+                class="ma-0 pa-0"
+              >
+                <v-layout 
+                  row 
+                  wrap
+                  class="ma-0 pa-0"
                 >
-                  <div>
-                    <!-- TEXT -->
-                    <div class="headline">{{ item.headline }}</div>
-                    <div>{{ item.description }}</div>
-                  </div>
-                  <br>
+
+                  <v-flex xs12>
+                    <!-- IMAGE -->
+                    <v-img
+                      :src="item.img"
+                      height="180"
+                      contain
+                    />
+                  </v-flex>
+                  <v-flex 
+                    xs12 
+                    class="text-xs-left"
+                  >
+                    <div>
+                      <!-- TEXT -->
+                      <div class="title font-weight-thin text-xs-center">{{ item.headline }}</div>
+                    <!-- <div>{{ item.description }}</div> -->
+                    </div>
+                    <br>
                   <!-- READ MORE BUTTON -->
-                  <v-btn 
+                  <!-- <v-btn 
                     class="ma-0" 
                     color="primary" 
                     dark 
                     @click="(cardIndex = index, dialog = true)"
-                  >Read more</v-btn>
-                </v-flex>
-              </v-layout>
-            </v-container>
-          </v-card>
-          <v-divider/>
-        </v-flex>
+                  >Read more</v-btn> -->
+                  </v-flex>
+                  <v-expand-transition>
+                    <div
+                      v-if="hover"
+                      class="d-flex transition-fast-in-fast-out grey darken-4 v-card--reveal subheading white--text"
+                      style="height: 100%;"
+                    >
+                      {{ item.description }}
+                    </div>
+                  </v-expand-transition>
+
+                </v-layout>
+              </v-container>
+            </v-card>
+            <v-divider/>
+        </v-hover></v-flex>
       </v-layout>
     </v-container>
   </v-flex>
 </template>
 <script>
+import autocomplete from '@/components/header/autocomplete'
 export default {
   name: 'About',
+  components: {
+    'autocomplete': autocomplete,
+  },
   data () {
     return {
       cardIndex: 0,
@@ -125,7 +146,7 @@ export default {
         {
           headline: 'Search',
           description: 'Bandcamp, Mixcloud, Soundcloud, YouTube and Vimeo',
-          moreText: 'We directly access the use the offical API provided by Mixcloud, Soundcloud, YouTube and Vimeo to get your search results',
+          moreText: 'We directly access the use the offical API provided by Mixcloud, Soundcloud, YouTube and Vimeo to get your search results. Organise all your music in one place.',
           img: './img/about/analytics.png'
         },
         {
@@ -177,13 +198,13 @@ export default {
           On mobile the share menu is opened.`,
           img: './img/about/share.png'
         },
-        {
-          headline: 'Listen to music',
-          description: 'Organise all your music in one place',
-          moreText: `No limits to number of playlists or subscriptions.
-          Make playlists`,
-          img: './img/about/turntable.png'
-        },
+        // {
+        //   headline: 'Listen to music',
+        //   description: 'Organise all your music in one place',
+        //   moreText: `No limits to number of playlists or subscriptions.
+        //   Make playlists`,
+        //   img: './img/about/turntable.png'
+        // },
         {
           headline: 'Vibrant Community',
           description: `Join our discord server and contribute to the development`,
