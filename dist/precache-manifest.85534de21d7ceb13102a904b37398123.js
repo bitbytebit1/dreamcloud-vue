@@ -1,31 +1,31 @@
 self.__precacheManifest = [
   {
-    "revision": "f61db9b2d08b39e8737e",
-    "url": "/js/subsAll.18ae87c9.js"
+    "revision": "493354d44a97125a16c1",
+    "url": "/js/subsAll.1624aaec.js"
   },
   {
     "revision": "71c947380cbc877a1e9f7c11f478d760",
     "url": "/update-available.js"
   },
   {
-    "revision": "862f02a0f7cda381b31c",
-    "url": "/js/tos.0c2eb7ce.js"
+    "revision": "23e16e75c2b31b6c5a39",
+    "url": "/js/tos.a026e618.js"
   },
   {
-    "revision": "eda8c629e4bef6a90ff5",
-    "url": "/css/app.c00c3b00.css"
+    "revision": "de182450515e94c30120",
+    "url": "/css/app.b88f08bf.css"
   },
   {
-    "revision": "7e8c4356512bb36b24cd",
+    "revision": "7582704571dab30cd89a",
     "url": "/css/artist.fbed77fa.css"
   },
   {
-    "revision": "7e8c4356512bb36b24cd",
-    "url": "/js/artist.c3bb0a8c.js"
+    "revision": "7582704571dab30cd89a",
+    "url": "/js/artist.a1ff9542.js"
   },
   {
-    "revision": "5d4cd3e16cb092633604",
-    "url": "/js/channelPlaylist.d8379718.js"
+    "revision": "aa9f35156eef3542be3f",
+    "url": "/js/channelPlaylist.ac56297b.js"
   },
   {
     "revision": "25d7257d717849966a92",
@@ -36,124 +36,124 @@ self.__precacheManifest = [
     "url": "/js/chunk-76d4c477.92c3937b.js"
   },
   {
-    "revision": "4b8b7e20bf1f6adc87a7",
+    "revision": "0e4cb7371f06403ae74c",
     "url": "/css/chunk-vendors.6996554f.css"
   },
   {
-    "revision": "4b8b7e20bf1f6adc87a7",
-    "url": "/js/chunk-vendors.fc136e70.js"
+    "revision": "0e4cb7371f06403ae74c",
+    "url": "/js/chunk-vendors.4a5ac9bb.js"
   },
   {
-    "revision": "fbc89623258d987af4e8",
+    "revision": "7237cd37a03b21f5a13d",
     "url": "/css/genre.4394be38.css"
   },
   {
-    "revision": "fbc89623258d987af4e8",
-    "url": "/js/genre.d41c8ee5.js"
+    "revision": "7237cd37a03b21f5a13d",
+    "url": "/js/genre.601c121a.js"
   },
   {
-    "revision": "c65d8a7d013f756ec8af",
-    "url": "/js/history.dbbf5d6e.js"
+    "revision": "b1a37f6d5865683bda31",
+    "url": "/js/history.ba95c1d3.js"
   },
   {
-    "revision": "c31731139633d603b467",
-    "url": "/js/home.21190602.js"
+    "revision": "9a63b6f67c5ca532b359",
+    "url": "/js/home.7baee36e.js"
   },
   {
-    "revision": "85ac159ebefb79baa446",
+    "revision": "701d079d6983ea9871ec",
     "url": "/css/login.c0aefe62.css"
   },
   {
-    "revision": "85ac159ebefb79baa446",
-    "url": "/js/login.958477c5.js"
+    "revision": "701d079d6983ea9871ec",
+    "url": "/js/login.125d0e02.js"
   },
   {
-    "revision": "a94bf66a9ee5168c86aa",
+    "revision": "de3df7fe57b1348bb099",
     "url": "/css/password.f79ad8da.css"
   },
   {
-    "revision": "a94bf66a9ee5168c86aa",
-    "url": "/js/password.9670843a.js"
+    "revision": "de3df7fe57b1348bb099",
+    "url": "/js/password.15545ab1.js"
   },
   {
-    "revision": "8dd60a756cde8247175e",
+    "revision": "23d186d55e3e875ca921",
     "url": "/css/playlistOverview.382e7198.css"
   },
   {
-    "revision": "8dd60a756cde8247175e",
-    "url": "/js/playlistOverview.ff654406.js"
+    "revision": "23d186d55e3e875ca921",
+    "url": "/js/playlistOverview.bee852ef.js"
   },
   {
-    "revision": "8819b430dfb25588350a",
+    "revision": "93cb7b25608a3b228fd6",
     "url": "/css/playlistsAll.cb1bf88d.css"
   },
   {
-    "revision": "8819b430dfb25588350a",
-    "url": "/js/playlistsAll.5013bf3a.js"
+    "revision": "93cb7b25608a3b228fd6",
+    "url": "/js/playlistsAll.9b9bb4f1.js"
   },
   {
-    "revision": "72b3f44f564f27963af8",
+    "revision": "b558405300189895d194",
     "url": "/css/searchpage.cb1bf88d.css"
   },
   {
-    "revision": "72b3f44f564f27963af8",
-    "url": "/js/searchpage.b0cad805.js"
+    "revision": "b558405300189895d194",
+    "url": "/js/searchpage.65177bb9.js"
   },
   {
-    "revision": "fda30b0201929dd0b0c2",
+    "revision": "9fcd3bf467427eac733d",
     "url": "/css/settings.a6c228ab.css"
   },
   {
-    "revision": "fda30b0201929dd0b0c2",
-    "url": "/js/settings.460c23eb.js"
+    "revision": "9fcd3bf467427eac733d",
+    "url": "/js/settings.d774769e.js"
   },
   {
-    "revision": "0a45b5d5eb9524982bb2",
+    "revision": "c3858babe1bf291fc4b4",
     "url": "/css/signUp.3c9379ef.css"
   },
   {
-    "revision": "0a45b5d5eb9524982bb2",
-    "url": "/js/signUp.fc44760b.js"
+    "revision": "c3858babe1bf291fc4b4",
+    "url": "/js/signUp.fe0b30ce.js"
   },
   {
-    "revision": "254ab6cd83a66ab14dcb",
-    "url": "/js/song.a8f18583.js"
+    "revision": "392c6cd6f072556e019c",
+    "url": "/js/song.b99c4978.js"
   },
   {
-    "revision": "5099b9fd15e6d740f45a",
-    "url": "/js/stage.bd1f1ace.js"
+    "revision": "7d4cdef37323ab4d8e50",
+    "url": "/js/stage.be781e17.js"
   },
   {
-    "revision": "ab00f861a19e744a89a1",
-    "url": "/js/about.621a0929.js"
+    "revision": "bce81aef41bd89f4b0b9",
+    "url": "/js/about.d0bfe42e.js"
   },
   {
-    "revision": "eda8c629e4bef6a90ff5",
-    "url": "/js/app.d3fe600a.js"
+    "revision": "de182450515e94c30120",
+    "url": "/js/app.0fc2e545.js"
   },
   {
-    "revision": "331d135c5de2340685f5",
-    "url": "/js/trending.0606d4d7.js"
+    "revision": "c7a22ca7cfdcb309a3f8",
+    "url": "/js/trending.5794f5a1.js"
   },
   {
-    "revision": "c7e161f46f4a4687e18d",
-    "url": "/js/user.a47f5ffa.js"
+    "revision": "2958ebb9766da5e9a20e",
+    "url": "/js/user.aca89e38.js"
   },
   {
-    "revision": "9824460382715f1d9f54",
+    "revision": "a9e1170a88005660dfc1",
     "url": "/css/userPlaylist.cb1bf88d.css"
   },
   {
-    "revision": "9824460382715f1d9f54",
-    "url": "/js/userPlaylist.7bc71e22.js"
+    "revision": "a9e1170a88005660dfc1",
+    "url": "/js/userPlaylist.f26eeab6.js"
   },
   {
-    "revision": "c20ac0837faf4c3d53f7",
+    "revision": "23611af08e0e9d9c536a",
     "url": "/css/userSubOverview.c58116e9.css"
   },
   {
-    "revision": "c20ac0837faf4c3d53f7",
-    "url": "/js/userSubOverview.97b8e8c3.js"
+    "revision": "23611af08e0e9d9c536a",
+    "url": "/js/userSubOverview.8dfd7c80.js"
   },
   {
     "revision": "6e8f93d644595cffa1946ff5b9ef6fab",
@@ -192,7 +192,7 @@ self.__precacheManifest = [
     "url": "/img/discord.eb8a1870.png"
   },
   {
-    "revision": "94a8a52918a1dd43c8acf911591f7dea",
+    "revision": "b293ac4b7bfdc6d21af03edf20b20aa4",
     "url": "/index.html"
   },
   {
@@ -208,12 +208,16 @@ self.__precacheManifest = [
     "url": "/img/about/dart.png"
   },
   {
-    "revision": "eb8a18708085fd38b78d9932eb0da14c",
-    "url": "/img/about/discord.png"
+    "revision": "f9453134ee948304b1a11fe9b65295e8",
+    "url": "/img/about/mobile.png"
   },
   {
     "revision": "e00e267d8d1fa9eb5e62e9c7c71ef0b5",
-    "url": "/img/about/mobile.png"
+    "url": "/img/about/mobile1.png"
+  },
+  {
+    "revision": "eb8a18708085fd38b78d9932eb0da14c",
+    "url": "/img/about/discord.png"
   },
   {
     "revision": "d1fecc01213fc8d8077921201dba3707",
@@ -228,23 +232,23 @@ self.__precacheManifest = [
     "url": "/img/about/satellite.png"
   },
   {
-    "revision": "21a470e3fb2c59e7b680ffeaa49c99bb",
-    "url": "/img/about/dream.css"
+    "revision": "990b6be85eac8746b4f32dce99bb40b9",
+    "url": "/img/about/turntable.png"
   },
   {
     "revision": "20eb006ea0294e851afe5dea83e72b26",
     "url": "/img/about/share.png"
   },
   {
-    "revision": "990b6be85eac8746b4f32dce99bb40b9",
-    "url": "/img/about/turntable.png"
+    "revision": "21a470e3fb2c59e7b680ffeaa49c99bb",
+    "url": "/img/about/dream.css"
   },
   {
     "revision": "735ab4f94fbcd57074377afca324c813",
     "url": "/robots.txt"
   },
   {
-    "revision": "ab00f861a19e744a89a1",
+    "revision": "bce81aef41bd89f4b0b9",
     "url": "/css/about.d158ee77.css"
   }
 ];
