@@ -24,7 +24,7 @@
   </v-flex>
 </template>
 <script>
-import axios from 'axios'
+// import axios from 'axios'
 /* eslint-disable */
 import jumbo from '@/components/misc/jumbo'
 import deleteButton from '@/components/buttons/delete-button'
@@ -37,7 +37,7 @@ export default {
   props: {
     iLimit: {
       type: [Number],
-      default: 100
+      default: 200
     },
     rowsPerPage: {
       type: [Number],
@@ -90,10 +90,6 @@ export default {
         for (let i = 0; i < array.length - 1; i++) {
           dupe = false
           for (let n = 0; n < ret.length - 1; n++) {
-            // console.log(i, array.length)
-            // console.log(typeof array[i])
-            // console.log(typeof array[i + 1])
-            // console.log(n, i)
             if (typeof array[i] === 'undefined' || ret[n].trackID == array[i].trackID) {
               dupe = true
               break
@@ -118,17 +114,21 @@ export default {
             this.aRecommended.push(d[0])
             this.aRecommended.push(d[1])
           }
-
-
         }, true, 2))
       }
-      axios.all(aAjax).then(() => {
-        this.aRecommended = un(this.aRecommended)
-        this.bLoading = false
-        setTimeout(() => {
-          this.$store.commit('loadActive', false)
-        }, 200)
-      })
+      
+      this.bLoading = false
+      setTimeout(() => {
+        this.$store.commit('loadActive', false)
+      }, 200)
+      // console.log('haaaai1', aAjax)
+      // axios.all(aAjax).then(() => {
+      //   console.log('haaaai2')
+      //   this.bLoading = false
+      //   setTimeout(() => {
+      //     this.$store.commit('loadActive', false)
+      //   }, 200)
+      // })
     }
   },
   computed: {
