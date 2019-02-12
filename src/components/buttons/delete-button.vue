@@ -73,7 +73,7 @@ export default {
         }, 2000)
         this.$emit('delete', this.id)
         if (!this.inList) {
-          this.$store.dispatch('snack', { b: true, c:'green', s:'Deleted' })
+          this.$store.dispatch('snack', { b: true, c:'red', s:'Deleted' })
         }
       }
     }

@@ -5,7 +5,6 @@
     :items="items"
     :search-input.sync="search"
     v-model="select"
-    class="ml-3"
     color="primary"
     label="Search"
     append-icon=""

@@ -1,7 +1,7 @@
 <template>
   <v-flex 
-    xs12 
-    justify-center 
+    :justify-center="justifyCenter" 
+    xs12
     class="loading-flex"
   >
     <div 
@@ -28,6 +28,10 @@
 export default {
   name: 'OrbitSpinner',
   props: {
+    justifyCenter: {
+      type: Boolean,
+      default: false
+    },
     animationDuration: {
       type: Number,
       default: 1000

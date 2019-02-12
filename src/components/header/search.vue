@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar-items>
+  <v-toolbar-items class="ml-3">
     <!-- <v-toolbar-title class="mt-2"> -->
     <autocomplete @search="search($event)"/>
     <!-- </v-toolbar-title> -->
@@ -12,11 +12,10 @@
       single-line
     >
     </v-text-field> -->
-    <v-divider/>
+    <!-- <v-divider/> -->
     <v-menu
       :close-on-content-click="false"
       :nudge-bottom="25"
-      class="mr-5"
       open-on-hover
       z-index="10"
     >

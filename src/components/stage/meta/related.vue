@@ -9,8 +9,6 @@
       v-if="loading"
       xs2
       offset-xs5 
-      lg2
-      offset-lg5
     >
       <orbit/>
     </v-flex>
@@ -55,10 +53,10 @@
                   justify-center
                   ma-0
                 >
-                  <v-progress-circular 
+                  <!-- <v-progress-circular 
                     indeterminate 
                     color="grey lighten-5"
-                  />
+                  /> -->
                 </v-layout>
               </v-img>
             </v-flex>
