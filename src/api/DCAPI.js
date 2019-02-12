@@ -365,7 +365,7 @@ class DCAPIClass {
                 uploaded: this.parseDate(item.track.created_at), // created:
                 description: item.track.description, // description:
                 duration: this.secondstominutes(Math.floor(item.track.duration / 1E3)), // duration:
-                mp3: item.track.stream_url + '?client_id=' + this.sScKey, // mp3:
+                mp3: `https://api.soundcloud.com/tracks/${item.track.id}/stream?client_id=${this.sScKey}`, // mp3:
                 mp32: item.track.permalink_url, // mp32:
                 poster: img, // poster:
                 posterLarge: img2, // posterLarge:
