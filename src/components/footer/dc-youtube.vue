@@ -90,22 +90,19 @@
               class="ml-3 mr-3"
             >
               <v-slider 
-                :thumb-size="thumbSize" 
                 :max="iDuration" 
                 :label="iCurrent" 
                 v-model="iProgress" 
-                thumb-label 
                 color="primary" 
                 hide-details
               >
-                <template
+                <!-- <template
                   slot="thumb-label"
-                  slot-scope="props"
                 >
                   <span>
                     {{ secondsToDuration(iProgress) }}
                   </span>
-                </template>
+                </template> -->
               </v-slider>
             </v-flex>
           </v-layout>
@@ -129,10 +126,6 @@ export default {
     }
   },
   computed: {
-    thumbSize () {
-      // if song is over an hour increase progress thumb label size
-      return this.iProgress > 3601 ? '55' : '35'
-    },
     volClass () {
       return this.volIcon === 'volume_off' ? 'red' : 'primary'
     },

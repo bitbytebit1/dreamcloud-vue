@@ -85,23 +85,13 @@
               class="ml-3 mr-3"
             >
               <v-slider 
-                :thumb-size="thumbSize" 
                 :max="eAudio.duration" 
                 :label="currentTime" 
-                v-model="progress" 
-                thumb-label 
+                v-model="progress"
                 color="primary" 
                 hide-details 
                 @input="changePos"
-              >
-                <template
-                  slot="thumb-label"
-                >
-                  <span>
-                    {{ secondsToDuration(progress) }}
-                  </span>
-                </template>
-              </v-slider>
+              />
             </v-flex>
           </v-layout>
           <!-- </v-container> -->
@@ -134,10 +124,6 @@ export default {
     }
   },
   computed: {
-    thumbSize () {
-      // if song is over an hour increase progress thumb label size
-      return this.iProgress > 3601 ? '55' : '35'
-    },
     volClass () {
       return this.volIcon === 'volume_off' ? 'red' : 'primary'
     }
