@@ -41,7 +41,7 @@ class DCFB {
     this.playlists = this.db.ref('users/' + UID + '/PlaylistsData')
     this.playlistsRefs = this.db.ref('users/' + UID + '/PlaylistsNames')
     this.subscriptions = this.db.ref('users/' + UID + '/Subscriptions')
-    this.history = this.db.ref('users/' + UID + '/History')
+    this.fbhistory = this.db.ref('users/' + UID + '/History')
 
     if (window.localStorage) {
 
@@ -148,7 +148,7 @@ class DCFB {
   }
   historyPush (json) {
     // create new reference
-    var songRef = this.history.push()
+    var songRef = this.fbhistory.push()
     // save song reference in json.key
     json.key = songRef.key
     // remove from json['.key'] bc we have to due to vue-fire
@@ -160,7 +160,7 @@ class DCFB {
   }
 
   historyClear () {
-    this.history.remove()
+    this.fbhistory.remove()
   }
 
   playlistSongAdd (id, json) {
