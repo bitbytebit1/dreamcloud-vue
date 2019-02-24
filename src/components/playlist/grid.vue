@@ -82,6 +82,51 @@
             ref="con" 
             @delete="bSelect ? removeList() : remove($event)"
           />
+          <!-- <v-menu
+            v-model="showMenu"
+            :position-x="x"
+            :position-y="y"
+            absolute
+            offset-y
+            lazy
+          >
+            <v-list >
+              <add-to-queue 
+                :in-list="true" 
+                :song="bSelect ? selected : [chosenSong]"
+                @click.native="showMenu = false"
+              />
+              <add-to-playlist 
+                :in-list="true" 
+                :song="bSelect ? selected : [chosenSong]"
+                @click.native="showMenu = false"
+              />
+              <share-button 
+                :in-list="true" 
+                :song="chosenSong" 
+                :url="'https://dreamcloud.netlify.com/#/t/' + chosenSong.source + '/' + encodeURIComponent(chosenSong.artist) + '/' + chosenSong.trackID"
+                @click.native="showMenu = false"
+              />
+              <delete-button 
+                v-if="chosenSong.key && !bSelect" 
+                :in-list="true" 
+                :id="chosenSong.key" 
+                @delete="bSelect ? removeList() : remove(chosenSong.key)"
+              />
+              <download-button 
+                :in-list="true" 
+                :links="bSelect ? selected : [chosenSong]"
+                @click.native="showMenu = false"
+              />
+              <offlineButton 
+                :in-list="true" 
+                :link1="chosenSong.mp32" 
+                :link2="chosenSong.mp3" 
+                :track-id="chosenSong.trackID"
+                @click.native="showMenu = false"
+              />
+            </v-list>
+          </v-menu> -->
           <!-- SELECT BUTTONS -->
           <v-flex 
             v-if="bSelect" 
@@ -146,40 +191,6 @@
           row
           wrap
         >
-          <template slot="footer">
-            <v-dialog
-              v-model="dialog"
-              max-width="500px"
-            >
-              <v-list>
-                <add-to-playlist 
-                  :in-list="true" 
-                  :song="bSelect ? selected : [chosenSong]"
-                />
-                <share-button 
-                  :in-list="true" 
-                  :song="chosenSong[0]" 
-                  :url="'https://dreamcloud.netlify.com/#/t/' + chosenSong.source + '/' + encodeURIComponent(chosenSong.artist) + '/' + chosenSong.trackID"
-                />
-                <delete-button 
-                  v-if="chosenSong.key && !bSelect" 
-                  :in-list="true" 
-                  :id="chosenSong.key" 
-                  @delete="bSelect ? removeList() : remove(chosenSong.key)"
-                />
-                <download-button 
-                  :in-list="true" 
-                  :links="bSelect ? selected : [chosenSong]"
-                />
-                <offlineButton 
-                  :in-list="true" 
-                  :link1="chosenSong.mp32" 
-                  :link2="chosenSong.mp3" 
-                  :track-id="chosenSong.trackID"
-                />
-              </v-list>
-            </v-dialog>
-          </template>
           <!-- NO DATA -->
           <template slot="no-data">
             <v-layout 
@@ -255,15 +266,14 @@
             <!-- :color="cardColor(props)"  -->
             <v-hover 
               :value="isPlaying(props.item.trackID)"
-              :disabled="isPlaying(props.item.trackID) || bSelect"
+              :disabled="isPlaying(props.item.trackID)"
             >
               <!-- :color="cardColor(props)"  -->
               <!-- :style="isPlaying(props.item.trackID) ? {'outline-color': $vuetify.theme.primary, 'outline-style': 'auto'} : ''" -->
               <v-card 
                 slot-scope="{ hover }"
-                :to="{name: 'auto', params: { artist: props.item.artist, trackID: props.item.trackID, source: props.item.source }}"
                 class="dc-crd ma-0 pa-0 pointer outline"
-                @contextmenu="isMob ? (chosenSong = props.item, dialog = true) : ''"
+                @contextmenu="$refs.con.show($event, bSelect ? selected : [props.item])"
               >
                 <!-- IMAGE -->
                 <v-img
@@ -381,7 +391,7 @@
                           icon 
                           small 
                           class="men fl-r ma-0 pa-0 mt-1" 
-                          @click="isMob ? (chosenSong = props.item, dialog = true) : $refs.con.show($event, bSelect ? selected : [props.item])"
+                          @click="$refs.con.show($event, bSelect ? selected : [props.item])"
                         >
                           <v-icon>more_vert</v-icon>
                         </v-btn>
@@ -402,13 +412,9 @@
 <script>
 import contextMenu from '@/components/buttons/context-menu'
 import shuffleButton from '@/components/buttons/shuffle-button'
-import offlineButton from '@/components/buttons/offline-button.vue'
-import addToPlaylist from '@/components/buttons/add-to-playlist.vue'
-import addToQueue from '@/components/buttons/add-to-queue.vue'
+import addToPlaylist from '@/components/buttons/add-to-playlist'
 import deleteButton from '@/components/buttons/delete-button'
-import shareButton from '@/components/buttons/share-button'
 import downloadButton from '@/components/buttons/download-button'
-
 import { mapGetters } from 'vuex'
 export default {
 
@@ -424,7 +430,6 @@ export default {
       type: [String],
       default: ''
     },
-
     rowsPerPage: {
       type: [Number, String],
       default: 10
@@ -440,13 +445,10 @@ export default {
   },
   components: {
     'context-menu': contextMenu,
-    'add-to-queue': addToQueue,
-    'offlineButton': offlineButton,
     'add-to-playlist': addToPlaylist,
     'delete-button': deleteButton,
     'download-button': downloadButton,
-    'shuffleButton': shuffleButton,
-    'share-button': shareButton
+    'shuffleButton': shuffleButton
   },
   watch: {
     'rowsPerPage': function (val) {
@@ -491,9 +493,6 @@ export default {
       drawRight: 'drawRight',
       isYT: 'isYT'
     }),
-    isMob () {
-      return this.$vuetify.breakpoint.smAndDown 
-    },
     aspect () {
       return this.$route.name === 'artist' && this.$route.params.source !== 'YouTube'  ? '' : 16/9
     },

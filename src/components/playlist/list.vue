@@ -136,42 +136,6 @@
         v-model="selected"
         class="dtable"
       >
-        <template slot="footer">
-          <v-dialog
-            v-model="dialog"
-            max-width="500px"
-          >
-            <v-list>
-              <add-to-playlist 
-                :in-list="true" 
-                :song="bSelect ? selected : [chosenSong]"
-              />
-              <share-button 
-                :in-list="true" 
-                :song="chosenSong" 
-                :url="'https://dreamcloud.netlify.com/#/t/' + chosenSong.source + '/' + encodeURIComponent(chosenSong.artist) + '/' + chosenSong.trackID"
-              />
-              <delete-button
-                v-if="chosenSong.key && !bSelect"
-                :in-list="true"
-                :id="chosenSong.key"
-                @delete="bSelect ? removeList() : remove(chosenSong.key)"
-              />
-              <download-button
-                :in-list="true"
-                :links="bSelect ? selected : [chosenSong]"
-              />
-              <offlineButton
-                :in-list="true"
-                :link1="chosenSong.mp32"
-                :link2="chosenSong.mp3"
-                :track-id="chosenSong.trackID"
-                :key="chosenSong.trackID"
-              />
-
-            </v-list>
-          </v-dialog>
-        </template>
         <template 
           slot="no-data"
         >
@@ -235,6 +199,11 @@
             </td>
           </tr>
         </template>
+        <!-- <template slot="expand" slot-scope="props">
+          <v-card flat>
+            <v-card-text>{{props.item.description}}</v-card-text>
+          </v-card>
+        </template> -->
         <template 
           slot="items" 
           slot-scope="props"
@@ -243,15 +212,13 @@
             :value="isPlaying(props.item.trackID)"
             :disabled="isPlaying(props.item.trackID)"
           >
-            <router-link
-              slot-scope="{ hover }"
+            <tr 
+              slot-scope="{ hover }" 
               :key="props.index" 
               :id="bSelect ? 'nosel' : ''" 
-              :class="isPlaying(props.item.trackID) ? 'primary white--text mb-3 pointer wordbreak' : 'mb-3 pointer wordbreak'" 
-              :to="{name: 'auto', params: { artist: props.item.artist, trackID: props.item.trackID, source: props.item.source }}"
-              tag="tr"
+              :class="isPlaying(props.item.trackID) ? 'primary white--text mb-3 pointer wordbreak' : 'mb-3 pointer wordbreak'"
               @click.stop="props.item.listID ? $router.push({name: 'channelPlaylist', params: {listID: props.item.listID, artistID: props.item.artistID, title: props.item.title, source: props.item.source}}) : !bSelect ? play(props.index) : props.selected = !props.selected"
-              @contextmenu="isMob ? (chosenSong = props.item, dialog = true) : ''"
+              @contextmenu="$refs.con.show($event, bSelect ? selected : [props.item])"
             >
               <!-- CHECK_BOX -->
               <td v-if="bSelect">
@@ -349,7 +316,6 @@
                   <v-flex
                     v-if="$vuetify.breakpoint.smAndUp"
                     sm2
-                    md1
                   >
                     <v-btn 
                       :loading="$store.getters.isLoading && isPlaying (props.item.trackID)"
@@ -364,7 +330,7 @@
                   </v-flex>
                   <v-flex 
                     sm10 
-                    md11
+                    xs12
                   >
                     {{ props.item.title }}
                   </v-flex>
@@ -412,13 +378,13 @@
                 <v-btn 
                   icon 
                   small 
-                  @click="isMob ? (chosenSong = props.item, dialog = true) : $refs.con.show($event, bSelect ? selected : [props.item])"
+                  @click="$refs.con.show($event, bSelect ? selected : [props.item])"
                 >
                   <v-icon>more_vert</v-icon>
                 </v-btn>
               </td>
 
-            </router-link>
+            </tr>
           </v-hover>
         </template>
       </v-data-table>
@@ -429,14 +395,12 @@
 <script>
 // /* eslint-disable */
 import contextMenu from '@/components/buttons/context-menu'
-import shuffleButton from '@/components/buttons/shuffle-button'
-import offlineButton from '@/components/buttons/offline-button.vue'
 import addToPlaylist from '@/components/buttons/add-to-playlist.vue'
-import addToQueue from '@/components/buttons/add-to-queue.vue'
 import deleteButton from '@/components/buttons/delete-button'
-import shareButton from '@/components/buttons/share-button'
+import shuffleButton from '@/components/buttons/shuffle-button'
 import downloadButton from '@/components/buttons/download-button'
-
+import shareButton from '@/components/buttons/share-button'
+import offlineButton from '@/components/buttons/offline-button.vue'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -466,13 +430,12 @@ export default {
   },
   components: {
     'context-menu': contextMenu,
-    'add-to-queue': addToQueue,
-    'offlineButton': offlineButton,
     'add-to-playlist': addToPlaylist,
     'delete-button': deleteButton,
     'download-button': downloadButton,
+    'share-button': shareButton,
     'shuffleButton': shuffleButton,
-    'share-button': shareButton
+    'offlineButton': offlineButton
   },
   data () {
     return {
@@ -505,9 +468,6 @@ export default {
       showVideo: 'showVideo',
       view_mode: 'view_mode'
     }),
-    isMob () {
-      return this.$vuetify.breakpoint.smAndDown 
-    },
     headers () {
       let r = []
       if (this.bMini) {
