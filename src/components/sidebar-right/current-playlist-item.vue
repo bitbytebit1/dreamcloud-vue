@@ -40,58 +40,13 @@
               {{ song.artist }}
             </router-link>
           </v-flex>
-          <v-flex xs12>
-            <!-- SHOW MORE -->
-            <v-tooltip top>
-              <v-btn 
-                slot="activator" 
-                :disabled="!desc" 
-                icon 
-                @click.stop.native="show = !show"
-              >
-                <v-icon>{{ show ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
-              </v-btn>
-              <span>Show description</span>
-            </v-tooltip>
-            <!-- share button -->
-            <share-button 
-              :song="song" 
-            />
-            <!-- download button -->
-            <download-button :links="[song]"/>
-            <!-- add to playlist -->
-            <add-to-playlist 
-              v-if="$store.getters.auth_state" 
-              :song="song"
-            />
-          </v-flex>
         </v-layout>
 
       </v-card-actions>
-      
-
-      <v-slide-y-transition v-if="show">
-        <!-- description -->
-        <div>
-          <!-- <v-card-text>
-            <lyrics v-if="!index" :title="song.title" :artist="song.artist"></lyrics>
-          </v-card-text> -->
-          <v-card-text 
-            class="wordbreak preline" 
-            @click.stop
-            v-html="timeToSeconds(desc)"
-          />
-        </div>
-        <!-- </transition> -->
-      </v-slide-y-transition>
     </v-card>
   </v-flex>
 </template>
 <script>
-import addToPlaylist from '@/components/buttons/add-to-playlist.vue'
-import shareButton from '@/components/buttons/share-button'
-import downloadButton from '@/components/buttons/download-button'
-import lyrics from '@/components/stage/meta/lyrics'
 
 export default {
   // props: ['song', 'index'],
@@ -108,12 +63,6 @@ export default {
     }
   },
   name: 'CurrentPlaylistItem',
-  components: {
-    'add-to-playlist': addToPlaylist,
-    'download-button': downloadButton,
-    'lyrics': lyrics,
-    'share-button': shareButton
-  },
   data () {
     return {
       show: false,
@@ -122,36 +71,7 @@ export default {
       artistID: `#/a/${this.song.source}/${encodeURIComponent(this.song.artist)}/${this.song.artistID}`
     }
   },
-  watch: {
-    'show': 'ifShowGetDesc'
-  },
   methods: {
-    ifShowGetDesc (newVal) {
-      if (newVal && this.song.source === 'YouTube') {
-        this.getDesc()
-      }
-    },
-    timeToSeconds (value) {
-      if (!value) {
-        return ''
-      }
-      if (this.song.source === 'YouTube' && this.$store.getters.ytUseVideo) {
-        return (value.replace(
-          /(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)([0-5]?\d)/g,
-          `<span class="underline pointer" onClick="window.dcYT.seekTo('$&'.split(':').reduce((acc,time) => (60 * acc) + +time));">$&</span>`))
-      } else {
-        return (
-          value.replace(
-            /(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)([0-5]?\d)/g,
-            `<span class="underline pointer" onClick="document.getElementById('dc-audio').currentTime = '$&'.split(':').reduce((acc,time) => (60 * acc) + +time)">$&</span>`)
-        )
-      }
-    },
-    getDesc () {
-      this.$DCAPI.getSongDescription(this.song.trackID, this.song.source, (resp) => {
-        this.desc = resp.items[0].snippet.description
-      })
-    },
     play () {
       if (this.index === 0) {
         if (this.$store.getters.isYT && this.$store.getters.ytUseVideo) {
