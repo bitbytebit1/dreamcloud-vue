@@ -1,18 +1,31 @@
 <template>
   <v-flex 
-    :key="$route.params.playlist" 
     xs12 
     lg10 
     flexbox
   >
-    <div 
+    <v-combobox
+      v-model="chips"
+      :items="subscriptions"
+      :value-comparator="(a, b) => a = b"
+      label="Subscriptions"
+      item-text="name"
+      item-value="artistID"
+      chips
+      clearable
+      single-line
+      prepend-icon="filter_list"
+      multiple
+      deletable-chips
+    />
+    <!-- <div 
       v-if="bLoading || aPlaylists2.length" 
       class="headline fwl text-xs-left pl-2 pt-2"
-    >Latest from your subscriptions</div>
+    >Latest from your subscriptions</div> -->
 
     <playlist 
-      v-if="bLoading || aPlaylists2.length" 
-      :songs="aPlaylists" 
+      v-if="bLoading || aFiltered.length" 
+      :songs="aFiltered" 
       :show-uploaded="!0" 
       sort-by="uploaded" 
       rows-per-page="50"
@@ -53,11 +66,19 @@ export default {
       bLoadedSubs: 0,
       aPlaylists: [],
       aPlaylists2: [],
-      subscriptions: []
+      subscriptions: [],
+      chips: [],
     }
   },
   computed: {
-    ...mapGetters({auth_state: 'auth_state'})
+    ...mapGetters({auth_state: 'auth_state'}),
+    aFiltered () {
+      return this.chips.length ? 
+        this.aPlaylists.filter(f => 
+          this.chips.some(c => c.id == f.artistID)
+        )
+        : this.aPlaylists
+    }
   },
   methods: {
     bind () {
@@ -76,6 +97,7 @@ export default {
         // this.$router.push({name: 'searchPage', params: {query: '%20%20', source: 'YouTube'}})
         return
       }
+      // console.log(this.aFiltered)
       this.bLoadedSubs = 0
       let impatient = false
       setTimeout(() => {
@@ -95,7 +117,7 @@ export default {
                                   !impatient && this.$store.commit('loadValue', 0)
                                   this.aPlaylists = this.aPlaylists2
                                 }
-        }, false, 5)
+        }, false, 20)
       }
     }
   }
