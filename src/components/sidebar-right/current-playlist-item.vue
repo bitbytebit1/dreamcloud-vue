@@ -56,7 +56,6 @@
             <!-- share button -->
             <share-button 
               :song="song" 
-              :url="'https://dreamcloud.netlify.com/#/t/' + song.source + '/' + encodeURIComponent(song.artist) + '/' + song.trackID"
             />
             <!-- download button -->
             <download-button :links="[song]"/>

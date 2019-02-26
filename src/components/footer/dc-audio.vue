@@ -173,9 +173,9 @@ export default {
       this.play_arrow = 'play_arrow'
     },
     loading () {
-      if (this.$route.name === 'auto') {
-        this.$router.push({name: 'auto', params: { artist: this.$store.getters.current_song.artist,  trackID: this.$store.getters.current_song.trackID,  source: this.$store.getters.current_song.source }})
-      }
+      // if (this.$route.name === 'auto') {
+      //   this.$router.push({name: 'auto', params: { artist: this.$store.getters.current_song.artist,  trackID: this.$store.getters.current_song.trackID,  source: this.$store.getters.current_song.source }})
+      // }
       this.$store.commit('dcIsLoading', true)
       this.bLoading = true
     },

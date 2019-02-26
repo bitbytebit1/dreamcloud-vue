@@ -77,13 +77,14 @@
           >
             <div 
               v-for="item in items" 
-              v-if="item.data" 
               :key="item.name" 
               xs4 
               class="text-xs-left fl-r pr-3" 
               style=""
             >
-              <v-tooltip left>
+              <v-tooltip 
+                left
+              >
                 <div slot="activator">
                   <v-btn 
                     icon 
@@ -172,9 +173,9 @@ export default {
     }
   },
   computed: {
-    debugLink () {
-      return '{ a: "' + this.artist + '", s: "' + this.source + '", ai: "' + this.artistID + '", i: "' + this.info.img + '" },\n\n'
-    },
+    // debugLink () {
+    //   return '{ a: "' + this.artist + '", s: "' + this.source + '", ai: "' + this.artistID + '", i: "' + this.info.img + '" },\n\n'
+    // },
     descClass () {
       return this.bHide ? 'chop' : ''
     },
@@ -193,44 +194,46 @@ export default {
     }
   },
   mounted () {
-    this.$DCAPI.getArtistInfo(this.artistID, this.source).then((response) => {
-      if (this.source.toLowerCase().indexOf('youtube') > -1) {
-        this.info.created = response.data.items[0].snippet.publishedAt
-        this.info.description = response.data.items[0].snippet.description
-        this.info.img = response.data.items[0].snippet.thumbnails.high.url
-        this.info.title = response.data.items[0].snippet.title
-        this.info.followers_count = response.data.items[0].statistics.subscriberCount
-        this.info.track_count = response.data.items[0].statistics.videoCount
-      } else if (this.source.toLowerCase().indexOf('soundcloud') > -1) {
-        this.info.created = ''
-        this.info.description = ''
-        this.info.img = response.data.avatar_url.replace('large', 't500x500')
-        this.info.followers_count = response.data.followers_count
-        this.info.last_modified = response.data.last_modified
-        this.info.title = response.data.username
-        this.info.track_count = response.data.track_count
-      } else if (this.source.toLowerCase().indexOf('mixcloud') > -1) {
-        this.info.created = response.data.created
-        this.info.description = response.biog
-        this.info.img = response.data.pictures.medium
-        this.info.followers_count = response.data.followers_count
-        this.info.last_modified = response.data.updated_time
-        this.info.title = response.data.username
-        this.info.track_count = response.data.cloudcast_count
-      } else if (this.source.toLowerCase().indexOf('bandcamp') > -1) {
-        this.info.created = response.data.created
-        this.info.img = response.data.img
-        this.info.last_modified = response.data.last
-        this.info.track_count = response.data.tracks
-      }
-      this.$nextTick(() => {
-        // console.log(this.getDescHeight())
-        this.descHeight = this.getDescHeight()
-        if (this.descHeight > 50) {
-          this.bHide = true
+    setTimeout(() => {
+      this.$DCAPI.getArtistInfo(this.artistID, this.source).then((response) => {
+        if (this.source.toLowerCase().indexOf('youtube') > -1) {
+          this.info.created = response.data.items[0].snippet.publishedAt
+          this.info.description = response.data.items[0].snippet.description
+          this.info.img = response.data.items[0].snippet.thumbnails.high.url
+          this.info.title = response.data.items[0].snippet.title
+          this.info.followers_count = response.data.items[0].statistics.subscriberCount
+          this.info.track_count = response.data.items[0].statistics.videoCount
+        } else if (this.source.toLowerCase().indexOf('soundcloud') > -1) {
+          this.info.created = ''
+          this.info.description = ''
+          this.info.img = response.data.avatar_url.replace('large', 't500x500')
+          this.info.followers_count = response.data.followers_count
+          this.info.last_modified = response.data.last_modified
+          this.info.title = response.data.username
+          this.info.track_count = response.data.track_count
+        } else if (this.source.toLowerCase().indexOf('mixcloud') > -1) {
+          this.info.created = response.data.created
+          this.info.description = response.biog
+          this.info.img = response.data.pictures.medium
+          this.info.followers_count = response.data.followers_count
+          this.info.last_modified = response.data.updated_time
+          this.info.title = response.data.username
+          this.info.track_count = response.data.cloudcast_count
+        } else if (this.source.toLowerCase().indexOf('bandcamp') > -1) {
+          this.info.created = response.data.created
+          this.info.img = response.data.img
+          this.info.last_modified = response.data.last
+          this.info.track_count = response.data.tracks
         }
+        this.$nextTick(() => {
+          // console.log(this.getDescHeight())
+          this.descHeight = this.getDescHeight()
+          if (this.descHeight > 50) {
+            this.bHide = true
+          }
+        })
       })
-    })
+    }, 250)
   }
 }
 </script>

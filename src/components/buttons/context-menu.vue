@@ -5,29 +5,32 @@
     :position-y="y"
     absolute
     offset-y
-    lazy
   >
     <v-list >
-      <add-to-queue 
-        :in-list="true" 
-        :song="a"
-        @clicked="b = false"
-      />
-      <share-button 
-        :in-list="true" 
+      <new-tab
         :song="a[0]"
         @clicked="b = false"
       />
+      <add-to-queue 
+        :song="a"
+        in-list
+        @clicked="b = false"
+      />
+      <share-button 
+        :song="a[0]"
+        in-list
+        @clicked="b = false"
+      />
       <download-button 
-        :in-list="true" 
         :links="a"
+        in-list
         @clicked="b = false"
       />
       <offlineButton 
-        :in-list="true" 
-        :link1="a.mp32" 
+        :link1="a.mp32"
         :link2="a.mp3" 
-        :track-id="a.trackID"
+        :track-id="a.trackID" 
+        in-list
         @clicked="b = false"
       />
 
@@ -49,6 +52,7 @@
   </v-menu>
 </template>
 <script>
+import newTab from '@/components/buttons/open-new-tab'
 import offlineButton from '@/components/buttons/offline-button'
 import addToPlaylist from '@/components/buttons/add-to-playlist'
 import addToQueue from '@/components/buttons/add-to-queue'
@@ -58,6 +62,7 @@ import downloadButton from '@/components/buttons/download-button'
 import goToArtist from '@/components/buttons/go-to-artist'
 export default {
   components: {
+    'newTab': newTab,
     'add-to-queue': addToQueue,
     'offlineButton': offlineButton,
     'add-to-playlist': addToPlaylist,
@@ -78,7 +83,7 @@ export default {
     show (e, a) {
       this.a = a
       e.preventDefault()
-      // this.b = false
+      this.b = false
       this.x = e.clientX
       this.y = e.clientY
       // this.$nextTick(() => {

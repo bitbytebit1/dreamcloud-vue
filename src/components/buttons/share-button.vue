@@ -52,9 +52,6 @@ export default {
     'delete-button': deleteButton
   },
   computed : {
-    surl () {
-      return 'https://dreamcloud.netlify.com/#/t/' + this.song.source + '/' + encodeURIComponent(this.song.artist) + '/' + this.song.trackID
-    },
     btnTxt () {
       return this.$vuetify.breakpoint.smAndDown ? 'Share' : 'Copy to clipboard'
     }
@@ -63,7 +60,10 @@ export default {
     share () {
       this.$emit('clicked')
       this.color = 'primary'
-      if(this.$UTILS.share(this.surl, this.song)) {
+      let w = this.song.hasOwnProperty('listID') ? 
+        `https://dctest.netlify.com/#/p/${encodeURIComponent(this.song.title)}/${this.song.source}/${this.song.artistID}/${this.song.listID}`
+        : `https://dreamcloud.netlify.com/#/t/${this.song.source}/${encodeURIComponent(this.song.artist)}/${this.song.trackID}`
+      if(this.$UTILS.share(w, this.song)) {
         this.$store.commit('snack', { b: true, c:'primary', s:'Link copied to clipboard' })
       } else {
         this.$store.commit('snack', { b: true, c:'primary', s:'Opening share menu' })

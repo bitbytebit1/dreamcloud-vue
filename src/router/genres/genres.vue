@@ -1,6 +1,5 @@
 <template>
   <v-flex 
-    :style="{ 'background-image': background }" 
     xs12 
     lg12 
     class="bg-rp"
@@ -13,14 +12,14 @@
     >
       
       <v-jumbotron 
-        :gradient="`to top, ${$store.getters.nightMode ? '#424242' : '#ffffff'}, ${$vuetify.theme.primary}`" 
+        :gradient="`to top, ${$store.getters.nightMode ? '#fff' : '#ffffff'}, ${$vuetify.theme.primary}`" 
         dark
+        small
       >
         <v-container fill-height>
           <v-layout align-center>
             <v-flex text-xs-center>
               <h3 class="display-3">Legends never die</h3>
-              <h3 class="title">they live on <i>through</i> us</h3>
             </v-flex>
           </v-layout>
         </v-container>

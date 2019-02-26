@@ -1,5 +1,5 @@
 <template>
-  <v-flex :id="String(trackID)"/>
+  <div :id="String(trackID)"/>
 </template>
 
 <script>
@@ -35,6 +35,7 @@ export default {
           this.$DCPlayer.setNPlay(d, 0)
           this.$DCFB.historyPush(d[0])
           this.$store.commit('bShowStage', true)
+          // TODO Add related to playlist if only song/blank current_Playlist?
         }, '')
     }},
   },

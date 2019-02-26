@@ -259,7 +259,7 @@
                 ? $router.push({name: 'channelPlaylist', params: {listID: props.item.listID, artistID: props.item.artistID, title: props.item.title, source: props.item.source}}) 
                 : 
                   !bSelect 
-                    ? play(props.index)
+                    ? play(props.index, false, isPlaying(props.item.trackID))
                     : checkItem(props.item)
             "
           >
@@ -278,8 +278,8 @@
                 <!-- IMAGE -->
                 <v-img
                   :aspect-ratio="aspect"
-                  :src="props.item.posterLarge"
-                  :lazy-src="props.item.posterLarge"
+                  :src="props.item.poster"
+                  :lazy-src="props.item.poster"
                   class="fillPlace nosel"
                 >
                   <v-layout 
@@ -567,9 +567,9 @@ export default {
         this.remove(this.selected[key].key)
       }
     },
-    play (index) {
+    play (index, pauseIfSame = true, showStage = false) {
       // if (this.$store.getters.index === index && this.hash === this.$route.path) {
-      if (this.sorted[index].trackID == this.$store.getters.current_song.trackID) {
+      if (pauseIfSame && this.sorted[index].trackID == this.$store.getters.current_song.trackID) {
         return this.$DCPlayer.togglePlay()
       }
       // console.log('playing')
@@ -582,7 +582,7 @@ export default {
       this.$store.commit('setNPlay', {songs: this.sorted, current: index, path: this.$route.path})
       this.$DCPlayer.setNPlay(this.sorted, newi)
       this.$DCFB.historyPush(this.sorted[newi])
-      if (this.showVideo) {
+      if (showStage || this.showVideo) {
         // console.log('showing stage')
         this.$router.push({name: 'auto', params: { artist: this.sorted[newi].artist,  trackID: this.sorted[newi].trackID,  source: this.sorted[newi].source }})
         // this.$store.commit('toggleStage')

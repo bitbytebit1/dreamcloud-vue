@@ -419,7 +419,7 @@ class DCAPIClass {
   getChannelPlaylists(artistID, source, maxRes, nextPage, hCallback) {
     var uid = this.genUID()
     if (source.toLowerCase().indexOf('soundcloud') > -1) {
-      axios.get(`https://api.soundcloud.com/users/${artistID}/playlists?client_id=${this.sScKey}`).then((resp) => {
+      return axios.get(`https://api.soundcloud.com/users/${artistID}/playlists?client_id=${this.sScKey}`).then((resp) => {
         var img1 = ''
         let ret = {
           data: resp.data.map((item) => {
@@ -654,7 +654,7 @@ class DCAPIClass {
         return
       }
       var nextPage = this.YTCommentNext && iPage ? '&pageToken=' + this.YTCommentNext : ''
-      return axios.get('https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&order=relevance&textFormat=plainText&maxResults=' + maxRes + '&videoId=' + trackID + '&key=' + this.sYtKey + nextPage).then((resp) => {
+      return axios.get('https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&order=date&textFormat=plainText&maxResults=' + maxRes + '&videoId=' + trackID + '&key=' + this.sYtKey + nextPage).then((resp) => {
         this.YTCommentNext = resp.data.nextPageToken
         var ret = resp.data.items.map((item) => {
           return {
@@ -695,7 +695,7 @@ class DCAPIClass {
     if (source.toLowerCase().indexOf('youtube') > -1) {
       axios.get('https://www.googleapis.com/youtube/v3/videos?part=snippet&id=' + trackID + '&fields=items/snippet/description&key=' + this.sYtKey).then((resp) => {
         hCallback(resp.data)
-      })
+      }).catch()
     }
   }
 

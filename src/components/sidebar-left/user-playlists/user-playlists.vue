@@ -146,9 +146,9 @@ export default {
       filterHasFocus: false,
       search: '',
       active: false,
-      rowsPerPageItems: [7, { 'text': 'All', 'value': -1 }],
+      rowsPerPageItems: [5, { 'text': 'All', 'value': -1 }],
       pagination: {
-        rowsPerPage: 7
+        rowsPerPage: 5
       }
     }
   },
@@ -158,7 +158,7 @@ export default {
       uid: 'uid'
     }),
     bUIShowMore () {
-      return this.$store.getters.auth_state && this.playlists.length > 7
+      return this.$store.getters.auth_state && this.playlists.length > 5
     },
     filterLeng () {
       return this.search.length > 0

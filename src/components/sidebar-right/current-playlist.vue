@@ -1,7 +1,7 @@
 <template>
   <!-- <v-container grid-list-sm> -->
-  <!-- v-if="$store.getters.drawRight" -->
   <v-layout 
+    v-if="$store.getters.drawRight"
     row 
     wrap
   >

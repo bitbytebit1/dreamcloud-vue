@@ -216,8 +216,12 @@
               slot-scope="{ hover }" 
               :key="props.index" 
               :id="bSelect ? 'nosel' : ''" 
-              :class="isPlaying(props.item.trackID) ? 'primary white--text mb-3 pointer wordbreak' : 'mb-3 pointer wordbreak'"
-              @click.stop="props.item.listID ? $router.push({name: 'channelPlaylist', params: {listID: props.item.listID, artistID: props.item.artistID, title: props.item.title, source: props.item.source}}) : !bSelect ? play(props.index) : props.selected = !props.selected"
+              class="mb-3 pointer wordbreak'"
+              @click.stop="props.item.listID ? 
+                $router.push({name: 'channelPlaylist', params: {listID: props.item.listID, artistID: props.item.artistID, title: props.item.title, source: props.item.source}}) 
+                : !bSelect ? 
+                  play(props.index, false, isPlaying(props.item.trackID))
+              : props.selected = !props.selected"
               @contextmenu="$refs.con.show($event, bSelect ? selected : [props.item])"
             >
               <!-- CHECK_BOX -->
@@ -259,9 +263,7 @@
                             color="primary"
                             @click.stop="playProxy(props, false)"
                           >
-                            <v-icon 
-                              large
-                            >{{ $store.getters.isPlaying && isPlaying (props.item.trackID) ? 'pause' : 'play_arrow' }}</v-icon>
+                            <v-icon large>{{ $store.getters.isPlaying && isPlaying (props.item.trackID) ? 'pause' : 'play_arrow' }}</v-icon>
                           </v-btn>
                         </div>
                       </div>
@@ -315,17 +317,17 @@
                   
                   <v-flex
                     v-if="$vuetify.breakpoint.smAndUp"
-                    sm2
+                    sm1
+                    ma-1
                   >
                     <v-btn 
                       :loading="$store.getters.isLoading && isPlaying (props.item.trackID)"
                       :class="isPlaying (props.item.trackID) ? '' : 'mouseme'"
                       icon
+                      small
                       @click.stop="play(props.index)"
                     >
-                      <v-icon 
-                        large
-                      >{{ $store.getters.isPlaying && isPlaying (props.item.trackID)? 'pause' : 'play_arrow' }}</v-icon>
+                      <v-icon>{{ $store.getters.isPlaying && isPlaying (props.item.trackID)? 'pause' : 'play_arrow' }}</v-icon>
                     </v-btn>
                   </v-flex>
                   <v-flex 
@@ -346,7 +348,6 @@
                   v-if="!$route.params.artistID" 
                   :class="artistClass(props.item.trackID)" 
                   :href="shareArtistURL(props.item)" 
-                
                   @click.stop
                 >{{ props.item.artist }}</a>
                 <span 
@@ -583,7 +584,7 @@ export default {
     date (date) {
       return this.$DCAPI.calcDate(this.today, date)
     },
-    play (index, pauseIfSame = true) {
+    play (index, pauseIfSame = true, showStage = false) {
       if (pauseIfSame && this.sorted[index].trackID == this.$store.getters.current_song.trackID) {
         return this.$DCPlayer.togglePlay()
       }
@@ -595,7 +596,7 @@ export default {
       this.$DCPlayer.setNPlay(this.sorted, newi)
       this.$DCFB.historyPush(this.sorted[newi])
       // show stage
-      if (this.showVideo) {
+      if (showStage || this.showVideo) {
         // this.$router.push({name: 'stage'})
         this.$router.push({name: 'auto', params: { artist: this.sorted[newi].artist,  trackID: this.sorted[newi].trackID,  source: this.sorted[newi].source }})
       }

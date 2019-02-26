@@ -64,7 +64,6 @@
             <!-- SHARE BUTTON -->
             <share-button 
               :song="song" 
-              :url="'https://dreamcloud.netlify.com/#/t/' + song.source + '/' + encodeURIComponent(song.artist) + '/' + song.trackID"
             />
             <!-- DOWNLOAD BUTTON -->
             <download-button :links="[song]"/>
@@ -365,7 +364,7 @@ export default {
     },
     trackChanged () {
       if (this.isYT && this.ytUseVideo) {
-        if (this.$route.name === 'auto') {
+        if (this.$route.name === 'auto' && !this.$vuetify.breakpoint.xs) {
           // this.$router.push({name: 'stage'})
           this.$router.push({name: 'auto', params: { artist: this.$store.getters.current_song.artist,  trackID: this.$store.getters.current_song.trackID,  source: this.$store.getters.current_song.source }})
         }

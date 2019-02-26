@@ -1,0 +1,32 @@
+<template>
+  <v-list-tile 
+    ripple 
+    @click.stop="open"
+  >
+    <v-list-tile-title>Open in a new tab</v-list-tile-title>
+  </v-list-tile>
+</template>
+<script>
+export default {
+  name: 'NewTab',
+  props: {
+    song: {
+      type: Object,
+      default: () => {}
+    }
+  },
+  methods: {
+    open () {
+      // http://localhost:8080/#/p/English%20Frank%20A.K.A.%20Frantic%20Frank%20Playlist/YouTube/UC7m50joF-qTmt2e9jc-7v7Q/PLe5KuCdfXCKewvJvVez_nz3zkBgZMA-2u
+      if (this.song.hasOwnProperty('listID')) {
+        window.open(`https://dctest.netlify.com/#/p/${this.song.title}/${this.song.source}/${this.song.artistID}/${this.song.listID}`,'_blank');
+      } else {
+        window.open(`https://dctest.netlify.com/#/c/${this.song.source}/${this.song.artist}/${this.song.trackID}`,'_blank');
+      }
+    }
+  }
+}
+</script>
+
+<style>
+</style>
