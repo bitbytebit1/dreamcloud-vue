@@ -7,17 +7,36 @@
     <v-combobox
       v-model="chips"
       :items="subscriptions"
-      :value-comparator="(a, b) => a = b"
       label="Subscriptions"
       item-text="name"
-      item-value="artistID"
+      item-value="id"
       chips
       clearable
       single-line
       prepend-icon="filter_list"
       multiple
       deletable-chips
-    />
+    >
+      <template 
+        slot="selection" 
+        slot-scope="data"
+      >
+        <v-chip
+          :key="JSON.stringify(data.item)"
+          :selected="data.selected"
+          :disabled="data.disabled"
+          class="v-chip--select-multi primary v-chip--removable "
+          @click.stop="data.parent.selectedIndex = data.index"
+          @input="data.parent.selectItem(data.item)"
+        >
+          <v-avatar class="accent white--text">
+            <img :src="data.item.img">
+          </v-avatar>
+          {{ data.item.name }}
+        </v-chip>
+      </template>
+    </v-combobox>
+
     <!-- <div 
       v-if="bLoading || aPlaylists2.length" 
       class="headline fwl text-xs-left pl-2 pt-2"
@@ -81,6 +100,10 @@ export default {
     }
   },
   methods: {
+    test (e) {
+      console.log(e.source.slice(0, 1).toUpperCase())
+      return e.source.slice(0, 1).toUpperCase()
+    },
     bind () {
       // only bind if logged in
       if (this.auth_state) {
