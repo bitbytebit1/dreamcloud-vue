@@ -3,6 +3,7 @@
     xs12 
     lg10 
     flexbox
+    mt-3
   >
     <!-- <loading v-if="loading"></loading> --> 
     <playlist 
@@ -103,8 +104,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
-
-</style>
