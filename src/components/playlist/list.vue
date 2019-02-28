@@ -596,8 +596,8 @@ export default {
       this.$DCFB.historyPush(this.sorted[newi])
       // show stage
       if (showStage || this.showVideo) {
-        // this.$router.push({name: 'stage'})
-        this.$router.push({name: 'auto', params: { artist: this.sorted[newi].artist,  trackID: this.sorted[newi].trackID,  source: this.sorted[newi].source }})
+        this.$router.push({name: 'stage'})
+        // this.$router.push({name: 'auto', params: { artist: this.sorted[newi].artist,  trackID: this.sorted[newi].trackID,  source: this.sorted[newi].source }})
       }
     }
   }

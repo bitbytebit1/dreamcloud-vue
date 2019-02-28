@@ -24,9 +24,10 @@
         <v-icon>whatshot</v-icon>
       </v-btn>
       <v-btn 
-        :to="{name: 'auto', params: currentParams}" 
+        :to="{name: 'stage'}" 
         flat 
         color="primary" 
+        value="stage"
       >
         <span>Current</span>
         <v-icon>music_video</v-icon>
@@ -58,9 +59,6 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'mobFoot',
   computed: {
-    currentParams () {
-      return this.$store.getters.current_Playlist.length > 0 ?  { artist: this.$store.getters.current_song.artist, trackID: this.$store.getters.current_song.trackID, source: this.$store.getters.current_song.source } : { artist: 'x', trackID: 'y', source: 'z' } 
-    },
     uid () {
       return this.$store.getters.uid || Math.random()
     },
