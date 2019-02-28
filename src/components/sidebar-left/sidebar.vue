@@ -41,11 +41,9 @@
       </v-list-tile>
 
       <!-- CURRENTLY PLAYING -->
-      <!-- :to="{name: 'auto', params: { artist: this.$store.getters.current_song.artist, trackID: this.$store.getters.current_song.trackID, source: this.$store.getters.current_song.source }}"  -->
       <v-list-tile 
-        :active-class="isPorA('stage')"
-        :class="isPorA('stage')"
-        :to="{name: 'stage'}"
+        :to="{name: 'auto', params: { artist: this.$store.getters.current_song.artist, trackID: this.$store.getters.current_song.trackID, source: this.$store.getters.current_song.source }}" 
+        :active-class="isPorA('auto')"
         @click="closeLeft"
       >
         <v-list-tile-action>

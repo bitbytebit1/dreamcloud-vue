@@ -364,10 +364,10 @@ export default {
     },
     trackChanged () {
       if (this.isYT && this.ytUseVideo) {
-        // if (this.$route.name === 'auto' && !this.$vuetify.breakpoint.xs) {
-        //   // this.$router.push({name: 'stage'})
-        //   this.$router.push({name: 'auto', params: { artist: this.$store.getters.current_song.artist,  trackID: this.$store.getters.current_song.trackID,  source: this.$store.getters.current_song.source }})
-        // }
+        if (this.$route.name === 'auto' && !this.$vuetify.breakpoint.xs) {
+          // this.$router.push({name: 'stage'})
+          this.$router.push({name: 'auto', params: { artist: this.$store.getters.current_song.artist,  trackID: this.$store.getters.current_song.trackID,  source: this.$store.getters.current_song.source }})
+        }
 
         // console.log('changing song')
         if (!this.ytObject.hasOwnProperty('loadVideoById')) {
