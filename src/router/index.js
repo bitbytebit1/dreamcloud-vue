@@ -118,11 +118,6 @@ let router = new Router({
     {
       path: '/about',
       name: 'about',
-      component: () => import(/* webpackChunkName: "about"*/ '@/router/about/about.2'),
-    },
-    {
-      path: '/about2',
-      name: 'about2',
       component: () => import(/* webpackChunkName: "about"*/ '@/router/about/about'),
     },
     {
