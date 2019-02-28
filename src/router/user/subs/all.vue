@@ -140,7 +140,7 @@ export default {
                                   !impatient && this.$store.commit('loadValue', 0)
                                   this.aPlaylists = this.aPlaylists2
                                 }
-        }, false, 20)
+        }, false, 50)
       }
     }
   }
