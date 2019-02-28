@@ -13,7 +13,7 @@ export default {
     song: {
       type: [Array],
       default() {
-        return []
+        return [[{source: '', artist: '', artistID: '', }]]
       }
     }
   }
