@@ -1,6 +1,6 @@
 <template>
   <v-layout 
-    v-show="!show" 
+    v-if="!show" 
     row 
     wrap 
     class="pb-5"
