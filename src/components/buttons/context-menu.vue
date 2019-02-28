@@ -7,13 +7,24 @@
     offset-y
   >
     <v-list >
-      <new-tab
-        :song="a[0]"
+
+      <add-to-playlist 
+        :in-list="true" 
+        :song="a"
         @clicked="b = false"
       />
       <add-to-queue 
         :song="a"
         in-list
+        @clicked="b = false"
+      />
+      <go-to-artist 
+        v-if="a.length" 
+        :song="a"
+      />
+      <v-divider/>
+      <new-tab
+        :song="a[0]"
         @clicked="b = false"
       />
       <share-button 
@@ -34,20 +45,16 @@
         @clicked="b = false"
       />
 
-      <v-divider/>
-      <add-to-playlist 
-        :in-list="true" 
-        :song="a"
-        @clicked="b = false"
+      <v-divider 
+        v-if="a.length && a[0].key"
       />
+
       <delete-button 
         v-if="a.length && a[0].key" 
         :in-list="true" 
         :id="a[0].key" 
         @delete="$emit('delete', $event)"
       />
-      <v-divider/>
-      <go-to-artist :song="a"/>
     </v-list>
   </v-menu>
 </template>
