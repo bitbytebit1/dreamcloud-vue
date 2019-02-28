@@ -264,54 +264,54 @@
             "
           >
             <!-- :color="cardColor(props)"  -->
-            <v-hover 
+            <!-- <v-hover 
               :value="isPlaying(props.item.trackID)"
               :disabled="isPlaying(props.item.trackID)"
+            > -->
+            <!-- :color="cardColor(props)"  -->
+            <!-- :style="isPlaying(props.item.trackID) ? {'outline-color': $vuetify.theme.primary, 'outline-style': 'auto'} : ''" -->
+            <!-- slot-scope="{ hover }" -->
+            <v-card 
+              class="dc-crd ma-0 pa-0 pointer outline"
+              @contextmenu="$refs.con.show($event, bSelect ? selected : [props.item])"
             >
-              <!-- :color="cardColor(props)"  -->
-              <!-- :style="isPlaying(props.item.trackID) ? {'outline-color': $vuetify.theme.primary, 'outline-style': 'auto'} : ''" -->
-              <v-card 
-                slot-scope="{ hover }"
-                class="dc-crd ma-0 pa-0 pointer outline"
-                @contextmenu="$refs.con.show($event, bSelect ? selected : [props.item])"
+              <!-- IMAGE -->
+              <v-img
+                :aspect-ratio="aspect"
+                :src="props.item.poster"
+                :lazy-src="props.item.poster"
+                class="fillPlace nosel"
               >
-                <!-- IMAGE -->
-                <v-img
-                  :aspect-ratio="aspect"
-                  :src="props.item.poster"
-                  :lazy-src="props.item.poster"
-                  class="fillPlace nosel"
+                <v-layout 
+                  class="text-xs-center"
+                  row 
+                  align-center 
+                  justify-center
                 >
-                  <v-layout 
-                    class="text-xs-center"
-                    row 
-                    align-center 
-                    justify-center
-                  >
-                    <v-expand-transition>
-                      <div
-                        v-if="hover || isPlaying(props.item.trackID)"
-                        class="d-flex text-xs-center transition-fast-in-fast-out v-card--reveal"
-                        style="height: 100%;"
-                      >
-                        <div>
-                          <v-btn 
-                            :loading="$store.getters.isLoading && isPlaying (props.item.trackID)"
-                            fab 
-                            dark  
-                            color="primary"
-                            @click.stop="play(props.index)"
-                          >
-                            <v-icon 
-                              large
-                            >{{ $store.getters.isPlaying && isPlaying (props.item.trackID)? 'pause' : 'play_arrow' }}</v-icon>
-                          </v-btn>
-                        </div>
-                        <!-- <div style="position:absolute;bottom:0;right:0">
+                  <v-expand-transition>
+                    <div
+                      v-if="isPlaying(props.item.trackID)"
+                      class="d-flex text-xs-center transition-ease-in-ease-out v-card--reveal"
+                      style="height: 100%;"
+                    >
+                      <div>
+                        <v-btn 
+                          :loading="$store.getters.isLoading && isPlaying (props.item.trackID)"
+                          fab 
+                          dark  
+                          color="primary"
+                          @click.stop="play(props.index)"
+                        >
+                          <v-icon 
+                            large
+                          >{{ $store.getters.isPlaying && isPlaying (props.item.trackID)? 'pause' : 'play_arrow' }}</v-icon>
+                        </v-btn>
+                      </div>
+                      <!-- <div style="position:absolute;bottom:0;right:0">
                           <add-to-queue :song="props.item"/>
                         </div> -->
-                      </div>
-                    </v-expand-transition>
+                    </div>
+                  </v-expand-transition>
 
                   <!-- PLAY AUDIO BUTTON -->
                   <!-- <v-flex 
@@ -330,79 +330,79 @@
                       <span>Play</span>
                     </v-tooltip>
                   </v-flex> -->
-                  </v-layout>
-                </v-img>
-                <!-- TITLE -->
-                <v-card-title class="pa-0">
-                  <v-layout 
-                    row 
-                    wrap
-                  >
-                    <v-flex xs10>
-                      <!-- CHECK BOX -->
-                      <v-flex 
-                        v-show="bSelect" 
-                        class="chkbx pa-1" 
-                        @click.stop
-                      >
-                        <v-checkbox 
-                          v-model="selected" 
-                          :value="props.item" 
-                          hide-details 
-                          color='primary'
-                        />
-                      </v-flex>
-                      <!-- TITLE -->
-                      <v-flex class="text-xs-left body-2 grd-txt pa-0 pt-1">
-                        {{ props.item.title }}
-                      </v-flex>
-                      <!-- ARTIST -->
-                      <v-flex 
-                        v-if="$route.name !== 'artist'" 
-                        class="text-xs-left grd-txt pa-0 pt-1" 
-                        @click.stop="bSelect ? checkItem(props.item) : $router.push({name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}})"
-                      >
-                        <router-link 
-                          :to="{name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}}"
-                          class="noDeco grey--text grd-txt" 
-                        >
-                          {{ props.item.artist }}
-                        </router-link>
-                      </v-flex>
-                      <!-- DATE -->
-                      <v-flex 
-                        v-if="$route.params.artistID || showUploaded" 
-                        class="text-xs-left grey--text grd-txt pa-0 pt-1"
-                      >
-                        {{ $DCAPI.calcDate(!1, props.item.uploaded) }} • {{ props.item.duration }}
-                      </v-flex>
-                    </v-flex>
-                    <!-- SONG ACTIONS DROPDOWN MENU -->
+                </v-layout>
+              </v-img>
+              <!-- TITLE -->
+              <v-card-title class="pa-0">
+                <v-layout 
+                  row 
+                  wrap
+                >
+                  <v-flex xs10>
+                    <!-- CHECK BOX -->
                     <v-flex 
-                      xs2 
-                      class="ma-0 pa-0 pt-2" 
+                      v-show="bSelect" 
+                      class="chkbx pa-1" 
                       @click.stop
                     >
-                      <v-tooltip 
-                        top
-                      >
-                        <v-btn 
-                          slot="activator"
-                          icon 
-                          small 
-                          class="men fl-r ma-0 pa-0 mt-1" 
-                          @click="$refs.con.show($event, bSelect ? selected : [props.item])"
-                        >
-                          <v-icon>more_vert</v-icon>
-                        </v-btn>
-                        <span>{{ $vuetify.breakpoint.smAndDown ? 'Open long press menu' : 'Open right click menu' }}</span>
-                      </v-tooltip>
+                      <v-checkbox 
+                        v-model="selected" 
+                        :value="props.item" 
+                        hide-details 
+                        color='primary'
+                      />
                     </v-flex>
+                    <!-- TITLE -->
+                    <v-flex class="text-xs-left body-2 grd-txt pa-0 pt-1">
+                      {{ props.item.title }}
+                    </v-flex>
+                    <!-- ARTIST -->
+                    <v-flex 
+                      v-if="$route.name !== 'artist'" 
+                      class="text-xs-left grd-txt pa-0 pt-1" 
+                      @click.stop="bSelect ? checkItem(props.item) : $router.push({name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}})"
+                    >
+                      <router-link 
+                        :to="{name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}}"
+                        class="noDeco grey--text grd-txt" 
+                      >
+                        {{ props.item.artist }}
+                      </router-link>
+                    </v-flex>
+                    <!-- DATE -->
+                    <v-flex 
+                      v-if="$route.params.artistID || showUploaded" 
+                      class="text-xs-left grey--text grd-txt pa-0 pt-1"
+                    >
+                      {{ $DCAPI.calcDate(!1, props.item.uploaded) }} • {{ props.item.duration }}
+                    </v-flex>
+                  </v-flex>
+                  <!-- SONG ACTIONS DROPDOWN MENU -->
+                  <v-flex 
+                    xs2 
+                    class="ma-0 pa-0 pt-2" 
+                    @click.stop
+                  >
+                    <v-tooltip 
+                      top
+                    >
+                      <v-btn 
+                        slot="activator"
+                        icon 
+                        small 
+                        class="men fl-r ma-0 pa-0 mt-1" 
+                        @click="$refs.con.show($event, bSelect ? selected : [props.item])"
+                      >
+                        <v-icon>more_vert</v-icon>
+                      </v-btn>
+                      <span>{{ $vuetify.breakpoint.smAndDown ? 'Long press menu' : 'Right click menu' }}</span>
+                    </v-tooltip>
+                  </v-flex>
                   
-                  </v-layout>
-                </v-card-title>
-              </v-card>
-            </v-hover>
+                </v-layout>
+              </v-card-title>
+            </v-card>
+            <!-- </v-hover> -->
           </v-flex>
         </v-data-iterator>
       </v-container>
