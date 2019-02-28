@@ -204,18 +204,26 @@ export default {
         }
       },
       volUp () {
+        let v = 0
         if (store.getters.ytUseVideo && store.getters.isYT) {
-          store.getters.ytObject.setVolume(store.getters.ytObject.getVolume() + 5)
+          v = store.getters.ytObject.getVolume() + 5
+          store.getters.ytObject.setVolume(v)
         } else {
-          DCPlayer.eAudio.volume = Math.min(1, DCPlayer.eAudio.volume + 0.05)
+          v = Math.min(1, DCPlayer.eAudio.volume + 0.05)
+          DCPlayer.eAudio.volume = v
         }
+        return v
       },
       volDown () {
+        let v = 0
         if (store.getters.ytUseVideo && store.getters.isYT) {
-          store.getters.ytObject.setVolume(store.getters.ytObject.getVolume() - 5)
+          v = store.getters.ytObject.getVolume() - 5
+          store.getters.ytObject.setVolume(v)
         } else {
-          DCPlayer.eAudio.volume = Math.max(0, DCPlayer.eAudio.volume - 0.05)
+          v = Math.max(0, DCPlayer.eAudio.volume - 0.05)
+          DCPlayer.eAudio.volume = v
         }
+        return v
       }
     }
     DCPlayer.init()

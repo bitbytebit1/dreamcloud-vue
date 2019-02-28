@@ -173,11 +173,9 @@ export default {
   methods: {
     onWheel (e) {
       if (e.deltaX > e.deltaY) {
-        this.$DCPlayer.volUp()
-        this.volume = this.$store.getters.ytObject.getVolume()
+        this.volume = this.$DCPlayer.volUp()
       } else {
-        this.$DCPlayer.volDown()
-        this.volume = this.$store.getters.ytObject.getVolume()
+        this.volume = this.$DCPlayer.volDown()
       }
       this.updateVolIcon()
     },
