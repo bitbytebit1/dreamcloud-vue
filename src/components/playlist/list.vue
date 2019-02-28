@@ -541,9 +541,8 @@ export default {
       // restore old value after ^call
       this.$store.commit('showVideo', a)
     },
-    artistClass (trackID) {
+    artistClass () {
       return {
-        'white--text': this.isPlaying(trackID),
         'text-xs-left': true,
         'artist-dark': this.$store.getters.theme.dark,
         'artist-light': this.$store.getters.theme.light,
