@@ -26,18 +26,22 @@ export default {
   },
   methods: {
     in (){
-      // alert('123')
-      this.$store.commit('bShowStage', true)
       if (this.trackID !== this.$store.getters.current_song.trackID) {
         this.$DCAPI.getSongInfo(this.trackID, this.source, (d) => {
-          // Fix for mobile on first play if (this.$store.getters.index === -1 && this.$UTILS.isMobile) this.$DCPlayer.eAudio.play()
+          // Fix for mobile on first play 
+          // if (this.$store.getters.index === -1 && this.$UTILS.isMobile) this.$DCPlayer.eAudio.play()
           this.$store.commit('setNPlay', {songs: d, current: 0, path: this.$route.path})
           this.$DCPlayer.setNPlay(d, 0)
-          this.$DCFB.historyPush(d[0])
-          this.$store.commit('bShowStage', true)
+          this.$nextTick(() => {
+            this.$store.commit('bShowStage', true)
+          })
+          // this.$DCFB.historyPush(d[0])
           // TODO Add related to playlist if only song/blank current_Playlist?
         }, '')
-    }},
+      } else {
+        this.$store.commit('bShowStage', true)
+      }
+    },
   },
   updated () {
     this.in()
