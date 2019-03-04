@@ -654,7 +654,7 @@ class DCAPIClass {
         return
       }
       var nextPage = this.YTCommentNext && iPage ? '&pageToken=' + this.YTCommentNext : ''
-      return axios.get('https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&order=date&textFormat=plainText&maxResults=' + maxRes + '&videoId=' + trackID + '&key=' + this.sYtKey + nextPage).then((resp) => {
+      return axios.get('https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&order=time&textFormat=plainText&maxResults=' + maxRes + '&videoId=' + trackID + '&key=' + this.sYtKey + nextPage).then((resp) => {
         this.YTCommentNext = resp.data.nextPageToken
         var ret = resp.data.items.map((item) => {
           return {
