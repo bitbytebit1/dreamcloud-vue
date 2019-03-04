@@ -10,12 +10,13 @@
       label="Subscriptions"
       item-text="name"
       item-value="id"
-      chips
+      small-chips
       clearable
       single-line
       prepend-icon="filter_list"
+      append-icon=""
+      append-cb=""
       multiple
-      deletable-chips
     >
       <template 
         slot="selection" 
@@ -26,6 +27,8 @@
           :selected="data.selected"
           :disabled="data.disabled"
           class="v-chip--select-multi primary v-chip--removable "
+          small
+          close
           @click.stop="data.parent.selectedIndex = data.index"
           @input="data.parent.selectItem(data.item)"
         >
@@ -110,7 +113,7 @@ export default {
         // On done call getAllSubs
         this.bLoading = true
         this.$store.dispatch('loadIndeterm', true)
-        this.$bindAsArray('subscriptions', this.$DCFB.subscriptionGet(this.user), null, this.getAllSubs)
+        this.$bindAsArray('subscriptions', this.$DCFB.subscriptionGet(this.user).orderByChild('name'), null, this.getAllSubs)
       }
     },
     getAllSubs () {
