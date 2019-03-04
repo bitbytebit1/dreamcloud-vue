@@ -1,18 +1,19 @@
 <template>
-  <v-flex xs12>
-    <v-container fill-height>
-      <v-layout align-center>
-        <v-flex>
-          <orbit 
-            justify-center
-          />
-          <h1 class="display-2 fwl">{{ error }}</h1>
-          <div class="subheading my-2 text-xs-center">{{ title }}</div>
-          <v-divider class="my-3"/>
-          <div class="title mb-3 text-xs-center">{{ subheading }}</div>
-      </v-flex></v-layout>
-    </v-container>
-  </v-flex>
+  <v-container fill-height>
+    <v-layout justify-center>
+      <v-flex 
+        xs12 
+        lg10
+      >
+        <orbit 
+          justify-center
+        />
+        <h1 class="display-2 fwl">{{ error }}</h1>
+        <div class="subheading my-2 text-xs-center">{{ title }}</div>
+        <v-divider class="my-3"/>
+        <div class="title mb-3 text-xs-center">{{ subheading }}</div>
+    </v-flex></v-layout>
+  </v-container>
 </template>
 
 <script>
