@@ -9,8 +9,8 @@
     <v-list >
 
       <add-to-playlist 
-        :in-list="true" 
         :song="a"
+        in-list
         @clicked="b = false"
       />
       <add-to-queue 
@@ -93,9 +93,9 @@ export default {
       this.b = false
       this.x = e.clientX
       this.y = e.clientY
-      // this.$nextTick(() => {
-      this.b = true
-      // })
+      this.$nextTick(() => {
+        this.b = true
+      })
     }
   }
 }
