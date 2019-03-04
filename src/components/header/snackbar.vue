@@ -3,7 +3,6 @@
     :value="$store.getters.snackb"
     :color="$store.getters.snackc"
     top
-    right
   >
     {{ $store.getters.snacks }}
     <v-btn
