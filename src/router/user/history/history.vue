@@ -13,7 +13,7 @@
       rows-per-page='84'
     />
     <jumbo
-      v-else-if="bFailed"
+      v-else-if="bFailed && $route.name === 'history'"
       title="Here is supposed to be your history"
       subheading="But it looks like you haven't listened to any music yet"
     />
@@ -48,7 +48,7 @@ export default {
       if (this.auth_state) {
         this.$store.dispatch('loadIndeterm', true)
         this.bFailed = false
-        this.$bindAsArray('aHistory', this.$DCFB.fbhistory.limitToLast(200), null, () => { 
+        this.$bindAsArray('aHistory', this.$DCFB.fbhistory.limitToLast(100), null, () => { 
           this.$store.dispatch('loadIndeterm', false)
           this.bLoading = false
           this.bFailed  = !this.aHistory.length
