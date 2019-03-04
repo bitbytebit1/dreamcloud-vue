@@ -21,7 +21,7 @@ export default {
       if (this.song.hasOwnProperty('listID')) {
         window.open(`https://dctest.netlify.com/#/p/${this.song.title}/${this.song.source}/${this.song.artistID}/${this.song.listID}`,'_blank');
       } else {
-        window.open(`https://dctest.netlify.com/#/c/${this.song.source}/${this.song.artist}/${this.song.trackID}`,'_blank');
+        window.open(`https://dctest.netlify.com/#/t/${this.song.source}/${this.song.artist}/${this.song.trackID}`,'_blank');
       }
     }
   }

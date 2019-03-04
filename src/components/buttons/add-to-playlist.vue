@@ -35,7 +35,6 @@
     <!-- DIALOG -->
     <v-dialog 
       v-model="menuOpen" 
-      dark 
       maxWidth="500px"
     >
       <!-- height="385" -->

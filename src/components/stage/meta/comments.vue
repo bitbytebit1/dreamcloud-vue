@@ -84,11 +84,12 @@
       </v-flex>
     </v-data-iterator>
     <v-layout 
-      row 
+      v-if="noComments" 
+      row
       wrap
     >
       <v-flex xs12>
-        <v-card v-if="noComments">
+        <v-card >
           <v-card-title>
             No comments available
           </v-card-title>
@@ -104,9 +105,6 @@ import InfiniteLoading from 'vue-infinite-loading'
 /* eslint-disable */
 export default {
   name: 'songComments',
-  watch: {
-    'trackID': 'reset'
-  },
   watch: {
     'trackID': {
       immediate: true,
@@ -168,10 +166,10 @@ export default {
           this.infState.complete()
         }
         if (dat.length) {
-          this.show = true
           // alert('loaded')
           this.bLoading = false
           this.aComments = this.aComments.concat(dat)
+          this.show = true
         } else {
           this.noComments = true
         }

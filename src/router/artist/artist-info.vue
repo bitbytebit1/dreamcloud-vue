@@ -83,6 +83,7 @@
               style=""
             >
               <v-tooltip 
+                v-if="item.data"
                 left
               >
                 <div slot="activator">

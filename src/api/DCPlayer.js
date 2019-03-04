@@ -217,7 +217,7 @@ export default {
       volDown () {
         let v = 0
         if (store.getters.ytUseVideo && store.getters.isYT) {
-          v = store.getters.ytObject.getVolume() - 5
+          v = Math.max(0, store.getters.ytObject.getVolume() - 5)
           store.getters.ytObject.setVolume(v)
         } else {
           v = Math.max(0, DCPlayer.eAudio.volume - 0.05)

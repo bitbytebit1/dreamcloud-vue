@@ -19,7 +19,7 @@
         @clicked="b = false"
       />
       <go-to-artist 
-        v-if="a.length" 
+        v-if="a.length && ($route.name != 'artist' && $route.params.artistID != a[0].artistID)" 
         :song="a"
       />
       <v-divider/>

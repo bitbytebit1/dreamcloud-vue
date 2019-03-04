@@ -63,15 +63,9 @@ let router = new Router({
       props: true
     },
     {
-      path: '/c/:source/:artist/:trackID',
+      path: '/t/:source/:artist/:trackID',
       name: 'auto',
       component: () => import(/* webpackChunkName: "stage"*/ '@/router/song/auto'),
-      props: true
-    },
-    {
-      path: '/t/:source/:artist/:trackID',
-      name: 'song',
-      component: () => import(/* webpackChunkName: "song"*/ '@/router/song/song'),
       props: true
     },
     {

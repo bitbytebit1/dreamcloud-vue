@@ -149,7 +149,7 @@
     <!-- Subscriptions -->
     <v-list 
       dense 
-      class="pa-0"
+      class="pa-0 pb-5"
     >
       <user-subscriptions @closeLeft="closeLeft"/>
     </v-list>

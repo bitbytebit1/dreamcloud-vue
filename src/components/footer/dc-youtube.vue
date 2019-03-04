@@ -51,7 +51,7 @@
         >
           <v-btn 
             slot="activator" 
-            :class="volClass" 
+            :class="volCol" 
             fab 
             hover 
             icon 
@@ -59,7 +59,7 @@
             small 
             @click.prevent="toggleMute"
           >
-            <v-icon>{{ volIcon }}</v-icon>
+            <v-icon>{{ volIcn }}</v-icon>
           </v-btn>
           <div 
             class="slider-wrapper" 
@@ -121,13 +121,15 @@ export default {
   data () {
     return {
       progress: 0,
-      volIcon: 'volume_up',
       volume: 100
     }
   },
   computed: {
-    volClass () {
-      return this.volIcon === 'volume_off' ? 'red' : 'primary'
+    volIcn () {
+      return this.volume > 50 ? 'volume_up' : this.volume === 0 ? 'volume_off' : 'volume_down'
+    },
+    volCol () {
+      return this.volume === 0 ? 'red' : 'primary'
     },
     iProgress: {
       // getter

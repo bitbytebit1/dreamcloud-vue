@@ -174,7 +174,7 @@ export default {
         if (iPage === 0) {
           this.$store.dispatch('loadIndeterm', false)
         }
-      }, '')
+      }, '', 50)
     }
   }
 }

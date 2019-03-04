@@ -6,7 +6,6 @@
   >
     <v-tabs
       v-model="tab"
-      dark
       slider-color="primary"
     >
       <v-tab ripple>
