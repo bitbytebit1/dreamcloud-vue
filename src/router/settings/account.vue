@@ -5,7 +5,7 @@
     <v-list subheader>
       <!-- Login + Switch Account -->
 
-      <v-list-tile
+      <!-- <v-list-tile
         :to="{name: 'userOverview', params: {user: uid}}"
       >
         <v-list-tile-content>
@@ -17,7 +17,7 @@
           </v-btn>
         </v-list-tile-action>
       </v-list-tile>
-      <v-divider/>
+      <v-divider/> -->
 
       <v-list-tile
         v-if="isAnon"
