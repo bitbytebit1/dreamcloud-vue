@@ -2,9 +2,10 @@
   <v-list-tile 
     v-if="inList" 
     :class="color" 
-    ripple 
-    @click.stop="emitDelete"
-    @mouseleave="clicks = clickedTwice ? 2 : 0" 
+    :disabled="disabled" 
+    ripple
+    @click.capture="emitDelete" 
+    @mouseleave="clicks = clickedTwice ? 2 : 0"
   >
     <v-list-tile-title>{{ dlTxt }}</v-list-tile-title>
   </v-list-tile>
@@ -37,6 +38,10 @@ export default {
       default: ''
     },
     inList: {
+      type: Boolean,
+      default: false
+    },
+    disabled: {
       type: Boolean,
       default: false
     }

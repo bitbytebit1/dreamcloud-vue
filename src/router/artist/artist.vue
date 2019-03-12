@@ -135,9 +135,10 @@ export default {
     },
     _search () {
       if (!this.$route.params.artistID || !this.$route.params.source) {
+        console.log('artist', this.$route.name)
         return
       }
-      this.tab = 0
+      // this.tab = 0
       this.aPlaylists = []
       this.aSubs = []
       this.$store.dispatch('loadIndeterm', true)

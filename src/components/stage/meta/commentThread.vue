@@ -8,7 +8,6 @@
       <v-flex 
         xs1 
         sm1 
-        style="min-width:64px"
       />
       <v-flex 
         xs11 
@@ -49,7 +48,7 @@
             <v-flex 
               xs1 
               sm1 
-              style="min-width:64px"
+              style="min-width:54px"
             >
               <router-link 
                 :to="{name: 'artist', params: {source: source, artist: props.item.artist, artistID: props.item.artistID}}" 

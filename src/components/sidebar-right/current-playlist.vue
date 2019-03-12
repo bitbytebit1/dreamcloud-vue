@@ -5,12 +5,19 @@
     row 
     wrap
   >
+    <!-- RIGHT CLICK MENU -->
+    <context-menu 
+      ref="con" 
+      @delete="remove($event)"
+    />
+
     <transition-group name="slide-fade">
       <current-playlist-item
         v-for="(song, index) in aPlaylist"
         :song="song"
         :index="index"
         :key="song.trackID + (index + $store.getters.index)"
+        @contextmenu.native="$refs.con.show($event, [song])"
       />
       <!-- <current-playlist-item
         :song="$store.getters.current_song"
@@ -108,6 +115,12 @@ export default {
         $state.loaded()
       }
       this.infState = $state
+    },
+    remove(index) {
+      let a = this.$store.getters.current_Playlist.splice(index, 1)
+      this.$store.commit('current_Playlist', a)
+      this.$DCPlayer.setPlaylist(a)
+      console.log(a)
     },
     play (index) {
       this.$store.commit('changeIndex', index)

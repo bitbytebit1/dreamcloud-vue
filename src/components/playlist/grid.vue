@@ -12,8 +12,7 @@
         >
           <!-- HEADER BUTTONS -->
           <v-flex 
-            xs6 
-            lg3 
+            shrink
             class="text-xs-left mt-2"
           >
             <!-- ENABLE CHECK BOXES -->
@@ -61,7 +60,7 @@
           </v-flex>
           <!-- FILTER -->
           <v-flex 
-            xs5 
+            xs4
             lg8
           >
             <v-text-field
@@ -69,7 +68,7 @@
               ref="search"
               v-model="search"
               color="primary"
-              label="Filter"
+              label="Filter" 
               single-line
               hide-details
               @focus="filterHasFocus = true"
@@ -221,7 +220,7 @@
                       justify-center
                       ma-0
                       class="grey--text"
-                    >Loading</v-layout>
+                    />
                   </v-img>
                   <v-card-title class="pa-0">
                     <!-- TITLE -->
@@ -259,7 +258,7 @@
                 ? $router.push({name: 'channelPlaylist', params: {listID: props.item.listID, artistID: props.item.artistID, title: props.item.title, source: props.item.source}}) 
                 : 
                   !bSelect 
-                    ? play(props.index, false, isPlaying(props.item.trackID))
+                    ? play(props.index, !showVideo, isPlaying(props.item.trackID))
                     : checkItem(props.item)
             "
           >
@@ -283,35 +282,35 @@
                 class="fillPlace nosel"
               >
                 <v-layout 
+                  v-if="isPlaying(props.item.trackID)"
                   class="text-xs-center"
                   row 
                   align-center 
                   justify-center
                 >
-                  <v-expand-transition>
-                    <div
-                      v-if="isPlaying(props.item.trackID)"
-                      class="d-flex text-xs-center transition-ease-in-ease-out v-card--reveal"
-                      style="height: 100%;"
-                    >
-                      <div>
-                        <v-btn 
-                          :loading="$store.getters.isLoading && isPlaying (props.item.trackID)"
-                          fab 
-                          dark  
-                          color="primary"
-                          @click.stop="play(props.index)"
-                        >
-                          <v-icon 
-                            large
-                          >{{ $store.getters.isPlaying && isPlaying (props.item.trackID)? 'pause' : 'play_arrow' }}</v-icon>
-                        </v-btn>
-                      </div>
-                      <!-- <div style="position:absolute;bottom:0;right:0">
+                  <!-- <v-expand-transition> -->
+                  <div
+                    class="d-flex text-xs-center transition-ease-in-ease-out v-card--reveal"
+                    style="height: 100%;"
+                  >
+                    <div>
+                      <v-btn 
+                        :loading="$store.getters.isLoading && isPlaying (props.item.trackID)"
+                        fab 
+                        dark  
+                        color="primary"
+                        @click.stop="play(props.index)"
+                      >
+                        <v-icon 
+                          large
+                        >{{ $store.getters.isPlaying && isPlaying (props.item.trackID)? 'pause' : 'play_arrow' }}</v-icon>
+                      </v-btn>
+                    </div>
+                    <!-- <div style="position:absolute;bottom:0;right:0">
                           <add-to-queue :song="props.item"/>
                         </div> -->
-                    </div>
-                  </v-expand-transition>
+                  </div>
+                  <!-- </v-expand-transition> -->
 
                   <!-- PLAY AUDIO BUTTON -->
                   <!-- <v-flex 
@@ -359,12 +358,12 @@
                     <!-- ARTIST -->
                     <v-flex 
                       v-if="$route.name !== 'artist'" 
-                      class="text-xs-left grd-txt pa-0 pt-1" 
+                      class="text-xs-left pa-0 pt-1" 
                       @click.stop="bSelect ? checkItem(props.item) : $router.push({name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}})"
                     >
                       <router-link 
                         :to="{name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}}"
-                        class="noDeco grey--text grd-txt" 
+                        class="noDeco grey--text" 
                       >
                         {{ props.item.artist }}
                       </router-link>
@@ -401,6 +400,7 @@
                   
                 </v-layout>
               </v-card-title>
+              
             </v-card>
             <!-- </v-hover> -->
           </v-flex>
@@ -568,22 +568,31 @@ export default {
       }
     },
     play (index, pauseIfSame = true, showStage = false) {
-      // if (this.$store.getters.index === index && this.hash === this.$route.path) {
-      if (pauseIfSame && this.sorted[index].trackID == this.$store.getters.current_song.trackID) {
-        return this.$DCPlayer.togglePlay()
-      }
-      // console.log('playing')
-      // show stage
-
+      let b = this.sorted[index].trackID == this.$store.getters.current_song.trackID
       // Fix for mobile on first play
       if (this.$store.getters.index === -1 && this.$UTILS.isMobile) this.$DCPlayer.eAudio.play()
       // If not first page fix index
       let newi = this.pagination.page === 1 ? index : (this.pagination.rowsPerPage * (this.pagination.page - 1)) + index
+      // if (this.$store.getters.index === index && this.hash === this.$route.path) {
+      if (showStage) {
+        // return this.$router.push({name: 'stage'})
+        return this.$router.push({name: 'auto', params: { artist: this.sorted[newi].artist,  trackID: this.sorted[newi].trackID,  source: this.sorted[newi].source }})
+      }
+      if (pauseIfSame && b) {
+        return this.$DCPlayer.togglePlay()
+      }
+
+      // console.log('playing')
+      // show stage
+
+
+      
       this.$store.commit('setNPlay', {songs: this.sorted, current: index, path: this.$route.path})
       this.$DCPlayer.setNPlay(this.sorted, newi)
       this.$DCFB.historyPush(this.sorted[newi])
       if (showStage || this.showVideo) {
         // console.log('showing stage')
+        // this.$router.push({name: 'stage'})
         this.$router.push({name: 'auto', params: { artist: this.sorted[newi].artist,  trackID: this.sorted[newi].trackID,  source: this.sorted[newi].source }})
         // this.$store.commit('toggleStage')
       }

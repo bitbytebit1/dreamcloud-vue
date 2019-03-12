@@ -74,16 +74,19 @@ export default {
   methods: {
     play () {
       if (this.index === 0) {
-        if (this.$store.getters.isYT && this.$store.getters.ytUseVideo) {
-          // console.log(this.$store.getters.ytState)
-          // alert('1')
-          if (!this.$store.getters.ytIsPlaying) {
-            this.$store.getters.ytObject.pauseVideo()
-          } else { // else if (this.$store.getters.ytIsPaused) {
-            this.$store.getters.ytObject.playVideo()
-          }
+        // if (this.$store.getters.isYT && this.$store.getters.ytUseVideo) {
+        //   // console.log(this.$store.getters.ytState)
+        //   // alert('1')
+        //   if (!this.$store.getters.ytIsPlaying) {
+        //     this.$store.getters.ytObject.pauseVideo()
+        //   } else { // else if (this.$store.getters.ytIsPaused) {
+        //     this.$store.getters.ytObject.playVideo()
+        //   }
+        // } else {
+        if (this.$route.name === 'auto') {
+          return this.$DCPlayer.togglePlay()
         } else {
-          this.$DCPlayer.togglePlay()
+          return this.$router.push({name: 'auto', params: { artist: this.song.artist,  trackID: this.song.trackID,  source: this.song.source }})
         }
       } else {
         this.$parent.$parent.play(this.index + this.$store.getters.index)

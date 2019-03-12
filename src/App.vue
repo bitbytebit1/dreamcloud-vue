@@ -72,7 +72,7 @@
       >
         <router-link 
           :class="textClass" 
-          :to="{name:'home', params: {user: uid}}"
+          :to="{name:'about', params: {user: uid}}"
         >
           dreamcloud
         </router-link>
@@ -103,7 +103,9 @@
       right
       width="260"
     >
-      <current-playlist />
+      <current-playlist 
+        @conmen="(a) => $refs.con.show(a[0], a[1])"
+      />
     </v-navigation-drawer>
 
     <!-- Stage -->
@@ -162,7 +164,7 @@
       <!-- </v-flex> -->
 
     </v-footer>
-
+    <context-menu ref="con"/>
     <!-- dc keyboard shortcuts -->
     <hks/>
   </v-app>

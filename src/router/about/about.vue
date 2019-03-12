@@ -33,7 +33,10 @@
             color="primary white--text"
           >get started </v-btn> -->
 
-          <autocomplete @search="$router.push({name: 'searchPage', params: {query: $event , 'source': 'all'}})"/>
+          <autocomplete
+            ref="auto" 
+            @search="$router.push({name: 'searchPage', params: {query: $event , 'source': 'all'}})"
+          />
         </v-flex>
         <!-- ABOUT FEATURE DIALOG -->
         <v-dialog 
@@ -70,41 +73,41 @@
           :key="index" 
           xs12 
           lg4 
+          class="pointer"
         >
-          <v-hover>
-            <v-card 
-              slot-scope="{ hover }"
-              class="ma-0 elevation-5" 
+          <v-card 
+            class="ma-0 elevation-5" 
+            @click="item.cb"
+          >
+            <v-container 
+              fluid 
+              grid-list-xs
+              class="ma-0 pa-0"
             >
-              <v-container 
-                fluid 
-                grid-list-xs
+              <v-layout 
+                row 
+                wrap
                 class="ma-0 pa-0"
               >
-                <v-layout 
-                  row 
-                  wrap
-                  class="ma-0 pa-0"
-                >
 
-                  <v-flex xs12>
-                    <!-- IMAGE -->
-                    <v-img
-                      :src="item.img"
-                      height="180"
-                      contain
-                    />
-                  </v-flex>
-                  <v-flex 
-                    xs12 
-                    class="text-xs-left"
-                  >
-                    <div>
-                      <!-- TEXT -->
-                      <div class="title font-weight-thin text-xs-center">{{ item.headline }}</div>
+                <v-flex xs12>
+                  <!-- IMAGE -->
+                  <v-img
+                    :src="item.img"
+                    height="180"
+                    contain
+                  />
+                </v-flex>
+                <v-flex 
+                  xs12 
+                  class="text-xs-left"
+                >
+                  <div>
+                    <!-- TEXT -->
+                    <div class="title font-weight-thin text-xs-center">{{ item.headline }}</div>
                     <!-- <div>{{ item.description }}</div> -->
-                    </div>
-                    <br>
+                  </div>
+                  <br>
                   <!-- READ MORE BUTTON -->
                   <!-- <v-btn 
                     class="ma-0" 
@@ -112,8 +115,8 @@
                     dark 
                     @click="(cardIndex = index, dialog = true)"
                   >Read more</v-btn> -->
-                  </v-flex>
-                  <v-expand-transition>
+                </v-flex>
+                <!-- <v-expand-transition>
                     <div
                       v-if="hover"
                       class="d-flex transition-fast-in-fast-out grey darken-4 v-card--reveal subheading white--text"
@@ -121,13 +124,13 @@
                     >
                       {{ item.description }}
                     </div>
-                  </v-expand-transition>
+                  </v-expand-transition> -->
 
-                </v-layout>
-              </v-container>
-            </v-card>
-            <v-divider/>
-        </v-hover></v-flex>
+              </v-layout>
+            </v-container>
+          </v-card>
+          <v-divider/>
+        </v-flex>
       </v-layout>
     </v-container>
   </v-flex>
@@ -148,18 +151,38 @@ export default {
           headline: 'Search',
           description: 'Bandcamp, Mixcloud, Soundcloud, YouTube and Vimeo',
           moreText: 'We directly access the use the offical API provided by Mixcloud, Soundcloud, YouTube and Vimeo to get your search results. Organise all your music in one place.',
-          img: './img/about/analytics.png'
+          img: './img/about/analytics.png',
+          cb: () => {
+            this.$refs.auto.$el.querySelector('.v-select__slot').click()
+            this.$refs.auto.$el.querySelector('input').focus()
+          },
         },
         {
-          headline: 'Always available offline',
-          description: 'No internet? No problem! Using the power of PWAs you\'ll always have access to your music.',
-          moreText: `We believe in progress web apps, this website will locally cache itself. We are limited to a small portion of your local disk via the web browser, this space is only borrowed and will be used by your os if necessary.
-
-          Songs are cached for 2 weeks
-          Searches are cached for 1 hour
-          Playlists and subscriptions will be cached forever (not implemented yet)
-          `,
-          img: './img/about/dart.png'
+          headline: 'Subscriptions',
+          description: 'Keep an eye on your subscriptions',
+          moreText: ';]',
+          cb: () => {
+            this.$router.push({name: 'userSubOverview', params: {user : this.$store.getters.uid}})
+          },
+          img: './img/about/star.png'
+        },
+        {
+          headline: 'Playlists',
+          description: 'Organise all your music in one place',
+          moreText: ';]',
+          cb: () => {
+            this.$router.push({name: 'playlistOverview', params: {user : this.$store.getters.uid}})
+          },
+          img: './img/about/turntable.png'
+        },
+        {
+          headline: 'Stay up to date',
+          description: 'Customizable home feeds from your favourite artists',
+          moreText: '',
+          cb: () => {
+            this.$router.push({name: 'subsAll', params: {user : this.$store.getters.uid}})
+          },
+          img: './img/about/satellite.png'
         },
         {
           headline: 'One click download',
@@ -168,10 +191,14 @@ export default {
           img: './img/about/cloud.png'
         },
         {
-          headline: 'Stay up to date',
-          description: 'Customizable home feeds from your favourite artists',
-          moreText: '',
-          img: './img/about/satellite.png'
+          headline: 'Always available offline',
+          description: 'No internet? No problem! Using the power of PWAs you\'ll always have access to your music.',
+          moreText: `We believe in progress web apps, this website will locally cache itself. We are limited to a small portion of your local disk via the web browser, this space is only borrowed and will be used by your os if necessary.
+
+          Songs are cached for 2 weeks
+          Searches are cached for 1 hour
+          Playlists and subscriptions are cached forever`,
+          img: './img/about/dart.png'
         },
         {
           headline: 'Unlimited use',
@@ -199,13 +226,7 @@ export default {
           On mobile the share menu is opened.`,
           img: './img/about/share.png'
         },
-        // {
-        //   headline: 'Listen to music',
-        //   description: 'Organise all your music in one place',
-        //   moreText: `No limits to number of playlists or subscriptions.
-        //   Make playlists`,
-        //   img: './img/about/turntable.png'
-        // },
+
         {
           headline: 'Vibrant Community',
           description: `Join our discord server and contribute to the development`,

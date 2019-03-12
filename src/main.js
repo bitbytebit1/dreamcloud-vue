@@ -60,6 +60,8 @@
   Vue.component('video-stage', videoStage)
   import playlist from '@/components/playlist/playlist.vue'
   Vue.component('playlist', playlist)
+  import menu from '@/components/buttons/context-menu.vue'
+  Vue.component('context-menu', menu)
 
   Vue.use(Vuetify, {
     theme: {

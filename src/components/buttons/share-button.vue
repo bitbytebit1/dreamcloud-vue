@@ -53,7 +53,7 @@ export default {
   },
   computed : {
     btnTxt () {
-      return this.$vuetify.breakpoint.smAndDown ? 'Share' : 'Copy to clipboard'
+      return this.$vuetify.breakpoint.smAndDown ? 'Share' : 'Copy link to clipboard'
     }
   },
   methods: {

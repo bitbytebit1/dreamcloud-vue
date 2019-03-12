@@ -4,13 +4,15 @@ import axios from 'axios'
 export
 class DCAPIClass {
   constructor() {
-
-    // this.bcBase = 'https://dc-nodejs-backend-xdgwdxqavi.now.sh/' old
+    // this.bcBase = 'https://dc-nodejs-backend-ftjhiqutmh.now.sh/' old
     this.bcBase = 'https://dc-nodejs-backend-ftjhiqutmh.now.sh/'
-    // UNRESTRICTED
+    // if(process.env.NODE_ENV == 'production'){
+      // RESTRICTED
+      // this.sYtKey = '***REMOVED***'
+    // } else {
+      // UNRESTRICTED
     this.sYtKey = 'AIzaSyAEHNLb3uQonIYJKlTRANrQEXqjptYAUhg'
-    // RESTRICTED
-    // this.sYtKey = '***REMOVED***'
+    // }
     this.sScKey = '***REMOVED***'
     this.sVimeoKey = '***REMOVED***'
     this.YTnextPageTokenString = 0
@@ -21,9 +23,9 @@ class DCAPIClass {
   }
 
   searchInt(sQuery, iPage, aSource, sArtist, hCallback, bRelated, iLimit = 50) {
-    if (bRelated && aSource[0].toLowerCase() === 'bandcamp') {
-      return
-    }
+    // if (bRelated && aSource[0].toLowerCase() === 'bandcamp') {
+    //   return
+    // }
     if (!iPage) {
       this.SCnextPageToken = ''
       this.nextPageToken = ''
@@ -43,7 +45,7 @@ class DCAPIClass {
       bRelated: bRelated,
       iPage: iPage
     }
-    aSource = aSource[0].toLowerCase() === 'all' ? [ 'youtube', 'mixcloud', 'soundcloud', 'vimeo' ] : aSource
+    aSource = aSource[0].toLowerCase() === 'all' ? [ 'youtube','mixcloud', 'soundcloud', 'vimeo' ] : aSource
     for (var idx in aSource) {
       this.aQuery[uid].aAjax.push(this.search(aSource[idx], uid))
     }
@@ -460,7 +462,7 @@ class DCAPIClass {
             return {
               title: item.snippet.title,
               numberOfSongs: item.contentDetails.itemCount,
-              img: item.snippet.thumbnails.high.url,
+              img: item.snippet.hasOwnProperty('high') ? item.snippet.thumbnails.high.url : item.snippet.thumbnails.medium.url,
               description: item.snippet.description,
               listID: item.id,
               uploaded: this.parseDate(item.snippet.publishedAt),

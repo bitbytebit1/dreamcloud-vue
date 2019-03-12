@@ -106,9 +106,10 @@
         <v-flex 
           xs12 
           lg7 
-          class="title fwl text-xs-left song-meta mt-3 wordbreak"
         >
-          {{ song.artist }}
+          <div class="title fwl text-xs-left song-meta mt-3 wordbreak">
+            {{ song.artist }}
+          </div>
           <!-- DESCRIPTION -->
           <v-flex>
             <span 
@@ -122,18 +123,25 @@
             class="mt-3"
           >
             <v-tabs-slider color="primary"/>
+            <v-tab>
+              Playlist
+            </v-tab>
             <v-tab >
               Comments
             </v-tab>
             <v-tab>
               Lyrics
             </v-tab>
-            <v-tab v-if="$vuetify.breakpoint.xsOnly">
+            <v-tab v-if="$vuetify.breakpoint.mdAndDown">
               Related
             </v-tab>
           </v-tabs>
           
           <v-tabs-items v-model="tab">
+            <v-tab-item>
+              <!-- CURRENT PLAYLIST -->
+              <playlist :songs="$store.getters.current_Playlist"/>
+            </v-tab-item>
             <v-tab-item>
               <!-- COMMENTS -->
               <songComments 
@@ -172,6 +180,7 @@ import lyrics from '@/components/stage/meta/lyrics'
 import addToPlaylist from '@/components/buttons/add-to-playlist.vue'
 import shareButton from '@/components/buttons/share-button'
 import downloadButton from '@/components/buttons/download-button'
+import current from '@/components/stage/meta/current'
 import { mapGetters } from 'vuex'
 
 // /* eslint-disable */
@@ -185,6 +194,7 @@ export default {
   },
   components: {
     // 'explode': explode,
+    'current': current,
     'songComments': songComments,
     'artist-mini': artistMini,
     'related': related,
@@ -232,9 +242,9 @@ export default {
   },
   methods: {
     trackChanged () {
-      if (this.$route.name === 'auto' && !this.$vuetify.breakpoint.xs) {
+      if (this.$route.name === 'auto') {
         // this.$router.push({name: 'stage'})
-        this.$router.push({name: 'auto', params: { artist: this.$store.getters.current_song.artist,  trackID: this.$store.getters.current_song.trackID,  source: this.$store.getters.current_song.source }})
+        this.$router.replace({name: 'auto', params: { artist: this.$store.getters.current_song.artist,  trackID: this.$store.getters.current_song.trackID,  source: this.$store.getters.current_song.source }})
       }
       this.getDesc()
       this.getPlays()

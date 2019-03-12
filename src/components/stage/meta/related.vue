@@ -12,6 +12,10 @@
     >
       <orbit/>
     </v-flex>
+    <context-menu 
+      ref="con" 
+      @delete="bSelect ? removeList() : remove($event)"
+    />
     <!-- v-data-iterator -->
     <v-data-iterator
       :items='items'
@@ -32,6 +36,7 @@
         slot-scope='props'
         xs12
         @click="play(props.index)"
+        @contextmenu="$refs.con.show($event, [props.item])"
       >
         <v-card 
           class="mb-2 pointer" 
@@ -62,19 +67,17 @@
             </v-flex>
             <v-flex 
               xs7 
-              class="ma-2"
+              class="ma-2 text-xs-left"
             >
-              <div>
-                <!-- title -->
-                <div class="subheading text-xs-left wordbreak">{{ props.item.title }}</div>
-                <!-- artist -->
-                <div 
-                  class="text-xs-left grey--text" 
-                  @click.stop="$router.push({name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}})"
-                >{{ props.item.artist }}</div>
-                <!-- duration -->
-                <div class="text-xs-left grey--text">{{ props.item.duration }}</div>
-              </div>
+              <!-- title -->
+              <div class="subheading wordbreak">{{ props.item.title }}</div>
+              <!-- artist -->
+              <div 
+                class="subheading grey--text" 
+                @click.stop="$router.push({name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}})"
+              >{{ props.item.artist }}</div>
+              <!-- duration -->
+              <div class="grey--text">{{ props.item.duration }}</div>
             </v-flex>
           </v-layout>
         </v-card>

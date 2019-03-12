@@ -1,11 +1,14 @@
 <template>
   <v-card>
     <v-card-title v-if="lyrics">
-      <a 
-        :href="lyricsURL" 
-        class="primary--background"
-      >{{ lyricsURL }}</a><br>
-      <div class="wordbreak preline">{{ lyrics }}</div>
+      <div class="wordbreak preline">
+        <a 
+          :href="lyricsURL" 
+          class="primary--background"
+        >{{ lyricsURL }}</a>
+        <br>
+        {{ lyrics }}
+      </div>
     </v-card-title>
 
     <v-card-title v-else-if="bLoading">
@@ -52,7 +55,6 @@ export default {
       handler: 'reset'
     },
     getEm: {
-      immediate: true,
       handler: 'getLyrics'
     }
   },

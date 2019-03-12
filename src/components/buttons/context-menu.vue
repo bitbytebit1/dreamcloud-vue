@@ -22,6 +22,9 @@
         v-if="a.length && ($route.name != 'artist' && $route.params.artistID != a[0].artistID)" 
         :song="a"
       />
+      <related
+        :song="a[0]"
+      />
       <v-divider/>
       <new-tab
         :song="a[0]"
@@ -67,8 +70,10 @@ import deleteButton from '@/components/buttons/delete-button'
 import shareButton from '@/components/buttons/share-button'
 import downloadButton from '@/components/buttons/download-button'
 import goToArtist from '@/components/buttons/go-to-artist'
+import related from '@/components/buttons/related'
 export default {
   components: {
+    'related': related,
     'newTab': newTab,
     'add-to-queue': addToQueue,
     'offlineButton': offlineButton,
@@ -88,13 +93,15 @@ export default {
   },
   methods: {
     show (e, a) {
-      this.a = a
       e.preventDefault()
       this.b = false
       this.x = e.clientX
       this.y = e.clientY
-      this.$nextTick(() => {
+      setTimeout(() => {
+        // this.$nextTick(() => {
         this.b = true
+        this.a = a
+        // })
       })
     }
   }

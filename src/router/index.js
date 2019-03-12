@@ -15,6 +15,11 @@ let router = new Router({
       component: () => import(/* webpackChunkName: "password"*/ '@/router/login/password-reset')
     },
     {
+      path: '/r/:source/:artist/:title/:trackID',
+      name: 'related',
+      component: () => import(/* webpackChunkName: "login"*/ '@/router/related/related')
+    },
+    {
       path: '/login',
       name: 'login',
       component: () => import(/* webpackChunkName: "login"*/ '@/router/login/login')

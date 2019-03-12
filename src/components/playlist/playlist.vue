@@ -7,7 +7,7 @@
     pb-5
   >
     <list 
-      v-if="list == '1' && !gridView" 
+      v-if="list == '2' && !gridView" 
       :songs="songsActual" 
       :full="full" 
       :rows-per-page="rowsPerPage"
@@ -16,9 +16,10 @@
       @toggleView="toggleView"
       @shuffleOn="shuffle"
       @shuffleOff="shuffle(songs)"
+      @contextmenu="$emit('conmen', $event)"
     />
     <list 
-      v-if="list == '2' && !gridView" 
+      v-if="list == '1' && !gridView" 
       :songs="songsActual" 
       :full="full" 
       :rows-per-page="rowsPerPage" 
@@ -26,6 +27,7 @@
       @toggleView="toggleView"
       @shuffleOn="shuffle"
       @shuffleOff="shuffle(songs)"
+      @contextmenu="$emit('conmen', $event)"
     />
     <grid 
       v-if="list == '0' && !gridView" 
@@ -37,6 +39,7 @@
       @toggleView="toggleView"
       @shuffleOn="shuffle"
       @shuffleOff="shuffle(songs)"
+      @contextmenu="$emit('conmen', $event)"
     />
   </v-layout>
   <!-- </v-container> -->

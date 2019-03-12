@@ -3,7 +3,8 @@
     ripple 
     @click.stop="open"
   >
-    <v-list-tile-title>Open in a new tab</v-list-tile-title>
+    <!--  -->
+    <v-list-tile-title>{{ `Open ${song.source} in a new tab` }}</v-list-tile-title>
   </v-list-tile>
 </template>
 <script>
@@ -12,7 +13,9 @@ export default {
   props: {
     song: {
       type: Object,
-      default: () => {}
+      default: function () {
+        return { source: '' }
+      }
     }
   },
   methods: {
@@ -21,7 +24,8 @@ export default {
       if (this.song.hasOwnProperty('listID')) {
         window.open(`https://dctest.netlify.com/#/p/${this.song.title}/${this.song.source}/${this.song.artistID}/${this.song.listID}`,'_blank');
       } else {
-        window.open(`https://dctest.netlify.com/#/t/${this.song.source}/${this.song.artist}/${this.song.trackID}`,'_blank');
+        window.open(this.song.mp32,'_blank');
+        // window.open(`https://dctest.netlify.com/#/t/${this.song.source}/${this.song.artist}/${this.song.trackID}`,'_blank');
       }
     }
   }

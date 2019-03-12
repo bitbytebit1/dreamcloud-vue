@@ -12,8 +12,7 @@
         >
           <!-- HEADER BUTTONS -->
           <v-flex 
-            xs12 
-            lg3 
+            shrink
             class="text-xs-left mt-2"
           >
             <!-- ENABLE CHECK BOXES -->
@@ -62,8 +61,8 @@
           <!-- FILTER --> 
           <!-- MOVE TO BEFORE BUTTONS ON MOBILE ONLY USING FLEX PROP -->
           <v-flex 
-            xs12 
-            lg9
+            xs4 
+            lg5
           >
             <v-text-field
               id="flr-txt"
@@ -180,9 +179,10 @@
               class="fillPlace1 dumTd "
             />
 
-            <!-- UPLOADED -->
             <td 
-              v-if="bMini" 
+              class="fillPlace1"
+            />
+            <td 
               class="fillPlace1"
             />
             <!-- ACTIONS -->
@@ -216,11 +216,13 @@
               slot-scope="{ hover }" 
               :key="props.index" 
               :id="bSelect ? 'nosel' : ''" 
+              :class="$vuetify.breakpoint.name === 'xs' && isPlaying(props.item.trackID) ? 'primary white--text text-xs-left pa-0 ma-0' : 'text-xs-left pa-0 ma-0'"
               class="mb-3 pointer wordbreak'"
+
               @click.stop="props.item.listID ? 
                 $router.push({name: 'channelPlaylist', params: {listID: props.item.listID, artistID: props.item.artistID, title: props.item.title, source: props.item.source}}) 
                 : !bSelect ? 
-                  play(props.index, false, isPlaying(props.item.trackID))
+                  play(props.index, !showVideo, isPlaying(props.item.trackID))
               : props.selected = !props.selected"
               @contextmenu="$refs.con.show($event, bSelect ? selected : [props.item])"
             >
@@ -258,12 +260,11 @@
                         <div>
                           <v-btn 
                             :loading="$store.getters.isLoading && isPlaying (props.item.trackID)"
-                            fab 
-                            dark  
+                            icon
                             color="primary"
-                            @click.stop="playProxy(props, false)"
+                            @click.stop="play(props.index)"
                           >
-                            <v-icon large>{{ $store.getters.isPlaying && isPlaying (props.item.trackID) ? 'pause' : 'play_arrow' }}</v-icon>
+                            <v-icon>{{ $store.getters.isPlaying && isPlaying (props.item.trackID) ? 'pause' : 'play_arrow' }}</v-icon>
                           </v-btn>
                         </div>
                       </div>
@@ -279,7 +280,7 @@
                 class="text-xs-left"
               >
                 <!-- TITLE -->
-                <div :class="$vuetify.breakpoint.name === 'xs' ? 'body-1 ' : 'dc-t'">{{ props.item.title }}</div>
+                <div :class="$vuetify.breakpoint.name === 'xs' ? 'body-1 ' : 'body-1'">{{ props.item.title }}</div>
                 <div class="ma-0 pa-0">
                   <!-- ARTIST -->
                   <a 
@@ -306,7 +307,7 @@
               <!-- TITLE + PLAY BUTTON -->
               <td 
                 v-if="bMini" 
-                :class="$vuetify.breakpoint.name === 'xs' ? ' text-xs-left pa-0 ma-0' : 'dc-t text-xs-left pa-0 ma-0'"
+                class="'text-xs-left pa-0 ma-0'"
               >
                 <!-- PLAY BUTTON -->
                 <v-layout 
@@ -323,6 +324,7 @@
                     <v-btn 
                       :loading="$store.getters.isLoading && isPlaying (props.item.trackID)"
                       :class="isPlaying (props.item.trackID) ? '' : 'mouseme'"
+                      class="ma-0 pa-0"
                       icon
                       small
                       @click.stop="play(props.index)"
@@ -461,7 +463,7 @@ export default {
   },
   created () {
     // set key to use based on whether this is a playlist
-    this.itemKey = this.$route.params.playlist ? 'key' : 'mp32'
+    this.itemKey = this.$route.params.playlist ? 'key' : 'trackID'
 
   },
   computed: {
@@ -490,10 +492,10 @@ export default {
           // { text: '', value: '', align: 'left', sortable: false }
         ]
       }
-      if (!this.$route.params.artistID) {
+      if (!this.$route.params.artistID && r.length < 4) {
         r.splice(1, 0, { text: 'Artist', value: 'artist', align: 'center' })
         // r.splice(4, 0, { text: '', value: '', align: 'center' })
-      } else {
+      // } else {
         // r.splice(4, 0, { text: '', value: '', align: 'center' })
       }
       return r
@@ -584,7 +586,8 @@ export default {
       return this.$DCAPI.calcDate(this.today, date)
     },
     play (index, pauseIfSame = true, showStage = false) {
-      if (pauseIfSame && this.sorted[index].trackID == this.$store.getters.current_song.trackID) {
+      let b = this.sorted[index].trackID === this.$store.getters.current_song.trackID
+      if (pauseIfSame && b) {
         return this.$DCPlayer.togglePlay()
       }
       // Fix for mobile on first play
@@ -635,9 +638,6 @@ export default {
   .dumTd{
     padding: 4px!important;
     height: 20px!important;
-  }
-  .dc-t{
-    font-size: 18px;
   }
   .mh-2{
     max-height: 60px !important;

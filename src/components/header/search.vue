@@ -39,8 +39,8 @@
             <v-list-tile-title>All</v-list-tile-title>
           </v-list-tile>
 
-          <!-- <v-list-tile>
-            <img src='../img/bc.png'>
+          <v-list-tile>
+            <!-- <img src='../img/bc.png'> -->
             <v-list-tile-action>
               <v-switch 
                 v-model="aSources.Bandcamp" 
@@ -48,7 +48,7 @@
               />
             </v-list-tile-action>
             <v-list-tile-title>Bandcamp</v-list-tile-title>
-          </v-list-tile> -->
+          </v-list-tile>
           
           <v-list-tile>
             <!-- <img src='../img/mc.png'> -->
