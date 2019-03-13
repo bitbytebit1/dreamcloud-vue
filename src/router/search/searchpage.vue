@@ -7,10 +7,11 @@
   >
     <!-- <loading v-if="loading"></loading> --> 
     <playlist 
-      v-if="!loading && !bFailed" 
+      v-if="!loading && !bFailed"
       :show-uploaded="!0" 
       :songs="searchResults" 
-      rows-per-page='-1'
+      rows-per-page='-1' 
+      @conmen="$emit('conmen', $event)"
     /> 
     <infinite-loading 
       v-if="!loading" 

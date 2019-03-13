@@ -11,6 +11,7 @@
       v-if="bLoading || aHistRev.length" 
       :songs="aHistRev" 
       rows-per-page='84'
+      @conmen="$emit('conmen', $event)"
     />
     <jumbo
       v-else-if="bFailed && $route.name === 'history'"

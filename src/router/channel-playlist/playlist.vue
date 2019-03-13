@@ -9,9 +9,10 @@
 
     <!-- show all items since it's a user playlist -->
     <playlist 
-      :show-uploaded="true" 
+      :show-uploaded="true"
       :songs="aSongs" 
-      rows-per-page='250'
+      rows-per-page='250' 
+      @conmen="$emit('conmen', $event)"
     />
   </v-flex>
 </template>

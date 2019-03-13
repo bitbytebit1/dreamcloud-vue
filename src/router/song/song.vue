@@ -9,7 +9,10 @@
     >
       Loading...
     </div>
-    <playlist :songs="searchResults"/>
+    <playlist 
+      :songs="searchResults" 
+      @conmen="$emit('conmen', $event)"
+    />
   </v-flex>
 </template>
 

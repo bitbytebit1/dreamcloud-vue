@@ -23,6 +23,7 @@
       :sort-by="null" 
       :songs="songs" 
       rows-per-page="-1"
+      @conmen="$emit('conmen', $event)"
     />
   </v-flex>
 </template>

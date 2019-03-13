@@ -146,7 +146,11 @@
           <v-tabs-items v-model="tab">
             <v-tab-item>
               <!-- PLAYLIST -->
-              <playlist :songs="$store.getters.current_Playlist"/>
+              <playlist 
+                :songs="$store.getters.current_Playlist" 
+                rowsPerPage="-1"
+                @conmen="$emit('conmen', $event)"
+              />
             </v-tab-item>
             <v-tab-item>
               <!-- COMMENTS -->
@@ -165,13 +169,18 @@
             </v-tab-item>
             <v-tab-item v-if="$vuetify.breakpoint.mdAndDown">
               <!-- RELATED -->
-              <related/>
+              <related 
+                @conmen="$emit('conmen', $event)"
+              />
             </v-tab-item>
           </v-tabs-items>
         </v-flex>
         
         <!-- RELATED -->
-        <related v-if="$vuetify.breakpoint.lgAndUp"/>
+        <related 
+          v-if="$vuetify.breakpoint.lgAndUp" 
+          @conmen="$emit('conmen', $event)"
+        />
       </v-layout>
     </v-flex>
   </v-layout>

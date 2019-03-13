@@ -1,7 +1,8 @@
 <template>
   <playlist 
-    :songs="current_Playlist" 
-    rows-per-page='250'
+    :songs="current_Playlist"
+    rows-per-page='250' 
+    @conmen="$emit('conmen', $event)"
   />
 </template>
 <script>

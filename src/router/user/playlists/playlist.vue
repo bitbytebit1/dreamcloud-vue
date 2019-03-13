@@ -6,9 +6,10 @@
   >
     <div class="headline fwl text-xs-left pl-2 pt-2">{{ name }}</div>
     <playlist 
-      :show-uploaded="true" 
+      :show-uploaded="true"
       :songs="aSongs" 
-      rows-per-page='250'
+      rows-per-page='250' 
+      @conmen="$emit('conmen', $event)"
     />
   </v-flex>
 </template>

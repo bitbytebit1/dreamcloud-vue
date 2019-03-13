@@ -3,8 +3,12 @@
     v-if="$store.getters.index !== -1" 
     xs12
   >
-    <video-stage/>
-    <audio-stage/>
+    <video-stage 
+      @conmen="$emit('conmen', $event)"
+    />
+    <audio-stage
+      @conmen="$emit('conmen', $event)"
+    />
   </v-flex>
   <v-flex 
     v-else 

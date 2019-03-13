@@ -46,11 +46,12 @@
     >Latest from your subscriptions</div> -->
 
     <playlist 
-      v-if="bLoading || aFiltered.length" 
+      v-if="bLoading || aFiltered.length"
       :songs="aFiltered" 
       :show-uploaded="!0" 
       sort-by="uploaded" 
-      rows-per-page="50"
+      rows-per-page="50" 
+      @conmen="$emit('conmen', $event)"
     />
 
     <jumbo 

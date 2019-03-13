@@ -141,6 +141,8 @@ let router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
+  store.commit('bShuffled', false)
+
   // close navbar on back
   if (store.getters.isMobile && (store.getters.drawLeft || store.getters.drawRight) && window.popStateDetected) {
     window.popStateDetected = false

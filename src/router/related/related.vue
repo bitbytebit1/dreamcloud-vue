@@ -2,17 +2,17 @@
   <v-flex 
     xs12 
     lg10 
-    mt-3
   >
     <v-flex 
-      class="title fwl text-xs-left pb-2"
+      class="headline fwl text-xs-left pl-2 pt-2"
     >
       Related to {{ $route.params.title }} by {{ $route.params.artist }}
     </v-flex>
 
     <playlist 
-      :songs="aSongs" 
-      rows-per-page='-1'
+      :songs="aSongs"
+      rows-per-page='-1' 
+      @conmen="$emit('conmen', $event)"
     /> 
   </v-flex>
 </template>

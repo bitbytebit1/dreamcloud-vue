@@ -3,6 +3,7 @@
     v-bind="theme" 
     :class="blackClass"
   >
+    <context-menu ref="con"/>
     <snackbar/>
     <v-snackbar
       v-model="snackbar"
@@ -103,9 +104,7 @@
       right
       width="260"
     >
-      <current-playlist 
-        @conmen="(a) => $refs.con.show(a[0], a[1])"
-      />
+      <current-playlist @conmen="con"/>
     </v-navigation-drawer>
 
     <!-- Stage -->
@@ -120,7 +119,9 @@
       >
         <v-layout justify-center>
           <v-flex xs12>
-            <stage/>
+            <stage 
+              @conmen="con"
+            />
           </v-flex>
         </v-layout>
       </v-container>
@@ -140,7 +141,7 @@
             name="  fade" 
             mode="out-in"> -->
           <keep-alive :max="2">
-            <router-view/>
+            <router-view @conmen="con"/>
           </keep-alive>
           <!-- </transition> -->
         </v-layout>
@@ -164,7 +165,6 @@
       <!-- </v-flex> -->
 
     </v-footer>
-    <context-menu ref="con"/>
     <!-- dc keyboard shortcuts -->
     <hks/>
   </v-app>
@@ -205,6 +205,9 @@ export default {
     'mobileFooter': mobileFooter
   },
   methods: {
+    con (a) {
+      this.$refs.con.show(a[0], a[1])
+    },
     leftTog () {
       this.$store.commit('drawLeftTog')
     },

@@ -10,10 +10,11 @@
     >Home</div>
     <!-- <loading v-if="!auth_state || !aRecommended.length"></loading> -->
     <playlist 
-      v-if="bLoading || aRecommended.length" 
+      v-if="bLoading || aRecommended.length"
       :rows-per-page='rowsPerPage' 
       :show-uploaded="true" 
-      :songs="aRecommended2"
+      :songs="aRecommended2" 
+      @conmen="$emit('conmen', $event)"
     />
     <!-- title="Here is supposed to be a playlists generated from your recent history" -->
     <jumbo

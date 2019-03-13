@@ -25,7 +25,7 @@
       </v-card-title>
       <v-container 
         grid-list-lg 
-        class="pa-0" 
+        class="pa-2" 
         fluid
       >
         <v-data-iterator
@@ -38,7 +38,6 @@
           wrap
           class=""
           pagination.sync="pagination"
-          hide-actions
         >
           <v-flex
             v-if="props.item.numberOfSongs"

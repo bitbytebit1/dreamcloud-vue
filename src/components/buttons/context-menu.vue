@@ -56,7 +56,7 @@
         v-if="a.length && a[0].key" 
         :in-list="true" 
         :id="a[0].key" 
-        @delete="$emit('delete', $event)"
+        @delete="deleteList(a)"
       />
     </v-list>
   </v-menu>
@@ -92,6 +92,14 @@ export default {
     }
   },
   methods: {
+    delete (key) {
+      this.$DCFB.playlistSongDelete(this.$route.params.playlist, key)
+    },
+    deleteList () {
+      for (const i in this.a) {
+        this.delete(this.a[i].key)
+      }
+    },
     show (e, a) {
       e.preventDefault()
       this.b = false

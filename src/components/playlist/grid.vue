@@ -76,56 +76,6 @@
               @keyup.enter="$UTILS.closeSoftMobi()"
             />
           </v-flex>
-          <!-- RIGHT CLICK MENU -->
-          <context-menu 
-            ref="con" 
-            @delete="bSelect ? removeList() : remove($event)"
-          />
-          <!-- <v-menu
-            v-model="showMenu"
-            :position-x="x"
-            :position-y="y"
-            absolute
-            offset-y
-            lazy
-          >
-            <v-list >
-              <add-to-queue 
-                :in-list="true" 
-                :song="bSelect ? selected : [chosenSong]"
-                @click.native="showMenu = false"
-              />
-              <add-to-playlist 
-                :in-list="true" 
-                :song="bSelect ? selected : [chosenSong]"
-                @click.native="showMenu = false"
-              />
-              <share-button 
-                :in-list="true" 
-                :song="chosenSong" 
-                :url="'https://dreamcloud.netlify.com/#/t/' + chosenSong.source + '/' + encodeURIComponent(chosenSong.artist) + '/' + chosenSong.trackID"
-                @click.native="showMenu = false"
-              />
-              <delete-button 
-                v-if="chosenSong.key && !bSelect" 
-                :in-list="true" 
-                :id="chosenSong.key" 
-                @delete="bSelect ? removeList() : remove(chosenSong.key)"
-              />
-              <download-button 
-                :in-list="true" 
-                :links="bSelect ? selected : [chosenSong]"
-                @click.native="showMenu = false"
-              />
-              <offlineButton 
-                :in-list="true" 
-                :link1="chosenSong.mp32" 
-                :link2="chosenSong.mp3" 
-                :track-id="chosenSong.trackID"
-                @click.native="showMenu = false"
-              />
-            </v-list>
-          </v-menu> -->
           <!-- SELECT BUTTONS -->
           <v-flex 
             v-if="bSelect" 
@@ -272,7 +222,7 @@
             <!-- slot-scope="{ hover }" -->
             <v-card 
               class="dc-crd ma-0 pa-0 pointer outline"
-              @contextmenu="$refs.con.show($event, bSelect ? selected : [props.item])"
+              @contextmenu="$emit('conmen', [$event, bSelect ? selected : [props.item]])"
             >
               <!-- IMAGE -->
               <v-img
@@ -306,29 +256,9 @@
                         >{{ $store.getters.isPlaying && isPlaying (props.item.trackID)? 'pause' : 'play_arrow' }}</v-icon>
                       </v-btn>
                     </div>
-                    <!-- <div style="position:absolute;bottom:0;right:0">
-                          <add-to-queue :song="props.item"/>
-                        </div> -->
                   </div>
                   <!-- </v-expand-transition> -->
 
-                  <!-- PLAY AUDIO BUTTON -->
-                  <!-- <v-flex 
-                    xs12
-                  >
-                    <v-tooltip top>
-                      <v-btn 
-                        slot="activator"
-                        color='white'
-                        flat 
-                        icon 
-                        @click.stop="playProxy(props, false)"
-                      >
-                        <v-icon light>play_arrow</v-icon>
-                      </v-btn>
-                      <span>Play</span>
-                    </v-tooltip>
-                  </v-flex> -->
                 </v-layout>
               </v-img>
               <!-- TITLE -->
@@ -390,7 +320,7 @@
                         icon 
                         small 
                         class="men fl-r ma-0 pa-0 mt-1" 
-                        @click="$refs.con.show($event, bSelect ? selected : [props.item])"
+                        @click="$emit('conmen', [$event, bSelect ? selected : [props.item]])"
                       >
                         <v-icon>more_vert</v-icon>
                       </v-btn>
@@ -410,7 +340,6 @@
   </v-flex>
 </template>
 <script>
-import contextMenu from '@/components/buttons/context-menu'
 import shuffleButton from '@/components/buttons/shuffle-button'
 import addToPlaylist from '@/components/buttons/add-to-playlist'
 import deleteButton from '@/components/buttons/delete-button'
@@ -444,7 +373,6 @@ export default {
     }
   },
   components: {
-    'context-menu': contextMenu,
     'add-to-playlist': addToPlaylist,
     'delete-button': deleteButton,
     'download-button': downloadButton,
@@ -566,6 +494,7 @@ export default {
       for (const key in this.selected) {
         this.remove(this.selected[key].key)
       }
+      this.selected = []
     },
     play (index, pauseIfSame = true, showStage = false) {
       let b = this.sorted[index].trackID == this.$store.getters.current_song.trackID

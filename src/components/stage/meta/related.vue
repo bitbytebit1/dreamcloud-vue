@@ -12,10 +12,6 @@
     >
       <orbit/>
     </v-flex>
-    <context-menu 
-      ref="con" 
-      @delete="bSelect ? removeList() : remove($event)"
-    />
     <!-- v-data-iterator -->
     <v-data-iterator
       :items='items'
@@ -36,7 +32,7 @@
         slot-scope='props'
         xs12
         @click="play(props.index)"
-        @contextmenu="$refs.con.show($event, [props.item])"
+        @contextmenu="$emit('conmen', [$event, [props.item]])"
       >
         <v-card 
           class="mb-2 pointer" 

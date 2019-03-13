@@ -16,7 +16,7 @@
       @toggleView="toggleView"
       @shuffleOn="shuffle"
       @shuffleOff="shuffle(songs)"
-      @contextmenu="$emit('conmen', $event)"
+      @conmen="$emit('conmen', $event)"
     />
     <list 
       v-if="list == '1' && !gridView" 
@@ -27,7 +27,7 @@
       @toggleView="toggleView"
       @shuffleOn="shuffle"
       @shuffleOff="shuffle(songs)"
-      @contextmenu="$emit('conmen', $event)"
+      @conmen="$emit('conmen', $event)"
     />
     <grid 
       v-if="list == '0' && !gridView" 
@@ -39,7 +39,7 @@
       @toggleView="toggleView"
       @shuffleOn="shuffle"
       @shuffleOff="shuffle(songs)"
-      @contextmenu="$emit('conmen', $event)"
+      @conmen="$emit('conmen', $event)"
     />
   </v-layout>
   <!-- </v-container> -->

@@ -5,19 +5,13 @@
     row 
     wrap
   >
-    <!-- RIGHT CLICK MENU -->
-    <context-menu 
-      ref="con" 
-      @delete="remove($event)"
-    />
-
     <transition-group name="slide-fade">
       <current-playlist-item
         v-for="(song, index) in aPlaylist"
         :song="song"
         :index="index"
         :key="song.trackID + (index + $store.getters.index)"
-        @contextmenu.native="$refs.con.show($event, [song])"
+        @contextmenu.native="$emit('conmen', [$event, [song]])"
       />
       <!-- <current-playlist-item
         :song="$store.getters.current_song"
@@ -70,7 +64,6 @@
 
 <script>
 import item from './current-playlist-item'
-// import vueNiceScrollbar from 'vue-nice-scrollbar'
 import jum from '@/components/misc/jumbo'
 
 import InfiniteLoading from 'vue-infinite-loading'

@@ -77,11 +77,6 @@
               @keyup.enter="$UTILS.closeSoftMobi()"
             />
           </v-flex>
-          <!-- RIGHT CLICK MENU -->
-          <context-menu 
-            ref="con" 
-            @delete="bSelect ? removeList() : remove($event)"
-          />
           <!-- SELECT BUTTONS -->
           <v-flex 
             v-if="bSelect" 
@@ -224,7 +219,7 @@
                 : !bSelect ? 
                   play(props.index, !showVideo, isPlaying(props.item.trackID))
               : props.selected = !props.selected"
-              @contextmenu="$refs.con.show($event, bSelect ? selected : [props.item])"
+              @contextmenu="$emit('conmen', [$event, bSelect ? selected : [props.item]])"
             >
               <!-- CHECK_BOX -->
               <td v-if="bSelect">
@@ -381,7 +376,7 @@
                 <v-btn 
                   icon 
                   small 
-                  @click="$refs.con.show($event, bSelect ? selected : [props.item])"
+                  @click="$emit('conmen', [$event, bSelect ? selected : [props.item]])"
                 >
                   <v-icon>more_vert</v-icon>
                 </v-btn>
@@ -397,7 +392,6 @@
 
 <script>
 // /* eslint-disable */
-import contextMenu from '@/components/buttons/context-menu'
 import addToPlaylist from '@/components/buttons/add-to-playlist.vue'
 import deleteButton from '@/components/buttons/delete-button'
 import shuffleButton from '@/components/buttons/shuffle-button'
@@ -432,7 +426,6 @@ export default {
     }
   },
   components: {
-    'context-menu': contextMenu,
     'add-to-playlist': addToPlaylist,
     'delete-button': deleteButton,
     'download-button': downloadButton,
@@ -562,6 +555,7 @@ export default {
       for (const key in this.selected) {
         this.remove(this.selected[key].key)
       }
+      this.selected = []
     },
     downloadAll () {
       for (const i in this.selected) {

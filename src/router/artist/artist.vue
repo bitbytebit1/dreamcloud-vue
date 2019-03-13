@@ -30,12 +30,15 @@
     <v-tabs-items v-model="tab">
       <v-tab-item>
         <playlist 
-          :songs="searchResults" 
+          :songs="searchResults"
           rowsPerPage='84'
+          @conmen="$emit('conmen', $event)" 
         />
       </v-tab-item>
       <v-tab-item>
-        <playlists :aPlaylist="aPlaylists"/>
+        <playlists 
+          :aPlaylist="aPlaylists" 
+        />
       </v-tab-item>
       <v-tab-item>
         <subscriptions :aSubs="aSubs"/>
