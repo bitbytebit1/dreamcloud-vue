@@ -2,7 +2,6 @@
   <v-list-tile 
     v-if="inList" 
     :class="color" 
-    :disabled="disabled" 
     ripple
     @click.capture="emitDelete" 
     @mouseleave="clicks = clickedTwice ? 2 : 0"
@@ -38,10 +37,6 @@ export default {
       default: ''
     },
     inList: {
-      type: Boolean,
-      default: false
-    },
-    disabled: {
       type: Boolean,
       default: false
     }

@@ -18,6 +18,7 @@
         in-list
         @clicked="b = false"
       />
+      <v-divider/>
       <go-to-artist 
         v-if="a.length && ($route.name != 'artist' && $route.params.artistID != a[0].artistID)" 
         :song="a"
@@ -58,6 +59,7 @@
         :id="a[0].key" 
         @delete="deleteList(a)"
       />
+      <!-- @delete="$emit('delete', $event)" -->
     </v-list>
   </v-menu>
 </template>
@@ -109,9 +111,15 @@ export default {
         // this.$nextTick(() => {
         this.b = true
         this.a = a
+        document.addEventListener("scroll", this.scroll)
         // })
       })
+    },
+    scroll () {
+      this.b = false
+      document.removeEventListener('scroll', this.scroll)
     }
+
   }
 }
 </script>
