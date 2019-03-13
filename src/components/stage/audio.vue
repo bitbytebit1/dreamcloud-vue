@@ -106,14 +106,15 @@
         <v-flex 
           xs12 
           lg7 
+          class="text-xs-left song-meta mt-3"
         >
-          <div class="title fwl text-xs-left song-meta mt-3 wordbreak">
-            {{ song.artist }}
-          </div>
+          <!-- <div class="text-xs-left song-meta mt-3 wordbreak"> -->
+          {{ song.artist }}
+          <!-- </div> -->
           <!-- DESCRIPTION -->
           <v-flex>
             <span 
-              class="subheading wordbreak fwl preline" 
+              class="subheading fwl wordbreak preline" 
               v-html="timeToSeconds(_description)"
             />
           </v-flex>

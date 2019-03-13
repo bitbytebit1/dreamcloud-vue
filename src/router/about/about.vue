@@ -75,39 +75,41 @@
           lg4 
           class="pointer"
         >
-          <v-card 
-            class="ma-0 elevation-5" 
-            @click="item.cb"
-          >
-            <v-container 
-              fluid 
-              grid-list-xs
-              class="ma-0 pa-0"
+          <v-hover>
+            <v-card 
+              slot-scope="{ hover }" 
+              class="ma-0 elevation-5"
+              @click="item.cb" 
             >
-              <v-layout 
-                row 
-                wrap
+              <v-container 
+                fluid 
+                grid-list-xs
                 class="ma-0 pa-0"
               >
-
-                <v-flex xs12>
-                  <!-- IMAGE -->
-                  <v-img
-                    :src="item.img"
-                    height="180"
-                    contain
-                  />
-                </v-flex>
-                <v-flex 
-                  xs12 
-                  class="text-xs-left"
+                <v-layout 
+                  row 
+                  wrap
+                  class="ma-0 pa-0"
                 >
-                  <div>
-                    <!-- TEXT -->
-                    <div class="title font-weight-thin text-xs-center">{{ item.headline }}</div>
+
+                  <v-flex xs12>
+                    <!-- IMAGE -->
+                    <v-img
+                      :src="item.img"
+                      height="180"
+                      contain
+                    />
+                  </v-flex>
+                  <v-flex 
+                    xs12 
+                    class="text-xs-left"
+                  >
+                    <div>
+                      <!-- TEXT -->
+                      <div class="title font-weight-thin text-xs-center">{{ item.headline }}</div>
                     <!-- <div>{{ item.description }}</div> -->
-                  </div>
-                  <br>
+                    </div>
+                    <br>
                   <!-- READ MORE BUTTON -->
                   <!-- <v-btn 
                     class="ma-0" 
@@ -115,8 +117,8 @@
                     dark 
                     @click="(cardIndex = index, dialog = true)"
                   >Read more</v-btn> -->
-                </v-flex>
-                <!-- <v-expand-transition>
+                  </v-flex>
+                  <v-expand-transition>
                     <div
                       v-if="hover"
                       class="d-flex transition-fast-in-fast-out grey darken-4 v-card--reveal subheading white--text"
@@ -124,11 +126,12 @@
                     >
                       {{ item.description }}
                     </div>
-                  </v-expand-transition> -->
+                  </v-expand-transition>
 
-              </v-layout>
-            </v-container>
-          </v-card>
+                </v-layout>
+              </v-container>
+            </v-card>
+          </v-hover>
           <v-divider/>
         </v-flex>
       </v-layout>
@@ -231,7 +234,10 @@ export default {
           headline: 'Vibrant Community',
           description: `Join our discord server and contribute to the development`,
           moreText: '',
-          img: './img/about/discord.png'
+          img: './img/about/discord.png',
+          cb: () => {
+            window.open('https://discord.gg/RzP7dwA', '_blank')
+          },
         }
       ]
     }
@@ -247,7 +253,4 @@ export default {
 }
 </script>
 <style>
-.bg-rp{
-  background-repeat: repeat;
-}
 </style>
