@@ -141,7 +141,16 @@ export default {
       },
       getAudio (url, hCallback) {
         var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
-        var ax = axios.get('https://cors.io/?https://www.saveitoffline.com/process/?type=audio&url=' + url)
+        let a = 'https://cors.io/?https://www.saveitoffline.com/process/?type=audio&url=' + url
+        if (url.indexOf('youtube') > -1 && isSafari) {
+          var video_id = url.split('v=')[1];
+          var ampersandPosition = video_id.indexOf('&');
+          if(ampersandPosition != -1) {
+            video_id = video_id.substring(0, ampersandPosition);
+          }
+          a = `https://dc-mp3-wwlveeistv.now.sh/api/v1/getLink/${video_id}`
+        }
+        var ax = axios.get(a)
         ax.then(function (resp) {
           if ('data' in resp && 
           resp.data !== 'Error: no_media_found' && 
@@ -163,7 +172,7 @@ export default {
             // console.log('fallback', resp.data.urls[Math.max(0,resp.data.urls.length - 3)])
             hCallback(resp.data.urls[Math.max(0,resp.data.urls.length - 3)].id)
           } else {
-            // hCallback('//dream.tribe.nu/r3/off?q=' + url)
+            hCallback('//dream.tribe.nu/r3/off?q=' + url)
           }
         }).catch((error) => {
           // console.log('saio process error')
