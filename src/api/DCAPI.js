@@ -625,7 +625,7 @@ class DCAPIClass {
               totalReplyCount: item.snippet.totalReplyCount,
               commentID: item.id
             }
-          })
+          }).reverse()
         }
         hCallback(ret)
       })
