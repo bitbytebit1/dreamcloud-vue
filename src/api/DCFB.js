@@ -84,24 +84,22 @@ class DCFB {
         }
       })
 
-      var connectedRef = firebase.database().ref(".info/connected")
-      connectedRef.on("value", (snap) => {
-        if (snap.val() === true) {
-          // alert("connected");
-        } else {
-          // alert("not connected");
-          let a = JSON.parse(this.getLoc('playlists'))
-          let b = JSON.parse(this.getLoc('playlistsRefs'))
-          let c = JSON.parse(this.getLoc('subscriptions'))
-          let d = JSON.parse(this.getLoc('settings'))
-          // store.commit('subscriptions', a)
+      // var connectedRef = firebase.database().ref(".info/connected")
+      // connectedRef.on("value", (snap) => {
+      if (!window.navigator.onLine) {
+        // alert("not connected");
+        let a = JSON.parse(this.getLoc('playlists'))
+        let b = JSON.parse(this.getLoc('playlistsRefs'))
+        let c = JSON.parse(this.getLoc('subscriptions'))
+        let d = JSON.parse(this.getLoc('settings'))
+        // store.commit('subscriptions', a)
 
-          a && this.playlists.update(a)
-          b && this.playlistsRefs.update(b)
-          c && this.subscriptions.update(c)
-          d && this.settings.update(d)
-        }
-      })
+        a && this.playlists.update(a)
+        b && this.playlistsRefs.update(b)
+        c && this.subscriptions.update(c)
+        d && this.settings.update(d)
+      }
+      // })
     }
   }
 
@@ -133,13 +131,20 @@ class DCFB {
     this.subscriptions.child(id).remove()
   }
 
-  createNewPlaylist (name, json) {
+  // key allows old reference
+  createNewPlaylist (name, json, key = false) {
     // Create new playlist reference with id.
-    var nameRef = this.playlistsRefs.push({'name': name, name_lower: name.toLowerCase()})
+    let nameRef
+    if (key) {
+      this.playlistsRefs.child(key).set({'name': name, name_lower: name.toLowerCase()})
+      nameRef = key
+    } else {
+      nameRef = this.playlistsRefs.push({'name': name, name_lower: name.toLowerCase()}).ref.key
+    }
     // Using ID + name push new song.
-    this.playlists.child(nameRef.ref.key).set({'name': name, name_lower: name.toLowerCase()})
+    this.playlists.child(nameRef).set({'name': name, name_lower: name.toLowerCase()})
 
-    this.playlistSongAdd(nameRef.ref.key, json)
+    this.playlistSongAdd(nameRef, json)
   }
 
   playlistDelete (playlistId) {

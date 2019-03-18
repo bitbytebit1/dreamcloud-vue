@@ -123,7 +123,7 @@ export default {
     }
   },
   watch: {
-    auth_state: {
+    song: {
       immediate: true,
       handler: 'bind'
     }
@@ -144,12 +144,22 @@ export default {
       this.emit(this.select)
     },
     emit (v) {
-      if (typeof v === 'object') {
-        this.$DCFB.playlistSongAdd(v['.key'], this.song)
-      } else {
-        this.$DCFB.createNewPlaylist(this.search, this.song)
+      if (!v) {
+        return
       }
-      this.btnFeedback()
+      this.menuOpen = false
+      this.$DCFB.playlistGet(this.$route.params.user, this.$route.params.playlist).once('value')
+        .then((d) =>{
+          if (typeof v === 'object') {
+            this.$DCFB.playlistSongAdd(v['.key'], this.song)
+            // state.snacku[0].user, state.snacku[0].playlist).set(state.snacku[0].songs)
+            this.$store.dispatch('snack', { b: true, c:'primary', s:'Added to playlist', u: [{songs: d.val(), user: this.$route.params.user, playlist: v['.key']}]})
+          } else {
+            this.$store.dispatch('snack', { b: true, c:'primary', s:'Created new playlist'})
+            this.$DCFB.createNewPlaylist(this.search, this.song)
+          }
+          // this.$store.dispatch('snack', { b: true, c:'primary', s:'Added to playlist' })
+        })
     },
     openMenu () {
       this.$emit('clicked')
@@ -160,18 +170,9 @@ export default {
         this.$refs.auto.$el.querySelector('input').focus()
       }, 600)
     },
-    btnFeedback () {
-      this.menuOpen = false
-      this.$store.dispatch('snack', { b: true, c:'primary', s:'Added to playlist' })
-      //  this.menuOpen = this.$UTILS.isMobile ? false : true
-      // this.playlistName = ''
-      // this.btnCol = 'green'
-      // setTimeout(() => {
-      // this.btnCol = ''
-      // this.$emit('opened', false)
-      // }, 420)
-    },
+
     bind () {
+      this.select = ''
       if (this.$store.getters.auth_state) {
         this.$bindAsArray('items', this.$DCFB.playlists.orderByChild('name_lower'))
       }

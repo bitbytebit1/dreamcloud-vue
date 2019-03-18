@@ -67,14 +67,19 @@ export default {
     emitDelete () {
       this.clicks++
       if (this.clicks === 2) {
-        setTimeout(() => {
-          this.clicks = 0
-          this.$emit('clicked')
-        }, 2000)
-        this.$emit('delete', this.id)
-        if (!this.inList) {
-          this.$store.dispatch('snack', { b: true, c:'red', s:'Deleted' })
-        }
+        
+        this.clicks = 0
+        this.$DCFB.playlistGet(this.$route.params.user, this.$route.params.playlist).once('value')
+          .then((d) =>{
+            this.$emit('delete', this.id)
+            this.$store.dispatch('snack', { b: true, c:'red', s:'Deleted', u: [{songs: d.val(), ...this.$route.params}]}
+            )
+            setTimeout(() => {
+              this.clicks = 0
+              // this.$emit('clicked')
+            }, 3000)
+          })
+
       }
     }
   }

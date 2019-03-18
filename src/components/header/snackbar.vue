@@ -6,6 +6,14 @@
   >
     {{ $store.getters.snacks }}
     <v-btn
+      v-if="$store.getters.snackul"
+      dark
+      flat
+      @click="$store.dispatch('snacku')"
+    >
+      Undo
+    </v-btn>
+    <v-btn
       dark
       flat
       @click="$store.commit('snackb', false)"

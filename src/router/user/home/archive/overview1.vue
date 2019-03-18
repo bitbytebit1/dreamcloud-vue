@@ -96,6 +96,6 @@ export default {
 
 <style>
 .artist-card{
-  min-width: 303px;
+  min-width: 200px;
 }
 </style>

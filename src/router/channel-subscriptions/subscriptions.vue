@@ -125,7 +125,7 @@ export default {
 .h200{
   height: 200px;
 }
-/* .artist-card{ */
-  /* min-width: 303px; */
-/* } */
+.artist-card{
+  min-width: 200px;
+}
 </style>
