@@ -132,7 +132,7 @@ export default {
         this.aPlaylists = this.aPlaylists2
         this.$store.commit('loadValue', 0)
         this.$store.dispatch('loadIndeterm', false)
-      }, 3000)
+      }, 1000)
       for (var sub in this.subscriptions) {
         this.$DCAPI.searchInt(0, 0, [this.subscriptions[sub].source], this.subscriptions[sub].id,
                               (songs) => {

@@ -80,9 +80,11 @@ export default {
       })
     },
     searchInt () {
-      this.$store.dispatch('loadIndeterm', true)
-      this.bFailed = false
-      this.search(0)
+      if (this.$route.name == 'searchPage') {
+        this.$store.dispatch('loadIndeterm', true)
+        this.bFailed = false
+        this.search(0)
+      }
     },
     search (iPage) {
 

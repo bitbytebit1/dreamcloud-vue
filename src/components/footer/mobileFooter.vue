@@ -9,7 +9,6 @@
         :to="{name: 'home', params: {user: uid}}" 
         color="primary" 
         flat 
-        value="home"
       >
         <span>Home</span>
         <v-icon>home</v-icon>
@@ -18,13 +17,12 @@
         :to="{name: 'subsAll', params: {user: uid}}" 
         color="primary" 
         flat 
-        value="subsAll"
       >
         <span>Latest</span>
         <v-icon>whatshot</v-icon>
       </v-btn>
       <v-btn 
-        :to="{name: 'auto', params: currentParams}" 
+        :to="auto" 
         flat 
         color="primary" 
       >
@@ -35,7 +33,6 @@
         :to="{name: 'playlistOverview', params: {user: uid}}" 
         color="primary" 
         flat 
-        value="playlistOverview"
       >
         <span>Playlists</span>
         <v-icon>library_music</v-icon>
@@ -44,7 +41,6 @@
         :to="{name: 'userSubOverview', params: {user: uid}}" 
         color="primary" 
         flat 
-        value="userSubOverview"
       >
         <span>Following</span>
         <v-icon>people</v-icon>
@@ -58,6 +54,9 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'mobFoot',
   computed: {
+    auto () {
+      return {name: 'auto', params: this.currentParams}
+    },
     currentParams () {
       return this.$store.getters.current_Playlist.length > 0 ?  { artist: this.$store.getters.current_song.artist, trackID: this.$store.getters.current_song.trackID, source: this.$store.getters.current_song.source } : { artist: 'x', trackID: 'y', source: 'z' } 
     },

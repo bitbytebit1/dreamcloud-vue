@@ -26,7 +26,7 @@ export default {
   name: 'DownloadButton',
   props: {
     links: {
-      type: Array,
+      type: [Array, Object],
       default() {
         return []
       }

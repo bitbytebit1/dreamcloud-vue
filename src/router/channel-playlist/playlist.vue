@@ -70,11 +70,6 @@ export default {
       f('')
     }
   }
-  // firebase () {
-  //   return {
-  //     aSongs: this.$DCFB.playlistGet(this.$route.params.user, this.$route.params.playlist)
-  //   }
-  // }
 }
 </script>
 

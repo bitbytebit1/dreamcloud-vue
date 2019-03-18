@@ -116,7 +116,7 @@ export default {
       this.songsActual = this.fixd
     },
     shuffle ($event) {
-      console.log('shufflez', $event[0].trackID)
+      // console.log('shufflez', $event[0].trackID)
       this.songsActual = $event
       // wait for data table to update
       // this.$nextTick(() => {

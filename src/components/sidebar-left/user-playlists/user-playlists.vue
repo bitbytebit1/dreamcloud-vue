@@ -13,7 +13,7 @@
         v-if="bUIShowMore" 
         icon 
         class="ar17" 
-        @click.stop="(bShowMore = !bShowMore, pagination.rowsPerPage = bShowMore ? -1 : 7)"
+        @click.stop="(bShowMore = !bShowMore, pagination.rowsPerPage = bShowMore ? -1 : 5)"
       >
         <v-icon>{{ bShowMore ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
       </v-btn>
@@ -82,7 +82,7 @@
           small 
           block 
           color="transparent" 
-          @click="(bShowMore = !bShowMore, pagination.rowsPerPage = bShowMore ? -1 : 7)"
+          @click="(bShowMore = !bShowMore, pagination.rowsPerPage = bShowMore ? -1 : 5)"
         >
           {{ bShowMore ? 'SHOW LESS' : 'SHOW MORE' }}
         </v-btn>

@@ -15,7 +15,7 @@ importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox
 
 importScripts(
   "update-available.js",
-  "/precache-manifest.84ab77ac37231823c1d9570b0f562d24.js"
+  "/precache-manifest.e67bc1cef1bfb5f74a811fb03e8952f1.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "dreamcloud"});
@@ -30,5 +30,5 @@ workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
 workbox.routing.registerRoute(/^https:\/\/fonts\.googleapis\.com\/|^https:\/\/fonts\.gstatic\.com\//, workbox.strategies.cacheFirst({ "cacheName":"font-cache", plugins: [new workbox.expiration.Plugin({"maxEntries":100,"purgeOnQuotaError":false}), new workbox.cacheableResponse.Plugin({"statuses":[0,200]})] }), 'GET');
-workbox.routing.registerRoute(/^https:\/\/cors\.io\/\?https:\/\/www\.saveoffline\.com\/process|^https:\/\/www\.s\d{1,2}\.saveoffline\.com|^https:\/\/www\.saveitoffline\.com\/get\/\?i|^https:\/\/www\.s\d{1,2}\.saveoffline\.com|^https:\/\/www\.saveoffline\.com\/get\/\?i|^https:\/\/api\.soundcloud\.com\/tracks\/.+\/stream|^https:\/\/sndcdn\.com/, workbox.strategies.cacheFirst({ "cacheName":"song-cache", plugins: [new workbox.expiration.Plugin({"maxAgeSeconds":1210000,"purgeOnQuotaError":false}), new workbox.cacheableResponse.Plugin({"statuses":[0,200,302]})] }), 'GET');
+workbox.routing.registerRoute(/^https:\/\/dc-mp3-wwlveeistv\.now\.sh|https:\/\/cors\.io\/\?https:\/\/www\.saveoffline\.com\/process|^https:\/\/www\.s\d{1,2}\.saveoffline\.com|^https:\/\/www\.saveitoffline\.com\/get\/\?i|^https:\/\/www\.s\d{1,2}\.saveoffline\.com|^https:\/\/www\.saveoffline\.com\/get\/\?i|^https:\/\/api\.soundcloud\.com\/tracks\/.+\/stream|^https:\/\/sndcdn\.com/, workbox.strategies.cacheFirst({ "cacheName":"song-cache", plugins: [new workbox.expiration.Plugin({"maxAgeSeconds":1210000,"purgeOnQuotaError":false}), new workbox.cacheableResponse.Plugin({"statuses":[0,200,302]})] }), 'GET');
 workbox.routing.registerRoute(/^https:\/\/www\.googleapis\.com\/youtube\/v3|https:\/\/api\.mixcloud|^https:\/\/api\.soundcloud\.com\/users|^https:\/\/api\.soundcloud\.com\/tracks|^https:\/\/api.vimeo.com?/, workbox.strategies.cacheFirst({ "cacheName":"search-cache", plugins: [new workbox.expiration.Plugin({"maxAgeSeconds":10800,"purgeOnQuotaError":false}), new workbox.cacheableResponse.Plugin({"statuses":[0,200]})] }), 'GET');

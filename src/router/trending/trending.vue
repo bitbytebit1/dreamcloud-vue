@@ -22,7 +22,7 @@
       :show-uploaded="!0" 
       :sort-by="null" 
       :songs="songs" 
-      rows-per-page="-1"
+      :rows-per-page="-1"
       @conmen="$emit('conmen', $event)"
     />
   </v-flex>

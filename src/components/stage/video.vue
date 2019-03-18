@@ -110,8 +110,8 @@
         />
         <!-- ARTIST NAME + SONG DESCRIPTION -->
         <v-flex 
-          xs12 
-          lg7 
+          xs12
+          lg10
           class="text-xs-left song-meta mt-3"
         >
           {{ song.artist }}
@@ -138,17 +138,17 @@
             <v-tab>
               Lyrics
             </v-tab>
-            <v-tab v-if="$vuetify.breakpoint.xsOnly">
+            <v-tab>
               Related
             </v-tab>
           </v-tabs>
           
           <v-tabs-items v-model="tab">
             <v-tab-item>
-              <!-- PLAYLIST -->
+              <!-- CURRENT PLAYLIST -->
               <playlist 
                 :songs="$store.getters.current_Playlist" 
-                rowsPerPage="-1"
+                :rows-per-page="-1"
                 @conmen="$emit('conmen', $event)"
               />
             </v-tab-item>
@@ -167,7 +167,7 @@
                 :artist="song.artist"
               />
             </v-tab-item>
-            <v-tab-item v-if="$vuetify.breakpoint.mdAndDown">
+            <v-tab-item>
               <!-- RELATED -->
               <related 
                 @conmen="$emit('conmen', $event)"
@@ -177,17 +177,17 @@
         </v-flex>
         
         <!-- RELATED -->
-        <related 
+        <!-- <related 
           v-if="$vuetify.breakpoint.lgAndUp" 
           @conmen="$emit('conmen', $event)"
-        />
+        /> -->
       </v-layout>
     </v-flex>
   </v-layout>
 </template>
 <script>
 
-import related from '@/components/stage/meta/related'
+import related from '@/router/related/related'
 import artistMini from '@/components/stage/meta/artist-mini'
 import youtubeVBtn from '@/components/stage/meta/toggle-video-button'
 import songComments from '@/components/stage/meta/comments'
@@ -248,7 +248,7 @@ export default {
   },
   data () {
     return {
-      tab: 0,
+      tab: 1,
       bWide: false,
       btnCol: '',
       iViews: '', 

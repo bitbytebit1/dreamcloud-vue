@@ -14,7 +14,6 @@
   </v-flex>
 </template>
 <script>
-import loading from '@/components/misc/loading'
 
 export default {
   name: 'UserPlaylist',
@@ -34,13 +33,10 @@ export default {
     }
   },
   watch: {
-    '$route.params': {
+    '$route': {
       immediate: true,
       handler: 'bind'
     }
-  },
-  components: {
-    'loading': loading
   },
   data () {
     return {
@@ -49,6 +45,9 @@ export default {
   },
   methods: {
     bind () {
+      if (this.$route.name !== 'userPlaylist') {
+        return
+      }
       this.$store.dispatch('loadIndeterm', true)
       this.$bindAsArray('aSongs', this.$DCFB.playlistGet(this.$route.params.user, this.$route.params.playlist), null, () => {
         this.$store.dispatch('loadIndeterm', false)

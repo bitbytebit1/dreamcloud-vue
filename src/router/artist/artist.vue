@@ -138,7 +138,7 @@ export default {
     },
     _search () {
       if (!this.$route.params.artistID || !this.$route.params.source) {
-        console.log('artist', this.$route.name)
+        // console.log('artist', this.$route.name)
         return
       }
       // this.tab = 0

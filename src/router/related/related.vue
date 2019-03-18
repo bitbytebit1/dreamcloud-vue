@@ -1,9 +1,10 @@
 <template>
   <v-flex 
-    xs12 
-    lg10 
+    :lg10="$route.name === 'related'" 
+    xs12
   >
     <v-flex 
+      v-if="$route.name === 'related'"
       class="headline fwl text-xs-left pl-2 pt-2"
     >
       Related to {{ $route.params.title }} by {{ $route.params.artist }}

@@ -156,6 +156,7 @@
                 lg2
                 xl2
                 class="ma-0"
+                @contextmenu="$event.preventDefault()"
               >
                 <v-card class="dc-crd ma-0 pa-0 pointer"> 
                   <!-- IMAGE -->
@@ -282,13 +283,13 @@
                       />
                     </v-flex>
                     <!-- TITLE -->
-                    <v-flex class="text-xs-left body-2 grd-txt pa-0 pt-1">
+                    <v-flex class="text-xs-left body-2 grd-txt pa-0 pt-1 wordbreak">
                       {{ props.item.title }}
                     </v-flex>
                     <!-- ARTIST -->
                     <v-flex 
                       v-if="$route.name !== 'artist'" 
-                      class="text-xs-left pa-0 pt-1" 
+                      class="text-xs-left pa-0 pt-1 wordbreak" 
                       @click.stop="bSelect ? checkItem(props.item) : $router.push({name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}})"
                     >
                       <router-link 

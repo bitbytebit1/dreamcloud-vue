@@ -50,6 +50,7 @@
           <v-flex
             slot="item"
             slot-scope="props"
+            grow
             xs6
             sm6
             md4
@@ -111,7 +112,7 @@ export default {
 </script>
 
 <style>
-/* .artist-card{ */
-  /* min-width: 303px; */
-/* } */
+.artist-card{
+  min-width: 206px;
+}
 </style>

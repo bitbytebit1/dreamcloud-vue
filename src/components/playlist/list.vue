@@ -298,42 +298,29 @@
                 </div>
               </td>
 
+              <td 
+                v-if="bMini && $vuetify.breakpoint.smAndUp" 
+                class="text-xs-left"
+              >
+                <!-- PLAY BUTTON -->
+                <v-btn 
+                  :loading="$store.getters.isLoading && isPlaying (props.item.trackID)"
+                  :class="isPlaying (props.item.trackID) ? '' : 'mouseme'"
+                  class="ma-0 pa-0"
+                  icon
+                  small
+                  @click.stop="play(props.index)"
+                >
+                  <v-icon>{{ $store.getters.isPlaying && isPlaying (props.item.trackID)? 'pause' : 'play_arrow' }}</v-icon>
+                </v-btn>
+              </td>
               <!-- ~~~~~~~~~~~~  MINI ~~~~~~~~~~~~ -->
               <!-- TITLE + PLAY BUTTON -->
               <td 
                 v-if="bMini" 
-                class="'text-xs-left pa-0 ma-0'"
+                class="text-xs-left pa-0 ma-0 wordbreak"
               >
-                <!-- PLAY BUTTON -->
-                <v-layout 
-                  row 
-                  wrap
-                  align-center
-                >
-                  
-                  <v-flex
-                    v-if="$vuetify.breakpoint.smAndUp"
-                    sm1
-                    ma-1
-                  >
-                    <v-btn 
-                      :loading="$store.getters.isLoading && isPlaying (props.item.trackID)"
-                      :class="isPlaying (props.item.trackID) ? '' : 'mouseme'"
-                      class="ma-0 pa-0"
-                      icon
-                      small
-                      @click.stop="play(props.index)"
-                    >
-                      <v-icon>{{ $store.getters.isPlaying && isPlaying (props.item.trackID)? 'pause' : 'play_arrow' }}</v-icon>
-                    </v-btn>
-                  </v-flex>
-                  <v-flex 
-                    sm10 
-                    xs12
-                  >
-                    {{ props.item.title }}
-                  </v-flex>
-                </v-layout>
+                {{ props.item.title }}
               </td>
 
               <!-- ARTIST -->
@@ -465,31 +452,29 @@ export default {
       view_mode: 'view_mode'
     }),
     headers () {
-      let r = []
+      let r
       if (this.bMini) {
         r = [
-          { text: 'Title', value: 'title', align: 'center', class: 'ma-0 pa-0', width: this.$vuetify.breakpoint.xs ? '45%' : '42%'},
-          { text: 'Duration', value: 'duration', align: 'center'},
-          // { text: 'Duration', value: 'duration', align: 'center', class: 'ma-0 pa-0' },
-          { text: 'Date', value: 'uploaded', align: 'center', class: 'ma-0 pa-0' },
-          // { text: '', value: '', align: 'left', sortable: false }
-          { text: 'Description', value: 'description', align: 'center', class: 'hidden'}
+          { text: 'Title', value: 'title', align: 'left', class: 'ma-0 pa-0', width: this.$vuetify.breakpoint.xs ? '70%' : '42%'},
+          { text: 'Duration', value: 'duration', align: 'left'},
+          { text: 'Date', value: 'uploaded', align: 'left', class: 'ma-0 pa-0' },
+          { text: 'Description', value: 'description', align: 'left', class: 'hidden'},
+          { text: '', value: '', align: 'left', sortable: false }
         ]
       } else {
         r = [
-          { text: 'Title', value: 'title', align: 'center', class: 'ma-0 pa-0', width: this.listViewSmall ? '14%' : this.$vuetify.breakpoint.xs ? '15%' : '15%'},
-          { text: 'Duration', value: 'duration', align: 'center'},
-          // { text: 'Duration', value: 'duration', align: 'center', class: 'ma-0 pa-0' },
-          { text: 'Date', value: 'uploaded', align: 'center', class: 'ma-0 pa-0' },
-          { text: 'Description', value: 'description', align: 'center', class: 'hidden'}
-          // { text: '', value: '', align: 'left', sortable: false }
+          { text: 'Title', value: 'title', align: 'left', class: 'ma-0', width: this.listViewSmall ? '14%' : this.$vuetify.breakpoint.xs ? '15%' : '15%'},
+          { text: 'Duration', value: 'duration', align: 'left'},
+          { text: 'Date', value: 'uploaded', align: 'left', class: 'ma-0 pa-0' },
+          { text: 'Description', value: 'description', align: 'left', class: 'hidden'},
+          { text: '', value: '', align: 'left', sortable: false }
         ]
       }
-      if (!this.$route.params.artistID && r.length < 4) {
+      if (!this.$route.params.artistID && r.length < 5) {
         r.splice(1, 0, { text: 'Artist', value: 'artist', align: 'center' })
-        // r.splice(4, 0, { text: '', value: '', align: 'center' })
-      // } else {
-        // r.splice(4, 0, { text: '', value: '', align: 'center' })
+      }
+      if (this.bMini && this.$vuetify.breakpoint.smAndUp) {
+        r.splice(0, 0, {align: 'center', class: 'ma-0 pa-0', width: '25px', sortable: false})
       }
       return r
     },

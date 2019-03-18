@@ -19,7 +19,10 @@
       >
         <v-card class="py-2">
           <v-layout row>
-            <v-flex class="comAv">
+            <v-flex 
+              class="comAv pr-3" 
+              shrink
+            >
               <!-- IMAGE -->
               <router-link 
                 :to="{name: 'artist', params: {source: source, artist: props.item.artist, artistID: props.item.artistID}}" 
@@ -37,7 +40,7 @@
                 </v-avatar>
               </router-link>
             </v-flex>
-            <v-flex xs11>
+            <v-flex xs10>
               <div>
                 <div class="body-1 grey--text py-1">
                   <!-- ARTIST -->
@@ -84,14 +87,14 @@
       </v-flex>
     </v-data-iterator>
     <v-layout 
-      v-if="noComments" 
+      v-else
       row
       wrap
     >
       <v-flex xs12>
         <v-card >
           <v-card-title>
-            No comments available
+            {{ noComments ? 'No comments available' : 'Loading comments' }}
           </v-card-title>
         </v-card>
       </v-flex>

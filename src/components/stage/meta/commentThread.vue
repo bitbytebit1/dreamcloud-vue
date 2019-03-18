@@ -6,11 +6,7 @@
       class="ma-0 pa-0"
     >
       <v-flex 
-        xs1 
-        sm1 
-      />
-      <v-flex 
-        xs11 
+        xs12 
         class="pointer body-1 comMor" 
         @click="show = !show"
       >
@@ -177,6 +173,7 @@ export default {
 
 <style>
 .comMor{
-  padding-right: 10px !important;
+  position: relative;
+  left: 75px !important;
 }
 </style>
