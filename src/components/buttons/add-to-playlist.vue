@@ -144,9 +144,9 @@ export default {
       this.emit(this.select)
     },
     emit (v) {
-      if (!v) {
-        return
-      }
+      // if (!v) {
+      //   return
+      // }
       this.menuOpen = false
       this.$DCFB.playlistGet(this.$route.params.user, this.$route.params.playlist).once('value')
         .then((d) =>{
