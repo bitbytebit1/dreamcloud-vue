@@ -141,7 +141,7 @@ export default {
       },
       getAudio (url, hCallback) {
         var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
-        let a = 'https://cors.io/?https://www.saveitoffline.com/process/?type=audio&url=' + url
+        let a = 'https://cors.io/?https://www.saveoffline.com/process/?type=audio&url=' + url
         if (url.indexOf('youtube') > -1 && isSafari) {
           var video_id = url.split('v=')[1];
           var ampersandPosition = video_id.indexOf('&');

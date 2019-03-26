@@ -127,7 +127,7 @@ export default {
       return this.link1.indexOf('soundcloud') > -1
     },
     c_link () {
-      return this.isSc ? this.link2 : 'https://www.saveitoffline.com/process/?type=audio&url=' + this.link1
+      return this.isSc ? this.link2 : 'https://www.saveoffline.com/process/?type=audio&url=' + this.link1
     }
   }
 }
