@@ -77,7 +77,7 @@ export default {
             setTimeout(() => {
               this.clicks = 0
               // this.$emit('clicked')
-            }, 3000)
+            }, 3750)
           })
 
       }
