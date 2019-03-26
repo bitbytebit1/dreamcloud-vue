@@ -20,7 +20,7 @@
     >
       <v-icon>open_in_new</v-icon>
     </v-btn>
-    <span>Open in a new tab</span>
+    <span>{{ `Open ${song.source} in a new tab` }}</span>
   </v-tooltip>
 </template>
 <script>
