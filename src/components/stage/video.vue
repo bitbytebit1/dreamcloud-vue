@@ -44,6 +44,15 @@
             <!-- <v-btn :color="btnCol" @click="($UTILS.copyToClipboard(song.mp32), btnFeedback())" icon>
               <v-icon>link</v-icon>
             </v-btn> -->
+
+
+            <!-- YT BUTTON -->
+            <youtube-button slot="activator" />
+
+            <!-- Open in a new tab -->
+            <new-tab
+              :song="song"
+            />
             <!-- CLOSED CAPTIONS -->
             <v-tooltip 
               v-if="$vuetify.breakpoint.lgAndUp" 
@@ -58,9 +67,6 @@
               </v-btn>
               <span>Subtitles</span>
             </v-tooltip>
-
-            <!-- YT BUTTON -->
-            <youtube-button slot="activator" />
             <!-- SHARE BUTTON -->
             <share-button 
               :song="song" 
@@ -186,6 +192,7 @@
   </v-layout>
 </template>
 <script>
+import newTab from '@/components/buttons/open-new-tab'
 
 import related from '@/router/related/related'
 import artistMini from '@/components/stage/meta/artist-mini'
@@ -214,6 +221,7 @@ export default {
     }
   },
   components: {
+    'newTab': newTab,
     'current': current,
     'artist-mini': artistMini,
     'youtube-button': youtubeVBtn,

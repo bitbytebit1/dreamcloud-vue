@@ -55,6 +55,11 @@
             </v-btn> -->
             <!-- YT BUTTON -->
             <youtube-button/>
+            
+            <!-- open in a new tab -->
+            <new-tab
+              :song="song"
+            />
             <!-- SHARE BUTTON -->
             <share-button 
               :song="song" 
@@ -94,6 +99,7 @@
               <span>Fullscreen</span>
             </v-tooltip>
           </div>
+          
         </v-flex> 
         <!-- ARTIST PICTURE -->
         <artist-mini 
@@ -183,6 +189,9 @@
 </template>
 <script>
 
+import newTab from '@/components/buttons/open-new-tab'
+
+
 import related from '@/router/related/related'
 import artistMini from '@/components/stage/meta/artist-mini'
 import youtubeVBtn from '@/components/stage/meta/toggle-video-button'
@@ -205,6 +214,7 @@ export default {
   },
   components: {
     // 'explode': explode,
+    'newTab': newTab,
     'current': current,
     'songComments': songComments,
     'artist-mini': artistMini,

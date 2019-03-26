@@ -29,6 +29,7 @@
       <v-divider/>
       <new-tab
         :song="a[0]"
+        in-list
         @clicked="b = false"
       />
       <share-button 
