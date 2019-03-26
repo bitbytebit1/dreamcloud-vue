@@ -8,12 +8,12 @@ self.__precacheManifest = [
     "url": "/js/about.438a3ed7.js"
   },
   {
-    "revision": "ce53795be11ef23bbf98",
-    "url": "/js/app.004a0be4.js"
+    "revision": "4dca753395a5cc035ef8",
+    "url": "/js/app.1e948204.js"
   },
   {
-    "revision": "71c947380cbc877a1e9f7c11f478d760",
-    "url": "/update-available.js"
+    "revision": "735ab4f94fbcd57074377afca324c813",
+    "url": "/robots.txt"
   },
   {
     "revision": "884dee798c7627dd1b36",
@@ -24,8 +24,8 @@ self.__precacheManifest = [
     "url": "/js/channelPlaylist.f221f029.js"
   },
   {
-    "revision": "735ab4f94fbcd57074377afca324c813",
-    "url": "/robots.txt"
+    "revision": "71c947380cbc877a1e9f7c11f478d760",
+    "url": "/update-available.js"
   },
   {
     "revision": "25d7257d717849966a92",
@@ -116,19 +116,19 @@ self.__precacheManifest = [
     "url": "/img/about/share.png"
   },
   {
-    "revision": "990b6be85eac8746b4f32dce99bb40b9",
-    "url": "/img/about/turntable.png"
-  },
-  {
     "revision": "6737924ee68ba5067b55860cc5963b41",
     "url": "/img/about/satellite.png"
+  },
+  {
+    "revision": "990b6be85eac8746b4f32dce99bb40b9",
+    "url": "/img/about/turntable.png"
   },
   {
     "revision": "d1fecc01213fc8d8077921201dba3707",
     "url": "/img/about/pacman.png"
   },
   {
-    "revision": "3a95094fd0cb7589c160aecf8c40efb3",
+    "revision": "77ae5bf6da92826981b247d37460ed0f",
     "url": "/index.html"
   },
   {
@@ -136,8 +136,8 @@ self.__precacheManifest = [
     "url": "/img/logo-blue.17e91fdf.png"
   },
   {
-    "revision": "9f76354d0227952ba84f",
-    "url": "/css/playlistOverview.382e7198.css"
+    "revision": "8a6832607cc5c8203dd5",
+    "url": "/css/password.f79ad8da.css"
   },
   {
     "revision": "fd6b5b07c71296893d21",
@@ -156,28 +156,32 @@ self.__precacheManifest = [
     "url": "/css/settings.a6c228ab.css"
   },
   {
-    "revision": "b617abbd90e4e3786ef1d460ef6b08c4",
-    "url": "/img/about/energy.png"
+    "revision": "21a470e3fb2c59e7b680ffeaa49c99bb",
+    "url": "/img/about/dream.css"
   },
   {
     "revision": "774b21c1ca2c8a490cff",
     "url": "/css/login.c0aefe62.css"
   },
   {
-    "revision": "8a6832607cc5c8203dd5",
-    "url": "/css/password.f79ad8da.css"
+    "revision": "b617abbd90e4e3786ef1d460ef6b08c4",
+    "url": "/img/about/energy.png"
   },
   {
     "revision": "96da83beb368a953cc72",
     "url": "/css/userSubOverview.17b6f3c3.css"
   },
   {
+    "revision": "9f76354d0227952ba84f",
+    "url": "/css/playlistOverview.382e7198.css"
+  },
+  {
     "revision": "eb8a18708085fd38b78d9932eb0da14c",
     "url": "/img/about/discord.png"
   },
   {
-    "revision": "21a470e3fb2c59e7b680ffeaa49c99bb",
-    "url": "/img/about/dream.css"
+    "revision": "229113e2fc54268b38173a0d27708b76",
+    "url": "/img/about/analytics.png"
   },
   {
     "revision": "b8c7bb999a60cb5b8bea",
@@ -188,10 +192,6 @@ self.__precacheManifest = [
     "url": "/css/searchpage.cb1bf88d.css"
   },
   {
-    "revision": "229113e2fc54268b38173a0d27708b76",
-    "url": "/img/about/analytics.png"
-  },
-  {
     "revision": "25d7257d717849966a92",
     "url": "/css/chunk-76d4c477.4e0df298.css"
   },
@@ -200,7 +200,7 @@ self.__precacheManifest = [
     "url": "/css/artist.88d9c49e.css"
   },
   {
-    "revision": "ce53795be11ef23bbf98",
+    "revision": "4dca753395a5cc035ef8",
     "url": "/css/app.ae6c5d5e.css"
   }
 ];
