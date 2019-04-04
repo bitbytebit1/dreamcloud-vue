@@ -4,20 +4,20 @@ self.__precacheManifest = [
     "url": "/css/signUp.3c9379ef.css"
   },
   {
-    "revision": "5f4e85786d901cd5e431",
-    "url": "/js/about.438a3ed7.js"
+    "revision": "ac7923e4f6e7ddab1538",
+    "url": "/js/about.4524ff66.js"
   },
   {
-    "revision": "4dca753395a5cc035ef8",
-    "url": "/js/app.1e948204.js"
+    "revision": "ebd382536e16ae608c2a",
+    "url": "/js/app.f24a8a94.js"
   },
   {
     "revision": "735ab4f94fbcd57074377afca324c813",
     "url": "/robots.txt"
   },
   {
-    "revision": "884dee798c7627dd1b36",
-    "url": "/js/artist.3c859115.js"
+    "revision": "4e9e10dbd641489c8716",
+    "url": "/js/artist.d060c357.js"
   },
   {
     "revision": "dce051640c819910e86f",
@@ -36,7 +36,7 @@ self.__precacheManifest = [
     "url": "/js/userSubOverview.2ed2182d.js"
   },
   {
-    "revision": "fd6b5b07c71296893d21",
+    "revision": "5177efcd1692c059082f",
     "url": "/js/chunk-vendors.5fbfbb2c.js"
   },
   {
@@ -76,20 +76,20 @@ self.__precacheManifest = [
     "url": "/js/playlistOverview.8b2bd1a9.js"
   },
   {
-    "revision": "53ef1a7661eded22a6ee",
-    "url": "/js/subsAll.35ff6380.js"
+    "revision": "53db464c642de092bf81",
+    "url": "/js/subsAll.e2db274b.js"
   },
   {
-    "revision": "b8c7bb999a60cb5b8bea",
-    "url": "/js/playlistsAll.31b6d89a.js"
+    "revision": "65310d3293cde3399906",
+    "url": "/js/playlistsAll.b0dd6d47.js"
   },
   {
     "revision": "65cabec1dc88dcf9d40b",
     "url": "/js/stage.d9fb59f4.js"
   },
   {
-    "revision": "c82ef0642f5cd2a492be",
-    "url": "/js/searchpage.0800d68d.js"
+    "revision": "7863f900184ff2558ede",
+    "url": "/js/searchpage.72501cbc.js"
   },
   {
     "revision": "d8890572b00be3ea1210",
@@ -100,8 +100,8 @@ self.__precacheManifest = [
     "url": "/js/settings.ba32ec92.js"
   },
   {
-    "revision": "0cce8c41ed55610a3e3403a9fcf1c7a0",
-    "url": "/img/about/dart.png"
+    "revision": "6e8f93d644595cffa1946ff5b9ef6fab",
+    "url": "/img/about/cloud.png"
   },
   {
     "revision": "f9453134ee948304b1a11fe9b65295e8",
@@ -116,19 +116,19 @@ self.__precacheManifest = [
     "url": "/img/about/share.png"
   },
   {
-    "revision": "6737924ee68ba5067b55860cc5963b41",
-    "url": "/img/about/satellite.png"
-  },
-  {
     "revision": "990b6be85eac8746b4f32dce99bb40b9",
     "url": "/img/about/turntable.png"
+  },
+  {
+    "revision": "6737924ee68ba5067b55860cc5963b41",
+    "url": "/img/about/satellite.png"
   },
   {
     "revision": "d1fecc01213fc8d8077921201dba3707",
     "url": "/img/about/pacman.png"
   },
   {
-    "revision": "77ae5bf6da92826981b247d37460ed0f",
+    "revision": "95eab4baf4d5b4fd0be46ea789a1cf54",
     "url": "/index.html"
   },
   {
@@ -140,16 +140,16 @@ self.__precacheManifest = [
     "url": "/css/password.f79ad8da.css"
   },
   {
-    "revision": "fd6b5b07c71296893d21",
-    "url": "/css/chunk-vendors.aaebef28.css"
+    "revision": "5177efcd1692c059082f",
+    "url": "/css/chunk-vendors.183793f2.css"
   },
   {
     "revision": "797f197b04ab163dd13d",
     "url": "/css/genre.4394be38.css"
   },
   {
-    "revision": "6e8f93d644595cffa1946ff5b9ef6fab",
-    "url": "/img/about/cloud.png"
+    "revision": "0cce8c41ed55610a3e3403a9fcf1c7a0",
+    "url": "/img/about/dart.png"
   },
   {
     "revision": "3607fd7b5e5969692f2f",
@@ -160,12 +160,12 @@ self.__precacheManifest = [
     "url": "/img/about/dream.css"
   },
   {
-    "revision": "774b21c1ca2c8a490cff",
-    "url": "/css/login.c0aefe62.css"
-  },
-  {
     "revision": "b617abbd90e4e3786ef1d460ef6b08c4",
     "url": "/img/about/energy.png"
+  },
+  {
+    "revision": "774b21c1ca2c8a490cff",
+    "url": "/css/login.c0aefe62.css"
   },
   {
     "revision": "96da83beb368a953cc72",
@@ -180,27 +180,27 @@ self.__precacheManifest = [
     "url": "/img/about/discord.png"
   },
   {
-    "revision": "229113e2fc54268b38173a0d27708b76",
-    "url": "/img/about/analytics.png"
-  },
-  {
-    "revision": "b8c7bb999a60cb5b8bea",
+    "revision": "65310d3293cde3399906",
     "url": "/css/playlistsAll.cb1bf88d.css"
   },
   {
-    "revision": "c82ef0642f5cd2a492be",
+    "revision": "7863f900184ff2558ede",
     "url": "/css/searchpage.cb1bf88d.css"
+  },
+  {
+    "revision": "229113e2fc54268b38173a0d27708b76",
+    "url": "/img/about/analytics.png"
   },
   {
     "revision": "25d7257d717849966a92",
     "url": "/css/chunk-76d4c477.4e0df298.css"
   },
   {
-    "revision": "884dee798c7627dd1b36",
+    "revision": "4e9e10dbd641489c8716",
     "url": "/css/artist.88d9c49e.css"
   },
   {
-    "revision": "4dca753395a5cc035ef8",
-    "url": "/css/app.ae6c5d5e.css"
+    "revision": "ebd382536e16ae608c2a",
+    "url": "/css/app.669c065f.css"
   }
 ];
