@@ -8,16 +8,16 @@ self.__precacheManifest = [
     "url": "/js/about.4524ff66.js"
   },
   {
-    "revision": "657e2f808cb4f1c836e7",
-    "url": "/js/app.baacdad7.js"
+    "revision": "80ac5554267cfb14a118",
+    "url": "/js/app.3d6eed85.js"
   },
   {
     "revision": "71c947380cbc877a1e9f7c11f478d760",
     "url": "/update-available.js"
   },
   {
-    "revision": "4e9e10dbd641489c8716",
-    "url": "/js/artist.d060c357.js"
+    "revision": "c9eab3aceb1c0cec13a1",
+    "url": "/js/artist.95a61118.js"
   },
   {
     "revision": "dce051640c819910e86f",
@@ -36,16 +36,16 @@ self.__precacheManifest = [
     "url": "/js/userSubOverview.2ed2182d.js"
   },
   {
-    "revision": "3e346850dad26d2c23f2",
-    "url": "/js/chunk-vendors.afd06984.js"
+    "revision": "5177efcd1692c059082f",
+    "url": "/js/chunk-vendors.5fbfbb2c.js"
   },
   {
     "revision": "43a84c8716e5124743ec",
     "url": "/js/userPlaylist.1614a123.js"
   },
   {
-    "revision": "797f197b04ab163dd13d",
-    "url": "/js/genre.0b529a65.js"
+    "revision": "04079b8e1fee6fb92690",
+    "url": "/js/genre.087d0e10.js"
   },
   {
     "revision": "8a6fd439f850c7cdd086",
@@ -88,8 +88,8 @@ self.__precacheManifest = [
     "url": "/js/stage.d9fb59f4.js"
   },
   {
-    "revision": "7863f900184ff2558ede",
-    "url": "/js/searchpage.72501cbc.js"
+    "revision": "605e7e74ef2e34acbf88",
+    "url": "/js/searchpage.bb2827f7.js"
   },
   {
     "revision": "d8890572b00be3ea1210",
@@ -100,35 +100,35 @@ self.__precacheManifest = [
     "url": "/js/settings.ba32ec92.js"
   },
   {
-    "revision": "0cce8c41ed55610a3e3403a9fcf1c7a0",
-    "url": "/img/about/dart.png"
+    "revision": "b617abbd90e4e3786ef1d460ef6b08c4",
+    "url": "/img/about/energy.png"
   },
   {
     "revision": "f9453134ee948304b1a11fe9b65295e8",
     "url": "/img/about/mobile.png"
   },
   {
-    "revision": "20eb006ea0294e851afe5dea83e72b26",
-    "url": "/img/about/share.png"
-  },
-  {
     "revision": "fb4ccf6f74aea76928895144aee245c6",
     "url": "/img/about/star.png"
+  },
+  {
+    "revision": "20eb006ea0294e851afe5dea83e72b26",
+    "url": "/img/about/share.png"
   },
   {
     "revision": "990b6be85eac8746b4f32dce99bb40b9",
     "url": "/img/about/turntable.png"
   },
   {
-    "revision": "6737924ee68ba5067b55860cc5963b41",
-    "url": "/img/about/satellite.png"
-  },
-  {
     "revision": "d1fecc01213fc8d8077921201dba3707",
     "url": "/img/about/pacman.png"
   },
   {
-    "revision": "7c1f6915f94558bf47fabff6209dbb7d",
+    "revision": "6737924ee68ba5067b55860cc5963b41",
+    "url": "/img/about/satellite.png"
+  },
+  {
+    "revision": "aa513428eadb63125d16007250a75bff",
     "url": "/index.html"
   },
   {
@@ -136,36 +136,36 @@ self.__precacheManifest = [
     "url": "/img/logo-blue.17e91fdf.png"
   },
   {
-    "revision": "21a470e3fb2c59e7b680ffeaa49c99bb",
-    "url": "/img/about/dream.css"
+    "revision": "8a6832607cc5c8203dd5",
+    "url": "/css/password.f79ad8da.css"
   },
   {
-    "revision": "3e346850dad26d2c23f2",
+    "revision": "5177efcd1692c059082f",
     "url": "/css/chunk-vendors.183793f2.css"
   },
   {
-    "revision": "797f197b04ab163dd13d",
+    "revision": "04079b8e1fee6fb92690",
     "url": "/css/genre.4394be38.css"
   },
   {
-    "revision": "6e8f93d644595cffa1946ff5b9ef6fab",
-    "url": "/img/about/cloud.png"
+    "revision": "21a470e3fb2c59e7b680ffeaa49c99bb",
+    "url": "/img/about/dream.css"
   },
   {
     "revision": "3607fd7b5e5969692f2f",
     "url": "/css/settings.a6c228ab.css"
   },
   {
-    "revision": "b617abbd90e4e3786ef1d460ef6b08c4",
-    "url": "/img/about/energy.png"
+    "revision": "0cce8c41ed55610a3e3403a9fcf1c7a0",
+    "url": "/img/about/dart.png"
+  },
+  {
+    "revision": "6e8f93d644595cffa1946ff5b9ef6fab",
+    "url": "/img/about/cloud.png"
   },
   {
     "revision": "774b21c1ca2c8a490cff",
     "url": "/css/login.c0aefe62.css"
-  },
-  {
-    "revision": "8a6832607cc5c8203dd5",
-    "url": "/css/password.f79ad8da.css"
   },
   {
     "revision": "96da83beb368a953cc72",
@@ -184,7 +184,7 @@ self.__precacheManifest = [
     "url": "/css/playlistsAll.cb1bf88d.css"
   },
   {
-    "revision": "7863f900184ff2558ede",
+    "revision": "605e7e74ef2e34acbf88",
     "url": "/css/searchpage.cb1bf88d.css"
   },
   {
@@ -196,11 +196,11 @@ self.__precacheManifest = [
     "url": "/css/chunk-76d4c477.4e0df298.css"
   },
   {
-    "revision": "4e9e10dbd641489c8716",
+    "revision": "c9eab3aceb1c0cec13a1",
     "url": "/css/artist.88d9c49e.css"
   },
   {
-    "revision": "657e2f808cb4f1c836e7",
+    "revision": "80ac5554267cfb14a118",
     "url": "/css/app.669c065f.css"
   }
 ];
