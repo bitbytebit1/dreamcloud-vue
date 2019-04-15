@@ -4,7 +4,47 @@
     <v-divider class="primary"/>
 
     <v-list subheader>
-
+      <v-list-tile
+        ripple
+        @click="blackState ? '' : nightMode()"
+      >
+        <v-list-tile-content>
+          Night
+        </v-list-tile-content>
+        <!-- ~~~~~~~~~~~~~~~~~~ -->
+        <v-list-tile-action>
+          <v-switch 
+            :disabled="blackState" 
+            v-model="nightState" 
+            hide-details 
+            height="20" 
+            color="primary" 
+            class="fl-r pa-0 ma-0" 
+            @change="blackState ? '' : nightMode()"
+          />
+        </v-list-tile-action>
+      </v-list-tile>
+      <v-divider/>
+      <v-list-tile
+        ripple
+        @click="blackMode"
+      >
+        <v-list-tile-content>
+          Black
+        </v-list-tile-content>
+        <!-- ~~~~~~~~~~~~~~~~~~ -->
+        <v-list-tile-action>
+          <v-switch 
+            v-model="blackState" 
+            hide-details 
+            height="20" 
+            color="primary" 
+            class="fl-r pa-0 ma-0" 
+            @change="blackMode"
+          />
+        </v-list-tile-action>
+      </v-list-tile>
+      <v-divider/>
       <v-list-tile
         ripple
         @click="$refs.inColor1.click()"
@@ -115,53 +155,6 @@
         </v-list-tile-action>
       </v-list-tile>
       <v-divider/>
-
-          
-      <v-list-tile
-        ripple
-        @click="blackState ? '' : nightMode()"
-      >
-        <v-list-tile-content>
-          Night Mode
-        </v-list-tile-content>
-        <!-- ~~~~~~~~~~~~~~~~~~ -->
-        <v-list-tile-action>
-          <v-switch 
-            :disabled="blackState" 
-            v-model="nightState" 
-            hide-details 
-            height="20" 
-            color="primary" 
-            class="fl-r pa-0 ma-0" 
-            @change="blackState ? '' : nightMode()"
-          />
-        </v-list-tile-action>
-      </v-list-tile>
-      <v-divider/>
-
-          
-      <v-list-tile
-        ripple
-        @click="blackMode"
-      >
-        <v-list-tile-content>
-          Black
-        </v-list-tile-content>
-        <!-- ~~~~~~~~~~~~~~~~~~ -->
-        <v-list-tile-action>
-          <v-switch 
-            v-model="blackState" 
-            hide-details 
-            height="20" 
-            color="primary" 
-            class="fl-r pa-0 ma-0" 
-            @change="blackMode"
-          />
-        </v-list-tile-action>
-      </v-list-tile>
-      <v-divider/>
-
-          
       <v-list-tile
         ripple
         @click="randomTheme"
