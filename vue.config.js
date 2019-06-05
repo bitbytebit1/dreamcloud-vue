@@ -45,7 +45,7 @@ module.exports = {
           }
         },
         {
-          urlPattern: /^https:\/\/dc-mp3-wwlveeistv\.now\.sh|https:\/\/cors\.io\/\?https:\/\/www\.saveoffline\.com\/process|^https:\/\/www\.s\d{1,2}\.saveoffline\.com|^https:\/\/www\.saveitoffline\.com\/get\/\?i|^https:\/\/www\.s\d{1,2}\.saveoffline\.com|^https:\/\/www\.saveoffline\.com\/get\/\?i|^https:\/\/api\.soundcloud\.com\/tracks\/.+\/stream|^https:\/\/sndcdn\.com/,
+          urlPattern: /^https:\/\/dc-mp3-wwlveeistv\.now\.sh|https:\/\/cors\.io\/\?https:\/\/www\.saveoffline\.com\/process|^https:\/\/www\.s\d{1,2}\.saveoffline\.com|^https:\/\/www\.saveoffline\.com\/get\/\?i|^https:\/\/www\.s\d{1,2}\.saveoffline\.com|^https:\/\/www\.saveoffline\.com\/get\/\?i|^https:\/\/api\.soundcloud\.com\/tracks\/.+\/stream|^https:\/\/sndcdn\.com/,
           handler: 'cacheFirst',
           options: {
             cacheName: 'song-cache',

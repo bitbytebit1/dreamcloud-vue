@@ -5,9 +5,9 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 let router = new Router({
-  // scrollBehavior() {
-  //   return { x: 0, y: 0 };
-  // },
+  scrollBehavior() {
+    return { x: 0, y: 0 };
+  },
   routes: [
     {
       path: '/password-reset',
