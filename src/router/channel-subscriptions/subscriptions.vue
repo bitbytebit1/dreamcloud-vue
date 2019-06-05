@@ -54,7 +54,6 @@
                 <v-flex xs2>
                   <v-img
                     :src="props.item.img"
-                    :lazy-src="props.item.img"
                     class="fillPlace"
                   >
                     <v-layout

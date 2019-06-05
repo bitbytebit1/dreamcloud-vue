@@ -44,7 +44,6 @@
               <v-img
                 :aspect-ratio="props.item.source === 'YouTube' ? 16/9 : '1'"
                 :src="props.item.posterLarge"
-                :lazy-src="props.item.posterLarge"
                 class="fillPlace"
               >
                 <v-layout

@@ -11,7 +11,6 @@
       <v-img
         :aspect-ratio="song.source === 'YouTube' ? 16/9 : '1'"
         :src="song.posterLarge"
-        :lazy-src="song.posterLarge"
         class="fillPlace"
       >
         <span 

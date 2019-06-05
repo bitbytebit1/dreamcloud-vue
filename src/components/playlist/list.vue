@@ -146,22 +146,9 @@
               <v-img
                 :aspect-ratio="aspect"
                 class="fillPlace"
-                src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
-              >
-                <v-layout 
-                  slot="placeholder" 
-                  fill-height 
-                  align-center 
-                  justify-center 
-                  ma-0
-                  grey--text
-                >
-                  Loading
-                </v-layout>
-              </v-img>
+              />
             </td> 
             <td 
-              v-if="bMini" 
               class="text-xs-left pa-0 ma-0 body-1"
               style="padding-left:42px !important;"
             >
@@ -238,7 +225,6 @@
                 <v-img
                   :aspect-ratio="aspect"
                   :src="props.item.posterLarge"
-                  :lazy-src="props.item.posterLarge"
                   class="fillPlace"
                 >
                   <v-layout 

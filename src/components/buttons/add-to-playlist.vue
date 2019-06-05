@@ -141,7 +141,7 @@ export default {
       this.emit(v)
     },
     enter () {
-      this.emit(this.select)
+      this.emit(this.select || this.search)
     },
     emit (v) {
       if (!v) {

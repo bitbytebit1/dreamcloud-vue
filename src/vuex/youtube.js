@@ -2,7 +2,7 @@ export default {
   state: {
     dcIsPlaying: false,
     dcIsLoading: false,
-    ytUseVideo: true,
+    ytUseVideo: false,
     ytObject: [],
     ytDuration: 0,
     ytCurrentTime: 0,
@@ -17,21 +17,37 @@ export default {
     }
   },
   mutations: {
-    dcIsLoading (state, payload) { state.dcIsLoading = payload },
-    dcIsPlaying (state, payload) { state.dcIsPlaying = payload },
-    ytUseVideo: (state, payload) => { state.ytUseVideo = payload },
-    ytObject: (state, payload) => { state.ytObject = payload },
-    ytState: (state, payload) => { state.ytState = payload },
-    ytDuration: (state, payload) => { state.ytDuration = payload },
-    ytCurrentTime: (state, payload) => { state.ytCurrentTime = payload },
+    dcIsLoading(state, payload) {
+      state.dcIsLoading = payload
+    },
+    dcIsPlaying(state, payload) {
+      state.dcIsPlaying = payload
+    },
+    ytUseVideo: (state, payload) => {
+      state.ytUseVideo = payload
+    },
+    ytObject: (state, payload) => {
+      state.ytObject = payload
+    },
+    ytState: (state, payload) => {
+      state.ytState = payload
+    },
+    ytDuration: (state, payload) => {
+      state.ytDuration = payload
+    },
+    ytCurrentTime: (state, payload) => {
+      state.ytCurrentTime = payload
+    },
     ytStopVideo: state => {
       if (state.ytState === 1) {
-        if(typeof state.ytObject.stopVideo === 'function') {
+        if (typeof state.ytObject.stopVideo === 'function') {
           state.ytObject.stopVideo()
         }
       }
     },
-    ytToggleVideo: (state) => { state.ytUseVideo = state.ytUseVideo = !state.ytUseVideo }
+    ytToggleVideo: (state) => {
+      state.ytUseVideo = state.ytUseVideo = !state.ytUseVideo
+    }
   },
 
   getters: {

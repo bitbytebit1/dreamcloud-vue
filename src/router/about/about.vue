@@ -72,53 +72,44 @@
           v-for="(item, index) in items" 
           :key="index" 
           xs12 
-          lg4 
+          lg2 
           class="pointer"
         >
-          <v-hover>
-            <v-card 
-              slot-scope="{ hover }" 
-              class="ma-0 elevation-5"
-              @click="item.cb" 
-            >
-              <v-container 
-                fluid 
-                grid-list-xs
-                class="ma-0 pa-0"
-              >
-                <v-layout 
-                  row 
-                  wrap
-                  class="ma-0 pa-0"
-                >
+          <!-- <v-hover> -->
+          <v-card 
+            class="ma-0 elevation-5"
+            height="100%" 
+            width="100%"
+            @click="item.cb"
+          >
 
-                  <v-flex xs12>
-                    <!-- IMAGE -->
-                    <v-img
-                      :src="item.img"
-                      height="180"
-                      contain
-                    />
-                  </v-flex>
-                  <v-flex 
-                    xs12 
-                    class="text-xs-left"
-                  >
-                    <div>
-                      <!-- TEXT -->
-                      <div class="title font-weight-thin text-xs-center">{{ item.headline }}</div>
-                    <!-- <div>{{ item.description }}</div> -->
-                    </div>
-                    <br>
-                  <!-- READ MORE BUTTON -->
-                  <!-- <v-btn 
+            <v-flex xs12>
+              <!-- IMAGE -->
+              <v-img
+                :src="item.img"
+                height="90"
+                contain
+              />
+            </v-flex>
+            <v-flex 
+              xs12 
+              class="text-xs-left"
+            >
+              <div>
+                <!-- TEXT -->
+                <div class="title font-weight-thin">{{ item.headline }}</div>
+                <div class="grey--text body-1">{{ item.description }}</div>
+              </div>
+              <br>
+              <!-- READ MORE BUTTON -->
+              <!-- <v-btn 
                     class="ma-0" 
                     color="primary" 
                     dark 
                     @click="(cardIndex = index, dialog = true)"
                   >Read more</v-btn> -->
-                  </v-flex>
-                  <v-expand-transition>
+            </v-flex>
+            <!-- <v-expand-transition>
                     <div
                       v-if="hover"
                       class="d-flex transition-fast-in-fast-out grey darken-4 v-card--reveal subheading white--text"
@@ -126,12 +117,10 @@
                     >
                       {{ item.description }}
                     </div>
-                  </v-expand-transition>
+                  </v-expand-transition> -->
 
-                </v-layout>
-              </v-container>
-            </v-card>
-          </v-hover>
+          </v-card>
+          <!-- </v-hover> -->
           <v-divider/>
         </v-flex>
       </v-layout>
@@ -195,7 +184,7 @@ export default {
         },
         {
           headline: 'Always available offline',
-          description: 'No internet? No problem! Using the power of PWAs you\'ll always have access to your music.',
+          description: 'No internet? No problem!',
           moreText: `We believe in progress web apps, this website will locally cache itself. We are limited to a small portion of your local disk via the web browser, this space is only borrowed and will be used by your os if necessary.
 
           Songs are cached for 2 weeks

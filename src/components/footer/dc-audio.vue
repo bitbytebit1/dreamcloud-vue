@@ -109,10 +109,13 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: 'DcAudio',
   data () {
     return {
+      bPreLoaded: false,
       bLoading: false,
       progress: 0,
       eAudio: '',
@@ -153,13 +156,26 @@ export default {
       return (this.volIcon = this.eAudio.volume > 0.5 ? 'volume_up' : this.eAudio.volume === 0 || this.eAudio.muted ? 'volume_off' : 'volume_down')
     },
     changePos (pos) {
-      if (!isNaN(pos)) {
+      if (!isNaN(pos) && this.eAudio.currentTime) {
         this.eAudio.currentTime = pos
       }
     },
     updated () {
       this.currentTime = `${this.secondsToDuration(this.eAudio.currentTime)} - ${this.secondsToDuration(this.eAudio.duration)}`
       this.progress = Math.floor(this.eAudio.currentTime)
+      // console.log(Math.floor(100 / this.eAudio.duration * this.eAudio.currentTime))
+      if (!this.bPreLoaded &&  100 / this.eAudio.duration * this.eAudio.currentTime > 3) {
+        this.bPreLoaded = true
+        // alert('preloading')
+        if (this.$store.getters.next_song && this.$store.getters.next_song.source != 'SoundCloud') {
+          if (this.$store.getters.next_song.source == 'YouTube') {
+            axios.get(`http://dreamcloud.mynetgear.com:7000/api/v1/preload/?i=${this.$store.getters.next_song.trackID}`)
+          } else {
+            axios.get(`http://dreamcloud.mynetgear.com:7000/api/v1/preload/?i=${this.$store.getters.next_song.mp32}`)
+          }
+          
+        }
+      }
     },
     playing () {
       this.$store.commit('dcIsLoading', false)
@@ -173,11 +189,14 @@ export default {
       this.play_arrow = 'play_arrow'
     },
     loading () {
+      console.log('loadingg')
       // if (this.$route.name === 'auto') {
       //   this.$router.push({name: 'auto', params: { artist: this.$store.getters.current_song.artist,  trackID: this.$store.getters.current_song.trackID,  source: this.$store.getters.current_song.source }})
       // }
       this.$store.commit('dcIsLoading', true)
       this.bLoading = true
+      this.bPreLoaded = false
+
     },
     next () {
       this.$DCPlayer.next()

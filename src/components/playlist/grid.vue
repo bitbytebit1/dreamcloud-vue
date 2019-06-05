@@ -199,10 +199,8 @@
             slot='item'
             slot-scope='props'
             xs12
-            sm6
             md4
             lg2
-            xl2
             @click.stop="
               // nasty ternary, if playlist push
               props.item.listID 
@@ -229,38 +227,29 @@
               <v-img
                 :aspect-ratio="aspect"
                 :src="props.item.poster"
-                :lazy-src="props.item.poster"
                 class="fillPlace nosel"
-              >
-                <v-layout 
-                  v-if="isPlaying(props.item.trackID)"
-                  class="text-xs-center"
-                  row 
-                  align-center 
+              >        
+                <v-layout
+                  v-if="isPlaying (props.item.trackID)"
+                  fill-height
+                  align-center
                   justify-center
+                  ma-0
                 >
-                  <!-- <v-expand-transition> -->
-                  <div
-                    class="d-flex text-xs-center transition-ease-in-ease-out v-card--reveal"
-                    style="height: 100%;"
+                  <v-btn 
+                    :loading="$store.getters.isLoading && isPlaying (props.item.trackID)" 
+                    fab  
+                    dark
+                    color="primary"
+                    @click.stop="play(props.index)"
                   >
-                    <div>
-                      <v-btn 
-                        :loading="$store.getters.isLoading && isPlaying (props.item.trackID)"
-                        fab 
-                        dark  
-                        color="primary"
-                        @click.stop="play(props.index)"
-                      >
-                        <v-icon 
-                          large
-                        >{{ $store.getters.isPlaying && isPlaying (props.item.trackID)? 'pause' : 'play_arrow' }}</v-icon>
-                      </v-btn>
-                    </div>
-                  </div>
-                  <!-- </v-expand-transition> -->
-
+                    <v-icon 
+                      large
+                    >{{ $store.getters.isPlaying && isPlaying (props.item.trackID)? 'pause' : 'play_arrow' }}</v-icon>
+                  </v-btn>
                 </v-layout>
+
+
               </v-img>
               <!-- TITLE -->
               <v-card-title class="pa-0">
@@ -423,7 +412,7 @@ export default {
       isYT: 'isYT'
     }),
     aspect () {
-      return this.$route.name === 'artist' && this.$route.params.source !== 'YouTube'  ? '' : 16/9
+      return this.$route.name === 'artist' && this.$route.params.source !== 'YouTube'  ? 1 : 16/9
     },
     filterLength () {
       return this.search.length && this.$refs.dItera.filteredItems.length ? this.$refs.dItera.filteredItems.length : this.songs.length

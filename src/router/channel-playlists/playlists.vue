@@ -59,7 +59,6 @@
               <v-img
                 :aspect-ratio="props.item.source === 'YouTube' ? 16/9 : '1'"
                 :src="props.item.img"
-                :lazy-src="props.item.img"
               >
                 <span class="songLeng">{{ props.item.numberOfSongs }}</span>
               </v-img>

@@ -17,8 +17,13 @@
         xl12 
         class="pt-2"
       >
-        <v-avatar size='100px'>
-          <img :src='info.img'>
+        <v-avatar 
+          size='100px'
+        >
+          <img 
+            :src='info.img' 
+            class="fillPlace"
+          >
         </v-avatar>
       </v-flex>
       <!-- SUBSCRIBE BUTTON -->
@@ -108,8 +113,9 @@
         <v-flex 
           id="desc" 
           xs12 
-          class='text-xs-left preline wordbreak ma-0 pa-0 px-2' 
+          class='text-xs-left preline wordbreak ma-0 pa-0 px-2 pointer' 
           style="width: 100%"
+          @click="bHide = !bHide"
         >
           <div 
             v-if="info.description" 
@@ -117,19 +123,13 @@
             :class="descClass" 
             class="subheading fwl text-xs-left preline wordbreak"
           >{{ info.description }}</div>
-        </v-flex>
-        <!-- SHOW MORE -->
-        <v-flex 
-          xs12 
-          class="text-xs-left"
-        >
+          <!-- SHOW MORE -->
           <v-btn 
             v-show="descHeight > 63" 
             flat 
             small 
             block 
-            class="text-xs-left" 
-            @click="bHide = !bHide"
+            class="text-xs-left"
           >{{ bHide ? 'SHOW MORE': 'SHOW LESS' }}</v-btn> 
         </v-flex>
       </v-layout>
@@ -172,6 +172,9 @@ export default {
         track_count: ''
       }
     }
+  },
+  created () {
+    console.log('hai')
   },
   computed: {
     // debugLink () {
@@ -228,9 +231,11 @@ export default {
         }
         this.$nextTick(() => {
           // console.log(this.getDescHeight())
-          this.descHeight = this.getDescHeight()
-          if (this.descHeight > 50) {
-            this.bHide = true
+          if (!this.bHide) {            
+            this.descHeight = this.getDescHeight()
+            if (this.descHeight > 50) {
+              this.bHide = true
+            }
           }
         })
       })

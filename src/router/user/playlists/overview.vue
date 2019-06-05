@@ -46,10 +46,9 @@
         <v-flex
           slot="item"
           slot-scope="props"
-          xs6
-          sm6
+          xs4
           md4
-          lg3
+          lg2
         >
           <!-- {{props.item['.key']}} -->
           <!-- {{props.item.name_lower}} -->
@@ -59,38 +58,12 @@
             :to="{name: 'userPlaylist', params: {user: $DCFB.UID, playlist: props.item['.key'], name: props.item.name}}" 
             class="pointer"
           >
-            <!-- IMAGE -->
-            <!-- <v-img
+            <v-img
               :src="props.item.songs[Object.keys(props.item.songs)[0]].poster"
-              :lazy-src="props.item.songs[Object.keys(props.item.songs)[0]].poster"
               aspect-ratio="1"
               class="fillPlace"
-            >
-              <v-layout
-                slot="placeholder"
-                fill-height
-                align-center
-                justify-center
-                ma-0
-                class="grey--text"
-              >Loading</v-layout>
-              <span class="songLeng">{{ Object.keys(props.item.songs).length }}</span>
-            </v-img> -->
-            <v-avatar
-              :size="((!$store.getters.drawLeft && !$UTILS.isMobile ? 21 : 0) + 95 + (!$store.getters.drawRight && !$UTILS.isMobile ? 21 : 0)) + 'px'"
-              class="mt-2"
-            >
-              <!-- <img
-                :src="props.item.songs[Object.keys(props.item.songs)[0]].poster"
-                alt=""
-              > -->
-              <v-img
-                :src="props.item.songs[Object.keys(props.item.songs)[0]].poster"
-                :lazy-src="props.item.songs[Object.keys(props.item.songs)[0]].poster"
-                aspect-ratio="1"
-                class="fillPlace"
-              />
-            </v-avatar>
+            />
+            <!-- </v-avatar> -->
             <v-card-text class="text-xs-center">{{ props.item.name }}</v-card-text>
             <span class="sl">{{ Object.keys(props.item.songs).length }}</span>
 

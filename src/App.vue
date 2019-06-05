@@ -4,7 +4,7 @@
     :class="blackClass"
   >
     <context-menu ref="con"/>
-    <snackbar/>
+    <!-- <snackbar/> -->
     <v-snackbar
       v-model="snackbar"
       :timeout="0"
@@ -296,7 +296,7 @@ export default {
     }
     // Set theme
     this.$vuetify.theme.primary = '#009688'
-    this.$store.commit('ytUseVideo', !this.bMobi)
+    // this.$store.commit('ytUseVideo', !this.bMobi)
     // On Firebase auth state change
     this.$DCFB.fb.auth().onAuthStateChanged((user) => {
       // console.log(this.$DCFB.fb.auth().currentUser)

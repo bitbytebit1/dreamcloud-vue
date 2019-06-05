@@ -1,4 +1,3 @@
-
 const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
 
 module.exports = {
@@ -7,6 +6,17 @@ module.exports = {
       new VuetifyLoaderPlugin()
     ]
   },
+  // chainWebpack: config => {
+  //   config.module
+  //     .rule("vue")
+  //     .use("vue-loader")
+  //     .loader("vue-loader")
+  //     .tap(options => {
+  //       // modify the options...
+  //       options.compilerOptions.preserveWhitespace = false;
+  //       return options;
+  //     });
+  // },
   lintOnSave: undefined,
   devServer: {
     overlay: {
@@ -18,8 +28,7 @@ module.exports = {
     themeColor: '#000000',
     workboxOptions: {
       importScripts: ['update-available.js'],
-      runtimeCaching: [
-        {
+      runtimeCaching: [{
           urlPattern: /^https:\/\/fonts\.googleapis\.com\/|^https:\/\/fonts\.gstatic\.com\//,
           handler: 'cacheFirst',
           options: {
@@ -74,7 +83,7 @@ module.exports = {
     name: 'dreamcloud'
   },
   // plugins: new VuetifyLoaderPlugin(),
-  baseUrl: undefined,
+  baseUrl: '',
   outputDir: undefined,
   assetsDir: undefined,
   runtimeCompiler: undefined,

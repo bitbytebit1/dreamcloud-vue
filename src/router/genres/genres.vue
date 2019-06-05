@@ -64,7 +64,6 @@
                   >
                     <v-img
                       :src="props.item.i"
-                      :lazy-src="props.item.i"
                       height="200px"
                     >
                       <v-layout

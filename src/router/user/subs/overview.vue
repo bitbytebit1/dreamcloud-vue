@@ -50,12 +50,9 @@
           <v-flex
             slot="item"
             slot-scope="props"
-            grow
-            xs6
-            sm6
-            md4
-            lg3
-            class="artist-card"
+            xs4
+            md3
+            lg2
           >
             <!-- <v-card :to="{name: 'userPlaylist', params: {user: $route.params['user'], playlist: $route.params['playlist'], name: $route.params['name'] }}" class="pointer"> -->
             <v-card 
@@ -72,7 +69,7 @@
                   alt=""
                 >
               </v-avatar>
-              <v-card-text class="text-xs-center">{{ props.item.name }}</v-card-text>
+              <v-card-text class="text-xs-center">{{ props.item.name }}<div class="text-xs-center grey--text">{{ props.item.source }}</div></v-card-text>
             </v-card>
           </v-flex>
         </v-data-iterator>
@@ -113,6 +110,6 @@ export default {
 
 <style>
 .artist-card{
-  min-width: 206px;
+  min-width: 150px;
 }
 </style>
