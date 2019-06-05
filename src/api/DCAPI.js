@@ -1,4 +1,3 @@
-
 /* eslint-disable */
 import axios from 'axios'
 export
@@ -7,11 +6,11 @@ class DCAPIClass {
     // this.bcBase = 'https://dc-nodejs-backend-ftjhiqutmh.now.sh/' old
     this.bcBase = 'https://dc-nodejs-backend-ftjhiqutmh.now.sh/'
     // if(process.env.NODE_ENV == 'production'){
-      // RESTRICTED
-      // this.sYtKey = '***REMOVED***'
+    // RESTRICTED
+    this.sYtKey = '***REMOVED***'
     // } else {
-      // UNRESTRICTED
-    this.sYtKey = 'AIzaSyAEHNLb3uQonIYJKlTRANrQEXqjptYAUhg'
+    // UNRESTRICTED
+    // this.sYtKey = 'AIzaSyAEHNLb3uQonIYJKlTRANrQEXqjptYAUhg'
     // }
     this.sScKey = '***REMOVED***'
     this.sVimeoKey = '***REMOVED***'
@@ -45,7 +44,7 @@ class DCAPIClass {
       bRelated: bRelated,
       iPage: iPage
     }
-    aSource = aSource[0].toLowerCase() === 'all' ? [ 'youtube','mixcloud', 'soundcloud', 'vimeo' ] : aSource
+    aSource = aSource[0].toLowerCase() === 'all' ? ['youtube', 'mixcloud', 'soundcloud', 'vimeo'] : aSource
     for (var idx in aSource) {
       this.aQuery[uid].aAjax.push(this.search(aSource[idx], uid))
     }
@@ -172,12 +171,12 @@ class DCAPIClass {
           // Replace missing images with user avatar
           if (!resp[idx].artwork_url && resp[idx].user.avatar_url) {
             img = resp[idx].user.avatar_url.replace('i1', 'i2').replace('-large', '-t300x300')
-            img2 = resp[idx].user.avatar_url.replace('-large', '-t500x500')  
+            img2 = resp[idx].user.avatar_url.replace('-large', '-t500x500')
           } else if (!resp[idx].user.avatar_url && !resp[idx].user.avatar_url) {
             img = img2 = './img/icons/no-image.png'
-          } else  {
+          } else {
             img = resp[idx].artwork_url.replace('i1', 'i2').replace('-large', '-t300x300')
-            img2 = resp[idx].artwork_url.replace('-large', '-t500x500')  
+            img2 = resp[idx].artwork_url.replace('-large', '-t500x500')
           }
           this.pushResult(
             uid, // uid:
@@ -247,6 +246,7 @@ class DCAPIClass {
               for (var i in resp2.data.items) {
                 // set x.videoId to the duration
                 // console.log(resp2.data.items[i])
+                // console.log(resp2.data.items[i].contentDetails.duration)
                 x[resp2.data.items[i].id] = this.timeHMS(resp2.data.items[i].contentDetails.duration)
               }
               for (var i in resp) {
@@ -263,7 +263,7 @@ class DCAPIClass {
                     poster: resp[i].snippet.thumbnails.medium.url, // poster:
                     posterLarge: resp[i].snippet.thumbnails.high.url, // posterLarge:
                     source: 'YouTube', // source:
-                    title: resp[i].snippet.title, // title:
+                    title: this.unescapeHtml(resp[i].snippet.title), // title:
                     trackID: resp[i].id.playlistId, // trackID:
                     listID: resp[i].id.playlistId,
                     uploaded: this.parseDate(resp[i].snippet.publishedAt) // uploaded:
@@ -280,7 +280,7 @@ class DCAPIClass {
                     poster: resp[i].snippet.thumbnails.medium.url, // poster:
                     posterLarge: resp[i].snippet.thumbnails.high.url, // posterLarge:
                     source: 'YouTube', // source:
-                    title: resp[i].snippet.title, // title:
+                    title: this.unescapeHtml(resp[i].snippet.title), // title:
                     trackID: resp[i].id.videoId, // trackID:
                     uploaded: this.parseDate(resp[i].snippet.publishedAt) // uploaded:
                   })
@@ -288,8 +288,7 @@ class DCAPIClass {
               }
               // console.log('resolving', resp)
               resolve()
-            }).catch((err) => {
-            })
+            }).catch((err) => {})
           }
         } catch (e) {
           this.YTnextPageToken = ''
@@ -342,78 +341,78 @@ class DCAPIClass {
     // 
     return new Promise((resolve, reject) => {
       // NONO CORS.IO BADOPSEC
-      
+
       axios.get(`https://cors.io/?https://api-v2.soundcloud.com/charts?kind=top&genre=soundcloud%3Agenres%3Aall-music&high_tier_only=false&client_id=${this.sScKey}&limit=50&offset=0`).then((resp) => {
-        // console.log(resp)
-        let ret = {
-          nextPage: '',
-          data: resp.data.collection
-            // .filter(item => typeof item.snippet.thumbnails !== 'undefined')
-            .map((item) => {
-              // console.log(item)
-              var img, img2
-              if (!item.track.artwork_url && item.track.user.avatar_url) {
-                img = item.track.user.avatar_url.replace('i1', 'i2').replace('-large', '-t300x300')
-                img2 = item.track.user.avatar_url.replace('-large', '-t500x500')  
-              } else if (!item.track.user.avatar_url && !item.track.user.avatar_url) {
-                img = img2 = './img/icons/no-image.png'
-              } else  {
-                img = item.track.artwork_url.replace('i1', 'i2').replace('-large', '-t300x300')
-                img2 = item.track.artwork_url.replace('-large', '-t500x500')  
-              }
-              return {
-                artist: item.track.user.username, // artist:
-                artistID: item.track.user_id, // artistID:
-                uploaded: this.parseDate(item.track.created_at), // created:
-                description: item.track.description, // description:
-                duration: this.secondstominutes(Math.floor(item.track.duration / 1E3)), // duration:
-                mp3: `https://api.soundcloud.com/tracks/${item.track.id}/stream?client_id=${this.sScKey}`, // mp3:
-                mp32: item.track.permalink_url, // mp32:
-                poster: img, // poster:
-                posterLarge: img2, // posterLarge:
-                source: 'SoundCloud', // source:
-                title: item.track.title, // title:
-                trackID: item.track.id // trackID:
-              }
-            })
-        }
-        resolve(ret)
-      })
-      .catch((error) => {
-        // console.log(error)
-        reject()
-      })
+          // console.log(resp)
+          let ret = {
+            nextPage: '',
+            data: resp.data.collection
+              // .filter(item => typeof item.snippet.thumbnails !== 'undefined')
+              .map((item) => {
+                // console.log(item)
+                var img, img2
+                if (!item.track.artwork_url && item.track.user.avatar_url) {
+                  img = item.track.user.avatar_url.replace('i1', 'i2').replace('-large', '-t300x300')
+                  img2 = item.track.user.avatar_url.replace('-large', '-t500x500')
+                } else if (!item.track.user.avatar_url && !item.track.user.avatar_url) {
+                  img = img2 = './img/icons/no-image.png'
+                } else {
+                  img = item.track.artwork_url.replace('i1', 'i2').replace('-large', '-t300x300')
+                  img2 = item.track.artwork_url.replace('-large', '-t500x500')
+                }
+                return {
+                  artist: item.track.user.username, // artist:
+                  artistID: item.track.user_id, // artistID:
+                  uploaded: this.parseDate(item.track.created_at), // created:
+                  description: item.track.description, // description:
+                  duration: this.secondstominutes(Math.floor(item.track.duration / 1E3)), // duration:
+                  mp3: `https://api.soundcloud.com/tracks/${item.track.id}/stream?client_id=${this.sScKey}`, // mp3:
+                  mp32: item.track.permalink_url, // mp32:
+                  poster: img, // poster:
+                  posterLarge: img2, // posterLarge:
+                  source: 'SoundCloud', // source:
+                  title: item.track.title, // title:
+                  trackID: item.track.id // trackID:
+                }
+              })
+          }
+          resolve(ret)
+        })
+        .catch((error) => {
+          // console.log(error)
+          reject()
+        })
     })
   }
-  
-  getTrendingYT (nextPage = '') {
+
+  getTrendingYT(nextPage = '') {
     return new Promise((resolve, reject) => {
       axios.get(`https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet&pageToken=${nextPage}&videoCategoryId=10&chart=mostPopular&regionCode=SE&maxResults=50&key=${this.sYtKey}`)
-      .then((resp) => {
-        // console.log(resp)
-        let ret = {
-          nextPage: resp.data.nextPageToken,
-          data: resp.data.items.map((item) => {
-            return {
-              duration: this.timeHMS(item.contentDetails.duration),
-              title: item.snippet.title,
-              poster: item.snippet.thumbnails.medium.url,
-              posterLarge: item.snippet.thumbnails.high.url,
-              description: item.snippet.description,
-              trackID: item.id,
-              uploaded: this.parseDate(item.snippet.publishedAt),
-              artist: item.snippet.channelTitle,
-              artistID: item.snippet.channelId,
-              source: 'YouTube'
-            }
-          })
-        }
-        resolve(ret)
-      })
-      .catch((error) => {
-        // console.log(error)
-        reject()
-      })
+        .then((resp) => {
+          // console.log(resp)
+          let ret = {
+            nextPage: resp.data.nextPageToken,
+            data: resp.data.items.map((item) => {
+              return {
+                duration: this.timeHMS(item.contentDetails.duration),
+                title: this.unescapeHtml(item.snippet.title),
+                poster: item.snippet.thumbnails.medium.url,
+                posterLarge: item.snippet.thumbnails.high.url,
+                description: item.snippet.description,
+                trackID: item.id,
+                uploaded: this.parseDate(item.snippet.publishedAt),
+                artist: item.snippet.channelTitle,
+                artistID: item.snippet.channelId,
+                source: 'YouTube'
+              }
+            })
+          }
+          resolve(ret)
+        })
+        .catch((error) => {
+          // console.log(error)
+          reject()
+        })
     })
 
   }
@@ -460,7 +459,7 @@ class DCAPIClass {
           nextPage: resp.data.nextPageToken,
           data: resp.data.items.map((item) => {
             return {
-              title: item.snippet.title,
+              title: this.unescapeHtml(item.snippet.title),
               numberOfSongs: item.contentDetails.itemCount,
               img: item.snippet.hasOwnProperty('high') ? item.snippet.thumbnails.high.url : item.snippet.thumbnails.medium.url,
               description: item.snippet.description,
@@ -583,7 +582,7 @@ class DCAPIClass {
                   poster: item.snippet.thumbnails.medium.url, // poster:
                   posterLarge: item.snippet.thumbnails.high.url, // posterLarge:
                   source: 'YouTube', // source:
-                  title: item.snippet.title, // title:
+                  title: this.unescapeHtml(item.snippet.title), // title:
                   trackID: item.contentDetails.videoId // trackID:
                 }
               })
@@ -739,7 +738,7 @@ class DCAPIClass {
           resp.snippet.thumbnails.high.url, // poster:
           resp.snippet.thumbnails.high.url, // posterLarge:
           'YouTube', // source:
-          resp.snippet.title, // title:
+          this.unescapeHtml(resp.snippet.title), // title:
           resp.id // trackID:
         )
         this.aQuery[uid].hCallback(this.aQuery[uid].aResult)
@@ -796,7 +795,7 @@ class DCAPIClass {
       hCallback(resp)
     })
   }
-  
+
   pushResult(uid, artist, artistID, uploaded, description, duration, mp3, mp32, poster, posterLarge, source, title, trackID) {
     this.aQuery[uid].aResult.push({
       artist: artist,
@@ -889,7 +888,19 @@ class DCAPIClass {
       .filter((v, i) => v !== "00" || i > 0)
       .join(":")
   }
-
+  unescapeHtml(str) {
+    var map = {
+      amp: '&',
+      lt: '<',
+      le: '≤',
+      gt: '>',
+      ge: '≥',
+      quot: '"',
+      nbsp: ' ',
+      '#39': "'"
+    }
+    return str.replace(/&([^;]+);/g, (m, c) => map[c] || '')
+  }
   timeHMS(s) {
     var T = 'date';
     var d = 8.64e7;
