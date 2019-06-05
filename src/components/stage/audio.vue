@@ -21,7 +21,6 @@
       </div>
     </v-flex>
     <v-flex 
-      v-if="!show" 
       dFlex 
       xs12
     >
@@ -254,8 +253,8 @@ export default {
   methods: {
     trackChanged () {
       if (this.$route.name === 'auto') {
-        // this.$router.push({name: 'stage'})
         this.$router.replace({name: 'auto', params: { artist: this.$store.getters.current_song.artist,  trackID: this.$store.getters.current_song.trackID,  source: this.$store.getters.current_song.source }})
+        // return
       }
       this.getDesc()
       this.getPlays()
