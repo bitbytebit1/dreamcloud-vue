@@ -2,7 +2,6 @@
   <v-flex 
     xs12 
     lg12 
-    class="bg-rp"
   >
     <v-flex 
       xs12 
@@ -74,9 +73,7 @@
                         justify-center
                         ma-0
                         class="fillPlace"
-                      >
-                        Loading
-                      </v-layout>
+                      />
                     </v-img>
                     <v-card-title>
                       <h3 class="subheading fwl mb-0 text-xs-center">{{ props.item.a }}</h3>
@@ -428,7 +425,4 @@ export default {
 </script>
 
 <style>
-.bg-rp{
-  background-repeat: repeat;
-}
 </style>

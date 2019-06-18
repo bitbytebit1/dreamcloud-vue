@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     in (){
-      if (this.trackID !== this.$store.getters.current_song.trackID) {
+      if (this.trackID !== this.$store.getters.current_trackID && this.trackID !== 'z') {
         this.$DCAPI.getSongInfo(this.trackID, this.source, (d) => {
           // Fix for mobile on first play 
           // if (this.$store.getters.index === -1 && this.$UTILS.isMobile) this.$DCPlayer.eAudio.play()

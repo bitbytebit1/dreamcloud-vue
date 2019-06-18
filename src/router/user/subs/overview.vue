@@ -16,7 +16,6 @@
         wrap
         class="ma-0 pa-0"
       >
-
         <v-flex 
           xs12 
           class="mb-3"
@@ -30,8 +29,6 @@
             single-line
             hide-details
             class="px-1"
-            @focus="filterHasFocus = true"
-            @blur="filterHasFocus = false"
             @keyup.enter="$UTILS.closeSoftMobi()"
           />
         </v-flex>
@@ -40,11 +37,12 @@
           :items="subscriptions"
           :search="search"
           :rows-per-page-items="rowsPerPageItems"
-          :custom-filter="(items, search, filter) => { search = search.toString().toLowerCase() ; return items.filter(row => filter(row['name_lower'], search)) }"
+          :custom-filter="(items, search, filter) => { search = search.toString().toLowerCase() ; return items.filter(row => filter([row['source'], row['name_lower']], search)) }"
           content-tag="v-layout"
           row
           wrap
-          pagination.sync="pagination"
+          justify-space-around
+          align-space-around 
           hide-actions
         >
           <v-flex
@@ -53,6 +51,7 @@
             xs4
             md3
             lg2
+            style="width:100%;"
           >
             <!-- <v-card :to="{name: 'userPlaylist', params: {user: $route.params['user'], playlist: $route.params['playlist'], name: $route.params['name'] }}" class="pointer"> -->
             <v-card 
@@ -69,7 +68,9 @@
                   alt=""
                 >
               </v-avatar>
-              <v-card-text class="text-xs-center">{{ props.item.name }}<div class="text-xs-center grey--text">{{ props.item.source }}</div></v-card-text>
+              <v-card-text class="text-xs-center">{{ props.item.name }}
+                <div class="grey--text">{{ props.item.source }}</div>
+              </v-card-text>
             </v-card>
           </v-flex>
         </v-data-iterator>
@@ -91,13 +92,9 @@ export default {
   },
   data () {
     return {
-      filterHasFocus: false,
       search: '',
       active: true,
       rowsPerPageItems: [{ text: 'All', value: -1 }],
-      pagination: {
-        rowsPerPage: 'All'
-      }
     }
   },
   firebase () {

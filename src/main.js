@@ -48,11 +48,11 @@
   import VueJsonp from 'vue-jsonp'
   Vue.use(VueJsonp)
   
-  import VueAnalytics from 'vue-analytics'
-  Vue.use(VueAnalytics, {
-    id: 'UA-113982522-1',
-    router
-  })
+  // import VueAnalytics from 'vue-analytics'
+  // Vue.use(VueAnalytics, {
+  //   id: 'UA-113982522-1',
+  //   router
+  // })
   
   import audioStage from '@/components/stage/audio'
   Vue.component('audio-stage', audioStage)
@@ -74,6 +74,20 @@
   window.addEventListener('popstate', () => {
     window.popStateDetected = true
   })
+
+
+  import VueLazyload from 'vue-lazyload'
+  
+Vue.use(VueLazyload)
+
+// or with options
+Vue.use(VueLazyload, {
+  preLoad: 1.6,
+  error: 'dist/img/no-image.png',
+  // loading: 'dist/loading.gif',
+  attempt: 1
+})
+
 
   new Vue({
     router,

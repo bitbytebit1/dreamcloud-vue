@@ -97,8 +97,7 @@
         :active-class="isPlaying(uid, props.item['.key'], props.item['name']) || 'secondary white--text'"
         :to="{path: '/u/' + uid + '/' + props.item['.key'] + '/' + encodeURIComponent(props.item['name'])}"
         :key="props.item['.key']" 
-        
-        @click.stop="closeLeftOnMobile"
+        @click="closeLeftOnMobile"
       >
         <!-- ICON -->
         <v-list-tile-action>

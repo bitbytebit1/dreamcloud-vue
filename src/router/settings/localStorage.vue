@@ -5,7 +5,7 @@
     <v-list subheader>
       <v-list-tile
         ripple
-        @click="()=>{}"
+        @click="get_storage_estimate"
       >
         <v-list-tile-content>
           Usage

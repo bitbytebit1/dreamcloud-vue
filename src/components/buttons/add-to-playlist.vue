@@ -155,7 +155,7 @@ export default {
             // state.snacku[0].user, state.snacku[0].playlist).set(state.snacku[0].songs)
             this.$store.dispatch('snack', { b: true, c:'primary', s:'Added to playlist', u: [{songs: d.val(), user: this.$route.params.user, playlist: v['.key']}]})
           } else {
-            this.$store.dispatch('snack', { b: true, c:'primary', s:'Created new playlist'})
+            this.$store.dispatch('snack', { b: true, c:'primary', s:`Created new playlist`})
             this.$DCFB.createNewPlaylist(this.search, this.song)
           }
           // this.$store.dispatch('snack', { b: true, c:'primary', s:'Added to playlist' })

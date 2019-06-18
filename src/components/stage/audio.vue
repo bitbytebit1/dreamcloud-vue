@@ -11,6 +11,7 @@
       class="nosel"
       xs12 
       @click="$DCPlayer.togglePlay()"
+      @contextmenu="$emit('conmen', [$event, [song]])"
     >
       <div class="pstr-wrapper">
         <div 
@@ -34,7 +35,7 @@
           xs12 
           class="mt-2"
         >
-          <div class="title fwl text-xs-left">{{ $store.getters.current_song.title }}</div >
+          <div class="title fwl text-xs-left"><span>{{ $store.getters.current_song.title }}</span></div >
         </v-flex> 
         <!-- BUTTONS AND UPLOADED DATE/VIEWS AND DIVIDER -->
         <v-flex 
@@ -100,29 +101,35 @@
           </div>
           
         </v-flex> 
-        <!-- ARTIST PICTURE -->
-        <artist-mini 
-          :artistID="song.artistID" 
-          :source="song.source" 
-          :artist="song.artist" 
-          :key="song.artistID"
-        />
         <!-- ARTIST NAME + SONG DESCRIPTION -->
         <v-flex 
           xs12 
-          lg10 
+          lg8
           class="text-xs-left song-meta mt-3"
         >
-          <!-- <div class="text-xs-left song-meta mt-3 wordbreak"> -->
-          {{ song.artist }}
-          <!-- </div> -->
-          <!-- DESCRIPTION -->
-          <v-flex>
-            <span 
-              class="subheading fwl wordbreak preline" 
-              v-html="timeToSeconds(_description)"
+          <v-layout 
+            row 
+            wrap
+          >
+            <!-- ARTIST PICTURE -->
+            <artist-mini 
+              :artistID="song.artistID" 
+              :source="song.source" 
+              :artist="song.artist" 
+              :key="song.artistID"
+              class="mr-3"
             />
-          </v-flex>
+            <v-flex xs10>
+              <!-- ARTIST -->
+              <div class="subheading">{{ song.artist }}</div>
+              <!-- DESCRIPTION XSS VULN -->
+              <div 
+                class="subheading fwl wordbreak preline" 
+                v-html="timeToSeconds(description)"
+              />
+            </v-flex>
+          </v-layout>
+          <!-- Tabs -->
           <v-tabs
             ref="tabs"
             v-model="tab"
@@ -138,7 +145,9 @@
             <v-tab>
               Lyrics
             </v-tab>
-            <v-tab>
+            <v-tab 
+              v-if="$vuetify.breakpoint.mdAndDown"
+            >
               Related
             </v-tab>
           </v-tabs>
@@ -162,13 +171,12 @@
             <v-tab-item>
               <!-- LYRICS -->
               <lyrics 
-                :getEm="getLyrics" 
                 :title="song.title" 
                 :artist="song.artist"
               />
             </v-tab-item>
             <!-- v-if="$vuetify.breakpoint.mdAndDown" -->
-            <v-tab-item>
+            <v-tab-item v-if="$vuetify.breakpoint.mdAndDown">
               <!-- RELATED -->
               <related 
                 @conmen="$emit('conmen', $event)"
@@ -178,19 +186,21 @@
         </v-flex>
         
         <!-- RELATED -->
-        <!-- <related 
+        <relatedd 
           v-if="$vuetify.breakpoint.lgAndUp" 
           @conmen="$emit('conmen', $event)"
-        /> -->
+        />
       </v-layout>
     </v-flex>
   </v-layout>
 </template>
+
 <script>
 
 import newTab from '@/components/buttons/open-new-tab'
 
 
+import relatedd from '@/components/stage/meta/related'
 import related from '@/router/related/related'
 import artistMini from '@/components/stage/meta/artist-mini'
 import youtubeVBtn from '@/components/stage/meta/toggle-video-button'
@@ -217,6 +227,7 @@ export default {
     'current': current,
     'songComments': songComments,
     'artist-mini': artistMini,
+    'relatedd': relatedd,
     'related': related,
     'lyrics': lyrics,
     'youtube-button': youtubeVBtn,
@@ -240,9 +251,6 @@ export default {
       ytUseVideo: 'ytUseVideo',
       auth_state: 'auth_state'
     }),
-    getLyrics () {
-      return this.tab === 1
-    },
     _description: {
       get () {
         return this.description ? this.description : this.song.description
@@ -332,7 +340,7 @@ export default {
 
 @media only screen and (min-width: 600px){
   .song-meta {  
-    padding: 0px 20px;
+    padding: 0px 0px 0px 20px;
   }
 }
 

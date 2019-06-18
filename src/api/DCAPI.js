@@ -1,5 +1,17 @@
 /* eslint-disable */
 import axios from 'axios'
+var entities = {
+  'amp': '&',
+  'apos': '\'',
+  '#x27': '\'',
+  '#x2F': '/',
+  '#39': '\'',
+  '#47': '/',
+  'lt': '<',
+  'gt': '>',
+  'nbsp': ' ',
+  'quot': '"'
+}
 export
 class DCAPIClass {
   constructor() {
@@ -9,8 +21,8 @@ class DCAPIClass {
     // RESTRICTED
     this.sYtKey = '***REMOVED***'
     // } else {
-    // UNRESTRICTED
-    // this.sYtKey = 'AIzaSyAEHNLb3uQonIYJKlTRANrQEXqjptYAUhg'
+      // UNRESTRICTED
+    this.sYtKey = '***REMOVED***'
     // }
     this.sScKey = '***REMOVED***'
     this.sVimeoKey = '***REMOVED***'
@@ -21,7 +33,7 @@ class DCAPIClass {
     this.aQuery = []
   }
 
-  searchInt(sQuery, iPage, aSource, sArtist, hCallback, bRelated, iLimit = 50) {
+  searchInt(sQuery, iPage, aSource, sArtist, hCallback, bRelated, iLimit = 50, bArtist = false) {
     // if (bRelated && aSource[0].toLowerCase() === 'bandcamp') {
     //   return
     // }
@@ -42,6 +54,7 @@ class DCAPIClass {
       sQuery: sQuery,
       sArtist: sArtist,
       bRelated: bRelated,
+      bArtist: bArtist,
       iPage: iPage
     }
     aSource = aSource[0].toLowerCase() === 'all' ? ['youtube', 'mixcloud', 'soundcloud', 'vimeo'] : aSource
@@ -111,28 +124,50 @@ class DCAPIClass {
     var a
     if (this.aQuery[uid].sArtist !== '') {
       a = 'https://api.mixcloud.com/' + this.aQuery[uid].sArtist + '/cloudcasts/?limit=' + this.aQuery[uid].iLimit + '&offset=' + this.aQuery[uid].iLimit * (this.aQuery[uid].iPage > 0 ? this.aQuery[uid].iPage : 0)
+    } else if (this.aQuery[uid].bArtist) {
+      a = 'https://api.mixcloud.com/search/?type=user&limit=' + this.aQuery[uid].iLimit + '&q=' + this.aQuery[uid].sQuery + '&offset=' + this.aQuery[uid].iLimit * this.aQuery[uid].iPage
     } else {
       a = 'https://api.mixcloud.com/search/?type=cloudcast&limit=' + this.aQuery[uid].iLimit + '&q=' + this.aQuery[uid].sQuery + '&offset=' + this.aQuery[uid].iLimit * this.aQuery[uid].iPage
     }
     return axios.get(a).then((resp) => {
       resp = resp.data.data
       for (var idx in resp) {
-        this.pushResult(
-          uid, // uid:
-          resp[idx].user.name, // artist:
-          resp[idx].user.username, // artistID:
-          this.parseDate(resp[idx].created_time), // created:
-          '', // description:
-          this.secondstominutes(resp[idx].audio_length), // duration:
-          'https://dream.tribe.nu/r3/off/?q=' + resp[idx].url, // mp3:
-          resp[idx].url, // mp32:
-          resp[idx].pictures.large, // poster:
-          resp[idx].pictures.extra_large, // posterLarge:
-          'MixCloud', // source:
-          resp[idx].name, // title:
-          encodeURIComponent(resp[idx].key) // trackID:
-        )
+        if(this.aQuery[uid].bArtist) {
+          this.pushResult(
+            uid, // uid:
+            resp[idx].name, // artist:
+            resp[idx].username, // artistID:
+            null, // created:
+            '', // description:
+            'MixCloud channel', // duration:
+            '', // mp3:
+            '', // mp32:
+            resp[idx].pictures.large, // poster:
+            resp[idx].pictures.extra_large, // posterLarge:
+            'MixCloud', // source:
+            resp[idx].name, // title:
+            '' // trackID:
+          )  
+        } else {
+          this.pushResult(
+            uid, // uid:
+            resp[idx].user.name, // artist:
+            resp[idx].user.username, // artistID:
+            this.parseDate(resp[idx].created_time), // created:
+            '', // description:
+            this.secondstominutes(resp[idx].audio_length), // duration:
+            'https://dream.tribe.nu/r3/off/?q=' + resp[idx].url, // mp3:
+            resp[idx].url, // mp32:
+            resp[idx].pictures.large, // poster:
+            resp[idx].pictures.extra_large, // posterLarge:
+            'MixCloud', // source:
+            resp[idx].name, // title:
+            encodeURIComponent(resp[idx].key) // trackID:
+          )
+        }
       }
+    }).catch((er) => {
+      console.log(er)
     })
   }
 
@@ -142,6 +177,9 @@ class DCAPIClass {
     if (this.aQuery[uid].bRelated) {
       // a = 'https://api.soundcloud.com/tracks/' + this.aQuery[uid].sArtist + '/related?linked_partitioning=1&limit=' + this.aQuery[uid].iLimit + 'client_id=' + this.sScKey
       a = 'https://api.soundcloud.com/tracks/' + this.aQuery[uid].sArtist + '/related?linked_partitioning=1&limit=' + this.aQuery[uid].iLimit + '&client_id=' + this.sScKey
+    } else if (this.aQuery[uid].bArtist) {
+      a = 'https://api.soundcloud.com/users.json?q=' + this.aQuery[uid].sQuery +'&linked_partitioning=1&limit=' + this.aQuery[uid].iLimit + '&client_id=' + this.sScKey
+      // https://api.soundcloud.com/users.json?linked_partitioning=1&limit=50&q=joyner%20lucas&client_id=***REMOVED***
     } else if (this.aQuery[uid].sArtist) {
       a = 'https://api.soundcloud.com/users/' + this.aQuery[uid].sArtist + '/tracks.json?linked_partitioning=1&limit=' + this.aQuery[uid].iLimit + '&client_id=' + this.sScKey
     } else {
@@ -168,31 +206,49 @@ class DCAPIClass {
 
         resp = resp.data.collection
         for (var idx in resp) {
-          // Replace missing images with user avatar
-          if (!resp[idx].artwork_url && resp[idx].user.avatar_url) {
-            img = resp[idx].user.avatar_url.replace('i1', 'i2').replace('-large', '-t300x300')
-            img2 = resp[idx].user.avatar_url.replace('-large', '-t500x500')
-          } else if (!resp[idx].user.avatar_url && !resp[idx].user.avatar_url) {
-            img = img2 = './img/icons/no-image.png'
+
+          if (this.aQuery[uid].bArtist) {
+            this.pushResult(
+              uid, // uid:
+              resp[idx].username, // artist:
+              resp[idx].id, // artistID:
+              this.parseDate(resp[idx].last_modified), // created:
+              resp[idx].description, // description:
+              'SoundCloud channel', // duration:
+              resp[idx].stream_url + '?client_id=' + this.sScKey, // mp3:
+              resp[idx].permalink_url, // mp32:
+              resp[idx].avatar_url.replace('i1', 'i2').replace('-large', '-t300x300'), // poster:
+              resp[idx].avatar_url.replace('-large', '-t500x500'), // posterLarge:
+              'SoundCloud', // source:
+              resp[idx].username // title:
+            )
           } else {
-            img = resp[idx].artwork_url.replace('i1', 'i2').replace('-large', '-t300x300')
-            img2 = resp[idx].artwork_url.replace('-large', '-t500x500')
+            // Replace missing images with user avatar
+            if (!resp[idx].artwork_url && resp[idx].user.avatar_url) {
+              img = resp[idx].user.avatar_url.replace('i1', 'i2').replace('-large', '-t300x300')
+              img2 = resp[idx].user.avatar_url.replace('-large', '-t500x500')  
+            } else if (!resp[idx].user.avatar_url && !resp[idx].user.avatar_url) {
+              img = img2 = './img/icons/no-image.png'
+            } else  {
+              img = resp[idx].artwork_url.replace('i1', 'i2').replace('-large', '-t300x300')
+              img2 = resp[idx].artwork_url.replace('-large', '-t500x500')  
+            }
+            this.pushResult(
+              uid, // uid:
+              resp[idx].user.username, // artist:
+              resp[idx].user_id, // artistID:
+              this.parseDate(resp[idx].created_at), // created:
+              resp[idx].description, // description:
+              this.secondstominutes(Math.floor(resp[idx].duration / 1E3)), // duration:
+              resp[idx].stream_url + '?client_id=' + this.sScKey, // mp3:
+              resp[idx].permalink_url, // mp32:
+              img, // poster:
+              img2, // posterLarge:
+              'SoundCloud', // source:
+              resp[idx].title, // title:
+              resp[idx].id // trackID:
+            )
           }
-          this.pushResult(
-            uid, // uid:
-            resp[idx].user.username, // artist:
-            resp[idx].user_id, // artistID:
-            this.parseDate(resp[idx].created_at), // created:
-            resp[idx].description, // description:
-            this.secondstominutes(Math.floor(resp[idx].duration / 1E3)), // duration:
-            resp[idx].stream_url + '?client_id=' + this.sScKey, // mp3:
-            resp[idx].permalink_url, // mp32:
-            img, // poster:
-            img2, // posterLarge:
-            'SoundCloud', // source:
-            resp[idx].title, // title:
-            resp[idx].id // trackID:
-          )
         }
         if (this.aQuery[uid].aResult.length < this.aQuery[uid].iLimit && this.SCnextPageToken) {
           // console.log('sc error', this.aQuery[uid].aResult.length, 'was looking for', this.aQuery[uid].iLimit)
@@ -207,7 +263,8 @@ class DCAPIClass {
           // console.log('sc success', this.aQuery[uid].aResult.length, 'was looking for', this.aQuery[uid].iLimit)
           resolve()
         }
-      }).catch(() => {
+      }).catch((er) => {
+        console.log(er)
         // reject(err)
         resolve()
       })
@@ -220,11 +277,17 @@ class DCAPIClass {
       return
     }
     var a
+    // related
     if (this.aQuery[uid].bRelated) {
       a = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=${this.aQuery[uid].iLimit}&relatedToVideoId=${this.aQuery[uid].sArtist}&type=video&key=${this.sYtKey}`
-    } else if (this.aQuery[uid].sArtist === '') {
+    // artist
+    } else if (this.aQuery[uid].bArtist) {
+      a = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=${this.aQuery[uid].iLimit}&type=channel&q=${this.aQuery[uid].sQuery}&key=${this.sYtKey}${this.YTnextPageTokenString}`
+    // videos and playlists with query
+    } else if (!this.aQuery[uid].sArtist.length) {
       a = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=${this.aQuery[uid].iLimit}&type=video,playlist&q=${this.aQuery[uid].sQuery}&key=${this.sYtKey}${this.YTnextPageTokenString}`
-    } else {
+    // channel
+    } else if (this.aQuery[uid].sArtist.length) {
       a = `https://www.googleapis.com/youtube/v3/search?part=snippet&order=date&maxResults=${this.aQuery[uid].iLimit}&type=video&channelId=${this.aQuery[uid].sArtist}&key=${this.sYtKey}${this.YTnextPageTokenString}`
     }
     return new Promise((resolve, reject) => {
@@ -234,65 +297,89 @@ class DCAPIClass {
         try {
           this.nextPageToken = resp.data.nextPageToken
           resp = resp.data.items
-          // build array x with all videoIds
-          var x = []
-          for (var idx in resp) {
-            x.push(resp[idx].id.videoId)
-          }
-          // get the duration for all the hits
-          if (x.length) {
-            axios.get(`https://www.googleapis.com/youtube/v3/videos?id=${x.join(',')}&part=contentDetails&key=${this.sYtKey}`).then((resp2) => {
-              var x = []
-              for (var i in resp2.data.items) {
-                // set x.videoId to the duration
-                // console.log(resp2.data.items[i])
-                // console.log(resp2.data.items[i].contentDetails.duration)
-                x[resp2.data.items[i].id] = this.timeHMS(resp2.data.items[i].contentDetails.duration)
-              }
-              for (var i in resp) {
-                // console.log(resp[i])
-                if (this.aQuery[uid].sArtist === '' && resp[i].id.kind === 'youtube#playlist') {
-                  // console.log(resp[i])
-                  this.aQuery[uid].aResult.push({
-                    // uid: uid,                                                                                         // uid:
-                    artist: resp[i].snippet.channelTitle, // artist:
-                    artistID: resp[i].snippet.channelId, // artistID:
-                    description: resp[i].snippet.description, // description:
-                    duration: 'Playlist', // duration:
-                    mp32: `https://www.youtube.com/watch?v=${resp[i].id.videoId}`, // mp32:
-                    poster: resp[i].snippet.thumbnails.medium.url, // poster:
-                    posterLarge: resp[i].snippet.thumbnails.high.url, // posterLarge:
-                    source: 'YouTube', // source:
-                    title: this.unescapeHtml(resp[i].snippet.title), // title:
-                    trackID: resp[i].id.playlistId, // trackID:
-                    listID: resp[i].id.playlistId,
-                    uploaded: this.parseDate(resp[i].snippet.publishedAt) // uploaded:
-                  })
-                } else {
-                  // console.log(resp[i])
-                  this.aQuery[uid].aResult.push({
-                    // uid: uid,                                                                                         // uid:
-                    artist: resp[i].snippet.channelTitle, // artist:
-                    artistID: resp[i].snippet.channelId, // artistID:
-                    description: resp[i].snippet.description, // description:
-                    duration: x[resp[i].id.videoId], // duration:
-                    mp32: `https://www.youtube.com/watch?v=${resp[i].id.videoId}`, // mp32:
-                    poster: resp[i].snippet.thumbnails.medium.url, // poster:
-                    posterLarge: resp[i].snippet.thumbnails.high.url, // posterLarge:
-                    source: 'YouTube', // source:
-                    title: this.unescapeHtml(resp[i].snippet.title), // title:
-                    trackID: resp[i].id.videoId, // trackID:
-                    uploaded: this.parseDate(resp[i].snippet.publishedAt) // uploaded:
-                  })
+          // IF ARTIST REQUEST
+          if (this.aQuery[uid].bArtist) {
+            for (var i in resp) {
+              this.aQuery[uid].aResult.push({
+                // uid: uid,                                                                                         // uid:
+                artist: resp[i].snippet.channelTitle, // artist:
+                artistID: resp[i].snippet.channelId, // artistID:
+                description: resp[i].snippet.description, // description:
+                duration: 'YouTube channel', // duration:
+                mp32: `https://www.youtube.com/watch?v=${resp[i].id.videoId}`, // mp32:
+                poster: resp[i].snippet.thumbnails.medium.url, // poster:
+                posterLarge: resp[i].snippet.thumbnails.high.url, // posterLarge:
+                source: 'YouTube', // source:
+                title: this.decodeHTMLEntities(resp[i].snippet.title), // title:
+                // trackID: resp[i].id.playlistId, // trackID:
+                // listID: resp[i].id.playlistId,
+                uploaded: this.parseDate(resp[i].snippet.publishedAt) // uploaded:
+              })
+            }
+            resolve()
+            // ELSE PLAYLIST AND SONGS
+          } else {
+            // build array x with all videoIds
+            var x = []
+            for (var idx in resp) {
+              x.push(resp[idx].id.videoId)
+            }
+            // get the duration for all the hits
+            if (x.length) {
+              axios.get(`https://www.googleapis.com/youtube/v3/videos?id=${x.join(',')}&part=contentDetails&key=${this.sYtKey}`).then((resp2) => {
+                var x = []
+                for (var i in resp2.data.items) {
+                  // set x.videoId to the duration
+                  // console.log(resp2.data.items[i])
+                  x[resp2.data.items[i].id] = this.timeHMS(resp2.data.items[i].contentDetails.duration)
                 }
-              }
-              // console.log('resolving', resp)
-              resolve()
-            }).catch((err) => {})
+                for (var i in resp) {
+                  // console.log(resp[i])
+                  if (this.aQuery[uid].sArtist === '' && resp[i].id.kind === 'youtube#playlist') {
+                    // console.log(resp[i])
+                    this.aQuery[uid].aResult.push({
+                      // uid: uid,                                                                                         // uid:
+                      artist: resp[i].snippet.channelTitle, // artist:
+                      artistID: resp[i].snippet.channelId, // artistID:
+                      description: resp[i].snippet.description, // description:
+                      duration: 'Playlist', // duration:
+                      mp32: `https://www.youtube.com/watch?v=${resp[i].id.videoId}`, // mp32:
+                      poster: resp[i].snippet.thumbnails.medium.url, // poster:
+                      posterLarge: resp[i].snippet.thumbnails.high.url, // posterLarge:
+                      source: 'YouTube', // source:
+                      title: this.decodeHTMLEntities(resp[i].snippet.title), // title:
+                      trackID: resp[i].id.playlistId, // trackID:
+                      listID: resp[i].id.playlistId,
+                      uploaded: this.parseDate(resp[i].snippet.publishedAt) // uploaded:
+                    })
+                  } else {
+                    // console.log(resp[i])
+                    this.aQuery[uid].aResult.push({
+                      // uid: uid,                                                                                         // uid:
+                      artist: resp[i].snippet.channelTitle, // artist:
+                      artistID: resp[i].snippet.channelId, // artistID:
+                      description: resp[i].snippet.description, // description:
+                      duration: x[resp[i].id.videoId], // duration:
+                      mp32: `https://www.youtube.com/watch?v=${resp[i].id.videoId}`, // mp32:
+                      poster: resp[i].snippet.thumbnails.medium.url, // poster:
+                      posterLarge: resp[i].snippet.thumbnails.high.url, // posterLarge:
+                      source: 'YouTube', // source:
+                      title: this.decodeHTMLEntities(resp[i].snippet.title), // title:
+                      trackID: resp[i].id.videoId, // trackID:
+                      uploaded: this.parseDate(resp[i].snippet.publishedAt) // uploaded:
+                    })
+                  }
+                }
+                // console.log('resolving', resp)
+                resolve()
+              }).catch((err) => {
+                console.log(err)
+              })
+            }
           }
         } catch (e) {
           this.YTnextPageToken = ''
-          // console.log('yt error', e)
+          console.log('yt error', e)
           return
         }
       })
@@ -332,7 +419,12 @@ class DCAPIClass {
       }
     }).catch(false)
   }
-
+  
+  decodeHTMLEntities (text) {
+    return text.replace(/&([^;]+);/gm, function (match, entity) {
+      return entities[entity] || match
+    })
+  }
   genUID() {
     return Math.random()
   }
@@ -388,31 +480,31 @@ class DCAPIClass {
   getTrendingYT(nextPage = '') {
     return new Promise((resolve, reject) => {
       axios.get(`https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet&pageToken=${nextPage}&videoCategoryId=10&chart=mostPopular&regionCode=SE&maxResults=50&key=${this.sYtKey}`)
-        .then((resp) => {
-          // console.log(resp)
-          let ret = {
-            nextPage: resp.data.nextPageToken,
-            data: resp.data.items.map((item) => {
-              return {
-                duration: this.timeHMS(item.contentDetails.duration),
-                title: this.unescapeHtml(item.snippet.title),
-                poster: item.snippet.thumbnails.medium.url,
-                posterLarge: item.snippet.thumbnails.high.url,
-                description: item.snippet.description,
-                trackID: item.id,
-                uploaded: this.parseDate(item.snippet.publishedAt),
-                artist: item.snippet.channelTitle,
-                artistID: item.snippet.channelId,
-                source: 'YouTube'
-              }
-            })
-          }
-          resolve(ret)
-        })
-        .catch((error) => {
-          // console.log(error)
-          reject()
-        })
+      .then((resp) => {
+        // console.log(resp)
+        let ret = {
+          nextPage: resp.data.nextPageToken,
+          data: resp.data.items.map((item) => {
+            return {
+              duration: this.timeHMS(item.contentDetails.duration),
+              title: this.decodeHTMLEntities(item.snippet.title),
+              poster: item.snippet.thumbnails.medium.url,
+              posterLarge: item.snippet.thumbnails.high.url,
+              description: item.snippet.description,
+              trackID: item.id,
+              uploaded: this.parseDate(item.snippet.publishedAt),
+              artist: item.snippet.channelTitle,
+              artistID: item.snippet.channelId,
+              source: 'YouTube'
+            }
+          })
+        }
+        resolve(ret)
+      })
+      .catch((error) => {
+        // console.log(error)
+        reject()
+      })
     })
 
   }
@@ -459,7 +551,7 @@ class DCAPIClass {
           nextPage: resp.data.nextPageToken,
           data: resp.data.items.map((item) => {
             return {
-              title: this.unescapeHtml(item.snippet.title),
+              title: this.decodeHTMLEntities(item.snippet.title),
               numberOfSongs: item.contentDetails.itemCount,
               img: item.snippet.hasOwnProperty('high') ? item.snippet.thumbnails.high.url : item.snippet.thumbnails.medium.url,
               description: item.snippet.description,
@@ -506,7 +598,7 @@ class DCAPIClass {
               img: item.snippet.thumbnails.high.url,
               description: item.snippet.description,
               uploaded: this.parseDate(item.snippet.publishedAt),
-              artist: item.snippet.title,
+              artist: this.decodeHTMLEntities(item.snippet.title),
               artistID: item.snippet.resourceId.channelId,
               source: source
             }
@@ -582,7 +674,7 @@ class DCAPIClass {
                   poster: item.snippet.thumbnails.medium.url, // poster:
                   posterLarge: item.snippet.thumbnails.high.url, // posterLarge:
                   source: 'YouTube', // source:
-                  title: this.unescapeHtml(item.snippet.title), // title:
+                  title: this.decodeHTMLEntities(item.snippet.title), // title:
                   trackID: item.contentDetails.videoId // trackID:
                 }
               })

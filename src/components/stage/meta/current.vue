@@ -15,18 +15,7 @@ export default {
   components: {
     'delete-button': deleteButton
   },
-  data () {
-    return {
-      x1: 'deleteme?'
-    }
-  },
-  methods: {
-    x2 () {
-
-    }
-  },
   computed: mapState([
-    // map this.count to store.state.count
     'current_Playlist'
   ])
 }

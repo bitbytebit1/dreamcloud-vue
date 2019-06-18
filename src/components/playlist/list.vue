@@ -81,7 +81,7 @@
           <v-flex 
             v-if="bSelect" 
             xs8 
-            lg5 
+            lg12 
             class="text-xs-left"
           >
             <!-- SELECT ALL -->
@@ -146,7 +146,17 @@
               <v-img
                 :aspect-ratio="aspect"
                 class="fillPlace"
-              />
+                src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+              >
+                <v-layout 
+                  slot="placeholder" 
+                  fill-height 
+                  align-center 
+                  justify-center 
+                  ma-0
+                  grey--text
+                />
+              </v-img>
             </td> 
             <td 
               class="text-xs-left pa-0 ma-0 body-1"
@@ -167,6 +177,8 @@
             <td 
               class="fillPlace1"
             />
+            
+            <td />
             <!-- ACTIONS -->
             <td 
               v-if="bMini" 
@@ -190,173 +202,179 @@
           slot="items" 
           slot-scope="props"
         >
-          <v-hover 
+          <!-- <v-hover 
             :value="isPlaying(props.item.trackID)"
             :disabled="isPlaying(props.item.trackID)"
+          >  -->
+          <tr 
+            :key="props.index" 
+            :id="bSelect ? 'nosel' : ''" 
+            :class="$vuetify.breakpoint.name === 'xs' && isPlaying(props.item.trackID) ? 'primary white--text text-xs-left pa-0 ma-0' : 'text-xs-left pa-0 ma-0'"
+            class="mb-3 pointer wordbreak'"
+            @click.stop="
+              !props.item.trackID 
+                ? $router.push({name: 'artist', params: {source: props.item.source, artist: props.item.title, artistID: props.item.artistID }}) 
+                : !props.item.listID 
+                  ? !bSelect 
+                    ? play(props.index, !showVideo, isPlaying(props.item.trackID))
+                    : checkItem(props.item)
+            // nasty ternary, if playlist push
+            : $router.push({name: 'channelPlaylist', params: {listID: props.item.listID, artistID: props.item.artistID, title: props.item.title, source: props.item.source}})"
+            @contextmenu="!props.item.trackID ? false : $emit('conmen', [$event, bSelect ? selected : [props.item]])"
           >
-            <tr 
-              slot-scope="{ hover }" 
-              :key="props.index" 
-              :id="bSelect ? 'nosel' : ''" 
-              :class="$vuetify.breakpoint.name === 'xs' && isPlaying(props.item.trackID) ? 'primary white--text text-xs-left pa-0 ma-0' : 'text-xs-left pa-0 ma-0'"
-              class="mb-3 pointer wordbreak'"
-
-              @click.stop="props.item.listID ? 
-                $router.push({name: 'channelPlaylist', params: {listID: props.item.listID, artistID: props.item.artistID, title: props.item.title, source: props.item.source}}) 
-                : !bSelect ? 
-                  play(props.index, !showVideo, isPlaying(props.item.trackID))
-              : props.selected = !props.selected"
-              @contextmenu="$emit('conmen', [$event, bSelect ? selected : [props.item]])"
+            <!-- CHECK_BOX -->
+            <td v-if="bSelect">
+              <v-checkbox 
+                :color="isPlaying(props.item.trackID) ? 'white' : 'primary'" 
+                v-model="props.selected" 
+                hide-details
+              />
+            </td>
+            <!-- ~~~~~~~~~~~~ NOT MINI ~~~~~~~~~~~~ -->
+            <!-- IMAGE -->
+            <td 
+              v-if="!bMini" 
+              class="pa-2"
             >
-              <!-- CHECK_BOX -->
-              <td v-if="bSelect">
-                <v-checkbox 
-                  :color="isPlaying(props.item.trackID) ? 'white' : 'primary'" 
-                  v-model="props.selected" 
-                  hide-details
-                />
-              </td>
-              <!-- ~~~~~~~~~~~~ NOT MINI ~~~~~~~~~~~~ -->
-              <!-- IMAGE -->
-              <td 
-                v-if="!bMini" 
-                class="pa-2"
+              <v-img
+                v-if="props.item.trackID"
+                :aspect-ratio="aspect"
+                :src="props.item.posterLarge"
+                class="fillPlace" 
+                align-end 
+                justify-end 
+                fill-height
               >
-                <v-img
-                  :aspect-ratio="aspect"
-                  :src="props.item.posterLarge"
-                  class="fillPlace"
+                <div
+                  v-if="isPlaying(props.item.trackID)"
+                  class="d-flex text-xs-center v-card--reveal"
+                  style="height: 100%;"
                 >
-                  <v-layout 
-                    align-end 
-                    justify-end 
-                    fill-height
-                  >
-                    <v-expand-transition>
-                      <div
-                        v-if="hover || isPlaying(props.item.trackID)"
-                        class="d-flex text-xs-center transition-fast-in-fast-out v-card--reveal"
-                        style="height: 100%;"
-                      >
-                        <div>
-                          <v-btn 
-                            :loading="$store.getters.isLoading && isPlaying (props.item.trackID)"
-                            icon
-                            color="primary"
-                            @click.stop="play(props.index)"
-                          >
-                            <v-icon>{{ $store.getters.isPlaying && isPlaying (props.item.trackID) ? 'pause' : 'play_arrow' }}</v-icon>
-                          </v-btn>
-                        </div>
-                      </div>
-                    </v-expand-transition>
-                  </v-layout>
-                </v-img>
-              </td>
+                  <div>
+                    <v-btn 
+                      :loading="$store.getters.isLoading && isPlaying (props.item.trackID)"
+                      fab 
+                      dark  
+                      color="primary"
+                      @click.stop="play(props.index)"
+                    >
+                      <v-icon 
+                        large
+                      >{{ $store.getters.isPlaying && isPlaying (props.item.trackID)? 'pause' : 'play_arrow' }}</v-icon>
+                    </v-btn>
+                  </div>
+                </div>
+              </v-img>
+                
             
-              <!-- TITLE + ARTIST + UPLOADED + DURATION + DESCRIPTION-->
-              <td 
-                v-if="!bMini"
-                :colspan="!$route.params.artistID ? '2' : '1'" 
-                class="text-xs-left"
-              >
-                <!-- TITLE -->
-                <div :class="$vuetify.breakpoint.name === 'xs' ? 'body-1 ' : 'body-1'">{{ props.item.title }}</div>
-                <div class="ma-0 pa-0">
-                  <!-- ARTIST -->
-                  <a 
-                    v-if="!$route.params.artistID && !bSelect" 
-                    :class="artistClass(props.item.trackID)" 
-                    :href="shareArtistURL(props.item)" 
-                    @click.stop
-                  >{{ props.item.artist }} • </a>
-                  <span 
-                    v-else-if="bSelect" 
-                    :class="artistClass"
-                  >{{ props.item.artist }} • </span>
-                  <!-- UPLOADED + DURATION -->
-                  <span>{{ date(props.item.uploaded) }} • {{ props.item.duration }}</span>
-                  <!-- DESCRIPTION -->
-                  <div 
+            </td>
+            
+            <!-- TITLE + ARTIST + UPLOADED + DURATION + DESCRIPTION-->
+            <td 
+              v-if="!bMini"
+              :colspan="!$route.params.artistID ? '2' : '1'" 
+              class="text-xs-left pl-1"
+            >
+              <!-- TITLE -->
+              <div 
+                :class="$vuetify.breakpoint.name === 'xs' ? 'body-1 ' : 'body-1'" 
+                v-text="props.item.title"
+              />
+              <div class="ma-0 pa-0 grey--text">
+                <!-- ARTIST -->
+                <a 
+                  v-if="!$route.params.artistID && !bSelect" 
+                  :href="shareArtistURL(props.item)" 
+                  class="artist noDeco" 
+                  @click.stop
+                >{{ props.item.artist }} • </a>
+                <span 
+                  v-else-if="bSelect" 
+                  class="artist"
+                >{{ props.item.artist }} • </span>
+                <!-- UPLOADED + DURATION -->
+                <span>{{ date(props.item.uploaded) }} • {{ props.item.duration }}</span>
+                <!-- DESCRIPTION -->
+                <!-- <div 
                     v-if="!$vuetify.breakpoint.xs" 
                     class="preline wordbreak mh-2 mt-12"
-                  >{{ props.item.description }}</div>
-                </div>
-              </td>
+                  >{{ props.item.description }}</div> -->
+              </div>
+            </td>
 
-              <td 
-                v-if="bMini && $vuetify.breakpoint.smAndUp" 
-                class="text-xs-left"
-              >
-                <!-- PLAY BUTTON -->
-                <v-btn 
-                  :loading="$store.getters.isLoading && isPlaying (props.item.trackID)"
-                  :class="isPlaying (props.item.trackID) ? '' : 'mouseme'"
-                  class="ma-0 pa-0"
-                  icon
-                  small
-                  @click.stop="play(props.index)"
-                >
-                  <v-icon>{{ $store.getters.isPlaying && isPlaying (props.item.trackID)? 'pause' : 'play_arrow' }}</v-icon>
-                </v-btn>
-              </td>
-              <!-- ~~~~~~~~~~~~  MINI ~~~~~~~~~~~~ -->
-              <!-- TITLE + PLAY BUTTON -->
-              <td 
-                v-if="bMini" 
-                class="text-xs-left pa-0 ma-0 wordbreak"
-              >
-                {{ props.item.title }}
-              </td>
-
-              <!-- ARTIST -->
-              <td 
-                v-if="bMini && !$route.params.artistID"
+            <td v-if="!bMini" />
+            <td 
+              v-if="bMini && $vuetify.breakpoint.smAndUp" 
+              class="text-xs-left"
+            >
+              <!-- PLAY BUTTON -->
+              <v-btn 
+                :loading="$store.getters.isLoading && isPlaying (props.item.trackID)"
+                :class="isPlaying (props.item.trackID) ? '' : 'mouseme'"
                 class="ma-0 pa-0"
+                icon
+                small
+                @click.stop="play(props.index)"
               >
-                <a 
-                  v-if="!$route.params.artistID" 
-                  :class="artistClass(props.item.trackID)" 
-                  :href="shareArtistURL(props.item)" 
-                  @click.stop
-                >{{ props.item.artist }}</a>
-                <span 
-                  v-else-if="!bSelect" 
-                  :class="artistClass"
-                >{{ props.item.artist }}</span>
-              </td>
-              <!-- DURATION -->
-              <td 
-                v-if="bMini"
-              >
-                {{ props.item.duration }}
-              </td>
-              <!-- UPLOADED -->
-              <td 
-                v-if="!$vuetify.breakpoint.xs && bMini"
-              >
-                {{ date(props.item.uploaded) }}
-              </td>
+                <v-icon>{{ $store.getters.isPlaying && isPlaying (props.item.trackID)? 'pause' : 'play_arrow' }}</v-icon>
+              </v-btn>
+            </td>
+            <!-- ~~~~~~~~~~~~  MINI ~~~~~~~~~~~~ -->
+            <!-- TITLE + PLAY BUTTON -->
+            <td 
+              v-if="bMini" 
+              class="text-xs-left pa-0 ma-0 pl-1 wordbreak"
+              v-text="props.item.title"
+            />
 
-              <!-- </td> -->
-
-
-              <!-- ACTIONS -->
-              <td 
-                v-if="!bSelect" 
+            <!-- ARTIST -->
+            <td 
+              v-if="bMini && !$route.params.artistID"
+              class="ma-0 pa-0"
+            >
+              <a 
+                v-if="!$route.params.artistID" 
+                :href="shareArtistURL(props.item)" 
+                class="noDeco" 
                 @click.stop
-              >
-                <v-btn 
-                  icon 
-                  small 
-                  @click="$emit('conmen', [$event, bSelect ? selected : [props.item]])"
-                >
-                  <v-icon>more_vert</v-icon>
-                </v-btn>
-              </td>
+              >{{ props.item.artist }}</a>
+              <span 
+                v-else-if="!bSelect" 
+                :class="artistClass"
+              >{{ props.item.artist }}</span>
+            </td>
+            <!-- DURATION -->
+            <td 
+              v-if="bMini"
+            >
+              {{ props.item.duration }}
+            </td>
+            <!-- UPLOADED -->
+            <td 
+              v-if="!$vuetify.breakpoint.xs && bMini"
+            >
+              {{ date(props.item.uploaded) }}
+            </td>
 
-            </tr>
-          </v-hover>
+            <!-- </td> -->
+
+
+            <!-- ACTIONS -->
+            <td 
+              v-if="!bSelect && props.item.trackID" 
+              @click.stop
+            >
+              <v-btn 
+                icon 
+                small 
+                @click.stop="$emit('conmen', [$event, bSelect ? selected : [props.item]])"
+              >
+                <v-icon>more_vert</v-icon>
+              </v-btn>
+            </td>
+
+          </tr>
+          <!-- </v-hover> -->
         </template>
       </v-data-table>
     </v-card>
@@ -456,16 +474,18 @@ export default {
           { text: '', value: '', align: 'left', sortable: false }
         ]
       }
-      if (!this.$route.params.artistID && r.length < 5) {
+      if (!this.$route.params.artistID && r.length < 6) {
         r.splice(1, 0, { text: 'Artist', value: 'artist', align: 'center' })
-      }
-      if (this.bMini && this.$vuetify.breakpoint.smAndUp) {
+        if (this.bMini && this.$vuetify.breakpoint.smAndUp && r.length < 8) {
+          r.splice(0, 0, {align: 'center', class: 'ma-0 pa-0', width: '25px', sortable: false})
+        }
+      } else if (this.bMini && this.$vuetify.breakpoint.smAndUp) {
         r.splice(0, 0, {align: 'center', class: 'ma-0 pa-0', width: '25px', sortable: false})
       }
       return r
     },
     aspect () {
-      return this.$route.name === 'artist' && this.$route.params.source !== 'YouTube'  ? '' : 16 / 9
+      return this.$route.name === 'artist' && this.$route.params.source !== 'YouTube'  ? 1 : 16 / 9
     },
     sorted () {
       //  returns the full sorted array for use with click
@@ -507,13 +527,16 @@ export default {
       // restore old value after ^call
       this.$store.commit('showVideo', a)
     },
-    artistClass () {
-      return {
-        'text-xs-left': true,
-        'artist-dark': this.$store.getters.theme.dark,
-        'artist-light': this.$store.getters.theme.light,
-        'grd-txt':  true,
-        'noDeco': true
+    checkItem (el) {
+      var bFound = false
+      for (let i = this.selected.length - 1; i >= 0; i--) {
+        if (this.selected[i] === el) {
+          this.selected.splice(i, 1)
+          bFound = true
+        }
+      }
+      if (!bFound) {
+        this.selected.push(el)
       }
     },
     addSong (song) {
@@ -551,21 +574,33 @@ export default {
       return this.$DCAPI.calcDate(this.today, date)
     },
     play (index, pauseIfSame = true, showStage = false) {
-      let b = this.sorted[index].trackID === this.$store.getters.current_song.trackID
-      if (pauseIfSame && b) {
-        return this.$DCPlayer.togglePlay()
-      }
+      let b = this.sorted[index].trackID == this.$store.getters.current_song.trackID
       // Fix for mobile on first play
       if (this.$store.getters.index === -1 && this.$UTILS.isMobile) this.$DCPlayer.eAudio.play()
       // If not first page fix index
       let newi = this.pagination.page === 1 ? index : (this.pagination.rowsPerPage * (this.pagination.page - 1)) + index
-      this.$store.commit('setNPlay', {songs: this.sorted, current: index, path: this.$route.path})
-      this.$DCPlayer.setNPlay(this.sorted, newi)
-      this.$DCFB.historyPush(this.sorted[newi])
+      // if (this.$store.getters.index === index && this.hash === this.$route.path) {
+      if (showStage) {
+        // return this.$router.push({name: 'stage'})
+        return this.$router.push({name: 'auto', params: { artist: this.sorted[newi].artist,  trackID: this.sorted[newi].trackID,  source: this.sorted[newi].source }})
+      }
+      if (pauseIfSame && b) {
+        return this.$DCPlayer.togglePlay()
+      }
+
+      // console.log('playing')
       // show stage
+
+      let a = Object.assign([], this.sorted)
+      
+      this.$store.commit('setNPlay', {songs: a, current: index, path: this.$route.path})
+      this.$DCPlayer.setNPlay(a, newi)
+      this.$DCFB.historyPush(a[newi])
       if (showStage || this.showVideo) {
+        // console.log('showing stage')
         // this.$router.push({name: 'stage'})
-        this.$router.push({name: 'auto', params: { artist: this.sorted[newi].artist,  trackID: this.sorted[newi].trackID,  source: this.sorted[newi].source }})
+        this.$router.push({name: 'auto', params: { artist: a[newi].artist,  trackID: a[newi].trackID,  source: a[newi].source }})
+        // this.$store.commit('toggleStage')
       }
     }
   }

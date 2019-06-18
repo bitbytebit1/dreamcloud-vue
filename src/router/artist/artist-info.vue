@@ -6,9 +6,9 @@
     wrap 
     class="ma-0 pa-0 pb-2"
   >
-    <!-- LEFT COLUMN -->
+    <!-- LEFT COLUMN XS3 LG1-->
     <v-flex 
-      xs12 
+      xs3 
       lg1 
       style="min-width:180px"
     >
@@ -17,13 +17,11 @@
         xl12 
         class="pt-2"
       >
-        <v-avatar 
-          size='100px'
-        >
-          <img 
+        <v-avatar size='100px'>
+          <v-img 
             :src='info.img' 
             class="fillPlace"
-          >
+          />
         </v-avatar>
       </v-flex>
       <!-- SUBSCRIBE BUTTON -->
@@ -45,25 +43,25 @@
       </v-flex>
     </v-flex>
 
-    <!-- RIGHT COLUMN -->
+    <!-- RIGHT COLUMN XS5 LG10-->
     <v-flex 
       id="artist-right" 
-      xs12 
+      xs5 
       lg10
     >
       <!-- ARTIST NAME -->
-      <router-link 
+      <!-- <router-link 
         :to="{name: 'artist', params: {source: source, artist: artist, artistID: artistID}}" 
         class="noDeco pointer"
+      > -->
+      <v-flex 
+        :class="$vuetify.breakpoint.name === 'xs' ? 'headline fwl text-xs-left pl-3' : 'headline fwl text-xs-left pt-2'" 
+        xs12 
+        lg10
       >
-        <v-flex 
-          :class="$vuetify.breakpoint.name === 'xs'? 'headline fwl' : 'headline fwl text-xs-left pl-2 pt-2'" 
-          xs12 
-          lg10
-        >
-          {{ artist }}
-        </v-flex>
-      </router-link>
+        {{ artist }}
+      </v-flex>
+      <!-- </router-link> -->
       <v-layout 
         row 
         wrap 
@@ -109,30 +107,64 @@
             </div>
           </v-layout>
         </v-flex>
-        <!-- DESCRIPTION -->
-        <v-flex 
+        <!-- DESCRIPTION XS12 -->
+        <span
+          v-if="!$vuetify.breakpoint.xsOnly"
           id="desc" 
           xs12 
-          class='text-xs-left preline wordbreak ma-0 pa-0 px-2 pointer' 
+          class='text-xs-left preline wordbreak ma-0 pa-0 pointer' 
           style="width: 100%"
-          @click="bHide = !bHide"
+          @click.stop="bHide = !bHide"
         >
           <div 
             v-if="info.description" 
-            id="descCont" 
             :class="descClass" 
             class="subheading fwl text-xs-left preline wordbreak"
           >{{ info.description }}</div>
           <!-- SHOW MORE -->
-          <v-btn 
-            v-show="descHeight > 63" 
-            flat 
-            small 
-            block 
-            class="text-xs-left"
-          >{{ bHide ? 'SHOW MORE': 'SHOW LESS' }}</v-btn> 
-        </v-flex>
+          <v-flex 
+            xs12 
+            class="text-xs-left pointer"
+          >
+            <v-btn 
+              v-show="descHeight > 63" 
+              flat 
+              small 
+              block 
+              class="text-xs-left" 
+            >{{ bHide ? 'SHOW MORE': 'SHOW LESS' }}</v-btn> 
+          </v-flex>
+        </SPAN>
       </v-layout>
+    
+    </v-flex>
+    <v-flex
+      v-if="$vuetify.breakpoint.xsOnly"
+      id="desc" 
+      xs12 
+      class='text-xs-left preline wordbreak ma-0 pa-0 pointer' 
+      style="width: 100%"
+      @click="bHide = !bHide"
+    >
+      <div 
+        v-if="info.description" 
+        :class="descClass" 
+        class="subheading fwl text-xs-left preline wordbreak px-2"
+      >{{ info.description }}</div>
+      <!-- SHOW MORE -->
+      <v-flex 
+        xs12 
+        class="text-xs-left pointer"
+      >
+        <v-btn 
+          v-show="descHeight > 63" 
+          flat 
+          small 
+          block 
+          class="text-xs-left" 
+          @click="bHide = !bHide"
+        >{{ bHide ? 'SHOW MORE': 'SHOW LESS' }}</v-btn> 
+      </v-flex>
     </v-flex>
   </v-layout>
   <!-- </v-container> -->

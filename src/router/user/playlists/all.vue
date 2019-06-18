@@ -1,6 +1,5 @@
 <template>
   <v-flex 
-    :key="$route.params.playlist" 
     xs12 
     lg10 
     flexbox

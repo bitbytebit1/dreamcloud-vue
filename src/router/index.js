@@ -5,9 +5,21 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 let router = new Router({
-  scrollBehavior() {
-    return { x: 0, y: 0 };
+  scrollBehavior: (to, from, savedPosition) => {
+      return { x: 0, y: 0 };
   },
+  // scrollBehavior: (to, from, savedPosition) => {
+  //   //   return { x: 0, y: 0 };
+  //   let scrollTo = 0
+
+  //   if (to.hash) {
+  //     scrollTo = to.hash
+  //   } else if (savedPosition) {
+  //     scrollTo = savedPosition.y
+  //   }
+
+  //   return goTo(scrollTo)
+  // },
   routes: [
     {
       path: '/password-reset',
@@ -17,7 +29,7 @@ let router = new Router({
     {
       path: '/r/:source/:artist/:title/:trackID',
       name: 'related',
-      component: () => import(/* webpackChunkName: "login"*/ '@/router/related/related')
+      component: () => import(/* webpackChunkName: "related"*/ '@/router/related/related')
     },
     {
       path: '/login',
@@ -51,8 +63,14 @@ let router = new Router({
     },
     {
       path: '/s/:source/:query',
-      name: 'searchPage',
-      component: () => import(/* webpackChunkName: "searchpage"*/ '@/router/search/searchpage'),
+      name: 'searchQuery',
+      component: () => import(/* webpackChunkName: "searchQuery"*/ '@/router/search/searchQuery'),
+      props: true
+    },
+    {
+      path: '/sa/:source/:query',
+      name: 'searchArtist',
+      component: () => import(/* webpackChunkName: "searchpage"*/ '@/router/search/artist'),
       props: true
     },
     {
@@ -64,13 +82,12 @@ let router = new Router({
     {
       path: '/current',
       name: 'stage',
-      component: () => import(/* webpackChunkName: "stage"*/ '@/router/stage/stage-route'),
-      props: true
+      component: () => import(/* webpackChunkName: "stage"*/ '@/router/stage/stage-route')
     },
     {
       path: '/t/:source/:artist/:trackID',
       name: 'auto',
-      component: () => import(/* webpackChunkName: "stage"*/ '@/router/song/auto'),
+      component: () => import(/* webpackChunkName: "auto"*/ '@/router/song/auto'),
       props: true
     },
     {

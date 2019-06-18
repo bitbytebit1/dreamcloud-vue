@@ -25,6 +25,7 @@
       />
       <related
         :song="a[0]"
+        @clicked.native="b = false"
       />
       <v-divider/>
       <new-tab
@@ -112,7 +113,9 @@ export default {
         // this.$nextTick(() => {
         this.b = true
         this.a = a
-        document.addEventListener("scroll", this.scroll)
+        if (this.$store.getters.closeMenuOnScroll) {
+          document.addEventListener("scroll", this.scroll)
+        }
         // })
       })
     },

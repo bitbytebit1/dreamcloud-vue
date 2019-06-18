@@ -4,7 +4,64 @@
     lg4 
     class="mt-3"
   >
-    <!-- Loading -->
+    <!-- UP NEXT COMPONENT -->
+    <div v-if="!$store.getters.drawRight">
+      <div class="text-xs-left subheading">
+        Up next
+      </div>
+      <v-flex 
+        xs12
+        @click="($DCPlayer.next(), $DCFB.historyPush($store.getters.current_song))"
+        @contextmenu="$emit('conmen', [$event, upNext])"
+      >
+        <v-card 
+          class="mb-2 pointer" 
+          color=""
+        >
+          <v-layout row>
+            <v-flex xs5>
+              <!-- image -->
+              <v-img
+                :aspect-ratio="upNext.source === 'YouTube' ? 16/9 : 1"
+                :src="upNext.poster"
+                class="fillPlace"
+              >
+                <v-layout
+                  slot="placeholder"
+                  fill-height
+                  align-center
+                  justify-center
+                  ma-0
+                >
+                  <!-- <v-progress-circular 
+                    indeterminate 
+                    color="grey lighten-5"
+                  /> -->
+                </v-layout>
+              </v-img>
+            </v-flex>
+            <v-flex 
+              xs7 
+              class="ma-2 text-xs-left"
+            >
+              <!-- title -->
+              <div class="subheading wordbreak">{{ upNext.title }}</div>
+              <!-- artist -->
+              <div 
+                class="subheading grey--text artist" 
+                @click.stop="$router.push({name: 'artist', params: {source: upNext.source, artist: upNext.artist, artistID: upNext.artistID}})"
+              >{{ upNext.artist }}</div>
+              <!-- duration -->
+              <div class="grey--text">{{ upNext.duration }}</div>
+            </v-flex>
+          </v-layout>
+        </v-card>
+      </v-flex>
+      <v-divider/>
+    </div>
+    <div class="text-xs-left subheading mt-2">
+      Related
+    </div>
     <v-flex 
       v-if="loading"
       xs2
@@ -25,7 +82,6 @@
     >
       <!-- blank no data -->
       <v-flex slot="no-data"/>
-
       <!-- related song -->
       <v-flex 
         slot='item'
@@ -42,8 +98,8 @@
             <v-flex xs5>
               <!-- image -->
               <v-img
-                :aspect-ratio="props.item.source === 'YouTube' ? 16/9 : '1'"
-                :src="props.item.posterLarge"
+                :aspect-ratio="props.item.source === 'YouTube' ? 16/9 : 1"
+                :src="props.item.poster"
                 class="fillPlace"
               >
                 <v-layout
@@ -68,7 +124,7 @@
               <div class="subheading wordbreak">{{ props.item.title }}</div>
               <!-- artist -->
               <div 
-                class="subheading grey--text" 
+                class="subheading artist" 
                 @click.stop="$router.push({name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}})"
               >{{ props.item.artist }}</div>
               <!-- duration -->
@@ -109,6 +165,7 @@ export default {
     ...mapGetters({
       isYT: 'isYT',
       song: 'current_song',
+      upNext: 'next_song',
       trackID: 'current_trackID',
       index: 'index'
     })
@@ -154,9 +211,9 @@ export default {
   bottom: 5px;
   right:15px;
 }
-.artist{
+/* .artist{
   color: grey;
   float: left;
-}
+} */
 
 </style>

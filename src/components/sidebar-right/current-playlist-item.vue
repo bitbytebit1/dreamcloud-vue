@@ -9,8 +9,8 @@
     >
       <!-- image -->
       <v-img
-        :aspect-ratio="song.source === 'YouTube' ? 16/9 : '1'"
-        :src="song.posterLarge"
+        :aspect-ratio="song.source === 'YouTube' ? 16/9 : 1"
+        :src="song.poster"
         class="fillPlace"
       >
         <span 

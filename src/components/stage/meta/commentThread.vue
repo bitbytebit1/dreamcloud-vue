@@ -10,7 +10,7 @@
         class="pointer body-1 comMor" 
         @click="show = !show"
       >
-        {{ show ? `Hide ${totalReplyCount} replies` : `Show ${totalReplyCount} replies` }} 
+        {{ (show ? 'Hide' : 'Show') + ` ${totalReplyCount} replies` }} 
         <v-icon size="18">{{ show ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
         <orbit 
           v-if="bLoading" 
@@ -131,7 +131,7 @@ export default {
       if (!value) {
         return ''
       }
-      if (this.$store.getters.ytUseVideo) {
+      if (this.$store.getters.ytUseVideo && this.$store.getters.isYT) {
         return (value.replace(/(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)([0-5]?\d)/g,
         `<span class="underline pointer" onClick="window.dcYT.seekTo('$&'.split(':').reduce((acc,time) => (60 * acc) + +time));">$&</span>`))
       } else {

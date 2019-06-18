@@ -35,6 +35,7 @@
           >
             <v-icon>skip_next</v-icon>
           </v-btn>
+          <scroll-to-top v-if="!$vuetify.breakpoint.xs"/>
         </div>
       </div>
       
@@ -115,7 +116,8 @@
 
 <script>
 /* eslint-disable */
-
+import scrollToTop from '@/components/footer/scroll-to-top.vue'
+      
 export default {
   name: 'dc-youtube',
   data () {
@@ -123,6 +125,9 @@ export default {
       progress: 0,
       volume: 100
     }
+  },
+  components: {
+    'scroll-to-top': scrollToTop,
   },
   computed: {
     volIcn () {

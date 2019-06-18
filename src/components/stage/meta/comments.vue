@@ -68,18 +68,17 @@
             :source="source"
           />
         </v-card>
-        <v-divider v-if="props.index !== aComments.length -1"/>
+        <v-divider v-if="props.index != aComments.length - 1"/>
       </v-flex>
       <v-flex 
-        v-if="aComments.length && $DCAPI.YTCommentNext && !source.toLowerCase() === 'soundcloud'" 
-        slot="footer"
+        v-if="aComments.length && $DCAPI.YTCommentNext && source.toLowerCase() != 'soundcloud'"
+        slot="footer" 
+        xs12
       >
         <v-btn 
-          :loading="bLoading" 
-          small 
+          :loading="bLoading"  
           block 
           color="transparent" 
-          class="comMor" 
           @click="getMore"
         >
           SHOW MORE
@@ -154,7 +153,7 @@ export default {
       if (!value) {
         return ''
       }
-      if (this.$store.getters.ytUseVideo) {
+      if (this.$store.getters.ytUseVideo && this.$store.getters.isYT) {
         return (value.replace(/(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)([0-5]?\d)/g,
         `<span class="underline pointer" onClick="window.dcYT.seekTo('$&'.split(':').reduce((acc,time) => (60 * acc) + +time));">$&</span>`))
       } else {

@@ -202,14 +202,14 @@
             md4
             lg2
             @click.stop="
-              // nasty ternary, if playlist push
-              props.item.listID 
-                ? $router.push({name: 'channelPlaylist', params: {listID: props.item.listID, artistID: props.item.artistID, title: props.item.title, source: props.item.source}}) 
-                : 
-                  !bSelect 
+              !props.item.trackID 
+                ? $router.push({name: 'artist', params: {source: props.item.source, artist: props.item.title, artistID: props.item.artistID }}) 
+                : !props.item.listID 
+                  ? !bSelect 
                     ? play(props.index, !showVideo, isPlaying(props.item.trackID))
                     : checkItem(props.item)
-            "
+            // nasty ternary, if playlist push
+            : $router.push({name: 'channelPlaylist', params: {listID: props.item.listID, artistID: props.item.artistID, title: props.item.title, source: props.item.source}})"
           >
             <!-- :color="cardColor(props)"  -->
             <!-- <v-hover 
@@ -221,35 +221,36 @@
             <!-- slot-scope="{ hover }" -->
             <v-card 
               class="dc-crd ma-0 pa-0 pointer outline"
-              @contextmenu="$emit('conmen', [$event, bSelect ? selected : [props.item]])"
+              @contextmenu="props.item.trackID ? $emit('conmen', [$event, bSelect ? selected : [props.item]]) : null"
             >
               <!-- IMAGE -->
+              <!-- :src="props.item.poster" -->
               <v-img
+                v-lazy:background-image="props.item.poster"
                 :aspect-ratio="aspect"
-                :src="props.item.poster"
                 class="fillPlace nosel"
-              >        
-                <v-layout
-                  v-if="isPlaying (props.item.trackID)"
-                  fill-height
-                  align-center
-                  justify-center
-                  ma-0
+              >
+                <!-- <v-expand-transition> -->
+                <div
+                  v-if="props.item.trackID && isPlaying(props.item.trackID)"
+                  class="d-flex text-xs-center v-card--reveal"
+                  style="height: 100%;"
                 >
-                  <v-btn 
-                    :loading="$store.getters.isLoading && isPlaying (props.item.trackID)" 
-                    fab  
-                    dark
-                    color="primary"
-                    @click.stop="play(props.index)"
-                  >
-                    <v-icon 
-                      large
-                    >{{ $store.getters.isPlaying && isPlaying (props.item.trackID)? 'pause' : 'play_arrow' }}</v-icon>
-                  </v-btn>
-                </v-layout>
-
-
+                  <div>
+                    <v-btn 
+                      :loading="$store.getters.isLoading && isPlaying (props.item.trackID)"
+                      fab 
+                      dark  
+                      color="primary"
+                      @click.stop="play(props.index)"
+                    >
+                      <v-icon 
+                        large
+                      >{{ $store.getters.isPlaying && isPlaying (props.item.trackID)? 'pause' : 'play_arrow' }}</v-icon>
+                    </v-btn>
+                  </div>
+                </div>
+                <!-- </v-expand-transition> -->
               </v-img>
               <!-- TITLE -->
               <v-card-title class="pa-0">
@@ -272,18 +273,19 @@
                       />
                     </v-flex>
                     <!-- TITLE -->
-                    <v-flex class="text-xs-left body-2 grd-txt pa-0 pt-1 wordbreak">
-                      {{ props.item.title }}
-                    </v-flex>
+                    <v-flex 
+                      class="text-xs-left body-2 grd-txt pa-0 pt-1 wordbreak" 
+                      v-text="props.item.title"
+                    />
                     <!-- ARTIST -->
                     <v-flex 
-                      v-if="$route.name !== 'artist'" 
+                      v-if="$route.name !== 'artist' && props.item.trackID || props.item.listID" 
                       class="text-xs-left pa-0 pt-1 wordbreak" 
                       @click.stop="bSelect ? checkItem(props.item) : $router.push({name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}})"
                     >
                       <router-link 
                         :to="{name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}}"
-                        class="noDeco grey--text" 
+                        class="noDeco artist" 
                       >
                         {{ props.item.artist }}
                       </router-link>
@@ -293,7 +295,7 @@
                       v-if="$route.params.artistID || showUploaded" 
                       class="text-xs-left grey--text grd-txt pa-0 pt-1"
                     >
-                      {{ $DCAPI.calcDate(!1, props.item.uploaded) }} • {{ props.item.duration }}
+                      {{ props.item.uploaded ? $DCAPI.calcDate(!1, props.item.uploaded) : '' }}{{ props.item.duration ? ' • ' + props.item.duration : '' }}
                     </v-flex>
                   </v-flex>
                   <!-- SONG ACTIONS DROPDOWN MENU -->
@@ -302,20 +304,19 @@
                     class="ma-0 pa-0 pt-2" 
                     @click.stop
                   >
-                    <v-tooltip 
+                    <!-- <v-tooltip 
                       top
+                    > -->
+                    <v-btn 
+                      icon 
+                      small 
+                      class="men fl-r ma-0 pa-0 mt-1" 
+                      @click="$emit('conmen', [$event, bSelect ? selected : [props.item]])"
                     >
-                      <v-btn 
-                        slot="activator"
-                        icon 
-                        small 
-                        class="men fl-r ma-0 pa-0 mt-1" 
-                        @click="$emit('conmen', [$event, bSelect ? selected : [props.item]])"
-                      >
-                        <v-icon>more_vert</v-icon>
-                      </v-btn>
-                      <span>{{ $vuetify.breakpoint.smAndDown ? 'Long press menu' : 'Right click menu' }}</span>
-                    </v-tooltip>
+                      <v-icon>more_vert</v-icon>
+                    </v-btn>
+                    <!-- <span>{{ $vuetify.breakpoint.smAndDown ? 'Long press menu' : 'Right click menu' }}</span> -->
+                    <!-- </v-tooltip> -->
                   </v-flex>
                   
                 </v-layout>
@@ -423,12 +424,12 @@ export default {
         var a = this.$refs.dItera.pagination.rowsPerPage
         // eslint-disable-next-line
         this.$refs.dItera.pagination.rowsPerPage = -1
-        var b = this.$refs.dItera.filteredItems.length ? this.$refs.dItera.filteredItems : this.songs
+        var b = Object.assign([], this.$refs.dItera.filteredItems.length ? this.$refs.dItera.filteredItems : this.songs)
         // eslint-disable-next-line
         this.$refs.dItera.pagination.rowsPerPage = a
         return b
       } else {
-        return this.$refs.dItera.filteredItems.length ? this.$refs.dItera.filteredItems : this.songs
+        return Object.assign([], this.$refs.dItera.filteredItems.length ? this.$refs.dItera.filteredItems : this.songs)
       }
     }
   },
@@ -504,15 +505,15 @@ export default {
       // console.log('playing')
       // show stage
 
-
+      let a = Object.assign([], this.sorted)
       
-      this.$store.commit('setNPlay', {songs: this.sorted, current: index, path: this.$route.path})
-      this.$DCPlayer.setNPlay(this.sorted, newi)
-      this.$DCFB.historyPush(this.sorted[newi])
+      this.$store.commit('setNPlay', {songs: a, current: index, path: this.$route.path})
+      this.$DCPlayer.setNPlay(a, newi)
+      this.$DCFB.historyPush(a[newi])
       if (showStage || this.showVideo) {
         // console.log('showing stage')
         // this.$router.push({name: 'stage'})
-        this.$router.push({name: 'auto', params: { artist: this.sorted[newi].artist,  trackID: this.sorted[newi].trackID,  source: this.sorted[newi].source }})
+        this.$router.push({name: 'auto', params: { artist: a[newi].artist,  trackID: a[newi].trackID,  source: a[newi].source }})
         // this.$store.commit('toggleStage')
       }
     }

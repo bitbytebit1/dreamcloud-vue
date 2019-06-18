@@ -43,19 +43,12 @@ export default {
     artist: {
       type: String,
       default: ''
-    },
-    getEm: {
-      type: Boolean,
-      default: false
     }
   },
   watch: {
     title: {
       immediate: true,
       handler: 'reset'
-    },
-    getEm: {
-      handler: 'getLyrics'
     }
   },
   data () {
@@ -89,6 +82,7 @@ export default {
       this.bLoading = false
       this.lyrics = ''
       this.iTried = false
+      this.getLyrics()
     },
     animateText () {
       if (this.loadingTextAppend.length === 3) {

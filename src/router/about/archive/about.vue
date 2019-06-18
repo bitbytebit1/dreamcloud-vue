@@ -333,9 +333,9 @@ export default {
 </script>
 <style>
 .bg-rp{
-  /* background-image: url("https://www.toptal.com/designers/subtlepatterns/patterns/light_honeycomb.png"); */
+  background-image: url("https://www.toptal.com/designers/subtlepatterns/patterns/light_honeycomb.png");
   /* background-image: url("https://www.toptal.com/designers/subtlepatterns/patterns/escheresque.png"); */
   /* background-image: url("https://www.toptal.com/designers/subtlepatterns/patterns/random_grey_variations.png"); */
-  background-repeat: repeat;
+  /* background-repeat: repeat; */
 }
 </style>

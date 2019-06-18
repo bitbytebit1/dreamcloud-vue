@@ -66,16 +66,22 @@
                     />
                   </v-img>
                 </v-flex>
-                <v-flex xs8>
-                  <div class="h200 text-xs-left pl-4 pr-4">
-                    <div class="headline">{{ props.item.artist }}</div>
-                    <subscribe-button 
-                      :artistID="props.item.artistID" 
-                      :source="props.item.source" 
-                      :artist="props.item.artist" 
-                      :img="props.item.img"
-                    />
-                    <div class="grey--text">Uploads {{ props.item.numberOfSongs }}</div>
+                <v-flex xs10>
+                  <div class=" text-xs-left">
+                    <div>
+                      <div 
+                        class="subheading"
+                      >{{ props.item.artist }} </div>
+                      <subscribe-button 
+                        :artistID="props.item.artistID" 
+                        :source="props.item.source" 
+                        :artist="props.item.artist" 
+                        :img="props.item.img"
+                      />
+                    </div>
+                    
+                    <div>Uploads {{ props.item.numberOfSongs }}</div>
+
                     <div class="">{{ props.item.description }}</div>
                     <!-- <div>{{props.item.numberOfSongs}}</div> -->
                   </div>

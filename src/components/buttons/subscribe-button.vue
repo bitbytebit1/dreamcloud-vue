@@ -1,6 +1,7 @@
 <template>
   <v-btn 
-    :color="btnColor"  
+    :color="btnColor"
+    class="ma-0 mb-1"  
     round
     small
     outline

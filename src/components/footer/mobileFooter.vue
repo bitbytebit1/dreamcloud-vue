@@ -22,8 +22,8 @@
         <v-icon>whatshot</v-icon>
       </v-btn>
       <v-btn 
-        :to="auto" 
-        flat 
+        :to="$store.getters.current_trackID ? {name: 'auto', params: { artist: $store.getters.current_song.artist, trackID: $store.getters.current_song.trackID, source: $store.getters.current_song.source }} : { name: 'auto', params: {source: 'z', artist: 'z', trackID: 'z'} }"
+        flat
         color="primary" 
       >
         <span>Current</span>
@@ -54,11 +54,11 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'mobFoot',
   computed: {
+    // auto () {
+    //   return this.$store.getters.current_Playlist.length > 0 ? {name: 'auto', params: { artist: this.$store.getters.current_song.artist, trackID: this.$store.getters.current_song.trackID, source: this.$store.getters.current_song.source }} : {name: 'stage'}
+    // },
     auto () {
-      return {name: 'auto', params: this.currentParams}
-    },
-    currentParams () {
-      return this.$store.getters.current_Playlist.length > 0 ?  { artist: this.$store.getters.current_song.artist, trackID: this.$store.getters.current_song.trackID, source: this.$store.getters.current_song.source } : { artist: 'x', trackID: 'y', source: 'z' } 
+      return this.$store.getters.current_trackID ? {name: 'auto', params: { artist: this.$store.getters.current_song.artist, trackID: this.$store.getters.current_song.trackID, source: this.$store.getters.current_song.source }} : { name: 'stage' }
     },
     uid () {
       return this.$store.getters.uid || Math.random()

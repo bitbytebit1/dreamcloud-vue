@@ -2,7 +2,9 @@
   <v-snackbar
     :value="$store.getters.snackb"
     :color="$store.getters.snackc"
-    top
+    :bottom="!$vuetify.breakpoint.smAndDown"
+    :top="$vuetify.breakpoint.smAndDown"
+    class="pb-5"
   >
     {{ $store.getters.snacks }}
     <v-btn
@@ -14,6 +16,7 @@
       Undo
     </v-btn>
     <v-btn
+      v-else
       dark
       flat
       @click="$store.commit('snackb', false)"

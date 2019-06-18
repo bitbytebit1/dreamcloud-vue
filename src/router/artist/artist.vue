@@ -16,8 +16,8 @@
       v-model="tab"
     >
       <v-tabs-slider color="primary"/>
-      <v-tab :disabled="!searchResults.length">
-        Uploads ({{ searchResults.length }}) 
+      <v-tab :disabled="!aSearch.length">
+        Uploads ({{ aSearch.length }}) 
       </v-tab>
       <v-tab :disabled="!aPlaylists.length">
         Playlists ({{ aPlaylists.length }})
@@ -30,7 +30,7 @@
     <v-tabs-items v-model="tab">
       <v-tab-item>
         <playlist 
-          :songs="searchResults"
+          :songs="aSearch"
           rowsPerPage='84'
           @conmen="$emit('conmen', $event)" 
         />
@@ -75,11 +75,12 @@ export default {
   },
   data () {
     return {
+      oldA: '',
       sTokenSubs: '',
       sTokenPlaylists: '',
       aPlaylists: [],
       aSubs: [],
-      searchResults: [],
+      aSearch: [],
       iPage: 0,
       tab: null
     }
@@ -137,10 +138,10 @@ export default {
       func()
     },
     _search () {
-      if (!this.$route.params.artistID || !this.$route.params.source) {
-        // console.log('artist', this.$route.name)
+      if ('artist' !== this.$route.name || this.$route.params.artistID == this.oldA) {
         return
       }
+      this.oldA = this.$route.params.artistID
       // this.tab = 0
       this.aPlaylists = []
       this.aSubs = []
@@ -157,7 +158,7 @@ export default {
       // If not  ”    ”   ”   ”
       source = source || this.source
       // If first page clear search results array.
-      this.searchResults = !iPage ? [] : this.searchResults
+      this.aSearch = !iPage ? [] : this.aSearch
       // Search with params
       return this.$DCAPI.searchInt('', iPage, [source], artistID, (d) => {
         // If no results stop infinite loading
@@ -166,19 +167,19 @@ export default {
         }
         // SANITY CHECK
         if (artistID === this.$route.params.artistID) {
-          this.searchResults.push(...d)
+          this.aSearch.push(...d)
           // if first page or second page
-          if (this.searchResults.length < 150) {
+          if (this.aSearch.length < 150) {
             // Update slider length
             this.$refs.tabs.callSlider()
           }
-          this.searchResults = this.$DCAPI.uniqueArray(this.searchResults)
+          this.aSearch = this.$DCAPI.uniqueArray(this.aSearch)
           this.search(this.query, this.source, ++this.iPage)
         }
         if (iPage === 0) {
           this.$store.dispatch('loadIndeterm', false)
         }
-      }, '', 50)
+      }, '', 50) //  !iPage ? 18 : 50 first call 18 to be fast on mobile, fucks up caching
     }
   }
 }

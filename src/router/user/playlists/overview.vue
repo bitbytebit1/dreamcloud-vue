@@ -43,11 +43,11 @@
         pagination.sync="pagination"
         hide-actions
       >
-        <v-flex
+        <v-flex   
           slot="item"
           slot-scope="props"
           xs4
-          md4
+          md3
           lg2
         >
           <!-- {{props.item['.key']}} -->
@@ -55,18 +55,32 @@
           <!-- {{props.item.songs[Object.keys(props.item.songs)[0]].poster}} -->
           <!-- Object.keys(aPlaylist[props.index].songs)[0] -->
           <v-card 
-            :to="{name: 'userPlaylist', params: {user: $DCFB.UID, playlist: props.item['.key'], name: props.item.name}}" 
+            :to="{name: 'userPlaylist', params: {user: $DCFB.UID, playlist: props.item['.key'], name: props.item.name}}"
+            height="100%" 
+            width="100%" 
             class="pointer"
           >
+            <!-- IMAGE -->
             <v-img
-              :src="props.item.songs[Object.keys(props.item.songs)[0]].poster"
+              :src="props.item.songs[Object.keys(props.item.songs)[0]].posterLarge"
               aspect-ratio="1"
               class="fillPlace"
             />
-            <!-- </v-avatar> -->
-            <v-card-text class="text-xs-center">{{ props.item.name }}</v-card-text>
-            <span class="sl">{{ Object.keys(props.item.songs).length }}</span>
-
+            <!-- <v-avatar
+              :size="((!$store.getters.drawLeft && !$UTILS.isMobile ? 21 : 0) + 95 + (!$store.getters.drawRight && !$UTILS.isMobile ? 21 : 0)) + 'px'"
+              class="mt-2"
+            > -->
+            <!-- <img
+                :src="props.item.songs[Object.keys(props.item.songs)[0]].poster"
+                alt=""
+              > -->
+            <!-- <v-img
+                :src="props.item.songs[Object.keys(props.item.songs)[0]].poster"
+                aspect-ratio="1"
+                class="fillPlace"
+              />
+            </v-avatar> -->
+            <v-card-text class="text-xs-center"><div class="ma-0 pa-0">{{ props.item.name }}</div><div class="grey--text ma-0 pa-0">{{ Object.keys(props.item.songs).length }}</div></v-card-text>
           </v-card>
         </v-flex>
       </v-data-iterator>

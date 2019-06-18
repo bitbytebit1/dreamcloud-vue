@@ -32,6 +32,19 @@
             <!-- <img src='../img/All.png'> -->
             <v-list-tile-action>
               <v-switch 
+                v-model="artist" 
+                color="primary"
+              />
+            </v-list-tile-action>
+            <v-list-tile-title>Artist</v-list-tile-title>
+          </v-list-tile>
+
+          <v-divider/>
+
+          <v-list-tile>
+            <!-- <img src='../img/All.png'> -->
+            <v-list-tile-action>
+              <v-switch 
                 v-model="aSources.All" 
                 color="primary"
               />
@@ -113,12 +126,14 @@ export default {
     'aSources.MixCloud': '_other',
     'aSources.SoundCloud': '_other',
     'aSources.YouTube': '_other',
-    'aSources.Vimeo': '_other'
+    'aSources.Vimeo': '_other',
+    'artist': '__search'
   },
   data () {
     return {
       aSources: {All: true, Bandcamp: false, MixCloud: false, SoundCloud: false, YouTube: false, Vimeo: false},
-      sQuery: ''
+      sQuery: '',
+      artist: false
     }
   },
   computed: {
@@ -149,7 +164,11 @@ export default {
       this.search()
     },
     __search () {
-      this.$router.push({name: 'searchPage', params: {query: this.sQuery, source: this.maSource}})
+      if (this.artist) {
+        this.$router.push({name: 'searchArtist', params: {query: this.sQuery, source: this.maSource}})
+      } else {
+        this.$router.push({name: 'searchQuery', params: {query: this.sQuery, source: this.maSource}})
+      }
     },
     search (query) {
       if (query) {

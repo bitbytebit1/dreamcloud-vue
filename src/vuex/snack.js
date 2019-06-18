@@ -42,13 +42,15 @@ export default {
         commit('snack', payload)
       }, 250)
     },
-    
+    // snack Undo
     snacku ({state}) { 
       if (state.snacku.length) {
         Vue.prototype.$DCFB.playlistsRefs.child(state.snacku[0].playlist).once('value', (snapshot) => {
+          // if we are deleting
           if (snapshot.exists()) {
             Vue.prototype.$DCFB.playlistGet(state.snacku[0].user, state.snacku[0].playlist).set(state.snacku[0].songs)
           } else {
+            //  other wise
             let c = []
             for( const b in state.snacku[0].songs ){
               c.push(state.snacku[0].songs[b])

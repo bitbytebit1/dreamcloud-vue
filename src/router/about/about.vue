@@ -2,10 +2,10 @@
   <!-- :style="{ 'background-image': background }"  -->
   <v-flex 
     xs12 
-    lg10
-    class="ma-0 pa-0 pb-3 bg-rp"
+    lg11
+    class="ma-0 pa-0"
   >
-    <v-container grid-list-xl>
+    <v-container grid-list-md>
       <v-layout 
         row 
         wrap 
@@ -35,16 +35,14 @@
 
           <autocomplete
             ref="auto" 
-            @search="$router.push({name: 'searchPage', params: {query: $event , 'source': 'all'}})"
+            @search="$router.push({name: 'searchQuery', params: {query: $event , 'source': 'all'}})"
           />
         </v-flex>
         <!-- ABOUT FEATURE DIALOG -->
         <v-dialog 
-          v-model="dialog" 
-          scrollable 
-          width="500"
+          v-model="dialog"
         >
-          <v-card>
+          <v-card >
             <!-- HEADER -->
             <v-card-title primary-title>
               <div class="headline">{{ items[cardIndex].headline }}</div>
@@ -54,9 +52,7 @@
             <v-card-text 
               style="height: 300px;" 
               class="preline wordbreak"
-            >
-              {{ items[cardIndex].moreText }}
-            </v-card-text>
+            >{{ items[cardIndex].moreText }}</v-card-text>
             <v-divider/>
             <v-card-actions>
               <v-btn 
@@ -71,56 +67,75 @@
         <v-flex 
           v-for="(item, index) in items" 
           :key="index" 
-          xs12 
-          lg2 
+          xs6 
+          md3
+          lg2
           class="pointer"
         >
-          <!-- <v-hover> -->
           <v-card 
             class="ma-0 elevation-5"
             height="100%" 
-            width="100%"
-            @click="item.cb"
+            width="100%" 
+            @click="item.hasOwnProperty('cb') ? item.cb.f(): (cardIndex = index, dialog = true)"
           >
-
-            <v-flex xs12>
-              <!-- IMAGE -->
-              <v-img
-                :src="item.img"
-                height="90"
-                contain
-              />
-            </v-flex>
-            <v-flex 
-              xs12 
-              class="text-xs-left"
+            <v-container 
+              fluid 
+              grid-list-xs
+              class="ma-0 pa-0"
             >
-              <div>
-                <!-- TEXT -->
-                <div class="title font-weight-thin">{{ item.headline }}</div>
-                <div class="grey--text body-1">{{ item.description }}</div>
-              </div>
-              <br>
-              <!-- READ MORE BUTTON -->
-              <!-- <v-btn 
+              <v-layout 
+                row 
+                wrap
+                class="ma-0 pa-0"
+              >
+
+                <v-flex xs12>
+                  <!-- IMAGE -->
+                  <v-img
+                    :src="item.img"
+                    height="150"
+                    contain
+                  />
+                </v-flex>
+                <v-flex 
+                  xs12 
+                  class="text-xs-left"
+                >
+                  <div>
+                    <!-- TEXT -->
+                    <div class="title font-weight-thin">{{ item.headline }}</div>
+                    <div class="grey--text preline">{{ item.description }}</div>
+                  </div>
+                  <!-- READ MORE BUTTON -->
+                </v-flex>
+                <v-flex xs12>
+                  <v-btn 
+                    small
+                    outline
+                    block 
                     class="ma-0" 
                     color="primary" 
-                    dark 
-                    @click="(cardIndex = index, dialog = true)"
-                  >Read more</v-btn> -->
-            </v-flex>
-            <!-- <v-expand-transition>
-                    <div
-                      v-if="hover"
-                      class="d-flex transition-fast-in-fast-out grey darken-4 v-card--reveal subheading white--text"
-                      style="height: 100%;"
-                    >
-                      {{ item.description }}
-                    </div>
-                  </v-expand-transition> -->
-
+                    dark
+                    @click.stop="(cardIndex = index, dialog = true)"
+                  >Read more</v-btn>
+                </v-flex>
+                <v-flex 
+                  v-if="item.cb" 
+                  xs12
+                >
+                  <v-btn 
+                    small
+                    outline
+                    block 
+                    class="ma-0" 
+                    color="primary" 
+                    dark
+                    @click.stop="item.cb.f"
+                  >{{ item.cb.t }}</v-btn>
+                </v-flex>
+              </v-layout>
+            </v-container>
           </v-card>
-          <!-- </v-hover> -->
           <v-divider/>
         </v-flex>
       </v-layout>
@@ -142,91 +157,111 @@ export default {
         {
           headline: 'Search',
           description: 'Bandcamp, Mixcloud, Soundcloud, YouTube and Vimeo',
-          moreText: 'We directly access the use the offical API provided by Mixcloud, Soundcloud, YouTube and Vimeo to get your search results. Organise all your music in one place.',
+          moreText: 'Access the offical APIs provided by Mixcloud, Sound1cloud, YouTube and Vimeo to get your search results.',
           img: './img/about/analytics.png',
-          cb: () => {
-            this.$refs.auto.$el.querySelector('.v-select__slot').click()
-            this.$refs.auto.$el.querySelector('input').focus()
+          cb: {
+            f: () => {
+              this.$refs.auto.$el.querySelector('.v-select__slot').click()
+              this.$refs.auto.$el.querySelector('input').focus()
+            },
+            t: 'Search'
           },
+          bShow: false
         },
         {
           headline: 'Subscriptions',
-          description: 'Keep an eye on your subscriptions',
-          moreText: ';]',
-          cb: () => {
-            this.$router.push({name: 'userSubOverview', params: {user : this.$store.getters.uid}})
-          },
-          img: './img/about/star.png'
+          description: 'Keep an eye on your subscriptions\n\n',
+          moreText: `Soon you'll be able to save and share your own favourite custom streams, artists can use this to show case all their work with one link.`,
+          img: './img/about/star.png',
+          cb: {
+            f: () => {
+              this.$router.push({name: 'userSubOverview', params: {user : this.$store.getters.uid}})
+            },
+            t: 'Manage subscriptions'
+          }
         },
         {
           headline: 'Playlists',
-          description: 'Organise all your music in one place',
-          moreText: ';]',
-          cb: () => {
-            this.$router.push({name: 'playlistOverview', params: {user : this.$store.getters.uid}})
-          },
-          img: './img/about/turntable.png'
+          description: 'Organise all your music in one place\n\n',
+          moreText: 'Save playlists from all your favourite channels across the internet. Instantly synced across all your devices.',
+          img: './img/about/turntable.png',
+          cb: {
+            f: () => {
+              this.$router.push({name: 'playlistOverview', params: {user : this.$store.getters.uid}})
+            },
+            t: `View playlists`
+          }
         },
         {
           headline: 'Stay up to date',
           description: 'Customizable home feeds from your favourite artists',
-          moreText: '',
-          cb: () => {
-            this.$router.push({name: 'subsAll', params: {user : this.$store.getters.uid}})
-          },
-          img: './img/about/satellite.png'
+          moreText: 'Create your own custom stream with the latest music from your favourite artists.',
+          img: './img/about/satellite.png',
+          cb: {
+            f: () => {
+              this.$router.push({name: 'subsAll', params: {user : this.$store.getters.uid}})
+            },
+            t: `View subscriptions`
+          }
+        },
+        {
+          headline: 'Vibrant Community',
+          description: 'Join our discord server and contribute to the development',
+          moreText: `You're formally invited to come and tell me what you don't like.\n=]`,
+          img: './img/about/discord.png',
+          cb: {
+            f: () => {
+              window.open('https://discord.gg/RzP7dwA', '_blank')
+            },
+            t: 'Join Discord'
+          }
         },
         {
           headline: 'One click download',
           description: 'Batch download mp4 or mp3 with one smooth click',
-          moreText: ';]',
+          moreText: `Ok, maybe two clicks since we disable show options on hover, riot on discord and maybe we'll bring it back.`,
           img: './img/about/cloud.png'
         },
         {
-          headline: 'Always available offline',
-          description: 'No internet? No problem!',
+          headline: 'Always offline',
+          description: `Everything cached locally for speed`,
           moreText: `We believe in progress web apps, this website will locally cache itself. We are limited to a small portion of your local disk via the web browser, this space is only borrowed and will be used by your os if necessary.
 
-          Songs are cached for 2 weeks
-          Searches are cached for 1 hour
-          Playlists and subscriptions are cached forever`,
+          Songs are cached for 2 weeks.
+          Searches are cached for 1 hour.
+          Playlists and subscriptions are cached forever.`,
           img: './img/about/dart.png'
         },
         {
           headline: 'Unlimited use',
           description: '100% free with no limitations',
-          moreText: '',
+          moreText: 'Dreamcloud currently costs next to nothing to run so we have no need to sell adverts.',
           img: './img/about/pacman.png'
         },
         {
           headline: 'Save energy',
-          description: 'Save data and battery life while on the move in audio only mode',
-          moreText: '',
+          description: 'Save data and battery life in audio mode',
+          moreText: `The current mobile version defaults to audio only for youtube and vimeo saving bandwidth.\nIn future we're going to offer a very light weight version with restricted features for lower end mobiles.`,
           img: './img/about/energy.png'
         },
         {
-          headline: 'Access your library on any platform',
+          headline: 'Realtime library',
           description: 'Android, iOS, MacOSX, Windows and Linux',
           moreText: `It's very easy install Dreamcloud to your home screen on mobiles.
           We are working on a stand alone desktop app for Windows and Linux using Electron.`,
           img: './img/about/mobile.png'
         },
         {
-          headline: 'Share with your friends',
+          headline: 'Share with friends',
           description: 'One click sharing on desktop and mobile',
-          moreText: `On desktop a link is copied to your keyboard.
-          On mobile the share menu is opened.`,
+          moreText: `On desktop a link is copied to your keyboard.\nOn mobile the native share menu is opened.`,
           img: './img/about/share.png'
         },
-
         {
-          headline: 'Vibrant Community',
-          description: `Join our discord server and contribute to the development`,
-          moreText: '',
-          img: './img/about/discord.png',
-          cb: () => {
-            window.open('https://discord.gg/RzP7dwA', '_blank')
-          },
+          headline: 'Privacy',
+          description: 'Use a proxy or vpn',
+          moreText: `If this is important to you shoot us a message`,
+          img: './img/about/webcam.png',
         }
       ]
     }

@@ -6,8 +6,8 @@
     <video-stage 
       @conmen="$emit('conmen', $event)"
     />
+    <!-- v-if="$route.name=='auto' && !$store.getters.ytUseVideo" -->
     <audio-stage
-      v-if="$route.name=='auto' && $store.getters.isYT && !$store.getters.ytUseVideo"
       @conmen="$emit('conmen', $event)"
     />
   </v-flex>

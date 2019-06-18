@@ -7,8 +7,6 @@
       slot="activator"
       :disabled="!$store.getters.isYT" 
       icon 
-      class="ma-0 pa-0" 
-      fab 
       small 
       @click.stop="clicked"
     >

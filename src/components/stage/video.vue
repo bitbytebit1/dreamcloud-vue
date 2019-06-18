@@ -107,28 +107,34 @@
             </v-tooltip>
           </div>
         </v-flex>
-        <!-- ARTIST PICTURE -->
-        <artist-mini 
-          :artistID="song.artistID" 
-          :source="song.source" 
-          :artist="song.artist" 
-          :key="song.artistID"
-        />
-        <!-- ARTIST NAME + SONG DESCRIPTION -->
         <v-flex 
-          xs12
-          lg10
-          class="text-xs-left song-meta mt-3"
+          xs12 
+          lg8
+          class="text-xs-left mt-3 song-meta"
         >
-          {{ song.artist }}
-          <!-- DESCRIPTION -->
-          <v-flex xs12>
-            <span 
-              class="subheading fwl wordbreak preline" 
-              v-html="timeToSeconds(description)"
+          <v-layout 
+            row 
+            wrap
+          >
+            <!-- <div class="text-xs-left song-meta mt-3 wordbreak"> -->
+            <!-- </div> -->
+            <!-- DESCRIPTION -->
+            <!-- ARTIST PICTURE -->
+            <artist-mini 
+              :artistID="song.artistID" 
+              :source="song.source" 
+              :artist="song.artist" 
+              :key="song.artistID"
+              class="mr-3"
             />
-          </v-flex>
-
+            <v-flex xs10>
+              <div class="subheading">{{ song.artist }}</div>
+              <div 
+                class="subheading fwl wordbreak preline" 
+                v-html="timeToSeconds(description)"
+              />
+            </v-flex>
+          </v-layout>
           <v-tabs
             ref="tabs"
             v-model="tab"
@@ -144,7 +150,7 @@
             <v-tab>
               Lyrics
             </v-tab>
-            <v-tab>
+            <v-tab v-if="$vuetify.breakpoint.mdAndDown">
               Related
             </v-tab>
           </v-tabs>
@@ -168,12 +174,11 @@
             <v-tab-item>
               <!-- LYRICS -->
               <lyrics 
-                :getEm="getLyrics" 
                 :title="song.title" 
                 :artist="song.artist"
               />
             </v-tab-item>
-            <v-tab-item>
+            <v-tab-item v-if="$vuetify.breakpoint.mdAndDown">
               <!-- RELATED -->
               <related 
                 @conmen="$emit('conmen', $event)"
@@ -183,10 +188,10 @@
         </v-flex>
         
         <!-- RELATED -->
-        <!-- <related 
+        <relatedd 
           v-if="$vuetify.breakpoint.lgAndUp" 
           @conmen="$emit('conmen', $event)"
-        /> -->
+        />
       </v-layout>
     </v-flex>
   </v-layout>
@@ -195,6 +200,7 @@
 import newTab from '@/components/buttons/open-new-tab'
 
 import related from '@/router/related/related'
+import relatedd from '@/components/stage/meta/related'
 import artistMini from '@/components/stage/meta/artist-mini'
 import youtubeVBtn from '@/components/stage/meta/toggle-video-button'
 import songComments from '@/components/stage/meta/comments'
@@ -226,6 +232,7 @@ export default {
     'artist-mini': artistMini,
     'youtube-button': youtubeVBtn,
     'related': related,
+    'relatedd': relatedd,
     'lyrics': lyrics,
     'songComments': songComments,
     'add-to-playlist': addToPlaylist,
@@ -245,9 +252,6 @@ export default {
       drawRight: 'drawRight',
       isYT: 'isYT'
     }),
-    getLyrics () {
-      return this.tab === 1
-    },
     stageBorderStyle () {
       return {
         'border-bottom': '1px solid ' + this.$vuetify.theme.primary,

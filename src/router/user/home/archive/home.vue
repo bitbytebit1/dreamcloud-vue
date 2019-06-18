@@ -121,7 +121,7 @@ export default {
         this.$bindAsArray('aHistory', this.$DCFB.fbhistory, null, () => {
           if (!this.aHistory.length) {
             this.$store.dispatch('loadIndeterm', false)
-            // this.$router.push({name: 'searchPage', params: {query: ' ', source: 'YouTube'}})
+            // this.$router.push({name: 'searchQuery', params: {query: ' ', source: 'YouTube'}})
             this.bFail = true
           }
         })

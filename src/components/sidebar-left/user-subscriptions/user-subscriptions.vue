@@ -48,7 +48,7 @@
       :items="subscriptions"
       :search="search"
       :rows-per-page-items="rowsPerPageItems"
-      :custom-filter="(items, search, filter) => { search = search.toString().toLowerCase() ; return items.filter(row => filter(row['name_lower'], search)) }"
+      :custom-filter="(items, search, filter) => { search = search.toString().toLowerCase() ; return items.filter(row => filter([row['source'], row['name_lower']], search)) }"
       :pagination.sync="pagination"
       hide-actions
       no-data-text="Subscribe to some people"
@@ -75,7 +75,6 @@
         :active-class="isPlaying(props.item['source'], props.item['name'], props.item['id']) || 'secondary white--text'"
         :to="{path: '/a/' + props.item['source'] + '/' + encodeURIComponent(props.item['name']) + '/' + props.item['id']}"
         :key="props.item['.key']"
-        
         @click="closeLeftOnMobile"
       >
         <v-list-tile-action color="green">
@@ -134,7 +133,7 @@ export default {
       uid: 'uid'
     }),
     bUIShowMore () {
-      return this.search.length > 7
+      return this.$store.getters.auth_state && this.subscriptions.length > 5
     },
     filterLeng () {
       return this.search.length > 0

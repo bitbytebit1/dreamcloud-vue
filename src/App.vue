@@ -1,9 +1,12 @@
 <template>
   <v-app 
-    v-bind="theme" 
+    v-bind="theme"
     :class="blackClass"
   >
-    <context-menu ref="con"/>
+    <context-menu 
+      ref="con" 
+      :key="uid"
+    />
     <!-- <snackbar/> -->
     <v-snackbar
       v-model="snackbar"
@@ -52,14 +55,14 @@
       clipped-left 
       clipped-right
     >
-      <v-progress-linear
+      <!-- <v-progress-linear
         id="loader"
         :active="loadActive"
         :value="loadValue"
         color="primary"
         background-color="#"
         height="2"
-      />
+      /> -->
 
       <!-- debug button -->
       <!-- <v-toolbar-side-icon @click.stop="$store.dispatch('snack', { b: true, c:'green', s:'wat' })"/> -->
@@ -140,7 +143,9 @@
             :key="$route.fullPath" 
             name="  fade" 
             mode="out-in"> -->
-          <keep-alive :max="2">
+          <keep-alive 
+            :max="2"
+          >
             <router-view @conmen="con"/>
           </keep-alive>
           <!-- </transition> -->
@@ -159,7 +164,6 @@
       <!-- && (bMobi || currentActive) -->
       <dc-youtube v-show="(ytUseVideo && isYT)"/>
       <dc-audio v-show="(!ytUseVideo || !isYT)"/>
-      <scroll-to-top v-if="!bMobi"/>
       <!-- <v-flex xs12 xl12> -->
       <!-- <v-btn block large color="primary ">Get started</v-btn> -->
       <!-- </v-flex> -->
@@ -180,7 +184,7 @@ import currentPlaylist from './components/sidebar-right/current-playlist'
 import sidebar from './components/sidebar-left/sidebar'
 import stage from '@/components/stage/stage'
 import mobileFooter from '@/components/footer/mobileFooter'
-import scrollToTop from '@/components/footer/scroll-to-top.vue'
+
 import { mapGetters } from 'vuex'
 
 export default {
@@ -201,7 +205,6 @@ export default {
     'sidebar': sidebar,
     'current-playlist': currentPlaylist,
     'stage': stage,
-    'scroll-to-top': scrollToTop,
     'mobileFooter': mobileFooter
   },
   methods: {
@@ -392,10 +395,10 @@ export default {
     z-index: 2147483647 !important;
   }
   @media only screen and (min-width: 600px){
-    /* #main-cont{ */
-      /* padding-top: 20px !important; */
+    #main-cont{
+      padding-bottom: 50px !important;
       /* margin-bottom: 35px; */
-    /* } */
+    }
     #foot{
       padding: 0 !important;
       /* height: 55px !important; */
@@ -403,7 +406,7 @@ export default {
   }
   @media only screen and (max-width: 599px){
     #main-cont{
-      padding-bottom: 90px !important;
+      padding-bottom: 110px !important;
       /* margin-top: 106px !important; */
     }
     #foot .v-input {

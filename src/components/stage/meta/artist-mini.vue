@@ -1,15 +1,18 @@
 <template>
   <v-flex 
-    xs3 
-    lg1 
+    shrink 
     alignCenter 
     class="mt-3"
-  >
-    <!-- Left column -->
-    <v-flex xs12 >
+  >    <!-- Left column -->
+    <v-flex 
+      xs12 
+    >
       <!-- Avatar -->
       <router-link :to="{name: 'artist', params: {source: source, artist: artist, artistID: artistID}}">
-        <v-flex xs12>
+        <v-flex 
+          xs12 
+          text-xs-center
+        >
           <v-avatar 
             slot='activator' 
             class="pointer" 

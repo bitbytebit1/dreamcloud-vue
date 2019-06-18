@@ -1,4 +1,4 @@
-
+import store from '../vuex'
 var firebase = require('firebase/app')
 require('firebase/auth')
 require('firebase/database')
@@ -43,64 +43,64 @@ class DCFB {
     this.subscriptions = this.db.ref('users/' + UID + '/Subscriptions')
     this.fbhistory = this.db.ref('users/' + UID + '/History')
 
-    if (window.localStorage) {
+    // if (window.localStorage) {
 
-      // if not same user clear LS
-      if(this.getLoc('dcu') !== UID) {
-        this.setLoc('playlist', null)
-        this.setLoc('playlistrefs', null)
-        this.setLoc('subscriptions', null)
-        this.setLoc('settings', null)
-      }
-      //set current UID
-      this.setLoc('dcu', UID)
+    // // if not same user clear LS
+    // if(this.getLoc('dcu') !== UID) {
+    //   this.setLoc('playlist', null)
+    //   this.setLoc('playlistrefs', null)
+    //   this.setLoc('subscriptions', null)
+    //   this.setLoc('settings', null)
+    // }
+    // //set current UID
+    // this.setLoc('dcu', UID)
 
-      // Get settings
-      this.settings.on('value', (snap) => {
-        if (snap.val() !== null) {
-          this.setLoc('settings', JSON.stringify(snap.val()))
-        } 
-      })
+    // // Get settings
+    // this.settings.on('value', (snap) => {
+    //   if (snap.val() !== null) {
+    //     this.setLoc('settings', JSON.stringify(snap.val()))
+    //   } 
+    // })
 
-      // Get playlistsRefs
-      this.playlistsRefs.on('value', (snap) => {
-        if (snap.val() !== null) {
-          this.setLoc('playlistsRefs', JSON.stringify(snap.val()))
-        }
-      })
+    // // Get playlistsRefs
+    // this.playlistsRefs.on('value', (snap) => {
+    //   if (snap.val() !== null) {
+    //     this.setLoc('playlistsRefs', JSON.stringify(snap.val()))
+    //   }
+    // })
 
-      // Get playlists
-      this.playlists.on('value', (snap) => {
-        if (snap.val() !== null) {
-          this.setLoc('playlists', JSON.stringify(snap.val()))
-        }
+    // // Get playlists
+    // this.playlists.on('value', (snap) => {
+    //   if (snap.val() !== null) {
+    //     this.setLoc('playlists', JSON.stringify(snap.val()))
+    //   }
 
-      })
+    // })
 
-      // Get subscriptions
-      this.subscriptions.on('value', (snap) => {
-        if (snap.val() !== null) {
-          this.setLoc('subscriptions', JSON.stringify(snap.val()))
-        }
-      })
+    // // Get subscriptions
+    // this.subscriptions.on('value', (snap) => {
+    //   if (snap.val() !== null) {
+    //     this.setLoc('subscriptions', JSON.stringify(snap.val()))
+    //   }
+    // })
 
-      // var connectedRef = firebase.database().ref(".info/connected")
-      // connectedRef.on("value", (snap) => {
-      if (!window.navigator.onLine) {
-        // alert("not connected");
-        let a = JSON.parse(this.getLoc('playlists'))
-        let b = JSON.parse(this.getLoc('playlistsRefs'))
-        let c = JSON.parse(this.getLoc('subscriptions'))
-        let d = JSON.parse(this.getLoc('settings'))
-        // store.commit('subscriptions', a)
+    // // var connectedRef = firebase.database().ref(".info/connected")
+    // // connectedRef.on("value", (snap) => {
+    // if (!window.navigator.onLine) {
+    //   // alert("not connected");
+    //   let a = JSON.parse(this.getLoc('playlists'))
+    //   let b = JSON.parse(this.getLoc('playlistsRefs'))
+    //   let c = JSON.parse(this.getLoc('subscriptions'))
+    //   let d = JSON.parse(this.getLoc('settings'))
+    //   // store.commit('subscriptions', a)
 
-        a && this.playlists.update(a)
-        b && this.playlistsRefs.update(b)
-        c && this.subscriptions.update(c)
-        d && this.settings.update(d)
-      }
-      // })
-    }
+    //   a && this.playlists.update(a)
+    //   b && this.playlistsRefs.update(b)
+    //   c && this.subscriptions.update(c)
+    //   d && this.settings.update(d)
+    // }
+    // // })
+    // }
   }
 
   setLoc (a, b) {
@@ -152,16 +152,18 @@ class DCFB {
     this.playlists.child(playlistId).remove()
   }
   historyPush (json) {
-    // create new reference
-    var songRef = this.fbhistory.push()
-    // save song reference in json.key
-    json.key = songRef.key
-    // remove from json['.key'] bc we have to due to vue-fire
-    delete json['.key']
-    // format date to string
-    json.uploaded = json.uploaded.toString()
-    // update fb
-    songRef.set(json)
+    if (!store.getters.isAnon) {
+      // create new reference
+      var songRef = this.fbhistory.push()
+      // save song reference in json.key
+      json.key = songRef.key
+      // remove from json['.key'] bc we have to due to vue-fire
+      delete json['.key']
+      // format date to string
+      json.uploaded = json.uploaded.toString()
+      // update fb
+      songRef.set(json)
+    }
   }
 
   historyClear () {

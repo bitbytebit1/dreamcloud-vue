@@ -24,7 +24,7 @@
       <span slot="no-results"/>
     </infinite-loading>
     <jumbo 
-      v-if="bFailed && !!$route.params.source" 
+      v-if="bFailed || !$route.params.source" 
       :subheading="`Couldn't find '${$route.params.query}' on ${$route.params.source}`" 
       error="Try again"
     />
@@ -37,7 +37,7 @@ import loading from '@/components/misc/loading'
 import jumbo from '@/components/misc/jumbo'
 
 export default {
-  name: 'Searchpage',
+  name: 'SearchQuery',
   // props: ['query', 'source'],
   props: {
     query: {
@@ -54,6 +54,7 @@ export default {
       loading: false,
       searchResults: [],
       iPage: 0,
+      oldQ: '',
       bFailed: false
     }
   },
@@ -80,7 +81,7 @@ export default {
       })
     },
     searchInt () {
-      if (this.$route.name == 'searchPage') {
+      if (this.$route.name == 'searchQuery' && this.oldQ != this.$route.params.query + this.$route.params.source) {
         this.$store.dispatch('loadIndeterm', true)
         this.bFailed = false
         this.search(0)
@@ -89,7 +90,7 @@ export default {
     search (iPage) {
 
       this.searchResults = !iPage ? [] : this.searchResults
-
+      this.oldQ = this.$route.params.query + this.$route.params.source
       return this.$DCAPI.searchInt(this.$route.params.query, iPage, this.splitSource, '', (d) => {
         this.loading = false
         if (iPage === 0) {

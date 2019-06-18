@@ -23,11 +23,10 @@
     <localStorage/>
     <br>
 
-    <hotkeys/>
-    <br>
-
     <theme/>
     <br>
+
+    <hotkeys/>
 
   </v-flex>
   <!-- </v-layout> -->
@@ -49,12 +48,6 @@ export default {
     'theme': theme,
     'localStorage': localStorage,
     'ui': ui
-  },
-  data () {
-    return {
-      nightState: this.$store.getters.nightModem,
-      updated: ''
-    }
   }
 }
 </script>

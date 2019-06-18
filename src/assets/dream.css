@@ -1,4 +1,15 @@
 /* GENERAL UTILITIES */
+
+.artist{
+  color: #9e9e9e !important
+}
+.theme--light .artist:hover{
+  color: darkgrey !important
+}
+.theme--dark .artist:hover, .theme-jet-black .artist:hover{
+  color: lightgrey !important
+}
+
 .nosel {
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none;   /* Safari */

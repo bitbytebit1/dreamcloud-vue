@@ -32,6 +32,7 @@
           >
             <v-icon>skip_next</v-icon>
           </v-btn>
+          <scroll-to-top v-if="!$vuetify.breakpoint.xs"/>
         </div>
       </div>
 
@@ -111,8 +112,13 @@
 <script>
 import axios from "axios";
 
+import scrollToTop from '@/components/footer/scroll-to-top.vue'
+      
 export default {
   name: 'DcAudio',
+  components: {
+    'scroll-to-top': scrollToTop,
+  },
   data () {
     return {
       bPreLoaded: false,
@@ -169,9 +175,9 @@ export default {
         // alert('preloading')
         if (this.$store.getters.next_song && this.$store.getters.next_song.source != 'SoundCloud') {
           if (this.$store.getters.next_song.source == 'YouTube') {
-            axios.get(`http://dreamcloud.mynetgear.com:7000/api/v1/preload/?i=${this.$store.getters.next_song.trackID}`)
+            axios.head(`${this.$DCPlayer.sBase}v1/preload/?i=${this.$store.getters.next_song.trackID}`)
           } else {
-            axios.get(`http://dreamcloud.mynetgear.com:7000/api/v1/preload/?i=${this.$store.getters.next_song.mp32}`)
+            axios.head(`${this.$DCPlayer.sBase}v1/preload/?i=${this.$store.getters.next_song.mp32}`)
           }
           
         }
@@ -189,7 +195,7 @@ export default {
       this.play_arrow = 'play_arrow'
     },
     loading () {
-      console.log('loadingg')
+      // console.log('loadingg')
       // if (this.$route.name === 'auto') {
       //   this.$router.push({name: 'auto', params: { artist: this.$store.getters.current_song.artist,  trackID: this.$store.getters.current_song.trackID,  source: this.$store.getters.current_song.source }})
       // }

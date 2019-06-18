@@ -2,60 +2,71 @@
   <v-flex 
     xs12 
     lg10 
-    flexbox
+    class="mb-5"
   >
-    <v-combobox
-      v-model="chips"
-      :items="subscriptions"
-      label="Subscriptions"
-      item-text="name"
-      item-value="id"
-      small-chips
-      clearable
-      single-line
-      prepend-icon="filter_list"
-      append-icon=""
-      append-cb=""
-      multiple
+    <v-flex 
+      v-if="subscriptions.length" 
+      xs12
+      py-3
     >
-      <template 
-        slot="selection" 
-        slot-scope="data"
+      <span 
+        v-if="subscriptions.length > 0"
       >
-        <v-chip
-          :key="JSON.stringify(data.item)"
-          :selected="data.selected"
-          :disabled="data.disabled"
-          class="v-chip--select-multi primary v-chip--removable "
-          small
-          close
-          @click.stop="data.parent.selectedIndex = data.index"
-          @input="data.parent.selectItem(data.item)"
+        <!-- Show/Hide -->
+        <v-chip 
+          @click="bTog = !bTog"
+        >{{ bTog ? 'Hide' : 'Show' }}</v-chip>
+        <!-- All -->
+        <v-chip 
+          :class="chips.length == subscriptions.length ? 'primary white--text': ''"
+          @click="chips.length != subscriptions.length ? chips = subscriptions : chips = []"
+        >All</v-chip>
+        <v-chip 
+          :class="bShuf ? 'primary white--text': ''"
+          @click="chips = shuffle(subscriptions)"
+        >Random</v-chip>
+        <!-- @click="(bShuf = !bShuf, bShuf ? chips = shuffle(subscriptions): chips = [])" -->
+        <!-- Clear -->
+        <v-chip 
+          @click="chips = []"
+        >Clear</v-chip>
+      </span>
+      <br>
+      <!-- CHIPS -->
+      <template
+        v-if="bTog"
+      > 
+        <v-chip 
+          v-for="(item, index) in subscriptions" 
+          :key="index"
+          :class="someChips(item)"
+          class="noSel"
+          @mousedown="hai(item, index)"
         >
-          <v-avatar class="accent white--text">
-            <img :src="data.item.img">
-          </v-avatar>
-          {{ data.item.name }}
-        </v-chip>
+          <v-avatar outclass="accent white--text">
+            <img :src="item.img">
+        </v-avatar>{{ item.name }}</v-chip>
       </template>
-    </v-combobox>
+      <!-- Clear -->
+      <v-chip 
+        v-if="bTog"
+        @click="chips = []"
+      >Clear</v-chip>
+      <!-- END_CHIPS -->
 
-    <!-- <div 
-      v-if="bLoading || aPlaylists2.length" 
-      class="headline fwl text-xs-left pl-2 pt-2"
-    >Latest from your subscriptions</div> -->
 
+    </v-flex>
     <playlist 
-      v-if="bLoading || aFiltered.length"
       :songs="aFiltered" 
       :show-uploaded="!0" 
+      rows-per-page="126" 
       sort-by="uploaded" 
-      rows-per-page="50" 
       @conmen="$emit('conmen', $event)"
     />
 
+
     <jumbo 
-      v-else
+      v-if="!bLoading && subscriptions.length > 0"
       title="We wanted grab the latest songs from your subscriptions"
       subheading="But you haven't subscribed to anyone yet"
     />
@@ -84,6 +95,8 @@ export default {
   },
   data () {
     return {
+      bShuf: false,
+      aShuf: [],
       bLoading: true,
       bFailed: false,
       bLoadedSubs: 0,
@@ -91,22 +104,61 @@ export default {
       aPlaylists2: [],
       subscriptions: [],
       chips: [],
+      chipsToGo: [],
+      bTog: false
     }
   },
   computed: {
-    ...mapGetters({auth_state: 'auth_state'}),
+    ...mapGetters({auth_state: 'auth_state', textColor: 'textColor'}),
     aFiltered () {
       return this.chips.length ? 
         this.aPlaylists.filter(f => 
           this.chips.some(c => c.id == f.artistID)
         )
-        : this.aPlaylists
+        : [] // this.aPlaylists
     }
   },
   methods: {
-    test (e) {
-      console.log(e.source.slice(0, 1).toUpperCase())
-      return e.source.slice(0, 1).toUpperCase()
+    shuffle(source) {
+      let ret = []
+      let leng = (source.length - 1) / (Math.max(3, Math.floor(Math.random() * 5))) | 0; // get a quater or a third of subscriptions
+      for (var i = 0; i < leng - 1; i++) {
+        var j = i + Math.floor(Math.random() * (source.length - i));
+        ret[i] = source[j];
+      }
+      return ret;
+    },
+    someChips (e) { 
+      if (this.chips.some(c => c['.key'] == e['.key'])) {
+        return `primary ${this.textColor}`
+      } else {
+        return false
+      }
+    },
+    // hai (e) {
+    //   // if we have a suspect chip remove it, otherwise puush 2 chipsToGo
+    //   if (this.someChips(e)) {
+    //     if(this.chipsToGo.length == 1){
+    //       this.chipsToGo = []
+    //     } else {
+    //       this.chips = this.chips.filter(item => item !== e)
+    //       this.chipsToGo = this.chipsToGo.filter(item => item !== e)
+    //     }
+    //   } else {
+    //     this.chipsToGo.push(e)
+    //   }
+    // },
+    hai (e) {
+      // if we have a suspect chip remove it, otherwise puush 2 chipsToGo
+      if (this.someChips(e)) {
+        if(this.chips.length == 1){
+          this.chips = []
+        } else {
+          this.chips = this.chips.filter(item => item !== e)
+        }
+      } else {
+        this.chips.push(e)
+      }
     },
     bind () {
       // only bind if logged in
@@ -114,17 +166,19 @@ export default {
         // On done call getAllSubs
         this.bLoading = true
         this.$store.dispatch('loadIndeterm', true)
-        this.$bindAsArray('subscriptions', this.$DCFB.subscriptionGet(this.user).orderByChild('name'), null, this.getAllSubs)
+        this.$bindAsArray('subscriptions', this.$DCFB.subscriptionGet(this.user).orderByChild('name_lower'), null, () => {
+          this.chips = this.shuffle(this.subscriptions)
+          this.getAllSubs()
+        })
       }
     },
     getAllSubs () {
       if (!this.subscriptions.length) {
         this.bLoading = false
         this.bFailed = true
-        // this.$router.push({name: 'searchPage', params: {query: '%20%20', source: 'YouTube'}})
+        // this.$router.push({name: 'searchQuery', params: {query: '%20%20', source: 'YouTube'}})
         return
       }
-      // console.log(this.aFiltered)
       this.bLoadedSubs = 0
       let impatient = false
       setTimeout(() => {
@@ -134,16 +188,15 @@ export default {
         this.$store.dispatch('loadIndeterm', false)
       }, 1000)
       for (var sub in this.subscriptions) {
-        this.$DCAPI.searchInt(0, 0, [this.subscriptions[sub].source], this.subscriptions[sub].id,
-                              (songs) => {
-                                this.bLoadedSubs += 1
-                                !impatient && this.$store.commit('loadValue', (100 / this.subscriptions.length) * this.bLoadedSubs)
-                                this.aPlaylists2 = this.aPlaylists2.concat(songs)
-                                this.aPlaylists2.sort(this.$DCAPI.sortDate)
-                                if (this.subscriptions.length === this.bLoadedSubs || impatient) {
-                                  !impatient && this.$store.commit('loadValue', 0)
-                                  this.aPlaylists = this.aPlaylists2
-                                }
+        this.$DCAPI.searchInt(0, 0, [this.subscriptions[sub].source], this.subscriptions[sub].id, (songs) => {
+          this.bLoadedSubs += 1
+          !impatient && this.$store.commit('loadValue', (100 / this.subscriptions.length) * this.bLoadedSubs)
+          this.aPlaylists2 = this.aPlaylists2.concat(songs)
+          this.aPlaylists2.sort(this.$DCAPI.sortDate)
+          if (this.subscriptions.length === this.bLoadedSubs || impatient) {
+            !impatient && this.$store.commit('loadValue', 0)
+            this.aPlaylists = this.aPlaylists2
+          }
         }, false, 50)
       }
     }

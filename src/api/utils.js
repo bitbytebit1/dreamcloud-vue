@@ -36,11 +36,11 @@ export default {
           document.activeElement.blur()
         }
       },
-      downloadLink (sURL) {
+      downloadLink (sURL , title = '') {
         let iframe = document.createElement('iframe')
 
         iframe.style.display = 'none'
-        iframe.id = iframe.name = sURL
+        iframe.id = iframe.name = sURL + title
         iframe.src = sURL
 
         document.body.appendChild(iframe)

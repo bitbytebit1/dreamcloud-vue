@@ -23,17 +23,17 @@
       </v-list-tile>
       <v-divider/>
 
-      <!-- <v-list-tile
+      <v-list-tile
         ripple
-        @click="showWatchB = !showWatchB"
+        @click="closeMenu = !closeMenu"
       >
         <v-list-tile-content>
-          Show watch button
+          Close right click menu on scroll
         </v-list-tile-content>
 
         <v-list-tile-action>
           <v-switch 
-            v-model="showWatchB" 
+            v-model="closeMenu" 
             hide-details 
             height="20" 
             color="primary" 
@@ -41,12 +41,13 @@
           />
         </v-list-tile-action>
       </v-list-tile>
-      <v-divider/> -->
+      <v-divider/>
+
     </v-list>
   </div>
 </template>
 <script>
-/* eslint-disable */
+
 import deleteButton from '@/components/buttons/delete-button'
 import { mapGetters } from 'vuex'
 
@@ -59,25 +60,28 @@ export default {
     'showWatchB': {
       immediate: false,
       handler: 'hShowWatchB'
+    },
+    'closeMenu': {
+      immediate: false,
+      handler: 'hCloseMenu'
     }
   },
-  name: 'theme',
+  name: 'Theme',
   components: {
     'delete-button': deleteButton
   },
   data () {
     return {
       showVideo: this.$store.getters.showVideo,
-      showWatchB: this.$store.getters.showWatchB
+      closeMenu: this.$store.getters.closeMenuOnScroll,
     }
   },
   methods: {
-    hShowWatchB (n) {
-      this.showWatchB = n
-      this.settingChanged('Show Watch Button', this.showWatchB)
+    hCloseMenu (n) {
+      this.settingChanged('Close Menu', n)
     },
     hShowVideo (n) {
-      this.showWshowVideoatchB = n
+      this.showVideo = n
       // console.log('Show Video On Click', this.showVideoOnClick)
       this.settingChanged('Show Video', this.showVideo)
     },

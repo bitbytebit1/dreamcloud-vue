@@ -4,41 +4,40 @@
   <v-layout 
     row 
     wrap 
-    pb-5
   >
     <list 
-      v-if="list == '2' && !gridView" 
-      :songs="songsActual" 
+      v-if="view_mode == '2' && !gridView" 
+      :songs="aSongs" 
       :full="full" 
       :rows-per-page="rowsPerPage"
       :sort-by="sortBy" 
       :bMini="true" 
       @toggleView="toggleView"
       @shuffleOn="shuffle"
-      @shuffleOff="shuffle(songs)"
+      @shuffleOff="shuffleOff"
       @conmen="$emit('conmen', $event)"
     />
     <list 
-      v-if="list == '1' && !gridView" 
-      :songs="songsActual" 
+      v-if="view_mode == '1' && !gridView" 
+      :songs="aSongs" 
       :full="full" 
       :rows-per-page="rowsPerPage" 
       :sort-by="sortBy" 
       @toggleView="toggleView"
       @shuffleOn="shuffle"
-      @shuffleOff="shuffle(songs)"
+      @shuffleOff="shuffleOff"
       @conmen="$emit('conmen', $event)"
     />
     <grid 
-      v-if="list == '0' && !gridView" 
-      :songs="songsActual" 
+      v-if="view_mode == '0' && !gridView" 
+      :songs="aSongs" 
       :full="full" 
       :rows-per-page="rowsPerPage" 
       :sort-by="sortBy" 
       :show-uploaded="showUploaded" 
       @toggleView="toggleView"
       @shuffleOn="shuffle"
-      @shuffleOff="shuffle(songs)"
+      @shuffleOff="shuffleOff"
       @conmen="$emit('conmen', $event)"
     />
   </v-layout>
@@ -85,50 +84,53 @@ export default {
   data () {
     return {
       showScrollToTop: false,
-      fixd: this.songs,
-      songsActual: this.songs
+      // fixd: this.songs,
+      aSongs: this.songs
     }
   },
   watch: {
     songs: {
-      immediate: true,
-      handler: 'burp'
+      handler: 'shuffleOff'
     }
   },
   computed: {
     ...mapGetters({
-      list: 'view_mode'
+      view_mode: 'view_mode'
     })
   },
   methods: {
-    burp () {
-      this.fixd = this.songs
-      for (let song in this.songsActual) {
-        // console.log(this.fixd[song])
-        if (!(this.songsActual[song].uploaded instanceof Date)) {
-          // eslint-disable-next-line
-          this.songsActual[song].uploaded = new Date(this.songsActual[song].uploaded)
-        } else {
-          // console.log('assuming all dates are ok')
-          break
-        }
-      }
-      this.songsActual = this.fixd
+    // burp () {
+      
+    // this.fixd = this.songs
+    // for (let song in this.songsActual) {
+    //   // console.log(this.fixd[song])
+    //   if (!(this.songsActual[song].uploaded instanceof Date)) {
+    //     // eslint-disable-next-line
+    //     this.songsActual[song].uploaded = new Date(this.songsActual[song].uploaded)
+    //   } else {
+    //     // console.log('assuming all dates are ok')
+    //     break
+    //   }
+    // }
+    // this.songsActual = this.fixd
+    // },
+    shuffleOff () {
+      this.aSongs = this.songs
     },
     shuffle ($event) {
       // console.log('shufflez', $event[0].trackID)
-      this.songsActual = $event
+      this.aSongs = $event
       // wait for data table to update
       // this.$nextTick(() => {
       //   this.play(0)
       // })
     },
     play (index) {
-      this.$store.commit('setNPlay', {songs: this.songs, current: index, path: this.$route.path})
-      return this.$DCPlayer.setNPlay(this.songs, index)
+      this.$store.commit('setNPlay', {songs: this.aSongs, current: index, path: this.$route.path})
+      return this.$DCPlayer.setNPlay(this.aSongs, index)
     },
     sort () {
-      this.songs.sort(this.$DCAPI.sortDate)
+      this.aSongs.sort(this.$DCAPI.sortDate)
     },
     toggleView () {
       this.$store.commit('view_mode_toggle')
