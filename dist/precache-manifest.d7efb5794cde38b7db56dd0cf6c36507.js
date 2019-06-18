@@ -8,12 +8,12 @@ self.__precacheManifest = [
     "url": "js/about.b7261370.js"
   },
   {
-    "revision": "37294c167d784a4de0b4",
-    "url": "js/app.6244daa5.js"
+    "revision": "166f2ae0751dd6c2bb6c",
+    "url": "js/app.ee6b41b1.js"
   },
   {
-    "revision": "71c947380cbc877a1e9f7c11f478d760",
-    "url": "update-available.js"
+    "revision": "735ab4f94fbcd57074377afca324c813",
+    "url": "robots.txt"
   },
   {
     "revision": "af20379e5bc4826aae6d",
@@ -28,20 +28,20 @@ self.__precacheManifest = [
     "url": "js/channelPlaylist.5e34962e.js"
   },
   {
-    "revision": "735ab4f94fbcd57074377afca324c813",
-    "url": "robots.txt"
+    "revision": "71c947380cbc877a1e9f7c11f478d760",
+    "url": "update-available.js"
   },
   {
     "revision": "fae4e570088e5ef002b6",
     "url": "js/chunk-76d4c477.e0f5dfff.js"
   },
   {
-    "revision": "5c515e8a00f0d10f9fb4",
-    "url": "js/userSubOverview.029fddd4.js"
+    "revision": "d3db52ab80e2660e218e",
+    "url": "js/userSubOverview.dfc9da7d.js"
   },
   {
-    "revision": "0d4e7d235670f4e5bdd8",
-    "url": "js/chunk-vendors.98bbfe99.js"
+    "revision": "bfd139f2b23873e6714c",
+    "url": "js/chunk-vendors.5ed0531f.js"
   },
   {
     "revision": "b3428e7527ad1f26a301",
@@ -52,8 +52,8 @@ self.__precacheManifest = [
     "url": "js/genre.7a2b5c99.js"
   },
   {
-    "revision": "a989715a283b5b36b1e0",
-    "url": "js/home.4a46e3bb.js"
+    "revision": "a41f257c23e12b459893",
+    "url": "js/home.b859459c.js"
   },
   {
     "revision": "98fd6aae6c142af369dc",
@@ -68,8 +68,8 @@ self.__precacheManifest = [
     "url": "js/trending.906f8ef7.js"
   },
   {
-    "revision": "0c31176375e938818d62",
-    "url": "js/password.ddb278b3.js"
+    "revision": "ffc3e05f0f5f29037637",
+    "url": "js/password.c3e24c47.js"
   },
   {
     "revision": "d3a5ee9e530af7321b75",
@@ -96,8 +96,8 @@ self.__precacheManifest = [
     "url": "js/searchQuery.15e21541.js"
   },
   {
-    "revision": "fb769772249d8fbdf286",
-    "url": "js/signUp.78fc5c7a.js"
+    "revision": "cd899b729514a94d870d",
+    "url": "js/signUp.19734a93.js"
   },
   {
     "revision": "2f7ab8015fe7817712e6",
@@ -116,27 +116,27 @@ self.__precacheManifest = [
     "url": "img/about/webcam.png"
   },
   {
-    "revision": "fb4ccf6f74aea76928895144aee245c6",
-    "url": "img/about/star.png"
-  },
-  {
     "revision": "20eb006ea0294e851afe5dea83e72b26",
     "url": "img/about/share.png"
+  },
+  {
+    "revision": "fb4ccf6f74aea76928895144aee245c6",
+    "url": "img/about/star.png"
   },
   {
     "revision": "990b6be85eac8746b4f32dce99bb40b9",
     "url": "img/about/turntable.png"
   },
   {
-    "revision": "6737924ee68ba5067b55860cc5963b41",
-    "url": "img/about/satellite.png"
-  },
-  {
     "revision": "d1fecc01213fc8d8077921201dba3707",
     "url": "img/about/pacman.png"
   },
   {
-    "revision": "5696c545557118cd33045e2299fe782e",
+    "revision": "6737924ee68ba5067b55860cc5963b41",
+    "url": "img/about/satellite.png"
+  },
+  {
+    "revision": "f252eb95c0ac69c23bb4b9096b3ccb2f",
     "url": "index.html"
   },
   {
@@ -144,11 +144,11 @@ self.__precacheManifest = [
     "url": "img/logo-blue.17e91fdf.png"
   },
   {
-    "revision": "fe06fae5c553b911ddd9",
-    "url": "css/playlistsAll.cb1bf88d.css"
+    "revision": "4fa4647dd12b6870d5d1",
+    "url": "css/playlistOverview.382e7198.css"
   },
   {
-    "revision": "5c515e8a00f0d10f9fb4",
+    "revision": "d3db52ab80e2660e218e",
     "url": "css/userSubOverview.12dbe21b.css"
   },
   {
@@ -172,28 +172,28 @@ self.__precacheManifest = [
     "url": "img/about/energy.png"
   },
   {
-    "revision": "2f7ab8015fe7817712e6",
-    "url": "css/searchpage.cb1bf88d.css"
+    "revision": "cd899b729514a94d870d",
+    "url": "css/signUp.27ed3df6.css"
   },
   {
     "revision": "59ad807fd8141d85d6ea",
     "url": "css/settings.a6c228ab.css"
   },
   {
-    "revision": "fb769772249d8fbdf286",
-    "url": "css/signUp.3c9379ef.css"
+    "revision": "2f7ab8015fe7817712e6",
+    "url": "css/searchpage.cb1bf88d.css"
   },
   {
     "revision": "6059f1f75dbececb15bc",
     "url": "css/searchQuery.cb1bf88d.css"
   },
   {
-    "revision": "4fa4647dd12b6870d5d1",
-    "url": "css/playlistOverview.382e7198.css"
+    "revision": "fe06fae5c553b911ddd9",
+    "url": "css/playlistsAll.cb1bf88d.css"
   },
   {
-    "revision": "0c31176375e938818d62",
-    "url": "css/password.f79ad8da.css"
+    "revision": "ffc3e05f0f5f29037637",
+    "url": "css/password.14f67773.css"
   },
   {
     "revision": "4672f59e0e6f758ce8b2",
@@ -204,8 +204,8 @@ self.__precacheManifest = [
     "url": "css/genre.1f3abf1c.css"
   },
   {
-    "revision": "0d4e7d235670f4e5bdd8",
-    "url": "css/chunk-vendors.0395da3f.css"
+    "revision": "bfd139f2b23873e6714c",
+    "url": "css/chunk-vendors.d8a4f3fe.css"
   },
   {
     "revision": "fae4e570088e5ef002b6",
@@ -216,7 +216,7 @@ self.__precacheManifest = [
     "url": "css/artist.88d9c49e.css"
   },
   {
-    "revision": "37294c167d784a4de0b4",
-    "url": "css/app.58cb3c52.css"
+    "revision": "166f2ae0751dd6c2bb6c",
+    "url": "css/app.a6f61463.css"
   }
 ];

@@ -113,7 +113,9 @@ export default {
           this.$store.commit('loadValue',  (100 / aRecommended.length) * this.iLoaded)
           if (d.length) {
             this.aRecommended.push(d[0])
-            this.aRecommended.push(d[1])
+            if (d.length > 1 ) {
+              this.aRecommended.push(d[1])
+            }
           }
         }, true, 2))
       }

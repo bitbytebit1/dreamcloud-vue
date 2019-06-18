@@ -68,14 +68,16 @@ export default {
       if (this.validateEmail()) {
         this.$DCFB.fb.auth().sendPasswordResetEmail(this.email).then(
           () => {
-            this.alertColor = 'green'
-            this.alertMsg = 'Check your email =3'
-            this.alertShow = true
+            this.$store.dispatch('snack', { b: true, c:'green', s:'Check your email =3' })
+            // this.alertColor = 'green'
+            // this.alertMsg = 'Check your email =3'
+            // this.alertShow = true
           },
           () => {
-            this.alertColor = 'red'
-            this.alertMsg = 'Sorry, no user with that account found'
-            this.alertShow = true
+            this.$store.dispatch('snack', { b: true, c:'red', s:'Sorry, no user with that account found' })
+            // this.alertColor = 'red'
+            // this.alertMsg = 'Sorry, no user with that account found'
+            // this.alertShow = true
           }
         )
       }

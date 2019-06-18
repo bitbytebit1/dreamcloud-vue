@@ -4,8 +4,8 @@ import store from "../vuex";
 export default {
   install(Vue) {
     var DCPlayer = {
-      sBase: 'https://dc-mp3-ceewhqzemu.now.sh/api/',
-      // sBase: 'http://dreamcloud.mynetgear.com:7000/api/',
+      // sBase: 'https://dc-mp3-ceewhqzemu.now.sh/api/',
+      sBase: 'http://dreamcloud.mynetgear.com:7000/api/',
       aPlaylist: [],
       iCurrent: 0,
       eAudio: {src:''},

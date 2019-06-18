@@ -7,7 +7,7 @@
       ref="con" 
       :key="uid"
     />
-    <!-- <snackbar/> -->
+    <snackbar/>
     <v-snackbar
       v-model="snackbar"
       :timeout="0"

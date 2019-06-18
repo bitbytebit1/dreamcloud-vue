@@ -24,7 +24,7 @@
             label="Email"
             single-line
             autocomplete="on"
-            @keyup.enter="signIn"
+            @keyup.enter="signUp"
           />  
           <v-text-field
             v-model="password"
@@ -32,7 +32,7 @@
             single-line 
             autocomplete="on"
             type="password"
-            @keyup.enter="signIn"
+            @keyup.enter="signUp"
           />    
           <v-btn @click="signUp">Sign Up</v-btn>
           <h5>or go back to <router-link to="/login">login</router-link>.</h5>
