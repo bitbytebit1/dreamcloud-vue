@@ -9,7 +9,7 @@ export default {
     snacku: []
   },
   mutations: {
-    snack (state, payload) { 
+    snack(state, payload) {
       state.snacks = payload.s
       state.snackc = payload.c
       state.snackb = payload.b
@@ -19,18 +19,25 @@ export default {
         state.snacku = []
       }
     },
-    snackb (state, payload) { state.snackb = payload },
-    snackt (state, payload) { state.snackt = payload },
+    snackb(state, payload) {
+      state.snackb = payload
+    },
+    snackt(state, payload) {
+      state.snackt = payload
+    },
   },
   getters: {
-    snackb: state =>  state.snackb,
-    snackc: state =>  state.snackc,
-    snacks: state =>  state.snacks,
-    snacku: state =>  state.snacku,
-    snackul: state =>  state.snacku.length,
+    snackb: state => state.snackb,
+    snackc: state => state.snackc,
+    snacks: state => state.snacks,
+    snacku: state => state.snacku,
+    snackul: state => state.snacku.length,
   },
   actions: {
-    snack ({commit, state}, payload) {
+    snack({
+      commit,
+      state
+    }, payload) {
       // close previous snackbar
       commit('snackb', false)
       clearTimeout(state.snackt)
@@ -38,12 +45,14 @@ export default {
       setTimeout(() => {
         commit('snackt', setTimeout(() => {
           commit('snackb', false)
-        }, 2000))
+        }, 3000))
         commit('snack', payload)
       }, 250)
     },
     // snack Undo
-    snacku ({state}) { 
+    snacku({
+      state
+    }) {
       if (state.snacku.length) {
         Vue.prototype.$DCFB.playlistsRefs.child(state.snacku[0].playlist).once('value', (snapshot) => {
           // if we are deleting
@@ -52,7 +61,7 @@ export default {
           } else {
             //  other wise
             let c = []
-            for( const b in state.snacku[0].songs ){
+            for (const b in state.snacku[0].songs) {
               c.push(state.snacku[0].songs[b])
             }
             Vue.prototype.$DCFB.createNewPlaylist(state.snacku[0].name, c, state.snacku[0].playlist)

@@ -56,10 +56,11 @@ export default {
     signUp () {
       this.$DCFB.fb.auth().createUserWithEmailAndPassword(this.email, this.password).then(
         () => {
+          this.$store.dispatch('snack', { b: true, c:'green', s: 'Logged in'})
           this.$router.replace('user')
         },
         (err) => {
-          alert('Oops. ' + err.message)
+          this.$store.dispatch('snack', { b: true, c:'red', s: 'Oops. ' + err.message })
         }
       )
     }

@@ -101,7 +101,7 @@
                   xs12 
                   class="text-xs-left"
                 >
-                  <div>
+                  <div style="min-height:150px">
                     <!-- TEXT -->
                     <div class="title font-weight-thin">{{ item.headline }}</div>
                     <div class="grey--text preline">{{ item.description }}</div>

@@ -226,8 +226,9 @@
               <!-- IMAGE -->
               <!-- :src="props.item.poster" -->
               <v-img
-                v-lazy:background-image="props.item.poster"
+                v-lazy:background-image="props.item.posterLarge"
                 :aspect-ratio="aspect"
+                :key="props.item.trackID"
                 class="fillPlace nosel"
               >
                 <!-- <v-expand-transition> -->
@@ -581,15 +582,10 @@ export default {
 .dc-crd.primary .grd-txt{
   color: white !important;
 }
-.v-card__media[lazy=error] {
+.dc-crd .v-responsive {
   background: center center / cover no-repeat;
 }
-.v-card__media[lazy=loading] {
-  background: center center / cover no-repeat;
-}
-.v-card__media[lazy=loaded] {
-  background: center center / cover no-repeat;
-}
+
 .card-duration{
   color: white;
   text-shadow: 0px 0px 5px black;

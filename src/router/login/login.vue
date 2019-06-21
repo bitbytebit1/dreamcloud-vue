@@ -157,7 +157,8 @@ export default {
         },
         err => {
           this.$store.commit('authChange', false)
-          alert('Error upgrading anonymous account. ' + err)
+          this.$store.dispatch('snack', { b: true, c:'red', s: 'Error upgrading anonymous account.\n' + err})
+
           this.loading1 = false
         }
       )
@@ -175,7 +176,7 @@ export default {
         )
         .catch(
           err => {
-            alert('Oops. ' + err.message)
+            this.$store.dispatch('snack', { b: true, c:'red', s: 'Oops.\n' + err.message})
             this.loading2 = false
           }
         )
@@ -193,7 +194,7 @@ export default {
         )
         .catch(
           err => {
-            alert('Oops. ' + err.message)
+            this.$store.dispatch('snack', { b: true, c:'red', s: 'Oops.\n' + err.message})
             this.loading2 = false
           }
         )
@@ -212,7 +213,7 @@ export default {
           )
           .catch(
             err => {
-              alert('Oops. ' + err.message)
+              this.$store.dispatch('snack', { b: true, c:'red', s: 'Oops.\n' + err.message})
               this.loading3 = false
             }
           )
