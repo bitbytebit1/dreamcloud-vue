@@ -1,6 +1,6 @@
+
 <template>
   <v-layout 
-    v-show="ytUseVideo && isYT" 
     row 
     wrap 
     class="pb-5 ma-0 pa-0"
@@ -9,10 +9,15 @@
     <v-flex xs12>
       <div class="video-wrapper">
         <div id="player"/>
+        <img 
+          src=
+            {{ 
+          song.posterLarge 
+          }}
+        > 
       </div>
     </v-flex>
     <v-flex 
-      v-if="ytUseVideo && isYT" 
       dFlex 
       xs12
     >

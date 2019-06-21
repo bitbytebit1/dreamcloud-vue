@@ -53,9 +53,7 @@
   //   id: 'UA-113982522-1',
   //   router
   // })
-  
-  import audioStage from '@/components/stage/audio'
-  Vue.component('audio-stage', audioStage)
+
   import videoStage from '@/components/stage/video'
   Vue.component('video-stage', videoStage)
   import playlist from '@/components/playlist/playlist.vue'

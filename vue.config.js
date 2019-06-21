@@ -17,7 +17,7 @@ module.exports = {
   //       return options;
   //     });
   // },
-  lintOnSave: undefined,
+  lintOnSave: true,
   devServer: {
     overlay: {
       warnings: true,
@@ -84,7 +84,7 @@ module.exports = {
     name: 'dreamcloud'
   },
   // plugins: new VuetifyLoaderPlugin(),
-  baseUrl: '',
+  publicPath: '',
   outputDir: undefined,
   assetsDir: undefined,
   runtimeCompiler: undefined,
