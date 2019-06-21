@@ -19,7 +19,7 @@
 <script>
 
 export default {
-  name: 'searchQuery',
+  name: 'SearchQuery',
   props: {
     artistID: {
       type: [String, Number],
