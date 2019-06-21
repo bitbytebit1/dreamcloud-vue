@@ -1,7 +1,7 @@
 <template>
-  <v-toolbar-items>
+  <v-toolbar-items class="ml-3">
     <!-- <v-toolbar-title class="mt-2"> -->
-    <autocomplete @search="search($event)"></autocomplete>
+    <autocomplete @search="search($event)"/>
     <!-- </v-toolbar-title> -->
     <!-- <v-text-field 
       style="max-height: 12px;"
@@ -12,17 +12,17 @@
       single-line
     >
     </v-text-field> -->
-    <v-divider></v-divider>
+    <!-- <v-divider/> -->
     <v-menu
-      class="mr-5"
       :close-on-content-click="false"
       :nudge-bottom="25"
       open-on-hover
+      z-index="10"
     >
       <v-toolbar-title slot="activator">
-        <v-btn icon slot="activator">
+        <v-btn icon>
           <v-icon>
-            cloud_circle
+            search
           </v-icon>
         </v-btn>
       </v-toolbar-title>
@@ -31,15 +31,34 @@
           <v-list-tile>
             <!-- <img src='../img/All.png'> -->
             <v-list-tile-action>
-              <v-switch v-model="aSources.All" color="primary"></v-switch>
+              <v-switch 
+                v-model="artist" 
+                color="primary"
+              />
+            </v-list-tile-action>
+            <v-list-tile-title>Artist</v-list-tile-title>
+          </v-list-tile>
+
+          <v-divider/>
+
+          <v-list-tile>
+            <!-- <img src='../img/All.png'> -->
+            <v-list-tile-action>
+              <v-switch 
+                v-model="aSources.All" 
+                color="primary"
+              />
             </v-list-tile-action>
             <v-list-tile-title>All</v-list-tile-title>
           </v-list-tile>
 
           <v-list-tile>
-          <!-- <img src='../img/bc.png'> -->
-          <v-list-tile-action>
-              <v-switch v-model="aSources.Bandcamp" color="primary"></v-switch>
+            <!-- <img src='../img/bc.png'> -->
+            <v-list-tile-action>
+              <v-switch 
+                v-model="aSources.Bandcamp" 
+                color="primary"
+              />
             </v-list-tile-action>
             <v-list-tile-title>Bandcamp</v-list-tile-title>
           </v-list-tile>
@@ -47,7 +66,10 @@
           <v-list-tile>
             <!-- <img src='../img/mc.png'> -->
             <v-list-tile-action>
-              <v-switch v-model="aSources.MixCloud" color="primary"></v-switch>
+              <v-switch 
+                v-model="aSources.MixCloud" 
+                color="primary"
+              />
             </v-list-tile-action>
             <v-list-tile-title>Mixcloud</v-list-tile-title>
           </v-list-tile>
@@ -55,7 +77,10 @@
           <v-list-tile>
             <!-- <img src='../img/sc.png'> -->
             <v-list-tile-action>
-              <v-switch v-model="aSources.SoundCloud" color="primary"></v-switch>
+              <v-switch 
+                v-model="aSources.SoundCloud" 
+                color="primary"
+              />
             </v-list-tile-action>
             <v-list-tile-title>SoundCloud</v-list-tile-title>
           </v-list-tile>
@@ -63,7 +88,10 @@
           <v-list-tile>
             <!-- <img src='../img/yt.png'> -->
             <v-list-tile-action>
-              <v-switch v-model="aSources.YouTube" color="primary"></v-switch>
+              <v-switch 
+                v-model="aSources.YouTube" 
+                color="primary"
+              />
             </v-list-tile-action>
             <v-list-tile-title>YouTube</v-list-tile-title>
           </v-list-tile>
@@ -71,7 +99,10 @@
           <v-list-tile>
             <!-- <img src='../img/vm.png'> -->
             <v-list-tile-action>
-              <v-switch v-model="aSources.Vimeo" color="primary"></v-switch>
+              <v-switch 
+                v-model="aSources.Vimeo" 
+                color="primary"
+              />
             </v-list-tile-action>
             <v-list-tile-title>Vimeo</v-list-tile-title>
           </v-list-tile>
@@ -85,7 +116,7 @@
 import autocomplete from '@/components/header/autocomplete'
 
 export default {
-  name: 'search',
+  name: 'Search',
   components: {
     'autocomplete': autocomplete
   },
@@ -95,12 +126,14 @@ export default {
     'aSources.MixCloud': '_other',
     'aSources.SoundCloud': '_other',
     'aSources.YouTube': '_other',
-    'aSources.Vimeo': '_other'
+    'aSources.Vimeo': '_other',
+    'artist': '__search'
   },
   data () {
     return {
       aSources: {All: true, Bandcamp: false, MixCloud: false, SoundCloud: false, YouTube: false, Vimeo: false},
-      sQuery: ''
+      sQuery: '',
+      artist: false
     }
   },
   computed: {
@@ -131,7 +164,11 @@ export default {
       this.search()
     },
     __search () {
-      this.$router.push({name: 'searchPage', params: {query: this.sQuery, source: this.maSource}})
+      if (this.artist) {
+        this.$router.push({name: 'searchArtist', params: {query: this.sQuery, source: this.maSource}})
+      } else {
+        this.$router.push({name: 'searchQuery', params: {query: this.sQuery, source: this.maSource}})
+      }
     },
     search (query) {
       if (query) {

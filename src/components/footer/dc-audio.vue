@@ -2,28 +2,73 @@
   <div id="dc-audio-container">
     <div id="dc-player">
       <!-- CONTROLS -->
-      <div id="left">
-        <div class="audio-controls">
-          <v-btn @click="previous" v-bind="$store.getters.theme" class="primary" icon outline>
+      <div 
+        id="left" 
+        class="fl-l"
+      >
+        <div class="fl-l">
+          <v-btn 
+            class="primary" 
+            icon 
+            outline 
+            @click="previous"
+          >
             <v-icon>skip_previous</v-icon>
           </v-btn>
-          <v-btn :loading="bLoading" v-bind="$store.getters.theme" @click="$DCPlayer.togglePlay" class="primary" icon outline>
-            <v-icon>{{play_arrow}}</v-icon>
+          <v-btn 
+            :loading="bLoading" 
+            class="primary" 
+            icon 
+            outline 
+            @click="$DCPlayer.togglePlay"
+          >
+            <v-icon>{{ play_arrow }}</v-icon>
           </v-btn>
-          <v-btn @click="next" v-bind="$store.getters.theme" class="primary" icon outline>
+          <v-btn 
+            class="primary" 
+            icon 
+            outline 
+            @click="next"
+          >
             <v-icon>skip_next</v-icon>
           </v-btn>
+          <scroll-to-top v-if="!$vuetify.breakpoint.xs"/>
         </div>
       </div>
 
       <!-- VOLUME -->
-      <div id="right" class="hidden-xs-only" @wheel.prevent="onWheel">
-        <v-speed-dial hover transition="slide-x-reverse-transition" open-on-hover>
-          <v-btn v-bind="$store.getters.theme" @click="toggleMute" :class="volClass" slot="activator" fab hover icon outline small>
-            <v-icon>{{volIcon}}</v-icon>
+      <div 
+        id="right" 
+        class="hidden-xs-only" 
+        @wheel.prevent="onWheel"
+      >
+        <v-speed-dial 
+          hover 
+          transition="slide-x-reverse-transition" 
+          open-on-hover
+        >
+          <v-btn 
+            slot="activator" 
+            :class="volClass" 
+            fab 
+            hover 
+            icon 
+            outline 
+            small 
+            @click="toggleMute"
+          >
+            <v-icon>{{ volIcon }}</v-icon>
           </v-btn>
           <div class="slider-wrapper">
-            <input class="vol-slider pointer" type="range" min="0" max="10" @input="volumeChange" v-model="volume" step="0.01">
+            <input 
+              v-model="volume" 
+              class="vol-slider pointer" 
+              type="range" 
+              min="0" 
+              max="10" 
+              step="0.01" 
+              @input="volumeChange"
+            >
           </div>
         </v-speed-dial>
       </div>
@@ -32,18 +77,22 @@
       <div id="middle">
         <div id="progress">
           <!-- <v-container fluid grid-list-md class="pa-0 ma-0"> -->
-          <v-layout row wrap>
-            <v-flex xs12 class="ml-3 mr-3">
-              <v-slider :thumb-size="thumbSize" thumb-label :max="eAudio.duration" :label="currentTime" @input="changePos" v-model="progress" color="primary" hide-details>
-                <template
-                  slot="thumb-label"
-                  slot-scope="props"
-                >
-                  <span>
-                    {{ secondsToDuration(progress) }}
-                  </span>
-                </template>
-              </v-slider>
+          <v-layout 
+            row 
+            wrap
+          >
+            <v-flex 
+              xs12 
+              class="ml-3 mr-3"
+            >
+              <v-slider 
+                :max="eAudio.duration" 
+                :label="currentTime" 
+                v-model="progress"
+                color="primary" 
+                hide-details 
+                @input="changePos"
+              />
             </v-flex>
           </v-layout>
           <!-- </v-container> -->
@@ -52,15 +101,27 @@
 
     </div>
     <!-- AUDIO ELEMENT -->
-    <audio controls id="dc-audio"></audio>
+    <audio 
+      id="dc-audio" 
+      controls
+      preload="auto"
+    />
   </div>
 </template>
 
 <script>
+import axios from "axios";
+
+import scrollToTop from '@/components/footer/scroll-to-top.vue'
+      
 export default {
-  name: 'dcAudio',
+  name: 'DcAudio',
+  components: {
+    'scroll-to-top': scrollToTop,
+  },
   data () {
     return {
+      bPreLoaded: false,
       bLoading: false,
       progress: 0,
       eAudio: '',
@@ -72,10 +133,6 @@ export default {
     }
   },
   computed: {
-    thumbSize () {
-      // if song is over an hour increase progress thumb label size
-      return this.iProgress > 3601 ? '55' : '35'
-    },
     volClass () {
       return this.volIcon === 'volume_off' ? 'red' : 'primary'
     }
@@ -102,27 +159,50 @@ export default {
       this.updateVolIcon()
     },
     updateVolIcon () {
-      return (this.volIcon = this.eAudio.volume > 0.5 ? 'volume_up' : this.eAudio.volume <= 0 || this.eAudio.muted ? 'volume_off' : 'volume_down')
+      return (this.volIcon = this.eAudio.volume > 0.5 ? 'volume_up' : this.eAudio.volume === 0 || this.eAudio.muted ? 'volume_off' : 'volume_down')
     },
     changePos (pos) {
-      if (!isNaN(pos)) {
+      if (!isNaN(pos) && this.eAudio.currentTime) {
         this.eAudio.currentTime = pos
       }
     },
     updated () {
       this.currentTime = `${this.secondsToDuration(this.eAudio.currentTime)} - ${this.secondsToDuration(this.eAudio.duration)}`
       this.progress = Math.floor(this.eAudio.currentTime)
+      // console.log(Math.floor(100 / this.eAudio.duration * this.eAudio.currentTime))
+      if (!this.bPreLoaded &&  100 / this.eAudio.duration * this.eAudio.currentTime > 3) {
+        this.bPreLoaded = true
+        // alert('preloading')
+        if (this.$store.getters.next_song && this.$store.getters.next_song.source != 'SoundCloud') {
+          if (this.$store.getters.next_song.source == 'YouTube') {
+            axios.head(`${this.$DCPlayer.sBase}v1/preload/?i=${this.$store.getters.next_song.trackID}`)
+          } else {
+            axios.head(`${this.$DCPlayer.sBase}v1/preload/?i=${this.$store.getters.next_song.mp32}`)
+          }
+          
+        }
+      }
     },
     playing () {
+      this.$store.commit('dcIsLoading', false)
+      this.$store.commit('dcIsPlaying', true)
       this.duration = this.secondsToDuration(this.eAudio.duration.toFixed(0))
       this.play_arrow = 'pause'
       this.bLoading = false
     },
     paused () {
+      this.$store.commit('dcIsPlaying', false)
       this.play_arrow = 'play_arrow'
     },
     loading () {
+      // console.log('loadingg')
+      // if (this.$route.name === 'auto') {
+      //   this.$router.push({name: 'auto', params: { artist: this.$store.getters.current_song.artist,  trackID: this.$store.getters.current_song.trackID,  source: this.$store.getters.current_song.source }})
+      // }
+      this.$store.commit('dcIsLoading', true)
       this.bLoading = true
+      this.bPreLoaded = false
+
     },
     next () {
       this.$DCPlayer.next()
@@ -220,10 +300,6 @@ export default {
   display: none;
 }
 
-.audio-controls {
-  float: left;
-}
-
 /* #dc-player {
   padding-top: 5px;
 } */
@@ -243,13 +319,15 @@ export default {
 #left {
   margin-top: 7px;
   margin-left: 7px;
-  float: left;
 }
 #right {
   float: right;
   margin-top: 5px !important;  
 }
-@media only screen and (min-width: 600px){
+@media only screen and (min-width: 960px){
+  #progress .v-input--slider{
+    margin-top: 16px;
+  }
   #middle {
     margin-right: 100px;
   }
@@ -258,7 +336,10 @@ export default {
     /* margin-top: -45px; */
   }
 }
-@media only screen and (max-width: 599px){
+@media only screen and (max-width: 959px){
+  #progress .v-input--slider{
+    margin-top: 0px;
+  }
   #dc-audio-container {
     width: 100%;
     margin-top: -60px;

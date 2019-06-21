@@ -1,0 +1,135 @@
+/* GENERAL UTILITIES */
+.hidden{
+  display: none !important;
+}
+/* GENERAL TYPOGRAPHY */
+.fwl{
+  font-weight: 300!important;
+}
+
+/* DARK THEME */
+.theme--dark.v-text-field--solo .v-input__slot:not(.v-input--is-focused){
+  /* background-color: #161616 !important; */
+  background-color: rgb(33, 33, 33)!important;
+}
+
+.theme--dark.application:not(.theme-jet-black) {
+  background-color: #161616 !important;
+  color: #fff !important;
+}
+.theme--dark .fillPlace, .theme--dark .v-avatar{
+  background-color: #292929 !important;
+  color: #fff !important;
+}
+
+/* CARD */
+.theme--dark .v-card:not(.primary){
+  background-color: #1d1d1d !important;
+  color: #fff !important;
+}
+/* SIDEBAR */
+.theme--dark .v-navigation-drawer{
+  background-color: #1d1d1d !important;
+  color: #fff !important;
+}
+/* HEADER + FOOTER */
+.theme--dark #foot{
+  background-color: #191919 !important;
+  color: #fff !important;
+}
+.theme--dark #navbar{
+  background-color: #191919 !important;
+  color: #fff !important;
+}
+/* TABLE */
+.theme--dark .v-table{
+  background-color: #1d1d1d !important;
+  color: #fff !important;
+}
+.theme--dark .v-datatable__actions{
+  background-color: #1d1d1d !important;
+  color: #fff !important;
+}
+/* LIST */
+.theme--dark .v-list{
+  background-color: #1d1d1d !important;
+  color: #fff !important;
+}
+/* TABS */
+.theme--dark .v-tabs__bar{
+  background-color: #1d1d1d !important;
+  color: #fff !important;
+}
+
+
+/* ___________ JET BLACK THEME ____________*/
+.theme-jet-black{
+  background-color: #000 !important;
+  color: #fff !important;
+}
+.theme-jet-black .fillPlace, .theme-jet-black .v-avatar{
+  background-color: #1d1d1d !important;
+  color: #fff !important;
+}
+
+/* CARD */
+.theme-jet-black .v-card:not(.primary){
+  background-color: #000 !important;
+  color: #fff !important;
+}
+/* SIDEBAR */
+.theme-jet-black .v-navigation-drawer{
+  background-color: #000 !important;
+  color: #fff !important;
+}
+/* HEADER + FOOTER */
+.theme-jet-black #foot{
+  background-color: #000 !important;
+  color: #fff !important;
+}
+.theme-jet-black #navbar{
+  background-color: #000 !important;
+  color: #fff !important;
+}
+/* TABLE */
+.theme-jet-black .v-table{
+  background-color: #000 !important;
+  color: #fff !important;
+}
+.theme-jet-black .v-datatable__actions{
+  background-color: #000 !important;
+  color: #fff !important;
+}
+/* LIST */
+.theme-jet-black .v-list{
+  background-color: #000 !important;
+  color: #fff !important;
+}
+/* TABS */
+.theme-jet-black .v-tabs__bar{
+  background-color: #000 !important;
+  color: #fff !important;
+}
+/* .theme-jet-black .v-input input{
+  background-color: #000 !important;
+  color: #fff !important;
+}
+.theme-jet-black .v-input label{
+  background-color: #000 !important;
+  color: #fff !important;
+} */
+div.application.theme--light.theme-jet-black .v-navigation-drawer .v-icon,
+div.application.theme--light.theme-jet-black #foot .v-icon,
+div.application.theme--light.theme-jet-black #navbar .v-icon,
+div.application.theme--light.theme-jet-black .v-navigation-drawer .v-icon,
+{
+  color: #fff !important;
+}
+/* LIGHT */
+div.application.theme--light .fillPlace{
+  background-color: #e3e3e3;
+}
+
+div.application.theme--dark .fillPlace{
+  background-color: #616161;
+}

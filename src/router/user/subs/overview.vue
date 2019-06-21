@@ -1,60 +1,81 @@
 <template>
-  <v-flex flexbox xs12 lg10 class="ma-0 pa-0">
+  <v-flex 
+    flexbox 
+    xs12 
+    lg10 
+    class="ma-0 pa-0"
+  >
     <div class="headline fwl text-xs-left pl-2 pt-2">Subscriptions</div>
-    <v-container fluid grid-list-md class="ma-0 pa-0">
-      <v-flex xs12 class="mb-3">
-        <!-- filter -->
-        <v-text-field
-          @focus="filterHasFocus = true"
-          @blur="filterHasFocus = false"
-          color="primary"
-          id="flr-txt"
-          label="Filter"
-          single-line
-          hide-details
-          v-model="search"
-          v-on:keyup.enter="$UTILS.closeSoftMobi()"
-          ref="search"
-          class="px-1"
-        ></v-text-field>
-      </v-flex>
-      <v-data-iterator
-        v-if="$store.getters.auth_state"
-        content-tag="v-layout"
-        row
+    <v-container 
+      fluid 
+      grid-list-md 
+      class="ma-0 pa-0"
+    >
+      <v-layout 
+        row 
         wrap
-        :items="subscriptions"
-        :search="search"
-        :rows-per-page-items="rowsPerPageItems"
-        :custom-filter="(items, search, filter) => { search = search.toString().toLowerCase() ; return items.filter(row => filter(row['name_lower'], search)) }"
-        pagination.sync="pagination"
-        hide-actions
+        class="ma-0 pa-0"
       >
-        <v-flex
-          slot="item"
-          slot-scope="props"
-          xs6
-          sm6
-          md4
-          lg3
-          class="artist-card"
+        <v-flex 
+          xs12 
+          class="mb-3"
         >
-          <!-- <v-card :to="{name: 'userPlaylist', params: {user: $route.params['user'], playlist: $route.params['playlist'], name: $route.params['name'] }}" class="pointer"> -->
-          <v-card :to="{name: 'artist', params: {source: props.item.source, artist: props.item.name, artistID: props.item.id }}" class="pointer" :key="props.item.name_lower">
-            <!-- <v-avatar
-              class="mt-2"
-              :size="((!$store.getters.drawLeft ? 21 : 0) + 95 + (!$store.getters.drawRight ? 21 : 0)) + 'px'"
-            >
-              <img
-                :src="props.item.img"
-                alt=""
-              >
-            </v-avatar> -->
-            <v-card-media v-lazy:background-image="props.item.img" height="200px"></v-card-media>
-            <v-card-text class="text-xs-center">{{ props.item.name }}</v-card-text>
-          </v-card>
+          <!-- filter -->
+          <v-text-field
+            ref="search"
+            v-model="search"
+            color="primary"
+            label="Filter"
+            single-line
+            hide-details
+            class="px-1"
+            @keyup.enter="$UTILS.closeSoftMobi()"
+          />
         </v-flex>
-      </v-data-iterator>
+        <v-data-iterator
+          v-if="$store.getters.auth_state"
+          :items="subscriptions"
+          :search="search"
+          :rows-per-page-items="rowsPerPageItems"
+          :custom-filter="(items, search, filter) => { search = search.toString().toLowerCase() ; return items.filter(row => filter([row['source'], row['name_lower']], search)) }"
+          content-tag="v-layout"
+          row
+          wrap
+          justify-space-around
+          align-space-around 
+          hide-actions
+        >
+          <v-flex
+            slot="item"
+            slot-scope="props"
+            xs4
+            md3
+            lg2
+            style="width:100%;"
+          >
+            <!-- <v-card :to="{name: 'userPlaylist', params: {user: $route.params['user'], playlist: $route.params['playlist'], name: $route.params['name'] }}" class="pointer"> -->
+            <v-card 
+              :to="{name: 'artist', params: {source: props.item.source, artist: props.item.name, artistID: props.item.id }}" 
+              :key="props.item.name_lower" 
+              class="pointer"
+            >
+              <v-avatar
+                :size="((!$store.getters.drawLeft && !$UTILS.isMobile ? 21 : 0) + 95 + (!$store.getters.drawRight && !$UTILS.isMobile ? 21 : 0)) + 'px'"
+                class="mt-2"
+              >
+                <img
+                  :src="props.item.img"
+                  alt=""
+                >
+              </v-avatar>
+              <v-card-text class="text-xs-center">{{ props.item.name }}
+                <div class="grey--text">{{ props.item.source }}</div>
+              </v-card-text>
+            </v-card>
+          </v-flex>
+        </v-data-iterator>
+      
+      </v-layout>
     </v-container>
   </v-flex>
 </template>
@@ -62,17 +83,18 @@
 // /* eslint-disable */
 // import deleteButton from '@/components/buttons/delete-button'
 export default {
-  name: 'userSubOverview',
-  props: ['user'],
+  name: 'UserSubOverview',
+  props: {
+    user: {
+      type: String,
+      default: ''
+    }
+  },
   data () {
     return {
-      filterHasFocus: false,
       search: '',
       active: true,
       rowsPerPageItems: [{ text: 'All', value: -1 }],
-      pagination: {
-        rowsPerPage: 'All'
-      }
     }
   },
   firebase () {
@@ -84,7 +106,7 @@ export default {
 </script>
 
 <style>
-/* .artist-card{ */
-  /* min-width: 303px; */
-/* } */
+.artist-card{
+  min-width: 150px;
+}
 </style>

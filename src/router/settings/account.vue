@@ -1,53 +1,54 @@
 <template>
   <div class="ma-0 pa-0">
     <h3 class="text-xs-left pa-3">Account</h3>
-    <v-divider class="primary"></v-divider>
+    <v-divider class="primary"/>
     <v-list subheader>
-      <v-list-tile
-        :to="{name: 'about'}"
-        ripple
+      <!-- Login + Switch Account -->
+
+      <!-- <v-list-tile
+        :to="{name: 'userOverview', params: {user: uid}}"
       >
         <v-list-tile-content>
-          About
+          Profile
         </v-list-tile-content>
         <v-list-tile-action>
           <v-btn icon>
-            <v-icon color="primary">face</v-icon>
+            <v-icon>explore</v-icon>
           </v-btn>
         </v-list-tile-action>
       </v-list-tile>
+      <v-divider/> -->
 
-      <v-divider></v-divider>
       <v-list-tile
+        v-if="isAnon"
         :to="{name: 'login'}"
         ripple
       >
         <v-list-tile-content>
-          {{isAnon ? 'Login' : 'Change account'}}
+          Login
         </v-list-tile-content>
         <v-list-tile-action>
           <v-btn icon>
-            <v-icon color="primary">{{isAnon ? 'face' : 'swap_horiz'}}</v-icon>
+            <v-icon>face</v-icon>
           </v-btn>
         </v-list-tile-action>
       </v-list-tile>
-      <v-divider v-if="isAnon"></v-divider>
 
-      <v-divider v-if="!isAnon"></v-divider>
       <v-list-tile
-        @click="logout"
         v-if="!isAnon"
         ripple
+        @click="logout"
       >
         <v-list-tile-content>
           Logout
         </v-list-tile-content>
         <v-list-tile-action>
           <v-btn icon>
-            <v-icon color="primary">pool</v-icon>
+            <v-icon>pool</v-icon>
           </v-btn>
         </v-list-tile-action>
       </v-list-tile>
+      <v-divider/>
     </v-list>
   </div>
 </template>
@@ -60,7 +61,8 @@ export default {
   name: 'account',
   computed: {
     ...mapGetters({
-      isAnon: 'isAnon'
+      isAnon: 'isAnon',
+      uid: 'uid'
     })
   },
   methods: {

@@ -1,54 +1,86 @@
 <template>
-  <v-flex flexbox xs12 lg10 class="ma-0 pa-0">
+  <v-flex 
+    flexbox 
+    xs12 
+    lg10 
+    class="ma-0 pa-0"
+  >
     <div class="headline fwl text-xs-left pl-2 pt-2">Playlists</div>
 
-    <v-container fluid grid-list-md class="ma-0 pa-0">
-      <v-flex xs12 class="mb-3">
+    <v-container 
+      fluid 
+      grid-list-md 
+      class="ma-0 pa-0"
+    >
+      <v-flex 
+        xs12 
+        class="mb-3"
+      >
         <!-- filter -->
         <v-text-field
-          @focus="filterHasFocus = true"
-          @blur="filterHasFocus = false"
-          color="primary"
           id="flr-txt"
+          ref="search"
+          v-model="search"
+          color="primary"
           label="Filter"
           single-line
           hide-details
-          v-model="search"
-          v-on:keyup.enter="$UTILS.closeSoftMobi()"
-          ref="search"
           class="px-1"
-        ></v-text-field>
+          @focus="filterHasFocus = true"
+          @blur="filterHasFocus = false"
+          @keyup.enter="$UTILS.closeSoftMobi()"
+        />
       </v-flex>
       <v-data-iterator
         v-if="$store.getters.auth_state"
-        content-tag="v-layout"
-        row
-        wrap
         :items="aPlaylist"
         :search="search"
         :rows-per-page-items="rowsPerPageItems"
         :custom-filter="(items, search, filter) => { search = search.toString().toLowerCase() ; return items.filter(row => filter(row['name_lower'], search)) }"
+        content-tag="v-layout"
+        row
+        wrap
         pagination.sync="pagination"
         hide-actions
       >
-        <v-flex
+        <v-flex   
           slot="item"
           slot-scope="props"
-          xs6
-          sm6
-          md4
-          lg3
+          xs4
+          md3
+          lg2
         >
           <!-- {{props.item['.key']}} -->
           <!-- {{props.item.name_lower}} -->
           <!-- {{props.item.songs[Object.keys(props.item.songs)[0]].poster}} -->
           <!-- Object.keys(aPlaylist[props.index].songs)[0] -->
-          <v-card class="pointer" :to="{name: 'userPlaylist', params: {user: $DCFB.UID, playlist: props.item['.key'], name: props.item.name}}" >
-            <v-card-media v-lazy:background-image="props.item.songs[Object.keys(props.item.songs)[0]].poster" height="200px" :key="props.item.name_lower">
-              <span class="songLeng">{{Object.keys(props.item.songs).length}}</span>
-            </v-card-media>
-            <v-card-text class="text-xs-center">{{ props.item.name }}</v-card-text>
-
+          <v-card 
+            :to="{name: 'userPlaylist', params: {user: $DCFB.UID, playlist: props.item['.key'], name: props.item.name}}"
+            height="100%" 
+            width="100%" 
+            class="pointer"
+          >
+            <!-- IMAGE -->
+            <v-img
+              :src="props.item.songs[Object.keys(props.item.songs)[0]].posterLarge"
+              aspect-ratio="1"
+              class="fillPlace"
+            />
+            <!-- <v-avatar
+              :size="((!$store.getters.drawLeft && !$UTILS.isMobile ? 21 : 0) + 95 + (!$store.getters.drawRight && !$UTILS.isMobile ? 21 : 0)) + 'px'"
+              class="mt-2"
+            > -->
+            <!-- <img
+                :src="props.item.songs[Object.keys(props.item.songs)[0]].poster"
+                alt=""
+              > -->
+            <!-- <v-img
+                :src="props.item.songs[Object.keys(props.item.songs)[0]].poster"
+                aspect-ratio="1"
+                class="fillPlace"
+              />
+            </v-avatar> -->
+            <v-card-text class="text-xs-center"><div class="ma-0 pa-0">{{ props.item.name }}</div><div class="grey--text ma-0 pa-0">{{ Object.keys(props.item.songs).length }}</div></v-card-text>
           </v-card>
         </v-flex>
       </v-data-iterator>
@@ -59,8 +91,13 @@
 // /* eslint-disable */
 // import deleteButton from '@/components/buttons/delete-button'
 export default {
-  name: 'playlistOverview',
-  props: ['user'],
+  name: 'PlaylistOverview',
+  props: {
+    user: {
+      type: String,
+      default: ''
+    }
+  },
   data () {
     return {
       filterHasFocus: false,
@@ -77,6 +114,8 @@ export default {
   },
   methods: {
     bind () {
+      // very likely that it will be faster to query the first song of every playlist 
+      // instead of getting all songs from all playlists
       this.$bindAsArray('aPlaylist', this.$DCFB.playlistGetAll(this.user).orderByChild('name_lower'))
     }
   }
@@ -84,10 +123,10 @@ export default {
 </script>
 
 <style>
-.songLeng{
+.sl{
   color: white;
-  text-shadow: 0px 0px 5px black;
-  background: rgba(1, 1, 1, .5);
+  /* text-shadow: 0px 0px 5px black; */
+  /* background: rgba(1, 1, 1, .5); */
   position: absolute;
   bottom: 0px;
   right: 0px;

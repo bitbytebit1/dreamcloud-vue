@@ -1,29 +1,80 @@
 <template>
-  <div id="dc-audio-container" class="yt">
+  <div 
+    id="dc-audio-container" 
+    class="yt"
+  >
     <div id="dc-player">
       <!-- CONTROLS -->
-      <div id="left">
-        <div class="audio-controls">
-          <v-btn @click="previous" v-bind="$store.getters.theme" class="primary" icon outline>
+      <div 
+        id="left" 
+        class="fl-l"
+      >
+        <div class="fl-l">
+          <v-btn 
+            class="primary" 
+            icon 
+            outline 
+            @click="previous"
+          >
             <v-icon>skip_previous</v-icon>
           </v-btn>
-          <v-btn :loading="bLoading" v-bind="$store.getters.theme" @click="togglePlay" class="primary" icon outline>
-            <v-icon>{{sPlayIcon}}</v-icon>
+          <v-btn 
+            :loading="bLoading" 
+            class="primary" 
+            icon 
+            outline 
+            @click="togglePlay"
+          >
+            <v-icon>{{ sPlayIcon }}</v-icon>
           </v-btn>
-          <v-btn @click="next" v-bind="$store.getters.theme" class="primary" icon outline>
+          <v-btn 
+            class="primary" 
+            icon 
+            outline 
+            @click="next"
+          >
             <v-icon>skip_next</v-icon>
           </v-btn>
+          <scroll-to-top v-if="!$vuetify.breakpoint.xs"/>
         </div>
       </div>
       
       <!-- VOLUME -->
-      <div id="right" class="hidden-xs-only" @wheel.prevent="onWheel">
-        <v-speed-dial hover transition="slide-x-reverse-transition" open-on-hover>
-          <v-btn v-bind="$store.getters.theme" @click.prevent="toggleMute" :class="volClass" slot="activator" fab hover icon outline small>
-            <v-icon>{{volIcon}}</v-icon>
+      <div 
+        id="right" 
+        class="hidden-xs-only" 
+        @wheel.prevent="onWheel"
+      >
+        <v-speed-dial 
+          hover 
+          transition="slide-x-reverse-transition" 
+          open-on-hover
+        >
+          <v-btn 
+            slot="activator" 
+            :class="volCol" 
+            fab 
+            hover 
+            icon 
+            outline 
+            small 
+            @click.prevent="toggleMute"
+          >
+            <v-icon>{{ volIcn }}</v-icon>
           </v-btn>
-          <div class="slider-wrapper" @click.prevent>
-            <input class="vol-slider pointer" type="range" min="0" max="10" @input="volumeChange" v-model="volume" step="0.01">
+          <div 
+            class="slider-wrapper" 
+            @click.prevent
+          >
+            <input 
+              v-model="volume" 
+              class="vol-slider pointer" 
+              type="range" 
+              min="0" 
+              max="100" 
+              step="1" 
+              @input="volumeChange"
+            >
           </div>
         </v-speed-dial>
       </div>
@@ -31,17 +82,28 @@
       <!-- PROGRESS -->
       <div id="middle">
         <div id="progress">
-          <v-layout row wrap>
-            <v-flex xs12  class="ml-3 mr-3">
-              <v-slider :thumb-size="thumbSize" thumb-label :max="iDuration" :label="iCurrent" v-model="iProgress" color="primary" hide-details>
-                <template
+          <v-layout 
+            row 
+            wrap
+          >
+            <v-flex 
+              xs12 
+              class="ml-3 mr-3"
+            >
+              <v-slider 
+                :max="iDuration" 
+                :label="iCurrent" 
+                v-model="iProgress" 
+                color="primary" 
+                hide-details
+              >
+                <!-- <template
                   slot="thumb-label"
-                  slot-scope="props"
                 >
                   <span>
                     {{ secondsToDuration(iProgress) }}
                   </span>
-                </template>
+                </template> -->
               </v-slider>
             </v-flex>
           </v-layout>
@@ -54,23 +116,25 @@
 
 <script>
 /* eslint-disable */
-
+import scrollToTop from '@/components/footer/scroll-to-top.vue'
+      
 export default {
   name: 'dc-youtube',
   data () {
     return {
       progress: 0,
-      volIcon: 'volume_up',
-      volume: 10
+      volume: 100
     }
   },
+  components: {
+    'scroll-to-top': scrollToTop,
+  },
   computed: {
-    thumbSize () {
-      // if song is over an hour increase progress thumb label size
-      return this.iProgress > 3601 ? '55' : '35'
+    volIcn () {
+      return this.volume > 50 ? 'volume_up' : this.volume === 0 ? 'volume_off' : 'volume_down'
     },
-    volClass () {
-      return this.volIcon === 'volume_off' ? 'red' : 'primary'
+    volCol () {
+      return this.volume === 0 ? 'red' : 'primary'
     },
     iProgress: {
       // getter
@@ -116,13 +180,10 @@ export default {
   methods: {
     onWheel (e) {
       if (e.deltaX > e.deltaY) {
-        this.$DCPlayer.volUp()
-        this.volume = +this.volume + 0.5
+        this.volume = this.$DCPlayer.volUp()
       } else {
-        this.volume = +this.volume - 0.5
-        this.$DCPlayer.volDown()
+        this.volume = this.$DCPlayer.volDown()
       }
-      // console.log(this.$store.getters.ytObject.getVolume(), this.volume)
       this.updateVolIcon()
     },
     toggleMute () {
@@ -135,14 +196,14 @@ export default {
       }
     },
     volumeChange () {
+      this.$store.getters.ytObject.setVolume(this.volume)
       this.updateVolIcon()
-      this.$store.getters.ytObject.setVolume(this.volume * 10)
       if (this.$store.getters.ytObject.isMuted()) {
         this.$store.getters.ytObject.unMute()
       }
     },
     updateVolIcon () {
-      return (this.volIcon = this.volume > 5 ? 'volume_up' : this.volume <= 0 ? 'volume_off' : 'volume_down')
+      return (this.volIcon = this.volume > 50 ? 'volume_up' : this.volume === 0 ? 'volume_off' : 'volume_down')
     },
     togglePlay () {
       if (this.bPlaying) {
@@ -242,11 +303,6 @@ export default {
 }
 
 
-
-.audio-controls {
-  float: left;
-}
-
 /* #dc-player {
   padding-top: 5px;
 } */
@@ -267,13 +323,16 @@ export default {
 #left {
   margin-top: 7px;
   margin-left: 7px;
-  float: left;
 }
 #right {
   float: right;
   margin-top: 5px !important;  
 }
-@media only screen and (min-width: 600px){
+@media only screen and (min-width: 960px){
+  
+  #progress .v-input--slider{
+    margin-top: 16px;
+  }
   #middle {
     margin-right: 100px;
   }
@@ -282,12 +341,16 @@ export default {
     /* margin-top: -60px; */
   }
 }
-@media only screen and (max-width: 599px){
+@media only screen and (max-width: 959px){
+  #progress .v-input--slider{
+    margin-top: 0px;
+  }
   #dc-audio-container {
     width: 100%;
-    /* margin-top: -60px; */
+    margin-top: -60px;
   }
   #progress-slider{
+    height: 20px;
     padding: 0!important  
   }
   #middle{

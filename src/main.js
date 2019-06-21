@@ -10,22 +10,27 @@
   
   Vue.config.productionTip = false
   
-  import Vuetify from 'vuetify'
-  Vue.use(Vuetify)
-  import('../node_modules/vuetify/dist/vuetify.min.css')
+  import Vuetify, { VLayout } from 'vuetify/lib'
+  import 'vuetify/src/stylus/app.styl'
+  // Vue.use(Vuetify)
+
+  Vue.use(Vuetify, {
+    components: {
+      VLayout
+    }
+  })
+  // import Vuetify from 'vuetify'
+  // Vue.use(Vuetify)
+  // import('../node_modules/vuetify/dist/vuetify.min.css')
+
+
   import('@/assets/dream.css')
   
   import App from './App'
   import router from './router'
   import store from './vuex'
   
-  import VueLazyload from 'vue-lazyload'
-  Vue.use(VueLazyload, {
-    preLoad: 1.6,
-    attempt: 1
-  })
-  
-  import UtilsPlug from '@/api/Utils.js'
+  import UtilsPlug from '@/api/utils.js'
   Vue.use(UtilsPlug)
   
   import DCAPIPlug from '@/api/DCAPI.js'
@@ -43,11 +48,11 @@
   import VueJsonp from 'vue-jsonp'
   Vue.use(VueJsonp)
   
-  import VueAnalytics from 'vue-analytics'
-  Vue.use(VueAnalytics, {
-    id: 'UA-113982522-1',
-    router
-  })
+  // import VueAnalytics from 'vue-analytics'
+  // Vue.use(VueAnalytics, {
+  //   id: 'UA-113982522-1',
+  //   router
+  // })
   
   import audioStage from '@/components/stage/audio'
   Vue.component('audio-stage', audioStage)
@@ -55,9 +60,8 @@
   Vue.component('video-stage', videoStage)
   import playlist from '@/components/playlist/playlist.vue'
   Vue.component('playlist', playlist)
-  
-
-  // import './registerServiceWorker'
+  import menu from '@/components/buttons/context-menu.vue'
+  Vue.component('context-menu', menu)
 
   Vue.use(Vuetify, {
     theme: {
@@ -65,6 +69,26 @@
     }
   })
   
+  // used to catch back on mobile
+  window.popStateDetected = false
+  window.addEventListener('popstate', () => {
+    window.popStateDetected = true
+  })
+
+
+  import VueLazyload from 'vue-lazyload'
+  
+Vue.use(VueLazyload)
+
+// or with options
+Vue.use(VueLazyload, {
+  preLoad: 1.6,
+  error: 'dist/img/no-image.png',
+  // loading: 'dist/loading.gif',
+  attempt: 1
+})
+
+
   new Vue({
     router,
     store,

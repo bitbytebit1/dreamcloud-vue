@@ -1,36 +1,46 @@
 <template>
   <v-list>
-    <!-- <v-list-tile v-if="loggedIn" ripple @click="closeLeftOnMobile"> -->
+    <!-- <v-list-tile v-if="loggedIn"  @click="closeLeftOnMobile"> -->
 
-    <v-subheader class="pointer" @click="closeLeftOnMobile();$router.push({name: 'userSubOverview', params: {user: $DCFB.UID}})">
+    <v-subheader 
+      class="pointer" 
+      @click="closeLeftOnMobile();$router.push({name: 'userSubOverview', params: {user: uid}})"
+    >
       Subscriptions
       <!-- Show more button -->
-      <v-btn v-if="bUIShowMore" icon class="ar17" @click.stop="(bShowMore = !bShowMore, pagination.rowsPerPage = bShowMore ? -1 : 7)">
-        <v-icon>{{bShowMore ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}</v-icon>
+      <v-btn 
+        v-if="bUIShowMore" 
+        icon 
+        class="ar17" 
+        @click.stop="(bShowMore = !bShowMore, pagination.rowsPerPage = bShowMore ? -1 : 7)"
+      >
+        <v-icon>{{ bShowMore ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
       </v-btn>
     </v-subheader>
 
     <!-- filter -->
-    <v-list-tile ripple @click.stop="$refs.search.focus()">
+    <v-list-tile 
+       
+      @click.stop="$refs.search.focus()"
+    >
       <v-list-tile-action @click="search.length > 0 ? search='' : ''">
         <!-- icon -->
-        <v-icon :color="filterHasFocus ? 'primary' : ''">{{filterLeng > 0 ? 'clear' : 'filter_list'}}</v-icon>
+        <v-icon :color="filterHasFocus ? 'primary' : ''">{{ filterLeng > 0 ? 'clear' : 'filter_list' }}</v-icon>
       </v-list-tile-action>
       <v-list-tile-content>
         <!-- text -->
         <v-text-field
-          @focus="filterHasFocus = true"
-          @blur="filterHasFocus = false"
+          ref="search"
+          v-model="search"
           color="primary"
           label="Filter"
-          class="filter"
+          class="filter ma-0 pa-0"
           single-line
           hide-details
-          v-model="search"
-          v-on:keyup.enter="$UTILS.closeSoftMobi()"
-          style="top:-10px"
-          ref="search"
-        ></v-text-field>
+          @focus="filterHasFocus = true"
+          @blur="filterHasFocus = false"
+          @keyup.enter="$UTILS.closeSoftMobi()"
+        />
       </v-list-tile-content>
     </v-list-tile>
     <v-data-iterator
@@ -38,53 +48,70 @@
       :items="subscriptions"
       :search="search"
       :rows-per-page-items="rowsPerPageItems"
-      :custom-filter="(items, search, filter) => { search = search.toString().toLowerCase() ; return items.filter(row => filter(row['name_lower'], search)) }"
+      :custom-filter="(items, search, filter) => { search = search.toString().toLowerCase() ; return items.filter(row => filter([row['source'], row['name_lower']], search)) }"
       :pagination.sync="pagination"
       hide-actions
       no-data-text="Subscribe to some people"
       no-results-text="No matching subscriptions"
     >
-      <v-flex slot="footer" v-if="bUIShowMore">
-        <v-btn small block color="transparent" @click="(bShowMore = !bShowMore, pagination.rowsPerPage = bShowMore ? -1 : 7)">
-          {{bShowMore ? 'SHOW LESS' : 'SHOW MORE'}}
+      <v-flex 
+        v-if="bUIShowMore" 
+        slot="footer"
+      >
+        <v-btn 
+          small 
+          block 
+          color="transparent" 
+          @click="(bShowMore = !bShowMore, pagination.rowsPerPage = bShowMore ? -1 : 7)"
+        >
+          {{ bShowMore ? 'SHOW LESS' : 'SHOW MORE' }}
         </v-btn>
       </v-flex>
       <v-list-tile
+        id="subscription"
         slot="item"
         slot-scope="props"
-        @click="closeLeftOnMobile"
-        id="subscription"
         :class="isPlaying(props.item['source'], props.item['name'], props.item['id'])"
-        :active-class="isPlaying(props.item['source'], props.item['name'], props.item['id']) || 'primary white--text'"
-        :to="{path: '/a/'  + props.item['source'] +  '/' + encodeURIComponent(props.item['name']) +  '/' + props.item['id']}"
-        v-bind:key="props.item['.key']"
-        ripple
+        :active-class="isPlaying(props.item['source'], props.item['name'], props.item['id']) || 'secondary white--text'"
+        :to="{path: '/a/' + props.item['source'] + '/' + encodeURIComponent(props.item['name']) + '/' + props.item['id']}"
+        :key="props.item['.key']"
+        @click="closeLeftOnMobile"
       >
         <v-list-tile-action color="green">
-          <v-avatar size='35px' slot='activator' >
-            <img :src="props.item['img']" :class="['sub-' + props.item['source']]">
+          <v-avatar 
+            slot='activator' 
+            size='35px'
+          >
+            <img 
+              :src="props.item['img']" 
+              :class="['sub-' + props.item['source']]"
+            >
           </v-avatar>
         </v-list-tile-action>
         <v-list-tile-content>
           <v-list-tile-title>{{ props.item['name'] }}</v-list-tile-title>
         </v-list-tile-content>
-        <delete-button @delete="subscriptionDelete" :id="props.item['id']" class="delete"></delete-button>
+        <delete-button 
+          :id="props.item['id']" 
+          class="delete" 
+          @delete="subscriptionDelete"
+        />
       </v-list-tile>
     </v-data-iterator>
   </v-list>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import deleteButton from '@/components/buttons/delete-button'
 export default {
-  name: 'user-playlists',
+  name: 'UserPlaylists',
   components: {
     'delete-button': deleteButton
   },
   data () {
     return {
       bShowMore: true,
-      UID: this.$DCFB.UID,
       filterHasFocus: false,
       search: '',
       active: false,
@@ -94,15 +121,30 @@ export default {
       }
     }
   },
+  watch: {
+    auth_state: {
+      immediate: true,
+      handler: 'bind'
+    }
+  },
   computed: {
+    ...mapGetters({
+      auth_state: 'auth_state',
+      uid: 'uid'
+    }),
     bUIShowMore () {
-      return this.search.length > 7
+      return this.$store.getters.auth_state && this.subscriptions.length > 5
     },
     filterLeng () {
       return this.search.length > 0
     }
   },
   methods: {
+    bind () {
+      if (this.auth_state) {
+        this.$bindAsArray('subscriptions', this.$DCFB.subscriptions.orderByChild('name_lower'))
+      }
+    },
     isPlaying (s, n, id) {
       return this.$store.getters.hash === '/a/' + s + '/' + encodeURIComponent(n) + '/' + id ? 'primary white--text' : ''
     },
@@ -111,11 +153,6 @@ export default {
     },
     closeLeftOnMobile () {
       this.$emit('closeLeft')
-    }
-  },
-  firebase () {
-    return {
-      subscriptions: this.$DCFB.subscriptions.orderByChild('name_lower')
     }
   }
 }

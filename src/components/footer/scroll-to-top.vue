@@ -1,20 +1,24 @@
 <template>
   <!-- <v-fab-transition transition="slide-y-reverse-transition"> -->
   <v-btn
-    fixed
     v-bind="$store.getters.theme"
-    @click="scrollToTop"
+    :class="$store.getters.textColor"
     class="scrollToTop primary"
-    outline 
-    icon  
+    outline
+    icon 
+    @click="scrollToTop"
   >
-    <v-icon>{{showScrollToTop ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}</v-icon>
+    <v-icon>{{ !bShowStage ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
   </v-btn>
   <!-- </v-fab-transition> -->
 </template>
 <script>
+import { mapGetters } from 'vuex';
 export default {
-  name: 'scroll-to-top',
+  name: 'ScrollToTop',
+  computed: {
+    ...mapGetters(['bShowStage'])
+  },
   data () {
     return {
       showScrollToTop: false,
@@ -23,52 +27,31 @@ export default {
   },
   methods: {
     scrollToTop () {
-      if (this.showScrollToTop) {
-        window.scrollTo(0, 0)
+      if (this.bShowStage) {
+        this.$router.go(-1)
       } else {
-        window.scrollTo(0, document.body.scrollHeight)
+        // this.$store.commit('toggleStage')
+        this.$router.push({name: 'auto'})
+        this.$router.push({name: 'auto', params: { artist: this.$store.getters.current_song.artist,  trackID: this.$store.getters.current_song.trackID,  source: this.$store.getters.current_song.source }})
+
+
       }
-    },
-    handleScroll () {
-      var d = document.documentElement
-      var offset = d.scrollTop + window.innerHeight
-      var height = d.offsetHeight
-      // if bottom
-      if (offset === height) {
-        this.showScrollToTop = true
-      // if top
-      } else if (d.scrollTop === 0) {
-        this.showScrollToTop = false
-      // if scroll down
-      } else if (this.lastScrollTop < d.scrollTop) {
-        this.showScrollToTop = false
-      // if scroll up
-      } else {
-        this.showScrollToTop = true
-      }
-      this.lastScrollTop = d.scrollTop
     }
-  },
-  created () {
-    window.addEventListener('scroll', this.handleScroll)
-  },
-  destroyed () {
-    window.removeEventListener('scroll', this.handleScroll)
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-@media only screen and (max-width: 599px){
+/* @media only screen and (max-width: 599px){
   .scrollToTop{
     bottom: 35px !important
   }
-}
-@media only screen and (min-width: 600px){
+} */
+/* @media only screen and (min-width: 600px){
   .scrollToTop{
     bottom: 8px !important;
     right: 60px !important;
-  }  
-}
+  }   */
+/* } */
 </style>

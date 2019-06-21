@@ -1,38 +1,40 @@
 <template>
   <div class="ma-0 pa-0">
     <h3 class="text-xs-left pa-3">Local Storage</h3>
-    <v-divider class="primary"></v-divider>
-      <v-list subheader>
-        <v-list-tile
-          @click=""
-          ripple
-        >
-          <v-list-tile-content>
-            Usage
-          </v-list-tile-content>
-          <!-- ~~~~~~~~~~~~~~~~~~ -->
-          <v-list-tile-action>
-            {{usage}} of {{quota}}
-          </v-list-tile-action>
-        </v-list-tile>
-        <v-divider></v-divider>
-        <!-- ||||||||||||||||||||||-->
-        <v-list-tile
-          @click="clearStorage"
-          ripple
-        >
+    <v-divider class="primary"/>
+    <v-list subheader>
+      <v-list-tile
+        ripple
+        @click="get_storage_estimate"
+      >
+        <v-list-tile-content>
+          Usage
+        </v-list-tile-content>
+        <!-- ~~~~~~~~~~~~~~~~~~ -->
+        <v-list-tile-action>
+          {{ usage }}{{ quota }}
+        </v-list-tile-action>
+      </v-list-tile>
+      <v-divider/>
+      <!-- ||||||||||||||||||||||-->
+      <v-list-tile
+        ripple
+        @click="clearStorage"
+      >
 
-          <v-list-tile-content>
-            Clear storage
-          </v-list-tile-content>
+        <v-list-tile-content>
+          Clear storage
+        </v-list-tile-content>
 
-          <v-list-tile-action class="text-xs-right">
-            <v-btn icon>
-              <v-icon color="primary">delete</v-icon>
-            </v-btn>
-          </v-list-tile-action>
-        </v-list-tile>
-      </v-list>
+        <v-list-tile-action class="text-xs-right">
+          <v-btn icon>
+            <v-icon>delete</v-icon>
+          </v-btn>
+        </v-list-tile-action>
+      </v-list-tile>
+        
+      <v-divider/>
+    </v-list>
   </div>
 </template>
 <script>
@@ -45,7 +47,7 @@ export default {
   data () {
     return {
       percentage: 0,
-      quota: 0,
+      quota: ' of 0',
       usage: 0
     }
   },
@@ -54,20 +56,23 @@ export default {
   },
   methods: {
     clearStorage () {
-      var cacheWhitelist = ['sw-precache-v3-dreamcloud']
-      caches.keys().then(function(keyList) {
-        return Promise.all(keyList.map(function(key) {
+      var cacheWhitelist = 'dreamcloud-precache-https://alphacloud.netlify.com/'
+      caches.keys().then((keyList) => {
+        return Promise.all(keyList.map((key) => {
           if (cacheWhitelist.indexOf(key) === -1) {
             return caches.delete(key)
           }
-        }))
+        })).then(() => {
+          this.quota = ''
+          this.usage = 'Restart your browser to see current usage'
+        })
       })
     },
     get_storage_estimate () {
       this.get_storage_estimate_wrap().then((estimate) => {
         this.usage = this.$UTILS.formatBytes(estimate.usage)
-        this.quota = this.$UTILS.formatBytes(estimate.quota)
-        this.percentage = (estimate.usage / estimate.quota).toFixed(2) * 10
+        this.quota = ' of ' + this.$UTILS.formatBytes(estimate.quota)
+        // this.percentage = (estimate.usage / estimate.quota).toFixed(2) * 10
       })
     },
     get_storage_estimate_wrap () {

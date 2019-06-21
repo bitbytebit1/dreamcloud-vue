@@ -1,58 +1,170 @@
 <template>
   <!-- <v-container grid-list-md text-xs-center :class="$vuetify.breakpoint.name === 'xs'? 'ma-0 pa-0 pt-1' : ''"> -->
-  <v-layout row wrap id="artistInfo" class="ma-0 pa-0 pb-2">
-    <!-- <v-btn color="success" @click.stop='$UTILS.copyToClipboard(debugLink)'>Copy</v-btn> -->
-    <!-- LEFT COLUMN -->
-    <v-flex xs12 lg1 style="min-width:180px">
+  <v-layout 
+    id="artistInfo" 
+    row 
+    wrap 
+    class="ma-0 pa-0 pb-2"
+  >
+    <!-- LEFT COLUMN XS3 LG1-->
+    <v-flex 
+      xs3 
+      lg1 
+      style="min-width:180px"
+    >
       <!-- AVATAR -->
-      <v-flex xl12 class="pt-2">
-        <v-avatar size='100px' v-lazy:background-image='info.img'>
-          <!-- <img :src='info.img' style='display:inline-block;'/> -->
+      <v-flex 
+        xl12 
+        class="pt-2"
+      >
+        <v-avatar size='100px'>
+          <v-img 
+            :src='info.img' 
+            class="fillPlace"
+          />
         </v-avatar>
       </v-flex>
       <!-- SUBSCRIBE BUTTON -->
-      <v-flex xl12 class="mt-4 pt-2">
-        <subscribe-button :artistID="artistID" :source="source" :artist="artist" :img="info.img"></subscribe-button>
+      <v-flex 
+        xl12 
+        class="mt-4 pt-2"
+      >
+        <subscribe-button 
+          :artistID="artistID" 
+          :source="source" 
+          :artist="artist" 
+          :img="info.img"
+        />
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~COPY BUTTON ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+        <!-- <v-btn 
+          color="primary" 
+          @click.stop='$UTILS.copyToClipboard(debugLink)'
+        >Copy</v-btn> -->
       </v-flex>
     </v-flex>
 
-    <!-- RIGHT COLUMN -->
-    <v-flex xs12 lg10 id="artist-right">
+    <!-- RIGHT COLUMN XS5 LG10-->
+    <v-flex 
+      id="artist-right" 
+      xs5 
+      lg10
+    >
       <!-- ARTIST NAME -->
-      <v-flex xs12 lg10 :class="$vuetify.breakpoint.name === 'xs'? 'headline fwl' : 'headline fwl text-xs-left pl-2 pt-2'">
+      <!-- <router-link 
+        :to="{name: 'artist', params: {source: source, artist: artist, artistID: artistID}}" 
+        class="noDeco pointer"
+      > -->
+      <v-flex 
+        :class="$vuetify.breakpoint.name === 'xs' ? 'headline fwl text-xs-left pl-3' : 'headline fwl text-xs-left pt-2'" 
+        xs12 
+        lg10
+      >
         {{ artist }}
       </v-flex>
-      <v-layout row wrap align-content-start>
+      <!-- </router-link> -->
+      <v-layout 
+        row 
+        wrap 
+        alignContentStart
+      >
         <!-- META -->
         <!-- {{ descHeight }} -->
-        <v-flex xs12 :class="$vuetify.breakpoint.name === 'xs'? 'headline' : 'headline text-xs-left'">
-          <v-layout row wrap align-content-start>
-            <div xs4 class="text-xs-left fl-r pr-3" style="" v-for="item in items" v-if="item.data" :key="item.name">
-              <v-tooltip right>
+        <v-flex 
+          :class="$vuetify.breakpoint.name === 'xs'? 'headline' : 'headline text-xs-left'" 
+          xs12
+        >
+          <v-layout 
+            row 
+            wrap 
+            alignContentStart
+          >
+            <div 
+              v-for="item in items" 
+              :key="item.name" 
+              xs4 
+              class="text-xs-left fl-r pr-3" 
+              style=""
+            >
+              <v-tooltip 
+                v-if="item.data"
+                left
+              >
                 <div slot="activator">
-                  <v-btn icon disabled>
+                  <v-btn 
+                    icon 
+                    disabled
+                  >
                     <v-icon>
-                      {{item.icon}}
+                      {{ item.icon }}
                     </v-icon>
                   </v-btn>
                   <span class="body-2 grey--text">
-                    {{item.data}}
+                    {{ item.data }}
                   </span>
                 </div>
-                <span>{{item.name}}</span>
+                <span>{{ item.name }}</span>
               </v-tooltip>
             </div>
           </v-layout>
         </v-flex>
-        <!-- DESCRIPTION -->
-        <v-flex xs12 id="desc" class='text-xs-left preline wordbreak ma-0 pa-0'  style="width: 100%">
-          <div v-if="info.description" id="descCont" :class="descClass" class="subheading fwl text-xs-left preline wordbreak">{{ info.description }}</div>
-        </v-flex>
-        <!-- SHOW MORE -->
-        <v-flex xs12 class="text-xs-left">
-          <v-btn v-show="descHeight > 63" flat small block class="text-xs-left" @click="bHide = !bHide">{{bHide ? 'SHOW MORE': 'SHOW LESS' }}</v-btn> 
-        </v-flex>
+        <!-- DESCRIPTION XS12 -->
+        <span
+          v-if="!$vuetify.breakpoint.xsOnly"
+          id="desc" 
+          xs12 
+          class='text-xs-left preline wordbreak ma-0 pa-0 pointer' 
+          style="width: 100%"
+          @click.stop="bHide = !bHide"
+        >
+          <div 
+            v-if="info.description" 
+            :class="descClass" 
+            class="subheading fwl text-xs-left preline wordbreak"
+          >{{ info.description }}</div>
+          <!-- SHOW MORE -->
+          <v-flex 
+            xs12 
+            class="text-xs-left pointer"
+          >
+            <v-btn 
+              v-show="descHeight > 63" 
+              flat 
+              small 
+              block 
+              class="text-xs-left" 
+            >{{ bHide ? 'SHOW MORE': 'SHOW LESS' }}</v-btn> 
+          </v-flex>
+        </SPAN>
       </v-layout>
+    
+    </v-flex>
+    <v-flex
+      v-if="$vuetify.breakpoint.xsOnly"
+      id="desc" 
+      xs12 
+      class='text-xs-left preline wordbreak ma-0 pa-0 pointer' 
+      style="width: 100%"
+      @click="bHide = !bHide"
+    >
+      <div 
+        v-if="info.description" 
+        :class="descClass" 
+        class="subheading fwl text-xs-left preline wordbreak px-2"
+      >{{ info.description }}</div>
+      <!-- SHOW MORE -->
+      <v-flex 
+        xs12 
+        class="text-xs-left pointer"
+      >
+        <v-btn 
+          v-show="descHeight > 63" 
+          flat 
+          small 
+          block 
+          class="text-xs-left" 
+          @click="bHide = !bHide"
+        >{{ bHide ? 'SHOW MORE': 'SHOW LESS' }}</v-btn> 
+      </v-flex>
     </v-flex>
   </v-layout>
   <!-- </v-container> -->
@@ -60,8 +172,21 @@
 <script>
 import subscribeButton from '@/components/buttons/subscribe-button'
 export default {
-  name: 'artist-info',
-  props: ['artistID', 'source', 'artist'],
+  name: 'ArtistInfo',
+  props: {
+    artistID: {
+      type: [String, Number],
+      default: ''
+    },
+    source: {
+      type: String,
+      default: ''
+    },
+    artist: {
+      type: String,
+      default: ''
+    }
+  },
   components: {
     'subscribe-button': subscribeButton
   },
@@ -80,10 +205,13 @@ export default {
       }
     }
   },
+  created () {
+    console.log('hai')
+  },
   computed: {
-    debugLink () {
-      return '{ artist: "' + this.artist + '", source: "' + this.source + '", artistID: "' + this.artistID + '", img: "' + this.info.img + '" },\n\n'
-    },
+    // debugLink () {
+    //   return '{ a: "' + this.artist + '", s: "' + this.source + '", ai: "' + this.artistID + '", i: "' + this.info.img + '" },\n\n'
+    // },
     descClass () {
       return this.bHide ? 'chop' : ''
     },
@@ -102,44 +230,48 @@ export default {
     }
   },
   mounted () {
-    this.$DCAPI.getArtistInfo(this.artistID, this.source).then((response) => {
-      if (this.source.toLowerCase().indexOf('youtube') > -1) {
-        this.info.created = response.data.items[0].snippet.publishedAt
-        this.info.description = response.data.items[0].snippet.description
-        this.info.img = response.data.items[0].snippet.thumbnails.high.url
-        this.info.title = response.data.items[0].snippet.title
-        this.info.followers_count = response.data.items[0].statistics.subscriberCount
-        this.info.track_count = response.data.items[0].statistics.videoCount
-      } else if (this.source.toLowerCase().indexOf('soundcloud') > -1) {
-        this.info.created = ''
-        this.info.description = ''
-        this.info.img = response.data.avatar_url.replace('large', 't500x500')
-        this.info.followers_count = response.data.followers_count
-        this.info.last_modified = response.data.last_modified
-        this.info.title = response.data.username
-        this.info.track_count = response.data.track_count
-      } else if (this.source.toLowerCase().indexOf('mixcloud') > -1) {
-        this.info.created = response.data.created
-        this.info.description = response.biog
-        this.info.img = response.data.pictures.medium
-        this.info.followers_count = response.data.followers_count
-        this.info.last_modified = response.data.updated_time
-        this.info.title = response.data.username
-        this.info.track_count = response.data.cloudcast_count
-      } else if (this.source.toLowerCase().indexOf('bandcamp') > -1) {
-        this.info.created = response.data.created
-        this.info.img = response.data.img
-        this.info.last_modified = response.data.last
-        this.info.track_count = response.data.tracks
-      }
-      this.$nextTick(() => {
-        // console.log(this.getDescHeight())
-        this.descHeight = this.getDescHeight()
-        if (this.descHeight > 50) {
-          this.bHide = true
+    setTimeout(() => {
+      this.$DCAPI.getArtistInfo(this.artistID, this.source).then((response) => {
+        if (this.source.toLowerCase().indexOf('youtube') > -1) {
+          this.info.created = response.data.items[0].snippet.publishedAt
+          this.info.description = response.data.items[0].snippet.description
+          this.info.img = response.data.items[0].snippet.thumbnails.high.url
+          this.info.title = response.data.items[0].snippet.title
+          this.info.followers_count = response.data.items[0].statistics.subscriberCount
+          this.info.track_count = response.data.items[0].statistics.videoCount
+        } else if (this.source.toLowerCase().indexOf('soundcloud') > -1) {
+          this.info.created = ''
+          this.info.description = ''
+          this.info.img = response.data.avatar_url.replace('large', 't500x500')
+          this.info.followers_count = response.data.followers_count
+          this.info.last_modified = response.data.last_modified
+          this.info.title = response.data.username
+          this.info.track_count = response.data.track_count
+        } else if (this.source.toLowerCase().indexOf('mixcloud') > -1) {
+          this.info.created = response.data.created
+          this.info.description = response.biog
+          this.info.img = response.data.pictures.medium
+          this.info.followers_count = response.data.followers_count
+          this.info.last_modified = response.data.updated_time
+          this.info.title = response.data.username
+          this.info.track_count = response.data.cloudcast_count
+        } else if (this.source.toLowerCase().indexOf('bandcamp') > -1) {
+          this.info.created = response.data.created
+          this.info.img = response.data.img
+          this.info.last_modified = response.data.last
+          this.info.track_count = response.data.tracks
         }
+        this.$nextTick(() => {
+          // console.log(this.getDescHeight())
+          if (!this.bHide) {            
+            this.descHeight = this.getDescHeight()
+            if (this.descHeight > 50) {
+              this.bHide = true
+            }
+          }
+        })
       })
-    })
+    }, 250)
   }
 }
 </script>
@@ -151,7 +283,7 @@ export default {
 }
   @media only screen and (min-width: 600px){
     #artist-right{
-      min-height: 165px;
+      min-height: 173px;
     }
   }
   @media only screen and (max-width: 599px){

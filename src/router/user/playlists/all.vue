@@ -1,18 +1,33 @@
 <template>
-  <v-flex xs12 lg10 flexbox :key="$route.params.playlist">
+  <v-flex 
+    xs12 
+    lg10 
+    flexbox
+  >
     <div class="headline fwl text-xs-left pl-2 pt-2">Library</div>
-    <playlist sortBy="uploaded" :showUploaded="!0" :songs="aSongs" rowsPerPage="84"></playlist>
+    <playlist 
+      :show-uploaded="!0"
+      :songs="aSongs" 
+      sort-by="uploaded" 
+      rows-per-page="84" 
+      @conmen="$emit('conmen', $event)"
+    />
   </v-flex>
 </template>
 <script>
 import loading from '@/components/misc/loading'
 import { mapGetters } from 'vuex'
 export default {
-  name: 'playlistsAll',
+  name: 'PlaylistsAll',
   watch: {
     'auth_state': 'bind'
   },
-  props: ['user'],
+  props: {
+    user: {
+      type: String,
+      default: ''
+    }
+  },
   created () {
     this.bind()
   },

@@ -1,63 +1,139 @@
 <template>
-  <v-dialog  dark v-model="menuOpen" max-width="500px">
-    <v-btn slot="activator" class="ml-2" :disabled="disabled" :color='btnCol' icon @click.stop="openMenu" >
-      <v-icon>playlist_add</v-icon>
-    </v-btn>
-    <!-- height="385" -->
-    <v-card flat :height="cardHeight1">
-      <v-card-text class="title fwl ma-0 pa-2">
-        Add to playlist
-      </v-card-text>
-      <v-card-actions>
-        <v-autocomplete
-          :max-height="cardHeight2"
-          v-on:keyup.enter='enter'
-          v-model="select"
-          content-class="noShadow pt-1"
-          class="ma-0"
-          :items="items"
-          :search-input.sync="search"
-          @click:append="enter"
-          item-value="key"
-          item-text="name"
-          append-icon="add"
-          no-data-text="Create new playlist"
-          label="Name"
-          color="primary"
-          ref="auto"
-          return-object
-          single-line
-          hide-no-data
-        >
-          <template slot="item" slot-scope="data">
-            <v-list-tile-content @click="clicked(data.item)" v-text="data.item.name"></v-list-tile-content>
-          </template>
-        </v-autocomplete>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
+  <span 
+    :class="{w100: inList}" 
+    style="display:inline-block"
+  >
+    <!-- LIST -->
+    <v-list-tile 
+      v-if="inList" 
+      ripple 
+      class="w100" 
+      @click.stop="openMenu"
+    >
+      <v-list-tile-title>Add to playlist</v-list-tile-title>
+
+    </v-list-tile>
+
+    <!-- BUTTON ONLY -->
+    <v-tooltip 
+      v-else 
+      top
+    >
+      <v-btn 
+        slot="activator" 
+        :disabled="disabled" 
+        :color='btnCol' 
+        class="ml-2" 
+        icon 
+        @click.stop="openMenu"
+      >
+        <v-icon>playlist_add</v-icon>
+      </v-btn>
+      <span>Add to playist</span>
+    </v-tooltip>
+
+    <!-- DIALOG -->
+    <v-dialog 
+      v-model="menuOpen" 
+      maxWidth="500px"
+    >
+      <!-- height="385" -->
+      <v-card 
+        :height="cardHeight1" 
+        flat
+        style="overflow-x: hidden;"
+      >
+        <v-card-text class="title fwl ma-0 pa-0 pl-2 pt-2">
+          Add to playlist
+        </v-card-text>
+        <div :style="{height: 44 + +cardHeight2 + 'px'}">
+          <v-autocomplete
+            ref="auto"
+            v-model="select"
+            :menu-props="{ maxHeight: cardHeight2, contentClass: 'noShadow pt-1'}"
+            :items="items"
+            :searchInput.sync="search"
+            class="ma-0 px-2"
+            itemValue="key"
+            itemText="name"
+            appendIcon=""
+            no-data-text="Create new playlist"
+            label="Playlist name"
+            color="primary"
+            clearable
+            hideNoData
+            open-on-clear
+            returnObject
+            singleLine
+            @keyup.enter='enter'
+          >
+            <template 
+              slot="item" 
+              slot-scope="data"
+            >
+              <v-list-tile-content 
+                :key="data.item['.key']" 
+                @click="clicked(data.item)"
+                v-text="data.item.name"
+              />
+            </template>
+          </v-autocomplete>
+        </div>
+        <div class="text-xs-right">
+          <v-btn 
+            color="primary" 
+            @click.stop="enter"
+          >Add</v-btn>
+        </div>
+        <!-- 438
+        345 -->
+        
+      </v-card>
+    </v-dialog>
+  </span>
 </template>
 <script>
 // /* eslint-disable */
 export default {
-  name: 'add-to-playlist',
-  props: ['song', 'disabled', 'colour'],
+  name: 'AddToPlaylist',
+  props: {
+    song: {
+      type: [Array, Object],
+      default() {
+        return []
+      }
+    },
+    disabled: {
+      type: Boolean,
+      default: false
+    },
+    inList: {
+      type: Boolean,
+      default: false
+    }
+  },
   data () {
     return {
       items: [],
-      btnCol: this.colour,
+      btnCol: '',
       menuOpen: false,
       loading: false,
       search: null,
       select: ''
     }
   },
+  watch: {
+    song: {
+      immediate: true,
+      handler: 'bind'
+    }
+  },
   computed: {
     cardHeight1 () {
-      return this.$vuetify.breakpoint.xsOnly ? '277' : '385'
+      return this.$vuetify.breakpoint.xsOnly ? '316' : '438'
     },
     cardHeight2 () {
-      return this.$vuetify.breakpoint.xsOnly ? '190' : '300'
+      return this.$vuetify.breakpoint.xsOnly ? '188' : '310'
     }
   },
   methods: {
@@ -65,45 +141,50 @@ export default {
       this.emit(v)
     },
     enter () {
-      this.emit(this.select)
+      this.emit(this.select || this.search)
     },
     emit (v) {
-      if (typeof v === 'object') {
-        this.$DCFB.playlistSongAdd(v['.key'], this.song)
-      } else {
-        this.$DCFB.createNewPlaylist(this.search, this.song)
-      }
-      this.btnFeedback()
+      // if (!v) {
+      //   return
+      // }
+      this.menuOpen = false
+      this.$DCFB.playlistGet(this.$route.params.user, this.$route.params.playlist).once('value')
+        .then((d) =>{
+          if (typeof v === 'object') {
+            this.$DCFB.playlistSongAdd(v['.key'], this.song)
+            // state.snacku[0].user, state.snacku[0].playlist).set(state.snacku[0].songs)
+            this.$store.dispatch('snack', { b: true, c:'primary', s:'Added to playlist', u: [{songs: d.val(), user: this.$route.params.user, playlist: v['.key']}]})
+          } else {
+            this.$store.dispatch('snack', { b: true, c:'primary', s:`Created new playlist`})
+            this.$DCFB.createNewPlaylist(this.search, this.song)
+          }
+          // this.$store.dispatch('snack', { b: true, c:'primary', s:'Added to playlist' })
+        })
     },
     openMenu () {
+      this.$emit('clicked')
       this.menuOpen = !this.menuOpen
-      // this.$emit('opened', true)
-      setTimeout(() => {
+      setTimeout(() => { // nextTick better?
         // VTFY CLASS
         this.$refs.auto.$el.querySelector('.v-select__slot').click()
         this.$refs.auto.$el.querySelector('input').focus()
       }, 600)
     },
-    btnFeedback () {
-      //  this.menuOpen = this.$UTILS.isMobile ? false : true
-      this.playlistName = ''
-      this.btnCol = 'green'
-      setTimeout(() => {
-        this.menuOpen = false
-        this.$emit('opened', false)
-        this.btnCol = ''
-      }, 420)
-    }
-  },
-  firebase () {
-    return {
-      items: this.$DCFB.playlists.orderByChild('name_lower')
+
+    bind () {
+      this.select = ''
+      if (this.$store.getters.auth_state) {
+        this.$bindAsArray('items', this.$DCFB.playlists.orderByChild('name_lower'))
+      }
     }
   }
 }
 </script>
 
 <style>
+.w100{
+  width: 100%;
+}
 .noShadow{
   box-shadow: none !important;
 }

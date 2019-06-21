@@ -1,12 +1,14 @@
 <template>
-  <v-flex xs12 class="" :key="String(trackID)">
-    <infinite-loading @infinite="infiniteHandler" :distance="0"><span slot="no-results"></span></infinite-loading>
+  <v-flex 
+    xs12 
+    class=""
+  >
     <v-data-iterator
       v-if="show"
+      :items="aComments"
       content-tag="v-layout"
       row
       wrap
-      :items="aComments"
       hide-actions
       no-data-text=""
     >
@@ -16,48 +18,86 @@
         xs12
       >
         <v-card class="py-2">
-          <!-- <v-container fluid grid-list-lg class="ma-0 pa-0 py-2"> -->
-            <v-layout row>
-              <v-flex xs1 sm1 style="min-width:64px">
-                <!-- IMAGE -->
-                <v-card-media contain class="pl-2">
-                  <router-link class="body-1 grey--text noDeco" :to="{name: 'artist', params: {source: source, artist: props.item.artist, artistID: props.item.artistID}}">
-                    <v-avatar
-                      size="40"
-                      color="grey lighten-4"
-                      class="mt-1">
-                      <img :src="props.item.artistIMG" alt="avatar">
-                    </v-avatar>
+          <v-layout row>
+            <v-flex 
+              class="comAv pr-3" 
+              shrink
+            >
+              <!-- IMAGE -->
+              <router-link 
+                :to="{name: 'artist', params: {source: source, artist: props.item.artist, artistID: props.item.artistID}}" 
+                class="body-1 grey--text noDeco"
+              >
+                <v-avatar
+                  class="mt-1 comAv"
+                  size="40"
+                  color="grey lighten-4"
+                >
+                  <img 
+                    :src="props.item.artistIMG" 
+                    alt="avatar"
+                  >
+                </v-avatar>
+              </router-link>
+            </v-flex>
+            <v-flex xs10>
+              <div>
+                <div class="body-1 grey--text py-1">
+                  <!-- ARTIST -->
+                  <router-link 
+                    :to="{name: 'artist', params: {source: source, artist: props.item.artist, artistID: props.item.artistID}}" 
+                    class="body-1 grey--text noDeco"
+                  >
+                    <strong>{{ props.item.artist }}</strong> 
                   </router-link>
-                </v-card-media>
-              </v-flex>
-              <v-flex xs11>
-                <div>
-                  <div class="body-1 grey--text py-1">
-                    <!-- ARTIST -->
-                    <router-link class="body-1 grey--text noDeco" :to="{name: 'artist', params: {source: source, artist: props.item.artist, artistID: props.item.artistID}}">
-                      <strong>{{props.item.artist}}</strong> 
-                    </router-link>
-                    <!-- CREATED -->
-                  <span>{{' ' + $DCAPI.calcDate('', props.item.commentCreated)}}</span></div>
-                  <!-- COMMENT -->
-                  <div class="body-1 preline py-1" v-html="timeToSeconds(props.item.comment)"></div>
-                </div>
-              </v-flex>
-            </v-layout>
-            <!-- COMMENT REPLIES -->
-            <commentThread v-if="props.item.totalReplyCount" :totalReplyCount="props.item.totalReplyCount" :commentThread="props.item.commentID" :source="source"></commentThread>
-          <!-- </v-container> -->
-
+                <!-- CREATED -->
+                <span>{{ ' ' + $DCAPI.calcDate('', props.item.commentCreated) }}</span></div>
+                <!-- COMMENT -->
+                <div 
+                  class="body-1 preline py-1" 
+                  v-html="timeToSeconds(props.item.comment)"
+                />
+              </div>
+            </v-flex>
+          </v-layout>
+          <!-- COMMENT REPLIES -->
+          <commentThread 
+            v-if="props.item.totalReplyCount" 
+            :total-reply-count="props.item.totalReplyCount" 
+            :comment-thread="props.item.commentID" 
+            :source="source"
+          />
         </v-card>
-        <v-divider v-if="props.index !== aComments.length -1"></v-divider>
+        <v-divider v-if="props.index != aComments.length - 1"/>
       </v-flex>
-      <v-flex slot="footer" v-if="aComments.length && $DCAPI.YTCommentNext && !source.toLowerCase() === 'soundcloud'">
-        <v-btn :loading="bLoading" small block color="transparent" @click="getMore">
+      <v-flex 
+        v-if="aComments.length && $DCAPI.YTCommentNext && source.toLowerCase() != 'soundcloud'"
+        slot="footer" 
+        xs12
+      >
+        <v-btn 
+          :loading="bLoading"  
+          block 
+          color="transparent" 
+          @click="getMore"
+        >
           SHOW MORE
         </v-btn>
       </v-flex>
     </v-data-iterator>
+    <v-layout 
+      v-else
+      row
+      wrap
+    >
+      <v-flex xs12>
+        <v-card >
+          <v-card-title>
+            {{ noComments ? 'No comments available' : 'Loading comments' }}
+          </v-card-title>
+        </v-card>
+      </v-flex>
+    </v-layout>
   </v-flex>
 </template>
 <script>
@@ -68,7 +108,10 @@ import InfiniteLoading from 'vue-infinite-loading'
 export default {
   name: 'songComments',
   watch: {
-    'trackID': 'reset'
+    'trackID': {
+      immediate: true,
+      handler: 'reset'
+    }
   },
   props: {
     trackID: {
@@ -90,7 +133,8 @@ export default {
       infState: '',
       aComments: [],
       iPage: 0,
-      bLoading: false
+      bLoading: false,
+      noComments: false
     }
   },
   methods: {
@@ -98,17 +142,18 @@ export default {
       this.aComments = []
       this.iPage = 0
       this.show = false
+      this.noComments = false
+      this.getComments()
     },
     infiniteHandler ($state) {
       this.infState = $state
       this.queryComments()
-      // $state.complete()
     },
     timeToSeconds (value) {
       if (!value) {
         return ''
       }
-      if (this.$store.getters.ytUseVideo) {
+      if (this.$store.getters.ytUseVideo && this.$store.getters.isYT) {
         return (value.replace(/(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)([0-5]?\d)/g,
         `<span class="underline pointer" onClick="window.dcYT.seekTo('$&'.split(':').reduce((acc,time) => (60 * acc) + +time));">$&</span>`))
       } else {
@@ -116,32 +161,42 @@ export default {
         `<span class="underline pointer" onClick="document.getElementById('dc-audio').currentTime = '$&'.split(':').reduce((acc,time) => (60 * acc) + +time)">$&</span>`))
       }
     },
-    queryComments () {
-      this.aComments = []
-      this.iPage = 0
-      this.getComments()
-    },
     getComments () {
       this.bLoading = true
       return this.$DCAPI.getSongCommentsThreads(this.trackID, this.iPage, this.source, 50, (dat) => {
-        this.show = true
-        this.infState.complete()
-        // alert('loaded')
-        this.bLoading = false
-        this.aComments = this.aComments.concat(dat)
+        if (this.infState) {
+          this.infState.complete()
+        }
+        if (dat.length) {
+          // alert('loaded')
+          this.bLoading = false
+          this.aComments = this.aComments.concat(dat)
+          this.show = true
+        } else {
+          this.noComments = true
+        }
       })
     },
     getMore () {
       this.iPage += 1
       this.getComments()
     }
-  },
-  created () {
-    this.getComments()
   }
 }
 </script>
 
 <style>
+
+@media only screen and (max-width: 599px){
+  .comAv{
+    margin-left: 4px;
+    margin-right: 4px;
+  }
+}
+@media only screen and (min-width: 600px){
+  .comAv{
+    margin-left: 10px
+  }
+}
 
 </style>

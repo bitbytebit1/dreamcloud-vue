@@ -1,31 +1,47 @@
 <template>
-  <v-flex xs12 lg10 class="mt-3">
-    <artist-info ref="artistInfo" :artistID="artistID" :source="source" :artist="artist" :key="artistID"></artist-info>
+  <v-flex 
+    xs12 
+    lg10 
+    class="mt-3"
+  >
+    <artist-info 
+      ref="artistInfo" 
+      :artistID="artistID" 
+      :source="source" 
+      :artist="artist" 
+      :key="artistID"
+    />
     <v-tabs
-      v-model="tab"
       ref="tabs"
+      v-model="tab"
     >
-      <v-tabs-slider color="primary"></v-tabs-slider>
-      <v-tab :disabled="!searchResults.length">
-        Uploads ({{searchResults.length}}) 
+      <v-tabs-slider color="primary"/>
+      <v-tab :disabled="!aSearch.length">
+        Uploads ({{ aSearch.length }}) 
       </v-tab>
       <v-tab :disabled="!aPlaylists.length">
-        Playlists ({{aPlaylists.length}})
+        Playlists ({{ aPlaylists.length }})
       </v-tab>
       <v-tab :disabled="!aSubs.length">
-        Following ({{aSubs.length}})
+        Following ({{ aSubs.length }})
       </v-tab>
     </v-tabs>
     
     <v-tabs-items v-model="tab">
       <v-tab-item>
-        <playlist sortBy="uploaded" rowsPerPage='84' :songs="searchResults"></playlist>
+        <playlist 
+          :songs="aSearch"
+          rowsPerPage='84'
+          @conmen="$emit('conmen', $event)" 
+        />
       </v-tab-item>
       <v-tab-item>
-        <playlists :aPlaylist="aPlaylists"></playlists>
+        <playlists 
+          :aPlaylist="aPlaylists" 
+        />
       </v-tab-item>
       <v-tab-item>
-        <subscriptions :aSubs="aSubs"></subscriptions>
+        <subscriptions :aSubs="aSubs"/>
       </v-tab-item>
     </v-tabs-items>
   </v-flex>
@@ -37,8 +53,21 @@ import playlists from '@/router/channel-playlists/playlists'
 import artistInfo from './artist-info.vue'
 
 export default {
-  name: 'artist',
-  props: ['source', 'artist', 'artistID'],
+  name: 'Artist',
+  props: {
+    artistID: {
+      type: [String, Number],
+      default: ''
+    },
+    source: {
+      type: String,
+      default: ''
+    },
+    artist: {
+      type: [String],
+      default: ''
+    }
+  },
   components: {
     'artist-info': artistInfo,
     'subscriptions': subscriptions,
@@ -46,27 +75,25 @@ export default {
   },
   data () {
     return {
+      oldA: '',
       sTokenSubs: '',
       sTokenPlaylists: '',
       aPlaylists: [],
       aSubs: [],
-      loading: true,
-      searchResults: [],
+      aSearch: [],
       iPage: 0,
       tab: null
     }
   },
-  created () {
-    this.$store.dispatch('loadIndeterm', true)
-    this.search(this.artistID, this.source)
-    this.getPlaylists(this.artistID, this.source)
-    this.getSubs(this.artistID, this.source)
-  },
   watch: {
-    '$route.params.artistID': '_search'
+    '$route.params': {
+      immediate: true,
+      handler: '_search'
+    }
   },
   methods: {
     getSubs (artistID, source) {
+
       this.aSubs = []
       this.sTokenSubs = ''
       let func = () => {
@@ -111,49 +138,49 @@ export default {
       func()
     },
     _search () {
-      this.tab = 0
+      if ('artist' !== this.$route.name || this.$route.params.artistID == this.oldA) {
+        return
+      }
+      this.oldA = this.$route.params.artistID
+      // this.tab = 0
+      this.aPlaylists = []
+      this.aSubs = []
       this.$store.dispatch('loadIndeterm', true)
-      this.search(this.$route.params.artistID, this.$route.params.source)
-      this.$nextTick(() => {
+      this.search(this.$route.params.artistID, this.$route.params.source).then(() =>{
         this.getPlaylists(this.$route.params.artistID, this.$route.params.source)
         this.getSubs(this.$route.params.artistID, this.$route.params.source)
       })
     },
     search (artistID, source, iPage = 0) {
       // If first page show loading
-      this.loading = !iPage
       // If not param set use internal
       artistID = artistID || this.artistID
       // If not  ”    ”   ”   ”
       source = source || this.source
       // If first page clear search results array.
-      this.searchResults = !iPage ? [] : this.searchResults
+      this.aSearch = !iPage ? [] : this.aSearch
       // Search with params
       return this.$DCAPI.searchInt('', iPage, [source], artistID, (d) => {
-        if (iPage === 0) {
-          this.$store.dispatch('loadIndeterm', false)
-        }
-        this.loading = false
         // If no results stop infinite loading
         if (!d.length) {
           return
         }
         // SANITY CHECK
         if (artistID === this.$route.params.artistID) {
-          this.searchResults.push(...d)
+          this.aSearch.push(...d)
           // if first page or second page
-          if (this.searchResults.length < 150) {
+          if (this.aSearch.length < 150) {
             // Update slider length
             this.$refs.tabs.callSlider()
           }
-          this.searchResults = this.$DCAPI.uniqueArray(this.searchResults)
+          this.aSearch = this.$DCAPI.uniqueArray(this.aSearch)
           this.search(this.query, this.source, ++this.iPage)
         }
-      }, '')
+        if (iPage === 0) {
+          this.$store.dispatch('loadIndeterm', false)
+        }
+      }, '', 50) //  !iPage ? 18 : 50 first call 18 to be fast on mobile, fucks up caching
     }
-  },
-  destroyed () {
-    // this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete')
   }
 }
 </script>

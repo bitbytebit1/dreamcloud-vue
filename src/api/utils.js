@@ -2,9 +2,10 @@ export default {
   install (Vue) {
     var Utils = {
       isMobile: window.matchMedia('only screen and (max-width: 599px)').matches,
+      isSafari : /^((?!chrome|android).)*safari/i.test(navigator.userAgent),
       isOnline: () => (window.navigator.onLine),
-      setLoc: (a, b) => localStorage.setItem(a, b),
-      getLoc: a => localStorage.getItem(a),
+      setLoc: (a, b) => window.localStorage && window.localStorage.setItem(a, b),
+      getLoc: a => window.localStorage && window.localStorage.getItem(a),
       copyToClipboard (sText) {
         let tmp = document.createElement('input')
         document.body.appendChild(tmp)
@@ -19,7 +20,7 @@ export default {
         for (let i = 0; i < array.length - 1; i++) {
           dupe = false
           for (let n = 0; n < ret.length - 1; n++) {
-            if (ret[n].trackID === array[i].trackID) {
+            if (typeof array[i] === 'undefined' || ret[n].trackID === array[i].trackID) {
               dupe = true
               break
             }
@@ -35,11 +36,11 @@ export default {
           document.activeElement.blur()
         }
       },
-      downloadLink (sURL) {
+      downloadLink (sURL , title = '') {
         let iframe = document.createElement('iframe')
 
         iframe.style.display = 'none'
-        iframe.id = iframe.name = sURL
+        iframe.id = iframe.name = sURL + title
         iframe.src = sURL
 
         document.body.appendChild(iframe)
@@ -55,9 +56,11 @@ export default {
           } else {
             Utils.downloadLink(`whatsapp://send?text=${encodeURIComponent(url)}`)
           }
+          return 0
           // this.$parent.setIframeSrc('') // double check if this works.
         } else {
           Utils.copyToClipboard(encodeURI(url))
+          return 1
         }
       },
       formatBytes (a, b) {

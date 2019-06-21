@@ -1,145 +1,204 @@
 <template>
   <div class="ma-0 pa-0">
     <h3 class="text-xs-left pa-3">Theme</h3>
-    <v-divider class="primary"></v-divider>
+    <v-divider class="primary"/>
 
-      <v-list subheader>
+    <v-list subheader>
+      <v-list-tile
+        ripple
+        @click="blackState ? '' : nightMode()"
+      >
+        <v-list-tile-content>
+          Night
+        </v-list-tile-content>
+        <!-- ~~~~~~~~~~~~~~~~~~ -->
+        <v-list-tile-action>
+          <v-switch 
+            :disabled="blackState" 
+            v-model="nightState" 
+            hide-details 
+            height="20" 
+            color="primary" 
+            class="fl-r pa-0 ma-0" 
+            @change="blackState ? '' : nightMode()"
+          />
+        </v-list-tile-action>
+      </v-list-tile>
+      <v-divider/>
+      <v-list-tile
+        ripple
+        @click="blackMode"
+      >
+        <v-list-tile-content>
+          Black
+        </v-list-tile-content>
+        <!-- ~~~~~~~~~~~~~~~~~~ -->
+        <v-list-tile-action>
+          <v-switch 
+            v-model="blackState" 
+            hide-details 
+            height="20" 
+            color="primary" 
+            class="fl-r pa-0 ma-0" 
+            @change="blackMode"
+          />
+        </v-list-tile-action>
+      </v-list-tile>
+      <v-divider/>
+      <v-list-tile
+        ripple
+        @click="$refs.inColor1.click()"
+      >
+        <v-list-tile-content>
+          Primary colour
+        </v-list-tile-content>
+        <!-- ~~~~~~~~~~~~~~~~~~ -->
+        <v-list-tile-action>
+          <input 
+            ref="inColor1" 
+            :value="$vuetify.theme.primary" 
+            height="1" 
+            class="fl-r" 
+            type="color" 
+            @input="setPrimary" 
+            @change="setPrimary"
+          >
+        </v-list-tile-action>
+      </v-list-tile>
+      <v-divider/>
+          
+      <v-list-tile
+        ripple
+        @click="$refs.inColor2.click()"
+      >
+        <v-list-tile-content>
+          Header/Footer colour
+        </v-list-tile-content>
+        <!-- ~~~~~~~~~~~~~~~~~~ -->
+        <v-list-tile-action>
+          <input 
+            ref="inColor2" 
+            height="1" 
+            class="fl-r" 
+            type="color" 
+            value="" 
+            @input="setHeadFoot" 
+            @change="setHeadFoot"
+          >
+        </v-list-tile-action>
+      </v-list-tile>
+      <v-divider/>
+          
+      <v-list-tile
+        ripple
+        @click="$refs.inColor3.click()"
+      >
+        <v-list-tile-content>
+          Sidebars
+        </v-list-tile-content>
+        <!-- ~~~~~~~~~~~~~~~~~~ -->
+        <v-list-tile-action>
+          <input 
+            ref="inColor3" 
+            height="1" 
+            class="fl-r" 
+            type="color" 
+            value="" 
+            @input="setSide" 
+            @change="setSide"
+          >
+        </v-list-tile-action>
+      </v-list-tile>
+      <v-divider/>
+          
+      <v-list-tile
+        ripple
+        @click="$refs.inColor4.click()"
+      >
+        <v-list-tile-content>
+          Outer body
+        </v-list-tile-content>
+        <!-- ~~~~~~~~~~~~~~~~~~ -->
+        <v-list-tile-action>
+          <input 
+            ref="inColor4" 
+            height="1" 
+            class="fl-r" 
+            type="color" 
+            value="" 
+            @input="setApp" 
+            @change="setApp"
+          >
+        </v-list-tile-action>
+      </v-list-tile>
+      <v-divider/>
 
-          <v-list-tile
-            @click="$refs.inColor1.click()"
-            ripple
-          >
-            <v-list-tile-content>
-              Primary colour
-            </v-list-tile-content>
-            <!-- ~~~~~~~~~~~~~~~~~~ -->
-            <v-list-tile-action>
-              <input height="1" ref="inColor1" class="fl-r" type="color" :value="$vuetify.theme.primary" v-on:input="setPrimary" v-on:change="setPrimary">
-            </v-list-tile-action>
-          </v-list-tile>
-          <v-divider></v-divider>
           
-          <v-list-tile
-            @click="$refs.inColor2.click()"
-            ripple
+      <v-list-tile
+        ripple
+        @click="$refs.inColor5.click()"
+      >
+        <v-list-tile-content>
+          Inner body
+        </v-list-tile-content>
+        <!-- ~~~~~~~~~~~~~~~~~~ -->
+        <v-list-tile-action>
+          <input 
+            ref="inColor5" 
+            height="1" 
+            class="fl-r" 
+            type="color" 
+            value="" 
+            @input="setCard" 
+            @change="setCard"
           >
-            <v-list-tile-content>
-              Header/Footer colour
-            </v-list-tile-content>
-            <!-- ~~~~~~~~~~~~~~~~~~ -->
-            <v-list-tile-action>
-              <input height="1" ref="inColor2" class="fl-r" type="color" value="" v-on:input="setHeadFoot" v-on:change="setHeadFoot">
-            </v-list-tile-action>
-          </v-list-tile>
-          <v-divider></v-divider>
-          
-          <v-list-tile
-            @click="$refs.inColor3.click()"
-            ripple
-          >
-            <v-list-tile-content>
-              Sidebars
-            </v-list-tile-content>
-            <!-- ~~~~~~~~~~~~~~~~~~ -->
-            <v-list-tile-action>
-              <input height="1" ref="inColor3" class="fl-r" type="color" value="" v-on:input="setSide" v-on:change="setSide">
-            </v-list-tile-action>
-          </v-list-tile>
-          <v-divider></v-divider>
-          
-          <v-list-tile
-            @click="$refs.inColor4.click()"
-            ripple
-          >
-            <v-list-tile-content>
-              Outer body
-            </v-list-tile-content>
-            <!-- ~~~~~~~~~~~~~~~~~~ -->
-            <v-list-tile-action>
-              <input height="1" ref="inColor4" class="fl-r" type="color" value="" v-on:input="setApp" v-on:change="setApp">
-            </v-list-tile-action>
-          </v-list-tile>
-          <v-divider></v-divider>
-
-          
-          <v-list-tile
-            @click="$refs.inColor5.click()"
-            ripple
-          >
-            <v-list-tile-content>
-              Inner body
-            </v-list-tile-content>
-            <!-- ~~~~~~~~~~~~~~~~~~ -->
-            <v-list-tile-action>
-              <input height="1" ref="inColor5" class="fl-r" type="color" value="" v-on:input="setCard" v-on:change="setCard">
-            </v-list-tile-action>
-          </v-list-tile>
-          <v-divider></v-divider>
-
-          
-          <v-list-tile
-            @click="blackState ? '' : nightMode()"
-            ripple
-          >
-            <v-list-tile-content>
-              Night Mode
-            </v-list-tile-content>
-            <!-- ~~~~~~~~~~~~~~~~~~ -->
-            <v-list-tile-action>
-              <v-switch :disabled="blackState" hide-details height="20" color="primary" class="fl-r pa-0 ma-0" @change="settingChanged('Night Mode', nightState)" v-model="nightState"></v-switch>
-            </v-list-tile-action>
-          </v-list-tile>
-          <v-divider></v-divider>
-
-          
-          <v-list-tile
-            @click="blackMode"
-            ripple
-          >
-            <v-list-tile-content>
-              Black
-            </v-list-tile-content>
-            <!-- ~~~~~~~~~~~~~~~~~~ -->
-            <v-list-tile-action>
-              <v-switch hide-details height="20" color="primary" class="fl-r pa-0 ma-0" @change="blackMode" v-model="blackState"></v-switch>
-            </v-list-tile-action>
-          </v-list-tile>
-          <v-divider></v-divider>
-
-          
-          <v-list-tile
+        </v-list-tile-action>
+      </v-list-tile>
+      <v-divider/>
+      <v-list-tile
+        ripple
+        @click="randomTheme"
+      >
+        <v-list-tile-content>
+          Random
+        </v-list-tile-content>
+        <!-- ~~~~~~~~~~~~~~~~~~ -->
+        <v-list-tile-action>
+          <v-btn 
+            ref="randomTheme" 
+            small 
+            icon 
+            class="fl-r pa-0 ma-0" 
             @click="randomTheme"
-            ripple
           >
-            <v-list-tile-content>
-              Random
-            </v-list-tile-content>
-            <!-- ~~~~~~~~~~~~~~~~~~ -->
-            <v-list-tile-action>
-              <v-btn @click="randomTheme" ref="randomTheme" small icon class="fl-r pa-0 ma-0">
-                <v-icon>cached</v-icon>
-              </v-btn>
-            </v-list-tile-action>
-          </v-list-tile>
-          <v-divider></v-divider>
+            <v-icon>cached</v-icon>
+          </v-btn>
+        </v-list-tile-action>
+      </v-list-tile>
+      <v-divider/>
           
           
-          <v-list-tile
-            @click="resetTheme"
-            ripple
+      <v-list-tile
+        ripple
+        @click="resetTheme"
+      >
+        <v-list-tile-content>
+          Reset
+        </v-list-tile-content>
+        <!-- ~~~~~~~~~~~~~~~~~~ -->
+        <v-list-tile-action>
+          <v-btn 
+            ref="resetTheme" 
+            small 
+            icon 
+            class="fl-r pa-0 ma-0"
           >
-            <v-list-tile-content>
-              Reset
-            </v-list-tile-content>
-            <!-- ~~~~~~~~~~~~~~~~~~ -->
-            <v-list-tile-action>
-              <v-btn ref="resetTheme" small icon class="fl-r pa-0 ma-0">
-                <v-icon>restore</v-icon>
-              </v-btn>
-            </v-list-tile-action>
-          </v-list-tile>
-
-      </v-list>
+            <v-icon>restore</v-icon>
+          </v-btn>
+        </v-list-tile-action>
+      </v-list-tile>
+      <v-divider/>
+    </v-list>
 
   </div>
 </template>

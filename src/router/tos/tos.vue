@@ -1,7 +1,43 @@
 <template>
-  <v-flex>
-    <div id="preline">{{ x1 }}</div>
-  </v-flex>
+  <div class="text-xs-left">
+    <v-flex
+      xs14 
+      lg10
+      offset-lg1
+    >
+      <v-card>
+        <v-card-title
+          class="primary"
+          primary-title
+        >
+          Terms Of Service
+        </v-card-title>
+  
+        <v-card-text class="preline">{{ x1 }}</v-card-text>
+         
+        <!-- Add so it does something on click
+          <v-divider></v-divider>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+
+            <v-btn
+              color="primary"
+              flat
+            >
+              I decline
+            </v-btn>
+           
+            <v-btn
+              color="primary"
+              flat
+            >
+              I accept
+            </v-btn>
+          </v-card-actions>
+          -->
+      </v-card>
+    </v-flex>
+  </div>
 </template>
 <script>
 /* eslint-disable */
@@ -9,8 +45,8 @@ export default {
   name: 'tos',
   data () {
     return {
-      x1: `dreamcloud.netlify.com Terms of Service Agreement
-Welcome to dreamcloud.netlify.com. By using (the "Service") dreamcloud.netlify.com (the "Web site") you agree to be bound by these Terms of Use Agreement (this "Agreement").
+      x1: 
+`dreamcloud.netlify.com Terms of Service Agreement. Welcome to dreamcloud.netlify.com. By using (the "Service") dreamcloud.netlify.com (the "Web site") you agree to be bound by these Terms of Use Agreement (this "Agreement"):
 
 This Agreement sets out the legally binding terms of your use of the Web site and the Service and may be modified by dreamcloud.netlify.com at any time and without prior notice, such modifications to be effective upon posting by dreamcloud.netlify.com site. This Agreement includes dreamcloud.netlify.com acceptable use policy for Content (the "Content") posted or accessed trough the Web site, dreamcloud.netlify.com Privacy Policy, and any notices regarding the Web site.
 

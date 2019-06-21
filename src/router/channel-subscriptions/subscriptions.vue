@@ -1,90 +1,125 @@
 <template>
-  <v-flex xs12 lg12>
+  <v-flex xs12>
     <v-card>
       <v-card-title class="ma-0 pa-0">
         <v-flex xs12>
           <!-- filter -->
           <v-text-field
-            @focus="filterHasFocus = true"
-            @blur="filterHasFocus = false"
-            v-on:keyup.enter="$UTILS.closeSoftMobi()"
+            id="flr-txt"
+            ref="search"
             v-model="search"
             color="primary"
-            id="flr-txt"
             label="Filter"
-            ref="search"
             class="mr-4 ml-4 mb-3"
             clearable
             single-line
             hide-details
-          ></v-text-field>
+            @focus="filterHasFocus = true"
+            @blur="filterHasFocus = false"
+            @keyup.enter="$UTILS.closeSoftMobi()"
+          />
         </v-flex>
       </v-card-title>
-      <v-data-iterator
-        v-if="$store.getters.auth_state"
-        content-tag="v-layout"
-        row
-        wrap
-        :items="aSubs"
-        :search="search"
-        :rows-per-page-items="rowsPerPageItems"
-        :custom-filter="(items, search, filter) => { search = search.toString().toLowerCase() ; return items.filter(row => filter(row['artist'], search)) }"
-        pagination.sync="pagination"
-        hide-actions
+      <v-container 
+        grid-list-lg 
+        class="pa-0" 
+        fluid
       >
-        <v-flex
-          slot="item"
-          slot-scope="props"
-          xs12
-          sm6
-          md4
-          lg12
-          class="artist-card"
+        <v-data-iterator
+          v-if="$store.getters.auth_state"
+          :items="aSubs"
+          :search="search"
+          :rows-per-page-items="rowsPerPageItems"
+          :custom-filter="(items, search, filter) => { search = search.toString().toLowerCase() ; return items.filter(row => filter(row['artist'], search)) }"
+          :pagination.sync="pagination"
+          content-tag="v-layout"
+          row
+          wrap
         >
-          <!-- <v-card :to="{name: 'userPlaylist', params: {user: $route.params['user'], playlist: $route.params['playlist'], name: $route.params['name'] }}" class="pointer"> -->
-          <v-card  class="pointer dc-crd" :to="{name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID }}">
-            <v-layout row>
-              <v-flex xs4>
-                <v-card-media
-                  v-lazy:background-image="props.item.img"
-                  :key="props.item.img"
-                  height="200px"
-                ></v-card-media>
-                <!-- <v-badge right  color="red">
-                  <span slot="badge">{{props.item.newItemCount}}</span>
-                </v-badge> -->
-              </v-flex>
-              <v-flex xs8>
-                <div class="h200 text-xs-left pl-4 pr-4">
-                  <div class="headline">{{ props.item.artist }}</div>
-                  <div class="grey--text">Uploads {{props.item.numberOfSongs}}</div>
-                  <div class="">{{props.item.description}}</div>
-                  <!-- <div>{{props.item.numberOfSongs}}</div> -->
-                </div>
-              </v-flex>
-            </v-layout>
+          <v-flex
+            slot="item"
+            slot-scope="props"
+            xs12
+            sm6
+            md4
+            lg12
+            class="artist-card"
+          >
+            <!-- <v-card :to="{name: 'userPlaylist', params: {user: $route.params['user'], playlist: $route.params['playlist'], name: $route.params['name'] }}" class="pointer"> -->
+            <v-card 
+              :to="{name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID }}" 
+              class="pointer dc-crd"
+            >
+              <v-layout row>
+                <v-flex xs2>
+                  <v-img
+                    :src="props.item.img"
+                    class="fillPlace"
+                  >
+                    <v-layout
+                      slot="placeholder"
+                      fill-height
+                      align-center
+                      justify-center
+                      ma-0
+                      class="grey--text"
+                    />
+                  </v-img>
+                </v-flex>
+                <v-flex xs10>
+                  <div class=" text-xs-left">
+                    <div>
+                      <div 
+                        class="subheading"
+                      >{{ props.item.artist }} </div>
+                      <subscribe-button 
+                        :artistID="props.item.artistID" 
+                        :source="props.item.source" 
+                        :artist="props.item.artist" 
+                        :img="props.item.img"
+                      />
+                    </div>
+                    
+                    <div>Uploads {{ props.item.numberOfSongs }}</div>
 
-          </v-card>
-        </v-flex>
-      </v-data-iterator>
+                    <div class="">{{ props.item.description }}</div>
+                    <!-- <div>{{props.item.numberOfSongs}}</div> -->
+                  </div>
+                </v-flex>
+              </v-layout>
+
+            </v-card>
+          </v-flex>
+        </v-data-iterator>
+      </v-container>
     </v-card>
     <!-- </v-container> -->
   </v-flex>
 </template>
 <script>
 // /* eslint-disable */
-// import deleteButton from '@/components/buttons/delete-button'
+import subscribeButton from '@/components/buttons/subscribe-button'
 export default {
-  name: 'userSubOverview',
-  props: ['aSubs'],
+  name: 'UserSubOverview',
+  props: {
+    aSubs: {
+      type: Array,
+      default() {
+        return []
+      }
+    }
+  },
+  components: {
+    'subscribeButton': subscribeButton
+  },
   data () {
     return {
       filterHasFocus: false,
       search: '',
       active: true,
-      rowsPerPageItems: [{ text: 'All', value: -1 }],
+      rowsPerPageItems: [24, 50, 100, {"text":"All", "value": -1}],
       pagination: {
-        rowsPerPage: 'All'
+        rowsPerPage: 24
       }
     }
   }
@@ -95,7 +130,7 @@ export default {
 .h200{
   height: 200px;
 }
-/* .artist-card{ */
-  /* min-width: 303px; */
-/* } */
+.artist-card{
+  min-width: 200px;
+}
 </style>

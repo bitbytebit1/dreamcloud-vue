@@ -1,22 +1,33 @@
 <template>
-  <v-btn icon v-show="$store.getters.isYT" :disabled="!$store.getters.isYT" @click.stop="clicked" class="ma-0 pa-0" fab small>
-    <v-icon :color="color">ondemand_video</v-icon>
-  </v-btn>
+  <v-tooltip 
+    top
+  >
+    <v-btn 
+      v-show="$store.getters.isYT" 
+      slot="activator"
+      :disabled="!$store.getters.isYT" 
+      icon 
+      small 
+      @click.stop="clicked"
+    >
+      <v-icon :color="color">ondemand_video</v-icon>
+    </v-btn>
+    <span>{{ toolTip }} video</span>
+  </v-tooltip>
 </template>
 <script>
 export default {
   computed: {
-    showColor: () => 'red',
+    toolTip() { 
+      return this.$store.getters.ytUseVideo && this.$store.getters.isYT ? 'Disable' : 'Enable' 
+    },
     color () {
-      let c = (this.$store.getters.ytUseVideo && this.$store.getters.isYT) ? 'red' : ''
-      // return { color: c }
-      return c
+      return this.$store.getters.ytUseVideo && this.$store.getters.isYT ? 'red' : ''
     }
   },
   methods: {
     clicked () {
       // debugger
-      this.$store.commit('ytSwitchTime', true)
       this.$store.commit('ytToggleVideo')
       let dur = this.$store.getters.ytUseVideo ? this.$DCPlayer.eAudio.currentTime : this.$store.getters.ytCurrentTime
       let isPlay = this.$store.getters.ytIsPlaying || !this.$DCPlayer.eAudio.paused
@@ -38,7 +49,6 @@ export default {
           if (!isPlay) {
             this.$store.commit('ytStopVideo')
           }
-          this.$store.commit('ytSwitchTime', false)
         }, 1500)
       } else {
         this.$store.commit('ytStopVideo')
@@ -49,9 +59,6 @@ export default {
             // console.log('dc pausing')
             this.$DCPlayer.pause()
           }
-          setTimeout(() => {
-            this.$store.commit('ytSwitchTime', false)
-          }, 1500)
         })
       }
     }

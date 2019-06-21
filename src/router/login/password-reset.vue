@@ -1,18 +1,36 @@
 <template>
   <v-container fluid>
-    <v-layout row wrap justify-center align-center>
-      <v-flex xs12 sm12 lg12 flexbox>
+    <v-layout 
+      row 
+      wrap 
+      justify-center 
+      align-center
+    >
+      <v-flex 
+        xs12 
+        sm12 
+        lg12 
+        flexbox
+      >
         <h3>Reset your password</h3>
       </v-flex>
-      <br />
-      <v-flex xs12 sm6 lg4 flexbox>
-        <v-text-field required label="Email Address" v-model="email" :rules="[() =>  validateEmail() || 'Please enter a valid email']" validate-on-blur></v-text-field>
+      <br >
+      <v-flex 
+        xs12 
+        sm6 
+        lg4 
+        flexbox
+      >
+        <v-text-field 
+          v-model="email" 
+          :rules="[() => validateEmail() || 'Please enter a valid email']" 
+          required 
+          label="Email Address" 
+          validate-on-blur
+        />
         <v-btn @click.prevent="reset">
           Reset
         </v-btn>
-        <v-alert :color="alertColor" icon="check_circle" v-model="alertShow">
-          {{alertMsg}}
-        </v-alert>        
       </v-flex>
     </v-layout>
   </v-container>
@@ -21,13 +39,10 @@
 <script>
 // /* eslint-disable */
 export default {
-  name: 'login',
+  name: 'Login',
   data () {
     return {
       email: '',
-      alertShow: false,
-      alertMsg: '',
-      alertColor: ''
     }
   },
   computed: {
@@ -42,16 +57,11 @@ export default {
     reset () {
       if (this.validateEmail()) {
         this.$DCFB.fb.auth().sendPasswordResetEmail(this.email).then(
-          (resp) => {
-            this.alertColor = 'green'
-            this.alertMsg = 'Check your email =3'
-            this.alertShow = true
+          () => {
+            this.$store.dispatch('snack', { b: true, c:'green', s:'Check your email =3' })
           },
-          (err) => {
-            this.alertColor = 'red'
-            this.alertMsg = 'Sorry, no user with that account found'
-            this.alertShow = true
-            err++
+          () => {
+            this.$store.dispatch('snack', { b: true, c:'red', s:'Sorry, no user with that account found' })
           }
         )
       }

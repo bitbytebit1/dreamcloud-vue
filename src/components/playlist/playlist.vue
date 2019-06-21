@@ -1,9 +1,45 @@
 <template>
   <!-- <v-flex flexbox> -->
   <!-- <v-container fluid class="grid-list-xs search-results"> -->
-  <v-layout row wrap>
-    <list v-if="list && !gridView" :songs="fixedSongs" :full="full" :rowsPerPage="rowsPerPage" :sortBy="sortBy" @toggleView="toggleView"></list>
-    <grid v-else :songs="fixedSongs" :full="full" :rowsPerPage="rowsPerPage" :sortBy="sortBy" :showUploaded="showUploaded" @toggleView="toggleView"></grid>
+  <v-layout 
+    row 
+    wrap 
+  >
+    <list 
+      v-if="view_mode == '2' && !gridView" 
+      :songs="aSongs" 
+      :full="full" 
+      :rows-per-page="rowsPerPage"
+      :sort-by="sortBy" 
+      :bMini="true" 
+      @toggleView="toggleView"
+      @shuffleOn="shuffle"
+      @shuffleOff="shuffleOff"
+      @conmen="$emit('conmen', $event)"
+    />
+    <list 
+      v-if="view_mode == '1' && !gridView" 
+      :songs="aSongs" 
+      :full="full" 
+      :rows-per-page="rowsPerPage" 
+      :sort-by="sortBy" 
+      @toggleView="toggleView"
+      @shuffleOn="shuffle"
+      @shuffleOff="shuffleOff"
+      @conmen="$emit('conmen', $event)"
+    />
+    <grid 
+      v-if="view_mode == '0' && !gridView" 
+      :songs="aSongs" 
+      :full="full" 
+      :rows-per-page="rowsPerPage" 
+      :sort-by="sortBy" 
+      :show-uploaded="showUploaded" 
+      @toggleView="toggleView"
+      @shuffleOn="shuffle"
+      @shuffleOff="shuffleOff"
+      @conmen="$emit('conmen', $event)"
+    />
   </v-layout>
   <!-- </v-container> -->
   <!-- </v-flex> -->
@@ -14,7 +50,7 @@ import list from './list'
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'playlist',
+  name: 'Playlist',
   props: {
     songs: {
       type: [Array],
@@ -48,41 +84,53 @@ export default {
   data () {
     return {
       showScrollToTop: false,
-      fixd: this.songs
+      // fixd: this.songs,
+      aSongs: this.songs
+    }
+  },
+  watch: {
+    songs: {
+      handler: 'shuffleOff'
     }
   },
   computed: {
     ...mapGetters({
-      list: 'view_mode'
-    }),
-    _size () {
-      // returns xs to xl depending on view port.
-      // used to set padding around elements.
-      return this.$vuetify.breakpoint.name
-    },
-    fixedSongs () {
-      // eslint-disable-next-line
-      this.fixd = this.songs
-      for (let song in this.fixd) {
-        // console.log(this.fixd[song])
-        if (!(this.fixd[song].uploaded instanceof Date)) {
-          // eslint-disable-next-line
-          this.fixd[song].uploaded = new Date(this.fixd[song].uploaded)
-        } else {
-          // console.log('assuming all dates are ok')
-          break
-        }
-      }
-      return this.fixd
-    }
+      view_mode: 'view_mode'
+    })
   },
   methods: {
+    // burp () {
+      
+    // this.fixd = this.songs
+    // for (let song in this.songsActual) {
+    //   // console.log(this.fixd[song])
+    //   if (!(this.songsActual[song].uploaded instanceof Date)) {
+    //     // eslint-disable-next-line
+    //     this.songsActual[song].uploaded = new Date(this.songsActual[song].uploaded)
+    //   } else {
+    //     // console.log('assuming all dates are ok')
+    //     break
+    //   }
+    // }
+    // this.songsActual = this.fixd
+    // },
+    shuffleOff () {
+      this.aSongs = this.songs
+    },
+    shuffle ($event) {
+      // console.log('shufflez', $event[0].trackID)
+      this.aSongs = $event
+      // wait for data table to update
+      // this.$nextTick(() => {
+      //   this.play(0)
+      // })
+    },
     play (index) {
-      this.$store.commit('setNPlay', {songs: this.songs, current: index, path: this.$route.path})
-      return this.$DCPlayer.setNPlay(this.songs, index)
+      this.$store.commit('setNPlay', {songs: this.aSongs, current: index, path: this.$route.path})
+      return this.$DCPlayer.setNPlay(this.aSongs, index)
     },
     sort () {
-      this.songs.sort(this.$DCAPI.sortDate)
+      this.aSongs.sort(this.$DCAPI.sortDate)
     },
     toggleView () {
       this.$store.commit('view_mode_toggle')

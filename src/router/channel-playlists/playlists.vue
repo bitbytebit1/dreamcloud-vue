@@ -1,58 +1,72 @@
 <template>
-  <v-flex xs12 lg12>
-    <v-card>
+  <v-flex 
+    xs12 
+    lg12
+  >
+    <v-card flat>
       <v-card-title class="ma-0 pa-0">
         <v-flex xs12 >
           <!-- filter -->
           <v-text-field
-            @focus="filterHasFocus = true"
-            @blur="filterHasFocus = false"
-            v-on:keyup.enter="$UTILS.closeSoftMobi()"
+            id="flr-txt"
+            ref="search"
             v-model="search"
             color="primary"
-            id="flr-txt"
             label="Filter"
-            ref="search"
             class="mr-4 ml-4 mb-3"
             clearable
             single-line
             hide-details
-          ></v-text-field>
+            @focus="filterHasFocus = true"
+            @blur="filterHasFocus = false"
+            @keyup.enter="$UTILS.closeSoftMobi()"
+          />
         </v-flex>
       </v-card-title>
-      <v-data-iterator
-        content-tag="v-layout"
-        row
-        wrap
-        class=""
-        :items="aPlaylist"
-        :search="search"
-        :rows-per-page-items="rowsPerPageItems"
-        :custom-filter="(items, search, filter) => { search = search.toString().toLowerCase() ; return items.filter(row => filter(row['title'], search)) }"
-        pagination.sync="pagination"
-        hide-actions
+      <v-container 
+        grid-list-lg 
+        class="pa-2" 
+        fluid
       >
-        <v-flex
-          slot="item"
-          slot-scope="props"
-          xs12
-          sm6
-          md4
-          lg3
-          v-if="props.item.numberOfSongs"
+        <v-data-iterator
+          :items="aPlaylist"
+          :search="search"
+          :rows-per-page-items="rowsPerPageItems"
+          :custom-filter="(items, search, filter) => { search = search.toString().toLowerCase() ; return items.filter(row => filter(row['title'], search)) }"
+          content-tag="v-layout"
+          row
+          wrap
+          class=""
+          pagination.sync="pagination"
         >
-          <!-- {{props.item['.key']}} -->
-          <!-- {{props.item.name_lower}} -->
-          <!-- {{props.item.songs[Object.keys(props.item.songs)[0]].poster}} -->
-          <!-- Object.keys(aPlaylist[props.index].songs)[0] -->
-          <v-card class="pointer dc-crd" :to="{name: 'channelPlaylist', params: {listID: props.item.listID, artistID: props.item.artistID, title: props.item.title, source: props.item.source}}" >
-            <v-card-media v-lazy:background-image="props.item.img" height="200px">
-              <span class="songLeng">{{props.item.numberOfSongs}}</span>
-            </v-card-media>
-            <v-card-text class="text-xs-center subheading">{{ props.item.title }}</v-card-text>
-          </v-card>
-        </v-flex>
-      </v-data-iterator>
+          <v-flex
+            v-if="props.item.numberOfSongs"
+            slot="item"
+            slot-scope="props"
+            xs12
+            sm6
+            md4
+            lg3
+          >
+            <!-- {{props.item['.key']}} -->
+            <!-- {{props.item.name_lower}} -->
+            <!-- {{props.item.songs[Object.keys(props.item.songs)[0]].poster}} -->
+            <!-- Object.keys(aPlaylist[props.index].songs)[0] -->
+            <v-card 
+              :to="{name: 'channelPlaylist', params: {listID: props.item.listID, artistID: props.item.artistID, title: props.item.title, source: props.item.source}}" 
+              class="pointer dc-crd"
+            >
+              <v-img
+                :aspect-ratio="props.item.source === 'YouTube' ? 16/9 : 1"
+                :src="props.item.img"
+              >
+                <span class="songLeng">{{ props.item.numberOfSongs }}</span>
+              </v-img>
+              <v-card-text class="text-xs-center subheading">{{ props.item.title }}</v-card-text>
+            </v-card>
+          </v-flex>
+        </v-data-iterator>
+      </v-container>
     </v-card>
   </v-flex>
 </template>
@@ -60,8 +74,15 @@
 // /* eslint-disable */
 // import deleteButton from '@/components/buttons/delete-button'
 export default {
-  name: 'playlistOverview',
-  props: ['aPlaylist'],
+  name: 'PlaylistOverview',
+  props: {
+    aPlaylist: {
+      type: Array,
+      default() {
+        return []
+      }
+    }
+  },
   data () {
     return {
       filterHasFocus: false,

@@ -1,21 +1,22 @@
 <template>
   <div class="ma-0 pa-0">
     <h3 class="text-xs-left pa-3">Hotkeys</h3>
-    <v-divider class="primary"></v-divider>
+    <v-divider class="primary"/>
     <v-list subheader>
       <template v-for="(item, index) in items">
-          <v-list-tile
-            @click=""
-            :key="item.key"
-          >
-            <v-list-tile-content>
-              {{item.title}}
-            </v-list-tile-content>
-            <v-list-tile-action>
-              {{item.key}}
-            </v-list-tile-action>
-          </v-list-tile>
-        <v-divider v-if="index + 1 < items.length" :key="index"></v-divider>
+        <v-list-tile
+          :key="item.key"
+          ripple
+          @click="() => {}"
+        >
+          <v-list-tile-content>
+            {{ item.title }}
+          </v-list-tile-content>
+          <v-list-tile-action>
+            {{ item.key }}
+          </v-list-tile-action>
+        </v-list-tile>
+        <v-divider :key="index"/>
       </template>
     </v-list>
   </div>
@@ -34,10 +35,11 @@ export default {
         {key: 'Alt + Right', title: 'Previous song  '},
         {key: 'Left', title: 'Shuttle back 10 seconds'},
         {key: 'Right', title: 'Shuttle forward 10 seconds'},
-        {key: 'Space', title: 'Toggle play'},
+        {key: 'C', title: 'Toggle current tab'},
         {key: 'F', title: 'Toggle fullscreen'},
-        {key: 'W', title: 'Toggle widescreen'},
         {key: 'M', title: 'Toggle mute'},
+        {key: 'Space', title: 'Toggle play'},
+        {key: 'W', title: 'Toggle widescreen'},
         {key: 'Alt + Down', title: 'Volume down'},
         {key: 'Alt + Up', title: 'Volume up'}
       ]

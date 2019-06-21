@@ -1,18 +1,43 @@
 <template>
-  <v-flex xs3 lg1 align-center class="mt-3">
-    <!-- Left column -->
-    <v-flex xs12 >
+  <v-flex 
+    shrink 
+    alignCenter 
+    class="mt-3"
+  >    <!-- Left column -->
+    <v-flex 
+      xs12 
+    >
       <!-- Avatar -->
       <router-link :to="{name: 'artist', params: {source: source, artist: artist, artistID: artistID}}">
-        <v-flex xs12>
-          <v-avatar class="pointer" size='55px' slot='activator'>
-            <img :src='info.img' class='img-fluid' style='display:inline-block;'/>
+        <v-flex 
+          xs12 
+          text-xs-center
+        >
+          <v-avatar 
+            slot='activator' 
+            class="pointer" 
+            size='55px'
+          >
+            <img 
+              :src='info.img' 
+              class='img-fluid' 
+              style='display:inline-block;'
+            >
           </v-avatar>
         </v-flex>
       </router-link>
       <!-- Subscribe Button -->
-      <v-flex xl12 class="mt-2">
-        <subscribe-button v-if="$store.getters.auth_state" :artistID="artistID" :source="source" :artist="artist" :img="info.img"></subscribe-button>
+      <v-flex 
+        xl12 
+        class="mt-2"
+      >
+        <subscribe-button 
+          v-if="$store.getters.auth_state" 
+          :artistID="artistID" 
+          :source="source" 
+          :artist="artist" 
+          :img="info.img"
+        />
       </v-flex>
     </v-flex>
   </v-flex>
@@ -20,8 +45,21 @@
 <script>
 import subscribeButton from '@/components/buttons/subscribe-button'
 export default {
-  name: 'artist-mini',
-  props: ['artistID', 'source', 'artist'],
+  name: 'ArtistMini',
+  props: {
+    artistID: {
+      type: [String, Number],
+      default: ''
+    },
+    source: {
+      type: String,
+      default: ''
+    },
+    artist: {
+      type: String,
+      default: ''
+    }
+  },
   components: {
     'subscribe-button': subscribeButton
   },

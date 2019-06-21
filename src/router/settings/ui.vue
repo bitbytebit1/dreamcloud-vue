@@ -1,76 +1,94 @@
 <template>
   <div class="ma-0 pa-0">
     <h3 class="text-xs-left pa-3">UI</h3>
-    <v-divider class="primary"></v-divider>
-      <v-list subheader>
-        <v-list-tile
-          @click="listViewSmall = !listViewSmall"
-          ripple
-        >
-          <v-list-tile-content>
-            List view small pictures
-          </v-list-tile-content>
-          <!-- ~~~~~~~~~~~~~~~~~~ -->
-          <v-list-tile-action>
-            <v-switch ref="listViewSmall" hide-details height="20" color="primary" class="fl-r pa-0 ma-0" v-model="listViewSmall"></v-switch>
-          </v-list-tile-action>
-        </v-list-tile>
-        <v-divider></v-divider>
-        <!-- ||||||||||||||||||||||-->
-        <v-list-tile
-          @click="showVideoOnClick = !showVideoOnClick"
-          ripple
-        >
+    <v-divider class="primary"/>
+    <v-list subheader>
+      <v-list-tile
+        ripple
+        @click="showVideo = !showVideo"
+      >
+        <v-list-tile-content>
+          Go to current tab on song click
+        </v-list-tile-content>
 
-          <v-list-tile-content>
-            Show video on song
-          </v-list-tile-content>
+        <v-list-tile-action>
+          <v-switch 
+            v-model="showVideo" 
+            hide-details 
+            height="20" 
+            color="primary" 
+            class="fl-r pa-0 ma-0"
+          />
+        </v-list-tile-action>
+      </v-list-tile>
+      <v-divider/>
 
-          <v-list-tile-action>
-            <v-switch hide-details height="20" color="primary" class="fl-r pa-0 ma-0" v-model="showVideoOnClick"></v-switch>
-          </v-list-tile-action>
-        </v-list-tile>
-      </v-list>
+      <v-list-tile
+        ripple
+        @click="closeMenu = !closeMenu"
+      >
+        <v-list-tile-content>
+          Close right click menu on scroll
+        </v-list-tile-content>
+
+        <v-list-tile-action>
+          <v-switch 
+            v-model="closeMenu" 
+            hide-details 
+            height="20" 
+            color="primary" 
+            class="fl-r pa-0 ma-0"
+          />
+        </v-list-tile-action>
+      </v-list-tile>
+      <v-divider/>
+
+    </v-list>
   </div>
 </template>
 <script>
-/* eslint-disable */
+
 import deleteButton from '@/components/buttons/delete-button'
 import { mapGetters } from 'vuex'
 
 export default {
   watch: {
-    'listViewSmall': {
+    'showVideo': {
       immediate: false,
-      handler: 'hlistViewSmall'
+      handler: 'hShowVideo'
     },
-    'showVideoOnClick': {
+    'showWatchB': {
       immediate: false,
-      handler: 'hshowVideoOnClick'
+      handler: 'hShowWatchB'
+    },
+    'closeMenu': {
+      immediate: false,
+      handler: 'hCloseMenu'
     }
   },
-  name: 'theme',
+  name: 'Theme',
   components: {
     'delete-button': deleteButton
   },
   data () {
     return {
-      listViewSmall: this.$store.getters.listViewSmall,
-      showVideoOnClick: this.$store.getters.showVideo
+      showVideo: this.$store.getters.showVideo,
+      closeMenu: this.$store.getters.closeMenuOnScroll,
     }
   },
   methods: {
-    hshowVideoOnClick () {
-      // console.log('Show Video On Click', this.showVideoOnClick)
-      this.settingChanged('Show Video', this.showVideoOnClick)
+    hCloseMenu (n) {
+      this.settingChanged('Close Menu', n)
     },
-    hlistViewSmall () {
-      // console.log('List Small', this.listViewSmall)
-      this.settingChanged('List Small', this.listViewSmall)
+    hShowVideo (n) {
+      this.showVideo = n
+      // console.log('Show Video On Click', this.showVideoOnClick)
+      this.settingChanged('Show Video', this.showVideo)
     },
     settingChanged (name, value) {
       this.$DCFB.settingChange(name, value)
       this.$store.commit('changeSetting', { 'setting': name, 'value': value })
+      // this.$UTILS.setLoc('settings', JSON.stringify(value))
     }
   },
   created () {
@@ -84,9 +102,9 @@ export default {
     // })
   },
   computed: {
-    // ...mapGetters({
-    //   auth_state: 'auth_state'
-    // })
+    ...mapGetters({
+      auth_state: 'auth_state'
+    })
   }
 }
 </script>

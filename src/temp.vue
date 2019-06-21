@@ -4,7 +4,7 @@
   </div>
 </template>
 <script>
-// /* eslint-disable */
+/* eslint-disable */
 import deleteButton from '@/components/buttons/delete-button'
 export default {
   name: 'x',

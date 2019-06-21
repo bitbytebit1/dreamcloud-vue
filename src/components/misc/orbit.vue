@@ -1,47 +1,70 @@
 <template>
-  <v-flex xs12>
-    <div class="orbit-spinner" :style="spinnerStyle">
-      <div class="orbit one" :style="orbitStyle"></div>
-      <div class="orbit two" :style="orbitStyle"></div>
-      <div class="orbit three" :style="orbitStyle"></div>
+  <v-flex 
+    :justify-center="justifyCenter" 
+    xs12
+    class="loading-flex"
+  >
+    <div 
+      :style="spinnerStyle" 
+      class="orbit-spinner"
+    >
+      <div 
+        :style="orbitStyle" 
+        class="orbit one"
+      />
+      <div 
+        :style="orbitStyle" 
+        class="orbit two"
+      />
+      <div 
+        :style="orbitStyle" 
+        class="orbit three"
+      />
     </div>
   </v-flex>
 </template>
 
 <script>
-  export default {
-    name: 'OrbitSpinner',
-    props: {
-      animationDuration: {
-        type: Number,
-        default: 1000
-      },
-      size: {
-        type: Number,
-        default: 50
-      },
-      color: {
-        type: String,
-        default: '#fff'
+export default {
+  name: 'OrbitSpinner',
+  props: {
+    justifyCenter: {
+      type: Boolean,
+      default: false
+    },
+    animationDuration: {
+      type: Number,
+      default: 1000
+    },
+    size: {
+      type: Number,
+      default: 50
+    },
+    color: {
+      type: String,
+      default: '#fff'
+    }
+  },
+  computed: {
+    spinnerStyle () {
+      return {
+        height: `${this.size}px`,
+        width: `${this.size}px`
       }
     },
-    computed: {
-      spinnerStyle () {
-        return {
-          height: `${this.size}px`,
-          width: `${this.size}px`
-        }
-      },
-      orbitStyle () {
-        return {
-          borderColor: this.$vuetify.theme.primary
-        }
+    orbitStyle () {
+      return {
+        borderColor: this.$vuetify.theme.primary
       }
     }
   }
+}
 </script>
 
 <style scoped>
+  .loading-flex{
+    display:flex;
+  }
   .orbit-spinner, .orbit-spinner * {
     box-sizing: border-box;
   }
