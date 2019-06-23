@@ -41,6 +41,7 @@
         <!-- ABOUT FEATURE DIALOG -->
         <v-dialog 
           v-model="dialog"
+          width="500"
         >
           <v-card >
             <!-- HEADER -->
@@ -101,7 +102,7 @@
                   xs12 
                   class="text-xs-left"
                 >
-                  <div style="min-height:150px">
+                  <div class="h100">
                     <!-- TEXT -->
                     <div class="title font-weight-thin">{{ item.headline }}</div>
                     <div class="grey--text preline">{{ item.description }}</div>
@@ -277,4 +278,7 @@ export default {
 }
 </script>
 <style>
+.h100{
+  min-height:75px
+}
 </style>
