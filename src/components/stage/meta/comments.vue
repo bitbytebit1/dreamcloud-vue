@@ -75,14 +75,24 @@
         slot="footer" 
         xs12
       >
-        <v-btn 
+        <!-- <v-btn 
           :loading="bLoading"  
           block 
           color="transparent" 
           @click="getMore"
         >
           SHOW MORE
-        </v-btn>
+        </v-btn> -->
+        <infinite-loading 
+          v-if="!loading" 
+          ref="infiniteLoading" 
+          :distance="210" 
+          spinner="waveDots" 
+          @infinite="infiniteHandler"
+        >
+          <span slot="no-more"/>
+          <span slot="no-results"/>
+        </infinite-loading>
       </v-flex>
     </v-data-iterator>
     <v-layout 
@@ -104,9 +114,9 @@
 import commentThread from '@/components/stage/meta/commentThread'
 import InfiniteLoading from 'vue-infinite-loading'
 
-/* eslint-disable */
+// /* eslint-disable */
 export default {
-  name: 'songComments',
+  name: 'SongComments',
   watch: {
     'trackID': {
       immediate: true,
@@ -147,7 +157,7 @@ export default {
     },
     infiniteHandler ($state) {
       this.infState = $state
-      this.queryComments()
+      this.getMore()
     },
     timeToSeconds (value) {
       if (!value) {
@@ -155,17 +165,18 @@ export default {
       }
       if (this.$store.getters.ytUseVideo && this.$store.getters.isYT) {
         return (value.replace(/(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)([0-5]?\d)/g,
-        `<span class="underline pointer" onClick="window.dcYT.seekTo('$&'.split(':').reduce((acc,time) => (60 * acc) + +time));">$&</span>`))
+                              `<span class="underline pointer" onClick="window.dcYT.seekTo('$&'.split(':').reduce((acc,time) => (60 * acc) + +time));">$&</span>`))
       } else {
         return (value.replace(/(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)([0-5]?\d)/g,
-        `<span class="underline pointer" onClick="document.getElementById('dc-audio').currentTime = '$&'.split(':').reduce((acc,time) => (60 * acc) + +time)">$&</span>`))
+                              `<span class="underline pointer" onClick="document.getElementById('dc-audio').currentTime = '$&'.split(':').reduce((acc,time) => (60 * acc) + +time)">$&</span>`))
       }
     },
     getComments () {
       this.bLoading = true
       return this.$DCAPI.getSongCommentsThreads(this.trackID, this.iPage, this.source, 50, (dat) => {
         if (this.infState) {
-          this.infState.complete()
+          this.infState.loaded()
+          // this.infState.complete()
         }
         if (dat.length) {
           // alert('loaded')
