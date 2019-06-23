@@ -47,10 +47,12 @@
               <!-- title -->
               <div class="subheading wordbreak">{{ upNext.title }}</div>
               <!-- artist -->
-              <div 
-                class="subheading grey--text artist" 
-                @click.stop="$router.push({name: 'artist', params: {source: upNext.source, artist: upNext.artist, artistID: upNext.artistID}})"
-              >{{ upNext.artist }}</div>
+              <router-link
+                :to="{name: 'artist', params: {source: upNext.source, artist: upNext.artist, artistID: upNext.artistID}}"
+                class="subheading grey--text artist noDeco"
+              >
+                {{ upNext.artist }}
+              </router-link>
               <!-- duration -->
               <div class="grey--text">{{ upNext.duration }}</div>
             </v-flex>
@@ -123,10 +125,12 @@
               <!-- title -->
               <div class="subheading wordbreak">{{ props.item.title }}</div>
               <!-- artist -->
-              <div 
-                class="subheading artist" 
-                @click.stop="$router.push({name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}})"
-              >{{ props.item.artist }}</div>
+              <router-link
+                :to="{name: 'artist', params: {source: upNext.source, artist: upNext.artist, artistID: upNext.artistID}}"
+                class="subheading grey--text artist noDeco"
+              >
+                {{ upNext.artist }}
+              </router-link>
               <!-- duration -->
               <div class="grey--text">{{ props.item.duration }}</div>
             </v-flex>
