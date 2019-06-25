@@ -112,7 +112,7 @@
 <script>
 import axios from "axios";
 
-import scrollToTop from '@/components/footer/scroll-to-top.vue'
+import scrollToTop from '@/components/footer/show-pop.vue'
       
 export default {
   name: 'DcAudio',

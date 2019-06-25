@@ -170,6 +170,7 @@ router.beforeEach((to, from, next) => {
   } else if (store.getters.bShowStage && (to.name !== 'stage' || to.name !== 'current')) {
     // console.log('disabled stage')
     store.commit('bShowStage', false)
+    // store.commit('show_pop', true)
     next()
   } else {
     next()

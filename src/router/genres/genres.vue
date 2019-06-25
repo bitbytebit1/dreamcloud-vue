@@ -5,8 +5,6 @@
   >
     <v-flex 
       xs12 
-      lg10 
-      offset-lg1 
       class="my-3"
     >
       
@@ -15,95 +13,104 @@
         dark
         small
       >
-        <v-container fill-height>
+        <!-- <v-container fill-height>
           <v-layout align-center>
             <v-flex text-xs-center>
               <h3 class="display-3">Legends never die</h3>
             </v-flex>
           </v-layout>
         </v-container>
-      </v-jumbotron>
+      </v-jumbotron> -->
 
-      <v-expansion-panel >
-        <v-expansion-panel-content
-          v-for="genre in genres" 
-          :key="genre.index"
-        >
-          <div 
-            slot="header" 
-            class="subheading"
+        <v-expansion-panel >
+          <v-expansion-panel-content
+            v-for="genre in genres" 
+            :key="genre.index"
           >
-            <!-- <v-icon @click.stop="">play_arrow</v-icon> -->
-            {{ genre.name }}
-          </div>
-          <v-card>
-            <v-container 
-              grid-list-lg 
-              fluid
+            <div 
+              slot="header" 
+              class="subheading"
             >
-              <v-data-iterator
-                :items="genre.items"
-                :rows-per-page-items='[{ text: "All", value: -1 }]'
-                content-tag="v-layout"
-                row
-                wrap
-                hide-actions
-              > 
-                <v-flex 
-                  slot="item" 
-                  slot-scope="props" 
-                  xs6 
-                  sm4 
-                  md4 
-                  lg2
-                >
-                  <v-card 
-                    :to="{name: 'artist', params: {source: props.item.s, artist: props.item.a, artistID: props.item.ai }}" 
-                    flat
+              <!-- <v-icon @click.stop="">play_arrow</v-icon> -->
+              {{ genre.name }}
+            </div>
+            <v-card>
+              <v-container 
+                grid-list-lg 
+                fluid
+              >
+                <v-data-iterator
+                  :items="genre.items"
+                  :rows-per-page-items='[{ text: "All", value: -1 }]'
+                  content-tag="v-layout"
+                  row
+                  wrap
+                  hide-actions
+                > 
+                  <v-flex 
+                    slot="item" 
+                    slot-scope="props" 
+                    xs6 
+                    sm4 
+                    md4 
+                    lg2
                   >
-                    <v-img
-                      :src="props.item.i"
-                      height="200px"
+                    <v-card 
+                      :to="{name: 'artist', params: {source: props.item.s, artist: props.item.a, artistID: props.item.ai }}" 
+                      flat
                     >
-                      <v-layout
-                        v-if="!$vuetify.breakpoint.xs"
-                        slot="placeholder"
-                        fill-height
-                        align-center
-                        justify-center
-                        ma-0
-                        class="fillPlace"
-                      />
-                    </v-img>
-                    <v-card-title>
-                      <h3 class="subheading fwl mb-0 text-xs-center">{{ props.item.a }}</h3>
-                    </v-card-title>
-                    <v-card-actions>
-                      <subscribe-button 
-                        :artistID="props.item.ai" 
-                        :source="props.item.s" 
-                        :artist="props.item.a" 
-                        :img="props.item.i"
-                      />
-                    </v-card-actions>
-                  </v-card>
-                </v-flex>
-              </v-data-iterator>
-            <!-- <v-divider></v-divider> -->
-            </v-container>
-          </v-card>
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-    </v-flex>
+                      <clazy :src="props.item.i">
+                        <v-img
+                          :src="props.item.i"
+                          height="200px"
+                        >
+                          <v-layout
+                            v-if="!$vuetify.breakpoint.xs"
+                            slot="placeholder"
+                            fill-height
+                            align-center
+                            justify-center
+                            ma-0
+                            class="fillPlace"
+                          />
+                        </v-img>
+                        <v-img
+                          slot="placeholder"
+                          :aspect-ratio="1"
+                          class="fillPlace" 
+                        />
+                      </clazy>
+                      <v-card-title>
+                        <h3 class="subheading fwl mb-0 text-xs-center">{{ props.item.a }}</h3>
+                      </v-card-title>
+                      <v-card-actions>
+                        <subscribe-button 
+                          :artistID="props.item.ai" 
+                          :source="props.item.s" 
+                          :artist="props.item.a" 
+                          :img="props.item.i"
+                        />
+                      </v-card-actions>
+                    </v-card>
+                  </v-flex>
+                </v-data-iterator>
+                <!-- <v-divider></v-divider> -->
+              </v-container>
+            </v-card>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+    </v-jumbotron></v-flex>
   </v-flex>
 </template>
 <script>
 // /* eslint-disable */
 import subscribeButton from '@/components/buttons/subscribe-button'
+import { VueClazyLoad } from 'vue-clazy-load'
 export default {
   name: 'Genres',
   components: {
-    'subscribe-button': subscribeButton
+    'subscribe-button': subscribeButton,
+    'clazy': VueClazyLoad
   },
   computed: {
     background () {

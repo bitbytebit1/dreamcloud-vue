@@ -53,8 +53,8 @@
           <v-list-tile-title>Current</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
-
-      <v-list-tile 
+      <!-- EXPLORE -->
+      <!-- <v-list-tile 
         :to="{name: 'explore'}" 
         :class="isPorA('explore')"
         :active-class="isPorA('explore')"
@@ -66,7 +66,7 @@
         <v-list-tile-content>
           <v-list-tile-title>Explore</v-list-tile-title>
         </v-list-tile-content>
-      </v-list-tile>
+      </v-list-tile> -->
 
 
       <!-- Subscriptions all -->
@@ -139,16 +139,18 @@
     </v-list>
     
     <!-- Playists -->
+    <!-- v-show="!$store.getters.drawLeft"  -->
     <v-list 
-      dense 
+      dense
       class="pa-0"
     >
       <user-playlists @closeLeft="closeLeft"/>
     </v-list>
     
     <!-- Subscriptions -->
+    <!-- v-show="!$store.getters.drawLeft"  -->
     <v-list 
-      dense 
+      dense
       class="pa-0 pb-5"
     >
       <user-subscriptions @closeLeft="closeLeft"/>

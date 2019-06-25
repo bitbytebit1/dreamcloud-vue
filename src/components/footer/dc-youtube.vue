@@ -116,7 +116,7 @@
 
 <script>
 /* eslint-disable */
-import scrollToTop from '@/components/footer/scroll-to-top.vue'
+import scrollToTop from '@/components/footer/show-pop.vue'
       
 export default {
   name: 'dc-youtube',

@@ -14,6 +14,7 @@
     </v-text-field> -->
     <!-- <v-divider/> -->
     <v-menu
+      v-bind="showMenu"
       :close-on-content-click="false"
       :nudge-bottom="25"
       open-on-hover
@@ -127,13 +128,15 @@ export default {
     'aSources.SoundCloud': '_other',
     'aSources.YouTube': '_other',
     'aSources.Vimeo': '_other',
-    'artist': '__search'
+    'artist': '__search',
+    'showMenu': '_showMenu'
   },
   data () {
     return {
       aSources: {All: true, Bandcamp: false, MixCloud: false, SoundCloud: false, YouTube: false, Vimeo: false},
       sQuery: '',
-      artist: false
+      artist: false,
+      showMenu: false
     }
   },
   computed: {
@@ -151,6 +154,15 @@ export default {
     }
   },
   methods: {
+    _showMenu() {
+      // if (newVal) {
+      document.addEventListener("scroll", this.scroll)
+      // }
+    },
+    scroll () {
+      this.showMenu = false
+      document.removeEventListener('scroll', this.scroll)
+    },
     _All (newVal) {
       if (newVal) {
         this.aSources.Bandcamp = this.aSources.MixCloud = this.aSources.SoundCloud = this.aSources.YouTube = this.aSources.Vimeo = false

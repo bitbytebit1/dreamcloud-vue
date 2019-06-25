@@ -2,7 +2,8 @@ export default {
   state: {
     current_Playlist: [],
     current_Index: -1,
-    current_Hash: ''
+    current_Hash: '',
+    show_pop: false
   },
   mutations: {
     setNPlay(state, payload) {
@@ -15,9 +16,13 @@ export default {
     },
     changeIndex(state, payload) {
       state.current_Index = payload
+    },
+    show_pop(state, payload) {
+      state.show_pop = payload
     }
   },
   getters: {
+    show_pop: state => state.show_pop,
     current_Playlist: state => state.current_Playlist,
     index: (state) => state.current_Index,
     hash: (state) => state.current_Hash,

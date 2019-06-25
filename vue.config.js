@@ -1,10 +1,25 @@
 const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
+const path = require('path');
 
 module.exports = {
+  chainWebpack: config => {
+    config.module
+      .rule('eslint')
+      .use('eslint-loader')
+      .options({
+        fix: true,
+    });
+  },
   configureWebpack: {
     plugins: [
       new VuetifyLoaderPlugin()
-    ]
+    ],
+    resolve: {
+      extensions: ['.js', '.vue', '.json', '.scss'],
+      alias: {
+        styles: path.resolve(__dirname, 'src/assets/scss'),
+      }
+    }
   },
   // chainWebpack: config => {
   //   config.module
