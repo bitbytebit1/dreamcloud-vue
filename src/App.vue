@@ -36,6 +36,7 @@
       id="sideleft"
       v-model="drawLeft"
       app
+
       clipped
       disable-route-watcher
       disable-resize-watcher
@@ -152,7 +153,7 @@
         </v-layout>
       </v-container>
     </v-content>
-
+    <popup @conmen="con"/>
     <!-- Footer -->
     <v-footer 
       id="foot" 
@@ -175,6 +176,7 @@
 </template>
 
 <script>
+import popup from './components/footer/popup-player'
 import hks from './components/misc/hks'
 import search from './components/header/search'
 import snackbar from './components/header/snackbar'
@@ -197,6 +199,7 @@ export default {
     }
   },
   components: {
+    'popup': popup,
     'hks': hks,
     'snackbar': snackbar,
     'search': search,
@@ -325,7 +328,7 @@ export default {
         if (user.isAnonymous && !this.$route.name) {
           this.$router.push({name: 'about'})
         } else if (!this.$route.name) {
-          this.$router.push({name: 'home', user: user.uid})
+          this.$router.push({name: 'about', user: user.uid})
         }
         // set isMobile in store for router guard (close menus on back)
         this.$store.commit('isMobile', this.$vuetify.breakpoint.smAndDown)

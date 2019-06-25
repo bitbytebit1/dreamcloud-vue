@@ -1,18 +1,34 @@
 <template>
   <v-layout 
-    v-show="ytUseVideo && isYT" 
     row 
     wrap 
     class="pb-5 ma-0 pa-0"
   >
     <!-- VIDEO -->
-    <v-flex xs12>
+    <v-flex 
+      v-show="ytUseVideo && isYT" 
+      xs12
+    >
       <div class="video-wrapper">
         <div id="player"/>
       </div>
     </v-flex>
     <v-flex 
-      v-if="ytUseVideo && isYT" 
+      v-show="!(ytUseVideo && isYT)" 
+      class="nosel"
+      xs12 
+      @click="$DCPlayer.togglePlay()"
+      @contextmenu="$emit('conmen', [$event, [song]])"
+    >
+      <div class="pstr-wrapper">
+        <div 
+          id="pstr" 
+          :style="{ 'background': 'center center no-repeat' , 'background-image' : 'url(' + song.posterLarge + ')'}" 
+          :key="song.poster"
+        />
+      </div>
+    </v-flex>
+    <v-flex 
       dFlex 
       xs12
     >
@@ -75,11 +91,11 @@
             <download-button :links="[song]"/>
             <!-- ADD TO PLAYLIST -->
             <add-to-playlist 
-              v-if="$store.getters.auth_state" 
+              v-if="auth_state" 
               :song="song"
             />
             <!-- WIDE SCREEN BUTTON -->
-            <v-tooltip 
+            <!-- <v-tooltip 
               v-if="$vuetify.breakpoint.lgAndUp" 
               top
             >
@@ -91,6 +107,20 @@
                 <v-icon>{{ bWide ? 'crop_3_2' :'crop_16_9' }}</v-icon>
               </v-btn>
               <span>{{ bWide ? 'Wide' :'Narrow' }}</span>
+            </v-tooltip> -->
+            <!-- OPEN MINI PLAYER BUTTON -->
+            <v-tooltip 
+              v-if="$vuetify.breakpoint.lgAndUp" 
+              top
+            >
+              <v-btn 
+                slot="activator" 
+                icon 
+                @click="()=>$router.go(-1)"
+              >
+                <v-icon>picture_in_picture_alt</v-icon>
+              </v-btn>
+              <span>Mini player</span>
             </v-tooltip>
             <!-- FULLSCREEN BUTTON -->
             <v-tooltip 
@@ -159,7 +189,7 @@
             <v-tab-item>
               <!-- CURRENT PLAYLIST -->
               <playlist 
-                :songs="$store.getters.current_Playlist" 
+                :songs="current_Playlist" 
                 :rows-per-page="-1"
                 @conmen="$emit('conmen', $event)"
               />
@@ -223,7 +253,26 @@ export default {
   watch: {
   trackID: {
       immediate: true,
-      handler: 'trackChanged'
+      handler: function(l) {
+        
+        this.getPlays()
+        this.getDesc()
+        // what does this do? updates the router with the proper route.
+        if (this.$route.name === 'auto') {
+            // alert(l)
+            // this.$router.push({name: 'stage'})
+            this.$router.replace({name: 'auto', params: { artist: this.$store.getters.current_song.artist,  trackID: this.$store.getters.current_song.trackID,  source: this.$store.getters.current_song.source }})
+            // return
+          }
+        if (this.isYT && this.ytUseVideo) {
+          if (!this.ytObject.hasOwnProperty('loadVideoById')) {
+            this.ytBind()
+          } else {
+            this.ytObject.loadVideoById(this.trackID)
+          }
+          this.$DCPlayer.pause()
+        }
+      }
     }
   },
   components: {
@@ -241,6 +290,8 @@ export default {
   },
   computed: {
     ...mapGetters({
+      current_Playlist: 'current_Playlist',
+      auth_state: 'auth_state',
       song: 'current_song',
       index: 'index',
       hash: 'hash',
@@ -391,24 +442,6 @@ export default {
         clearInterval(this.interval)
       }
     },
-    trackChanged () {
-      if (this.isYT && this.ytUseVideo) {
-        if (this.$route.name === 'auto') {
-          // this.$router.push({name: 'stage'})
-          this.$router.replace({name: 'auto', params: { artist: this.$store.getters.current_song.artist,  trackID: this.$store.getters.current_song.trackID,  source: this.$store.getters.current_song.source }})
-        }
-
-        // console.log('changing song')
-        if (!this.ytObject.hasOwnProperty('loadVideoById')) {
-          this.ytBind()
-        } else {
-          this.ytObject.loadVideoById(this.trackID)
-        }
-        this.getPlays()
-        this.getDesc()
-        this.$DCPlayer.pause()
-      }
-    }
   },
   // mounted () {
   //   if (this.$store.getters.isYT) {

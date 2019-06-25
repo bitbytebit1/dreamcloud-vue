@@ -84,7 +84,6 @@
           SHOW MORE
         </v-btn> -->
         <infinite-loading 
-          v-if="!loading" 
           ref="infiniteLoading" 
           :distance="210" 
           spinner="waveDots" 
@@ -176,7 +175,6 @@ export default {
       return this.$DCAPI.getSongCommentsThreads(this.trackID, this.iPage, this.source, 50, (dat) => {
         if (this.infState) {
           this.infState.loaded()
-          // this.infState.complete()
         }
         if (dat.length) {
           // alert('loaded')
@@ -185,6 +183,7 @@ export default {
           this.show = true
         } else {
           this.noComments = true
+          if (this.infState) this.infState.complete()
         }
       })
     },

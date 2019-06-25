@@ -29,9 +29,11 @@ export default {
   methods: {
     scrollToTop () {
       if (this.bShowStage) {
-        alert('1')
+        this.$router.go(-1)
       } else {
-        alert('0')
+        // this.$store.commit('toggleStage')
+        // this.$router.push({name: 'auto'})
+        this.$router.push({name: 'auto', params: { artist: this.$store.getters.current_song.artist,  trackID: this.$store.getters.current_song.trackID,  source: this.$store.getters.current_song.source }})
       }
     }
   }

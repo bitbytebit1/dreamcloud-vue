@@ -223,36 +223,44 @@
               class="dc-crd ma-0 pa-0 pointer outline"
               @contextmenu="props.item.trackID ? $emit('conmen', [$event, bSelect ? selected : [props.item]]) : null"
             >
+              <clazy-load :src="props.item.posterLarge">
+                <v-img
+                  :src="props.item.posterLarge"
+                  :aspect-ratio="aspect"
+                  :key="props.item.trackID"
+                  class="fillPlace nosel"
+                >
+                  <!-- <v-expand-transition> -->
+                  <div
+                    v-if="props.item.trackID && isPlaying(props.item.trackID)"
+                    class="d-flex text-xs-center v-card--reveal"
+                    style="height: 100%;"
+                  >
+                    <div>
+                      <v-btn 
+                        :loading="$store.getters.isLoading && isPlaying (props.item.trackID)"
+                        fab 
+                        dark  
+                        color="primary"
+                        @click.stop="play(props.index)"
+                      >
+                        <v-icon 
+                          large
+                        >{{ $store.getters.isPlaying && isPlaying (props.item.trackID)? 'pause' : 'play_arrow' }}</v-icon>
+                      </v-btn>
+                    </div>
+                  </div>
+                <!-- </v-expand-transition> -->
+                </v-img>
+                <v-img
+                  slot="placeholder"
+                  :aspect-ratio="aspect || 1"
+                  class="fillPlace" 
+                />
+              </clazy-load>
               <!-- IMAGE -->
               <!-- :src="props.item.poster" -->
-              <v-img
-                v-lazy:background-image="props.item.posterLarge"
-                :aspect-ratio="aspect"
-                :key="props.item.trackID"
-                class="fillPlace nosel"
-              >
-                <!-- <v-expand-transition> -->
-                <div
-                  v-if="props.item.trackID && isPlaying(props.item.trackID)"
-                  class="d-flex text-xs-center v-card--reveal"
-                  style="height: 100%;"
-                >
-                  <div>
-                    <v-btn 
-                      :loading="$store.getters.isLoading && isPlaying (props.item.trackID)"
-                      fab 
-                      dark  
-                      color="primary"
-                      @click.stop="play(props.index)"
-                    >
-                      <v-icon 
-                        large
-                      >{{ $store.getters.isPlaying && isPlaying (props.item.trackID)? 'pause' : 'play_arrow' }}</v-icon>
-                    </v-btn>
-                  </div>
-                </div>
-                <!-- </v-expand-transition> -->
-              </v-img>
+
               <!-- TITLE -->
               <v-card-title class="pa-0">
                 <v-layout 
@@ -336,6 +344,7 @@ import shuffleButton from '@/components/buttons/shuffle-button'
 import addToPlaylist from '@/components/buttons/add-to-playlist'
 import deleteButton from '@/components/buttons/delete-button'
 import downloadButton from '@/components/buttons/download-button'
+import { VueClazyLoad } from 'vue-clazy-load'
 import { mapGetters } from 'vuex'
 export default {
 
@@ -365,6 +374,7 @@ export default {
     }
   },
   components: {
+    'clazy-load': VueClazyLoad,
     'add-to-playlist': addToPlaylist,
     'delete-button': deleteButton,
     'download-button': downloadButton,

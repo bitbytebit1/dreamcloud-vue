@@ -48,7 +48,7 @@ export default {
     },
     enter () {
       // oh why why why
-      this.$refs.auto.$children[0].isActive = false
+      // this.$refs.auto.$children[0].isActive = false
       this.emit(this.search)
     },
     emit (v) {

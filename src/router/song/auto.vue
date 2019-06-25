@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     in (){
-      if (this.trackID !== this.$store.getters.current_trackID && this.trackID !== 'z') {
+      if (this.trackID != this.$store.getters.current_trackID && this.trackID !== 'z') {
         this.$DCAPI.getSongInfo(this.trackID, this.source, (d) => {
           // Fix for mobile on first play 
           // if (this.$store.getters.index === -1 && this.$UTILS.isMobile) this.$DCPlayer.eAudio.play()
@@ -48,9 +48,12 @@ export default {
   },
   deactivated () {
     this.$store.commit('bShowStage', false)
+    this.$store.commit('show_pop', true)
+
   },
   activated () {
     this.$store.commit('bShowStage', true)
+    this.$store.commit('show_pop', false)
   },
   created () {
     this.in()

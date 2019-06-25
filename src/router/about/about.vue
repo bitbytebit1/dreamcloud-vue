@@ -69,6 +69,7 @@
           v-for="(item, index) in items" 
           :key="index" 
           xs6 
+          sm4
           md3
           lg2
           class="pointer"
@@ -278,7 +279,14 @@ export default {
 }
 </script>
 <style>
-.h100{
-  min-height:75px
-}
+  @media only screen and (min-width: 900px){
+    .h100{
+      min-height:85px;
+    }
+  }
+  @media only screen and (max-width: 899px){
+    .h100{
+      min-height:100px;
+    }
+  }
 </style>

@@ -486,16 +486,17 @@ class DCAPIClass {
           nextPage: resp.data.nextPageToken,
           data: resp.data.items.map((item) => {
             return {
-              duration: this.timeHMS(item.contentDetails.duration),
-              title: this.decodeHTMLEntities(item.snippet.title),
-              poster: item.snippet.thumbnails.medium.url,
-              posterLarge: item.snippet.thumbnails.high.url,
-              description: item.snippet.description,
-              trackID: item.id,
-              uploaded: this.parseDate(item.snippet.publishedAt),
               artist: item.snippet.channelTitle,
               artistID: item.snippet.channelId,
-              source: 'YouTube'
+              description: item.snippet.description,
+              duration: this.timeHMS(item.contentDetails.duration),
+              mp32: `https://www.youtube.com/watch?v=${item.id}`, // mp32:
+              poster: item.snippet.thumbnails.medium.url,
+              posterLarge: item.snippet.thumbnails.high.url,
+              source: 'YouTube',
+              title: this.decodeHTMLEntities(item.snippet.title),
+              trackID: item.id,
+              uploaded: this.parseDate(item.snippet.publishedAt),
             }
           })
         }

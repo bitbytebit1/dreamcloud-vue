@@ -7,38 +7,45 @@
     <div 
       v-if="bLoading || aRecommended.length" 
       class="headline fwl text-xs-left pl-2 pt-2"
-    >Home</div>
+    >Recommended</div>
     <!-- <loading v-if="!auth_state || !aRecommended.length"></loading> -->
     <playlist 
-      v-if="bLoading || aRecommended.length"
+      v-if="!bFailed" 
       :rows-per-page='rowsPerPage' 
       :show-uploaded="true" 
       :songs="aRecommended2" 
       @conmen="$emit('conmen', $event)"
     />
     <!-- title="Here is supposed to be a playlists generated from your recent history" -->
-    <jumbo
+    <!-- <jumbo
+    
       v-else-if="bFailed"
       title="We wanted to recommend you some music based on your history"
       subheading="But you haven't listened to any music yet"
-    />
+    /> -->
+    <div 
+      class="headline fwl text-xs-left pl-2 pt-2"
+    >Explore</div>
+    <genres />
   </v-flex>
 </template>
 <script>
 // import axios from 'axios'
 /* eslint-disable */
+import genres from '@/router/genres/genres'
 import jumbo from '@/components/misc/jumbo'
 import deleteButton from '@/components/buttons/delete-button'
 import { mapGetters } from 'vuex'
 export default {
   name: 'home',
   components: {
+    'genres': genres,
     'jumbo': jumbo
   },
   props: {
     iLimit: {
       type: [Number],
-      default: 200
+      default: 50
     },
     rowsPerPage: {
       type: [Number],
@@ -106,18 +113,18 @@ export default {
       aRecommended = un(aRecommended)
 
       // loop through history array
-      for (var i = 0; i < aRecommended.length - 1; i++) {
+      for (var i = 0; i < 9; i++) {
         // get 2 recommended songs for each item in history
         aAjax.push(this.$DCAPI.searchInt('', 0, [aRecommended[i].source], aRecommended[i].trackID, (d) => {
           this.iLoaded++
           this.$store.commit('loadValue',  (100 / aRecommended.length) * this.iLoaded)
           if (d.length) {
-            this.aRecommended.push(d[0])
-            if (d.length > 1 ) {
-              this.aRecommended.push(d[1])
-            }
+            this.aRecommended.push(...d)
+            // if (d.length > 1 ) {
+              // this.aRecommended.push(d[1])
+            // }
           }
-        }, true, 2))
+        }, true, 10))
       }
       
       this.bLoading = false

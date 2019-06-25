@@ -6,9 +6,7 @@
       class="pointer" 
       @click="closeLeftOnMobile();$router.push({name: 'playlistOverview', params: {user: uid}})"
     >
-      <div>
-        Playlists
-      </div>
+      <div>Playlists</div>
       <v-btn 
         v-if="bUIShowMore" 
         icon 
@@ -183,14 +181,16 @@ export default {
 }
 </script>
 
-<style>
+<style >
 .filter label, .filter input{
   font-size: 13px;
 }
 .delete {
   display: none!important
 }
-
+.primary .v-list__tile__title{
+  color: white;
+}
 .router-link-exact-active .delete, #playlist:hover .delete {
   display: inherit!important
 }
