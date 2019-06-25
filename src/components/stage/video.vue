@@ -1,3 +1,4 @@
+
 <template>
   <v-layout 
     row 
@@ -10,7 +11,16 @@
       xs12
     >
       <div class="video-wrapper">
-        <div id="player"/>
+        <img 
+          v-show="!(ytUseVideo && isYT)"
+          id="pstr" 
+          :src="song.posterLarge"
+          :key="song.trackID"
+        >
+        <div 
+          v-show="ytUseVideo && isYT"
+          id="player" 
+        />
       </div>
     </v-flex>
     <v-flex 
@@ -240,6 +250,8 @@ import shareButton from '@/components/buttons/share-button'
 import downloadButton from '@/components/buttons/download-button'
 import current from '@/components/stage/meta/current'
 import { mapGetters } from 'vuex'
+
+
 
 /* eslint-disable */
 export default {
