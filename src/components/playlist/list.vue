@@ -593,8 +593,8 @@ export default {
 
       let a = Object.assign([], this.sorted)
       
-      this.$store.commit('setNPlay', {songs: a, current: index, path: this.$route.path})
       this.$DCPlayer.setNPlay(a, newi)
+      this.$store.commit('setNPlay', {songs: a, current: index, path: this.$route.path})
       this.$DCFB.historyPush(a[newi])
       if (showStage || this.showVideo) {
         // console.log('showing stage')

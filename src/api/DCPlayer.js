@@ -37,8 +37,13 @@ export default {
         DCPlayer.playIndex(DCPlayer.iCurrent)
       },
       pause () {
-        // if (DCPlayer.eAudio.hasOwnProperty('pause')) {  
-        DCPlayer.eAudio.pause()
+        if (store.getters.ytUseVideo && store.getters.isYT) {
+          if (store.getters.ytIsPlaying) {
+            store.getters.ytObject.pauseVideo();
+          }
+        } else {
+          DCPlayer.eAudio.pause();
+        }
         // }
         // else {
         //   console.log('not pausing')
@@ -126,10 +131,7 @@ export default {
           })
           // Else if the user doesn't choose another track add 1 to error count and try to play again if under 5
           .catch(error => {
-            if (
-              error.toString().indexOf("interrupted by a new load request") ===
-              -1
-            ) {
+            if (error.toString().indexOf("interrupted by a new load request") === -1) {
               // console.log('error', error)
               DCPlayer.error_count++;
               if (DCPlayer.error_count < 6) {

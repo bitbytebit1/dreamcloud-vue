@@ -4,9 +4,8 @@
     ripple 
     @click.stop="share"
   >
-    <v-list-tile-title>{{ btnTxt }}</v-list-tile-title>
+    <v-list-tile-title>Share</v-list-tile-title>
   </v-list-tile>
-
   <v-tooltip 
     v-else 
     top

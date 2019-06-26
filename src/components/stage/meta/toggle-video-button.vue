@@ -34,10 +34,11 @@ export default {
       if (this.$store.getters.ytUseVideo) {
         isPlay && this.$DCPlayer.stop()
         if (!this.$store.getters.ytObject.hasOwnProperty('loadVideoById')) {
-          // this.$store.commit('changeIndex', -2)
-          // setTimeout(() => {
-          this.$store.commit('changeIndex', this.$DCPlayer.iCurrent)
-          // }, 150)
+          this.$store.commit('changeIndex', -2)
+          // this.$store.commit('changeIndex', -1)
+          setTimeout(() => {
+            this.$store.commit('changeIndex', this.$DCPlayer.iCurrent)
+          }, 250)
         } else {
           this.$store.getters.ytObject.loadVideoById(this.$store.getters.current_song.trackID, dur)
         }

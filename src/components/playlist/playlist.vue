@@ -125,10 +125,6 @@ export default {
       //   this.play(0)
       // })
     },
-    play (index) {
-      this.$store.commit('setNPlay', {songs: this.aSongs, current: index, path: this.$route.path})
-      return this.$DCPlayer.setNPlay(this.aSongs, index)
-    },
     sort () {
       this.aSongs.sort(this.$DCAPI.sortDate)
     },

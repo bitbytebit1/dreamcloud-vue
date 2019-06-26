@@ -1,5 +1,7 @@
 <template>
   <v-layout 
+    v-if="$vuetify.breakpoint.mdAndUp"
+    v-show="bShowStage || show_pop" 
     row 
     wrap 
     class="pb-5 ma-0 pa-0"
@@ -9,12 +11,12 @@
       v-show="ytUseVideo && isYT" 
       xs12
     >
-      <div class="video-wrapper">
+      <div :class="videoClass">
         <div id="player"/>
       </div>
     </v-flex>
     <v-flex 
-      v-show="!(ytUseVideo && isYT)" 
+      v-show="!(ytUseVideo && isYT) && !show_pop" 
       class="nosel"
       xs12 
       @click="$DCPlayer.togglePlay()"
@@ -29,7 +31,7 @@
       </div>
     </v-flex>
     <v-flex 
-      dFlex 
+      v-show="bShowStage" 
       xs12
     >
       <v-layout 
@@ -252,9 +254,8 @@ export default {
   },
   watch: {
   trackID: {
-      immediate: true,
       handler: function(l) {
-        
+        console.log('loading')
         this.getPlays()
         this.getDesc()
         // what does this do? updates the router with the proper route.
@@ -269,8 +270,9 @@ export default {
             this.ytBind()
           } else {
             this.ytObject.loadVideoById(this.trackID)
+            // window.dcYT.loadVideoById(this.trackID)
           }
-          this.$DCPlayer.pause()
+          this.$DCPlayer.eAudio.pause()
         }
       }
     }
@@ -290,6 +292,9 @@ export default {
   },
   computed: {
     ...mapGetters({
+      bShowStage: 'bShowStage',
+      show_pop: 'show_pop',
+      show_pop_list: 'show_pop_list',
       current_Playlist: 'current_Playlist',
       auth_state: 'auth_state',
       song: 'current_song',
@@ -303,6 +308,9 @@ export default {
       drawRight: 'drawRight',
       isYT: 'isYT'
     }),
+    videoClass () {
+      return {'video-wrapper': !this.show_pop, 'pop-wrapper' : this.show_pop, 'pop-hi': this.show_pop && this.show_pop_list}
+    },
     stageBorderStyle () {
       return {
         'border-bottom': '1px solid ' + this.$vuetify.theme.primary,
@@ -391,6 +399,7 @@ export default {
       if (!this.yt) {
         this.yt = new YT.Player('player', {
           width: '100%',
+          height: '196',
           videoId: this.trackID,
           enablejsapi: 1,
           playerVars: {
@@ -460,9 +469,19 @@ export default {
     padding: 0px 20px;
   }
 }
-
+.pop-wrapper{
+  position: fixed;
+  bottom: 134px;
+  right: 18px;
+  width: 350px;
+  height: 196px;
+  z-index: 4;
+}
+.pop-hi{
+  bottom: 254px  !important;
+}
 .video-wrapper {position: relative; padding-bottom: 38%; /* 56.25% 16:9 */  padding-top: 25px;}
-.video-wrapper iframe {position: absolute; top: 0; left: 0; width: 100%; height: 100%;}
+.pop-wrapper iframe, .video-wrapper iframe {position: absolute; top: 0; left: 0; width: 100%; height: 100%;}
 
 
 .video-wrapper {

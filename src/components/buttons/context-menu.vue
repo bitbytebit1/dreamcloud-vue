@@ -104,14 +104,15 @@ export default {
         this.delete(this.a[i].key)
       }
     },
+    // magic function, gets called by ref from app. bad voodoo.
     show (e, a) {
       e.preventDefault()
-      this.b = false
+      // this.b = false
+      this.b = true
       this.x = e.clientX
       this.y = e.clientY
       setTimeout(() => {
         // this.$nextTick(() => {
-        this.b = true
         this.a = a
         if (this.$store.getters.closeMenuOnScroll) {
           document.addEventListener("scroll", this.scroll)

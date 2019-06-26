@@ -72,8 +72,8 @@
       
       <!-- title -->
       <v-toolbar-title 
+        style="width: 121px" 
         class="hidden-sm-and-down fwl title" 
-        style="width: 121px"
       >
         <router-link 
           :class="textClass" 
@@ -113,7 +113,6 @@
 
     <!-- Stage -->
     <v-content 
-      v-show="bShowStage" 
       class="text-xs-center"
     >
       <v-container 
@@ -165,6 +164,7 @@
       <!-- && (bMobi || currentActive) -->
       <dc-youtube v-show="(ytUseVideo && isYT)"/>
       <dc-audio v-show="(!ytUseVideo || !isYT)"/>
+      <!-- <scroll/> -->
       <!-- <v-flex xs12 xl12> -->
       <!-- <v-btn block large color="primary ">Get started</v-btn> -->
       <!-- </v-flex> -->
@@ -176,6 +176,7 @@
 </template>
 
 <script>
+import scroll from './components/footer/show-pop'
 import popup from './components/footer/popup-player'
 import hks from './components/misc/hks'
 import search from './components/header/search'
@@ -199,6 +200,7 @@ export default {
     }
   },
   components: {
+    'scroll': scroll,
     'popup': popup,
     'hks': hks,
     'snackbar': snackbar,

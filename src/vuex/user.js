@@ -7,7 +7,7 @@ export default {
     drawRight: false,
     view_mode: 0, // 0 GRID, 1 TABLE, 2 TABLE W PICS
     auth_state: false,
-    bShowStage: true,
+    bShowStage: false,
     isMobile: false
   },
   getters: {

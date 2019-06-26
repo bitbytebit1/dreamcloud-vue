@@ -239,14 +239,13 @@
                     <div>
                       <v-btn 
                         :loading="$store.getters.isLoading && isPlaying (props.item.trackID)"
-                        fab 
                         dark  
+                        icon
+                        large
                         color="primary"
                         @click.stop="play(props.index)"
                       >
-                        <v-icon 
-                          large
-                        >{{ $store.getters.isPlaying && isPlaying (props.item.trackID)? 'pause' : 'play_arrow' }}</v-icon>
+                        <v-icon>{{ $store.getters.isPlaying && isPlaying (props.item.trackID)? 'pause' : 'play_arrow' }}</v-icon>
                       </v-btn>
                     </div>
                   </div>
@@ -413,6 +412,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      current_trackID: 'current_trackID',
       showVideo: 'showVideo',
       auth_state: 'auth_state',
       index: 'index',
@@ -487,7 +487,8 @@ export default {
       }
     },
     isPlaying (trackID) {
-      return trackID === this.current_song.trackID
+      return trackID === this.current_trackID
+      // return trackID === this.current_song.trackID
     },
     remove (key) {
       this.$DCFB.playlistSongDelete(this.$route.params.playlist, key)
