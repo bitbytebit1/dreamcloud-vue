@@ -32,7 +32,6 @@
           >
             <v-icon>skip_next</v-icon>
           </v-btn>
-          <scroll-to-top v-if="!$vuetify.breakpoint.xs"/>
         </div>
       </div>
 
@@ -72,7 +71,9 @@
           </div>
         </v-speed-dial>
       </div>
-
+      <div class="right">
+        <scroll-to-top/>
+      </div>
       <!-- PROGRESS -->
       <div id="middle">
         <div id="progress">
@@ -112,7 +113,7 @@
 <script>
 import axios from "axios";
 
-import scrollToTop from '@/components/footer/show-pop.vue'
+import scrollToTop from '@/components/footer/show-pop'
       
 export default {
   name: 'DcAudio',

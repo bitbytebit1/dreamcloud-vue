@@ -35,10 +35,9 @@
           >
             <v-icon>skip_next</v-icon>
           </v-btn>
-          <scroll-to-top v-if="!$vuetify.breakpoint.xs"/>
+          <!-- <scroll-to-top v-if="!$vuetify.breakpoint.xs"/> -->
         </div>
       </div>
-      
       <!-- VOLUME -->
       <div 
         id="right" 
@@ -78,7 +77,10 @@
           </div>
         </v-speed-dial>
       </div>
-
+      <div class="right">
+        <scroll-to-top/>
+      </div>
+      
       <!-- PROGRESS -->
       <div id="middle">
         <div id="progress">
