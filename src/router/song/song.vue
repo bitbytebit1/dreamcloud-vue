@@ -40,14 +40,16 @@ export default {
       searchResults: []
     }
   },
-  watch: {
-    '$route.params': {
-      immediate: true,
-      handler: 'search'
-    }
+  created () {
+    this.bind();
+  },
+  beforeRouteUpdate (to, from, next) {
+    this.search();
+    next();
   },
   methods: {
     search () {
+      console.log('binding song')
       this.loading = true
       this.searchResults = []
       this.$DCAPI.getSongInfo(this.$route.params.trackID, this.$route.params.source, (d) => {

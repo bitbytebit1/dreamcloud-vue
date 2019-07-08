@@ -68,11 +68,12 @@ export default {
       return this.source.split('-')
     }
   },
-  watch: {
-    '$route.params': {
-      immediate: true,
-      handler: 'searchInt'
-    }
+  created () {
+    this.searchInt();
+  },
+  beforeRouteUpdate (to, from, next) {
+    this.searchInt();
+    next();
   },
   methods: {
     infiniteHandler ($state) {

@@ -85,11 +85,12 @@ export default {
       tab: null
     }
   },
-  watch: {
-    '$route.params': {
-      immediate: true,
-      handler: '_search'
-    }
+  created () {
+    this.bind(this.$route.params);
+  },
+  beforeRouteUpdate (to, from, next) {
+    this.bind(to.params);
+    next();
   },
   methods: {
     getSubs (artistID, source) {
@@ -137,18 +138,15 @@ export default {
       }
       func()
     },
-    _search () {
-      if ('artist' !== this.$route.name || this.$route.params.artistID == this.oldA) {
-        return
-      }
-      this.oldA = this.$route.params.artistID
+    bind (params) {
+      this.oldA = params.artistID
       // this.tab = 0
       this.aPlaylists = []
       this.aSubs = []
       this.$store.dispatch('loadIndeterm', true)
-      this.search(this.$route.params.artistID, this.$route.params.source).then(() =>{
-        this.getPlaylists(this.$route.params.artistID, this.$route.params.source)
-        this.getSubs(this.$route.params.artistID, this.$route.params.source)
+      this.search(params.artistID, params.source).then(() =>{
+        this.getPlaylists(params.artistID, params.source)
+        this.getSubs(params.artistID, params.source)
       })
     },
     search (artistID, source, iPage = 0) {
