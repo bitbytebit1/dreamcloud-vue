@@ -21,6 +21,7 @@
           id="flr-txt"
           ref="search"
           v-model="search"
+          clearable
           color="primary"
           label="Filter"
           single-line
