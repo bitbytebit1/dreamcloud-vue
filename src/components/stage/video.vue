@@ -381,9 +381,11 @@ export default {
       this.$UTILS.toggleFullscreen('player')
     },
     getDesc () {
-      this.$DCAPI.getSongDescription(this.trackID, this.song.source, (resp) => {
-        this.description = resp.items[0].snippet.description.trim()
-      })
+      if (this.isYT) {
+        this.$DCAPI.getSongDescription(this.trackID, this.song.source, (resp) => {
+          this.description = resp.items[0].snippet.description.trim()
+        })
+      }
     },
     ytBind () {
       // Wait for YouTube script to load
