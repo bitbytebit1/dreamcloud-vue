@@ -13,11 +13,12 @@
     >
     </v-text-field> -->
     <!-- <v-divider/> -->
+    <!-- :value="showMenu" -->
     <v-menu
-      v-bind="showMenu"
+      v-model="showMenu"
       :close-on-content-click="false"
+      :open-on-hover="$vuetify.breakpoint.mdAndUp"
       :nudge-bottom="25"
-      open-on-hover
       z-index="10"
     >
       <v-toolbar-title slot="activator">
@@ -107,6 +108,14 @@
             </v-list-tile-action>
             <v-list-tile-title>Vimeo</v-list-tile-title>
           </v-list-tile>
+          <v-list-tile @click="showMenu = false">
+            <v-btn 
+              flat 
+              block 
+              color="primary"
+              @click="showMenu = false"
+            >Close</v-btn>
+          </v-list-tile>
         </v-list>
       </v-card>
     </v-menu>    
@@ -128,8 +137,7 @@ export default {
     'aSources.SoundCloud': '_other',
     'aSources.YouTube': '_other',
     'aSources.Vimeo': '_other',
-    'artist': '__search',
-    'showMenu': '_showMenu'
+    'artist': '__search'
   },
   data () {
     return {
@@ -154,15 +162,6 @@ export default {
     }
   },
   methods: {
-    _showMenu() {
-      // if (newVal) {
-      document.addEventListener("scroll", this.scroll)
-      // }
-    },
-    scroll () {
-      this.showMenu = false
-      document.removeEventListener('scroll', this.scroll)
-    },
     _All (newVal) {
       if (newVal) {
         this.aSources.Bandcamp = this.aSources.MixCloud = this.aSources.SoundCloud = this.aSources.YouTube = this.aSources.Vimeo = false
