@@ -116,6 +116,16 @@ export default {
     source: {
       type: [String],
       default: ''
+    },
+    extShow: {
+      type: [Boolean],
+      default: false
+    }
+  },
+  watch: {
+    extShow: function (ny){
+      console.log(ny)
+      this.show = ny
     }
   },
   data () {

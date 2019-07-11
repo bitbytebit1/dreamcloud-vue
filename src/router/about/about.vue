@@ -103,7 +103,7 @@
                   xs12 
                   class="text-xs-left"
                 >
-                  <div class="h100">
+                  <div class="h85px">
                     <!-- TEXT -->
                     <div class="title font-weight-thin">{{ item.headline }}</div>
                     <div class="grey--text preline">{{ item.description }}</div>
@@ -280,12 +280,12 @@ export default {
 </script>
 <style>
   @media only screen and (min-width: 900px){
-    .h100{
+    .h85px{
       min-height:85px;
     }
   }
   @media only screen and (max-width: 899px){
-    .h100{
+    .h85px{
       min-height:100px;
     }
   }
