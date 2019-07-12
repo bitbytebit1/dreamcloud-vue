@@ -28,12 +28,14 @@
           />  
           <v-text-field
             v-model="password"
+            :type="showPassword ? 'text' : 'password'"
+            :append-icon="showPassword ? 'visibility' : 'visibility_off'" 
             label="Password"
-            single-line 
+            single-line
             autocomplete="on"
-            type="password"
-            @keyup.enter="signUp"
-          />    
+            @keyup.enter="signUp" 
+            @click:append="showPassword = !showPassword"
+          />
           <v-btn @click="signUp">Sign Up</v-btn>
           <h5>or go back to <router-link to="/login">login</router-link>.</h5>
         </v-flex>
@@ -49,7 +51,8 @@ export default {
   data () {
     return {
       email: '',
-      password: ''
+      password: '',
+      showPassword: false
     }
   },
   methods: {

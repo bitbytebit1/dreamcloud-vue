@@ -173,7 +173,7 @@ export default {
 
     bind () {
       this.select = ''
-      if (this.$store.getters.auth_state) {
+      if (this.$store.state.user.auth_state) {
         this.$bindAsArray('items', this.$DCFB.playlists.orderByChild('name_lower'))
       }
     }

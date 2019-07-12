@@ -1,7 +1,6 @@
 <template>
   <v-layout 
-    v-if="$vuetify.breakpoint.mdAndUp"
-    v-show="bShowStage || show_pop" 
+    v-show="bShowStage || (!bShowStage && show_pop && $vuetify.breakpoint.smAndUp)" 
     row 
     wrap 
     class="pb-5 ma-0 pa-0"
@@ -15,6 +14,7 @@
         <div id="player"/>
       </div>
     </v-flex>
+    <!-- OR POSTER -->
     <v-flex 
       v-show="!(ytUseVideo && isYT) && !show_pop" 
       class="nosel"
@@ -48,7 +48,7 @@
         </v-flex>
         <!-- BUTTONS AND UPLOADED DATE/VIEWS AND DIVIDER -->
         <v-flex 
-          :style="stageBorderStyle" 
+          :style="stageBorderStyle"
           xs12 
           class="stage-btns"
         >
@@ -93,7 +93,6 @@
             <download-button :links="[song]"/>
             <!-- ADD TO PLAYLIST -->
             <add-to-playlist 
-              v-if="auth_state" 
               :song="song"
             />
             <!-- WIDE SCREEN BUTTON -->
@@ -118,7 +117,7 @@
               <v-btn 
                 slot="activator" 
                 icon 
-                @click="()=>$router.go(-1)"
+                @click="$store.commit('show_pop', true)"
               >
                 <v-icon>picture_in_picture_alt</v-icon>
               </v-btn>
@@ -191,7 +190,7 @@
             <v-tab-item>
               <!-- CURRENT PLAYLIST -->
               <playlist 
-                :songs="current_Playlist" 
+                :songs="current_playlist" 
                 :rows-per-page="-1"
                 @conmen="$emit('conmen', $event)"
               />
@@ -241,11 +240,12 @@ import addToPlaylist from '@/components/buttons/add-to-playlist.vue'
 import shareButton from '@/components/buttons/share-button'
 import downloadButton from '@/components/buttons/download-button'
 import current from '@/components/stage/meta/current'
+import { mapState } from 'vuex'
 import { mapGetters } from 'vuex'
 
 /* eslint-disable */
 export default {
-  name: 'video-stage',
+  name: 'VideoStage',
   beforeCreate () {
     var tag = document.createElement('script')
     tag.src = 'https://www.youtube.com/iframe_api'
@@ -253,26 +253,24 @@ export default {
     fst.parentNode.insertBefore(tag, fst)
   },
   watch: {
-  trackID: {
-      handler: function(l) {
-        console.log('loading')
-        this.getPlays()
-        this.getDesc()
-        // what does this do? updates the router with the proper route.
-        if (this.$route.name === 'auto') {
-            // alert(l)
-            // this.$router.push({name: 'stage'})
-            this.$router.replace({name: 'auto', params: { artist: this.$store.getters.current_song.artist,  trackID: this.$store.getters.current_song.trackID,  source: this.$store.getters.current_song.source }})
-            // return
+    trackID: {
+      handler: function(id) {
+        if(id && this.song){
+          this.getPlays()
+          this.getDesc()
+          // what does this do? updates the router with the proper route.
+          if (this.$route.name === 'auto') {
+            this.$router.replace({name: 'auto', params: { artist: this.song.artist,  trackID: this.song.trackID,  source: this.song.source }})
           }
-        if (this.isYT && this.ytUseVideo) {
-          if (!this.ytObject.hasOwnProperty('loadVideoById')) {
-            this.ytBind()
-          } else {
-            this.ytObject.loadVideoById(this.trackID)
-            // window.dcYT.loadVideoById(this.trackID)
+          if (this.isYT && this.ytUseVideo) {
+            if (!this.ytObject.hasOwnProperty('loadVideoById')) {
+              this.ytBind()
+            } else {
+              this.ytObject.loadVideoById(this.trackID)
+              // window.dcYT.loadVideoById(this.trackID)
+            }
+            this.$DCPlayer.eAudio.pause()
           }
-          this.$DCPlayer.eAudio.pause()
         }
       }
     }
@@ -291,21 +289,20 @@ export default {
     'share-button': shareButton
   },
   computed: {
+    ...mapState({
+      bShowStage: state => state.user.bShowStage,
+      // drawLeft: state => state.user.drawLeft,
+      // drawRight: state => state.user.drawRight,
+      current_playlist: state => state.player.current_playlist,
+      show_pop_list: state => state.player.show_pop_list,
+      show_pop: state => state.player.show_pop,
+    }),
     ...mapGetters({
-      bShowStage: 'bShowStage',
-      show_pop: 'show_pop',
-      show_pop_list: 'show_pop_list',
-      current_Playlist: 'current_Playlist',
-      auth_state: 'auth_state',
       song: 'current_song',
-      index: 'index',
-      hash: 'hash',
       trackID: 'current_trackID',
       ytUseVideo: 'ytUseVideo',
       ytObject: 'ytObject',
-      drawLeft: 'drawLeft',
       showVideo: 'showVideo',
-      drawRight: 'drawRight',
       isYT: 'isYT'
     }),
     videoClass () {
@@ -334,11 +331,6 @@ export default {
     clearInterval(this.interval)
   },
   methods: {
-    widescreen () {
-      this.bWide = !(this.drawLeft || this.drawRight)
-      this.$store.commit('drawRight', this.bWide)
-      this.$store.commit('drawLeft', this.bWide)
-    },
     btnFeedback () {
       this.btnCol = 'primary'
       setTimeout(() => {
@@ -374,17 +366,26 @@ export default {
       if (!value) {
         return ''
       }
-      return (value.replace(/(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)([0-5]?\d)/g,
-        `<span class="underline pointer" onClick="window.dcYT.seekTo('$&'.split(':').reduce((acc,time) => (60 * acc) + +time));">$&</span>`))
+      if (this.ytUseVideo && this.isYT) {
+        return (value.replace(/(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)([0-5]?\d)/g,
+                              `<span class="underline pointer" onClick="window.dcYT.seekTo('$&'.split(':').reduce((acc,time) => (60 * acc) + +time));">$&</span>`))
+      } else {
+        return (value.replace(/\n/g, '<br>').replace(/(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)([0-5]?\d)/g, 
+                                                     `<span class="underline" onClick="document.getElementById('dc-audio').currentTime = '$&'.split(':').reduce((acc,time) => (60 * acc) + +time)">$&</span>`))
+      }
     },
     fullscreen () {
       this.$UTILS.toggleFullscreen('player')
     },
     getDesc () {
       if (this.isYT) {
-        this.$DCAPI.getSongDescription(this.trackID, this.song.source, (resp) => {
-          this.description = resp.items[0].snippet.description.trim()
-        })
+        setTimeout(() => {
+          this.$DCAPI.getSongDescription(this.trackID, this.song.source, (resp) => {
+            this.description = resp.items[0].snippet.description.trim()
+          })
+        }, 350);
+      } else {
+        this.description = this.song.description
       }
     },
     ytBind () {

@@ -2,8 +2,8 @@
 
 
   <v-flex 
-    v-show="$store.getters.bShowStage"
-    v-if="$store.getters.index == -1" 
+    v-if="$store.state.player.current_index == -1" 
+    v-show="$store.state.user.bShowStage"
     xs12
   >
     <v-layout 
@@ -24,6 +24,8 @@
     v-else
     xs12
   >
+  
+    
     <video-stage 
       @conmen="$emit('conmen', $event)"
     />

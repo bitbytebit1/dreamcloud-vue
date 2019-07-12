@@ -67,8 +67,13 @@ export default {
       return this.source.split('-')
     }
   },
-  created () {
-    this.searchInt(this.$route.params);
+  // created () {
+  //   this.searchInt(this.$route.params);
+  // },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      vm.searchInt(to.params)
+    })
   },
   beforeRouteUpdate (to, from, next) {
     this.searchInt(to.params);
@@ -81,7 +86,7 @@ export default {
     //   })
     // },
     searchInt (params) {
-      console.log('bind artist')
+      // console.log('bind artist')
       if (this.oldQ != this.query + this.source) {
         // alert(1)
         // this.$store.dispatch('loadIndeterm', true)
@@ -94,9 +99,9 @@ export default {
       this.oldQ = this.query + this.source
       return this.$DCAPI.searchInt(params.query, iPage, this.splitSource, '', (d) => {
         this.loading = false
-        if (iPage === 0) {
-          this.$store.dispatch('loadIndeterm', false)
-        }
+        // if (iPage === 0) {
+        //   this.$store.dispatch('loadIndeterm', false)
+        // }
         // If no results stop infinite loading
         if (!d.length && !this.searchResults.length) {
           // this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete')

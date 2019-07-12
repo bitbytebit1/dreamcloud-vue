@@ -21,14 +21,15 @@
         <span>Latest</span>
         <v-icon>whatshot</v-icon>
       </v-btn>
-      <v-btn 
+      <!-- <v-btn 
         :to="$store.getters.current_trackID ? {name: 'auto', params: { artist: $store.getters.current_song.artist, trackID: $store.getters.current_song.trackID, source: $store.getters.current_song.source }} : { name: 'auto', params: {source: 'z', artist: 'z', trackID: 'z'} }"
+
         flat
         color="primary" 
       >
         <span>Current</span>
         <v-icon>music_video</v-icon>
-      </v-btn>
+      </v-btn> -->
       <v-btn 
         :to="{name: 'playlistOverview', params: {user: uid}}" 
         color="primary" 
@@ -45,6 +46,15 @@
         <span>Following</span>
         <v-icon>people</v-icon>
       </v-btn>
+      <v-btn 
+        :to="{name: 'settings'}"
+
+        flat
+        color="primary" 
+      >
+        <span>Settings</span>
+        <v-icon>settings</v-icon>
+      </v-btn>
     </v-bottom-nav>
   </div>
 </template>
@@ -54,9 +64,6 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'mobFoot',
   computed: {
-    // auto () {
-    //   return this.$store.getters.current_Playlist.length > 0 ? {name: 'auto', params: { artist: this.$store.getters.current_song.artist, trackID: this.$store.getters.current_song.trackID, source: this.$store.getters.current_song.source }} : {name: 'stage'}
-    // },
     auto () {
       return this.$store.getters.current_trackID ? {name: 'auto', params: { artist: this.$store.getters.current_song.artist, trackID: this.$store.getters.current_song.trackID, source: this.$store.getters.current_song.source }} : { name: 'stage' }
     },

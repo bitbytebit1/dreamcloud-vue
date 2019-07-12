@@ -44,7 +44,7 @@
       </v-list-tile-content>
     </v-list-tile>
     <v-data-iterator
-      v-if="$store.getters.auth_state"
+      v-if="auth_state"
       :items="subscriptions"
       :search="search"
       :rows-per-page-items="rowsPerPageItems"
@@ -104,6 +104,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import { mapGetters } from 'vuex'
 import deleteButton from '@/components/buttons/delete-button'
 export default {
@@ -130,12 +131,14 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      auth_state: state => state.user.auth_state,
+    }),
     ...mapGetters({
-      auth_state: 'auth_state',
       uid: 'uid'
     }),
     bUIShowMore () {
-      return this.$store.getters.auth_state && this.subscriptions.length > 5
+      return this.auth_state && this.subscriptions.length > 5
     },
     filterLeng () {
       return this.search.length > 0

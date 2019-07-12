@@ -1,7 +1,7 @@
 <template>
   <!-- <v-container grid-list-sm> -->
   <v-layout 
-    v-if="$store.getters.drawRight"
+    v-if="$store.state.user.drawRight"
     row 
     wrap
   >
@@ -10,12 +10,12 @@
         v-for="(song, index) in aPlaylist"
         :song="song"
         :index="index"
-        :key="song.trackID + (index + $store.getters.index)"
+        :key="song.trackID + (index + $store.state.player.current_index)"
         @contextmenu.native="$emit('conmen', [$event, [song]])"
       />
       <!-- <current-playlist-item
         :song="$store.getters.current_song"
-        :index="$store.getters.current_Index"
+        :index="$store.getters.current_index"
         :key="$store.getters.current_song.trackID"
         ></current-playlist-item> -->
     </transition-group>
@@ -94,26 +94,20 @@ export default {
       hash: 'hash'
     }),
     aPlaylist () {
-      return this.$store.getters.current_Playlist.slice(this.$store.getters.index, this.$store.getters.index + this.numberOfItems)
-      // return this.$store.getters.current_Playlist.slice(this.$store.getters.index, this.$store.getters.index + this.$store.getters.current_Playlist.length)
+      return this.$store.state.player.current_playlist.slice(this.$store.state.player.current_index, this.$store.state.player.current_index + this.numberOfItems)
+      // return this.$store.state.player.current_playlist.slice(this.$store.state.player.current_index, this.$store.state.player.current_index + this.$store.state.player.current_playlist.length)
     }
   },
   methods: {
     infiniteHandler ($state) {
       this.numberOfItems += 4
-      var tmp = Math.min(this.$store.getters.current_Playlist.length, this.$store.getters.index + this.numberOfItems)
-      if (tmp === this.$store.getters.current_Playlist.length) {
+      var tmp = Math.min(this.$store.state.player.current_playlist.length, this.$store.state.player.current_index + this.numberOfItems)
+      if (tmp === this.$store.state.player.current_playlist.length) {
         $state.complete()
       } else {
         $state.loaded()
       }
       this.infState = $state
-    },
-    remove(index) {
-      let a = this.$store.getters.current_Playlist.splice(index, 1)
-      this.$store.commit('current_Playlist', a)
-      this.$DCPlayer.setPlaylist(a)
-      console.log(a)
     },
     play (index) {
       this.$store.commit('changeIndex', index)

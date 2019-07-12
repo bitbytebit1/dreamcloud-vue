@@ -80,15 +80,19 @@ import VueLazyload from 'vue-lazyload'
 
 // or with options
 Vue.use(VueLazyload, {
-  preLoad: 1.7,
+  // preLoad: 1.7,
   error: 'dist/img/no-image.png',
   // loading: 'dist/loading.gif',
-  attempt: 1
-})
+  // attempt: 1,
+    // set observer to true
+  observer: true,
 
-import VueClazyLoad from 'vue-clazy-load';
-Vue.use(VueClazyLoad);
-Vue.component('clazy-load', VueClazyLoad)
+  // optional
+  observerOptions: {
+    rootMargin: '0px',
+    threshold: 0.1
+  }
+})
 
 new Vue({
   router,

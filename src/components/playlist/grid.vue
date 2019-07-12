@@ -109,8 +109,8 @@
               @delete="removeList"
             />
 
+            <!-- v-if="auth_state"  -->
             <add-to-playlist 
-              v-if="auth_state" 
               key="multi" 
               :disabled="selected.length == 0" 
               :song="selected"
@@ -211,55 +211,38 @@
             // nasty ternary, if playlist push
             : $router.push({name: 'channelPlaylist', params: {listID: props.item.listID, artistID: props.item.artistID, title: props.item.title, source: props.item.source}})"
           >
-            <!-- :color="cardColor(props)"  -->
-            <!-- <v-hover 
-              :value="isPlaying(props.item.trackID)"
-              :disabled="isPlaying(props.item.trackID)"
-            > -->
-            <!-- :color="cardColor(props)"  -->
-            <!-- :style="isPlaying(props.item.trackID) ? {'outline-color': $vuetify.theme.primary, 'outline-style': 'auto'} : ''" -->
-            <!-- slot-scope="{ hover }" -->
             <v-card 
               class="dc-crd ma-0 pa-0 pointer outline"
               @contextmenu="props.item.trackID ? $emit('conmen', [$event, bSelect ? selected : [props.item]]) : null"
             >
-              <clazy-load :src="props.item.posterLarge">
-                <v-img
-                  :src="props.item.posterLarge"
-                  :aspect-ratio="aspect"
-                  :key="props.item.trackID"
-                  class="fillPlace nosel"
-                >
-                  <!-- <v-expand-transition> -->
-                  <div
-                    v-if="props.item.trackID && isPlaying(props.item.trackID)"
-                    class="d-flex text-xs-center v-card--reveal"
-                    style="height: 100%;"
-                  >
-                    <div>
-                      <v-btn 
-                        :loading="$store.getters.isLoading && isPlaying (props.item.trackID)"
-                        dark  
-                        icon
-                        large
-                        color="primary"
-                        @click.stop="play(props.index)"
-                      >
-                        <v-icon>{{ $store.getters.isPlaying && isPlaying (props.item.trackID)? 'pause' : 'play_arrow' }}</v-icon>
-                      </v-btn>
-                    </div>
-                  </div>
-                <!-- </v-expand-transition> -->
-                </v-img>
-                <v-img
-                  slot="placeholder"
-                  :aspect-ratio="aspect || 1"
-                  class="fillPlace" 
-                />
-              </clazy-load>
               <!-- IMAGE -->
-              <!-- :src="props.item.poster" -->
-
+              <v-img
+                v-lazy:background-image="props.item.posterLarge"
+                :aspect-ratio="aspect"
+                :key="props.item.trackID"
+                class="fillPlace noSel"
+              >
+                <!-- <v-expand-transition> -->
+                <div
+                  v-if="props.item.trackID && isPlaying(props.item.trackID)"
+                  class="d-flex text-xs-center v-card--reveal"
+                  style="height: 100%;"
+                >
+                  <div>
+                    <v-btn 
+                      :loading="$store.getters.isLoading && isPlaying (props.item.trackID)"
+                      dark  
+                      icon
+                      large
+                      color="primary"
+                      @click.stop="play(props.index)"
+                    >
+                      <v-icon>{{ $store.getters.isPlaying && isPlaying (props.item.trackID)? 'pause' : 'play_arrow' }}</v-icon>
+                    </v-btn>
+                  </div>
+                </div>
+                <!-- </v-expand-transition> -->
+              </v-img>
               <!-- TITLE -->
               <v-card-title class="pa-0">
                 <v-layout 
@@ -343,8 +326,8 @@ import shuffleButton from '@/components/buttons/shuffle-button'
 import addToPlaylist from '@/components/buttons/add-to-playlist'
 import deleteButton from '@/components/buttons/delete-button'
 import downloadButton from '@/components/buttons/download-button'
-import { VueClazyLoad } from 'vue-clazy-load'
 import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 export default {
 
   name: 'Grid',
@@ -373,7 +356,6 @@ export default {
     }
   },
   components: {
-    'clazy-load': VueClazyLoad,
     'add-to-playlist': addToPlaylist,
     'delete-button': deleteButton,
     'download-button': downloadButton,
@@ -411,16 +393,16 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      view_mode: state => state.user.view_mode,
+      index: state => state.player.current_index,
+    }),
     ...mapGetters({
       current_trackID: 'current_trackID',
       showVideo: 'showVideo',
-      auth_state: 'auth_state',
-      index: 'index',
+      // index: 'index',
       hash: 'hash',
       current_song: 'current_song',
-      view_mode: 'view_mode',
-      drawLeft: 'drawLeft',
-      drawRight: 'drawRight',
       isYT: 'isYT'
     }),
     aspect () {
@@ -445,18 +427,6 @@ export default {
     }
   },
   methods: {
-    // USED TO EITHER WATCH OR PLAY SONG
-    // playProxy (props, bShow) {
-    //   // Fix for mobile on first play
-    //   if (this.$store.getters.index === -1 && this.$UTILS.isMobile) this.$DCPlayer.eAudio.play()
-
-    //   // store current value
-    //   let a = this.showVideo
-    //   this.$store.commit('showVideo', bShow)
-    //   this.play(props.index)
-    //   // restore old value after ^call
-    //   this.$store.commit('showVideo', a)
-    // },
     cardColor (props) {
       if (this.bSelect) {
         return this.selected.some(el => el === props.item) ? 'primary' : ''
@@ -476,16 +446,6 @@ export default {
         this.selected.push(el)
       }
     },
-    download (song) {
-      this.$DCPlayer.getAudio(song.mp32, (data) => {
-        this.$UTILS.downloadLink(data)
-      })
-    },
-    downloadAll () {
-      for (const i in this.selected) {
-        setTimeout(() => { this.download(this.selected[i]) }, 1000 * i - 1)
-      }
-    },
     isPlaying (trackID) {
       return trackID === this.current_trackID
       // return trackID === this.current_song.trackID
@@ -502,10 +462,10 @@ export default {
     play (index, pauseIfSame = true, showStage = false) {
       let b = this.sorted[index].trackID == this.$store.getters.current_song.trackID
       // Fix for mobile on first play
-      if (this.$store.getters.index === -1 && this.$UTILS.isMobile) this.$DCPlayer.eAudio.play()
+      if (this.$store.state.player.current_index === -1 && this.$UTILS.isMobile) this.$DCPlayer.eAudio.play()
       // If not first page fix index
       let newi = this.pagination.page === 1 ? index : (this.pagination.rowsPerPage * (this.pagination.page - 1)) + index
-      // if (this.$store.getters.index === index && this.hash === this.$route.path) {
+      // if (this.$store.state.player.current_index === index && this.hash === this.$route.path) {
       if (showStage) {
         // return this.$router.push({name: 'stage'})
         return this.$router.push({name: 'auto', params: { artist: this.sorted[newi].artist,  trackID: this.sorted[newi].trackID,  source: this.sorted[newi].source }})
@@ -520,12 +480,12 @@ export default {
       let a = Object.assign([], this.sorted)
       
       this.$DCPlayer.setNPlay(a, newi)
-      this.$store.commit('setNPlay', {songs: a, current: index, path: this.$route.path})
+      this.$store.commit('setNPlay', {songs: a, current: newi, path: this.$route.path})
       this.$DCFB.historyPush(a[newi])
       if (showStage || this.showVideo) {
         // console.log('showing stage')
         // this.$router.push({name: 'stage'})
-        this.$router.push({name: 'auto', params: { artist: a[newi].artist,  trackID: a[newi].trackID,  source: a[newi].source }})
+        this.$router.push({name: 'auto', params: { artist: a[newi].artist, trackID: a[newi].trackID, source: a[newi].source }})
         // this.$store.commit('toggleStage')
       }
     }

@@ -43,6 +43,9 @@ class DCFB {
     this.subscriptions = this.db.ref('users/' + UID + '/Subscriptions')
     this.fbhistory = this.db.ref('users/' + UID + '/History')
 
+
+    // HERE BE THERE DEMONS, 
+    // this code syncs firebase to local storage for offline usage, pretty slow because we writing all the massive arrays
     // if (window.localStorage) {
 
     // // if not same user clear LS

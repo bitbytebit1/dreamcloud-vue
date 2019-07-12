@@ -5,7 +5,7 @@
     <v-list subheader>
       <v-list-tile
         ripple
-        @click="showVideo = !showVideo"
+        @click="showVideo = hSettingClick('Show Video', showVideo)"
       >
         <v-list-tile-content>
           Go to current tab on song click
@@ -18,6 +18,7 @@
             height="20" 
             color="primary" 
             class="fl-r pa-0 ma-0"
+            @click.stop="showVideo = hSettingClick('Show Video', showVideo)"
           />
         </v-list-tile-action>
       </v-list-tile>
@@ -25,7 +26,7 @@
 
       <v-list-tile
         ripple
-        @click="closeMenu = !closeMenu"
+        @click.stop="closeMenu = hSettingClick('Close Menu', closeMenu)"
       >
         <v-list-tile-content>
           Close right click menu on scroll
@@ -38,6 +39,28 @@
             height="20" 
             color="primary" 
             class="fl-r pa-0 ma-0"
+            @click.stop="closeMenu = hSettingClick('Close Menu', closeMenu)"
+          />
+        </v-list-tile-action>
+      </v-list-tile>
+      <v-divider/>
+
+      <v-list-tile
+        ripple
+        @click.stop="showPop = hSettingClick('Show Popup', showPop)"
+      >
+        <v-list-tile-content>
+          Show pop up player automatically
+        </v-list-tile-content>
+
+        <v-list-tile-action>
+          <v-switch 
+            v-model="showPop" 
+            hide-details 
+            height="20" 
+            color="primary" 
+            class="fl-r pa-0 ma-0"
+            @click.stop="showPop = hSettingClick('showPopupSetting', showPop)"
           />
         </v-list-tile-action>
       </v-list-tile>
@@ -49,62 +72,49 @@
 <script>
 
 import deleteButton from '@/components/buttons/delete-button'
-import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 
 export default {
-  watch: {
-    'showVideo': {
-      immediate: false,
-      handler: 'hShowVideo'
-    },
-    'showWatchB': {
-      immediate: false,
-      handler: 'hShowWatchB'
-    },
-    'closeMenu': {
-      immediate: false,
-      handler: 'hCloseMenu'
-    }
-  },
   name: 'Theme',
   components: {
     'delete-button': deleteButton
   },
-  data () {
-    return {
-      showVideo: this.$store.getters.showVideo,
-      closeMenu: this.$store.getters.closeMenuOnScroll,
-    }
-  },
   methods: {
-    hCloseMenu (n) {
-      this.settingChanged('Close Menu', n)
-    },
-    hShowVideo (n) {
-      this.showVideo = n
-      // console.log('Show Video On Click', this.showVideoOnClick)
-      this.settingChanged('Show Video', this.showVideo)
-    },
-    settingChanged (name, value) {
+    hSettingClick (name, value) {
+      value = !value
       this.$DCFB.settingChange(name, value)
-      this.$store.commit('changeSetting', { 'setting': name, 'value': value })
-      // this.$UTILS.setLoc('settings', JSON.stringify(value))
+      return value
     }
-  },
-  created () {
-    // Get settings
-    // this.$DCFB.settings.once('value', (snapshot) => {
-    //   console.log(snapshot.val())
-    //   if (snapshot.val() !== null) {
-    //     this.$store.commit('settings', snapshot.val())
-    //   }
-    //   // this.listViewSmall = !!snapshot
-    // })
   },
   computed: {
-    ...mapGetters({
-      auth_state: 'auth_state'
-    })
+    ...mapState({
+      auth_state: state => state.user.auth_state,
+    }),
+    showVideo: {
+      get () {
+        return this.$store.getters.showVideo
+      },
+      set (value) {
+        this.$store.commit('showVideo', value)
+      }
+    },
+    closeMenu: {
+      get () {
+        return this.$store.getters.closeMenuOnScroll
+      },
+      set (value) {
+        this.$store.commit('closeMenuOnScroll', value)
+      }
+    },
+    showPop: {
+      get () {
+        return this.$store.getters.showPopupSetting
+      },
+      set (value) {
+        this.$store.commit('showPopupSetting', value)
+      }
+    },
+
   }
 }
 </script>

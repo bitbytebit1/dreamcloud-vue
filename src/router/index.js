@@ -161,13 +161,13 @@ router.beforeEach((to, from, next) => {
   store.commit('bShuffled', false)
 
   // close navbar on back
-  if (store.getters.isMobile && (store.getters.drawLeft || store.getters.drawRight) && window.popStateDetected) {
+  if (store.getters.isMobile && (store.state.user.drawLeft || store.state.user.drawRight) && window.popStateDetected) {
     window.popStateDetected = false
     // console.log(to, from)
     store.commit('drawLeft', false)
     store.commit('drawRight', false)
     next(false)
-  } else if (store.getters.bShowStage && (to.name !== 'stage' || to.name !== 'current')) {
+  } else if (store.state.bShowStage && (to.name !== 'stage' || to.name !== 'current')) {
     // console.log('disabled stage')
     store.commit('bShowStage', false)
     // store.commit('show_pop', true)

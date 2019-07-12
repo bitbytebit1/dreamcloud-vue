@@ -1,41 +1,80 @@
 <template>
   <div 
-    id="dc-audio-container" 
-    class="yt"
+    v-touch="{
+      left: next,
+      right: previous
+    }" 
+    id="dc-audio-container"
+    class="yt" 
   >
     <div id="dc-player">
       <!-- CONTROLS -->
       <div 
-        id="left" 
+        id="left"
+        :style="$vuetify.breakpoint.xsOnly ? {width: '100%'} : {}" 
         class="fl-l"
+        @click="$store.commit('toggleStage')" 
       >
-        <div class="fl-l">
-          <v-btn 
-            class="primary" 
-            icon 
-            outline 
-            @click="previous"
+        <div 
+          :style="{width: '100%'}" 
+        >
+          <v-layout 
+            row 
+            wrap
+            align-center
           >
-            <v-icon>skip_previous</v-icon>
-          </v-btn>
-          <v-btn 
-            :loading="bLoading" 
-            class="primary" 
-            icon 
-            outline 
-            @click="togglePlay"
-          >
-            <v-icon>{{ sPlayIcon }}</v-icon>
-          </v-btn>
-          <v-btn 
-            class="primary" 
-            icon 
-            outline 
-            @click="next"
-          >
-            <v-icon>skip_next</v-icon>
-          </v-btn>
-          <!-- <scroll-to-top v-if="!$vuetify.breakpoint.xs"/> -->
+            <v-flex 
+              xs2 
+              sm12
+            >
+              <v-btn 
+                v-if="$vuetify.breakpoint.smAndUp"
+                class="primary" 
+                icon 
+                outline
+                @click="previous"
+              >
+                <v-icon>skip_previous</v-icon>
+              </v-btn>
+              <v-btn 
+                :loading="bLoading" 
+                :outline="$vuetify.breakpoint.smAndUp" 
+                :class="$vuetify.breakpoint.smAndUp ? 'primary' : ''" 
+                icon
+                @click="$DCPlayer.togglePlay"
+              >
+                <v-icon>{{ sPlayIcon }}</v-icon>
+              </v-btn>
+              <v-btn 
+                v-if="$vuetify.breakpoint.smAndUp"
+                class="primary" 
+                icon 
+                outline 
+                @click="next"
+              >
+                <v-icon>skip_next</v-icon>
+              </v-btn>
+            </v-flex>
+            <v-flex 
+              xs10 
+              pr-2
+            >
+              <div 
+                v-if="$vuetify.breakpoint.xsOnly"
+                id="mobTitle"
+                class="mr-4"
+              >
+                <marquee v-if="artistAndTitleLength">
+                  <span>{{ $store.getters.current_song.title }}</span>
+                  <span class="grey--text"> - {{ $store.getters.current_song.artist }}</span>
+                </marquee>
+                <template v-else>
+                  <span>{{ $store.getters.current_song.title }}</span>
+                  <span class="grey--text"> - {{ $store.getters.current_song.artist }}</span>
+                </template> 
+              </div>
+            </v-flex>
+          </v-layout>
         </div>
       </div>
       <!-- VOLUME -->
@@ -77,7 +116,11 @@
           </div>
         </v-speed-dial>
       </div>
-      <div class="right">
+      <!-- SHOW POPUP -->
+      <div 
+        v-if="$vuetify.breakpoint.smAndUp" 
+        class="right"
+      >
         <scroll-to-top/>
       </div>
       
@@ -158,6 +201,10 @@ export default {
     iCurrent () {
       return `${this.secondsToDuration(this.$store.getters.ytCurrentTime)} - ${this.secondsToDuration(this.$store.getters.ytDuration)}`
     },
+    artistAndTitleLength() {
+      if (!this.$store.state.player.current_index) return 0
+      return String(this.$store.getters.current_song.title).length + String(this.$store.getters.current_song.artist).length > 40
+    },
     // -1 (unstarted)
     // 0 (ended)
     // 1 (playing)
@@ -172,11 +219,6 @@ export default {
     },
     sPlayIcon () {
       return this.bPlaying ? 'pause' : 'play_arrow'
-    },
-    currentImage () {
-      return this.$store.getters.index > -1
-        ? this.$store.getters.current_Playlist[this.$store.getters.index].posterLarge
-        : '/static/img/loading.png'
     }
   },
   methods: {

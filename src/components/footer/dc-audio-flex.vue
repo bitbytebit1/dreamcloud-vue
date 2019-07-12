@@ -106,8 +106,8 @@ export default {
   },
   computed: {
     currentImage () {
-      return this.$store.getters.index > -1
-        ? this.$store.getters.current_Playlist[this.$store.getters.index].posterLarge
+      return this.$store.state.player.current_index > -1
+        ? this.$store.state.player.current_playlist[this.$store.state.player.current_index].posterLarge
         : '/static/img/loading.gif'
     }
   },

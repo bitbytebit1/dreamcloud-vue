@@ -15,11 +15,13 @@
   <!-- </v-fab-transition> -->
 </template>
 <script>
-import { mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 export default {
   name: 'ScrollToTop',
   computed: {
-    ...mapGetters(['show_pop'])
+    ...mapState({
+      show_pop: state => state.player.show_pop,
+    })
   }
 }
 </script>

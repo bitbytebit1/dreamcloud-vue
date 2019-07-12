@@ -2,6 +2,7 @@ export default {
   state: {
     settings: {
       'Night Mode': true,
+      'Show Popup': true,
       'Show Video': true,
       'Show Watch Button': true,
       'Close Menu': true,
@@ -10,6 +11,7 @@ export default {
     }
   },
   getters: {
+    showPopupSetting: state => Boolean(state.settings['Show Popup']),
     closeMenuOnScroll: state => Boolean(state.settings['Close Menu']),
     showWatchB: state => Boolean(state.settings['Show Watch Button']),
     ytVideo: state => Boolean(state.settings['Video']),
@@ -21,6 +23,7 @@ export default {
     theme: state => state.settings['Night Mode'] ? {'dark': true} : {'light': true},
   },
   mutations: {
+    showPopupSetting (state, payload) { state.settings['Show Popup'] = Boolean(payload) },
     closeMenuOnScroll (state, payload) { state.settings['Close Menu'] = Boolean(payload) },
     showWatchB (state, payload) { state.settings['Show Watch Button'] = Boolean(payload) },
     settings (state, payload) { state.settings = payload },

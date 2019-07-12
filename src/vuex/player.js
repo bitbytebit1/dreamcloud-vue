@@ -1,22 +1,22 @@
 export default {
   state: {
-    current_Playlist: [],
-    current_Index: -1,
+    current_playlist: [],
+    current_index: -1,
     current_Hash: '',
     show_pop: false,
     show_pop_list: false
   },
   mutations: {
     setNPlay(state, payload) {
-      state.current_Playlist = payload.songs
-      state.current_Index = payload.current
+      state.current_playlist = payload.songs
+      state.current_index = payload.current
       state.current_Hash = payload.path
     },
-    current_Playlist(state, payload) {
-      state.current_Playlist = payload
+    current_playlist(state, payload) {
+      state.current_playlist = payload
     },
     changeIndex(state, payload) {
-      state.current_Index = payload
+      state.current_index = payload
     },
     show_pop(state, payload) {
       state.show_pop = payload
@@ -26,14 +26,14 @@ export default {
     }
   },
   getters: {
-    show_pop_list: state => state.show_pop_list,
-    show_pop: state => state.show_pop,
-    current_Playlist: state => state.current_Playlist,
-    index: (state) => state.current_Index,
+    // show_pop_list: state => state.show_pop_list,
+    // show_pop: state => state.show_pop,
+    // index: (state) => state.current_index,
     hash: (state) => state.current_Hash,
-    current_trackID: (state, getters) => { return getters.index > -1 ? getters.current_Playlist[getters.index].trackID : '' },
-    current_source: (state, getters) => { return getters.index > -1 ? getters.current_Playlist[getters.index].source : '' },
-    current_song: (state, getters) => { return getters.index > -1 ? getters.current_Playlist[getters.index] : '' },
-    next_song: (state, getters) => { return getters.index < 0 ? '' : getters.index + 1 < getters.current_Playlist.length ? getters.current_Playlist[getters.index + 1] : getters.current_Playlist[0] }
+    // current_playlist: state => state.current_playlist,
+    current_trackID: (state) => { return state.current_index > -1 ? state.current_playlist[state.current_index].trackID : '' },
+    current_source: (state) => { return state.current_index > -1 ? state.current_playlist[state.current_index].source : '' },
+    current_song: (state) => { return state.current_index > -1 ? state.current_playlist[state.current_index] : '' },
+    next_song: (state) => { return state.current_index < 0 ? '' : state.current_index + 1 < state.current_playlist.length ? state.current_playlist[state.current_index + 1] : state.current_playlist[0] }
   }
 }

@@ -8,7 +8,7 @@
     <playlist 
       :show-uploaded="true"
       :songs="aSongs" 
-      rows-per-page='250' 
+      rows-per-page='40' 
       @conmen="$emit('conmen', $event)"
     />
   </v-flex>
@@ -32,21 +32,31 @@ export default {
       default: ''
     }
   },
-  created () {
-    this.bind(this.$route.params);
+  // created () {
+  //   this.bind(this.$route.params.user, this.$route.params.playlist)
+  // },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      vm.bind(to.params.user, to.params.playlist)
+    })
   },
   beforeRouteUpdate (to, from, next) {
-    this.bind(to.params);
+    this.bind(to.params.user, to.params.playlist)
     next();
   },
   data () {
     return {
-      aSongs: []
+      aSongs: [],
+      oldPlaylist:' '
     }
   },
   methods: {
-    bind (params) {
-      this.$bindAsArray('aSongs', this.$DCFB.playlistGet(params.user, params.playlist), null)
+    bind (user, playlist) {
+      if (this.oldPlaylist == playlist) {
+        return
+      }
+      this.oldPlaylist = playlist
+      this.$bindAsArray('aSongs', this.$DCFB.playlistGet(user, playlist), null)
     }
   }
 }

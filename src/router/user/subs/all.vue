@@ -74,6 +74,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 
 import jumbo from '@/components/misc/jumbo'
 export default {
@@ -109,7 +110,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({auth_state: 'auth_state', textColor: 'textColor'}),
+    ...mapState({
+      auth_state: state => state.user.auth_state,
+    }),
+    ...mapGetters(['textColor']),
     aFiltered () {
       return this.chips.length ? 
         this.aPlaylists.filter(f => 
@@ -121,7 +125,8 @@ export default {
   methods: {
     shuffle(source) {
       let ret = []
-      let leng = (source.length - 1) / (Math.max(3, Math.floor(Math.random() * 5))) | 0; // get a quater or a third of subscriptions
+      let leng = (source.length - 1) / (Math.max(5, Math.floor(Math.random() * 5))) | 0; // get a quater or a third of subscriptions
+      console.log('length', source.length - 1, ' ', leng)
       for (var i = 0; i < leng - 1; i++) {
         var j = i + Math.floor(Math.random() * (source.length - i));
         ret[i] = source[j];
@@ -165,9 +170,9 @@ export default {
       if (this.auth_state) {
         // On done call getAllSubs
         this.bLoading = true
-        this.$store.dispatch('loadIndeterm', true)
+        // this.$store.dispatch('loadIndeterm', true)
         this.$bindAsArray('subscriptions', this.$DCFB.subscriptionGet(this.user).orderByChild('name_lower'), null, () => {
-          this.chips = this.shuffle(this.subscriptions)
+          // this.chips = this.shuffle(this.subscriptions)
           this.getAllSubs()
         })
       }
@@ -184,17 +189,17 @@ export default {
       setTimeout(() => {
         impatient = true
         this.aPlaylists = this.aPlaylists2
-        this.$store.commit('loadValue', 0)
-        this.$store.dispatch('loadIndeterm', false)
+        // this.$store.commit('loadValue', 0)
+        // this.$store.dispatch('loadIndeterm', false)
       }, 1000)
       for (var sub in this.subscriptions) {
         this.$DCAPI.searchInt(0, 0, [this.subscriptions[sub].source], this.subscriptions[sub].id, (songs) => {
           this.bLoadedSubs += 1
-          !impatient && this.$store.commit('loadValue', (100 / this.subscriptions.length) * this.bLoadedSubs)
+          // !impatient && this.$store.commit('loadValue', (100 / this.subscriptions.length) * this.bLoadedSubs)
           this.aPlaylists2 = this.aPlaylists2.concat(songs)
           this.aPlaylists2.sort(this.$DCAPI.sortDate)
           if (this.subscriptions.length === this.bLoadedSubs || impatient) {
-            !impatient && this.$store.commit('loadValue', 0)
+            // !impatient && this.$store.commit('loadValue', 0)
             this.aPlaylists = this.aPlaylists2
           }
         }, false, 50)

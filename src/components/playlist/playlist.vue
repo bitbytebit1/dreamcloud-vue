@@ -47,7 +47,7 @@
 <script>
 import grid from './grid'
 import list from './list'
-import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 
 export default {
   name: 'Playlist',
@@ -94,9 +94,9 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({
-      view_mode: 'view_mode'
-    })
+    ...mapState({
+      view_mode: state => state.user.view_mode,
+    }),
   },
   methods: {
     // burp () {

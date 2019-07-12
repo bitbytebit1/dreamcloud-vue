@@ -50,14 +50,14 @@ export default {
     add () {
       this.$emit('clicked')
       let a = Array.isArray(this.song) ? this.song : [this.song]
-      // let b = Object.assign({}, this.$store.getters.current_Playlist, a)
-      let d = [...this.$store.getters.current_Playlist, ...a]
+      // let b = Object.assign({}, this.$store.state.player.current_playlist, a)
+      let d = [...this.$store.state.player.current_playlist, ...a]
       this.c = 'green'
       this.$store.dispatch('snack', { b: true, c:'primary', s:'Added to queue' })
       // if first song in playlist
-      this.$store.getters.index === -1
+      this.$store.state.player.current_index === -1
         ? (this.$store.commit('setNPlay', {songs: a, current: 0, path: this.$route.path}), this.$DCPlayer.setPlaylist(d))
-        : (this.$store.commit('current_Playlist', d), this.$DCPlayer.setPlaylist(d))
+        : (this.$store.commit('current_playlist', d), this.$DCPlayer.setPlaylist(d))
     }
   }
 }

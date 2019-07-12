@@ -35,7 +35,7 @@
 import genres from '@/router/genres/genres'
 import jumbo from '@/components/misc/jumbo'
 import deleteButton from '@/components/buttons/delete-button'
-import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 export default {
   name: 'home',
   components: {
@@ -72,13 +72,13 @@ export default {
     bind () {
       if (this.auth_state) {
         this.bFailed = false
-        this.$store.commit('loadActive', true)
+        // this.$store.commit('loadActive', true)
         this.$bindAsArray('aHistory', this.$DCFB.fbhistory.limitToLast(this.iLimit), null, this.getRecommended)
       }
     },
     getRecommended () {
       if (!this.aHistory.length) {
-        this.$store.commit('loadActive', false)
+        // this.$store.commit('loadActive', false)
         this.bLoading = false
         this.bFailed = !this.aHistory.length
         return
@@ -128,9 +128,9 @@ export default {
       }
       
       this.bLoading = false
-      setTimeout(() => {
-        this.$store.commit('loadActive', false)
-      }, 200)
+      // setTimeout(() => {
+      //   this.$store.commit('loadActive', false)
+      // }, 200)
       // console.log('haaaai1', aAjax)
       // axios.all(aAjax).then(() => {
       //   console.log('haaaai2')
@@ -142,13 +142,15 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({auth_state: 'auth_state'}),
+    ...mapState({
+      auth_state: state => state.user.auth_state,
+    }),
     aRecommended2 () {
       return this.bLoading ? [] : this.aRecommended
     }
   },
   destroyed () {
-    this.$store.commit('loadActive', false)
+    // this.$store.commit('loadActive', false)
   }
 }
 </script>

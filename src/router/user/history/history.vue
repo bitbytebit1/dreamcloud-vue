@@ -24,7 +24,7 @@
 /* eslint-disable */
 import jumbo from '@/components/misc/jumbo'
 import deleteButton from '@/components/buttons/delete-button'
-import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 export default {
   props: ['user'],
   name: 'history',
@@ -47,10 +47,10 @@ export default {
   methods: {
     bind () {
       if (this.auth_state) {
-        this.$store.dispatch('loadIndeterm', true)
+        // this.$store.dispatch('loadIndeterm', true)
         this.bFailed = false
         this.$bindAsArray('aHistory', this.$DCFB.fbhistory.limitToLast(100), null, () => { 
-          this.$store.dispatch('loadIndeterm', false)
+          // this.$store.dispatch('loadIndeterm', false)
           this.bLoading = false
           this.bFailed  = !this.aHistory.length
         })
@@ -58,7 +58,9 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({auth_state: 'auth_state'}),
+    ...mapState({
+      auth_state: state => state.user.auth_state,
+    }),
     aHistRev () {
       return this.$UTILS.uniqueArray([...this.aHistory].reverse())
     }

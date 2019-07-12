@@ -8,7 +8,7 @@
     <!-- IMAGE -->
     <v-flex 
       v-show="!($store.getters.ytUseVideo && $store.getters.isYT)" 
-      class="nosel"
+      class="noSel"
       xs12 
       @click="$DCPlayer.togglePlay()"
       @contextmenu="$emit('conmen', [$event, [song]])"
@@ -68,7 +68,6 @@
             <download-button :links="[song]"/>
             <!-- ADD TO PLAYLIST -->
             <add-to-playlist 
-              v-if="auth_state" 
               :song="song"
             />
             <!-- WIDE SCREEN BUTTON -->
@@ -156,7 +155,7 @@
             <v-tab-item>
               <!-- CURRENT PLAYLIST -->
               <playlist 
-                :songs="$store.getters.current_Playlist"
+                :songs="$store.state.player.current_playlist"
                 :rows-per-page="-1"
                 @conmen="$emit('conmen', $event)"
               />
@@ -248,8 +247,7 @@ export default {
     ...mapGetters({
       song: 'current_song',
       current_trackID: 'current_trackID',
-      ytUseVideo: 'ytUseVideo',
-      auth_state: 'auth_state'
+      ytUseVideo: 'ytUseVideo'
     }),
     _description: {
       get () {
@@ -278,7 +276,7 @@ export default {
       this.getPlays()
     },
     widescreen () {
-      this.bWide = !(this.$store.getters.drawLeft || this.$store.getters.drawRight)
+      this.bWide = !(this.$store.state.user.drawLeft || this.$store.state.user.drawRight)
       this.$store.commit('drawRight', this.bWide)
       this.$store.commit('drawLeft', this.bWide)
     },

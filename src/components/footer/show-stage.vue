@@ -14,11 +14,13 @@
   <!-- </v-fab-transition> -->
 </template>
 <script>
-import { mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 export default {
   name: 'ScrollToTop',
   computed: {
-    ...mapGetters(['bShowStage'])
+    ...mapState({
+      bShowStage: state => state.user.bShowStage,
+    }),
   },
   data () {
     return {

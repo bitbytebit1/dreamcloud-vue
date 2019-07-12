@@ -47,8 +47,8 @@ export default {
       this.emit(v)
     },
     enter () {
-      // oh why why why
-      // this.$refs.auto.$children[0].isActive = false
+      // closes auto complete menu
+      this.$refs.auto.$children[0].isActive = false
       this.emit(this.search)
     },
     emit (v) {

@@ -41,7 +41,7 @@ export default {
     }
   },
   created () {
-    this.bind();
+    this.search();
   },
   beforeRouteUpdate (to, from, next) {
     this.search();
@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     search () {
-      console.log('binding song')
+      // console.log('binding song')
       this.loading = true
       this.searchResults = []
       this.$DCAPI.getSongInfo(this.$route.params.trackID, this.$route.params.source, (d) => {

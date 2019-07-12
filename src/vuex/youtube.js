@@ -53,11 +53,7 @@ export default {
   getters: {
     isLoading: (state, getters) => state.ytUseVideo && getters.isYT ? getters.ytIsLoading : state.dcIsLoading,
     isPlaying: (state, getters) => state.ytUseVideo && getters.isYT ? getters.ytIsPlaying : state.dcIsPlaying,
-    // if (state.ytUseVideo) {
-    //   return getters.ytIsLoading
-    // } else {
-    //   return state.dcIsLoading
-    // }
+
     dcIsLoading: state => state.dcIsLoading,
     dcIsPlaying: state => state.dcIsPlaying,
     ytUseVideo: state => state.ytUseVideo,
@@ -68,10 +64,7 @@ export default {
     ytIsPlaying: state => state.ytState === 1,
     ytIsPaused: state => state.ytState === 2,
     ytIsLoading: (state) => state.ytState === 3,
-    // ytIsLoading: (state, getters) => !getters.ytIsPlaying && !getters.ytIsPaused,
     isYT: (state, getters) => getters.current_source === 'YouTube'
-    // ytDuration: state => state.ytObject.getDuration(),
-    // ytCurrentTime: state => state.ytObject.getCurrentTime()
   }
 }
 

@@ -5,7 +5,7 @@
     class="mt-3"
   >
     <!-- UP NEXT COMPONENT -->
-    <div v-if="!$store.getters.drawRight">
+    <div v-if="!$store.state.user.drawRight">
       <div class="text-xs-left subheading">
         Up next
       </div>
@@ -61,7 +61,10 @@
       </v-flex>
       <v-divider/>
     </div>
-    <div class="text-xs-left subheading mt-2">
+    <div 
+      v-if="loading || items.length"
+      class="text-xs-left subheading mt-2"
+    >
       Related
     </div>
     <v-flex 
@@ -126,10 +129,11 @@
               <div class="subheading wordbreak">{{ props.item.title }}</div>
               <!-- artist -->
               <router-link
-                :to="{name: 'artist', params: {source: upNext.source, artist: upNext.artist, artistID: upNext.artistID}}"
+                :to="{name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}}"
                 class="subheading grey--text artist noDeco"
+                @click.native.stop
               >
-                {{ upNext.artist }}
+                {{ props.item.artist }}
               </router-link>
               <!-- duration -->
               <div class="grey--text">{{ props.item.duration }}</div>
@@ -144,6 +148,7 @@
 <script>
 import orbit from '@/components/misc/orbit'
 import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 
 // /* eslint-disable */
 export default {
@@ -166,12 +171,14 @@ export default {
     items: []
   }),
   computed: {
+    ...mapState({
+      index: state => state.player.current_index,
+    }),
     ...mapGetters({
       isYT: 'isYT',
       song: 'current_song',
       upNext: 'next_song',
-      trackID: 'current_trackID',
-      index: 'index'
+      trackID: 'current_trackID'
     })
   },
   methods: {

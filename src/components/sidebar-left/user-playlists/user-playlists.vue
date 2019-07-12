@@ -61,7 +61,7 @@
     </v-list-tile>
     <!-- DATA ITERATOR -->
     <v-data-iterator
-      v-if="$store.getters.auth_state"
+      v-if="auth_state"
       :items="playlists"
       :search="search"
       :rows-per-page-items="rowsPerPageItems"
@@ -121,6 +121,7 @@
   </v-list>
 </template>
 <script>
+import { mapState } from 'vuex'
 
 // /* eslint-disable */
 import deleteButton from '@/components/buttons/delete-button'
@@ -150,12 +151,12 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({
-      auth_state: 'auth_state',
-      uid: 'uid'
+    ...mapState({
+      auth_state: state => state.user.auth_state,
     }),
+    ...mapGetters(['uid']),
     bUIShowMore () {
-      return this.$store.getters.auth_state && this.playlists.length > 5
+      return this.auth_state && this.playlists.length > 5
     },
     filterLeng () {
       return this.search.length > 0

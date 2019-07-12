@@ -32,7 +32,7 @@
         class="mt-2"
       >
         <subscribe-button 
-          v-if="$store.getters.auth_state" 
+          v-if="$store.state.user.auth_state" 
           :artistID="artistID" 
           :source="source" 
           :artist="artist" 

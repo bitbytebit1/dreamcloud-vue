@@ -1,6 +1,6 @@
 <template>
   <playlist 
-    :songs="current_Playlist"
+    :songs="current_playlist"
     :show-uploaded="!0"
     :rows-per-page='250' 
     @conmen="$emit('conmen', $event)"
@@ -16,9 +16,11 @@ export default {
   components: {
     'delete-button': deleteButton
   },
-  computed: mapState([
-    'current_Playlist'
-  ])
+  computed: {
+    ...mapState({
+      current_playlist: state => state.player.current_playlist,
+    }),
+  }
 }
 </script>
 

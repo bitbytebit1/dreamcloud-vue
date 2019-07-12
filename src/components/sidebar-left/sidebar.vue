@@ -139,7 +139,7 @@
     </v-list>
     
     <!-- Playists -->
-    <!-- v-show="!$store.getters.drawLeft"  -->
+    <!-- v-show="!$store.state.user.drawLeft"  -->
     <v-list 
       dense
       class="pa-0"
@@ -148,7 +148,7 @@
     </v-list>
     
     <!-- Subscriptions -->
-    <!-- v-show="!$store.getters.drawLeft"  -->
+    <!-- v-show="!$store.state.user.drawLeft"  -->
     <v-list 
       dense
       class="pa-0 pb-5"
@@ -197,7 +197,7 @@ export default {
       return this.loggedIn ? 'User' : 'Login'
     },
     loggedIn () {
-      return this.$store.getters.auth_state
+      return this.$store.state.user.auth_state
     }
   },
   mounted () {

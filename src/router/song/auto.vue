@@ -33,11 +33,11 @@ export default {
           this.$store.commit('setNPlay', {songs: d, current: 0, path: this.$route.path})
           this.$nextTick(() => {
             this.$store.commit('bShowStage', true)
-            // if (this.$store.getters.index === -1 && this.$UTILS.isMobile) 
+            // if (this.$store.state.player.current_index === -1 && this.$UTILS.isMobile) 
             this.$DCPlayer.eAudio.play()
           })
           // this.$DCFB.historyPush(d[0])
-          // TODO Add related to playlist if only song/blank current_Playlist?
+          // TODO Add related to playlist if only song/blank current_playlist?
         }, '')
       } else {
         this.$store.commit('bShowStage', true)
@@ -49,7 +49,9 @@ export default {
   },
   deactivated () {
     this.$store.commit('bShowStage', false)
-    this.$store.commit('show_pop', true)
+    if (this.$store.getters.showPopupSetting && this.$store.state.player.current_index > -1) {
+      this.$store.commit('show_pop', true)
+    }
 
   },
   activated () {
@@ -58,7 +60,6 @@ export default {
   },
   created () {
     this.in()
-    console.log(this.$vuetify.theme.primary)
   },
 
 }

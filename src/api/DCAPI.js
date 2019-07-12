@@ -434,7 +434,8 @@ class DCAPIClass {
     return new Promise((resolve, reject) => {
       // NONO CORS.IO BADOPSEC
 
-      axios.get(`https://cors.io/?https://api-v2.soundcloud.com/charts?kind=top&genre=soundcloud%3Agenres%3Aall-music&high_tier_only=false&client_id=${this.sScKey}&limit=50&offset=0`).then((resp) => {
+      axios.get(`https://crossorigin.me/https://api-v2.soundcloud.com/charts?kind=top&genre=soundcloud%3Agenres%3Aall-music&high_tier_only=false&client_id=${this.sScKey}&limit=50&offset=0`).then((resp) => {
+      // axios.get(`https://cors.io/?https://api-v2.soundcloud.com/charts?kind=top&genre=soundcloud%3Agenres%3Aall-music&high_tier_only=false&client_id=${this.sScKey}&limit=50&offset=0`).then((resp) => {
           // console.log(resp)
           let ret = {
             nextPage: '',
@@ -758,7 +759,8 @@ class DCAPIClass {
             comment: item.snippet.topLevelComment.snippet.textDisplay,
             commentCreated: item.snippet.topLevelComment.snippet.publishedAt,
             totalReplyCount: item.snippet.totalReplyCount,
-            commentID: item.id
+            commentID: item.id,
+            show: false
           }
         })
         hCallback(ret)
@@ -771,7 +773,8 @@ class DCAPIClass {
             artistID: item.user.id,
             artistIMG: item.user.avatar_url,
             comment: item.body,
-            commentCreated: item.created_at
+            commentCreated: item.created_at,
+            show: false
           }
         })
         hCallback(ret)
@@ -790,6 +793,8 @@ class DCAPIClass {
       axios.get('https://www.googleapis.com/youtube/v3/videos?part=snippet&id=' + trackID + '&fields=items/snippet/description&key=' + this.sYtKey).then((resp) => {
         hCallback(resp.data)
       }).catch()
+    } else {
+      hCallback('')
     }
   }
 

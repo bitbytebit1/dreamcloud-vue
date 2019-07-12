@@ -144,7 +144,7 @@
       xs12 
       class='text-xs-left preline wordbreak ma-0 pa-0 pointer' 
       style="width: 100%"
-      @click="bHide = !bHide"
+      @click.stop="bHide = !bHide"
     >
       <div 
         v-if="info.description" 
@@ -155,6 +155,7 @@
       <v-flex 
         xs12 
         class="text-xs-left pointer"
+        @click.stop="bHide = !bHide"
       >
         <v-btn 
           v-show="descHeight > 63" 
@@ -162,7 +163,7 @@
           small 
           block 
           class="text-xs-left" 
-          @click="bHide = !bHide"
+          @click.stop="bHide = !bHide"
         >{{ bHide ? 'SHOW MORE': 'SHOW LESS' }}</v-btn> 
       </v-flex>
     </v-flex>
@@ -206,7 +207,7 @@ export default {
     }
   },
   created () {
-    console.log('hai')
+    // console.log('hai')
   },
   computed: {
     // debugLink () {

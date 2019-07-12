@@ -36,7 +36,6 @@
       id="sideleft"
       v-model="drawLeft"
       app
-
       clipped
       disable-route-watcher
       disable-resize-watcher
@@ -113,6 +112,7 @@
 
     <!-- Stage -->
     <v-content 
+      :style="!bShowStage ? 'position:absolute':''"
       class="text-xs-center"
     >
       <v-container 
@@ -141,10 +141,11 @@
         <v-layout justify-center>
           <!-- <transition 
             :key="$route.fullPath" 
-            name="  fade" 
-            mode="out-in"> -->
+            name="fade" 
+            mode="out-in"
+          > -->
           <keep-alive 
-            :max="2"
+            :max="4"
           >
             <router-view @conmen="con"/>
           </keep-alive>
@@ -189,6 +190,7 @@ import stage from '@/components/stage/stage'
 import mobileFooter from '@/components/footer/mobileFooter'
 
 import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 
 export default {
   name: 'App',
@@ -241,16 +243,17 @@ export default {
       reg.addEventListener('updatefound', awaitStateChange);
     }
   },
+  
   computed: {
+    ...mapState({
+      bShowStage: state => state.user.bShowStage,
+    }),
     ...mapGetters({
       uid: 'uid',
       blackClass: 'blackClass',
       isYT: 'isYT',
       ytUseVideo: 'ytUseVideo',
-      bShowStage: 'bShowStage',
       theme: 'theme',
-      loadValue: 'loadValue',
-      loadActive: 'loadActive',
       ytFullScreen: 'ytFullScreen'
     }),
     footStyle () {
@@ -272,7 +275,7 @@ export default {
     },
     drawRight: {
       get () {
-        return this.$store.getters.drawRight
+        return this.$store.state.user.drawRight
       },
       set (value) {
         this.$store.commit('drawRight', value)
@@ -280,7 +283,7 @@ export default {
     },
     drawLeft: {
       get () {
-        return this.$store.getters.drawLeft
+        return this.$store.state.user.drawLeft
       },
       set (value) {
         this.$store.commit('drawLeft', value)

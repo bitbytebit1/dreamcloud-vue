@@ -7,29 +7,29 @@
     >
       <v-flex 
         xs12 
-        class="pointer body-1 comMor" 
-        @click="show = !show"
+        class="pointer body-1 comMor noSel" 
+        @click="$emit('show', showThread)"
       >
-        {{ (show ? 'Hide' : 'Show') + ` ${totalReplyCount} replies` }} 
-        <v-icon size="18">{{ show ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
+        {{ (showThread ? 'Hide' : 'Show') + ` ${totalReplyCount} replies` }} 
+        <v-icon size="18">{{ showThread ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
         <orbit 
           v-if="bLoading" 
           class="my-3 ml-4"
         />
       </v-flex>
     </v-layout>
-
     <v-data-iterator
-      v-if="show"
+      v-if="showThread"
       :items="aComments"
       content-tag="v-layout"
       row
       wrap
       hide-actions
       no-data-text=""
+      @click.stop
     >
       <v-flex
-        v-if="show"
+        v-if="showThread"
         slot="item"
         slot-scope="props"
         offset-xs1
@@ -99,7 +99,7 @@ import orbit from '@/components/misc/orbit'
 export default {
   name: 'songCommentsThread',
   watch: {
-    'show': 'queryComments'
+    'showThread': 'queryComments'
   },
   components: {
     'orbit': orbit
@@ -117,20 +117,13 @@ export default {
       type: [String],
       default: ''
     },
-    extShow: {
+    showThread: {
       type: [Boolean],
       default: false
     }
   },
-  watch: {
-    extShow: function (ny){
-      console.log(ny)
-      this.show = ny
-    }
-  },
   data () {
     return {
-      show: false,
       aComments: [],
       iPage: 0,
       bLoading: false 
@@ -150,7 +143,7 @@ export default {
       }
     },
     queryComments () {
-      if (this.show && ! this.aComments.length) {
+      if (this.showThread && ! this.aComments.length) {
         this.aComments = []
         this.iPage = 0
         this.getComments()

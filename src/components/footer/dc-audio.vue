@@ -1,109 +1,167 @@
 <template>
-  <div id="dc-audio-container">
-    <div id="dc-player">
-      <!-- CONTROLS -->
+  <div 
+    v-touch="{
+      left: next,
+      right: previous
+    }" 
+    id="dc-audio-container"
+  >
+    <!-- <div id="dc-player"> -->
+    <!-- CONTROLS -->
+    <div 
+      id="left" 
+      :style="$vuetify.breakpoint.xsOnly ? {width: '100%'} : {}"
+      class="fl-l" 
+      @click="$store.commit('toggleStage')"
+    >
+      <!-- @click="$vuetify.breakpoint.xsOnly && $store.getters.current_song ? $router.push({name: 'auto', params: { artist: $store.getters.current_song.artist, trackID: $store.getters.current_song.trackID, source: $store.getters.current_song.source }}) : null" -->
       <div 
-        id="left" 
-        class="fl-l"
+        :style="{width: '100%'}" 
       >
-        <div class="fl-l">
-          <v-btn 
-            class="primary" 
-            icon 
-            outline 
-            @click="previous"
-          >
-            <v-icon>skip_previous</v-icon>
-          </v-btn>
-          <v-btn 
-            :loading="bLoading" 
-            class="primary" 
-            icon 
-            outline 
-            @click="$DCPlayer.togglePlay"
-          >
-            <v-icon>{{ play_arrow }}</v-icon>
-          </v-btn>
-          <v-btn 
-            class="primary" 
-            icon 
-            outline 
-            @click="next"
-          >
-            <v-icon>skip_next</v-icon>
-          </v-btn>
-        </div>
-      </div>
-
-      <!-- VOLUME -->
-      <div 
-        id="right" 
-        class="hidden-xs-only" 
-        @wheel.prevent="onWheel"
-      >
-        <v-speed-dial 
-          hover 
-          transition="slide-x-reverse-transition" 
-          open-on-hover
+        <v-layout 
+          row 
+          wrap
+          align-center
         >
-          <v-btn 
-            slot="activator" 
-            :class="volClass" 
-            fab 
-            hover 
-            icon 
-            outline 
-            small 
-            @click="toggleMute"
+          <v-flex 
+            xs2 
+            sm12
+            @click.stop
           >
-            <v-icon>{{ volIcon }}</v-icon>
-          </v-btn>
-          <div class="slider-wrapper">
-            <input 
-              v-model="volume" 
-              class="vol-slider pointer" 
-              type="range" 
-              min="0" 
-              max="10" 
-              step="0.01" 
-              @input="volumeChange"
+            <v-btn 
+              v-if="$vuetify.breakpoint.smAndUp"
+              class="primary" 
+              icon 
+              outline
+              @click="previous"
             >
-          </div>
-        </v-speed-dial>
-      </div>
-      <div class="right">
-        <scroll-to-top/>
-      </div>
-      <!-- PROGRESS -->
-      <div id="middle">
-        <div id="progress">
-          <!-- <v-container fluid grid-list-md class="pa-0 ma-0"> -->
-          <v-layout 
-            row 
-            wrap
+              <v-icon>skip_previous</v-icon>
+            </v-btn>
+            <v-btn 
+              :loading="bLoading" 
+              :outline="$vuetify.breakpoint.smAndUp" 
+              :class="$vuetify.breakpoint.smAndUp ? 'primary' : ''" 
+              icon
+              @click="$DCPlayer.togglePlay"
+            >
+              <v-icon>{{ play_arrow }}</v-icon>
+            </v-btn>
+            <v-btn 
+              v-if="$vuetify.breakpoint.smAndUp"
+              class="primary" 
+              icon 
+              outline 
+              @click="next"
+            >
+              <v-icon>skip_next</v-icon>
+            </v-btn>
+          </v-flex>
+          <v-flex 
+            xs10 
+            pr-2
           >
-            <v-flex 
-              xs12 
-              class="ml-3 mr-3"
+            <div 
+              v-if="$vuetify.breakpoint.xsOnly"
+              id="mobTitle"
+              class="mr-4"
             >
-              <v-slider 
-                :max="eAudio.duration" 
-                :label="currentTime" 
-                v-model="progress"
-                color="primary" 
-                hide-details 
-                @input="changePos"
-              />
-            </v-flex>
-          </v-layout>
-          <!-- </v-container> -->
-        </div>  
+              <marquee v-if="artistAndTitleLength">
+                <span>{{ $store.getters.current_song.title }}</span>
+                <span class="grey--text"> - {{ $store.getters.current_song.artist }}</span>
+              </marquee>
+              <template v-else>
+                <span>{{ $store.getters.current_song.title }}</span>
+                <span class="grey--text"> - {{ $store.getters.current_song.artist }}</span>
+              </template> 
+            </div>
+          </v-flex>
+        </v-layout>
       </div>
-
     </div>
+    <!-- <div class="fl-l">
+      </div> -->
+
+    <!-- VOLUME -->
+    <div 
+      id="right" 
+      class="hidden-xs-only" 
+      @wheel.prevent="onWheel"
+    >
+      <!-- transition="slide-x-reverse-transition"  -->
+      <v-speed-dial 
+        hover 
+        transition="NONE" 
+        open-on-hover
+      >
+        <v-btn 
+          slot="activator" 
+          :class="volClass" 
+          fab 
+          hover 
+          icon 
+          outline 
+          small 
+          @click="toggleMute"
+        >
+          <v-icon>{{ volIcon }}</v-icon>
+        </v-btn>
+        <div 
+          class="slider-wrapper ma-0 pa-0"
+        >
+          <input 
+            v-model="volume" 
+            class="vol-slider pointer" 
+            type="range" 
+            min="0" 
+            max="10" 
+            step="0.01" 
+            @input="volumeChange"
+          >
+        </div>
+      </v-speed-dial>
+    </div>
+    <div 
+      v-if="$vuetify.breakpoint.smAndUp"
+      class="right"
+    >
+      <scroll-to-top/>
+    </div>
+    <!-- PROGRESS -->
+    <div id="middle">
+      <div id="progress">
+        <!-- <v-container fluid grid-list-md class="pa-0 ma-0"> -->
+        <v-layout 
+          row 
+          wrap
+        >
+          <v-flex 
+            xs12 
+            class="ml-3 mr-3"
+          >
+            <!-- :inverse-label="$vuetify.breakpoint.xsOnly"  -->
+            <v-slider 
+              :max="eAudio.duration" 
+              :label="currentTime" 
+              v-model="progress"
+              color="primary" 
+              hide-details
+              @input="changePos"
+            />
+          </v-flex>
+        </v-layout>
+        <!-- </v-container> -->
+      </div>  
+    </div>
+
+    <!-- </div> -->
     <!-- AUDIO ELEMENT -->
     <audio 
       id="dc-audio" 
+      controls
+      preload="auto"
+    />
+    <audio 
+      id="dc-preload" 
       controls
       preload="auto"
     />
@@ -111,7 +169,7 @@
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
 
 import scrollToTop from '@/components/footer/show-pop'
       
@@ -126,6 +184,7 @@ export default {
       bLoading: false,
       progress: 0,
       eAudio: '',
+      ePreload: '',
       play_arrow: 'play_arrow',
       volIcon: 'volume_up',
       volume: 10,
@@ -136,7 +195,11 @@ export default {
   computed: {
     volClass () {
       return this.volIcon === 'volume_off' ? 'red' : 'primary'
-    }
+    },
+    artistAndTitleLength() {
+      if (!this.$store.state.player.current_index) return 0
+      return String(this.$store.getters.current_song.title).length + String(this.$store.getters.current_song.artist).length > 40
+    },
   },
   methods: {
     onWheel (e) {
@@ -146,6 +209,7 @@ export default {
         this.$DCPlayer.volDown()
       }
     },
+
     toggleMute () {
       this.eAudio.muted = !this.eAudio.muted
       this.volIcon = this.eAudio.muted ? 'volume_off' : this.updateVolIcon()
@@ -176,9 +240,11 @@ export default {
         // alert('preloading')
         if (this.$store.getters.next_song && this.$store.getters.next_song.source != 'SoundCloud') {
           if (this.$store.getters.next_song.source == 'YouTube') {
-            axios.head(`${this.$DCPlayer.sBase}v1/preload/?i=${this.$store.getters.next_song.trackID}`)
+            this.ePreload.src = `${this.$DCPlayer.sBase}v2/preload/?i=${this.$store.getters.next_song.trackID}`
+            // axios.head(`${this.$DCPlayer.sBase}v1/preload/?i=${this.$store.getters.next_song.trackID}`)
           } else {
-            axios.head(`${this.$DCPlayer.sBase}v1/preload/?i=${this.$store.getters.next_song.mp32}`)
+            this.ePreload.src = `${this.$DCPlayer.sBase}v2/preload/?i=${this.$store.getters.next_song.mp32}`
+            // axios.head(`${this.$DCPlayer.sBase}v1/preload/?i=${this.$store.getters.next_song.mp32}`)
           }
           
         }
@@ -229,6 +295,7 @@ export default {
   },
   mounted () {
     this.eAudio = this.$DCPlayer.eAudio = document.getElementById('dc-audio') // A little bit naughty to set the value like this =\
+    this.ePreload = document.getElementById('dc-preload') // A little bit naughty to set the value like this =\
     this.eAudio.addEventListener('timeupdate', this.updated)
     this.eAudio.addEventListener('playing', this.playing)
     this.eAudio.addEventListener('pause', this.paused)
@@ -241,6 +308,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+#mobTitle{
+  height: 18px;
+  overflow: hidden;
+}
 
 .vol-slider {
     -webkit-appearance: none;
@@ -252,7 +323,6 @@ export default {
     -webkit-transition: .2s;
     transition: opacity .2s;
 }
-
 .vol-slider::-moz-range-thumb {
     width: 25px;
     height: 25px;
@@ -261,8 +331,6 @@ export default {
 .vol-slider::-webkit-slider-runnable-track {
     background: #d3d3d3;
 }
-
-
 .vol-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     /* appearance: none; */
@@ -270,7 +338,6 @@ export default {
     height: 25px;
     background: teal;
 }
-
 .vol-slider::-moz-range-thumb {
     width: 25px;
     height: 25px;
@@ -297,7 +364,7 @@ export default {
   padding: 0;
 }
 
-#dc-audio {
+#dc-audio, #dc-preload {
   display: none;
 }
 

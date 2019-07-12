@@ -1,19 +1,7 @@
 <template>
   <v-toolbar-items class="ml-3">
-    <!-- <v-toolbar-title class="mt-2"> -->
     <autocomplete @search="search($event)"/>
-    <!-- </v-toolbar-title> -->
-    <!-- <v-text-field 
-      style="max-height: 12px;"
-      v-on:keyup.enter='search' 
-      v-model='sQuery'
-      placeholder="Search" 
-      color="primary"
-      single-line
-    >
-    </v-text-field> -->
-    <!-- <v-divider/> -->
-    <!-- :value="showMenu" -->
+
     <v-menu
       v-model="showMenu"
       :close-on-content-click="false"
@@ -108,7 +96,10 @@
             </v-list-tile-action>
             <v-list-tile-title>Vimeo</v-list-tile-title>
           </v-list-tile>
-          <v-list-tile @click="showMenu = false">
+          <v-list-tile 
+            v-if="$vuetify.breakpoint.smAndDown" 
+            @click="showMenu = false"
+          >
             <v-btn 
               flat 
               block 
