@@ -375,7 +375,12 @@ export default {
       }
     },
     fullscreen () {
-      this.$UTILS.toggleFullscreen('player')
+      if (this.ytUseVideo && this.isYT) {
+        this.$UTILS.toggleFullscreen('player')
+      } else {
+        this.$UTILS.toggleFullscreen('pstr')
+      }
+
     },
     getDesc () {
       if (this.isYT) {
