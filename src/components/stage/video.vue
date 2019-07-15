@@ -16,9 +16,13 @@
     </v-flex>
     <!-- OR POSTER -->
     <v-flex 
-      v-show="!(ytUseVideo && isYT) && !show_pop" 
-      class="nosel"
-      xs12 
+      v-touch="{
+        left: $DCPlayer.next,
+        right: $DCPlayer.previous
+      }" 
+      v-show="!(ytUseVideo && isYT) && !show_pop"
+      class="nosel" 
+      xs12
       @click="$DCPlayer.togglePlay()"
       @contextmenu="$emit('conmen', [$event, [song]])"
     >
