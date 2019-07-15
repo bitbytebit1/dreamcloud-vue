@@ -55,7 +55,7 @@
         class="noDeco pointer"
       > -->
       <v-flex 
-        :class="$vuetify.breakpoint.name === 'xs' ? 'headline fwl text-xs-left pl-3' : 'headline fwl text-xs-left pt-2'" 
+        :class="$vuetify.breakpoint.name === 'xs' ? 'wordbreak headline fwl text-xs-left pl-3' : 'wordbreak headline fwl text-xs-left pt-2'" 
         xs12 
         lg10
       >
