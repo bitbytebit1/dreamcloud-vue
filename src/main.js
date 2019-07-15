@@ -54,8 +54,8 @@ Vue.use(VueJsonp)
 //   router
 // })
 
-import audioStage from '@/components/stage/audio'
-Vue.component('audio-stage', audioStage)
+// import audioStage from '@/components/stage/audio'
+// Vue.component('audio-stage', audioStage)
 import videoStage from '@/components/stage/video'
 Vue.component('video-stage', videoStage)
 import playlist from '@/components/playlist/playlist.vue'
@@ -77,6 +77,9 @@ window.addEventListener('popstate', () => {
 
 
 import VueLazyload from 'vue-lazyload'
+
+// used for logging rending/scripting peformance
+// Vue.config.performance = true
 
 // or with options
 Vue.use(VueLazyload, {

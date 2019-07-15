@@ -467,6 +467,16 @@ export default {
 </script>
 
 <style>
+
+.pstr-wrapper {position: relative; padding-bottom: 38%; /* 16:9 */  padding-top: 25px;}
+.pstr-wrapper #pstr {position: absolute; top: 0; left: 0; width: 100%; height: 100%;}
+
+
+.pstr-wrapper {
+  background-color: black;
+  /* height: 90%; */
+}
+
 @media only screen and (min-width: 600px){
   .song-meta {  
     padding: 0px 20px;
