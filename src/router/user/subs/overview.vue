@@ -64,7 +64,7 @@
               :aspect-ratio="1"
             />
             <!-- </v-avatar> -->
-            <v-card-text class="text-xs-center">{{ props.item.name }}
+            <v-card-text class="text-xs-center wordbreak">{{ props.item.name }}
               <div class="grey--text">{{ props.item.source }}</div>
             </v-card-text>
           </v-card>
