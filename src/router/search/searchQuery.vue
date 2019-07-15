@@ -63,28 +63,22 @@ export default {
     'loading': loading,
     'jumbo': jumbo
   },
-  computed: {
-    splitSource () {
-      return this.source.split('-')
-    }
-  },
   // created () {
   //   console.log('created')
   //   this.searchInt(this.query, this.source, 0)
   // },
   beforeRouteUpdate (to, from, next) {
-    this.searchInt(to.params.query, to.params.source, 0)
+    this.searchInt(to.params.query, to.params.source)
     next();
   },
   beforeRouteEnter (to, from, next) {
-    // console.log('enter', to.params)
     next(vm => {
       vm.searchInt(to.params.query, to.params.source)
     })
   },
   methods: {
     infiniteHandler ($state) {
-      this.search(this.query, this.source, ++this.iPage).then(function () {
+      this.search(this.query, this.source.split('-'), ++this.iPage).then(function () {
         $state.loaded()
       })
     },
@@ -98,8 +92,8 @@ export default {
     search (query, source, iPage) {
 
       this.searchResults = !iPage ? [] : this.searchResults
-      this.oldQ = this.$route.params.query + this.$route.params.source
-      return this.$DCAPI.searchInt(query, iPage, this.splitSource, '', (d) => {
+      this.oldQ = query + source
+      return this.$DCAPI.searchInt(query, iPage, source.split('-'), '', (d) => {
         this.loading = false
         // if (iPage === 0) {
         //   this.$store.dispatch('loadIndeterm', false)
