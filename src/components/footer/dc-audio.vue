@@ -1,9 +1,5 @@
 <template>
   <div 
-    v-touch="{
-      left: next,
-      right: previous
-    }" 
     id="dc-audio-container"
   >
     <!-- <div id="dc-player"> -->
@@ -57,8 +53,12 @@
             </v-btn>
           </v-flex>
           <v-flex 
-            xs10 
-            pr-2
+            v-touch="{
+              left: next,
+              right: previous
+            }" 
+            xs10
+            pr-2 
           >
             <div 
               v-if="$vuetify.breakpoint.xsOnly"

@@ -1,9 +1,5 @@
 <template>
   <div 
-    v-touch="{
-      left: next,
-      right: previous
-    }" 
     id="dc-audio-container"
     class="yt" 
   >
@@ -56,6 +52,10 @@
               </v-btn>
             </v-flex>
             <v-flex 
+              v-touch="{
+                left: next,
+                right: previous
+              }" 
               xs10 
               pr-2
             >
