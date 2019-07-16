@@ -249,7 +249,7 @@
                 justify-end 
                 fill-height
               >
-                <div
+                <!-- <div
                   v-if="$vuetify.breakpoint.mdAndUp && isPlaying(props.item.trackID)"
                   class="d-flex text-xs-center v-card--reveal"
                   style="height: 100%;"
@@ -266,7 +266,7 @@
                       <v-icon class="white--text">{{ $store.getters.isPlaying && isPlaying (props.item.trackID)? 'pause' : 'play_arrow' }}</v-icon>
                     </v-btn>
                   </div>
-                </div>
+                </div> -->
               </v-img>
             </td>
                 
