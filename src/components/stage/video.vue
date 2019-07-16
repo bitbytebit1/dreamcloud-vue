@@ -194,8 +194,9 @@
             <v-tab-item>
               <!-- CURRENT PLAYLIST -->
               <playlist 
-                :songs="current_playlist" 
-                :rows-per-page="-1"
+                :songs="current_playlist"
+                :show-uploaded="!0"
+                :rows-per-page='250' 
                 @conmen="$emit('conmen', $event)"
               />
             </v-tab-item>
@@ -243,7 +244,7 @@ import lyrics from '@/components/stage/meta/lyrics'
 import addToPlaylist from '@/components/buttons/add-to-playlist.vue'
 import shareButton from '@/components/buttons/share-button'
 import downloadButton from '@/components/buttons/download-button'
-import current from '@/components/stage/meta/current'
+// import current from '@/components/stage/meta/current'
 import { mapState } from 'vuex'
 import { mapGetters } from 'vuex'
 
@@ -281,7 +282,7 @@ export default {
   },
   components: {
     'newTab': newTab,
-    'current': current,
+    // 'current': current,
     'artist-mini': artistMini,
     'youtube-button': youtubeVBtn,
     'related': related,
