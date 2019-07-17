@@ -27,17 +27,23 @@ export default {
   methods: {
     in (){
       if (this.trackID != this.$store.getters.current_trackID && this.trackID !== 'z') {
-        this.$DCAPI.getSongInfo(this.trackID, this.source, (d) => {
-          // Fix for mobile on first play 
-          this.$DCPlayer.setNPlay(d, 0)
-          this.$store.commit('setNPlay', {songs: d, current: 0, path: this.$route.path})
-          this.$nextTick(() => {
-            this.$store.commit('bShowStage', true)
-            // if (this.$store.state.player.current_index === -1 && this.$UTILS.isMobile) 
-            this.$DCPlayer.eAudio.play()
-          })
-          // this.$DCFB.historyPush(d[0])
-          // TODO Add related to playlist if only song/blank current_playlist?
+        this.$DCAPI.getSongInfo(this.trackID, this.source, (song) => {
+          this.$DCAPI.searchInt('', 0, [this.source], this.trackID, (related) => {
+            if (related.length) {
+              if (related[0].trackID === this.trackID) {
+                related.shift()
+              }
+              song = [...song, ...related]
+            }
+            // Fix for mobile on first play 
+            this.$DCPlayer.setNPlay(song, 0)
+            this.$store.commit('setNPlay', {songs: song, current: 0, path: this.$route.path})
+            this.$nextTick(() => {
+              this.$store.commit('bShowStage', true)
+              // if (this.$store.state.player.current_index === -1 && this.$UTILS.isMobile) 
+              this.$DCPlayer.eAudio.play()
+            })
+          }, true, 50)
         }, '')
       } else {
         this.$store.commit('bShowStage', true)
