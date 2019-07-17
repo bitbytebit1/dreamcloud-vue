@@ -78,7 +78,7 @@ export default {
   },
   methods: {
     infiniteHandler ($state) {
-      this.search(this.query, this.source.split('-'), ++this.iPage).then(function () {
+      this.search(this.query, this.source, ++this.iPage).then(function () {
         $state.loaded()
       })
     },
