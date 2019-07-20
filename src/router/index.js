@@ -22,15 +22,27 @@ let router = new Router({
   // },
   routes: [
     {
-      path: '/password-reset',
-      name: 'password-reset',
-      component: () => import(/* webpackChunkName: "password"*/ '@/router/login/password-reset')
+      path: '/about',
+      name: 'about',
+      component: () => import(/* webpackChunkName: "about"*/ '@/router/about/about'),
     },
     {
-      path: '/r/:source/:artist/:title/:trackID',
-      name: 'related',
-      component: () => import(/* webpackChunkName: "related"*/ '@/router/related/related')
+      path: '/share',
+      name: 'share',
+      component: () => import(/* webpackChunkName: "share"*/ '@/router/share/share'),
     },
+    // {
+    //   path: '/visualise',
+    //   name: 'visualise',
+    //   component: () => import(/* webpackChunkName: "visualise"*/ '@/router/visualise/visualise'),
+    // },
+    {
+      path: '/',
+      redirect: '/about'
+    },
+
+
+    // login routers
     {
       path: '/login',
       name: 'login',
@@ -42,10 +54,9 @@ let router = new Router({
       component: () => import(/* webpackChunkName: "signUp"*/ '@/router/login/sign-up')
     },
     {
-      path: '/u/:user/overview',
-      name: 'userOverview',
-      component: () => import(/* webpackChunkName: "user"*/ '@/router/user/user'),
-      props: true
+      path: '/password-reset',
+      name: 'password-reset',
+      component: () => import(/* webpackChunkName: "password"*/ '@/router/login/password-reset')
     },
     {
       path: '/explore',
@@ -53,14 +64,26 @@ let router = new Router({
       component: () => import(/* webpackChunkName: "genre"*/ '@/router/genres/genres')
     },
     {
-      path: '/',
-      redirect: '/about'
+      path: '/trending',
+      name: 'trending',
+      component: () => import(/* webpackChunkName: "trending"*/ '@/router/trending/trending'),
     },
     {
-      path: '/settings',
-      name: 'settings',
-      component: () => import(/* webpackChunkName: "settings"*/ '@/router/settings/settings')
+      path: '/tos',
+      name: 'tos',
+      component: () => import(/* webpackChunkName: "tos"*/ '@/router/tos/tos'),
+      props: true
     },
+
+
+    // stage
+    {
+      path: '/current',
+      name: 'stage',
+      component: () => import(/* webpackChunkName: "stage"*/ '@/router/stage/stage-route')
+    },
+
+    // search
     {
       path: '/s/:source/:query',
       name: 'searchQuery',
@@ -80,20 +103,36 @@ let router = new Router({
       props: true
     },
     {
-      path: '/current',
-      name: 'stage',
-      component: () => import(/* webpackChunkName: "stage"*/ '@/router/stage/stage-route')
+      path: '/p/:title/:source/:artistID/:listID/',
+      name: 'channelPlaylist',
+      component: () => import(/* webpackChunkName: "channelPlaylist"*/ '@/router/channel-playlist/playlist'),
+      props: true
+    },
+    {
+      path: '/r/:source/:artist/:title/:trackID',
+      name: 'related',
+      component: () => import(/* webpackChunkName: "related"*/ '@/router/related/related'),
+      props: true
     },
     {
       path: '/t/:source/:artist/:trackID',
       name: 'auto',
-      component: () => import(/* webpackChunkName: "auto"*/ '@/router/song/auto'),
+      component: () => import(/* webpackChunkName: "auto"*/ '@/router/auto/auto'),
+      props: true
+    },
+
+    // user
+    {
+      path: '/u/:user/home',
+      name: 'home',
+      component: () => import(/* webpackChunkName: "home"*/ '@/router/user/home/home'),
       props: true
     },
     {
-      path: '/trending',
-      name: 'trending',
-      component: () => import(/* webpackChunkName: "trending"*/ '@/router/trending/trending'),
+      path: '/u/:user/overview',
+      name: 'userOverview',
+      component: () => import(/* webpackChunkName: "user"*/ '@/router/user/user'),
+      props: true
     },
     {
       path: '/u/:user/subscriptions',
@@ -120,23 +159,6 @@ let router = new Router({
       props: true
     },
     {
-      path: '/p/:title/:source/:artistID/:listID/',
-      name: 'channelPlaylist',
-      component: () => import(/* webpackChunkName: "channelPlaylist"*/ '@/router/channel-playlist/playlist'),
-      props: true
-    },
-    {
-      path: '/tos',
-      name: 'tos',
-      component: () => import(/* webpackChunkName: "tos"*/ '@/router/tos/tos'),
-      props: true
-    },
-    {
-      path: '/about',
-      name: 'about',
-      component: () => import(/* webpackChunkName: "about"*/ '@/router/about/about'),
-    },
-    {
       path: '/u/:user/history',
       name: 'history',
       component: () => import(/* webpackChunkName: "history"*/ '@/router/user/history/history'),
@@ -149,17 +171,15 @@ let router = new Router({
       props: true
     },
     {
-      path: '/u/:user/home',
-      name: 'home',
-      component: () => import(/* webpackChunkName: "home"*/ '@/router/user/home/home'),
-      props: true
-    }
+      path: '/settings',
+      name: 'settings',
+      component: () => import(/* webpackChunkName: "settings"*/ '@/router/settings/settings')
+    },
   ]
 })
 
 router.beforeEach((to, from, next) => {
   store.commit('bShuffled', false)
-
   // close navbar on back
   if (store.getters.isMobile && (store.state.user.drawLeft || store.state.user.drawRight) && window.popStateDetected) {
     window.popStateDetected = false
@@ -167,11 +187,15 @@ router.beforeEach((to, from, next) => {
     store.commit('drawLeft', false)
     store.commit('drawRight', false)
     next(false)
-  } else if (store.state.bShowStage && (to.name !== 'stage' || to.name !== 'current')) {
-    // console.log('disabled stage')
-    store.commit('bShowStage', false)
-    // store.commit('show_pop', true)
-    next()
+  // } else if (store.state.user.bShowStage && to.name != 'stage' && to.name != 'auto') {
+  //   // console.log('hiding stage wtf')
+  //   // console.log('disabled stage')
+  //   store.commit('bShowStage', false)
+  //   // if (store.getters.showPopupSetting && store.state.player.current_index > -1) {
+  //   //   store.commit('show_pop', true)
+  //   // }
+  //   // store.commit('show_pop', true)
+  //   next()
   } else {
     next()
   }
