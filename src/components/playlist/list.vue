@@ -158,12 +158,16 @@
               </v-img>
             </td> 
             <td 
-              class="text-xs-left pa-0 ma-0 body-1"
-              style="padding-left:42px !important;"
-            >
-              Loading
-            </td>
-
+              class="text-xs-left pl-3 py-1"
+            ><div 
+              style="height:21px; width:200px;" 
+              class="fillPlace"
+            />
+              <div 
+                class="fillPlace mt-1"
+                style="height:16px; width:160px;" 
+            /></td>
+            
             <!-- ARTIST -->
             <td 
               v-if="!$route.params.artistID" 
@@ -276,7 +280,7 @@
             <!-- 2 -->
             <td 
               :colspan="$route.params.artistID ? '2' : '3'" 
-              class="text-xs-left pl-1"
+              class="text-xs-left pl-3 py-1"
             >
               <!-- TITLE -->
               <div 
@@ -501,33 +505,30 @@ export default {
       return this.$DCAPI.calcDate(this.today, date)
     },
     play (index, pauseIfSame = true, showStage = false) {
+      
       // Fix for mobile on first play
       if (this.$store.state.player.current_index === -1 && this.$UTILS.isMobile) this.$DCPlayer.eAudio.play()
       // If not first page fix index
       let newi = this.pagination.page === 1 ? index : (this.pagination.rowsPerPage * (this.pagination.page - 1)) + index
-      let b = this.sorted[newi].trackID == this.$store.getters.current_song.trackID
       // if (this.$store.state.player.current_index === index && this.hash === this.$route.path) {
-      // if (showStage) {
-      //   // return this.$router.push({name: 'stage'})
-      //   return this.$router.push({name: 'auto', params: { artist: this.sorted[newi].artist,  trackID: this.sorted[newi].trackID,  source: this.sorted[newi].source }})
-      // }
-      if (pauseIfSame && b) {
+
+      if (pauseIfSame && this.sorted[index].trackID == this.$store.getters.current_song.trackID) {
         return this.$DCPlayer.togglePlay()
       }
 
       // console.log('playing')
       // show stage
 
-      let a = Object.assign([], this.sorted)
-      // alert(a[newi].title)
+      // let a = Object.assign([], this.sorted)
+      
+      this.$DCPlayer.setNPlay({songs: this.sorted, current: newi, path: this.$route.path})
+      
+      this.$DCFB.historyPush(this.sorted[newi])
 
-      this.$DCPlayer.setNPlay(a, newi)
-      this.$store.commit('setNPlay', {songs: a, current: newi, path: this.$route.path})
-      this.$DCFB.historyPush(a[newi])
       if (showStage || this.showVideo) {
         // console.log('showing stage')
         // this.$router.push({name: 'stage'})
-        this.$router.push({name: 'auto', params: { artist: a[newi].artist,  trackID: a[newi].trackID,  source: a[newi].source }})
+        this.$router.push({name: 'auto', params: { artist: this.sorted[newi].artist, trackID: this.sorted[newi].trackID, source: this.sorted[newi].source }})
         // this.$store.commit('toggleStage')
       }
     }

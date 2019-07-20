@@ -148,7 +148,6 @@
 <script>
 import orbit from '@/components/misc/orbit'
 import { mapGetters } from 'vuex'
-import { mapState } from 'vuex'
 
 // /* eslint-disable */
 export default {
@@ -156,9 +155,14 @@ export default {
   components: {
     'orbit': orbit
   },
+  props: {
+    trackID: {
+      type: [String, Number],
+      default: ''
+    },
+  },
   watch: {
-    index: {
-      immediate: true,
+    trackID: {
       handler: 'getRelated'
     }
   },
@@ -171,39 +175,33 @@ export default {
     items: []
   }),
   computed: {
-    ...mapState({
-      index: state => state.player.current_index,
-    }),
     ...mapGetters({
       isYT: 'isYT',
       song: 'current_song',
-      upNext: 'next_song',
-      trackID: 'current_trackID'
+      upNext: 'next_song'
     })
   },
   methods: {
-    play (index) {
-      // this.$store.commit.setNPlay(index, this.items)
+    play (i) {
       window.scrollTo(0, 0)
-      // Event.observe(window, 'load', () =>{
-      //   window.scrollTo(x,x)
-      // })
-      this.$store.commit('setNPlay', {songs: this.items, current: index, path: this.$route.path})
-      return this.$DCPlayer.setNPlay(this.items, index)
+      this.$DCPlayer.setNPlay({songs: this.items, current: i, path: this.$route.path})
+
     },
     getRelated () {
-      this.loading = true
-      // console.log('calling')
-      this.items = []
-      this.$DCAPI.searchInt('', 0, [this.song.source], this.trackID, (d) => {
-        this.loading = false
-        if (d.length) {
-          if (d[0].trackID === this.trackID) {
-            d.shift()
+      if (this.trackID) {
+        this.loading = true
+        this.items = []
+        this.$DCAPI.searchInt('', 0, [this.song.source], this.trackID, (d) => {
+          this.loading = false
+          if (d.length) {
+            if (d[0].trackID === this.trackID) {
+              d.shift()
+            }
+            this.items = d
           }
-          this.items = d
-        }
-      }, true, 50)
+        }, true, 50)
+
+      }
     },
     hai (source) {
       if (this.$vuetify.breakpoint.name === 'xs') {

@@ -110,30 +110,37 @@
                   </div>
                   <!-- READ MORE BUTTON -->
                 </v-flex>
-                <v-flex xs12>
-                  <v-btn 
-                    small
-                    outline
-                    block 
-                    class="ma-0" 
-                    color="primary" 
-                    dark
-                    @click.stop="(cardIndex = index, dialog = true)"
-                  >Read more</v-btn>
-                </v-flex>
+
                 <v-flex 
                   v-if="item.cb" 
                   xs12
                 >
                   <v-btn 
-                    small
+                    :class="$store.getters.textColor"
+                    small                    
                     outline
                     block 
                     class="ma-0" 
                     color="primary" 
                     dark
                     @click.stop="item.cb.f"
-                  >{{ item.cb.t }}</v-btn>
+                  >
+                    <span 
+                      :class="$store.getters.textColor"
+                  >{{ item.cb.t }}</span></v-btn>
+                </v-flex>
+                <v-flex xs12>
+                  <v-btn 
+                    small
+                    outline 
+                    block 
+                    class="ma-0" 
+                    color="primary"
+                    dark
+                    @click.stop="(cardIndex = index, dialog = true)"
+                  ><span 
+                    :class="$store.getters.textColor"
+                  >Read more</span></v-btn>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -247,10 +254,9 @@ export default {
           img: './img/about/energy.png'
         },
         {
-          headline: 'Realtime library',
+          headline: 'Cross platform library',
           description: 'Android, iOS, MacOSX, Windows and Linux',
-          moreText: `It's very easy install Dreamcloud to your home screen on mobiles.
-          We are working on a stand alone desktop app for Windows and Linux using Electron.`,
+          moreText: `We are working on a stand alone desktop app for Windows and Linux using Electron.\nIt's very easy install Dreamcloud to your home screen on mobiles\n\nAndroid: In chrome tap the hamburger menu, then tap "Add to homescreen".\n\niOS: Open safari then tap the share menu, then tap "Add to homescreen"`,
           img: './img/about/mobile.png'
         },
         {

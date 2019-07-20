@@ -97,6 +97,10 @@ Vue.use(VueLazyload, {
   }
 })
 
+// import AudioVisual from 'vue-audio-visual'
+
+// Vue.use(AudioVisual)
+
 new Vue({
   router,
   store,

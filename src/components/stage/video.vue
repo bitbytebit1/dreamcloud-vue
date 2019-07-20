@@ -203,20 +203,24 @@
             <v-tab-item>
               <!-- COMMENTS -->
               <songComments 
-                :trackID="song.trackID" 
-                :source="song.source"
+                :trackID="metaSong.trackID" 
+                :source="metaSong.source"
               />
             </v-tab-item>
             <v-tab-item>
               <!-- LYRICS -->
               <lyrics 
-                :title="song.title" 
-                :artist="song.artist"
+                :title="metaSong.title" 
+                :artist="metaSong.artist"
               />
             </v-tab-item>
             <v-tab-item v-if="$vuetify.breakpoint.mdAndDown">
               <!-- RELATED -->
               <related 
+                :artist="metaSong.artist"
+                :title="metaSong.title"
+                :trackID="metaSong.trackID"
+                :source="metaSong.source"
                 @conmen="$emit('conmen', $event)"
               />
             </v-tab-item>
@@ -225,8 +229,9 @@
         
         <!-- RELATED -->
         <relatedd 
-          v-if="$vuetify.breakpoint.lgAndUp" 
-          @conmen="$emit('conmen', $event)"
+          v-if="$vuetify.breakpoint.lgAndUp && bShowStage" 
+          :trackID="metaSong.trackID"
+          @conmen="$emit('conmen', $event)" 
         />
       </v-layout>
     </v-flex>
@@ -238,7 +243,7 @@ import newTab from '@/components/buttons/open-new-tab'
 import related from '@/router/related/related'
 import relatedd from '@/components/stage/meta/related'
 import artistMini from '@/components/stage/meta/artist-mini'
-import youtubeVBtn from '@/components/stage/meta/toggle-video-button'
+import youtubeVBtn from '@/components/buttons/toggle-video-button'
 import songComments from '@/components/stage/meta/comments'
 import lyrics from '@/components/stage/meta/lyrics'
 import addToPlaylist from '@/components/buttons/add-to-playlist.vue'
@@ -261,8 +266,13 @@ export default {
     trackID: {
       handler: function(id) {
         if(id && this.song){
-          this.getPlays()
-          this.getDesc()
+          if (this.bShowStage) {
+            this.metaSong = this.song
+            this.getPlays()
+            this.getDesc()
+          } else {
+            this.description = this.song.description
+          }
           // what does this do? updates the router with the proper route.
           if (this.$route.name === 'auto') {
             this.$router.replace({name: 'auto', params: { artist: this.song.artist,  trackID: this.song.trackID,  source: this.song.source }})
@@ -277,8 +287,26 @@ export default {
             this.$DCPlayer.eAudio.pause()
           }
         }
+      },
+    },
+    bShowStage: {
+      handler: function(val) {
+        if (val) {
+          this.$nextTick(() => {
+            this.$nextTick(() => {
+              if (this.metaSong.trackID != this.song.trackID) {
+                // console.log('showing', this.song.trackID)
+                this.metaSong = this.song
+                this.description = this.song.description
+                this.getPlays()
+                this.getDesc()
+              } 
+              // else console.log('skipping meta')
+            })
+          })
+        }
       }
-    }
+    },
   },
   components: {
     'newTab': newTab,
@@ -321,6 +349,7 @@ export default {
   },
   data () {
     return {
+      metaSong: {title: '', artist: '', trackID: '', source: '', poster: ''},
       tab: 1,
       bWide: false,
       btnCol: '',

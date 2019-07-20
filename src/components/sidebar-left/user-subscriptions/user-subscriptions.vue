@@ -88,9 +88,7 @@
             >
           </v-avatar>
         </v-list-tile-action>
-        <v-list-tile-content 
-          :class="isPlaying(props.item['source'], props.item['name'], props.item['id'])"
-        >
+        <v-list-tile-content>
           <v-list-tile-title>{{ props.item['name'] }}</v-list-tile-title>
         </v-list-tile-content>
         <delete-button 

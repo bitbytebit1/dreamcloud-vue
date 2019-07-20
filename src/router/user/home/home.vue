@@ -5,7 +5,7 @@
     xs12
   >
     <div 
-      v-if="bLoading || aRecommended.length" 
+      v-if="!bFailed" 
       class="headline fwl text-xs-left pl-2 pt-2"
     >Recommended</div>
     <!-- <loading v-if="!auth_state || !aRecommended.length"></loading> -->
@@ -23,10 +23,14 @@
       title="We wanted to recommend you some music based on your history"
       subheading="But you haven't listened to any music yet"
     /> -->
-    <div 
-      class="headline fwl text-xs-left pl-2 pt-2"
-    >Explore</div>
-    <genres />
+    <template 
+      v-else
+    >      
+      <div 
+        class="headline fwl text-xs-left pl-2 pt-2"
+      >Explore</div>
+      <genres />
+    </template>
   </v-flex>
 </template>
 <script>

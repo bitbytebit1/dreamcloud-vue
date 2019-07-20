@@ -51,18 +51,6 @@
         </v-flex>
         <div class="text-xs-center">
           <v-btn 
-            :loading="loading3" 
-            :disabled="loading3" 
-            round 
-            class="red" 
-            dark 
-            @click.prevent="signInGoogle"
-          >Google
-            <v-icon right>lock</v-icon>
-          </v-btn>
-        </div>
-        <div class="text-xs-center">
-          <v-btn 
             :loading="loading1" 
             :disabled="loading1" 
             color="primary white--text" 
@@ -71,6 +59,18 @@
             @click="emailSignInClick"
           >
             Email
+            <v-icon right>lock</v-icon>
+          </v-btn>
+        </div>
+        <div class="text-xs-center">
+          <v-btn 
+            :loading="loading3" 
+            :disabled="loading3" 
+            round 
+            class="red" 
+            dark 
+            @click.prevent="signInGoogle"
+          >Google
             <v-icon right>lock</v-icon>
           </v-btn>
         </div>

@@ -144,11 +144,11 @@
             name="fade" 
             mode="out-in"
           > -->
-          <keep-alive 
+          <!-- <keep-alive 
             :max="4"
-          >
-            <router-view @conmen="con"/>
-          </keep-alive>
+          > -->
+          <router-view @conmen="con"/>
+          <!-- </keep-alive> -->
           <!-- </transition> -->
         </v-layout>
       </v-container>
@@ -268,7 +268,7 @@ export default {
       return this.$vuetify.breakpoint.name === 'xs' || this.$vuetify.breakpoint.name === 'sm'
     },
     textClass () {
-      return (this.$store.getters.nightMode ? 'white' : 'black') + '--text noDeco pointer hidden-sm-and-down'
+      return 'noDeco pointer hidden-sm-and-down ' + this.$store.getters.textColor
     },
     currentActive () {
       return this.$route.name === 'stage'
@@ -306,7 +306,7 @@ export default {
       })
     }
     // Set theme
-    this.$vuetify.theme.primary = '#009688'
+    this.$vuetify.theme.primary = '#590000'
     // this.$store.commit('ytUseVideo', !this.bMobi)
     // On Firebase auth state change
     this.$DCFB.fb.auth().onAuthStateChanged((user) => {

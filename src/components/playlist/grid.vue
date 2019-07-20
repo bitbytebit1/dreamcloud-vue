@@ -199,6 +199,7 @@
             slot='item'
             slot-scope='props'
             xs12
+            sm4
             md4
             lg2
             @click.stop="
@@ -228,7 +229,7 @@
                   class="d-flex text-xs-center v-card--reveal"
                   style="height: 100%;"
                 >
-                  <div>
+                  <div class="playBtn">
                     <v-btn 
                       :loading="$store.getters.isLoading && isPlaying (props.item.trackID)"
                       dark  
@@ -252,7 +253,7 @@
                   <v-flex xs10>
                     <!-- CHECK BOX -->
                     <v-flex 
-                      v-show="bSelect" 
+                      v-if="bSelect" 
                       class="chkbx pa-1" 
                       @click.stop
                     >
@@ -406,7 +407,7 @@ export default {
       isYT: 'isYT'
     }),
     aspect () {
-      return this.$route.name === 'artist' && this.$route.params.source !== 'YouTube'  ? 1 : 16/9
+      return (this.$route.name === 'artist' ||  this.$route.name === 'related') && this.$route.params.source !== 'YouTube'  ? 1 : 16/9
     },
     filterLength () {
       return this.search.length && this.$refs.dItera.filteredItems.length ? this.$refs.dItera.filteredItems.length : this.songs.length
@@ -460,8 +461,6 @@ export default {
       this.selected = []
     },
     play (index, pauseIfSame = true, showStage = false) {
-      let b = this.sorted[index].trackID == this.$store.getters.current_song.trackID
-      // Fix for mobile on first play
       if (this.$store.state.player.current_index === -1 && this.$UTILS.isMobile) this.$DCPlayer.eAudio.play()
       // If not first page fix index
       let newi = this.pagination.page === 1 ? index : (this.pagination.rowsPerPage * (this.pagination.page - 1)) + index
@@ -470,22 +469,16 @@ export default {
         // return this.$router.push({name: 'stage'})
         return this.$router.push({name: 'auto', params: { artist: this.sorted[newi].artist,  trackID: this.sorted[newi].trackID,  source: this.sorted[newi].source }})
       }
-      if (pauseIfSame && b) {
+      if (pauseIfSame && this.sorted[index].trackID == this.$store.getters.current_song.trackID) {
         return this.$DCPlayer.togglePlay()
       }
-
-      // console.log('playing')
-      // show stage
-
-      let a = Object.assign([], this.sorted)
       
-      this.$DCPlayer.setNPlay(a, newi)
-      this.$store.commit('setNPlay', {songs: a, current: newi, path: this.$route.path})
-      this.$DCFB.historyPush(a[newi])
+      this.$DCPlayer.setNPlay({songs: this.sorted, current: newi, path: this.$route.path})
+      this.$DCFB.historyPush(this.sorted[newi])
       if (showStage || this.showVideo) {
         // console.log('showing stage')
         // this.$router.push({name: 'stage'})
-        this.$router.push({name: 'auto', params: { artist: a[newi].artist, trackID: a[newi].trackID, source: a[newi].source }})
+        this.$router.push({name: 'auto', params: { artist: this.sorted[newi].artist, trackID: this.sorted[newi].trackID, source: this.sorted[newi].source }})
         // this.$store.commit('toggleStage')
       }
     }
@@ -500,15 +493,20 @@ export default {
 .opaq{
   opacity: 1;
 }
-.v-card--reveal {
+.d-flex.v-card--reveal {
   align-items: center;
   bottom: 0;
+  /* right: 0; */
   justify-content: center;
   /* opacity: .6; */
   position: absolute;
   width: 100%;
 }
-
+.v-card--reveal div.playBtn{
+  bottom: 0;
+  right: 0;
+  position: absolute;
+}
   @media only screen and (max-width: 1262px){
     .dc-crd .men {
       display:flex !important;

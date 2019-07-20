@@ -20,12 +20,12 @@
       />
       <v-divider/>
       <go-to-artist 
-        v-if="a.length && ($route.name != 'artist' && $route.params.artistID != a[0].artistID)" 
+        v-if="showArtist" 
         :song="a"
       />
       <related
         :song="a[0]"
-        @clicked.native="b = false"
+        @clicked="b = false"
       />
       <v-divider/>
       <new-tab
@@ -74,7 +74,7 @@ import deleteButton from '@/components/buttons/delete-button'
 import shareButton from '@/components/buttons/share-button'
 import downloadButton from '@/components/buttons/download-button'
 import goToArtist from '@/components/buttons/go-to-artist'
-import related from '@/components/buttons/related'
+import related from '@/components/buttons/related-button.vue'
 export default {
   components: {
     'related': related,
@@ -93,6 +93,11 @@ export default {
       a: [], // song
       x: 0, 
       y: 0,
+    }
+  },
+  computed : {
+    showArtist () {
+      return this.a.length && (this.$route.name != 'artist' && this.$route.params.artistID != this.a[0].artistID)
     }
   },
   methods: {

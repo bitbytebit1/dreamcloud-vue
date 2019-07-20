@@ -140,7 +140,7 @@
       >
         <v-list-tile
           v-for="(song, i) in current_playlist"
-          :key="song.trackID + i"
+          :key="song.trackID + '' + i"
           :id="'pop-' + song.trackID"
           avatar
           hover
@@ -185,6 +185,13 @@ export default {
     index: {
       // immediate: true,
       handler: 'scroll'
+    },
+    show_pop: {
+      // immediate: true,
+      handler: function(val) {
+        if (val)
+          this.scroll()
+      }
     }
   },
   methods: {
@@ -193,8 +200,7 @@ export default {
       this.scroll() 
     },
     play (i) {
-      this.$DCPlayer.setNPlay(this.current_playlist, i)
-      this.$store.commit('setNPlay', {songs: this.current_playlist, current: i, path: this.$route.path})
+      this.$DCPlayer.setNPlay({songs: this.current_playlist, current: i, path:this.hash})
       this.$DCFB.historyPush(this.current_playlist[i])
     },
     toggle () {
@@ -231,6 +237,7 @@ export default {
       show_pop_list: state => state.player.show_pop_list,
       show_pop: state => state.player.show_pop,
       index: state => state.player.current_index,
+      hash: state => state.player.current_hash,
     }),
     ...mapGetters(['next_song', 'current_song', 'isPlaying']),
     size () {

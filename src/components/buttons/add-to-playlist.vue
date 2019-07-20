@@ -98,7 +98,7 @@ export default {
   name: 'AddToPlaylist',
   props: {
     song: {
-      type: [Array, Object],
+      type: [Array, Object, String],
       default() {
         return []
       }

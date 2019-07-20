@@ -8,7 +8,7 @@
       id="left" 
       :style="$vuetify.breakpoint.xsOnly ? {width: '100%'} : {}"
       class="fl-l" 
-      @click="$store.commit('toggleStage')"
+      @click="$vuetify.breakpoint.xsOnly ? $store.commit('toggleStage') : null" 
     >
       <!-- @click="$vuetify.breakpoint.xsOnly && $store.getters.current_song ? $router.push({name: 'auto', params: { artist: $store.getters.current_song.artist, trackID: $store.getters.current_song.trackID, source: $store.getters.current_song.source }}) : null" -->
       <div 
@@ -160,11 +160,9 @@
       controls
       preload="auto"
     />
-    <audio 
+    <img 
       id="dc-preload" 
-      controls
-      preload="auto"
-    />
+    >
   </div>
 </template>
 
@@ -172,7 +170,7 @@
 // import axios from "axios";
 
 import scrollToTop from '@/components/footer/show-pop'
-      
+let last = ''
 export default {
   name: 'DcAudio',
   components: {
@@ -232,9 +230,14 @@ export default {
       }
     },
     updated () {
+      // stop thrashing
+      if (last == ~~this.eAudio.currentTime) {
+        return
+      }
+      last = ~~this.eAudio.currentTime
       this.currentTime = `${this.secondsToDuration(this.eAudio.currentTime)} - ${this.secondsToDuration(this.eAudio.duration)}`
       this.progress = Math.floor(this.eAudio.currentTime)
-      // console.log(Math.floor(100 / this.eAudio.duration * this.eAudio.currentTime))
+      
       if (!this.bPreLoaded &&  100 / this.eAudio.duration * this.eAudio.currentTime > 3) {
         this.bPreLoaded = true
         // alert('preloading')
@@ -266,6 +269,7 @@ export default {
       // if (this.$route.name === 'auto') {
       //   this.$router.push({name: 'auto', params: { artist: this.$store.getters.current_song.artist,  trackID: this.$store.getters.current_song.trackID,  source: this.$store.getters.current_song.source }})
       // }
+      this.currentTime = '00:00 - 00:00'
       this.$store.commit('dcIsLoading', true)
       this.bLoading = true
       this.bPreLoaded = false

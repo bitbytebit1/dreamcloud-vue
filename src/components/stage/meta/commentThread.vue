@@ -1,5 +1,8 @@
 <template>
-  <v-flex class="ma-0 pa-0" >
+  <v-flex 
+    class="ma-0 pa-0" 
+    @click="$emit('show', showThread)"
+  >
     <v-layout 
       row 
       wrap 
@@ -8,7 +11,6 @@
       <v-flex 
         xs12 
         class="pointer body-1 comMor noSel" 
-        @click="$emit('show', showThread)"
       >
         {{ (showThread ? 'Hide' : 'Show') + ` ${totalReplyCount} replies` }} 
         <v-icon size="18">{{ showThread ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
@@ -26,7 +28,6 @@
       wrap
       hide-actions
       no-data-text=""
-      @click.stop
     >
       <v-flex
         v-if="showThread"
@@ -49,6 +50,7 @@
               <router-link 
                 :to="{name: 'artist', params: {source: source, artist: props.item.artist, artistID: props.item.artistID}}" 
                 class="body-1 grey--text noDeco pl-2"
+                @click.stop
               >
                 <v-avatar 
                   size="40" 
@@ -56,7 +58,6 @@
                 >
                   <img 
                     :src="props.item.artistIMG" 
-                    alt="avatar"
                   >
                 </v-avatar>
               </router-link>

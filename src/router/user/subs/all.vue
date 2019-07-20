@@ -33,20 +33,17 @@
       </span>
       <br>
       <!-- CHIPS -->
-      <template
-        v-if="bTog"
-      > 
-        <v-chip 
-          v-for="(item, index) in subscriptions" 
-          :key="index"
-          :class="someChips(item)"
-          class="noSel"
-          @mousedown="hai(item, index)"
-        >
-          <v-avatar outclass="accent white--text">
-            <img :src="item.img">
-        </v-avatar>{{ item.name }}</v-chip>
-      </template>
+      <v-chip         
+        v-for="(item, index) in subscriptions"
+        v-show="bTog" 
+        :key="index"
+        :class="someChips(item)"
+        class="noSel"
+        @mousedown="hai(item, index)"
+      >
+        <v-avatar outclass="accent white--text">
+          <img :src="item.img">
+      </v-avatar>{{ item.name }}</v-chip>
       <!-- Clear -->
       <v-chip 
         v-if="bTog"
@@ -106,7 +103,7 @@ export default {
       subscriptions: [],
       chips: [],
       chipsToGo: [],
-      bTog: false
+      bTog: true
     }
   },
   computed: {
@@ -125,9 +122,9 @@ export default {
   methods: {
     shuffle(source) {
       let ret = []
-      let leng = (source.length - 1) / (Math.max(5, Math.floor(Math.random() * 5))) | 0; // get a quater or a third of subscriptions
-      console.log('length', source.length - 1, ' ', leng)
-      for (var i = 0; i < leng - 1; i++) {
+      // let leng = (source.length - 1) / (Math.max(2, Math.floor(Math.random() * source.length - 1))) | 0; // get a quater or a third of subscriptions
+      let leng = (Math.floor(Math.random() * (source.length / 2) + 1))
+      for (var i = 0; i < leng; i++) {
         var j = i + Math.floor(Math.random() * (source.length - i));
         ret[i] = source[j];
       }

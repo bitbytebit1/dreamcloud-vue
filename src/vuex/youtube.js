@@ -38,6 +38,13 @@ export default {
     ytCurrentTime: (state, payload) => {
       state.ytCurrentTime = payload
     },
+    ytPause: (state) => {
+      if (state.ytState === 1) {
+        if (typeof state.ytObject.stopVideo === 'function') {
+          state.ytObject.pauseVideo()
+        }
+      }
+    },
     ytStopVideo: state => {
       if (state.ytState === 1) {
         if (typeof state.ytObject.stopVideo === 'function') {

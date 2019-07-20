@@ -32,7 +32,7 @@ export default {
       default: ''
     },
     song: {
-      type: [Object, Array],
+      type: [Object, Array, String],
       default() {
         return []
       }

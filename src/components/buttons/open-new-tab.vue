@@ -28,7 +28,7 @@ export default {
   name: 'NewTab',
   props: {
     song: {
-      type: Object,
+      type: [Object, String],
       default: function () {
         return { source: '' }
       }

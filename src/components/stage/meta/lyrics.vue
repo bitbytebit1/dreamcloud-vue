@@ -16,37 +16,45 @@
         @keyup.enter="inputEnter"
       />
     </v-card-title>
-    <v-card-title 
+    <div 
       v-if="lyrics" 
-      class="py-0"
+      class="wordbreak preline py-0 px-3"
     >
-      <div class="wordbreak preline">
-        <a 
-          :href="lyricsURL" 
-          target="_blank"
-          class="primary--background"
-        >{{ lyricsURL }}</a>
-        <br>
-        {{ lyrics }}
-      </div>
-    </v-card-title>
+      <a 
+        :href="lyricsURL" 
+        target="_blank"
+        class="primary--background"
+      >{{ lyricsURL }}</a>
+      <br>
+      {{ lyrics }}
+    </div>
 
     <v-card-title v-else-if="bLoading">
       <!-- <a :href="`${lyricsServer}/search/${this.query}`">{{ `${lyricsServer}/search/${this.query}` }}</a><br> -->
       {{ loadingText + loadingTextAppend }}
     </v-card-title>
 
-    <v-card-title v-else-if="iTried">
+    <v-card-title 
+      v-else-if="iTried" 
+    >
       No lyrics available for {{ this.inputModel }}
     </v-card-title>
-  
     <v-card-title 
-      v-else 
+      v-if="iTried" 
+    >      
+      Try again with&nbsp;
+      <div
+        class="primary--text underline pointer" 
+        @click="(inputModel = inputModel + ' ' + cArtist, reset(false))"
+      >"{{ this.inputModel }}  {{ this.cArtist }}"</div>
+    </v-card-title>  
+    <!-- <v-card-title 
+      v-if="!bLoading && !lyrics && iTried"
       class="pointer" 
       @click="(getLyrics)"
     >
       Click to load lyrics
-    </v-card-title>
+    </v-card-title> -->
   </v-card>
 
 </template>
@@ -85,6 +93,9 @@ export default {
     }
   },
   computed: {
+    cArtist () {
+      return this.artist.replace(' - Topic','')
+    },
     query () {
       return this.title
         .replace(/[^\w |${1}|-]/gi, '')
@@ -233,4 +244,7 @@ export default {
 </script>
 
 <style>
+.underline{
+  text-decoration: underline;
+}
 </style>

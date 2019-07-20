@@ -56,7 +56,7 @@ export default {
       this.$store.dispatch('snack', { b: true, c:'primary', s:'Added to queue' })
       // if first song in playlist
       this.$store.state.player.current_index === -1
-        ? (this.$store.commit('setNPlay', {songs: a, current: 0, path: this.$route.path}), this.$DCPlayer.setPlaylist(d))
+        ? this.$DCPlayer.setNPlay({songs: a, current: 0, path: this.$route.path})
         : (this.$store.commit('current_playlist', d), this.$DCPlayer.setPlaylist(d))
     }
   }

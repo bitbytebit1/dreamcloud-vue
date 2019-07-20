@@ -9,7 +9,7 @@
         id="left"
         :style="$vuetify.breakpoint.xsOnly ? {width: '100%'} : {}" 
         class="fl-l"
-        @click="$store.commit('toggleStage')" 
+        @click.stop="$vuetify.breakpoint.xsOnly ? $store.commit('toggleStage') : null" 
       >
         <div 
           :style="{width: '100%'}" 

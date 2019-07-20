@@ -160,7 +160,6 @@ export default {
       console.log('show event', d)
     },
     reset () {
-      // console.log('comments')
       this.aComments = []
       this.iPage = 0
       this.show = false
