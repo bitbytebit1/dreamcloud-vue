@@ -8,7 +8,7 @@
     fab
     small
     icon 
-    @click="$store.commit('show_pop', !show_pop)"
+    @click="showPop"
   >
     <v-icon medium>{{ !show_pop ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
   </v-btn>
@@ -16,12 +16,24 @@
 </template>
 <script>
 import { mapState } from 'vuex';
+// import { mapGetters } from 'vuex';
 export default {
   name: 'ScrollToTop',
   computed: {
     ...mapState({
       show_pop: state => state.player.show_pop,
-    })
+    }),
+    // ...mapGetters(['current_song'])
+  },
+  methods : {
+    showPop () {
+      if (!this.show_pop && (this.$route.name == 'auto' || this.$route.name == 'current')) {
+        this.$router.go(-1)
+      // } else {
+        // this.$router.push({name: 'auto', params: { artist: this.current_song.artist,  trackID: this.current_song.trackID,  source: this.current_song.source }})
+      }
+      this.$store.commit('show_pop', !this.show_pop)
+    }
   }
 }
 </script>
