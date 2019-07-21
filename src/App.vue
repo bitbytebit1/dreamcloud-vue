@@ -144,11 +144,11 @@
             name="fade" 
             mode="out-in"
           > -->
-          <!-- <keep-alive 
+          <keep-alive
             :max="4"
-          > -->
-          <router-view @conmen="con"/>
-          <!-- </keep-alive> -->
+          >
+            <router-view @conmen="con"/>
+          </keep-alive>
           <!-- </transition> -->
         </v-layout>
       </v-container>
