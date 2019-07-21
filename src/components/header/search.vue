@@ -132,7 +132,7 @@ export default {
   },
   data () {
     return {
-      aSources: {All: true, Bandcamp: false, MixCloud: false, SoundCloud: false, YouTube: false, Vimeo: false},
+      aSources: {All: false, Bandcamp: false, MixCloud: false, SoundCloud: false, YouTube: true, Vimeo: false},
       sQuery: '',
       artist: false,
       showMenu: false
