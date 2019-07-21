@@ -252,24 +252,24 @@
                 justify-end 
                 fill-height
               >
-                <!-- <div
-                  v-if="$vuetify.breakpoint.mdAndUp && isPlaying(props.item.trackID)"
+                <div
+                  v-if="props.item.trackID && isPlaying(props.item.trackID)"
                   class="d-flex text-xs-center v-card--reveal"
                   style="height: 100%;"
                 >
-                  <div>
+                  <div class="playBtn">
                     <v-btn 
                       :loading="$store.getters.isLoading && isPlaying (props.item.trackID)"
+                      dark  
                       icon
-                      outline
-                      dark
-                      color="primary white--text"
+                      large
+                      color="primary"
                       @click.stop="play(props.index)"
                     >
-                      <v-icon class="white--text">{{ $store.getters.isPlaying && isPlaying (props.item.trackID)? 'pause' : 'play_arrow' }}</v-icon>
+                      <v-icon>{{ $store.getters.isPlaying && isPlaying (props.item.trackID)? 'pause' : 'play_arrow' }}</v-icon>
                     </v-btn>
                   </div>
-                </div> -->
+                </div>
               </v-img>
             </td>
                 
