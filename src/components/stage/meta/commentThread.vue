@@ -10,7 +10,7 @@
     >
       <v-flex 
         xs12 
-        class="pointer body-1 comMor noSel" 
+        class="pointer body-1 comMor noSel primary--text" 
       >
         {{ (showThread ? 'Hide' : 'Show') + ` ${totalReplyCount} replies` }} 
         <v-icon size="18">{{ showThread ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
@@ -137,10 +137,10 @@ export default {
       }
       if (this.$store.getters.ytUseVideo && this.$store.getters.isYT) {
         return (value.replace(/(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)([0-5]?\d)/g,
-        `<span class="underline pointer" onClick="window.dcYT.seekTo('$&'.split(':').reduce((acc,time) => (60 * acc) + +time));">$&</span>`))
+        `<span class="underline pointer" onClick="window.dcYT.seekTo('$&'.split(':').reduce((acc,time) => (60 * acc) + +time));return false">$&</span>`))
       } else {
         return (value.replace(/(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)([0-5]?\d)/g,
-        `<span class="underline pointer" onClick="document.getElementById('dc-audio').currentTime = '$&'.split(':').reduce((acc,time) => (60 * acc) + +time)">$&</span>`))
+        `<span class="underline pointer" onClick="document.getElementById('dc-audio').currentTime = '$&'.split(':').reduce((acc,time) => (60 * acc) + +time);return false">$&</span>`))
       }
     },
     queryComments () {
