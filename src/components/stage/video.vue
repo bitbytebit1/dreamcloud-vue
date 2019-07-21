@@ -288,6 +288,7 @@ export default {
           }
         }
       },
+      immediate: true
     },
     bShowStage: {
       handler: function(val) {
