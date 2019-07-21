@@ -4,7 +4,7 @@
   <div 
     v-show="show_pop && $vuetify.breakpoint.smAndUp" 
     :class="size" 
-    class="pop" 
+    class="pop"
     xs12
   >
     <v-card 
@@ -107,8 +107,9 @@
           @click="$router.push({name: 'auto', params: { artist: this.current_song.artist, trackID: this.current_song.trackID, source: this.current_song.source }})"
         >
           <v-flex 
-            xs10 
-            pa-3
+            v-ripple 
+            xs10
+            pa-3 
           >
             <div 
               :title="current_song.title" 
@@ -118,18 +119,17 @@
           </v-flex>
           <!-- SHOW CURRENT PLAYLIST -->
           <v-flex 
-            xs2 
-            pa-3
+            v-ripple 
+            xs2
+            pa-3 
             @click.stop="toggleList"
           >
-            <v-btn 
+            <v-icon 
+              :v-ripple="false"
               mt-3
-              icon 
-              right
-              x-large
-            >
-              <v-icon>{{ show_pop_list ? 'keyboard_arrow_down': 'keyboard_arrow_up' }}</v-icon>
-            </v-btn>
+              icon
+              large
+            >{{ show_pop_list ? 'keyboard_arrow_down': 'keyboard_arrow_up' }}</v-icon>
           </v-flex>
         </v-layout>
       </div>
