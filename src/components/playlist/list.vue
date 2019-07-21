@@ -202,8 +202,7 @@
           </v-card>
         </template> -->
         <template 
-          slot="items" 
-          slot-scope="props"
+          v-slot:items="props"
         >
           <!-- <v-hover 
             :value="isPlaying(props.item.trackID)"
@@ -318,16 +317,11 @@
             <!-- 4 -->
             <!-- ACTIONS -->
             <td 
-              v-if="!bSelect && props.item.trackID" 
-              @click.stop
+              v-ripple 
+              v-if="!bSelect && props.item.trackID"
+              @click.stop="$emit('conmen', [$event, bSelect ? selected : [props.item]])"
             >
-              <v-btn 
-                icon 
-                small 
-                @click.stop="$emit('conmen', [$event, bSelect ? selected : [props.item]])"
-              >
-                <v-icon>more_vert</v-icon>
-              </v-btn>
+              <v-icon >more_vert</v-icon>
             </td>
 
           </tr>
