@@ -212,10 +212,10 @@
                     : checkItem(props.item)
             // nasty ternary, if playlist push
             : $router.push({name: 'channelPlaylist', params: {listID: props.item.listID, artistID: props.item.artistID, title: props.item.title, source: props.item.source}})"
+            @contextmenu="props.item.trackID ? $emit('conmen', [$event, bSelect ? selected : [props.item]]) : null"
           >
             <v-card 
               class="dc-crd ma-0 pa-0 pointer outline"
-              @contextmenu="props.item.trackID ? $emit('conmen', [$event, bSelect ? selected : [props.item]]) : null"
             >
               <!-- IMAGE -->
               <v-img
@@ -274,11 +274,13 @@
                     <v-flex 
                       v-if="$route.name !== 'artist' && props.item.trackID || props.item.listID" 
                       class="text-xs-left pa-0 pt-1 wordbreak" 
-                      @click.stop="bSelect ? checkItem(props.item) : $router.push({name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}})"
                     >
+                      <!-- @click.stop="bSelect ? checkItem(props.item) : null" -->
+                      <!-- @click.stop="bSelect ? checkItem(props.item) : $router.push({name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}})" -->
                       <router-link 
                         :to="{name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}}"
                         class="noDeco artist" 
+                        @click.native.stop
                       >
                         {{ props.item.artist }}
                       </router-link>
@@ -295,21 +297,15 @@
                   <v-flex 
                     xs2 
                     class="ma-0 pa-0 pt-2" 
-                    @click.stop
+                    @click.stop="$emit('conmen', [$event, bSelect ? selected : [props.item]])"
                   >
-                    <!-- <v-tooltip 
-                      top
-                    > -->
                     <v-btn 
                       icon 
                       small 
                       class="men fl-r ma-0 pa-0 mt-1" 
-                      @click="$emit('conmen', [$event, bSelect ? selected : [props.item]])"
                     >
                       <v-icon>more_vert</v-icon>
                     </v-btn>
-                    <!-- <span>{{ $vuetify.breakpoint.smAndDown ? 'Long press menu' : 'Right click menu' }}</span> -->
-                    <!-- </v-tooltip> -->
                   </v-flex>
                   
                 </v-layout>
@@ -503,17 +499,23 @@ export default {
   position: absolute;
   width: 100%;
 }
-.v-card--reveal div.playBtn{
-  bottom: 0;
-  right: 0;
-  position: absolute;
-}
+
   @media only screen and (max-width: 1262px){
     .dc-crd .men {
       display:flex !important;
     }
+  .v-card--reveal div.playBtn{
+    top: 0;
+    right: 0;
+    position: absolute;
+  }
   }
   @media only screen and (min-width: 1263px){
+    .v-card--reveal div.playBtn{
+      bottom: 0;
+      right: 0;
+      position: absolute;
+    }
     .dc-crd:hover .men {
       /* transition: opacity 0.2s 1s ease; Mouse enter: delay */
       display:flex !important;
