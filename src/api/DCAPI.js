@@ -721,7 +721,7 @@ class DCAPIClass {
           }).reverse()
         }
         hCallback(ret)
-      })
+      }).catch()
     } else if (source.toLowerCase().indexOf('soundcloud') > -1) {
       return axios.get('https://api.soundcloud.com/tracks/' + trackID + '/comments?linked_partitioning=1&limit=50&client_id=' + this.sScKey).then((resp) => {
         var ret = {
@@ -737,7 +737,7 @@ class DCAPIClass {
           })
         }
         hCallback(ret)
-      })
+      }).catch()
     }
 
   }
@@ -764,7 +764,7 @@ class DCAPIClass {
           }
         })
         hCallback(ret)
-      })
+      }).catch()
     } else if (source.toLowerCase().indexOf('soundcloud') > -1) {
       return axios.get('https://api.soundcloud.com/tracks/' + trackID + '/comments?linked_partitioning=1&limit=50&client_id=' + this.sScKey).then((resp) => {
         var ret = resp.data.collection.map((item) => {
@@ -778,7 +778,7 @@ class DCAPIClass {
           }
         })
         hCallback(ret)
-      })
+      }).catch()
     }
 
   }
