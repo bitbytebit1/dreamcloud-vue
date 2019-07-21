@@ -196,6 +196,7 @@
           <!-- imsert transition here -->
           <!-- ITEM SLOT -->
           <v-flex 
+            v-ripple="{ center: true }"
             slot='item'
             slot-scope='props'
             xs12
