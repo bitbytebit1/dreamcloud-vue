@@ -415,7 +415,9 @@ export default {
       } else {
         this.$UTILS.toggleFullscreen('pstr')
       }
-
+      if (this.$UTILS.isMobile) {
+        screen.orientation.lock("landscape-primary");
+      }
     },
     getDesc () {
       if (this.isYT) {
