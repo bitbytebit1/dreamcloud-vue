@@ -499,26 +499,20 @@ export default {
       return this.$DCAPI.calcDate(this.today, date)
     },
     play (index, pauseIfSame = true, showStage = false) {
-      
-      // Fix for mobile on first play
       if (this.$store.state.player.current_index === -1 && this.$UTILS.isMobile) this.$DCPlayer.eAudio.play()
       // If not first page fix index
       let newi = this.pagination.page === 1 ? index : (this.pagination.rowsPerPage * (this.pagination.page - 1)) + index
       // if (this.$store.state.player.current_index === index && this.hash === this.$route.path) {
-
+      if (showStage) {
+        // return this.$router.push({name: 'stage'})
+        return this.$router.push({name: 'auto', params: { artist: this.sorted[newi].artist,  trackID: this.sorted[newi].trackID,  source: this.sorted[newi].source }})
+      }
       if (pauseIfSame && this.sorted[index].trackID == this.$store.getters.current_song.trackID) {
         return this.$DCPlayer.togglePlay()
       }
-
-      // console.log('playing')
-      // show stage
-
-      // let a = Object.assign([], this.sorted)
       
       this.$DCPlayer.setNPlay({songs: this.sorted, current: newi, path: this.$route.path})
-      
       this.$DCFB.historyPush(this.sorted[newi])
-
       if (showStage || this.showVideo) {
         // console.log('showing stage')
         // this.$router.push({name: 'stage'})
