@@ -5,6 +5,7 @@
     v-if="$store.state.player.current_index == -1" 
     v-show="$store.state.user.bShowStage"
     xs12
+    class="mt-2"
   >
     <v-layout 
       row 
@@ -16,7 +17,9 @@
         error="Nothing playing"
         subheading="Try searching for your favourite song or artist"
       />
-      <history/>
+      <history 
+        @conmen="$emit('conmen', $event)"
+      />
     </v-layout>
   
   </v-flex>
