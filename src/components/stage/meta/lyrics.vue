@@ -39,14 +39,18 @@
     >
       No lyrics available for {{ this.inputModel }}
     </v-card-title>
+    <!-- <v-card-title>
+      {{ iTried }}
+      {{ bLoading }}
+    </v-card-title> -->
     <v-card-title 
-      v-if="iTried" 
-    >      
-      Try again with&nbsp;
+      v-if="!bLoading && artistNotFoundInTitle" 
+      :class="lyrics ? 'mt-3' : ''"
+    >
       <div
-        class="primary--text underline pointer" 
-        @click="(inputModel = inputModel + ' ' + cArtist, reset(false))"
-      >"{{ this.inputModel }}  {{ this.cArtist }}"</div>
+        class="primary--text underline pointer pl-1" 
+        @click="(inputModel = inputModel + ' - ' + cArtist, reset(false))"
+      >Try again with "{{ this.inputModel }} - {{ this.cArtist }}"</div>
     </v-card-title>  
     <!-- <v-card-title 
       v-if="!bLoading && !lyrics && iTried"
@@ -93,6 +97,9 @@ export default {
     }
   },
   computed: {
+    artistNotFoundInTitle () {
+      return this.inputModel.indexOf(this.artist) === -1
+    },
     cArtist () {
       return this.artist.replace(' - Topic','')
     },
@@ -175,13 +182,14 @@ export default {
                 axios.get(`${this.lyricsServer}/lyrics/${song.id}`).then((resp3) => {
                   this.lyrics = resp3.data.data.lyrics
                   this.lyricsURL = resp3.data.data.url
+                  this.bLoading = false
                   clearInterval(intv)
                 }).catch(() => {
                   this.fail(intv)
                 })
               // DARKWING METHOD
               } else {
-                // console.log('dw')
+                console.log('darkwing')
                 // PARSE RESULTS CHECKING ARTIST NAME AGAINST QUERY
                 var artist = resp2.find((item) => {
                   return title.indexOf(item.primary_artist.name.toLowerCase()) > -1
