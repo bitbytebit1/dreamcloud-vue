@@ -201,8 +201,9 @@
             <v-card-text>{{props.item.description}}</v-card-text>
           </v-card>
         </template> -->
+        <!-- slot="items" slot-scope="props" -->
         <template 
-          v-slot:items="props"
+          v-slot:items="props"  
         >
           <!-- <v-hover 
             :value="isPlaying(props.item.trackID)"
@@ -228,7 +229,10 @@
             @contextmenu="!props.item.trackID ? false : $emit('conmen', [$event, bSelect ? selected : [props.item]])"
           >
             <!-- CHECK_BOX -->
-            <td v-if="bSelect">
+            <td 
+              v-ripple 
+              v-if="bSelect"
+            >
               <v-checkbox 
                 v-model="selected"
                 :value="props.item" 
@@ -240,8 +244,9 @@
             <!-- IMAGE -->
             <!-- 1 -->
             <td 
-              v-if="!bMini" 
-              class="pa-2"
+              v-ripple 
+              v-if="!bMini"
+              class="pa-2" 
             >
               <v-img
                 v-if="props.item.trackID"
@@ -253,7 +258,7 @@
                 fill-height
               >
                 <div
-                  v-if="props.item.trackID && isPlaying(props.item.trackID)"
+                  v-if="props.item.trackID && isPlaying(props.item.trackID) && $vuetify.breakpoint.mdAndUp"
                   class="d-flex text-xs-center v-card--reveal"
                   style="height: 100%;"
                 >
@@ -272,14 +277,12 @@
                 </div>
               </v-img>
             </td>
-                
-            
-            
             <!-- TITLE + ARTIST + UPLOADED + DURATION + DESCRIPTION-->
             <!-- 2 -->
             <td 
-              :colspan="$route.params.artistID ? '2' : '3'" 
-              class="text-xs-left pl-3 py-1"
+              v-ripple 
+              :colspan="$route.params.artistID ? '2' : '3'"
+              class="text-xs-left pl-3 py-1" 
             >
               <!-- TITLE -->
               <div 
