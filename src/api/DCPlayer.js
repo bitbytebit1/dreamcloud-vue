@@ -7,7 +7,7 @@ export default {
   install(Vue) {
     var DCPlayer = {
       // sBase: 'https://dc-mp3-ceewhqzemu.now.sh/api/',
-      sBase: 'http://dreamcloud.mynetgear.com:7000/api/',
+      sBase: 'http://dreamcloud.mynetgear.com/api/',
       // aPlaylist: [],
       // iCurrent: 0,
       eAudio: {src:''},
