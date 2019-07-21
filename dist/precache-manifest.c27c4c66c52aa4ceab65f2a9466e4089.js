@@ -4,7 +4,7 @@ self.__precacheManifest = [
     "url": "css/playlistsAll.cb1bf88d.css"
   },
   {
-    "revision": "dca7fe50902ac60c474e5acc3567526a",
+    "revision": "7af877340c9bc84bb7180bceac7dc881",
     "url": "index.html"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = [
     "url": "js/userSubOverview-legacy.efb175cf.js"
   },
   {
-    "revision": "fc0dd80ff8cdbcb3553f",
-    "url": "js/app-legacy.7d73ab61.js"
+    "revision": "c0c11395d309df4b0718",
+    "url": "js/app-legacy.7dee420d.js"
   },
   {
     "revision": "3c1b96f45da23adda8f5",
@@ -44,7 +44,7 @@ self.__precacheManifest = [
     "url": "js/trending-legacy.1153f5f0.js"
   },
   {
-    "revision": "10f2868f28e96a8a70b3",
+    "revision": "b00a8f9ed2da10f65706",
     "url": "js/chunk-vendors-legacy.a1214811.js"
   },
   {
@@ -60,8 +60,8 @@ self.__precacheManifest = [
     "url": "js/home-legacy.020eb128.js"
   },
   {
-    "revision": "13dc1a74812d7f61fa93",
-    "url": "js/subsAll-legacy.2d225d3e.js"
+    "revision": "c7ab317a9c87633863a0",
+    "url": "js/subsAll-legacy.cad1bb86.js"
   },
   {
     "revision": "0741e9f766a2e1e6664e",
@@ -84,8 +84,8 @@ self.__precacheManifest = [
     "url": "js/playlistOverview-legacy.1b23515d.js"
   },
   {
-    "revision": "27a8166addbc62d6c287",
-    "url": "js/about-legacy.6becb46e.js"
+    "revision": "d8f570de491c8491521b",
+    "url": "js/about-legacy.70ce0eaa.js"
   },
   {
     "revision": "15e8b3397cdf21f952ab",
@@ -148,8 +148,8 @@ self.__precacheManifest = [
     "url": "css/login.6fcd4d13.css"
   },
   {
-    "revision": "10f2868f28e96a8a70b3",
-    "url": "css/chunk-vendors.0f5c9d56.css"
+    "revision": "b00a8f9ed2da10f65706",
+    "url": "css/chunk-vendors.1802c065.css"
   },
   {
     "revision": "4c441690c4bb8dacab12",
@@ -160,11 +160,11 @@ self.__precacheManifest = [
     "url": "css/artist.88d9c49e.css"
   },
   {
-    "revision": "fc0dd80ff8cdbcb3553f",
-    "url": "css/app.a5da97fb.css"
+    "revision": "c0c11395d309df4b0718",
+    "url": "css/app.fa99760e.css"
   },
   {
-    "revision": "27a8166addbc62d6c287",
+    "revision": "d8f570de491c8491521b",
     "url": "css/about.a340837d.css"
   }
 ];
