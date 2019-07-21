@@ -44,11 +44,28 @@
         <v-avatar outclass="accent white--text">
           <img :src="item.img">
       </v-avatar>{{ item.name }}</v-chip>
-      <!-- Clear -->
-      <v-chip 
-        v-if="bTog"
-        @click="chips = []"
-      >Clear</v-chip>
+      <div 
+        v-if="bTog && subscriptions.length > 50 "
+      >
+        <!-- Show/Hide -->
+        <v-chip 
+          @click="bTog = !bTog"
+        >{{ bTog ? 'Hide' : 'Show' }}</v-chip>
+        <!-- All -->
+        <v-chip 
+          :class="chips.length == subscriptions.length ? 'primary white--text': ''"
+          @click="chips.length != subscriptions.length ? chips = subscriptions : chips = []"
+        >All</v-chip>
+        <v-chip 
+          :class="bShuf ? 'primary white--text': ''"
+          @click="chips = shuffle(subscriptions)"
+        >Random</v-chip>
+        <!-- @click="(bShuf = !bShuf, bShuf ? chips = shuffle(subscriptions): chips = [])" -->
+        <!-- Clear -->
+        <v-chip 
+          @click="chips = []"
+        >Clear</v-chip>
+      </div>
       <!-- END_CHIPS -->
 
 
