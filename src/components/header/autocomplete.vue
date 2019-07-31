@@ -12,11 +12,10 @@
     hide-details
     flat
     solo
-    single-line
-    placeholder="Search"
     onfocus="this.placeholder = ''"
+    onblur="(this.placeholder = 'Search', select = search, $refs.auto.$children[0].isContentActive = false)"
+    placeholder="Search"
     @keyup.enter='enter'
-    @blur="(select = search, $refs.auto.$children[0].isContentActive = false)"
   >
     <template 
       slot="item" 
@@ -73,4 +72,7 @@ export default {
 }
 </script>
 <style>
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #fff !important;
+}
 </style>
