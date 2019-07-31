@@ -5,18 +5,18 @@
     :items="items"
     :search-input.sync="search"
     v-model="select"
-    color="primary"
-    placeholder="Search"
-    onfocus="this.placeholder = ''"
     append-icon=""
-    single-line
+    color="primary"
+    clearable
     hide-no-data
     hide-details
     flat
     solo
-    clearable
+    single-line
+    placeholder="Search"
+    onfocus="this.placeholder = ''"
     @keyup.enter='enter'
-    @blur="select = search"
+    @blur="(select = search, $refs.auto.$children[0].isContentActive = false)"
   >
     <template 
       slot="item" 
@@ -33,6 +33,7 @@
 export default {
   data () {
     return {
+      justClick: false,
       loading: false,
       items: [],
       search: null,
@@ -46,6 +47,7 @@ export default {
   },
   methods: {
     clicked (v) {
+      this.$refs.auto.$children[0].isContentActive = false
       this.emit(v)
     },
     enter () {
@@ -57,16 +59,11 @@ export default {
       this.$emit('search', v)
     },
     querySelections (v) {
-      if (this.$refs.auto.$children[0].isContentActive == false) {
-        // console.log('resetting isContentActive due to input change')
-        this.$refs.auto.$children[0].isContentActive = true
-      }
       this.loading = true
       this.items = [v]
       this.$jsonp(`https://suggestqueries.google.com/complete/search?callback=?&hl=en&ds=yt&jsonp=suggestCallBack&client=youtube&q=${v}`, {callbackName: 'suggestCallBack'})
         .then(json => {
           this.items = this.items.concat(json[1].map(v => v[0]))
-          // this.items.unshift(v)
           this.loading = false
         }).catch(() => {
           this.loading = false
