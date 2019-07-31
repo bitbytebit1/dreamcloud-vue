@@ -6,7 +6,8 @@
     :search-input.sync="search"
     v-model="select"
     color="primary"
-    label="Search"
+    placeholder="Search"
+    onfocus="this.placeholder = ''"
     append-icon=""
     single-line
     hide-no-data
