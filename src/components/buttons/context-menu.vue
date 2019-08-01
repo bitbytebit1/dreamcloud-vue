@@ -109,15 +109,22 @@ export default {
         this.delete(this.a[i].key)
       }
     },
-    // magic function, gets called by ref from app. bad voodoo.
+    // magic function, gets called by ref from parent component 'App'. bad voodoo. 
     show (e, a) {
+      // if already open toggle menu on click, just vuetify things
       e.preventDefault()
-      // this.b = false
-      this.b = true
+      if (e.type == 'click') {
+        this.b = false
+      } 
+      // else { //if(e.type =='contextmenu')
+      // this.b = true
+      // }
+
       this.x = e.clientX
       this.y = e.clientY
       setTimeout(() => {
         // this.$nextTick(() => {
+        this.b = true
         this.a = a
         if (this.$store.getters.closeMenuOnScroll) {
           document.addEventListener("scroll", this.scroll)
