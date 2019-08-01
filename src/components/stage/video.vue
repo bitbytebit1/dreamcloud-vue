@@ -267,6 +267,8 @@ export default {
     trackID: {
       handler: function(id) {
         if(id && this.song){
+          // On track change update metaSong
+          // Otherwise update metaSong when bShowStage = true
           if (this.bShowStage) {
             this.metaSong = this.song
             this.getPlays()
