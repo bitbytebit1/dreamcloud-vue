@@ -244,7 +244,6 @@
             <!-- IMAGE -->
             <!-- 1 -->
             <td 
-              v-ripple 
               v-if="!bMini"
               class="pa-2" 
             >
@@ -280,7 +279,6 @@
             <!-- TITLE + ARTIST + UPLOADED + DURATION + DESCRIPTION-->
             <!-- 2 -->
             <td 
-              v-ripple 
               :colspan="$route.params.artistID ? '2' : '3'"
               class="text-xs-left pl-3 py-1" 
             >
@@ -320,7 +318,6 @@
             <!-- 4 -->
             <!-- ACTIONS -->
             <td 
-              v-ripple 
               v-if="!bSelect && props.item.trackID"
               @click.stop="$emit('conmen', [$event, bSelect ? selected : [props.item]])"
             >
