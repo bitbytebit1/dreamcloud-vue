@@ -221,6 +221,7 @@
                 :title="metaSong.title"
                 :trackID="metaSong.trackID"
                 :source="metaSong.source"
+                :lg10="false"
                 @conmen="$emit('conmen', $event)"
               />
             </v-tab-item>

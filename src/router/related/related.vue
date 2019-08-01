@@ -1,10 +1,10 @@
 <template>
   <v-flex 
-    :lg10="$route.name === 'related'" 
+    :lg10="lg10" 
     xs12
   >
     <v-flex 
-      v-if="$route.name === 'related'"
+      v-if="lg10"
       class="headline fwl text-xs-left pl-2 pt-2"
     >
       Related to {{ title }} by {{ artist }}
@@ -21,6 +21,10 @@
 export default {
   name: 'Related',
   props: {
+    lg10: {
+      type: Boolean,
+      default: true
+    },
     trackID: {
       type: [String, Number],
       default: ''
