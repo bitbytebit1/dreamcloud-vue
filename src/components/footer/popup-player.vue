@@ -275,7 +275,7 @@ export default {
   height: 450px;
 }
 .pop-sm{
-  height: 330px;
+  height: 329px;
 }
 .pop{
   /* width: 240px; */
