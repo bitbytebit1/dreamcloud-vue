@@ -230,7 +230,6 @@
           >
             <!-- CHECK_BOX -->
             <td 
-              v-ripple 
               v-if="bSelect"
             >
               <v-checkbox 
@@ -249,7 +248,7 @@
             >
               <v-img
                 v-if="props.item.trackID"
-                :aspect-ratio="aspect"
+                :aspect-ratio="props.item.source == 'YouTube' ? 16/9 : 1"
                 :src="props.item.posterLarge"
                 class="fillPlace" 
                 align-end 
