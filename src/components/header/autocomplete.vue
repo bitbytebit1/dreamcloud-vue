@@ -32,7 +32,7 @@
 export default {
   data () {
     return {
-      justClick: false,
+      justClicked: false,
       loading: false,
       items: [],
       search: null,
@@ -47,6 +47,7 @@ export default {
   methods: {
     clicked (v) {
       this.$refs.auto.$children[0].isContentActive = false
+      this.justClicked = true
       this.emit(v)
     },
     enter () {
@@ -58,6 +59,15 @@ export default {
       this.$emit('search', v)
     },
     querySelections (v) {
+      // this line bc querySelection fires on click for some reason?
+      if (this.justClicked) {
+        this.justClicked = false
+        return 
+      }
+      // reactivate dropdown on search change
+      if (this.$refs.auto.$children[0].isContentActive == false) {
+        this.$refs.auto.$children[0].isContentActive = true
+      }
       this.loading = true
       this.items = [v]
       this.$jsonp(`https://suggestqueries.google.com/complete/search?callback=?&hl=en&ds=yt&jsonp=suggestCallBack&client=youtube&q=${v}`, {callbackName: 'suggestCallBack'})
