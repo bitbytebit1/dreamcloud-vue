@@ -187,15 +187,15 @@ router.beforeEach((to, from, next) => {
     store.commit('drawLeft', false)
     store.commit('drawRight', false)
     next(false)
-  // } else if (store.state.user.bShowStage && to.name != 'stage' && to.name != 'auto') {
-  //   // console.log('hiding stage wtf')
-  //   // console.log('disabled stage')
-  //   store.commit('bShowStage', false)
-  //   // if (store.getters.showPopupSetting && store.state.player.current_index > -1) {
-  //   //   store.commit('show_pop', true)
-  //   // }
-  //   // store.commit('show_pop', true)
-  //   next()
+  } else if (store.state.user.bShowStage && to.name != 'stage' && to.name != 'auto') {
+    // console.log('hiding stage wtf')
+    // console.log('disabled stage')
+    store.commit('bShowStage', false)
+    // if (store.getters.showPopupSetting && store.state.player.current_index > -1) {
+    //   store.commit('show_pop', true)
+    // }
+    // store.commit('show_pop', true)
+    next()
   } else {
     next()
   }
