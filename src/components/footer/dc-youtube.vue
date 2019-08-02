@@ -33,7 +33,7 @@
                 <v-icon>skip_previous</v-icon>
               </v-btn>
               <v-btn 
-                :loading="bLoading" 
+                :loading="$store.getters.ytIsLoading" 
                 :outline="$vuetify.breakpoint.smAndUp" 
                 :class="$vuetify.breakpoint.smAndUp ? 'primary' : ''" 
                 icon
@@ -80,12 +80,12 @@
       <!-- VOLUME -->
       <div 
         id="right" 
-        class="hidden-xs-only" 
+        :key="volThumbCol" 
+        class="hidden-xs-only"
         @wheel.prevent="onWheel"
       >
         <v-speed-dial 
-          hover 
-          transition="slide-x-reverse-transition" 
+          transition="none" 
           open-on-hover
         >
           <v-btn 
@@ -105,8 +105,8 @@
             @click.prevent
           >
             <input 
-              v-model="volume" 
-              class="vol-slider pointer" 
+              v-model="volume"
+              class="vol-slider pointer"
               type="range" 
               min="0" 
               max="100" 
@@ -162,7 +162,12 @@
 <script>
 /* eslint-disable */
 import scrollToTop from '@/components/footer/show-pop.vue'
-      
+function addStyleString(str, id) {
+  var node = document.createElement('style');
+  node.innerHTML = str;
+  node.id = id;
+  document.body.appendChild(node);
+}
 export default {
   name: 'dc-youtube',
   data () {
@@ -175,6 +180,14 @@ export default {
     'scroll-to-top': scrollToTop,
   },
   computed: {
+    volThumbCol () {
+      // could be done better by utilising ID
+      addStyleString(`.vol-slider::-webkit-slider-thumb { background: ${this.$vuetify.theme.primary} }.vol-slider::-moz-range-thumb { background: ${this.$vuetify.theme.primary} }`, 'vol-slider-style');
+      // const el = document.getElementById('vol-slider-style')
+      // el.innerHTML = ''
+      // el.innerHTML = `.vol-slider::-webkit-slider-thumb { background: ${this.$vuetify.theme.primary} } .vol-slider::-moz-range-thumb { background: ${this.$vuetify.theme.primary} }`
+      // console.log(document.getElementById('vol-slider-style'))
+    },
     volIcn () {
       return this.volume > 50 ? 'volume_up' : this.volume === 0 ? 'volume_off' : 'volume_down'
     },
@@ -205,20 +218,16 @@ export default {
       if (!this.$store.state.player.current_index) return 0
       return String(this.$store.getters.current_song.title).length + String(this.$store.getters.current_song.artist).length > 40
     },
-    // -1 (unstarted)
-    // 0 (ended)
-    // 1 (playing)
-    // 2 (paused)
-    // 3 (buffering)
-    // 5 (video cued).
-    bLoading () {
-      return this.$store.getters.ytState === 3
-    },
-    bPlaying () {
-      return this.$store.getters.ytState === 1
-    },
+    /*
+      -1 (unstarted)
+      0 (ended)
+      1 (playing)
+      2 (paused)
+      3 (buffering)
+      5 (video cued).
+    */
     sPlayIcon () {
-      return this.bPlaying ? 'pause' : 'play_arrow'
+      return this.$store.getters.ytIsPlaying ? 'pause' : 'play_arrow'
     }
   },
   methods: {
@@ -250,7 +259,7 @@ export default {
       return (this.volIcon = this.volume > 50 ? 'volume_up' : this.volume === 0 ? 'volume_off' : 'volume_down')
     },
     togglePlay () {
-      if (this.bPlaying) {
+      if (this.$store.getters.ytIsPlaying) {
         this.$store.getters.ytObject.pauseVideo()
       } else {
         this.$store.getters.ytObject.playVideo()
@@ -283,50 +292,39 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+.vol-slider {
+  background: red
+}
 #progress-slider-2{
   margin-top: 15px;
 }
-/* #play-load{ */
-  /* top: -1px; */
-  /* left: 0px; */
-  /* width: 42px !important; */
-/* } */
 .vol-slider {
     -webkit-appearance: none;
     width: 100%;
     height: 25px;
-    background: #d3d3d3;
+    background: #504949;
     outline: none;
-    /* opacity: 1; */
     -webkit-transition: .2s;
     transition: opacity .2s;
 }
 
 .vol-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
-    /* appearance: none; */
     width: 20px;
     height: 25px;
-    background: teal;
 }
 
 .vol-slider::-moz-range-thumb {
     width: 25px;
     height: 25px;
-    background: teal;
 }
 .vol-slider::-moz-range-track {
-    background: #d3d3d3;
+    background: #504949;
 }
 
 .vol-slider::-webkit-slider-runnable-track {
-    background: #d3d3d3;
+    background: #504949;
 }
-/* #loadingSpinner{ */
-  /* top: -2px; */
-  /* top:10px;   */
-  /* width: 52px !important; */
-/* } */
 .slider-wrapper input {
   width: 150px;
   height: 20px;
@@ -346,11 +344,6 @@ export default {
   display: none;
 }
 
-
-/* #dc-player {
-  padding-top: 5px;
-} */
-
 #progress-slider {
   padding-top: 14px;
 }
@@ -359,10 +352,6 @@ export default {
   height: 35px;
   margin-top: 6px;
 }
-
-/* #progress {
-  height: 50px;
-} */
 
 #left {
   margin-top: 7px;

@@ -89,8 +89,7 @@
     >
       <!-- transition="slide-x-reverse-transition"  -->
       <v-speed-dial 
-        hover 
-        transition="NONE" 
+        transition="none" 
         open-on-hover
       >
         <v-btn 
@@ -337,15 +336,14 @@ export default {
 }
 .vol-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
-    /* appearance: none; */
     width: 20px;
     height: 25px;
-    background: teal;
+    /* background: teal; */
 }
 .vol-slider::-moz-range-thumb {
     width: 25px;
     height: 25px;
-    background: teal;
+    /* background: teal; */
 }
 
 /* #play-load{ */
