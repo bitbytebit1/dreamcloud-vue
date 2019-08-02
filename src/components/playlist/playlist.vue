@@ -9,7 +9,7 @@
       v-if="view_mode == '2' && !gridView" 
       :songs="aSongs" 
       :full="full" 
-      :rows-per-page="rowsPerPage"
+      :rows-per-page="rpp"
       :sort-by="sortBy" 
       :bMini="true" 
       @toggleView="toggleView"
@@ -21,7 +21,7 @@
       v-if="view_mode == '1' && !gridView" 
       :songs="aSongs" 
       :full="full" 
-      :rows-per-page="rowsPerPage" 
+      :rows-per-page="rpp" 
       :sort-by="sortBy" 
       @toggleView="toggleView"
       @shuffleOn="shuffle"
@@ -32,7 +32,7 @@
       v-if="view_mode == '0' && !gridView" 
       :songs="aSongs" 
       :full="full" 
-      :rows-per-page="rowsPerPage" 
+      :rows-per-page="rpp" 
       :sort-by="sortBy" 
       :show-uploaded="showUploaded" 
       @toggleView="toggleView"
@@ -40,6 +40,16 @@
       @shuffleOff="shuffleOff"
       @conmen="$emit('conmen', $event)"
     />
+    
+    <infinite-loading 
+      v-if="infinite && aSongs.length" 
+      ref="infiniteLoading22"
+      :distance="800" 
+      class="flex xs12" 
+      spinner="default"
+      @infinite="infiniteHandler"
+    ><span slot="no-more"/><span slot="no-results"/></infinite-loading>
+    
   </v-layout>
   <!-- </v-container> -->
   <!-- </v-flex> -->
@@ -47,6 +57,7 @@
 <script>
 import grid from './grid'
 import list from './list'
+import InfiniteLoading from 'vue-infinite-loading'
 import { mapState } from 'vuex'
 
 export default {
@@ -55,6 +66,10 @@ export default {
     songs: {
       type: [Array],
       required: true
+    },
+    infinite: {
+      type: [Boolean],
+      default: false
     },
     gridView: {
       type: [Boolean],
@@ -79,13 +94,16 @@ export default {
   },
   components: {
     'grid': grid,
-    'list': list
+    'list': list,
+    'infinite-loading': InfiniteLoading
   },
   data () {
     return {
       showScrollToTop: false,
       // fixd: this.songs,
-      aSongs: this.songs
+      aSongs: this.songs,
+      chunk: 60,
+      rpp: 48
     }
   },
   watch: {
@@ -99,6 +117,16 @@ export default {
     }),
   },
   methods: {
+    infiniteHandler ($state) {
+      var tmp = Math.min(this.aSongs.length, this.rpp + this.chunk)
+      this.rpp = tmp
+      if (tmp === this.aSongs.length) {
+        $state.reset()
+      } else {
+        $state.loaded()
+      }
+      this.infState = $state
+    },
     // burp () {
       
     // this.fixd = this.songs

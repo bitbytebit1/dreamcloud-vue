@@ -8,7 +8,7 @@
     <playlist 
       :show-uploaded="!0"
       :songs="aSongs" 
-      rows-per-page="84" 
+      infinite
       @conmen="$emit('conmen', $event)"
     />
   </v-flex>
@@ -55,9 +55,6 @@ export default {
         }
         this.$store.commit('loadValue', (100 / this.userlist.length) * i1)
       }
-      setTimeout(() => {
-        // this.$store.commit('loadActive', false)
-      }, 350)
     },
     bind () {
       // only bind if logged in

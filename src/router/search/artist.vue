@@ -9,7 +9,7 @@
       v-if="!loading && !bFailed"
       :show-uploaded="!0" 
       :songs="searchResults" 
-      rows-per-page='250' 
+      infinite
       @conmen="$emit('conmen', $event)"
     /> 
     <!-- <infinite-loading 

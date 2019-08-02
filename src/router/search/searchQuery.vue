@@ -16,7 +16,7 @@
     <infinite-loading 
       v-if="!loading" 
       ref="infiniteLoading" 
-      :distance="210" 
+      :distance="800" 
       spinner="waveDots" 
       @infinite="infiniteHandler"
     >

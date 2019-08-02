@@ -31,7 +31,7 @@
       <v-tab-item>
         <playlist 
           :songs="aSearch"
-          rowsPerPage='84'
+          infinite
           @conmen="$emit('conmen', $event)" 
         />
       </v-tab-item>

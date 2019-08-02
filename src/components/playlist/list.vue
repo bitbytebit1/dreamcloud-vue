@@ -374,6 +374,11 @@ export default {
     'share-button': shareButton,
     'shuffleButton': shuffleButton,
     'offlineButton': offlineButton
+  },  
+  watch: {
+    'rowsPerPage': function (val) {
+      this.pagination.rowsPerPage = val
+    }
   },
   data () {
     return {

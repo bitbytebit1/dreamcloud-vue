@@ -11,9 +11,9 @@
     <!-- <loading v-if="!auth_state || !aRecommended.length"></loading> -->
     <playlist 
       v-if="!bFailed" 
-      :rows-per-page='rowsPerPage' 
-      :show-uploaded="true" 
+      :show-uploaded="true"
       :songs="aRecommended2" 
+      infinite 
       @conmen="$emit('conmen', $event)"
     />
     <!-- title="Here is supposed to be a playlists generated from your recent history" -->
@@ -34,7 +34,7 @@
   </v-flex>
 </template>
 <script>
-// import axios from 'axios'
+import axios from 'axios'
 /* eslint-disable */
 import genres from '@/router/genres/genres'
 import jumbo from '@/components/misc/jumbo'
@@ -49,7 +49,7 @@ export default {
   props: {
     iLimit: {
       type: [Number],
-      default: 50
+      default: 150
     },
     rowsPerPage: {
       type: [Number],
@@ -95,29 +95,11 @@ export default {
       // strip out duplicates
       // reset counter
       this.iLoaded = 1
-      let un = (array) => {
-        var ret = []
-        // ret.push(array[0])
-        var dupe = false
-        for (let i = 0; i < array.length - 1; i++) {
-          dupe = false
-          for (let n = 0; n < ret.length - 1; n++) {
-            if (typeof array[i] === 'undefined' || ret[n].trackID == array[i].trackID) {
-              dupe = true
-              break
-            }
-          }
-          if (!dupe) {
-            ret.push(array[i])
-          }
-          // console.log(`ARRAY LENGTH ${ret.length} ||| CHECKED INDEX ${array[i].title} ||| dupe ${dupe}`)
-        }
-        return ret
-      }
-      aRecommended = un(aRecommended)
+
+      aRecommended = this.$DCAPI.uniqueArray(aRecommended)
 
       // loop through history array
-      for (var i = 0; i < 9; i++) {
+      for (var i = 0; i < aRecommended.length - 1; i++) {
         // get 2 recommended songs for each item in history
         aAjax.push(this.$DCAPI.searchInt('', 0, [aRecommended[i].source], aRecommended[i].trackID, (d) => {
           this.iLoaded++
@@ -128,8 +110,11 @@ export default {
               // this.aRecommended.push(d[1])
             // }
           }
-        }, true, 10))
+        }, true, 6))
       }
+      axios.all(aAjax).then(() => {
+        this.aRecommended = this.$DCAPI.uniqueArray(this.aRecommended)
+      })
       
       this.bLoading = false
       // setTimeout(() => {

@@ -8,7 +8,7 @@
     <playlist 
       :show-uploaded="true"
       :songs="aSongs" 
-      rows-per-page='40' 
+      infinite
       @conmen="$emit('conmen', $event)"
     />
   </v-flex>

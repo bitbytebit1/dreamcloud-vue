@@ -10,7 +10,7 @@
     <playlist 
       v-if="bLoading || aHistRev.length" 
       :songs="aHistRev" 
-      rows-per-page='84'
+      infinite
       @conmen="$emit('conmen', $event)"
     />
     <jumbo
@@ -54,10 +54,10 @@ export default {
       if (this.auth_state) {
         // this.$store.dispatch('loadIndeterm', true)
         this.bFailed = false
-        this.$bindAsArray('aHistory', this.$DCFB.fbhistory.limitToLast(100), null, () => { 
+        this.$bindAsArray('aHistory', this.$DCFB.fbhistory.limitToLast(300), null, () => { 
           // this.$store.dispatch('loadIndeterm', false)
           this.bLoading = false
-          this.bFailed  = !this.aHistory.length
+          this.bFailed  = !!this.aHistory
         })
       }
     }
