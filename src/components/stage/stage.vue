@@ -7,16 +7,17 @@
     xs12
     class="mt-2"
   >
+    <jumbo
+      :discover="false"
+      :error="err"
+      :title="txt"
+      :subheading="$route.params.artist ? 'Just a moment' : 'Try searching for your favourite artist'"
+    />
     <v-layout 
       row 
       wrap
       justify-center
     >
-      <jumbo
-        :discover="false"
-        error="Nothing playing"
-        subheading="Try searching for your favourite song or artist"
-      />
       <history 
         @conmen="$emit('conmen', $event)"
       />
@@ -50,6 +51,15 @@ export default {
   components: {
     'history': history,
     'jumbo': jumbo
+  },
+  computed : {
+    err () {
+      // return this.$route.params.artist ? 'Loading song by' + this.$route.params.artist : 'Nothing playing'
+      return this.$route.params.artist ? '' : 'Nothing playing'
+    },
+    txt () {
+      return this.$route.params.artist ? 'Loading song by ' + this.$route.params.artist : ''
+    }
   }
 }
 </script>
