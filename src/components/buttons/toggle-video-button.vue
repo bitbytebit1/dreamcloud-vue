@@ -22,7 +22,7 @@ export default {
       return this.$store.getters.ytUseVideo && this.$store.getters.isYT ? 'Disable' : 'Enable' 
     },
     color () {
-      return this.$store.getters.ytUseVideo && this.$store.getters.isYT ? 'red' : ''
+      return this.$store.getters.ytUseVideo && this.$store.getters.isYT ? 'primary' : ''
     }
   },
   methods: {
