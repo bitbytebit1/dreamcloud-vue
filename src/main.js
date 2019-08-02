@@ -9,7 +9,7 @@ import Vue from 'vue'
 import './registerServiceWorker'
 
 Vue.config.productionTip = false
-
+// we have to import vlayout for tree shaking
 import Vuetify, { VLayout } from 'vuetify/lib'
 import 'vuetify/src/stylus/app.styl'
 // Vue.use(Vuetify)
