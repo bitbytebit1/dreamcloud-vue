@@ -15,9 +15,14 @@
     />
     <jumbo
       v-else-if="bFailed && $route.name === 'history'"
-      :subheading="$store.getters.isAnon ? `We won't log your history unless you login` : 'Why not listen to some music?'"
       title="Here is supposed to be your history"
-    />
+    >
+      {{ $store.getters.isAnon ? `We won't log your history unless you` : 'Why not listen to some music?' }}
+      <router-link 
+        v-if="$store.getters.isAnon" 
+        :to="{name: 'login'}"
+      >login</router-link>
+    </jumbo>
   </v-flex>
 </template>
 <script>
