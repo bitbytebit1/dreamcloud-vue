@@ -21,15 +21,6 @@
         <span>Latest</span>
         <v-icon>whatshot</v-icon>
       </v-btn>
-      <!-- <v-btn 
-        :to="$store.getters.current_trackID ? {name: 'auto', params: { artist: $store.getters.current_song.artist, trackID: $store.getters.current_song.trackID, source: $store.getters.current_song.source }} : { name: 'auto', params: {source: 'z', artist: 'z', trackID: 'z'} }"
-
-        flat
-        color="primary" 
-      >
-        <span>Current</span>
-        <v-icon>music_video</v-icon>
-      </v-btn> -->
       <v-btn 
         :to="{name: 'playlistOverview', params: {user: uid}}" 
         color="primary" 
