@@ -93,10 +93,10 @@
         slot-scope="props" 
         :class="isPlaying(uid, props.item['.key'], props.item['name'])"
         :active-class="isPlaying(uid, props.item['.key'], props.item['name']) || 'secondary white--text'"
-        :to="{path: '/u/' + uid + '/' + props.item['.key'] + '/' + encodeURIComponent(props.item['name'])}"
         :key="props.item['.key']" 
-        @click="closeLeftOnMobile"
+        @click="(closeLeftOnMobile(), $router.push({name: 'userPlaylist', params: {user: uid, name: props.item['name'], playlist: props.item['.key']}}))"
       >
+        <!-- :to="{name: 'userPlaylist', params: {user: uid, name: props.item['name'], playlist: props.item['.key']}}" -->
         <!-- ICON -->
         <v-list-tile-action>
           <v-icon :color="isPlaying(uid, props.item['.key'], props.item['name']) ? 'white': ''">music_note</v-icon>

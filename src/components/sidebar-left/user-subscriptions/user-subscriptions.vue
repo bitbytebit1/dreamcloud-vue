@@ -73,10 +73,10 @@
         slot-scope="props"
         :class="isPlaying(props.item['source'], props.item['name'], props.item['id'])"
         :active-class="isPlaying(props.item['source'], props.item['name'], props.item['id']) || 'secondary white--text'"
-        :to="{path: '/a/' + props.item['source'] + '/' + encodeURIComponent(props.item['name']) + '/' + props.item['id']}"
         :key="props.item['.key']"
-        @click="closeLeftOnMobile"
+        @click="(closeLeftOnMobile(), $router.push({name: 'artist', params: {source: props.item['source'], artist: props.item['name'], artistID: props.item['id']}}))"
       >
+        <!-- :to="{name: 'artist', params: {source: props.item['source'], artist: props.item['name'], artistID: props.item['id']}}" -->
         <v-list-tile-action color="green">
           <v-avatar 
             slot='activator' 
