@@ -75,7 +75,7 @@
                 <!-- CREATED -->
                 <span>{{ ' ' + $DCAPI.calcDate('', props.item.commentCreated) }}</span></div>
                 <div 
-                  class="body-1 preline py-1" 
+                  class="body-1 preline py-1 pr-1" 
                   v-html="timeToSeconds(props.item.comment)"
                 />
               </div>
