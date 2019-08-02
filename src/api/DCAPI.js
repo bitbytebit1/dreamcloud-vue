@@ -336,7 +336,6 @@ class DCAPIClass {
                 for (var i in resp) {
                   // console.log(resp[i])
                   if (this.aQuery[uid].sArtist === '' && resp[i].id.kind === 'youtube#playlist') {
-                    // console.log(resp[i])
                     this.aQuery[uid].aResult.push({
                       // uid: uid,                                                                                         // uid:
                       artist: resp[i].snippet.channelTitle, // artist:
@@ -344,8 +343,8 @@ class DCAPIClass {
                       description: resp[i].snippet.description, // description:
                       duration: 'Playlist', // duration:
                       mp32: `https://www.youtube.com/watch?v=${resp[i].id.videoId}`, // mp32:
-                      poster: resp[i].snippet.thumbnails.medium.url, // poster:
-                      posterLarge: resp[i].snippet.thumbnails.high.url, // posterLarge:
+                      poster: resp[i].snippet.thumbnails ? resp[i].snippet.thumbnails.medium.url : './img/icons/no-image.png', // poster:
+                      posterLarge: resp[i].snippet.thumbnails ? resp[i].snippet.thumbnails.high.url : './img/icons/no-image.png', // poster:
                       source: 'YouTube', // source:
                       title: this.decodeHTMLEntities(resp[i].snippet.title), // title:
                       trackID: resp[i].id.playlistId, // trackID:
