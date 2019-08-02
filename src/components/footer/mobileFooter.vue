@@ -75,4 +75,9 @@ export default {
 </script>
 
 <style>
+  @media only screen and (max-width: 599px){
+    .v-item-group.v-bottom-nav .v-btn {
+      min-width: 50px;
+    }
+  }
 </style>
