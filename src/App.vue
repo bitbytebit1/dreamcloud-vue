@@ -14,7 +14,7 @@
       top
       auto-height
     >
-      A newer version of dreamcloud has been downloaded
+      A newer version is available
       <v-btn
         dark
         flat

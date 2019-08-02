@@ -23,6 +23,8 @@ export default {
     theme: state => state.settings['Night Mode'] ? {'dark': true} : {'light': true},
   },
   mutations: {
+    black(state, payload) { state.settings['Black'] = Boolean(payload) },
+    nightMode(state, payload) { state.settings['Night Mode'] = Boolean(payload) },
     showPopupSetting (state, payload) { state.settings['Show Popup'] = Boolean(payload) },
     closeMenuOnScroll (state, payload) { state.settings['Close Menu'] = Boolean(payload) },
     showWatchB (state, payload) { state.settings['Show Watch Button'] = Boolean(payload) },

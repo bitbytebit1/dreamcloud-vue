@@ -222,12 +222,11 @@
               >
                 <!-- <v-expand-transition> -->
                 <div
-                  v-if="!show_pop"
+                  v-if="props.item.trackID && isPlaying(props.item.trackID)" 
                   class="d-flex text-xs-center v-card--reveal"
                   style="height: 100%;"
                 >
                   <div 
-                    v-if="props.item.trackID && isPlaying(props.item.trackID)" 
                     class="playBtn"
                   >
                     <v-btn 

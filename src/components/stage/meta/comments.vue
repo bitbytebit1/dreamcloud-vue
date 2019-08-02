@@ -24,7 +24,7 @@
         >
           <v-layout row>
             <v-flex 
-              class="comAv pr-3" 
+              pt-2
               shrink
             >
               <!-- IMAGE -->
@@ -214,13 +214,14 @@ export default {
 }
 @media only screen and (max-width: 599px){
   .comAv{
-    margin-left: 4px;
-    margin-right: 4px;
+    margin-left: 8px;
+    margin-right: 8px;
   }
 }
 @media only screen and (min-width: 600px){
   .comAv{
-    margin-left: 10px
+    margin-left: 10px;
+    margin-right: 10px;
   }
 }
 

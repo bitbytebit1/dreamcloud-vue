@@ -9,7 +9,7 @@
       class="ma-0 pa-0"
     >
       <v-flex 
-        xs12 
+        shrink 
         class="pointer body-1 comMor noSel primary--text" 
       >
         {{ (showThread ? 'Hide' : 'Show') + ` ${totalReplyCount} replies` }} 
@@ -33,9 +33,8 @@
         v-if="showThread"
         slot="item"
         slot-scope="props"
-        offset-xs1
-        xs11
-        class="pr-1 py-1"
+        xs12
+        class="comThr"
       >
         <v-card 
           class="py-2" 
@@ -43,13 +42,13 @@
         >
           <v-layout row>
             <v-flex 
-              xs1 
-              sm1 
-              style="min-width:54px"
+              pt-2
+              mr-3
+              shrink
             >
               <router-link 
                 :to="{name: 'artist', params: {source: source, artist: props.item.artist, artistID: props.item.artistID}}" 
-                class="body-1 grey--text noDeco pl-2"
+                class="body-1 grey--text noDeco"
                 @click.stop
               >
                 <v-avatar 
@@ -176,8 +175,22 @@ export default {
 </script>
 
 <style>
-.comMor{
-  position: relative;
-  left: 75px !important;
-}
+  @media only screen and (min-width: 600px){
+    .comMor{
+      position: relative;
+      left: 67px !important;
+    }
+  }
+  @media only screen and (max-width: 599px){
+    .comMor{
+      position: relative;
+      left: 56px !important;
+    }
+    .comThr{
+      position: relative;
+      left: 21px !important;
+      margin-right: 21px;
+      padding-right: 21px;
+    }
+  }
 </style>
