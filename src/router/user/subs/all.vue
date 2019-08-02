@@ -93,7 +93,7 @@
     <playlist 
       :songs="aFiltered"
       :show-uploaded="!0"
-      class="pt-5" 
+      class="pt-2" 
       rows-per-page="126" 
       sort-by="uploaded" 
       @conmen="$emit('conmen', $event)"
