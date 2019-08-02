@@ -558,7 +558,7 @@ export default {
   float: right;
 }
 #dc-padding{
-  padding: 0 16px;
+  padding: 0 8px;
 }
 /* .slider-wrapper{ */
   /* display: inherit; */
