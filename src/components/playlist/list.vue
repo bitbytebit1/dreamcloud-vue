@@ -55,14 +55,16 @@
           <!-- MOVE TO BEFORE BUTTONS ON MOBILE ONLY USING FLEX PROP -->
           <v-flex 
             xs4 
-            lg5
+            lg8
           >
             <v-text-field
               id="flr-txt"
               ref="search"
+              :append-icon-cb="()=>{this.search='';$refs.search.focus()}" 
+              :append-icon="this.search.length ? 'close': ''"
               v-model="search"
               color="primary"
-              label="Filter"
+              placeholder="Filter"
               single-line
               hide-details
               @focus="filterHasFocus = true"

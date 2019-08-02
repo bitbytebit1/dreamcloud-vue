@@ -33,7 +33,9 @@
           ref="search"
           v-model="search"
           color="primary"
-          label="Filter"
+          placeholder="Filter"
+          onfocus="this.placeholder = ''"
+          onblur="this.placeholder = 'Filter'"
           class="filter ma-0 pa-0"
           single-line
           hide-details

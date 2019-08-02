@@ -22,7 +22,8 @@
           v-model="search"
           clearable
           color="primary"
-          label="Filter"
+          onfocus="this.placeholder = ''"
+          onblur="this.placeholder = 'Filter'"
           single-line
           hide-details
           class="px-1"

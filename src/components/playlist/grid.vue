@@ -59,13 +59,15 @@
             <v-text-field
               id="flr-txt"
               ref="search"
+              :append-icon-cb="()=>{this.search='';$refs.search.focus()}" 
+              :append-icon="this.search.length ? 'close': ''"
               v-model="search"
               color="primary"
-              label="Filter" 
+              placeholder="Filter"
+              onfocus="this.placeholder = ''"
+              onblur="this.placeholder = 'Filter'"
               single-line
               hide-details
-              @focus="filterHasFocus = true"
-              @blur="filterHasFocus = false"
               @keyup.enter="$UTILS.closeSoftMobi()"
             />
           </v-flex>
@@ -363,7 +365,6 @@ export default {
       chosenSong: [],
       dialog: false,
       bShow: false,
-      filterHasFocus: false,
       bSelectAll: false,
       bSelect: false,
       selected: [],
