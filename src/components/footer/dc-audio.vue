@@ -47,7 +47,7 @@
               class="primary" 
               icon 
               outline 
-              @click="next"
+              @click.stop="next"
             >
               <v-icon>skip_next</v-icon>
             </v-btn>

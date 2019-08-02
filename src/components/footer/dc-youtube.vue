@@ -37,7 +37,7 @@
                 :outline="$vuetify.breakpoint.smAndUp" 
                 :class="$vuetify.breakpoint.smAndUp ? 'primary' : ''" 
                 icon
-                @click="$DCPlayer.togglePlay"
+                @click.stop="$DCPlayer.togglePlay"
               >
                 <v-icon>{{ sPlayIcon }}</v-icon>
               </v-btn>

@@ -8,7 +8,6 @@
     <playlist 
       :show-uploaded="!0"
       :songs="aSongs" 
-      sort-by="uploaded" 
       rows-per-page="84" 
       @conmen="$emit('conmen', $event)"
     />
