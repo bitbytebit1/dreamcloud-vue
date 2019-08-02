@@ -20,10 +20,11 @@
       top
     >
       <v-btn 
+        id="a2p" 
         slot="activator" 
         :disabled="disabled" 
         :color='btnCol' 
-        class="ml-2" 
+        class="ml-2"
         icon 
         @click.stop="openMenu"
       >
@@ -57,14 +58,15 @@
             itemValue="key"
             itemText="name"
             appendIcon=""
-            no-data-text="Create new playlist"
-            label="Playlist name"
-            color="primary"
             clearable
+            no-data-text="Create new playlist"
+            color="primary"
             hideNoData
+            placeholder="Playlist name"
+            onfocus="this.placeholder = ''"
+            onblur="this.placeholder = 'Playlist name'"
             open-on-clear
             returnObject
-            singleLine
             @keyup.enter='enter'
           >
             <template 
@@ -142,6 +144,9 @@ export default {
     },
     enter () {
       this.emit(this.select || this.search)
+      setTimeout(() => {
+        this.$refs.auto.$children[0].isActive = false
+      })
     },
     emit (v) {
       // if (!v) {
