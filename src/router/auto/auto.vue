@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     in (){
-      if (this.trackID != this.$store.getters.current_trackID && this.trackID !== 'z') {
+      if (this.trackID != this.$store.getters.current_trackID) {
         this.$DCAPI.getSongInfo(this.trackID, this.source, (song) => {
           this.$DCAPI.searchInt('', 0, [this.source], this.trackID, (related) => {
             if (related.length) {
