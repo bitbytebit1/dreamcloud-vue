@@ -1,18 +1,11 @@
 <template>
-  <div class="?">
-    <h1>{{ x1 }}</h1>
-  </div>
+  <div/>
 </template>
 <script>
 /* eslint-disable */
 
 export default {
   name: 'Share',
-  data () {
-    return {
-      x1: 'Loading file'
-    }
-  },
   methods: {
     getYouTubeId (link) {
       function youtube_parser(url){
