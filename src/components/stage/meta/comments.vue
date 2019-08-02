@@ -18,8 +18,9 @@
         @click="props.item.show = !props.item.show"
       >
         <v-card 
-          class="py-2" 
+          :class="props.item.totalReplyCount ? 'pointer' : ''" 
           hover
+          class="py-2"
         >
           <v-layout row>
             <v-flex 
@@ -208,7 +209,9 @@ export default {
 </script>
 
 <style>
-
+.py-2.v-card--hover {
+  cursor: initial;
+}
 @media only screen and (max-width: 599px){
   .comAv{
     margin-left: 4px;
