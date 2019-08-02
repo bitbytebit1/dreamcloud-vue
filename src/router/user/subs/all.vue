@@ -9,6 +9,8 @@
       xs12
       py-3
     >
+    
+      <!-- CONTROLS -->
       <span 
         v-if="subscriptions.length > 0"
       >
@@ -31,10 +33,26 @@
           @click="chips = []"
         >Clear</v-chip>
       </span>
+      <!-- TEXT FIELD -->
+      <v-text-field
+        v-if="bTog"
+        ref="search"
+        v-model="search"
+        :append-icon-cb="()=>{this.search='';$refs.search.focus()}"
+        :append-icon="this.slen ? 'close': ''"
+        color="primary"
+        placeholder="Filter"
+        onfocus="this.placeholder = ''"
+        onblur="this.placeholder = 'Filter'"
+        class="filter ma-0 pa-0 px-5"
+        single-line
+        hide-details
+        @keyup.enter="$UTILS.closeSoftMobi()"
+      />
       <br>
       <!-- CHIPS -->
-      <v-chip         
-        v-for="(item, index) in subscriptions"
+      <v-chip
+        v-for="(item, index) in cFiltered"
         v-show="bTog" 
         :key="index"
         :class="someChips(item)"
@@ -43,9 +61,11 @@
       >
         <v-avatar outclass="accent white--text">
           <img :src="item.img">
-      </v-avatar>{{ item.name }}</v-chip>
+        </v-avatar>{{ item.name }}
+      </v-chip>
+      <!-- END CHIPS -->
       <div 
-        v-if="bTog && subscriptions.length > 50 "
+        v-if="bTog && cFiltered.length > 50 "
       >
         <!-- Show/Hide -->
         <v-chip 
@@ -71,8 +91,9 @@
 
     </v-flex>
     <playlist 
-      :songs="aFiltered" 
-      :show-uploaded="!0" 
+      :songs="aFiltered"
+      :show-uploaded="!0"
+      class="pt-5" 
       rows-per-page="126" 
       sort-by="uploaded" 
       @conmen="$emit('conmen', $event)"
@@ -110,6 +131,7 @@ export default {
   },
   data () {
     return {
+      search: '',
       bShuf: false,
       aShuf: [],
       bLoading: true,
@@ -134,6 +156,15 @@ export default {
           this.chips.some(c => c.id == f.artistID)
         )
         : [] // this.aPlaylists
+    },
+    slen () {
+      return this.search.length 
+    },
+    cFiltered () {
+      let s = this.search.toLowerCase()
+      return this.slen ? 
+        this.subscriptions.filter(obj => Object.values(obj).some(val => val?val.toString().toLowerCase().indexOf(s) > -1:false))
+        : this.subscriptions
     }
   },
   methods: {
