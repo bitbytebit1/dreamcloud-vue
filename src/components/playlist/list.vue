@@ -45,18 +45,11 @@
               @shuffleOn="$emit('shuffleOn', $event)"
               @shuffleOff="$emit('shuffleOff')"
             />
-            
-            <!-- FOCUS SEARCH BAR BUTTON -->
-            <v-tooltip top>
-              <v-btn 
-                slot="activator" 
-                icon 
-                @click="search.length > 0 ? search = '' : $refs.search.focus()"
-              >
-                <v-icon>{{ search.length > 0 ? 'clear': 'filter_list' }}</v-icon>
-              </v-btn>
-              <span>Filter</span>
-            </v-tooltip>
+            <!-- SORT BUTTON -->
+            <sortButton 
+              :songs="songs" 
+              @sorted="items = $event"
+            />
           </v-flex>
           <!-- FILTER --> 
           <!-- MOVE TO BEFORE BUTTONS ON MOBILE ONLY USING FLEX PROP -->
@@ -336,6 +329,7 @@
 import addToPlaylist from '@/components/buttons/add-to-playlist.vue'
 import deleteButton from '@/components/buttons/delete-button'
 import shuffleButton from '@/components/buttons/shuffle-button'
+import sortButton from '@/components/buttons/sort-button'
 import downloadButton from '@/components/buttons/download-button'
 import shareButton from '@/components/buttons/share-button'
 import offlineButton from '@/components/buttons/offline-button.vue'
@@ -373,6 +367,7 @@ export default {
     'download-button': downloadButton,
     'share-button': shareButton,
     'shuffleButton': shuffleButton,
+    'sortButton': sortButton,
     'offlineButton': offlineButton
   },  
   watch: {

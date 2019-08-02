@@ -45,18 +45,11 @@
               @shuffleOn="$emit('shuffleOn', $event)"
               @shuffleOff="$emit('shuffleOff')"
             />
-
-            <!-- FILTER BUTTON -->
-            <v-tooltip top>
-              <v-btn 
-                slot="activator" 
-                icon 
-                @click="search.length > 0 ? search='' : $refs.search.focus()"
-              >
-                <v-icon>{{ search.length > 0 ? 'clear': 'filter_list' }}</v-icon>
-              </v-btn>
-              <span>Filter</span>
-            </v-tooltip>
+            <!-- SORT BUTTON -->
+            <sortButton 
+              :songs="songs" 
+              @sorted="items = $event"
+            />
           </v-flex>
           <!-- FILTER -->
           <v-flex 
@@ -319,6 +312,7 @@
   </v-flex>
 </template>
 <script>
+import sortButton from '@/components/buttons/sort-button'
 import shuffleButton from '@/components/buttons/shuffle-button'
 import addToPlaylist from '@/components/buttons/add-to-playlist'
 import deleteButton from '@/components/buttons/delete-button'
@@ -356,7 +350,8 @@ export default {
     'add-to-playlist': addToPlaylist,
     'delete-button': deleteButton,
     'download-button': downloadButton,
-    'shuffleButton': shuffleButton
+    'shuffleButton': shuffleButton,
+    'sortButton': sortButton
   },
   watch: {
     'rowsPerPage': function (val) {
