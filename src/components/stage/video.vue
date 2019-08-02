@@ -58,7 +58,7 @@
         >
           <!-- FLOAT LEFT -->
           <div class="fl-l blue-grey--text text--lighten-1 mt-3">
-            {{ iViews }} • {{ $DCAPI.calcDate('', song.uploaded) }}
+            {{ iViews ? iViews + ' • ' : '' }}{{ $DCAPI.calcDate('', song.uploaded) }}
           </div>
           <!-- FLOAT RIGHT -->
           <div class="fl-r">
