@@ -11,23 +11,26 @@
     <v-snackbar
       v-model="snackbar"
       :timeout="0"
-      top
+      bottom
       auto-height
     >
-      A newer version is available
+      A new version is ready
       <v-btn
+        class="ma-0"
+        block
         dark
         flat
         @click="() => swReg.waiting.postMessage('skipWaiting')"
       >
-        use now
+        use
       </v-btn>
       <v-btn
+        class="ma-0"
         dark
         flat
         @click="snackbar = false"
       >
-        dismiss
+        close
       </v-btn>
     </v-snackbar>
     
