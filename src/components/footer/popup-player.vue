@@ -21,7 +21,7 @@
           :aspect-ratio="aspect" 
           height="196px" 
         >
-          <!-- NEXT BUTTONS -->
+          <!-- SONG CONTROL -->
           <div
             class="d-flex text-xs-center pointer"
             style="height: 100%;"
@@ -104,7 +104,7 @@
           row 
           wrap 
           class="pointer" 
-          @click="$router.push({name: 'auto', params: { artist: this.current_song.artist, trackID: this.current_song.trackID, source: this.current_song.source }})"
+          @click="$router.push({name: 'auto', params: { artist: current_song.artist, trackID: current_song.trackID, source: current_song.source }})"
         >
           <v-flex 
             xs10
@@ -200,14 +200,6 @@ export default {
       this.$DCPlayer.setNPlay({songs: this.current_playlist, current: i, path:this.hash})
       this.$DCFB.historyPush(this.current_playlist[i])
     },
-    toggle () {
-      if (this.bShowStage) {
-        this.$router.go(-1)
-      } else {
-        this.$router.push({name: 'auto', params: { artist: this.current_song.artist,  trackID: this.current_song.trackID,  source: this.current_song.source }})
-      }
-      this.$store.commit('show_pop', this.bShowStage)
-    },
     scroll () {
       this.$nextTick(() => {
         // this.$nextTick(() => {
@@ -275,7 +267,7 @@ export default {
   height: 450px;
 }
 .pop-sm{
-  height: 329px;
+  height: 330px;
 }
 .pop{
   /* width: 240px; */
@@ -288,6 +280,8 @@ export default {
   z-index: 3;
 }
 .pop-list{
+  margin-top: 3px;
+  margin-bottom: 3px;
   height: 123px;
 }
 </style>

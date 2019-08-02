@@ -464,22 +464,23 @@ export default {
       this.selected = []
     },
     play (index, pauseIfSame = true, showStage = false) {
-      if (this.$store.state.player.current_index === -1){
+      const newi = this.pagination.page === 1 ? index : (this.pagination.rowsPerPage * (this.pagination.page - 1)) + index
+
+      if (this.$store.state.player.current_index === -1 && this.$UTILS.isMobile){
         // bug fix, passing the play event from here, 
         // which is called on click is important the first time on movbile
-        if (this.$UTILS.isMobile) {
-          this.$DCPlayer.eAudio.play()
+        this.$DCPlayer.eAudio.play()
         // hacky bug fix, need to 'see' the player first time before it will load
-        } else if (!this.showVideo){
+      } else if (!this.showVideo && this.sorted[newi].source == 'YouTube' && typeof this.$store.getters.ytState.data === 'number') {
+        this.$nextTick(() => {
           this.$store.commit('show_pop', true)
           let f = () => setTimeout(() => { 
             this.$store.getters.ytIsPlaying ? this.$store.commit('show_pop', false) : f()
           }, 150)
           f()
-        }
+        })
       }
       // If not first page fix index
-      const newi = this.pagination.page === 1 ? index : (this.pagination.rowsPerPage * (this.pagination.page - 1)) + index
       // if (this.$store.state.player.current_index === index && this.hash === this.$route.path) {
       if (showStage) {
         // return this.$router.push({name: 'stage'})

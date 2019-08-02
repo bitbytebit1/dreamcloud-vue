@@ -1,10 +1,7 @@
 <template>
   <v-menu 
     v-model="showMenu"
-    :close-on-content-click="false"
     open-on-hover
-    bottom
-    left
   >
     <template v-slot:activator="{ on }">
       <v-btn

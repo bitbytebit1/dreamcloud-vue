@@ -27,12 +27,10 @@ export default {
   },
   methods : {
     showPop () {
-      if (!this.show_pop && (this.$route.name == 'auto' || this.$route.name == 'current')) {
-        this.$router.go(-1)
-      // } else {
-        // this.$router.push({name: 'auto', params: { artist: this.current_song.artist,  trackID: this.current_song.trackID,  source: this.current_song.source }})
-      }
       this.$store.commit('show_pop', !this.show_pop)
+      if (this.show_pop && (this.$route.name == 'auto' || this.$route.name == 'current')) {
+        this.$router.go(-1)
+      }
     }
   }
 }
