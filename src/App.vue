@@ -76,7 +76,7 @@
       >
         <router-link 
           :class="textClass" 
-          :to="{name:'about', params: {user: uid}}"
+          :to="{name:'home', params: {user: uid}}"
         >
           dreamcloud
         </router-link>
@@ -306,8 +306,8 @@ export default {
       })
     }
     // Set theme
-    this.$vuetify.theme.primary = '#590000'
-    // this.$store.commit('ytUseVideo', !this.bMobi)
+    this.$vuetify.theme.primary = '#710000'
+    this.$store.commit('ytUseVideo', !this.bMobi)
     // On Firebase auth state change
     this.$DCFB.fb.auth().onAuthStateChanged((user) => {
       // console.log(this.$DCFB.fb.auth().currentUser)
@@ -330,10 +330,10 @@ export default {
         this.$DCFB.init(user.uid)
 
         // redirect to somewhere meaningful
-        if (user.isAnonymous && !this.$route.name) {
-          this.$router.push({name: 'about'})
+        if (!this.$route.name && !user.isAnonymous) {
+          this.$router.push({name:'home', params: {user: user.uid}})
         } else if (!this.$route.name) {
-          this.$router.push({name: 'about', user: user.uid})
+          this.$router.push({name: 'about'})
         }
         // set isMobile in store for router guard (close menus on back)
         this.$store.commit('isMobile', this.$vuetify.breakpoint.smAndDown)
@@ -391,7 +391,7 @@ export default {
     text-decoration: none;
   }
   .pointer{
-    cursor: pointer;
+    cursor: pointer !important;
   }
   .preline{
     white-space: pre-line;
@@ -435,11 +435,11 @@ export default {
 }
 
 .fade-enter-active {
-  transition: opacity .2s ease;
+  transition: opacity .1s ease;
 }
 
 .fade-leave-active {
-  transition: opacity .2s ease;
+  transition: opacity .1s ease;
   opacity: 0;
 }
 .dchide{
