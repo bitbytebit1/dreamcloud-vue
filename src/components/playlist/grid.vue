@@ -128,6 +128,7 @@
           :items="songs"
           :pagination.sync="pagination"
           :rows-per-page-items='[24, 50, 100, { text: "All", value: -1 }]'
+          :custom-filter="cfilter"
           :search="search"
           :hide-actions="!full"
           content-class="pa-0 ma-0"
@@ -190,6 +191,7 @@
 
           <!-- imsert transition here -->
           <!-- ITEM SLOT -->
+          <!-- v-ripple="{ center: true }" -->
           <v-flex 
             slot='item'
             slot-scope='props'
@@ -220,11 +222,14 @@
               >
                 <!-- <v-expand-transition> -->
                 <div
-                  v-if="props.item.trackID && isPlaying(props.item.trackID)"
+                  v-if="!show_pop"
                   class="d-flex text-xs-center v-card--reveal"
                   style="height: 100%;"
                 >
-                  <div class="playBtn">
+                  <div 
+                    v-if="props.item.trackID && isPlaying(props.item.trackID)" 
+                    class="playBtn"
+                  >
                     <v-btn 
                       :loading="$store.getters.isLoading && isPlaying (props.item.trackID)"
                       dark  
@@ -387,6 +392,7 @@ export default {
   },
   computed: {
     ...mapState({
+      show_pop: state => state.player.show_pop,
       view_mode: state => state.user.view_mode,
       index: state => state.player.current_index,
     }),
@@ -420,6 +426,11 @@ export default {
     }
   },
   methods: {
+    cfilter (items, search, filter)  { 
+      return search.length
+        ? this.songs.filter(row => filter([row['title'], row['description'], row['artist'], row['source']], search.toString().toLowerCase()))
+        : this.songs
+    },
     cardColor (props) {
       if (this.bSelect) {
         return this.selected.some(el => el === props.item) ? 'primary' : ''
@@ -453,9 +464,22 @@ export default {
       this.selected = []
     },
     play (index, pauseIfSame = true, showStage = false) {
-      if (this.$store.state.player.current_index === -1 && this.$UTILS.isMobile) this.$DCPlayer.eAudio.play()
+      if (this.$store.state.player.current_index === -1){
+        // bug fix, passing the play event from here, 
+        // which is called on click is important the first time on movbile
+        if (this.$UTILS.isMobile) {
+          this.$DCPlayer.eAudio.play()
+        // hacky bug fix, need to 'see' the player first time before it will load
+        } else if (!this.showVideo){
+          this.$store.commit('show_pop', true)
+          let f = () => setTimeout(() => { 
+            this.$store.getters.ytIsPlaying ? this.$store.commit('show_pop', false) : f()
+          }, 150)
+          f()
+        }
+      }
       // If not first page fix index
-      let newi = this.pagination.page === 1 ? index : (this.pagination.rowsPerPage * (this.pagination.page - 1)) + index
+      const newi = this.pagination.page === 1 ? index : (this.pagination.rowsPerPage * (this.pagination.page - 1)) + index
       // if (this.$store.state.player.current_index === index && this.hash === this.$route.path) {
       if (showStage) {
         // return this.$router.push({name: 'stage'})
@@ -467,6 +491,7 @@ export default {
       
       this.$DCPlayer.setNPlay({songs: this.sorted, current: newi, path: this.$route.path})
       this.$DCFB.historyPush(this.sorted[newi])
+      // silly if for double click
       if (showStage || this.showVideo) {
         // console.log('showing stage')
         // this.$router.push({name: 'stage'})

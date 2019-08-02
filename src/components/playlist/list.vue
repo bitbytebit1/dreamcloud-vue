@@ -65,10 +65,10 @@
               v-model="search"
               color="primary"
               placeholder="Filter"
+              onfocus="this.placeholder = ''"
+              onblur="this.placeholder = 'Filter'"
               single-line
               hide-details
-              @focus="filterHasFocus = true"
-              @blur="filterHasFocus = false"
               @keyup.enter="$UTILS.closeSoftMobi()"
             />
           </v-flex>
@@ -115,10 +115,12 @@
       <!-- DATA-TABLE -->
       <v-data-table
         ref="dtable"
-        :headers="headers"
+        :headers="headers" 
+        :hide-actions="!full"
         :items="songs"
         :item-key="itemKey"
         :pagination.sync="pagination"
+        :custom-filter="cfilter"
         :rows-per-page-items='[25, 50, 100, { text: "All", value: -1 }]'
         :search="search"
         v-model="selected"
@@ -379,10 +381,10 @@ export default {
   },
   data () {
     return {
+      items: this.songs,
       chosenSong: [],
       dialog: false,
       bSelectAll: false,
-      filterHasFocus: false,
       itemKey: 'mp32',
       bSelect: false,
       selected: [],
@@ -460,6 +462,11 @@ export default {
     }
   },
   methods: {
+    cfilter (items, search, filter)  { 
+      return search.length
+        ? this.items.filter(row => filter([row['title'], row['description'], row['artist'], row['source']], search.toString().toLowerCase()))
+        : this.songs
+    },
     checkItem (el) {
       // console.log('checking')
       var bFound = false
@@ -500,9 +507,22 @@ export default {
       return this.$DCAPI.calcDate(this.today, date)
     },
     play (index, pauseIfSame = true, showStage = false) {
-      if (this.$store.state.player.current_index === -1 && this.$UTILS.isMobile) this.$DCPlayer.eAudio.play()
+      if (this.$store.state.player.current_index === -1){
+        // bug fix, passing the play event from here, 
+        // which is called on click is important the first time on movbile
+        if (this.$UTILS.isMobile) {
+          this.$DCPlayer.eAudio.play()
+        // hacky bug fix, need to 'see' the player first time before it will load
+        } else if (!this.showVideo){
+          this.$store.commit('show_pop', true)
+          let f = () => setTimeout(() => { 
+            this.$store.getters.ytIsPlaying ? this.$store.commit('show_pop', false) : f()
+          }, 150)
+          f()
+        }
+      }
       // If not first page fix index
-      let newi = this.pagination.page === 1 ? index : (this.pagination.rowsPerPage * (this.pagination.page - 1)) + index
+      const newi = this.pagination.page === 1 ? index : (this.pagination.rowsPerPage * (this.pagination.page - 1)) + index
       // if (this.$store.state.player.current_index === index && this.hash === this.$route.path) {
       if (showStage) {
         // return this.$router.push({name: 'stage'})
@@ -514,6 +534,7 @@ export default {
       
       this.$DCPlayer.setNPlay({songs: this.sorted, current: newi, path: this.$route.path})
       this.$DCFB.historyPush(this.sorted[newi])
+      // silly if for double click
       if (showStage || this.showVideo) {
         // console.log('showing stage')
         // this.$router.push({name: 'stage'})
