@@ -50,6 +50,7 @@
               <router-link
                 :to="{name: 'artist', params: {source: upNext.source, artist: upNext.artist, artistID: upNext.artistID}}"
                 class="subheading grey--text artist noDeco"
+                @click.native.stop
               >
                 {{ upNext.artist }}
               </router-link>
