@@ -6,7 +6,7 @@
     <v-list subheader>
       <v-list-tile
         ripple
-        @click="blackState ? '' : nightMode()"
+        @click.stop="!blackState && nightMode()"
       >
         <v-list-tile-content>
           Night
@@ -20,8 +20,9 @@
             height="20" 
             color="primary" 
             class="fl-r pa-0 ma-0" 
-            @change="blackState ? '' : nightMode()"
+            @click.stop="!blackState && nightMode()"
           />
+          <!-- @change="blackState ? '' : nightMode()" -->
         </v-list-tile-action>
       </v-list-tile>
       <v-divider/>
@@ -212,8 +213,6 @@ export default {
   },
   data () {
     return {
-      nightState: this.$store.getters.nightMode,
-      blackState: this.$store.getters.black
     }
   },
   methods: {
@@ -350,8 +349,22 @@ export default {
     }
   },
   computed: {
-    x3 () {
-    }
+    nightState: {
+      get () {
+        return this.$store.getters.nightMode
+      },
+      set (value) {
+        this.$store.commit('nightMode', value)
+      }
+    },
+    blackState: {
+      get () {
+        return this.$store.getters.black
+      },
+      set (value) {
+        this.$store.commit('black', value)
+      }
+    },
   }
 }
 </script>
