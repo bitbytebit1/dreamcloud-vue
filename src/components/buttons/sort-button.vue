@@ -5,7 +5,6 @@
   >
     <template v-slot:activator="{ on }">
       <v-btn
-        dark
         icon
         v-on="on"
       >
@@ -69,27 +68,27 @@ export default {
     return {
       showMenu: false,
       items: [
-        { active: false, on: true, n: 'Artist', cb: ()=>{
+        { n: 'Artist', active: false, on: true, cb: ()=>{
           this.toggleItems(0)
           this.sortByKey('artist', this.items[0].on);
         }},
-        { active: false, on: true, n: 'Date', cb: ()=>{
+        { n: 'Date', active: false, on: true, cb: ()=>{
           this.toggleItems(1)
           this.sortByDate(this.items[1].on);
         }},
-        { active: false, on: true, n: 'Description', cb: ()=>{
+        { n: 'Description', active: false, on: true, cb: ()=>{
           this.toggleItems(2)
           this.sortByKey('description', this.items[2].on);
         }},
-        { active: false, on: true, n: 'Duration', cb: ()=>{
+        { n: 'Duration', active: false, on: true, cb: ()=>{
           this.toggleItems(3)
           this.sortByDuration(this.items[3].on);
         }},
-        { active: false, on: true, n: 'Source', cb: ()=>{
+        { n: 'Source', active: false, on: true, cb: ()=>{
           this.toggleItems(4)
           this.sortByKey('source', this.items[4].on);
         }},
-        { active: false, on: true, n: 'Title', cb: ()=>{
+        { n: 'Title', active: false, on: true, cb: ()=>{
           this.toggleItems(5)
           this.sortByKey('title', this.items[5].on);
         }},
@@ -141,6 +140,7 @@ export default {
     },
     sortSongsByDuration() {
       return this.songs.sort((a,b) => {
+        // || 0 (bc) Reality often doesn't meet our expectations.
         a = this.hms2s(a.duration || 0), b = this.hms2s(b.duration || 0);
         if (a > b) return 1;
         if (a < b) return -1;
