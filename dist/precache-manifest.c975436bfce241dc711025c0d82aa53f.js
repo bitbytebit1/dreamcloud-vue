@@ -12,7 +12,7 @@ self.__precacheManifest = [
     "url": "js/share.b301ba6f.js"
   },
   {
-    "revision": "4f012d332b4ef5a11fac",
+    "revision": "51df38cdfbbb23f9b1ed",
     "url": "css/app.fd61d76b.css"
   },
   {
@@ -116,8 +116,8 @@ self.__precacheManifest = [
     "url": "js/about.9cc9b21a.js"
   },
   {
-    "revision": "4f012d332b4ef5a11fac",
-    "url": "js/app.a24dfff5.js"
+    "revision": "51df38cdfbbb23f9b1ed",
+    "url": "js/app.6a9498ea.js"
   },
   {
     "revision": "219ec70c21ba207aadfb",
@@ -164,8 +164,12 @@ self.__precacheManifest = [
     "url": "img/logo-blue.17e91fdf.png"
   },
   {
-    "revision": "a778795b3a6d42d25fcbca90bf76dddf",
+    "revision": "78c19408c8a584e01650435b1b58c93a",
     "url": "index.html"
+  },
+  {
+    "revision": "eb8a18708085fd38b78d9932eb0da14c",
+    "url": "img/about/discord.png"
   },
   {
     "revision": "6e8f93d644595cffa1946ff5b9ef6fab",
@@ -180,14 +184,6 @@ self.__precacheManifest = [
     "url": "img/about/dart.png"
   },
   {
-    "revision": "21a470e3fb2c59e7b680ffeaa49c99bb",
-    "url": "img/about/dream.css"
-  },
-  {
-    "revision": "eb8a18708085fd38b78d9932eb0da14c",
-    "url": "img/about/discord.png"
-  },
-  {
     "revision": "f9453134ee948304b1a11fe9b65295e8",
     "url": "img/about/mobile.png"
   },
@@ -196,28 +192,32 @@ self.__precacheManifest = [
     "url": "img/about/satellite.png"
   },
   {
-    "revision": "b617abbd90e4e3786ef1d460ef6b08c4",
-    "url": "img/about/energy.png"
-  },
-  {
-    "revision": "fb4ccf6f74aea76928895144aee245c6",
-    "url": "img/about/star.png"
-  },
-  {
-    "revision": "990b6be85eac8746b4f32dce99bb40b9",
-    "url": "img/about/turntable.png"
-  },
-  {
-    "revision": "20eb006ea0294e851afe5dea83e72b26",
-    "url": "img/about/share.png"
+    "revision": "21a470e3fb2c59e7b680ffeaa49c99bb",
+    "url": "img/about/dream.css"
   },
   {
     "revision": "d1fecc01213fc8d8077921201dba3707",
     "url": "img/about/pacman.png"
   },
   {
+    "revision": "990b6be85eac8746b4f32dce99bb40b9",
+    "url": "img/about/turntable.png"
+  },
+  {
+    "revision": "fb4ccf6f74aea76928895144aee245c6",
+    "url": "img/about/star.png"
+  },
+  {
+    "revision": "20eb006ea0294e851afe5dea83e72b26",
+    "url": "img/about/share.png"
+  },
+  {
     "revision": "11dd64142f4aec4db5508e67e47941a1",
     "url": "img/about/webcam.png"
+  },
+  {
+    "revision": "b617abbd90e4e3786ef1d460ef6b08c4",
+    "url": "img/about/energy.png"
   },
   {
     "revision": "735ab4f94fbcd57074377afca324c813",

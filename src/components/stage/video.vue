@@ -375,15 +375,15 @@ export default {
   },
   methods: {
     next(e) {
-      // console.log('event', -(e.touchstartX  - e.touchendX)) 
-      if (e.touchstartX  - e.touchendX > 50) 
+      // console.log('next', -(e.touchstartX  - e.touchendX)) 
+      if (-(e.touchstartX  - e.touchendX) > 35) 
       { 
         this.$DCPlayer.next()
       }
     },
     previous(e) {
-      // console.log('event', e.touchstartX  - e.touchendX) 
-      if (e.touchstartX  - e.touchendX > 50) 
+      // console.log('previous', e.touchstartX  - e.touchendX) 
+      if (e.touchstartX  - e.touchendX > 35) 
       { 
         this.$DCPlayer.previous()
       }
