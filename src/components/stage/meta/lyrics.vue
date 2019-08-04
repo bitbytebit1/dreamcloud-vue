@@ -189,7 +189,7 @@ export default {
                 })
               // DARKWING METHOD
               } else {
-                console.log('darkwing')
+                // console.log('darkwing')
                 // PARSE RESULTS CHECKING ARTIST NAME AGAINST QUERY
                 var artist = resp2.find((item) => {
                   return title.indexOf(item.primary_artist.name.toLowerCase()) > -1

@@ -57,7 +57,7 @@
             class="ma-0 px-2"
             itemValue="key"
             itemText="name"
-            appendIcon=""
+            append-Icon=""
             clearable
             no-data-text="Create new playlist"
             color="primary"
