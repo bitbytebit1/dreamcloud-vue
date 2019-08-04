@@ -36,15 +36,15 @@ export default {
         if (!this.$store.getters.ytObject.hasOwnProperty('loadVideoById')) {
           let i = this.$store.getters.current_index
           
-          // sync volume
-          this.$store.getters.ytObject.setVolume(this.$DCPlayer.eAudio.volume * 100)
-
           this.$store.commit('changeIndex', -2)
           setTimeout(() => {
             this.$store.commit('changeIndex', i)
             // cheeky recursive loop checking if yt is playing
             let f = () => setTimeout(() => { 
               if (this.$store.getters.ytIsPlaying) {
+                
+                // sync volume
+                this.$store.getters.ytObject.setVolume(this.$DCPlayer.eAudio.volume * 100)
                 if (!isPlay) {
                   this.$store.commit('ytPause')
                 }
