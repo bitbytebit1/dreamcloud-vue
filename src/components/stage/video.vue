@@ -385,7 +385,7 @@ export default {
       // console.log('event', e.touchstartX  - e.touchendX) 
       if (e.touchstartX  - e.touchendX > 50) 
       { 
-        this.$DCPlayer.next()
+        this.$DCPlayer.previous()
       }
     },
     btnFeedback () {

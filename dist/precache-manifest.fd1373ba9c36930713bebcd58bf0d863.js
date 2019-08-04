@@ -4,7 +4,7 @@ self.__precacheManifest = [
     "url": "css/playlistsAll.cb1bf88d.css"
   },
   {
-    "revision": "5fe7a82697ffd0269a4e6da9e3025051",
+    "revision": "ed251e5e4d6c18416457bfc9771baa2c",
     "url": "index.html"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = [
     "url": "js/userSubOverview-legacy.10ee1671.js"
   },
   {
-    "revision": "6ed048349b2a6eef78d0",
-    "url": "js/app-legacy.16e27685.js"
+    "revision": "0a5d7de68c41ce84419a",
+    "url": "js/app-legacy.bdfb20d6.js"
   },
   {
     "revision": "d175cf847e570ff6377e",
@@ -160,7 +160,7 @@ self.__precacheManifest = [
     "url": "css/artist.88d9c49e.css"
   },
   {
-    "revision": "6ed048349b2a6eef78d0",
+    "revision": "0a5d7de68c41ce84419a",
     "url": "css/app.fd61d76b.css"
   },
   {
