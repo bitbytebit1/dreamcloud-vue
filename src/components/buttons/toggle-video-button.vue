@@ -3,7 +3,7 @@
     top
   >
     <v-btn 
-      v-show="$store.getters.isYT" 
+      v-show="$store.getters.isYT || $store.current_index == -2" 
       slot="activator"
       :disabled="!$store.getters.isYT" 
       icon 
@@ -35,18 +35,24 @@ export default {
         isPlay && this.$DCPlayer.stop()
         if (!this.$store.getters.ytObject.hasOwnProperty('loadVideoById')) {
           let i = this.$store.getters.current_index
+          
+          // sync volume
+          this.$store.getters.ytObject.setVolume(this.$DCPlayer.eAudio.volume * 100)
+
           this.$store.commit('changeIndex', -2)
           setTimeout(() => {
             this.$store.commit('changeIndex', i)
+            // cheeky recursive loop checking if yt is playing
+            let f = () => setTimeout(() => { 
+              if (this.$store.getters.ytIsPlaying) {
+                if (!isPlay) {
+                  this.$store.commit('ytPause')
+                }
+                this.$store.getters.ytObject.seekTo(dur)
+              } else f()
+            }, 150)
+            f()
           }, 250)
-          setTimeout(() => {
-            // sync volume
-            this.$store.getters.ytObject.setVolume(this.$DCPlayer.eAudio.volume * 100)
-            if (!isPlay) {
-              this.$store.commit('ytPause')
-            }
-            this.$store.getters.ytObject.seekTo(dur)
-          }, 2500)
         } else {
           this.$store.getters.ytObject.loadVideoById(this.$store.getters.current_song.trackID, dur)
           setTimeout(() => {
