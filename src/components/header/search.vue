@@ -1,23 +1,12 @@
 <template>
   <v-toolbar-items class="ml-3">
-    <!-- <v-toolbar-title class="mt-2"> -->
     <autocomplete @search="search($event)"/>
-    <!-- </v-toolbar-title> -->
-    <!-- <v-text-field 
-      style="max-height: 12px;"
-      v-on:keyup.enter='search' 
-      v-model='sQuery'
-      placeholder="Search" 
-      color="primary"
-      single-line
-    >
-    </v-text-field> -->
-    <!-- <v-divider/> -->
+
     <v-menu
-      v-bind="showMenu"
+      v-model="showMenu"
       :close-on-content-click="false"
+      :open-on-hover="$vuetify.breakpoint.mdAndUp"
       :nudge-bottom="25"
-      open-on-hover
       z-index="10"
     >
       <v-toolbar-title slot="activator">
@@ -107,6 +96,17 @@
             </v-list-tile-action>
             <v-list-tile-title>Vimeo</v-list-tile-title>
           </v-list-tile>
+          <v-list-tile 
+            v-if="$vuetify.breakpoint.smAndDown" 
+            @click="showMenu = false"
+          >
+            <v-btn 
+              flat 
+              block 
+              color="primary"
+              @click="showMenu = false"
+            >Close</v-btn>
+          </v-list-tile>
         </v-list>
       </v-card>
     </v-menu>    
@@ -128,12 +128,11 @@ export default {
     'aSources.SoundCloud': '_other',
     'aSources.YouTube': '_other',
     'aSources.Vimeo': '_other',
-    'artist': '__search',
-    'showMenu': '_showMenu'
+    'artist': '__search'
   },
   data () {
     return {
-      aSources: {All: true, Bandcamp: false, MixCloud: false, SoundCloud: false, YouTube: false, Vimeo: false},
+      aSources: {All: false, Bandcamp: false, MixCloud: false, SoundCloud: false, YouTube: true, Vimeo: false},
       sQuery: '',
       artist: false,
       showMenu: false
@@ -154,15 +153,6 @@ export default {
     }
   },
   methods: {
-    _showMenu() {
-      // if (newVal) {
-      document.addEventListener("scroll", this.scroll)
-      // }
-    },
-    scroll () {
-      this.showMenu = false
-      document.removeEventListener('scroll', this.scroll)
-    },
     _All (newVal) {
       if (newVal) {
         this.aSources.Bandcamp = this.aSources.MixCloud = this.aSources.SoundCloud = this.aSources.YouTube = this.aSources.Vimeo = false

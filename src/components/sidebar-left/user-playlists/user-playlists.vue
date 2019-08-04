@@ -49,7 +49,9 @@
           ref="search"
           v-model="search"
           color="primary"
-          label="Filter"
+          placeholder="Filter"
+          onfocus="this.placeholder = ''"
+          onblur="this.placeholder = 'Filter'"
           class="filter ma-0 pa-0"
           single-line
           hide-details
@@ -61,7 +63,7 @@
     </v-list-tile>
     <!-- DATA ITERATOR -->
     <v-data-iterator
-      v-if="$store.getters.auth_state"
+      v-if="auth_state"
       :items="playlists"
       :search="search"
       :rows-per-page-items="rowsPerPageItems"
@@ -93,10 +95,10 @@
         slot-scope="props" 
         :class="isPlaying(uid, props.item['.key'], props.item['name'])"
         :active-class="isPlaying(uid, props.item['.key'], props.item['name']) || 'secondary white--text'"
-        :to="{path: '/u/' + uid + '/' + props.item['.key'] + '/' + encodeURIComponent(props.item['name'])}"
         :key="props.item['.key']" 
-        @click="closeLeftOnMobile"
+        @click="(closeLeftOnMobile(), $router.push({name: 'userPlaylist', params: {user: uid, name: props.item['name'], playlist: props.item['.key']}}))"
       >
+        <!-- :to="{name: 'userPlaylist', params: {user: uid, name: props.item['name'], playlist: props.item['.key']}}" -->
         <!-- ICON -->
         <v-list-tile-action>
           <v-icon :color="isPlaying(uid, props.item['.key'], props.item['name']) ? 'white': ''">music_note</v-icon>
@@ -121,6 +123,7 @@
   </v-list>
 </template>
 <script>
+import { mapState } from 'vuex'
 
 // /* eslint-disable */
 import deleteButton from '@/components/buttons/delete-button'
@@ -150,12 +153,12 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({
-      auth_state: 'auth_state',
-      uid: 'uid'
+    ...mapState({
+      auth_state: state => state.user.auth_state,
     }),
+    ...mapGetters(['uid']),
     bUIShowMore () {
-      return this.$store.getters.auth_state && this.playlists.length > 5
+      return this.auth_state && this.playlists.length > 5
     },
     filterLeng () {
       return this.search.length > 0

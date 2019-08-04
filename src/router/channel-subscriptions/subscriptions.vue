@@ -26,7 +26,7 @@
         fluid
       >
         <v-data-iterator
-          v-if="$store.getters.auth_state"
+          v-if="$store.state.user.auth_state"
           :items="aSubs"
           :search="search"
           :rows-per-page-items="rowsPerPageItems"

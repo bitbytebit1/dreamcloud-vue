@@ -36,29 +36,19 @@
             />  
             <v-text-field
               v-model="password"
+              :type="showPassword ? 'text' : 'password'"
+              :append-icon="showPassword ? 'visibility' : 'visibility_off'" 
               label="Password"
-              single-line 
+              single-line
               autocomplete="on"
-              type="password"
-              @keyup.enter="signIn"
+              @keyup.enter="signIn" 
+              @click:append="showPassword = !showPassword"
             />
             <h4>Don't have an account yet? You can create one <router-link to="/sign-up">here</router-link>.</h4>
             <h4><router-link to="/password-reset">Forgot your password?</router-link></h4>
             <br >
           </form>
         </v-flex>
-        <div class="text-xs-center">
-          <v-btn 
-            :loading="loading3" 
-            :disabled="loading3" 
-            round 
-            class="red" 
-            dark 
-            @click.prevent="signInGoogle"
-          >Google
-            <v-icon right>lock</v-icon>
-          </v-btn>
-        </div>
         <div class="text-xs-center">
           <v-btn 
             :loading="loading1" 
@@ -69,6 +59,18 @@
             @click="emailSignInClick"
           >
             Email
+            <v-icon right>lock</v-icon>
+          </v-btn>
+        </div>
+        <div class="text-xs-center">
+          <v-btn 
+            :loading="loading3" 
+            :disabled="loading3" 
+            round 
+            class="red" 
+            dark 
+            @click.prevent="signInGoogle"
+          >Google
             <v-icon right>lock</v-icon>
           </v-btn>
         </div>
@@ -114,6 +116,7 @@ export default {
   data () {
     return {
       bShowInput: false,
+      showPassword: false,
       email: '',
       password: '',
       loading1: false,

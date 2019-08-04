@@ -10,21 +10,27 @@
     <playlist 
       v-if="bLoading || aHistRev.length" 
       :songs="aHistRev" 
-      rows-per-page='84'
+      infinite
+      show-uploaded
       @conmen="$emit('conmen', $event)"
     />
     <jumbo
       v-else-if="bFailed && $route.name === 'history'"
-      :subheading="$store.getters.isAnon ? `We won't log your history unless you login` : 'Why not listen to some music?'"
       title="Here is supposed to be your history"
-    />
+    >
+      {{ $store.getters.isAnon ? `We won't log your history unless you` : 'Why not listen to some music?' }}
+      <router-link 
+        v-if="$store.getters.isAnon" 
+        :to="{name: 'login'}"
+      >login</router-link>
+    </jumbo>
   </v-flex>
 </template>
 <script>
 /* eslint-disable */
 import jumbo from '@/components/misc/jumbo'
 import deleteButton from '@/components/buttons/delete-button'
-import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 export default {
   props: ['user'],
   name: 'history',
@@ -47,18 +53,20 @@ export default {
   methods: {
     bind () {
       if (this.auth_state) {
-        this.$store.dispatch('loadIndeterm', true)
+        // this.$store.dispatch('loadIndeterm', true)
         this.bFailed = false
-        this.$bindAsArray('aHistory', this.$DCFB.fbhistory.limitToLast(100), null, () => { 
-          this.$store.dispatch('loadIndeterm', false)
+        this.$bindAsArray('aHistory', this.$DCFB.fbhistory.limitToLast(300), null, () => { 
+          // this.$store.dispatch('loadIndeterm', false)
           this.bLoading = false
-          this.bFailed  = !this.aHistory.length
+          this.bFailed  = !!this.aHistory
         })
       }
     }
   },
   computed: {
-    ...mapGetters({auth_state: 'auth_state'}),
+    ...mapState({
+      auth_state: state => state.user.auth_state,
+    }),
     aHistRev () {
       return this.$UTILS.uniqueArray([...this.aHistory].reverse())
     }

@@ -1,6 +1,17 @@
 export default {
   install (Vue) {
     var Utils = {
+      debounce: (fn, delay) => {
+        var timeoutID = null
+        return function () {
+          clearTimeout(timeoutID)
+          var args = arguments
+          var that = this
+          timeoutID = setTimeout(function () {
+            fn.apply(that, args)
+          }, delay)
+        }
+      },
       isMobile: window.matchMedia('only screen and (max-width: 599px)').matches,
       isSafari : /^((?!chrome|android).)*safari/i.test(navigator.userAgent),
       isOnline: () => (window.navigator.onLine),

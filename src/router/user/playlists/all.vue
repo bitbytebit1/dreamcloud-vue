@@ -8,15 +8,14 @@
     <playlist 
       :show-uploaded="!0"
       :songs="aSongs" 
-      sort-by="uploaded" 
-      rows-per-page="84" 
+      infinite
       @conmen="$emit('conmen', $event)"
     />
   </v-flex>
 </template>
 <script>
 import loading from '@/components/misc/loading'
-import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 export default {
   name: 'PlaylistsAll',
   watch: {
@@ -41,7 +40,9 @@ export default {
     'loading': loading
   },
   computed: {
-    ...mapGetters({auth_state: 'auth_state'})
+    ...mapState({
+      auth_state: state => state.user.auth_state,
+    }),
   },
   methods: {
     allSongs () {
@@ -54,15 +55,12 @@ export default {
         }
         this.$store.commit('loadValue', (100 / this.userlist.length) * i1)
       }
-      setTimeout(() => {
-        this.$store.commit('loadActive', false)
-      }, 350)
     },
     bind () {
       // only bind if logged in
       if (this.auth_state) {
         // this.$bindAsArray('userlist', this.$DCFB.playlists, null, this.allSongs)
-        this.$store.commit('loadActive', true)
+        // this.$store.commit('loadActive', true)
         this.$bindAsArray('userlist', this.$DCFB.playlistGetAll(this.user), null, this.allSongs)
       }
     }

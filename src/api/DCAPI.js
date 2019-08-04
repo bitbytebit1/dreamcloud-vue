@@ -336,7 +336,6 @@ class DCAPIClass {
                 for (var i in resp) {
                   // console.log(resp[i])
                   if (this.aQuery[uid].sArtist === '' && resp[i].id.kind === 'youtube#playlist') {
-                    // console.log(resp[i])
                     this.aQuery[uid].aResult.push({
                       // uid: uid,                                                                                         // uid:
                       artist: resp[i].snippet.channelTitle, // artist:
@@ -344,8 +343,8 @@ class DCAPIClass {
                       description: resp[i].snippet.description, // description:
                       duration: 'Playlist', // duration:
                       mp32: `https://www.youtube.com/watch?v=${resp[i].id.videoId}`, // mp32:
-                      poster: resp[i].snippet.thumbnails.medium.url, // poster:
-                      posterLarge: resp[i].snippet.thumbnails.high.url, // posterLarge:
+                      poster: resp[i].snippet.thumbnails ? resp[i].snippet.thumbnails.medium.url : './img/icons/no-image.png', // poster:
+                      posterLarge: resp[i].snippet.thumbnails ? resp[i].snippet.thumbnails.high.url : './img/icons/no-image.png', // poster:
                       source: 'YouTube', // source:
                       title: this.decodeHTMLEntities(resp[i].snippet.title), // title:
                       trackID: resp[i].id.playlistId, // trackID:
@@ -425,6 +424,7 @@ class DCAPIClass {
       return entities[entity] || match
     })
   }
+  
   genUID() {
     return Math.random()
   }
@@ -434,7 +434,8 @@ class DCAPIClass {
     return new Promise((resolve, reject) => {
       // NONO CORS.IO BADOPSEC
 
-      axios.get(`https://cors.io/?https://api-v2.soundcloud.com/charts?kind=top&genre=soundcloud%3Agenres%3Aall-music&high_tier_only=false&client_id=${this.sScKey}&limit=50&offset=0`).then((resp) => {
+      axios.get(`https://crossorigin.me/https://api-v2.soundcloud.com/charts?kind=top&genre=soundcloud%3Agenres%3Aall-music&high_tier_only=false&client_id=${this.sScKey}&limit=50&offset=0`).then((resp) => {
+      // axios.get(`https://cors.io/?https://api-v2.soundcloud.com/charts?kind=top&genre=soundcloud%3Agenres%3Aall-music&high_tier_only=false&client_id=${this.sScKey}&limit=50&offset=0`).then((resp) => {
           // console.log(resp)
           let ret = {
             nextPage: '',
@@ -704,7 +705,7 @@ class DCAPIClass {
     var uid = this.genUID()
     if (source.toLowerCase().indexOf('youtube') > -1) {
       return axios.get(`https://www.googleapis.com/youtube/v3/comments?part=snippet&pageToken=${nextPage}&maxResults=${maxRes}&parentId=${trackID}&key=${this.sYtKey}`).then((resp) => {
-        // console.log(resp.data.items)
+        console.log(resp.data.items)
         var ret = {
           nextPage: resp.data.nextPageToken,
           data: resp.data.items.map((item) => {
@@ -720,7 +721,7 @@ class DCAPIClass {
           }).reverse()
         }
         hCallback(ret)
-      })
+      }).catch()
     } else if (source.toLowerCase().indexOf('soundcloud') > -1) {
       return axios.get('https://api.soundcloud.com/tracks/' + trackID + '/comments?linked_partitioning=1&limit=50&client_id=' + this.sScKey).then((resp) => {
         var ret = {
@@ -736,7 +737,7 @@ class DCAPIClass {
           })
         }
         hCallback(ret)
-      })
+      }).catch()
     }
 
   }
@@ -758,11 +759,12 @@ class DCAPIClass {
             comment: item.snippet.topLevelComment.snippet.textDisplay,
             commentCreated: item.snippet.topLevelComment.snippet.publishedAt,
             totalReplyCount: item.snippet.totalReplyCount,
-            commentID: item.id
+            commentID: item.id,
+            show: false
           }
         })
         hCallback(ret)
-      })
+      }).catch()
     } else if (source.toLowerCase().indexOf('soundcloud') > -1) {
       return axios.get('https://api.soundcloud.com/tracks/' + trackID + '/comments?linked_partitioning=1&limit=50&client_id=' + this.sScKey).then((resp) => {
         var ret = resp.data.collection.map((item) => {
@@ -771,11 +773,12 @@ class DCAPIClass {
             artistID: item.user.id,
             artistIMG: item.user.avatar_url,
             comment: item.body,
-            commentCreated: item.created_at
+            commentCreated: item.created_at,
+            show: false
           }
         })
         hCallback(ret)
-      })
+      }).catch()
     }
 
   }
@@ -790,6 +793,8 @@ class DCAPIClass {
       axios.get('https://www.googleapis.com/youtube/v3/videos?part=snippet&id=' + trackID + '&fields=items/snippet/description&key=' + this.sYtKey).then((resp) => {
         hCallback(resp.data)
       }).catch()
+    } else {
+      hCallback('')
     }
   }
 
@@ -882,6 +887,15 @@ class DCAPIClass {
       })
     }
   }
+  
+  getSCID(url) {
+    // resolves with array [0] = trackID, [1] = full json
+    return new Promise ((resolve, reject) => {
+      axios.get('https://api.soundcloud.com/resolve.json?url=' + encodeURIComponent(url) + '&client_id=' + this.sScKey).then(d => {
+        resolve([d.data.id, d.data])
+      })
+    })
+  }
 
   guessSongTitle(title, hCallback) {
     axios.get(`https://api.alltomp3.org/v1/guess-track/${title}`).then((resp) => {
@@ -971,6 +985,7 @@ class DCAPIClass {
   error(uid) {
     this.aQuery[uid].hCallback(this.aQuery[uid].aResult)
   }
+
   secondstominutes(secs) {
     var sec_num = parseInt(secs, 10)
     var hours = Math.floor(sec_num / 3600) % 24
@@ -981,6 +996,7 @@ class DCAPIClass {
       .filter((v, i) => v !== "00" || i > 0)
       .join(":")
   }
+
   unescapeHtml(str) {
     var map = {
       amp: '&',
@@ -994,6 +1010,7 @@ class DCAPIClass {
     }
     return str.replace(/&([^;]+);/g, (m, c) => map[c] || '')
   }
+
   timeHMS(s) {
     var T = 'date';
     var d = 8.64e7;

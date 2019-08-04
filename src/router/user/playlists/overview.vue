@@ -6,7 +6,6 @@
     class="ma-0 pa-0"
   >
     <div class="headline fwl text-xs-left pl-2 pt-2">Playlists</div>
-
     <v-container 
       fluid 
       grid-list-md 
@@ -21,8 +20,10 @@
           id="flr-txt"
           ref="search"
           v-model="search"
+          clearable
           color="primary"
-          label="Filter"
+          onfocus="this.placeholder = ''"
+          onblur="this.placeholder = 'Filter'"
           single-line
           hide-details
           class="px-1"
@@ -32,7 +33,7 @@
         />
       </v-flex>
       <v-data-iterator
-        v-if="$store.getters.auth_state"
+        v-if="$store.state.user.auth_state"
         :items="aPlaylist"
         :search="search"
         :rows-per-page-items="rowsPerPageItems"
@@ -67,7 +68,7 @@
               class="fillPlace"
             />
             <!-- <v-avatar
-              :size="((!$store.getters.drawLeft && !$UTILS.isMobile ? 21 : 0) + 95 + (!$store.getters.drawRight && !$UTILS.isMobile ? 21 : 0)) + 'px'"
+              :size="((!$store.state.user.drawLeft && !$UTILS.isMobile ? 21 : 0) + 95 + (!$store.state.user.drawRight && !$UTILS.isMobile ? 21 : 0)) + 'px'"
               class="mt-2"
             > -->
             <!-- <img

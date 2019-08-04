@@ -7,19 +7,19 @@ export default {
     drawRight: false,
     view_mode: 0, // 0 GRID, 1 TABLE, 2 TABLE W PICS
     auth_state: false,
-    bShowStage: true,
+    bShowStage: false,
     isMobile: false
   },
   getters: {
     isMobile: state => state.isMobile,
-    auth_state: state => state.auth_state,
-    bShowStage: state => state.bShowStage,
-    drawLeft: state => state.drawLeft,
-    drawRight: state => state.drawRight,
+    // auth_state: state => state.auth_state,
+    // bShowStage: state => state.bShowStage,
+    // drawLeft: state => state.drawLeft,
+    // drawRight: state => state.drawRight,
     getUser: state => state.user,
     isAnon: state => state.user.isAnonymous,
     uid: state => state.user.uid,
-    view_mode: state => state.view_mode,
+    // view_mode: state => state.view_mode,
   },
   mutations: {
     isMobile (state, payload) { state.isMobile = payload },

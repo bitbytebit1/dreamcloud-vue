@@ -9,7 +9,7 @@ import Vue from 'vue'
 import './registerServiceWorker'
 
 Vue.config.productionTip = false
-
+// we have to import vlayout for tree shaking
 import Vuetify, { VLayout } from 'vuetify/lib'
 import 'vuetify/src/stylus/app.styl'
 // Vue.use(Vuetify)
@@ -54,8 +54,8 @@ Vue.use(VueJsonp)
 //   router
 // })
 
-import audioStage from '@/components/stage/audio'
-Vue.component('audio-stage', audioStage)
+// import audioStage from '@/components/stage/audio'
+// Vue.component('audio-stage', audioStage)
 import videoStage from '@/components/stage/video'
 Vue.component('video-stage', videoStage)
 import playlist from '@/components/playlist/playlist.vue'
@@ -78,17 +78,28 @@ window.addEventListener('popstate', () => {
 
 import VueLazyload from 'vue-lazyload'
 
+// used for logging rending/scripting peformance
+// Vue.config.performance = true
+
 // or with options
 Vue.use(VueLazyload, {
-  preLoad: 1.7,
+  // preLoad: 1.7,
   error: 'dist/img/no-image.png',
   // loading: 'dist/loading.gif',
-  attempt: 1
+  // attempt: 1,
+    // set observer to true
+  observer: true,
+
+  // optional
+  observerOptions: {
+    rootMargin: '250px',
+    threshold: 0.1
+  }
 })
 
-import VueClazyLoad from 'vue-clazy-load';
-Vue.use(VueClazyLoad);
-Vue.component('clazy-load', VueClazyLoad)
+// import AudioVisual from 'vue-audio-visual'
+
+// Vue.use(AudioVisual)
 
 new Vue({
   router,

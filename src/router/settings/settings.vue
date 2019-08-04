@@ -2,7 +2,7 @@
   <!-- 
   <v-layout  row> -->
   <v-flex 
-    v-if="$store.getters.auth_state" 
+    v-if="$store.state.user.auth_state" 
     xs10 
     offset-xs1 
     lg10 

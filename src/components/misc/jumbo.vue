@@ -14,7 +14,7 @@
       <h1 class="display-2 fwl">{{ error }}</h1>
       <div class="subheading my-2 text-xs-center">{{ title }}</div>
       <v-divider class="my-3"/>
-      <div class="title mb-3 text-xs-center">{{ subheading }}</div>
+      <div class="title mb-3 text-xs-center">{{ subheading }}<slot/></div>
   </v-flex></v-layout>
 
 </template>

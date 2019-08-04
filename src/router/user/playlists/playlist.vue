@@ -8,7 +8,7 @@
     <playlist 
       :show-uploaded="true"
       :songs="aSongs" 
-      rows-per-page='250' 
+      infinite
       @conmen="$emit('conmen', $event)"
     />
   </v-flex>
@@ -26,32 +26,37 @@ export default {
     playlist: {
       type: String,
       default: ''
-    },
+    },  
     name: {
       type: String,
       default: ''
     }
   },
-  watch: {
-    '$route': {
-      immediate: true,
-      handler: 'bind'
-    }
+  // created () {
+  //   this.bind(this.$route.params.user, this.$route.params.playlist)
+  // },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      vm.bind(to.params.user, to.params.playlist)
+    })
+  },
+  beforeRouteUpdate (to, from, next) {
+    this.bind(to.params.user, to.params.playlist)
+    next();
   },
   data () {
     return {
-      aSongs: []
+      aSongs: [],
+      oldPlaylist:' '
     }
   },
   methods: {
-    bind () {
-      if (this.$route.name !== 'userPlaylist') {
+    bind (user, playlist) {
+      if (this.oldPlaylist == playlist) {
         return
       }
-      this.$store.dispatch('loadIndeterm', true)
-      this.$bindAsArray('aSongs', this.$DCFB.playlistGet(this.$route.params.user, this.$route.params.playlist), null, () => {
-        this.$store.dispatch('loadIndeterm', false)
-      })
+      this.oldPlaylist = playlist
+      this.$bindAsArray('aSongs', this.$DCFB.playlistGet(user, playlist), null)
     }
   }
 }

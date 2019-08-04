@@ -1,7 +1,8 @@
 <template>
   <v-flex 
+    :key="artistID" 
     xs12 
-    lg10 
+    lg10
     class="mt-3"
   >
     <artist-info 
@@ -9,7 +10,6 @@
       :artistID="artistID" 
       :source="source" 
       :artist="artist" 
-      :key="artistID"
     />
     <v-tabs
       ref="tabs"
@@ -31,7 +31,7 @@
       <v-tab-item>
         <playlist 
           :songs="aSearch"
-          rowsPerPage='84'
+          infinite
           @conmen="$emit('conmen', $event)" 
         />
       </v-tab-item>
@@ -85,11 +85,18 @@ export default {
       tab: null
     }
   },
-  watch: {
-    '$route.params': {
-      immediate: true,
-      handler: '_search'
-    }
+  // created () {
+  //   this.bind(this.$route.params.artistID, this.$route.params.source);
+  // },
+  beforeRouteUpdate (to, from, next) {
+    // console.log('updated')
+    this.bind(to.params.artistID, to.params.source);
+    next();
+  },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      vm.bind(to.params.artistID, to.params.source)
+    })
   },
   methods: {
     getSubs (artistID, source) {
@@ -137,18 +144,19 @@ export default {
       }
       func()
     },
-    _search () {
-      if ('artist' !== this.$route.name || this.$route.params.artistID == this.oldA) {
+    bind (artistID, source) {
+      if (artistID == this.oldA) {
+        // alert('critical error')
         return
       }
-      this.oldA = this.$route.params.artistID
+      this.oldA = artistID
       // this.tab = 0
       this.aPlaylists = []
       this.aSubs = []
-      this.$store.dispatch('loadIndeterm', true)
-      this.search(this.$route.params.artistID, this.$route.params.source).then(() =>{
-        this.getPlaylists(this.$route.params.artistID, this.$route.params.source)
-        this.getSubs(this.$route.params.artistID, this.$route.params.source)
+      // this.$store.dispatch('loadIndeterm', true)
+      this.search(artistID, source).then(() =>{
+        this.getPlaylists(artistID, source)
+        this.getSubs(artistID, source)
       })
     },
     search (artistID, source, iPage = 0) {
@@ -176,9 +184,9 @@ export default {
           this.aSearch = this.$DCAPI.uniqueArray(this.aSearch)
           this.search(this.query, this.source, ++this.iPage)
         }
-        if (iPage === 0) {
-          this.$store.dispatch('loadIndeterm', false)
-        }
+        // if (iPage === 0) {
+        //   this.$store.dispatch('loadIndeterm', false)
+        // }
       }, '', 50) //  !iPage ? 18 : 50 first call 18 to be fast on mobile, fucks up caching
     }
   }

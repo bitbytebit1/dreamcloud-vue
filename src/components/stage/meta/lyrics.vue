@@ -1,32 +1,64 @@
 <template>
   <v-card>
-    <v-card-title v-if="lyrics">
-      <div class="wordbreak preline">
-        <a 
-          :href="lyricsURL" 
-          class="primary--background"
-        >{{ lyricsURL }}</a>
-        <br>
-        {{ lyrics }}
-      </div>
+    <v-card-title 
+      class="ma-0 py-0"
+    >
+
+      <v-text-field 
+
+        v-model="inputModel"
+        clearable 
+        single-line
+        class="py-0"
+        label="Enter the song and artist name"
+        append-icon="search"
+        @click:append="inputEnter"
+        @keyup.enter="inputEnter"
+      />
     </v-card-title>
+    <div 
+      v-if="lyrics" 
+      class="wordbreak preline py-0 px-3"
+    >
+      <a 
+        :href="lyricsURL" 
+        target="_blank"
+        class="primary--background"
+      >{{ lyricsURL }}</a>
+      <br>
+      {{ lyrics }}
+    </div>
 
     <v-card-title v-else-if="bLoading">
       <!-- <a :href="`${lyricsServer}/search/${this.query}`">{{ `${lyricsServer}/search/${this.query}` }}</a><br> -->
       {{ loadingText + loadingTextAppend }}
     </v-card-title>
 
-    <v-card-title v-else-if="iTried">
-      No lyrics available
-    </v-card-title>
-  
     <v-card-title 
-      v-else 
+      v-else-if="iTried" 
+    >
+      No lyrics available for {{ this.inputModel }}
+    </v-card-title>
+    <!-- <v-card-title>
+      {{ iTried }}
+      {{ bLoading }}
+    </v-card-title> -->
+    <v-card-title 
+      v-if="!bLoading && artistNotFoundInTitle" 
+      :class="lyrics ? 'mt-3' : ''"
+    >
+      <div
+        class="primary--text underline pointer pl-1" 
+        @click="(inputModel = inputModel + ' - ' + cArtist, reset(false))"
+      >Try again with "{{ this.inputModel }} - {{ this.cArtist }}"</div>
+    </v-card-title>  
+    <!-- <v-card-title 
+      v-if="!bLoading && !lyrics && iTried"
       class="pointer" 
       @click="(getLyrics)"
     >
       Click to load lyrics
-    </v-card-title>
+    </v-card-title> -->
   </v-card>
 
 </template>
@@ -58,30 +90,52 @@ export default {
       bLoading: false,
       lyrics: '',
       lyricsURL: '',
+      inputModel: this.title,
+      inputFinal: '',
       loadingTextAppend: '',
       loadingText: 'Loading lyrics'
     }
   },
   computed: {
+    artistNotFoundInTitle () {
+      return this.inputModel.indexOf(this.artist) === -1
+    },
+    cArtist () {
+      return this.artist.replace(' - Topic','')
+    },
     query () {
       return this.title
-        .replace(/Official Music Video/gi, '')
-        .replace(/Official Audio/gi, '')
-        .replace(/Official Video/gi, '')
-        .replace(/Music Video/gi, '')
-        .replace(/Audio/gi, '')
-        .replace(/Video/gi, '')
-        .replace(/ HD /gi, '')
-        .replace(/Lyrics/gi, '')
-        .replace(/[^\w ]/gi, '')
-        .toLowerCase()
+        .replace(/[^\w |${1}|-]/gi, '')
+        .replace(/official music video/gi, '')
+        .replace(/official audio/gi, '')
+        .replace(/instrumental/gi, '')
+        .replace(/offici?al video/gi, '') //j15feaxa2s8
+        .replace(/music video/gi, '')
+        .replace(/ audio /gi, '')
+        .replace(/ audio$/gi, '')
+        .replace(/ video /gi, '')
+        .replace(/ video$/gi, '')
+        .replace(/lyrics/gi, '')
+        .replace(/ hd /gi, '')
+        .replace(/ hq /gi, '')
+        .replace(/ sd /gi, '')
+        .replace(/ hq$/gi, '')
+        .replace(/ sd$/gi, '')
+        .replace(/ hd$/gi, '')
+        .replace(/\s\s+/gi, ' ')
     }
   },
   methods: {
-    reset () {
+    inputEnter() {
+      this.reset(false)
+    },
+    reset (bSetInputModel = true) {
+      // console.log('reset')
       this.bLoading = false
       this.lyrics = ''
       this.iTried = false
+      if(bSetInputModel)
+        this.inputModel = this.query
       this.getLyrics()
     },
     animateText () {
@@ -98,7 +152,7 @@ export default {
     },
     getLyrics () {
       if (!this.lyrics) {
-        var title = this.title
+        var title = this.inputModel.toLowerCase()
         this.bLoading = true
         this.lyrics = ''
         var intv = setInterval(this.animateText, 500)
@@ -107,8 +161,10 @@ export default {
           // SET CLEANED TITLE
           if (resp1.data.title && resp1.data.artistName) {
             title = resp1.data.title + ' ' + resp1.data.artistName
+            this.inputFinal = title
           } else {
-            title = this.query
+            this.inputFinal = this.inputModel
+            title = this.inputModel
           }
           title = title.toLowerCase()
 
@@ -126,13 +182,14 @@ export default {
                 axios.get(`${this.lyricsServer}/lyrics/${song.id}`).then((resp3) => {
                   this.lyrics = resp3.data.data.lyrics
                   this.lyricsURL = resp3.data.data.url
+                  this.bLoading = false
                   clearInterval(intv)
                 }).catch(() => {
                   this.fail(intv)
                 })
               // DARKWING METHOD
               } else {
-                // console.log('dw')
+                // console.log('darkwing')
                 // PARSE RESULTS CHECKING ARTIST NAME AGAINST QUERY
                 var artist = resp2.find((item) => {
                   return title.indexOf(item.primary_artist.name.toLowerCase()) > -1
@@ -195,4 +252,7 @@ export default {
 </script>
 
 <style>
+.underline{
+  text-decoration: underline;
+}
 </style>

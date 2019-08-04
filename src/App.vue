@@ -11,23 +11,26 @@
     <v-snackbar
       v-model="snackbar"
       :timeout="0"
-      top
+      bottom
       auto-height
     >
-      A newer version of dreamcloud has been downloaded
+      A new version is ready
       <v-btn
+        class="ma-0"
+        block
         dark
         flat
         @click="() => swReg.waiting.postMessage('skipWaiting')"
       >
-        use now
+        use
       </v-btn>
       <v-btn
+        class="ma-0"
         dark
         flat
         @click="snackbar = false"
       >
-        dismiss
+        close
       </v-btn>
     </v-snackbar>
     
@@ -36,7 +39,6 @@
       id="sideleft"
       v-model="drawLeft"
       app
-
       clipped
       disable-route-watcher
       disable-resize-watcher
@@ -72,12 +74,12 @@
       
       <!-- title -->
       <v-toolbar-title 
+        style="width: 121px" 
         class="hidden-sm-and-down fwl title" 
-        style="width: 121px"
       >
         <router-link 
           :class="textClass" 
-          :to="{name:'about', params: {user: uid}}"
+          :to="{name:'home', params: {user: uid}}"
         >
           dreamcloud
         </router-link>
@@ -113,7 +115,7 @@
 
     <!-- Stage -->
     <v-content 
-      v-show="bShowStage" 
+      :style="!bShowStage ? 'position:absolute':''"
       class="text-xs-center"
     >
       <v-container 
@@ -142,10 +144,11 @@
         <v-layout justify-center>
           <!-- <transition 
             :key="$route.fullPath" 
-            name="  fade" 
-            mode="out-in"> -->
-          <keep-alive 
-            :max="2"
+            name="fade" 
+            mode="out-in"
+          > -->
+          <keep-alive
+            :max="4"
           >
             <router-view @conmen="con"/>
           </keep-alive>
@@ -165,6 +168,7 @@
       <!-- && (bMobi || currentActive) -->
       <dc-youtube v-show="(ytUseVideo && isYT)"/>
       <dc-audio v-show="(!ytUseVideo || !isYT)"/>
+      <!-- <scroll/> -->
       <!-- <v-flex xs12 xl12> -->
       <!-- <v-btn block large color="primary ">Get started</v-btn> -->
       <!-- </v-flex> -->
@@ -176,6 +180,7 @@
 </template>
 
 <script>
+import scroll from './components/footer/show-pop'
 import popup from './components/footer/popup-player'
 import hks from './components/misc/hks'
 import search from './components/header/search'
@@ -188,6 +193,7 @@ import stage from '@/components/stage/stage'
 import mobileFooter from '@/components/footer/mobileFooter'
 
 import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 
 export default {
   name: 'App',
@@ -199,6 +205,7 @@ export default {
     }
   },
   components: {
+    'scroll': scroll,
     'popup': popup,
     'hks': hks,
     'snackbar': snackbar,
@@ -239,16 +246,17 @@ export default {
       reg.addEventListener('updatefound', awaitStateChange);
     }
   },
+  
   computed: {
+    ...mapState({
+      bShowStage: state => state.user.bShowStage,
+    }),
     ...mapGetters({
       uid: 'uid',
       blackClass: 'blackClass',
       isYT: 'isYT',
       ytUseVideo: 'ytUseVideo',
-      bShowStage: 'bShowStage',
       theme: 'theme',
-      loadValue: 'loadValue',
-      loadActive: 'loadActive',
       ytFullScreen: 'ytFullScreen'
     }),
     footStyle () {
@@ -263,14 +271,14 @@ export default {
       return this.$vuetify.breakpoint.name === 'xs' || this.$vuetify.breakpoint.name === 'sm'
     },
     textClass () {
-      return (this.$store.getters.nightMode ? 'white' : 'black') + '--text noDeco pointer hidden-sm-and-down'
+      return 'noDeco pointer hidden-sm-and-down ' + this.$store.getters.textColor
     },
     currentActive () {
       return this.$route.name === 'stage'
     },
     drawRight: {
       get () {
-        return this.$store.getters.drawRight
+        return this.$store.state.user.drawRight
       },
       set (value) {
         this.$store.commit('drawRight', value)
@@ -278,7 +286,7 @@ export default {
     },
     drawLeft: {
       get () {
-        return this.$store.getters.drawLeft
+        return this.$store.state.user.drawLeft
       },
       set (value) {
         this.$store.commit('drawLeft', value)
@@ -301,8 +309,8 @@ export default {
       })
     }
     // Set theme
-    this.$vuetify.theme.primary = '#009688'
-    // this.$store.commit('ytUseVideo', !this.bMobi)
+    this.$vuetify.theme.primary = '#710000'
+    this.$store.commit('ytUseVideo', !this.bMobi)
     // On Firebase auth state change
     this.$DCFB.fb.auth().onAuthStateChanged((user) => {
       // console.log(this.$DCFB.fb.auth().currentUser)
@@ -325,10 +333,10 @@ export default {
         this.$DCFB.init(user.uid)
 
         // redirect to somewhere meaningful
-        if (user.isAnonymous && !this.$route.name) {
-          this.$router.push({name: 'about'})
+        if (!this.$route.name && !user.isAnonymous) {
+          this.$router.push({name:'home', params: {user: user.uid}})
         } else if (!this.$route.name) {
-          this.$router.push({name: 'about', user: user.uid})
+          this.$router.push({name: 'about'})
         }
         // set isMobile in store for router guard (close menus on back)
         this.$store.commit('isMobile', this.$vuetify.breakpoint.smAndDown)
@@ -386,7 +394,7 @@ export default {
     text-decoration: none;
   }
   .pointer{
-    cursor: pointer;
+    cursor: pointer !important;
   }
   .preline{
     white-space: pre-line;
@@ -430,11 +438,11 @@ export default {
 }
 
 .fade-enter-active {
-  transition: opacity .2s ease;
+  transition: opacity .1s ease;
 }
 
 .fade-leave-active {
-  transition: opacity .2s ease;
+  transition: opacity .1s ease;
   opacity: 0;
 }
 .dchide{

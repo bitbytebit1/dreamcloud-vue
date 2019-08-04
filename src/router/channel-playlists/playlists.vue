@@ -46,7 +46,7 @@
             xs12
             sm6
             md4
-            lg3
+            lg2
           >
             <!-- {{props.item['.key']}} -->
             <!-- {{props.item.name_lower}} -->

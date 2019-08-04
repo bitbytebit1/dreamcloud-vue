@@ -9,8 +9,31 @@
 .theme--dark .artist:hover, .theme-jet-black .artist:hover{
   color: lightgrey !important
 }
+.theme-dark .v-card--hover:hover {
+  /* -webkit-box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,0,0.14), 0px 3px 14px 2px rgba(0,0,0,0.12); */
+  /* outline: white; */
+  /* border:white line 10px */
+  /* border: 1px solid rgba(150, 150, 150, .8); */
+  
+  box-shadow: 
+  0px 5px 5px 2px rgba(255,255,255,0.2), 
+  0px 8px 10px 2px rgba(255,255,255,0.2), 
+  0px 3px 14px 2px rgba(255,255,255,0.2);
+  /* 0px 5px 5px 2px rgba(255,255,255,0.2); */
+}
+.theme-jet-black .v-card--hover:hover {
+  /* -webkit-box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,0,0.14), 0px 3px 14px 2px rgba(0,0,0,0.12); */
+  /* outline: white; */
+  /* border:white line 10px */
+  /* border: 1px solid rgba(150, 150, 150, .8); */
+  
+  box-shadow: 
+  0px 5px 5px -3px rgba(255,255,255,0.2), 
+  0px 8px 10px 2px rgba(255,255,255,0.2), 
+  0px 3px 14px 2px rgba(255,255,255,0.2),
+}
 
-.nosel {
+.noSel {
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none;   /* Safari */
   -khtml-user-select: none;    /* Konqueror HTML */
@@ -38,6 +61,7 @@
 }
 .theme--dark .fillPlace{
   background-color: #292929 !important;
+  /* animation: pulse 1s infinite ease-in-out; */
   color: #fff !important;
 }
 .theme--dark .v-avatar{
@@ -89,7 +113,8 @@
   color: #fff !important;
 }
 .theme-jet-black .fillPlace{
-  background-color: #1d1d1d !important;
+  /* animation: pulse 1s infinite ease-in-out; */
+  background-color: #1b1b1b !important;
   color: #fff !important;
 }
 
@@ -147,12 +172,12 @@
 div.application.theme--light.theme-jet-black .v-navigation-drawer .v-icon,
 div.application.theme--light.theme-jet-black #foot .v-icon,
 div.application.theme--light.theme-jet-black #navbar .v-icon,
-div.application.theme--light.theme-jet-black .v-navigation-drawer .v-icon,
-{
+div.application.theme--light.theme-jet-black .v-navigation-drawer .v-icon{
   color: #fff !important;
 }
 /* LIGHT */
 div.application.theme--light .fillPlace{
+  /* animation: pulse 1s infinite ease-in-out; */
   background-color: #e3e3e3;
 }
 
@@ -167,3 +192,15 @@ div.application.theme--light a{
 div.application.theme--dark a{
   color: white;
 }
+
+/* @keyframes pulse {
+  0% {
+      background-color: rgba(29, 29, 29, 0.3);
+  }
+  50% {
+      background-color: rgba(29, 29, 29, 0.5);
+  }
+  100% {
+      background-color: rgba(29, 29, 29, 0.3);
+  }
+} */

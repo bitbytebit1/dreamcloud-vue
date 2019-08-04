@@ -43,6 +43,9 @@ class DCFB {
     this.subscriptions = this.db.ref('users/' + UID + '/Subscriptions')
     this.fbhistory = this.db.ref('users/' + UID + '/History')
 
+
+    // HERE BE THERE DEMONS, 
+    // this code syncs firebase to local storage for offline usage, pretty slow because we writing all the massive arrays
     // if (window.localStorage) {
 
     // // if not same user clear LS
@@ -172,20 +175,28 @@ class DCFB {
 
   playlistSongAdd (id, json) {
     let pusha = (js) => {
-      // create new reference
-      var songRef = this.playlists.child(id + '/songs').push()
-      // save song reference in json.key
-      js.key = songRef.key
-      // remove from json['.key'] bc we have to
-      delete js['.key']
-      // format date to string
-      js.uploaded = js.uploaded.toString()
-      // update fb
-      songRef.set(js)
-    }
+          // create new reference
+          var songRef = this.playlists.child(id + '/songs').push()
+          // save song reference in json.key
+          js.key = songRef.key
+          // remove from json['.key'] bc we have to
+          delete js['.key']
+          // format date to string
+          js.uploaded = js.uploaded.toString()
+          // update fb
+          songRef.set(js)
+        },
+        doIt = (k, v, i) => {
+          setTimeout(() => {
+            pusha(Object.assign({}, v), k)
+          }, i * 200);
+        }
     if (json.length > 1) {
+      let i = 0
       for (var [key, value] of Object.entries(json)) {
-        pusha(Object.assign({}, value), key)
+        i++
+        // dirty silly hack, just preset the songRef with i++ instead of using .push()
+        doIt(key, value, i)
       }
     } else {
       pusha(Object.assign({}, Array.isArray(json) ? json[0] : json))

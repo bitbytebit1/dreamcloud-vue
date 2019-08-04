@@ -9,6 +9,8 @@
       xs12
       py-3
     >
+    
+      <!-- CONTROLS -->
       <span 
         v-if="subscriptions.length > 0"
       >
@@ -31,35 +33,68 @@
           @click="chips = []"
         >Clear</v-chip>
       </span>
+      <!-- TEXT FIELD -->
+      <v-text-field
+        v-if="bTog"
+        ref="search"
+        v-model="search"
+        :append-icon-cb="()=>{this.search='';$refs.search.focus()}"
+        :append-icon="this.slen ? 'close': ''"
+        color="primary"
+        placeholder="Filter"
+        onfocus="this.placeholder = ''"
+        onblur="this.placeholder = 'Filter'"
+        class="filter ma-0 pa-0 px-5"
+        single-line
+        hide-details
+        @keyup.enter="$UTILS.closeSoftMobi()"
+      />
       <br>
       <!-- CHIPS -->
-      <template
-        v-if="bTog"
-      > 
+      <v-chip
+        v-for="(item, index) in cFiltered"
+        v-show="bTog" 
+        :key="index"
+        :class="someChips(item)"
+        class="noSel"
+        @mousedown="hai(item, index)"
+      >
+        <v-avatar outclass="accent white--text">
+          <img :src="item.img">
+        </v-avatar>{{ item.name }}
+      </v-chip>
+      <!-- END CHIPS -->
+      <div 
+        v-if="bTog && cFiltered.length > 50 "
+      >
+        <!-- Show/Hide -->
         <v-chip 
-          v-for="(item, index) in subscriptions" 
-          :key="index"
-          :class="someChips(item)"
-          class="noSel"
-          @mousedown="hai(item, index)"
-        >
-          <v-avatar outclass="accent white--text">
-            <img :src="item.img">
-        </v-avatar>{{ item.name }}</v-chip>
-      </template>
-      <!-- Clear -->
-      <v-chip 
-        v-if="bTog"
-        @click="chips = []"
-      >Clear</v-chip>
+          @click="bTog = !bTog"
+        >{{ bTog ? 'Hide' : 'Show' }}</v-chip>
+        <!-- All -->
+        <v-chip 
+          :class="chips.length == subscriptions.length ? 'primary white--text': ''"
+          @click="chips.length != subscriptions.length ? chips = subscriptions : chips = []"
+        >All</v-chip>
+        <v-chip 
+          :class="bShuf ? 'primary white--text': ''"
+          @click="chips = shuffle(subscriptions)"
+        >Random</v-chip>
+        <!-- @click="(bShuf = !bShuf, bShuf ? chips = shuffle(subscriptions): chips = [])" -->
+        <!-- Clear -->
+        <v-chip 
+          @click="chips = []"
+        >Clear</v-chip>
+      </div>
       <!-- END_CHIPS -->
 
 
     </v-flex>
     <playlist 
-      :songs="aFiltered" 
-      :show-uploaded="!0" 
-      rows-per-page="126" 
+      :songs="aFiltered"
+      :show-uploaded="!0"
+      class="pt-2" 
+      infinite
       sort-by="uploaded" 
       @conmen="$emit('conmen', $event)"
     />
@@ -74,6 +109,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 
 import jumbo from '@/components/misc/jumbo'
 export default {
@@ -95,6 +131,7 @@ export default {
   },
   data () {
     return {
+      search: '',
       bShuf: false,
       aShuf: [],
       bLoading: true,
@@ -105,24 +142,37 @@ export default {
       subscriptions: [],
       chips: [],
       chipsToGo: [],
-      bTog: false
+      bTog: true
     }
   },
   computed: {
-    ...mapGetters({auth_state: 'auth_state', textColor: 'textColor'}),
+    ...mapState({
+      auth_state: state => state.user.auth_state,
+    }),
+    ...mapGetters(['textColor']),
     aFiltered () {
       return this.chips.length ? 
         this.aPlaylists.filter(f => 
           this.chips.some(c => c.id == f.artistID)
         )
         : [] // this.aPlaylists
+    },
+    slen () {
+      return this.search.length 
+    },
+    cFiltered () {
+      let s = this.search.toLowerCase()
+      return this.slen ? 
+        this.subscriptions.filter(obj => Object.values(obj).some(val => val?val.toString().toLowerCase().indexOf(s) > -1:false))
+        : this.subscriptions
     }
   },
   methods: {
     shuffle(source) {
       let ret = []
-      let leng = (source.length - 1) / (Math.max(3, Math.floor(Math.random() * 5))) | 0; // get a quater or a third of subscriptions
-      for (var i = 0; i < leng - 1; i++) {
+      // let leng = (source.length - 1) / (Math.max(2, Math.floor(Math.random() * source.length - 1))) | 0; // get a quater or a third of subscriptions
+      let leng = (Math.floor(Math.random() * (source.length / 2) + 1))
+      for (var i = 0; i < leng; i++) {
         var j = i + Math.floor(Math.random() * (source.length - i));
         ret[i] = source[j];
       }
@@ -165,9 +215,9 @@ export default {
       if (this.auth_state) {
         // On done call getAllSubs
         this.bLoading = true
-        this.$store.dispatch('loadIndeterm', true)
+        // this.$store.dispatch('loadIndeterm', true)
         this.$bindAsArray('subscriptions', this.$DCFB.subscriptionGet(this.user).orderByChild('name_lower'), null, () => {
-          this.chips = this.shuffle(this.subscriptions)
+          // this.chips = this.shuffle(this.subscriptions)
           this.getAllSubs()
         })
       }
@@ -184,17 +234,17 @@ export default {
       setTimeout(() => {
         impatient = true
         this.aPlaylists = this.aPlaylists2
-        this.$store.commit('loadValue', 0)
-        this.$store.dispatch('loadIndeterm', false)
+        // this.$store.commit('loadValue', 0)
+        // this.$store.dispatch('loadIndeterm', false)
       }, 1000)
       for (var sub in this.subscriptions) {
         this.$DCAPI.searchInt(0, 0, [this.subscriptions[sub].source], this.subscriptions[sub].id, (songs) => {
           this.bLoadedSubs += 1
-          !impatient && this.$store.commit('loadValue', (100 / this.subscriptions.length) * this.bLoadedSubs)
+          // !impatient && this.$store.commit('loadValue', (100 / this.subscriptions.length) * this.bLoadedSubs)
           this.aPlaylists2 = this.aPlaylists2.concat(songs)
           this.aPlaylists2.sort(this.$DCAPI.sortDate)
           if (this.subscriptions.length === this.bLoadedSubs || impatient) {
-            !impatient && this.$store.commit('loadValue', 0)
+            // !impatient && this.$store.commit('loadValue', 0)
             this.aPlaylists = this.aPlaylists2
           }
         }, false, 50)

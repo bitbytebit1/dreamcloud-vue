@@ -59,7 +59,7 @@ export default {
       }
     },
     bind () {
-      if (this.artistID && this.$store.getters.auth_state) {
+      if (this.artistID && this.$store.state.user.auth_state) {
         this.$bindAsArray('subscribed', this.$DCFB.subscriptions.child(this.artistID))
       }
     },

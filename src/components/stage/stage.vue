@@ -1,8 +1,34 @@
 <template>
+
+
   <v-flex 
-    v-if="$store.getters.index !== -1" 
+    v-if="$store.state.player.current_index == -1" 
+    v-show="$store.state.user.bShowStage"
+    xs12
+    class="mt-2"
+  >
+    <jumbo
+      :discover="false"
+      :error="err"
+      :subheading="this.$route.params.artist ? 'Loading song by ' + this.$route.params.artist : 'Try searching for your favourite artist'"
+    />
+    <v-layout 
+      row 
+      wrap
+      justify-center
+    >
+      <history 
+        @conmen="$emit('conmen', $event)"
+      />
+    </v-layout>
+  
+  </v-flex>
+  <v-flex 
+    v-else
     xs12
   >
+  
+    
     <video-stage 
       @conmen="$emit('conmen', $event)"
     />
@@ -10,26 +36,6 @@
     <!-- <audio-stage
       @conmen="$emit('conmen', $event)"
     /> -->
-
-  </v-flex>
-
-  <v-flex 
-    v-else 
-    xs12
-  >
-    <v-layout 
-      row 
-      wrap
-      justify-center
-    >
-      <jumbo
-        :discover="false"
-        error="Nothing playing"
-        subheading="Try searching for your favourite song or artist"
-      />
-      <history/>
-    </v-layout>
-  
   </v-flex>
   <!-- <v-flex offset-xs1 xs10 class="mt-0 pt-4">
     <div class="display-1">{{$DCPlayer.iCurrent === -2 ? '' : 'Nothing playing'}}</div>
@@ -44,6 +50,12 @@ export default {
   components: {
     'history': history,
     'jumbo': jumbo
+  },
+  computed : {
+    err () {
+      // return this.$route.params.artist ? 'Loading song by' + this.$route.params.artist : 'Nothing playing'
+      return this.$route.params.artist ? '' : 'Nothing playing'
+    }
   }
 }
 </script>

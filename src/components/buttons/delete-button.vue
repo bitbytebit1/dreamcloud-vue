@@ -8,23 +8,24 @@
   >
     <v-list-tile-title>{{ dlTxt }}</v-list-tile-title>
   </v-list-tile>
-  <v-tooltip 
+  <!-- <v-tooltip 
     v-else 
     top
+  > -->
+  <!-- slot="activator"  -->
+  <v-btn 
+    v-else 
+    v-bind="$props" 
+    :color="color" 
+    class="del-btn" 
+    icon 
+    @click.stop="emitDelete" 
+    @mouseleave="clicks = clickedTwice ? 2 : 0"
   >
-    <v-btn 
-      slot="activator" 
-      v-bind="$props" 
-      :color="color" 
-      class="del-btn" 
-      icon 
-      @click.stop="emitDelete" 
-      @mouseleave="clicks = clickedTwice ? 2 : 0"
-    >
-      <v-icon :color="clickedOnce ? 'white': ''">{{ dlIcn }}</v-icon>
-    </v-btn>
-    <span>Delete</span>
-  </v-tooltip>
+    <v-icon :color="clickedOnce ? 'white': ''">{{ dlIcn }}</v-icon>
+  </v-btn>
+  <!-- <span>Delete</span>
+  </v-tooltip> -->
 
 
 </template>

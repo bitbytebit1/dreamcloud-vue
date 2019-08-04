@@ -1,7 +1,6 @@
 <template>
   <v-flex 
     xs12 
-    class=""
   >
     <v-data-iterator
       v-if="show"
@@ -16,17 +15,23 @@
         slot="item"
         slot-scope="props"
         xs12
+        @click="props.item.show = !props.item.show"
       >
-        <v-card class="py-2">
+        <v-card 
+          :class="props.item.totalReplyCount ? 'pointer' : ''" 
+          hover
+          class="py-2"
+        >
           <v-layout row>
             <v-flex 
-              class="comAv pr-3" 
+              pt-2
               shrink
             >
               <!-- IMAGE -->
               <router-link 
                 :to="{name: 'artist', params: {source: source, artist: props.item.artist, artistID: props.item.artistID}}" 
                 class="body-1 grey--text noDeco"
+                @click.native.stop
               >
                 <v-avatar
                   class="mt-1 comAv"
@@ -40,13 +45,16 @@
                 </v-avatar>
               </router-link>
             </v-flex>
-            <v-flex xs10>
+            <v-flex 
+              xs10 
+            >
               <div>
                 <div class="body-1 grey--text py-1">
                   <!-- ARTIST -->
                   <router-link 
                     :to="{name: 'artist', params: {source: source, artist: props.item.artist, artistID: props.item.artistID}}" 
                     class="body-1 grey--text noDeco"
+                    @click.native.stop.prevent
                   >
                     <strong>{{ props.item.artist }}</strong> 
                   </router-link>
@@ -64,8 +72,10 @@
           <commentThread 
             v-if="props.item.totalReplyCount" 
             :total-reply-count="props.item.totalReplyCount" 
-            :comment-thread="props.item.commentID" 
+            :comment-thread="props.item.commentID"
             :source="source"
+            :show-thread="props.item.show"
+            @show="props.item.show = $event"
           />
         </v-card>
         <v-divider v-if="props.index != aComments.length - 1"/>
@@ -147,6 +157,9 @@ export default {
     }
   },
   methods: {
+    commentClick(d){
+      console.log('show event', d)
+    },
     reset () {
       this.aComments = []
       this.iPage = 0
@@ -196,16 +209,19 @@ export default {
 </script>
 
 <style>
-
+.py-2.v-card--hover {
+  cursor: initial;
+}
 @media only screen and (max-width: 599px){
   .comAv{
-    margin-left: 4px;
-    margin-right: 4px;
+    margin-left: 8px;
+    margin-right: 8px;
   }
 }
 @media only screen and (min-width: 600px){
   .comAv{
-    margin-left: 10px
+    margin-left: 10px;
+    margin-right: 10px;
   }
 }
 

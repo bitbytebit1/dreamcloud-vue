@@ -9,7 +9,7 @@
       v-if="!loading && !bFailed"
       :show-uploaded="!0" 
       :songs="searchResults" 
-      rows-per-page='250' 
+      infinite
       @conmen="$emit('conmen', $event)"
     /> 
     <!-- <infinite-loading 
@@ -67,35 +67,41 @@ export default {
       return this.source.split('-')
     }
   },
-  watch: {
-    '$route.params': {
-      immediate: true,
-      handler: 'searchInt'
-    }
+  // created () {
+  //   this.searchInt(this.$route.params);
+  // },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      vm.searchInt(to.params)
+    })
+  },
+  beforeRouteUpdate (to, from, next) {
+    this.searchInt(to.params);
+    next();
   },
   methods: {
-    infiniteHandler ($state) {
-      this.search(++this.iPage).then(function () {
-        $state.loaded()
-      })
-    },
-    searchInt () {
-      
-      if (this.$route.name == 'searchArtist' && this.oldQ != this.query + this.source) {
+    // infiniteHandler ($state) {
+    //   this.search(++this.iPage).then(function () {
+    //     $state.loaded()
+    //   })
+    // },
+    searchInt (params) {
+      // console.log('bind artist')
+      if (this.oldQ != this.query + this.source) {
         // alert(1)
-        this.$store.dispatch('loadIndeterm', true)
+        // this.$store.dispatch('loadIndeterm', true)
         this.bFailed = false
-        this.search(0)
+        this.search(params, 0)
       }
     },
-    search (iPage) {
+    search (params, iPage) {
       this.searchResults = !iPage ? [] : this.searchResults
       this.oldQ = this.query + this.source
-      return this.$DCAPI.searchInt(this.$route.params.query, iPage, this.splitSource, '', (d) => {
+      return this.$DCAPI.searchInt(params.query, iPage, this.splitSource, '', (d) => {
         this.loading = false
-        if (iPage === 0) {
-          this.$store.dispatch('loadIndeterm', false)
-        }
+        // if (iPage === 0) {
+        //   this.$store.dispatch('loadIndeterm', false)
+        // }
         // If no results stop infinite loading
         if (!d.length && !this.searchResults.length) {
           // this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete')

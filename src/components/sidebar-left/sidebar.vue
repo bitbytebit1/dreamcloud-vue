@@ -5,11 +5,22 @@
       class="pa-0"
     >
 
-      <!-- Change to for loop to save the whales... I mean internet -->
-      <!-- login -->
 
+      <!-- VISUALISE -->
+      <!-- <v-list-tile 
+        :to="{name: 'visualise'}" 
+        :class="isPorA('visualise')"
+        :active-class="isPorA('visualise')"
+        @click="closeLeft"
+      >
+        <v-list-tile-action>
+          <v-icon>home</v-icon>
+        </v-list-tile-action>
+        <v-list-tile-content>
+          <v-list-tile-title>Visualise</v-list-tile-title>
+        </v-list-tile-content>
+      </v-list-tile> -->
 
-      
       <!-- RECOMMENDED -->
       <v-list-tile 
         :to="{name: 'home', params: {user: UID}}" 
@@ -139,7 +150,7 @@
     </v-list>
     
     <!-- Playists -->
-    <!-- v-show="!$store.getters.drawLeft"  -->
+    <!-- v-show="!$store.state.user.drawLeft"  -->
     <v-list 
       dense
       class="pa-0"
@@ -148,7 +159,7 @@
     </v-list>
     
     <!-- Subscriptions -->
-    <!-- v-show="!$store.getters.drawLeft"  -->
+    <!-- v-show="!$store.state.user.drawLeft"  -->
     <v-list 
       dense
       class="pa-0 pb-5"
@@ -197,7 +208,7 @@ export default {
       return this.loggedIn ? 'User' : 'Login'
     },
     loggedIn () {
-      return this.$store.getters.auth_state
+      return this.$store.state.user.auth_state
     }
   },
   mounted () {

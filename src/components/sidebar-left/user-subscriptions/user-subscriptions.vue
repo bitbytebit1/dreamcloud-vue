@@ -33,7 +33,9 @@
           ref="search"
           v-model="search"
           color="primary"
-          label="Filter"
+          placeholder="Filter"
+          onfocus="this.placeholder = ''"
+          onblur="this.placeholder = 'Filter'"
           class="filter ma-0 pa-0"
           single-line
           hide-details
@@ -44,7 +46,7 @@
       </v-list-tile-content>
     </v-list-tile>
     <v-data-iterator
-      v-if="$store.getters.auth_state"
+      v-if="auth_state"
       :items="subscriptions"
       :search="search"
       :rows-per-page-items="rowsPerPageItems"
@@ -73,10 +75,10 @@
         slot-scope="props"
         :class="isPlaying(props.item['source'], props.item['name'], props.item['id'])"
         :active-class="isPlaying(props.item['source'], props.item['name'], props.item['id']) || 'secondary white--text'"
-        :to="{path: '/a/' + props.item['source'] + '/' + encodeURIComponent(props.item['name']) + '/' + props.item['id']}"
         :key="props.item['.key']"
-        @click="closeLeftOnMobile"
+        @click="(closeLeftOnMobile(), $router.push({name: 'artist', params: {source: props.item['source'], artist: props.item['name'], artistID: props.item['id']}}))"
       >
+        <!-- :to="{name: 'artist', params: {source: props.item['source'], artist: props.item['name'], artistID: props.item['id']}}" -->
         <v-list-tile-action color="green">
           <v-avatar 
             slot='activator' 
@@ -88,9 +90,7 @@
             >
           </v-avatar>
         </v-list-tile-action>
-        <v-list-tile-content 
-          :class="isPlaying(props.item['source'], props.item['name'], props.item['id'])"
-        >
+        <v-list-tile-content>
           <v-list-tile-title>{{ props.item['name'] }}</v-list-tile-title>
         </v-list-tile-content>
         <delete-button 
@@ -104,6 +104,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import { mapGetters } from 'vuex'
 import deleteButton from '@/components/buttons/delete-button'
 export default {
@@ -130,12 +131,14 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      auth_state: state => state.user.auth_state,
+    }),
     ...mapGetters({
-      auth_state: 'auth_state',
       uid: 'uid'
     }),
     bUIShowMore () {
-      return this.$store.getters.auth_state && this.subscriptions.length > 5
+      return this.auth_state && this.subscriptions.length > 5
     },
     filterLeng () {
       return this.search.length > 0

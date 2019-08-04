@@ -14,9 +14,9 @@
   >
     <v-btn 
       slot="activator" 
-      :to="url" 
+      :href="url" 
       icon
-      @click.stop="open"
+      @click.prevent="open"
     >
       <v-icon>open_in_new</v-icon>
     </v-btn>
@@ -28,7 +28,7 @@ export default {
   name: 'NewTab',
   props: {
     song: {
-      type: Object,
+      type: [Object, String],
       default: function () {
         return { source: '' }
       }
@@ -47,6 +47,7 @@ export default {
   },
   methods: {
     open () {
+      this.$DCPlayer.pause()
       // http://localhost:8080/#/p/English%20Frank%20A.K.A.%20Frantic%20Frank%20Playlist/YouTube/UC7m50joF-qTmt2e9jc-7v7Q/PLe5KuCdfXCKewvJvVez_nz3zkBgZMA-2u
       // if (this.song.hasOwnProperty('listID')) {
       window.open(this.url,'_blank');

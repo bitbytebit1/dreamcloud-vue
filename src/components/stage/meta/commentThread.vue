@@ -1,26 +1,27 @@
 <template>
-  <v-flex class="ma-0 pa-0" >
+  <v-flex 
+    class="ma-0 pa-0" 
+    @click="$emit('show', showThread)"
+  >
     <v-layout 
       row 
       wrap 
       class="ma-0 pa-0"
     >
       <v-flex 
-        xs12 
-        class="pointer body-1 comMor" 
-        @click="show = !show"
+        shrink 
+        class="pointer body-1 comMor noSel primary--text" 
       >
-        {{ (show ? 'Hide' : 'Show') + ` ${totalReplyCount} replies` }} 
-        <v-icon size="18">{{ show ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
+        {{ (showThread ? 'Hide' : 'Show') + ` ${totalReplyCount} replies` }} 
+        <v-icon size="18">{{ showThread ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
         <orbit 
           v-if="bLoading" 
           class="my-3 ml-4"
         />
       </v-flex>
     </v-layout>
-
     <v-data-iterator
-      v-if="show"
+      v-if="showThread"
       :items="aComments"
       content-tag="v-layout"
       row
@@ -29,12 +30,11 @@
       no-data-text=""
     >
       <v-flex
-        v-if="show"
+        v-if="showThread"
         slot="item"
         slot-scope="props"
-        offset-xs1
-        xs11
-        class="pr-1 py-1"
+        xs12
+        class="comThr"
       >
         <v-card 
           class="py-2" 
@@ -42,13 +42,14 @@
         >
           <v-layout row>
             <v-flex 
-              xs1 
-              sm1 
-              style="min-width:54px"
+              pt-2
+              mr-3
+              shrink
             >
               <router-link 
                 :to="{name: 'artist', params: {source: source, artist: props.item.artist, artistID: props.item.artistID}}" 
-                class="body-1 grey--text noDeco pl-2"
+                class="body-1 grey--text noDeco"
+                @click.stop
               >
                 <v-avatar 
                   size="40" 
@@ -56,7 +57,6 @@
                 >
                   <img 
                     :src="props.item.artistIMG" 
-                    alt="avatar"
                   >
                 </v-avatar>
               </router-link>
@@ -74,7 +74,7 @@
                 <!-- CREATED -->
                 <span>{{ ' ' + $DCAPI.calcDate('', props.item.commentCreated) }}</span></div>
                 <div 
-                  class="body-1 preline py-1" 
+                  class="body-1 preline py-1 pr-1" 
                   v-html="timeToSeconds(props.item.comment)"
                 />
               </div>
@@ -99,7 +99,7 @@ import orbit from '@/components/misc/orbit'
 export default {
   name: 'songCommentsThread',
   watch: {
-    'show': 'queryComments'
+    'showThread': 'queryComments'
   },
   components: {
     'orbit': orbit
@@ -116,11 +116,14 @@ export default {
     source: {
       type: [String],
       default: ''
+    },
+    showThread: {
+      type: [Boolean],
+      default: false
     }
   },
   data () {
     return {
-      show: false,
       aComments: [],
       iPage: 0,
       bLoading: false 
@@ -133,14 +136,14 @@ export default {
       }
       if (this.$store.getters.ytUseVideo && this.$store.getters.isYT) {
         return (value.replace(/(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)([0-5]?\d)/g,
-        `<span class="underline pointer" onClick="window.dcYT.seekTo('$&'.split(':').reduce((acc,time) => (60 * acc) + +time));">$&</span>`))
+        `<span class="underline pointer" onClick="window.dcYT.seekTo('$&'.split(':').reduce((acc,time) => (60 * acc) + +time));return false">$&</span>`))
       } else {
         return (value.replace(/(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)([0-5]?\d)/g,
-        `<span class="underline pointer" onClick="document.getElementById('dc-audio').currentTime = '$&'.split(':').reduce((acc,time) => (60 * acc) + +time)">$&</span>`))
+        `<span class="underline pointer" onClick="document.getElementById('dc-audio').currentTime = '$&'.split(':').reduce((acc,time) => (60 * acc) + +time);return false">$&</span>`))
       }
     },
     queryComments () {
-      if (this.show && ! this.aComments.length) {
+      if (this.showThread && ! this.aComments.length) {
         this.aComments = []
         this.iPage = 0
         this.getComments()
@@ -172,8 +175,22 @@ export default {
 </script>
 
 <style>
-.comMor{
-  position: relative;
-  left: 75px !important;
-}
+  @media only screen and (min-width: 600px){
+    .comMor{
+      position: relative;
+      left: 67px !important;
+    }
+  }
+  @media only screen and (max-width: 599px){
+    .comMor{
+      position: relative;
+      left: 56px !important;
+    }
+    .comThr{
+      position: relative;
+      left: 21px !important;
+      margin-right: 21px;
+      padding-right: 21px;
+    }
+  }
 </style>

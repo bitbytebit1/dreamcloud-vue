@@ -8,7 +8,7 @@
       class="my-3"
     >
       
-      <v-jumbotron 
+      <v-responsive 
         :gradient="`to top, ${$store.getters.nightMode ? '#fff' : '#ffffff'}, ${$vuetify.theme.primary}`" 
         dark
         small
@@ -59,27 +59,26 @@
                       :to="{name: 'artist', params: {source: props.item.s, artist: props.item.a, artistID: props.item.ai }}" 
                       flat
                     >
-                      <clazy :src="props.item.i">
-                        <v-img
-                          :src="props.item.i"
-                          height="200px"
-                        >
-                          <v-layout
-                            v-if="!$vuetify.breakpoint.xs"
-                            slot="placeholder"
-                            fill-height
-                            align-center
-                            justify-center
-                            ma-0
-                            class="fillPlace"
-                          />
-                        </v-img>
-                        <v-img
+                      <v-img
+                        v-lazy:background-image="props.item.i"
+                        :src="props.item.i"
+                        height="200px"
+                      >
+                        <v-layout
+                          v-if="!$vuetify.breakpoint.xs"
                           slot="placeholder"
-                          :aspect-ratio="1"
-                          class="fillPlace" 
+                          fill-height
+                          align-center
+                          justify-center
+                          ma-0
+                          class="fillPlace"
                         />
-                      </clazy>
+                      </v-img>
+                      <v-img
+                        slot="placeholder"
+                        :aspect-ratio="1"
+                        class="fillPlace" 
+                      />
                       <v-card-title>
                         <h3 class="subheading fwl mb-0 text-xs-center">{{ props.item.a }}</h3>
                       </v-card-title>
@@ -99,18 +98,17 @@
             </v-card>
           </v-expansion-panel-content>
         </v-expansion-panel>
-    </v-jumbotron></v-flex>
+      </v-responsive>
+    </v-flex>
   </v-flex>
 </template>
 <script>
 // /* eslint-disable */
 import subscribeButton from '@/components/buttons/subscribe-button'
-import { VueClazyLoad } from 'vue-clazy-load'
 export default {
   name: 'Genres',
   components: {
     'subscribe-button': subscribeButton,
-    'clazy': VueClazyLoad
   },
   computed: {
     background () {

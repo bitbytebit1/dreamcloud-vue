@@ -20,12 +20,12 @@
       />
       <v-divider/>
       <go-to-artist 
-        v-if="a.length && ($route.name != 'artist' && $route.params.artistID != a[0].artistID)" 
+        v-if="showArtist" 
         :song="a"
       />
       <related
         :song="a[0]"
-        @clicked.native="b = false"
+        @clicked="b = false"
       />
       <v-divider/>
       <new-tab
@@ -74,7 +74,7 @@ import deleteButton from '@/components/buttons/delete-button'
 import shareButton from '@/components/buttons/share-button'
 import downloadButton from '@/components/buttons/download-button'
 import goToArtist from '@/components/buttons/go-to-artist'
-import related from '@/components/buttons/related'
+import related from '@/components/buttons/related-button.vue'
 export default {
   components: {
     'related': related,
@@ -95,6 +95,11 @@ export default {
       y: 0,
     }
   },
+  computed : {
+    showArtist () {
+      return this.a.length && (this.$route.name != 'artist' && this.$route.params.artistID != this.a[0].artistID)
+    }
+  },
   methods: {
     delete (key) {
       this.$DCFB.playlistSongDelete(this.$route.params.playlist, key)
@@ -104,9 +109,17 @@ export default {
         this.delete(this.a[i].key)
       }
     },
+    // magic function, gets called by ref from parent component 'App'. bad voodoo. 
     show (e, a) {
+      // if already open toggle menu on click, just vuetify things
       e.preventDefault()
-      this.b = false
+      if (e.type == 'click') {
+        this.b = false
+      } 
+      // else { //if(e.type =='contextmenu')
+      // this.b = true
+      // }
+
       this.x = e.clientX
       this.y = e.clientY
       setTimeout(() => {

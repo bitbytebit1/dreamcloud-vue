@@ -1,18 +1,18 @@
 <template>
   <v-flex 
-    :lg10="$route.name === 'related'" 
+    :lg10="lg10" 
     xs12
   >
     <v-flex 
-      v-if="$route.name === 'related'"
+      v-if="lg10"
       class="headline fwl text-xs-left pl-2 pt-2"
     >
-      Related to {{ $route.params.title }} by {{ $route.params.artist }}
+      Related to {{ title }} by {{ artist }}
     </v-flex>
-
     <playlist 
       :songs="aSongs"
-      rows-per-page='-1' 
+      infinite
+      show-uploaded
       @conmen="$emit('conmen', $event)"
     /> 
   </v-flex>
@@ -21,13 +21,34 @@
 // /* eslint-disable */
 export default {
   name: 'Related',
+  props: {
+    lg10: {
+      type: Boolean,
+      default: true
+    },
+    trackID: {
+      type: [String, Number],
+      default: ''
+    },
+    source: {
+      type: String,
+      default: ''
+    },
+    artist: {
+      type: String,
+      default: ''
+    },
+    title: {
+      type: String,
+      default: ''
+    },
+  },
   watch: {
-    '$route.params.trackID': {
+    'trackID': {
       handler: 'bind',
       immediate: true,
     }
   },
-
   data () {
     return {
       aSongs: []
@@ -36,8 +57,9 @@ export default {
   methods: {
     bind () {
       // this.$store.dispatch('loadIndeterm', true)
-      if (this.$route.params.trackID) {
-        this.$DCAPI.searchInt('', 0, [this.$route.params.source], this.$route.params.trackID, (d) => {
+      if (this.trackID) {
+        this.aSongs = []
+        this.$DCAPI.searchInt('', 0, [this.source], this.trackID, (d) => {
           // console.log(d)
           this.aSongs = d
           // this.$store.dispatch('loadIndeterm', false)

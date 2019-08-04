@@ -16,7 +16,7 @@
     <infinite-loading 
       v-if="!loading" 
       ref="infiniteLoading" 
-      :distance="210" 
+      :distance="800" 
       spinner="waveDots" 
       @infinite="infiniteHandler"
     >
@@ -63,39 +63,41 @@ export default {
     'loading': loading,
     'jumbo': jumbo
   },
-  computed: {
-    splitSource () {
-      return this.source.split('-')
-    }
+  // created () {
+  //   console.log('created')
+  //   this.searchInt(this.query, this.source, 0)
+  // },
+  beforeRouteUpdate (to, from, next) {
+    this.searchInt(to.params.query, to.params.source)
+    next();
   },
-  watch: {
-    '$route.params': {
-      immediate: true,
-      handler: 'searchInt'
-    }
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      vm.searchInt(to.params.query, to.params.source)
+    })
   },
   methods: {
     infiniteHandler ($state) {
-      this.search(++this.iPage).then(function () {
+      this.search(this.query, this.source, ++this.iPage).then(function () {
         $state.loaded()
       })
     },
-    searchInt () {
-      if (this.$route.name == 'searchQuery' && this.oldQ != this.$route.params.query + this.$route.params.source) {
-        this.$store.dispatch('loadIndeterm', true)
+    searchInt (query, source) {
+      if (this.oldQ != query + source) {
+        // this.$store.dispatch('loadIndeterm', true)
         this.bFailed = false
-        this.search(0)
+        this.search(query, source, 0)
       }
     },
-    search (iPage) {
+    search (query, source, iPage) {
 
       this.searchResults = !iPage ? [] : this.searchResults
-      this.oldQ = this.$route.params.query + this.$route.params.source
-      return this.$DCAPI.searchInt(this.$route.params.query, iPage, this.splitSource, '', (d) => {
+      this.oldQ = query + source
+      return this.$DCAPI.searchInt(query, iPage, source.split('-'), '', (d) => {
         this.loading = false
-        if (iPage === 0) {
-          this.$store.dispatch('loadIndeterm', false)
-        }
+        // if (iPage === 0) {
+        //   this.$store.dispatch('loadIndeterm', false)
+        // }
         // If no results stop infinite loading
         if (!d.length && !this.searchResults.length) {
           this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete')

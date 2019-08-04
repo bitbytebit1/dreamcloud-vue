@@ -53,11 +53,11 @@ export default {
     getPlaylistItems () {
       let f = (sToken) => {
         let sanity = this.listID
-        this.$store.dispatch('loadIndeterm', true)
+        // this.$store.dispatch('loadIndeterm', true)
         this.$DCAPI.getChannelPlaylistItems(this.listID, this.source, 50, sToken, (resp) => {
           if (sanity === this.listID) {
             this.aSongs.push(...resp.data)
-            this.$store.dispatch('loadIndeterm', false)
+            // this.$store.dispatch('loadIndeterm', false)
             // this.aSongs = this.aSongs.concat(resp.data)
             if (resp.nextPage) {
               f(resp.nextPage)

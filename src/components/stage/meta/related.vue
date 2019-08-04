@@ -5,7 +5,7 @@
     class="mt-3"
   >
     <!-- UP NEXT COMPONENT -->
-    <div v-if="!$store.getters.drawRight">
+    <div v-if="!$store.state.user.drawRight">
       <div class="text-xs-left subheading">
         Up next
       </div>
@@ -50,6 +50,7 @@
               <router-link
                 :to="{name: 'artist', params: {source: upNext.source, artist: upNext.artist, artistID: upNext.artistID}}"
                 class="subheading grey--text artist noDeco"
+                @click.native.stop
               >
                 {{ upNext.artist }}
               </router-link>
@@ -61,7 +62,10 @@
       </v-flex>
       <v-divider/>
     </div>
-    <div class="text-xs-left subheading mt-2">
+    <div 
+      v-if="loading || items.length"
+      class="text-xs-left subheading mt-2"
+    >
       Related
     </div>
     <v-flex 
@@ -126,10 +130,11 @@
               <div class="subheading wordbreak">{{ props.item.title }}</div>
               <!-- artist -->
               <router-link
-                :to="{name: 'artist', params: {source: upNext.source, artist: upNext.artist, artistID: upNext.artistID}}"
+                :to="{name: 'artist', params: {source: props.item.source, artist: props.item.artist, artistID: props.item.artistID}}"
                 class="subheading grey--text artist noDeco"
+                @click.native.stop
               >
-                {{ upNext.artist }}
+                {{ props.item.artist }}
               </router-link>
               <!-- duration -->
               <div class="grey--text">{{ props.item.duration }}</div>
@@ -151,9 +156,14 @@ export default {
   components: {
     'orbit': orbit
   },
+  props: {
+    trackID: {
+      type: [String, Number],
+      default: ''
+    },
+  },
   watch: {
-    index: {
-      immediate: true,
+    trackID: {
       handler: 'getRelated'
     }
   },
@@ -169,34 +179,30 @@ export default {
     ...mapGetters({
       isYT: 'isYT',
       song: 'current_song',
-      upNext: 'next_song',
-      trackID: 'current_trackID',
-      index: 'index'
+      upNext: 'next_song'
     })
   },
   methods: {
-    play (index) {
-      // this.$store.commit.setNPlay(index, this.items)
+    play (i) {
       window.scrollTo(0, 0)
-      // Event.observe(window, 'load', () =>{
-      //   window.scrollTo(x,x)
-      // })
-      this.$store.commit('setNPlay', {songs: this.items, current: index, path: this.$route.path})
-      return this.$DCPlayer.setNPlay(this.items, index)
+      this.$DCPlayer.setNPlay({songs: this.items, current: i, path: this.$route.path})
+
     },
     getRelated () {
-      this.loading = true
-      // console.log('calling')
-      this.items = []
-      this.$DCAPI.searchInt('', 0, [this.song.source], this.trackID, (d) => {
-        this.loading = false
-        if (d.length) {
-          if (d[0].trackID === this.trackID) {
-            d.shift()
+      if (this.trackID) {
+        this.loading = true
+        this.items = []
+        this.$DCAPI.searchInt('', 0, [this.song.source], this.trackID, (d) => {
+          this.loading = false
+          if (d.length) {
+            if (d[0].trackID === this.trackID) {
+              d.shift()
+            }
+            this.items = d
           }
-          this.items = d
-        }
-      }, true, 50)
+        }, true, 50)
+
+      }
     },
     hai (source) {
       if (this.$vuetify.breakpoint.name === 'xs') {

@@ -1,6 +1,6 @@
-
 <template>
   <v-layout 
+    v-show="bShowStage || (!bShowStage && show_pop && $vuetify.breakpoint.smAndUp)" 
     row 
     wrap 
     class="pb-5 ma-0 pa-0"
@@ -10,23 +10,19 @@
       v-show="ytUseVideo && isYT" 
       xs12
     >
-      <div class="video-wrapper">
-        <img 
-          v-show="!(ytUseVideo && isYT)"
-          id="pstr" 
-          :src="song.posterLarge"
-          :key="song.trackID"
-        >
-        <div 
-          v-show="ytUseVideo && isYT"
-          id="player" 
-        />
+      <div :class="videoClass">
+        <div id="player"/>
       </div>
     </v-flex>
+    <!-- OR POSTER -->
     <v-flex 
-      v-show="!(ytUseVideo && isYT)" 
-      class="nosel"
-      xs12 
+      v-touch="{
+        left: $DCPlayer.next,
+        right: $DCPlayer.previous
+      }" 
+      v-show="!(ytUseVideo && isYT) && !show_pop"
+      class="nosel" 
+      xs12
       @click="$DCPlayer.togglePlay()"
       @contextmenu="$emit('conmen', [$event, [song]])"
     >
@@ -39,7 +35,7 @@
       </div>
     </v-flex>
     <v-flex 
-      dFlex 
+      v-show="bShowStage" 
       xs12
     >
       <v-layout 
@@ -56,13 +52,13 @@
         </v-flex>
         <!-- BUTTONS AND UPLOADED DATE/VIEWS AND DIVIDER -->
         <v-flex 
-          :style="stageBorderStyle" 
+          :style="stageBorderStyle"
           xs12 
           class="stage-btns"
         >
           <!-- FLOAT LEFT -->
           <div class="fl-l blue-grey--text text--lighten-1 mt-3">
-            {{ iViews }} • {{ $DCAPI.calcDate('', song.uploaded) }}
+            {{ iViews ? iViews + ' • ' : '' }}{{ $DCAPI.calcDate('', song.uploaded) }}
           </div>
           <!-- FLOAT RIGHT -->
           <div class="fl-r">
@@ -101,7 +97,6 @@
             <download-button :links="[song]"/>
             <!-- ADD TO PLAYLIST -->
             <add-to-playlist 
-              v-if="auth_state" 
               :song="song"
             />
             <!-- WIDE SCREEN BUTTON -->
@@ -126,7 +121,7 @@
               <v-btn 
                 slot="activator" 
                 icon 
-                @click="()=>$router.go(-1)"
+                @click="$store.commit('show_pop', true)"
               >
                 <v-icon>picture_in_picture_alt</v-icon>
               </v-btn>
@@ -153,7 +148,12 @@
           class="text-xs-left mt-3 song-meta"
         >
           <v-layout 
-            row 
+            v-touch="{
+              left: previous,
+              right: next,
+              
+            }" 
+            row
             wrap
           >
             <!-- <div class="text-xs-left song-meta mt-3 wordbreak"> -->
@@ -199,28 +199,34 @@
             <v-tab-item>
               <!-- CURRENT PLAYLIST -->
               <playlist 
-                :songs="current_Playlist" 
-                :rows-per-page="-1"
+                :songs="current_playlist"
+                :show-uploaded="!0"
+                :rows-per-page='250' 
                 @conmen="$emit('conmen', $event)"
               />
             </v-tab-item>
             <v-tab-item>
               <!-- COMMENTS -->
               <songComments 
-                :trackID="song.trackID" 
-                :source="song.source"
+                :trackID="metaSong.trackID" 
+                :source="metaSong.source"
               />
             </v-tab-item>
             <v-tab-item>
               <!-- LYRICS -->
               <lyrics 
-                :title="song.title" 
-                :artist="song.artist"
+                :title="metaSong.title" 
+                :artist="metaSong.artist"
               />
             </v-tab-item>
             <v-tab-item v-if="$vuetify.breakpoint.mdAndDown">
               <!-- RELATED -->
               <related 
+                :artist="metaSong.artist"
+                :title="metaSong.title"
+                :trackID="metaSong.trackID"
+                :source="metaSong.source"
+                :lg10="false"
                 @conmen="$emit('conmen', $event)"
               />
             </v-tab-item>
@@ -229,8 +235,9 @@
         
         <!-- RELATED -->
         <relatedd 
-          v-if="$vuetify.breakpoint.lgAndUp" 
-          @conmen="$emit('conmen', $event)"
+          v-if="$vuetify.breakpoint.lgAndUp && bShowStage" 
+          :trackID="metaSong.trackID"
+          @conmen="$emit('conmen', $event)" 
         />
       </v-layout>
     </v-flex>
@@ -242,20 +249,19 @@ import newTab from '@/components/buttons/open-new-tab'
 import related from '@/router/related/related'
 import relatedd from '@/components/stage/meta/related'
 import artistMini from '@/components/stage/meta/artist-mini'
-import youtubeVBtn from '@/components/stage/meta/toggle-video-button'
+import youtubeVBtn from '@/components/buttons/toggle-video-button'
 import songComments from '@/components/stage/meta/comments'
 import lyrics from '@/components/stage/meta/lyrics'
 import addToPlaylist from '@/components/buttons/add-to-playlist.vue'
 import shareButton from '@/components/buttons/share-button'
 import downloadButton from '@/components/buttons/download-button'
-import current from '@/components/stage/meta/current'
+// import current from '@/components/stage/meta/current'
+import { mapState } from 'vuex'
 import { mapGetters } from 'vuex'
-
-
 
 /* eslint-disable */
 export default {
-  name: 'video-stage',
+  name: 'VideoStage',
   beforeCreate () {
     var tag = document.createElement('script')
     tag.src = 'https://www.youtube.com/iframe_api'
@@ -263,33 +269,57 @@ export default {
     fst.parentNode.insertBefore(tag, fst)
   },
   watch: {
-  trackID: {
-      immediate: true,
-      handler: function(l) {
-        
-        this.getPlays()
-        this.getDesc()
-        // what does this do? updates the router with the proper route.
-        if (this.$route.name === 'auto') {
-            // alert(l)
-            // this.$router.push({name: 'stage'})
-            this.$router.replace({name: 'auto', params: { artist: this.$store.getters.current_song.artist,  trackID: this.$store.getters.current_song.trackID,  source: this.$store.getters.current_song.source }})
-            // return
-          }
-        if (this.isYT && this.ytUseVideo) {
-          if (!this.ytObject.hasOwnProperty('loadVideoById')) {
-            this.ytBind()
+    trackID: {
+      handler: function(id) {
+        if(id && this.song){
+          // On track change update metaSong
+          // Otherwise update metaSong when bShowStage = true
+          if (this.bShowStage) {
+            this.metaSong = this.song
+            this.getPlays()
+            this.getDesc()
           } else {
-            this.ytObject.loadVideoById(this.trackID)
+            this.description = this.song.description
           }
-          this.$DCPlayer.pause()
+          // what does this do? updates the router with the proper route.
+          if (this.$route.name === 'auto') {
+            this.$router.replace({name: 'auto', params: { artist: this.song.artist,  trackID: this.song.trackID,  source: this.song.source }})
+          }
+          if (this.isYT && this.ytUseVideo) {
+            if (!this.ytObject.hasOwnProperty('loadVideoById')) {
+              this.ytBind()
+            } else {
+              this.ytObject.loadVideoById(this.trackID)
+              // window.dcYT.loadVideoById(this.trackID)
+            }
+            this.$DCPlayer.eAudio.pause()
+          }
+        }
+      },
+      immediate: true
+    },
+    bShowStage: {
+      handler: function(val) {
+        if (val) {
+          this.$nextTick(() => {
+            this.$nextTick(() => {
+              if (this.metaSong.trackID != this.song.trackID) {
+                // console.log('showing', this.song.trackID)
+                this.metaSong = this.song
+                this.description = this.song.description
+                this.getPlays()
+                this.getDesc()
+              } 
+              // else console.log('skipping meta')
+            })
+          })
         }
       }
-    }
+    },
   },
   components: {
     'newTab': newTab,
-    'current': current,
+    // 'current': current,
     'artist-mini': artistMini,
     'youtube-button': youtubeVBtn,
     'related': related,
@@ -301,20 +331,25 @@ export default {
     'share-button': shareButton
   },
   computed: {
+    ...mapState({
+      bShowStage: state => state.user.bShowStage,
+      // drawLeft: state => state.user.drawLeft,
+      // drawRight: state => state.user.drawRight,
+      current_playlist: state => state.player.current_playlist,
+      show_pop_list: state => state.player.show_pop_list,
+      show_pop: state => state.player.show_pop,
+    }),
     ...mapGetters({
-      current_Playlist: 'current_Playlist',
-      auth_state: 'auth_state',
       song: 'current_song',
-      index: 'index',
-      hash: 'hash',
       trackID: 'current_trackID',
       ytUseVideo: 'ytUseVideo',
       ytObject: 'ytObject',
-      drawLeft: 'drawLeft',
       showVideo: 'showVideo',
-      drawRight: 'drawRight',
       isYT: 'isYT'
     }),
+    videoClass () {
+      return {'video-wrapper': !this.show_pop, 'pop-wrapper' : this.show_pop, 'pop-hi': this.show_pop && this.show_pop_list}
+    },
     stageBorderStyle () {
       return {
         'border-bottom': '1px solid ' + this.$vuetify.theme.primary,
@@ -323,6 +358,7 @@ export default {
   },
   data () {
     return {
+      metaSong: {title: '', artist: '', trackID: '', source: '', poster: ''},
       tab: 1,
       bWide: false,
       btnCol: '',
@@ -338,10 +374,19 @@ export default {
     clearInterval(this.interval)
   },
   methods: {
-    widescreen () {
-      this.bWide = !(this.drawLeft || this.drawRight)
-      this.$store.commit('drawRight', this.bWide)
-      this.$store.commit('drawLeft', this.bWide)
+    next(e) {
+      // console.log('event', -(e.touchstartX  - e.touchendX)) 
+      if (e.touchstartX  - e.touchendX > 50) 
+      { 
+        this.$DCPlayer.next()
+      }
+    },
+    previous(e) {
+      // console.log('event', e.touchstartX  - e.touchendX) 
+      if (e.touchstartX  - e.touchendX > 50) 
+      { 
+        this.$DCPlayer.next()
+      }
     },
     btnFeedback () {
       this.btnCol = 'primary'
@@ -378,16 +423,34 @@ export default {
       if (!value) {
         return ''
       }
-      return (value.replace(/(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)([0-5]?\d)/g,
-        `<span class="underline pointer" onClick="window.dcYT.seekTo('$&'.split(':').reduce((acc,time) => (60 * acc) + +time));">$&</span>`))
+      if (this.ytUseVideo && this.isYT) {
+        return (value.replace(/(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)([0-5]?\d)/g,
+                              `<span class="underline pointer" onClick="window.dcYT.seekTo('$&'.split(':').reduce((acc,time) => (60 * acc) + +time));">$&</span>`))
+      } else {
+        return (value.replace(/\n/g, '<br>').replace(/(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)([0-5]?\d)/g, 
+                                                     `<span class="underline" onClick="document.getElementById('dc-audio').currentTime = '$&'.split(':').reduce((acc,time) => (60 * acc) + +time)">$&</span>`))
+      }
     },
     fullscreen () {
-      this.$UTILS.toggleFullscreen('player')
+      if (this.ytUseVideo && this.isYT) {
+        this.$UTILS.toggleFullscreen('player')
+      } else {
+        this.$UTILS.toggleFullscreen('pstr')
+      }
+      if (this.$UTILS.isMobile) {
+        screen.orientation.lock("landscape-primary");
+      }
     },
     getDesc () {
-      this.$DCAPI.getSongDescription(this.trackID, this.song.source, (resp) => {
-        this.description = resp.items[0].snippet.description.trim()
-      })
+      if (this.isYT) {
+        setTimeout(() => {
+          this.$DCAPI.getSongDescription(this.trackID, this.song.source, (resp) => {
+            this.description = resp.items[0].snippet.description.trim()
+          })
+        }, 350);
+      } else {
+        this.description = this.song.description
+      }
     },
     ytBind () {
       // Wait for YouTube script to load
@@ -403,6 +466,7 @@ export default {
       if (!this.yt) {
         this.yt = new YT.Player('player', {
           width: '100%',
+          height: '196',
           videoId: this.trackID,
           enablejsapi: 1,
           playerVars: {
@@ -467,14 +531,34 @@ export default {
 </script>
 
 <style>
+
+.pstr-wrapper {position: relative; padding-bottom: 38%; /* 16:9 */  padding-top: 25px;}
+.pstr-wrapper #pstr {position: absolute; top: 0; left: 0; width: 100%; height: 100%;}
+
+
+.pstr-wrapper {
+  background-color: black;
+  /* height: 90%; */
+}
+
 @media only screen and (min-width: 600px){
   .song-meta {  
     padding: 0px 20px;
   }
 }
-
+.pop-wrapper{
+  position: fixed;
+  bottom: 134px;
+  right: 18px;
+  width: 350px;
+  height: 196px;
+  z-index: 4;
+}
+.pop-hi{
+  bottom: 254px  !important;
+}
 .video-wrapper {position: relative; padding-bottom: 38%; /* 56.25% 16:9 */  padding-top: 25px;}
-.video-wrapper iframe {position: absolute; top: 0; left: 0; width: 100%; height: 100%;}
+.pop-wrapper iframe, .video-wrapper iframe {position: absolute; top: 0; left: 0; width: 100%; height: 100%;}
 
 
 .video-wrapper {
@@ -493,7 +577,7 @@ export default {
   float: right;
 }
 #dc-padding{
-  padding: 0 16px;
+  padding: 0 8px;
 }
 /* .slider-wrapper{ */
   /* display: inherit; */

@@ -20,10 +20,11 @@
       top
     >
       <v-btn 
+        id="a2p" 
         slot="activator" 
         :disabled="disabled" 
         :color='btnCol' 
-        class="ml-2" 
+        class="ml-2"
         icon 
         @click.stop="openMenu"
       >
@@ -56,15 +57,16 @@
             class="ma-0 px-2"
             itemValue="key"
             itemText="name"
-            appendIcon=""
-            no-data-text="Create new playlist"
-            label="Playlist name"
-            color="primary"
+            append-Icon=""
             clearable
+            no-data-text="Create new playlist"
+            color="primary"
             hideNoData
+            placeholder="Playlist name"
+            onfocus="this.placeholder = ''"
+            onblur="this.placeholder = 'Playlist name'"
             open-on-clear
             returnObject
-            singleLine
             @keyup.enter='enter'
           >
             <template 
@@ -98,7 +100,7 @@ export default {
   name: 'AddToPlaylist',
   props: {
     song: {
-      type: [Array, Object],
+      type: [Array, Object, String],
       default() {
         return []
       }
@@ -142,6 +144,9 @@ export default {
     },
     enter () {
       this.emit(this.select || this.search)
+      setTimeout(() => {
+        this.$refs.auto.$children[0].isActive = false
+      })
     },
     emit (v) {
       // if (!v) {
@@ -173,7 +178,7 @@ export default {
 
     bind () {
       this.select = ''
-      if (this.$store.getters.auth_state) {
+      if (this.$store.state.user.auth_state) {
         this.$bindAsArray('items', this.$DCFB.playlists.orderByChild('name_lower'))
       }
     }

@@ -48,6 +48,7 @@ export default {
         this.color = ''
       }, 2000)
       for (const link in this.links) {
+        this.$emit('clicked')
         window.open(this.$DCPlayer.sBase + 'v3/stream?t=' + encodeURIComponent(this.links[link].title) + '&i=' + encodeURIComponent(this.links[link].mp32), '_blank')
         // if (this.links[link].mp32.indexOf('soundcloud') > -1) {
         // this.$UTILS.downloadLink('//dream.tribe.nu/r3/off/scd.php?q=' + this.links[link].mp3 + '&t=' + this.links[link].title + ' - ' + this.links[link].artist)

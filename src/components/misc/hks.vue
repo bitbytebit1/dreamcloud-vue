@@ -17,7 +17,7 @@ export default {
       } else if (e.keyCode == '70' && !e.ctrlKey) { // F FOR FULL SCREEN
         this.$UTILS.toggleFullscreen(this.$store.getters.ytUseVideo && this.$store.getters.isYT ? 'player' : 'pstr')
       } else if (e.keyCode == '87') { // W FOR WIDE
-          this.bWide = !(this.$store.getters.drawLeft || this.$store.getters.drawRight)
+          this.bWide = !(this.$store.state.user.drawLeft || this.$store.state.user.drawRight)
           this.$store.commit('drawRight', this.bWide)
           this.$store.commit('drawLeft', this.bWide)
           e.preventDefault()
