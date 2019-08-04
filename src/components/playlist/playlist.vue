@@ -44,7 +44,7 @@
     <infinite-loading 
       v-if="infinite && aSongs.length" 
       ref="infiniteLoading22"
-      :distance="800" 
+      :distance="999" 
       class="flex xs12" 
       spinner="default"
       @infinite="infiniteHandler"
