@@ -13,8 +13,9 @@
     flat
     solo
     onfocus="this.placeholder = ''"
-    onblur="(this.placeholder = 'Search', select = search, $refs.auto.$children[0].isContentActive = false)"
+    onblur="(this.placeholder = 'Search')"
     placeholder="Search"
+    @blur="(select = search, $refs.auto.$children[0].isContentActive = false)"
     @keyup.enter='enter'
   >
     <template 
