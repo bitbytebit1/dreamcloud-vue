@@ -10,8 +10,7 @@
     <jumbo
       :discover="false"
       :error="err"
-      :title="txt"
-      :subheading="$route.params.artist ? 'Just a moment' : 'Try searching for your favourite artist'"
+      :subheading="this.$route.params.artist ? 'Loading song by ' + this.$route.params.artist : 'Try searching for your favourite artist'"
     />
     <v-layout 
       row 
@@ -56,9 +55,6 @@ export default {
     err () {
       // return this.$route.params.artist ? 'Loading song by' + this.$route.params.artist : 'Nothing playing'
       return this.$route.params.artist ? '' : 'Nothing playing'
-    },
-    txt () {
-      return this.$route.params.artist ? 'Loading song by ' + this.$route.params.artist : ''
     }
   }
 }

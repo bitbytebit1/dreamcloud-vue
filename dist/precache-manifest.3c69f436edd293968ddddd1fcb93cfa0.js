@@ -8,12 +8,12 @@ self.__precacheManifest = [
     "url": "update-available.js"
   },
   {
-    "revision": "679fd86f66ed457b4b0b",
-    "url": "js/share.8580aadc.js"
+    "revision": "8a2fe6b2eb7e17727fc2",
+    "url": "js/share.b301ba6f.js"
   },
   {
-    "revision": "9710ee6cfb0dc6e61879",
-    "url": "css/app.54a5bc20.css"
+    "revision": "b842e84d07e53a7a955b",
+    "url": "css/app.fd61d76b.css"
   },
   {
     "revision": "8905d968c57f0dcdbffb",
@@ -24,8 +24,8 @@ self.__precacheManifest = [
     "url": "js/artist.51b527c3.js"
   },
   {
-    "revision": "25bbb7b0e385ad49a52b",
-    "url": "js/auto.79984d89.js"
+    "revision": "a6cea19282f9fd3d258d",
+    "url": "js/auto.96348f98.js"
   },
   {
     "revision": "ad4af6001a810bff2afb",
@@ -116,8 +116,8 @@ self.__precacheManifest = [
     "url": "js/about.9cc9b21a.js"
   },
   {
-    "revision": "9710ee6cfb0dc6e61879",
-    "url": "js/app.6015efc2.js"
+    "revision": "b842e84d07e53a7a955b",
+    "url": "js/app.3bb9f088.js"
   },
   {
     "revision": "219ec70c21ba207aadfb",
@@ -164,7 +164,7 @@ self.__precacheManifest = [
     "url": "img/logo-blue.17e91fdf.png"
   },
   {
-    "revision": "c6e97d9a727793eef0a395a5b89f0130",
+    "revision": "a70780ea4f435fc4031b89aaa9ddb910",
     "url": "index.html"
   },
   {
@@ -172,52 +172,52 @@ self.__precacheManifest = [
     "url": "img/about/dart.png"
   },
   {
-    "revision": "6e8f93d644595cffa1946ff5b9ef6fab",
-    "url": "img/about/cloud.png"
+    "revision": "229113e2fc54268b38173a0d27708b76",
+    "url": "img/about/analytics.png"
   },
   {
-    "revision": "eb8a18708085fd38b78d9932eb0da14c",
-    "url": "img/about/discord.png"
+    "revision": "6e8f93d644595cffa1946ff5b9ef6fab",
+    "url": "img/about/cloud.png"
   },
   {
     "revision": "21a470e3fb2c59e7b680ffeaa49c99bb",
     "url": "img/about/dream.css"
   },
   {
-    "revision": "229113e2fc54268b38173a0d27708b76",
-    "url": "img/about/analytics.png"
-  },
-  {
-    "revision": "b617abbd90e4e3786ef1d460ef6b08c4",
-    "url": "img/about/energy.png"
+    "revision": "eb8a18708085fd38b78d9932eb0da14c",
+    "url": "img/about/discord.png"
   },
   {
     "revision": "f9453134ee948304b1a11fe9b65295e8",
     "url": "img/about/mobile.png"
   },
   {
-    "revision": "d1fecc01213fc8d8077921201dba3707",
-    "url": "img/about/pacman.png"
-  },
-  {
     "revision": "6737924ee68ba5067b55860cc5963b41",
     "url": "img/about/satellite.png"
   },
   {
-    "revision": "fb4ccf6f74aea76928895144aee245c6",
-    "url": "img/about/star.png"
+    "revision": "d1fecc01213fc8d8077921201dba3707",
+    "url": "img/about/pacman.png"
+  },
+  {
+    "revision": "b617abbd90e4e3786ef1d460ef6b08c4",
+    "url": "img/about/energy.png"
   },
   {
     "revision": "20eb006ea0294e851afe5dea83e72b26",
     "url": "img/about/share.png"
   },
   {
-    "revision": "11dd64142f4aec4db5508e67e47941a1",
-    "url": "img/about/webcam.png"
+    "revision": "fb4ccf6f74aea76928895144aee245c6",
+    "url": "img/about/star.png"
   },
   {
     "revision": "990b6be85eac8746b4f32dce99bb40b9",
     "url": "img/about/turntable.png"
+  },
+  {
+    "revision": "11dd64142f4aec4db5508e67e47941a1",
+    "url": "img/about/webcam.png"
   },
   {
     "revision": "735ab4f94fbcd57074377afca324c813",
