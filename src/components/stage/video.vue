@@ -148,7 +148,12 @@
           class="text-xs-left mt-3 song-meta"
         >
           <v-layout 
-            row 
+            v-touch="{
+              left: previous,
+              right: next,
+              
+            }" 
+            row
             wrap
           >
             <!-- <div class="text-xs-left song-meta mt-3 wordbreak"> -->
@@ -369,6 +374,20 @@ export default {
     clearInterval(this.interval)
   },
   methods: {
+    next(e) {
+      // console.log('event', -(e.touchstartX  - e.touchendX)) 
+      if (e.touchstartX  - e.touchendX > 50) 
+      { 
+        this.$DCPlayer.next()
+      }
+    },
+    previous(e) {
+      // console.log('event', e.touchstartX  - e.touchendX) 
+      if (e.touchstartX  - e.touchendX > 50) 
+      { 
+        this.$DCPlayer.next()
+      }
+    },
     btnFeedback () {
       this.btnCol = 'primary'
       setTimeout(() => {
