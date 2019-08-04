@@ -11,7 +11,8 @@
     </v-flex>
     <playlist 
       :songs="aSongs"
-      rows-per-page='-1' 
+      infinite
+      show-uploaded
       @conmen="$emit('conmen', $event)"
     /> 
   </v-flex>
@@ -57,6 +58,7 @@ export default {
     bind () {
       // this.$store.dispatch('loadIndeterm', true)
       if (this.trackID) {
+        this.aSongs = []
         this.$DCAPI.searchInt('', 0, [this.source], this.trackID, (d) => {
           // console.log(d)
           this.aSongs = d

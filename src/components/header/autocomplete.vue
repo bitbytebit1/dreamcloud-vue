@@ -82,7 +82,7 @@ export default {
 }
 </script>
 <style>
-::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-  color: #fff !important;
+.theme--dark ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: whitesmoke !important;
 }
 </style>

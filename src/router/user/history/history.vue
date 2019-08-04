@@ -11,6 +11,7 @@
       v-if="bLoading || aHistRev.length" 
       :songs="aHistRev" 
       infinite
+      show-uploaded
       @conmen="$emit('conmen', $event)"
     />
     <jumbo

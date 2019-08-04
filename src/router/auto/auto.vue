@@ -28,6 +28,7 @@ export default {
     in (){
       if (this.trackID != this.$store.getters.current_trackID) {
         this.$DCAPI.getSongInfo(this.trackID, this.source, (song) => {
+          // GET RELATED
           this.$DCAPI.searchInt('', 0, [this.source], this.trackID, (related) => {
             if (related.length) {
               if (related[0].trackID === this.trackID) {
