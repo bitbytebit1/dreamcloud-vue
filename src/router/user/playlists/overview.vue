@@ -56,7 +56,7 @@
           <!-- {{props.item.songs[Object.keys(props.item.songs)[0]].poster}} -->
           <!-- Object.keys(aPlaylist[props.index].songs)[0] -->
           <v-card 
-            :to="{name: 'userPlaylist', params: {user: $DCFB.UID, playlist: props.item['.key'], name: props.item.name}}"
+            :to="{name: 'userPlaylist', params: {user: user, playlist: props.item['.key'], name: props.item.name}}"
             height="100%" 
             width="100%" 
             class="pointer"
