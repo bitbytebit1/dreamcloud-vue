@@ -33,7 +33,7 @@ class DCAPIClass {
     this.aQuery = []
   }
 
-  searchInt(sQuery, iPage, aSource, sArtist, hCallback, bRelated, iLimit = 50, bArtist = false) {
+  searchInt(sQuery, iPage, aSource, sArtist, hCallback, bRelated = false, iLimit = 50, bArtist = false) {
     // if (bRelated && aSource[0].toLowerCase() === 'bandcamp') {
     //   return
     // }

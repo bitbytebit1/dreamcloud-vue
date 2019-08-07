@@ -12,6 +12,17 @@ export default {
           }, delay)
         }
       },
+      shuffle(source) {
+        let sourceArray = Object.assign([], source)
+        for (var i = 0; i < sourceArray.length - 1; i++) {
+          var j = i + Math.floor(Math.random() * (sourceArray.length - i));
+
+          var temp = sourceArray[j];
+          sourceArray[j] = sourceArray[i];
+          sourceArray[i] = temp;
+        }
+        return sourceArray;
+      },
       isMobile: window.matchMedia('only screen and (max-width: 599px)').matches,
       isSafari : /^((?!chrome|android).)*safari/i.test(navigator.userAgent),
       isOnline: () => (window.navigator.onLine),

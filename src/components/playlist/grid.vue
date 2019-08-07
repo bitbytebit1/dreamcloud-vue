@@ -524,11 +524,11 @@ export default {
     .dc-crd .men {
       display:flex !important;
     }
-  .v-card--reveal div.playBtn{
-    top: 0;
-    right: 0;
-    position: absolute;
-  }
+    .v-card--reveal div.playBtn{
+      top: 0;
+      right: 0;
+      position: absolute;
+    }
   }
   @media only screen and (min-width: 1263px){
     .v-card--reveal div.playBtn{

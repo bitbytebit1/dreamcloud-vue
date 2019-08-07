@@ -42,6 +42,7 @@
         >
           <v-layout row>
             <v-flex 
+              pl-2
               pt-2
               mr-3
               shrink
