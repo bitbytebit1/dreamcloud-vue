@@ -18,7 +18,7 @@ export default {
     // drawRight: state => state.drawRight,
     getUser: state => state.user,
     isAnon: state => state.user.isAnonymous,
-    uid: state => state.user.uid,
+    uid: state => state.user.uid || 'Anon',
     // view_mode: state => state.view_mode,
   },
   mutations: {
