@@ -22,6 +22,7 @@
           v-model="search"
           clearable
           color="primary"
+          placeholder="Filter"
           onfocus="this.placeholder = ''"
           onblur="this.placeholder = 'Filter'"
           single-line
@@ -66,21 +67,38 @@
               :src="props.item.songs[Object.keys(props.item.songs)[0]].posterLarge"
               aspect-ratio="1"
               class="fillPlace"
-            />
-            <!-- <v-avatar
-              :size="((!$store.state.user.drawLeft && !$UTILS.isMobile ? 21 : 0) + 95 + (!$store.state.user.drawRight && !$UTILS.isMobile ? 21 : 0)) + 'px'"
-              class="mt-2"
-            > -->
-            <!-- <img
-                :src="props.item.songs[Object.keys(props.item.songs)[0]].poster"
-                alt=""
-              > -->
-            <!-- <v-img
-                :src="props.item.songs[Object.keys(props.item.songs)[0]].poster"
-                aspect-ratio="1"
-                class="fillPlace"
-              />
-            </v-avatar> -->
+            >
+              <div
+                class="d-flex text-xs-center v-card--reveal"
+                style="height: 100%;"
+              >
+                <div 
+                  class="playBtn"
+                >
+                  <v-btn 
+                    :class="isPlaying (`/u/${user}/${props.item['.key']}/${props.item['name']}`) ? 'primary' : ''"  
+                    dark
+                    icon
+                    large
+                    @click.prevent="$store.getters.isPlaying && isPlaying (`/u/${user}/${props.item['.key']}/${props.item['name']}`) ? $DCPlayer.pause() : playPlaylist(props.item, 0)"
+                  >
+                    <v-icon>{{ $store.getters.isPlaying && isPlaying (`/u/${user}/${props.item['.key']}/${props.item['name']}`) ? 'pause' : 'play_arrow' }}</v-icon>
+                  </v-btn>
+                </div>
+                <div 
+                  class="shuffBtn"
+                >
+                  <v-btn 
+                    dark
+                    icon
+                    large
+                    @click.prevent="playPlaylist(props.item, true)"
+                  >
+                    <v-icon>shuffle</v-icon>
+                  </v-btn>
+                </div>
+              </div>
+            </v-img>
             <v-card-text class="text-xs-center"><div class="ma-0 pa-0">{{ props.item.name }}</div><div class="grey--text ma-0 pa-0">{{ Object.keys(props.item.songs).length }}</div></v-card-text>
           </v-card>
         </v-flex>
@@ -114,6 +132,35 @@ export default {
     this.bind()
   },
   methods: {
+    isPlaying (item) {
+      return this.$store.getters.hash == item 
+    },
+    playPlaylist (aPlaylist, shuffle) {
+
+      let aSongs = []
+      for (var key in aPlaylist.songs) {
+        aSongs.push(aPlaylist.songs[key]);
+      }
+      if (shuffle) {
+        aSongs = this.$UTILS.shuffle(aSongs)
+      }
+      if (this.$store.state.player.current_index === -1 && this.$UTILS.isMobile){
+        // bug fix, passing the play event from here, 
+        // which is called on click is important the first time on movbile
+        this.$DCPlayer.eAudio.play()
+        // hacky bug fix, need to 'see' the player first time before it will load
+      } else if (!this.showVideo && aSongs[0].source == 'YouTube' && typeof this.$store.getters.ytState.data === 'number') {
+        this.$nextTick(() => {
+          this.$store.commit('show_pop', true)
+          let f = () => setTimeout(() => { 
+            this.$store.getters.ytIsPlaying ? this.$store.commit('show_pop', false) : f()
+          }, 150)
+          f()
+        })
+      }
+      this.$DCPlayer.setNPlay({songs: aSongs, current: 0, path: `/u/${this.user}/${aPlaylist['.key']}/${aPlaylist['name']}`})
+      this.$DCFB.historyPush(aSongs[0])
+    },
     bind () {
       // very likely that it will be faster to query the first song of every playlist 
       // instead of getting all songs from all playlists
@@ -132,4 +179,18 @@ export default {
   bottom: 0px;
   right: 0px;
 }
+  @media only screen and (max-width: 1262px){
+    .v-card--reveal div.shuffBtn{
+      top: 0;
+      right: 50px;
+      position: absolute;
+    }
+  }
+  @media only screen and (min-width: 1263px){
+    .v-card--reveal div.shuffBtn{
+      bottom: 0;
+      right: 50px;
+      position: absolute;
+    }
+  }
 </style>
