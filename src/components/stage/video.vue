@@ -58,7 +58,7 @@
         >
           <!-- FLOAT LEFT -->
           <div class="fl-l blue-grey--text text--lighten-1 mt-3">
-            {{ iViews ? iViews + ' • ' : '' }}{{ $DCAPI.calcDate('', song.uploaded) }}
+            {{ iViews > -1 ? iViews + ' • ' : '' }}{{ $DCAPI.calcDate('', song.uploaded) }}
           </div>
           <!-- FLOAT RIGHT -->
           <div class="fl-r">
@@ -576,8 +576,15 @@ export default {
 .stage-btn{
   float: right;
 }
-#dc-padding{
-  padding: 0 8px;
+@media only screen and (min-width: 600px){
+  #dc-padding{
+    padding: 0 16px;
+  }
+}
+@media only screen and (max-width: 599px){
+  #dc-padding{
+    padding: 0 8px;
+  }
 }
 /* .slider-wrapper{ */
   /* display: inherit; */
