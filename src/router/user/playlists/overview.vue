@@ -179,18 +179,10 @@ export default {
   bottom: 0px;
   right: 0px;
 }
-  @media only screen and (max-width: 1262px){
-    .v-card--reveal div.shuffBtn{
-      top: 0;
-      right: 50px;
-      position: absolute;
-    }
-  }
-  @media only screen and (min-width: 1263px){
-    .v-card--reveal div.shuffBtn{
-      bottom: 0;
-      right: 50px;
-      position: absolute;
-    }
-  }
+
+.v-card--reveal div.shuffBtn{
+  bottom: 0;
+  left: 0px;
+  position: absolute;
+}
 </style>

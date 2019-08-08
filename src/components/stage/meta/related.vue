@@ -93,7 +93,7 @@
         slot='item'
         slot-scope='props'
         xs12
-        @click="play(props.index)"
+        @click.stop="play(props.index)"
         @contextmenu="$emit('conmen', [$event, [props.item]])"
       >
         <v-card 
