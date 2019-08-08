@@ -73,7 +73,7 @@
                 style="height: 100%;"
               >
                 <div 
-                  class="playBtn"
+                  class="play"
                 >
                   <v-btn 
                     :class="isPlaying (`/u/${user}/${props.item['.key']}/${props.item['name']}`) ? 'primary' : ''"  
@@ -86,7 +86,7 @@
                   </v-btn>
                 </div>
                 <div 
-                  class="shuffBtn"
+                  class="shuff"
                 >
                   <v-btn 
                     dark
@@ -180,7 +180,12 @@ export default {
   right: 0px;
 }
 
-.v-card--reveal div.shuffBtn{
+.v-card--reveal div.play{
+  bottom: 0;
+  right: 0px;
+  position: absolute;
+}
+.v-card--reveal div.shuff{
   bottom: 0;
   left: 0px;
   position: absolute;
