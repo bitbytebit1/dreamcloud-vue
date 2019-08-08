@@ -65,19 +65,26 @@ export default {
       console.log('setting quality', qual)
       this.$store.getters.ytObject.setPlaybackQuality(qual)
     },
-    bind () {
-      this.qualities = this.$store.getters.ytObject.getAvailableQualityLevels()
-      this.cQual = this.$store.getters.ytObject.getPlaybackQuality()
-      console.log('getPlaybackQuality', this.cQual)
-    }
   },
   watch: {
     ytIsPlaying: {
       immediate: true,
-      handler: function(newVal) {
-        // need sanity check to see if we've already processed this video 
-        if (this.oldID != this.trackID) {
-          this.bind()
+      handler: function(isP) {
+        if (this.oldID != this.trackID && isP) {
+          this.qualities = this.$store.getters.ytObject.getAvailableQualityLevels()
+          const q = this.$store.getters.ytObject.getPlaybackQuality()
+          // on first load
+          if (!this.cQual) {
+            this.cQual = q
+          }
+          // if current quality doesn't equal current
+          if (q != 'unknown' && q != this.cQual && this.qualities.some(e => e == this.cQual)) {
+            console.log('forcing quality', this.cQual, q)
+            this.cQual = q
+            this.setQuality(this.cQual)
+            return
+          }
+          this.cQual = q
         }
         this.oldID = this.trackID
       }
