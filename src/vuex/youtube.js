@@ -3,7 +3,9 @@ export default {
     dcIsPlaying: false,
     dcIsLoading: false,
     ytUseVideo: false,
-    ytObject: [],
+    ytObject: {
+      getAvailableQualityLevels: () => ''
+    },
     ytDuration: 0,
     ytCurrentTime: 0,
     ytState: {

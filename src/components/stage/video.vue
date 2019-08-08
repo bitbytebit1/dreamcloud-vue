@@ -62,22 +62,10 @@
           </div>
           <!-- FLOAT RIGHT -->
           <div class="fl-r">
-            <!-- LINK -->
-            <!-- <v-btn :color="btnCol" @click="($UTILS.copyToClipboard(song.mp32), btnFeedback())" icon>
-              <v-icon>link</v-icon>
-            </v-btn> -->
 
-
-            <!-- YT BUTTON -->
-            <youtube-button slot="activator" />
-
-            <!-- Open in a new tab -->
-            <new-tab
-              :song="song"
-            />
             <!-- CLOSED CAPTIONS -->
             <v-tooltip 
-              v-if="$vuetify.breakpoint.lgAndUp" 
+              v-if="$vuetify.breakpoint.lgAndUp && ytUseVideo" 
               top
             >
               <v-btn 
@@ -89,6 +77,18 @@
               </v-btn>
               <span>Subtitles</span>
             </v-tooltip>
+
+            <!--  QUALITY BUTTON -->
+            <qualityButton/>
+
+            <!-- YT BUTTON -->
+            <youtube-button slot="activator" />
+
+            <!-- Open in a new tab -->
+            <new-tab
+              :song="song"
+            />
+
             <!-- SHARE BUTTON -->
             <share-button 
               :song="song" 
@@ -255,6 +255,7 @@ import lyrics from '@/components/stage/meta/lyrics'
 import addToPlaylist from '@/components/buttons/add-to-playlist.vue'
 import shareButton from '@/components/buttons/share-button'
 import downloadButton from '@/components/buttons/download-button'
+import qualityButton from '@/components/buttons/youtube-quality-button'
 // import current from '@/components/stage/meta/current'
 import { mapState } from 'vuex'
 import { mapGetters } from 'vuex'
@@ -318,6 +319,7 @@ export default {
     },
   },
   components: {
+    'qualityButton': qualityButton,
     'newTab': newTab,
     // 'current': current,
     'artist-mini': artistMini,
