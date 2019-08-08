@@ -120,7 +120,8 @@
               <v-btn 
                 slot="activator" 
                 icon 
-                @click="$store.commit('show_pop', true)"
+                small
+                @click="$store.commit('show_pop', !show_pop)"
               >
                 <v-icon>picture_in_picture_alt</v-icon>
               </v-btn>
