@@ -149,7 +149,7 @@ export default {
         // which is called on click is important the first time on movbile
         this.$DCPlayer.eAudio.play()
         // hacky bug fix, need to 'see' the player first time before it will load
-      } else if (!this.showVideo && aSongs[0].source == 'YouTube' && typeof this.$store.getters.ytState.data === 'number') {
+      } else if (this.$store.getters.ytUseVideo && !this.$store.getters.showVideo && aSongs[0].source == 'YouTube' && typeof this.$store.getters.ytState.data === 'number') {
         this.$nextTick(() => {
           this.$store.commit('show_pop', true)
           let f = () => setTimeout(() => { 
