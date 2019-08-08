@@ -15,7 +15,7 @@ importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox
 
 importScripts(
   "update-available.js",
-  "precache-manifest.48ba4cc621f35a9e01ca47f0b1dbc6b1.js"
+  "precache-manifest.81fd79ae87ef5687edb933e9bd050b4e.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "dreamcloud"});

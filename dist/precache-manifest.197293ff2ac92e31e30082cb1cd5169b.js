@@ -4,7 +4,7 @@ self.__precacheManifest = [
     "url": "css/playlistsAll.cb1bf88d.css"
   },
   {
-    "revision": "d5ca696f3afefcadb6907e0b64ba6247",
+    "revision": "d6c1cb6166cf455821a10afa2e978578",
     "url": "index.html"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = [
     "url": "js/userSubOverview-legacy.772a30ba.js"
   },
   {
-    "revision": "a1b3997c7a1809a37dcc",
-    "url": "js/app-legacy.b4e4c393.js"
+    "revision": "5609e593db99b9ac7ca1",
+    "url": "js/app-legacy.f73569e6.js"
   },
   {
     "revision": "2066c7f1c8ccb9e8b65e",
@@ -44,8 +44,8 @@ self.__precacheManifest = [
     "url": "js/trending-legacy.58c5a986.js"
   },
   {
-    "revision": "ff0fdb6b376c89d0e263",
-    "url": "js/chunk-vendors-legacy.2f1a6bda.js"
+    "revision": "648687e3b36f3d4f87f7",
+    "url": "js/chunk-vendors-legacy.602e32f8.js"
   },
   {
     "revision": "5e33ca4a9f80192dde71",
@@ -80,8 +80,8 @@ self.__precacheManifest = [
     "url": "js/signUp-legacy.fad750f7.js"
   },
   {
-    "revision": "94dcad17a2d746fcaf2a",
-    "url": "js/playlistOverview-legacy.53cd4241.js"
+    "revision": "147680cf62d4dc50a182",
+    "url": "js/playlistOverview-legacy.dd1a53dd.js"
   },
   {
     "revision": "28b4cbdcdd47e3f02bb9",
@@ -136,8 +136,8 @@ self.__precacheManifest = [
     "url": "css/searchQuery.cb1bf88d.css"
   },
   {
-    "revision": "94dcad17a2d746fcaf2a",
-    "url": "css/playlistOverview.a56cdf58.css"
+    "revision": "147680cf62d4dc50a182",
+    "url": "css/playlistOverview.2051be07.css"
   },
   {
     "revision": "c75d49f2c7d6229fa783",
@@ -148,8 +148,8 @@ self.__precacheManifest = [
     "url": "css/login.6fcd4d13.css"
   },
   {
-    "revision": "ff0fdb6b376c89d0e263",
-    "url": "css/chunk-vendors.1bf2503f.css"
+    "revision": "648687e3b36f3d4f87f7",
+    "url": "css/chunk-vendors.444b8d62.css"
   },
   {
     "revision": "86f098f15df1bb88600b",
@@ -160,8 +160,8 @@ self.__precacheManifest = [
     "url": "css/artist.88d9c49e.css"
   },
   {
-    "revision": "a1b3997c7a1809a37dcc",
-    "url": "css/app.9ad165fd.css"
+    "revision": "5609e593db99b9ac7ca1",
+    "url": "css/app.2f2b83a2.css"
   },
   {
     "revision": "28b4cbdcdd47e3f02bb9",

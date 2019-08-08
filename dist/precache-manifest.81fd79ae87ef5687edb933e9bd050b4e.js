@@ -12,8 +12,8 @@ self.__precacheManifest = [
     "url": "js/share.0d7e444a.js"
   },
   {
-    "revision": "aa52714df1ba0ed6fdfc",
-    "url": "css/app.9ad165fd.css"
+    "revision": "fcc82ca7f327c1182718",
+    "url": "css/app.2f2b83a2.css"
   },
   {
     "revision": "fa9883182e34491d8efd",
@@ -40,12 +40,12 @@ self.__precacheManifest = [
     "url": "js/chunk-76d4c477.94209908.js"
   },
   {
-    "revision": "ff0fdb6b376c89d0e263",
-    "url": "css/chunk-vendors.1bf2503f.css"
+    "revision": "648687e3b36f3d4f87f7",
+    "url": "css/chunk-vendors.444b8d62.css"
   },
   {
-    "revision": "ff0fdb6b376c89d0e263",
-    "url": "js/chunk-vendors.2f1a6bda.js"
+    "revision": "648687e3b36f3d4f87f7",
+    "url": "js/chunk-vendors.602e32f8.js"
   },
   {
     "revision": "71d7010a9fddc61173a8",
@@ -76,12 +76,12 @@ self.__precacheManifest = [
     "url": "js/password.e4043e97.js"
   },
   {
-    "revision": "8224771fa87b644857cd",
-    "url": "css/playlistOverview.a56cdf58.css"
+    "revision": "675025d57391d04f7cca",
+    "url": "css/playlistOverview.2051be07.css"
   },
   {
-    "revision": "8224771fa87b644857cd",
-    "url": "js/playlistOverview.a44bda51.js"
+    "revision": "675025d57391d04f7cca",
+    "url": "js/playlistOverview.83a35d43.js"
   },
   {
     "revision": "4d3d288e851cb53ff84b",
@@ -116,8 +116,8 @@ self.__precacheManifest = [
     "url": "js/about.9a55f803.js"
   },
   {
-    "revision": "aa52714df1ba0ed6fdfc",
-    "url": "js/app.a71e7b30.js"
+    "revision": "fcc82ca7f327c1182718",
+    "url": "js/app.050f8364.js"
   },
   {
     "revision": "93b0e0571e93a83639e6",
@@ -164,12 +164,16 @@ self.__precacheManifest = [
     "url": "img/logo-blue.17e91fdf.png"
   },
   {
-    "revision": "4317e6af6cf89f9461a8da1bf320b5fe",
+    "revision": "850a7a3cf91b5c939d004f914951eadd",
     "url": "index.html"
   },
   {
     "revision": "229113e2fc54268b38173a0d27708b76",
     "url": "img/about/analytics.png"
+  },
+  {
+    "revision": "0cce8c41ed55610a3e3403a9fcf1c7a0",
+    "url": "img/about/dart.png"
   },
   {
     "revision": "6e8f93d644595cffa1946ff5b9ef6fab",
@@ -180,8 +184,12 @@ self.__precacheManifest = [
     "url": "img/about/discord.png"
   },
   {
-    "revision": "0cce8c41ed55610a3e3403a9fcf1c7a0",
-    "url": "img/about/dart.png"
+    "revision": "b617abbd90e4e3786ef1d460ef6b08c4",
+    "url": "img/about/energy.png"
+  },
+  {
+    "revision": "d1fecc01213fc8d8077921201dba3707",
+    "url": "img/about/pacman.png"
   },
   {
     "revision": "f9453134ee948304b1a11fe9b65295e8",
@@ -192,24 +200,16 @@ self.__precacheManifest = [
     "url": "img/about/dream.css"
   },
   {
-    "revision": "d1fecc01213fc8d8077921201dba3707",
-    "url": "img/about/pacman.png"
-  },
-  {
-    "revision": "b617abbd90e4e3786ef1d460ef6b08c4",
-    "url": "img/about/energy.png"
-  },
-  {
-    "revision": "6737924ee68ba5067b55860cc5963b41",
-    "url": "img/about/satellite.png"
-  },
-  {
     "revision": "20eb006ea0294e851afe5dea83e72b26",
     "url": "img/about/share.png"
   },
   {
     "revision": "fb4ccf6f74aea76928895144aee245c6",
     "url": "img/about/star.png"
+  },
+  {
+    "revision": "6737924ee68ba5067b55860cc5963b41",
+    "url": "img/about/satellite.png"
   },
   {
     "revision": "990b6be85eac8746b4f32dce99bb40b9",
