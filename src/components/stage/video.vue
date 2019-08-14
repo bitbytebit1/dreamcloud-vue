@@ -17,8 +17,8 @@
     <!-- OR POSTER -->
     <v-flex 
       v-touch="{
-        left: $DCPlayer.next,
-        right: $DCPlayer.previous
+        left: next,
+        right: previous
       }" 
       v-show="!(ytUseVideo && isYT) && !show_pop"
       class="nosel" 
@@ -149,8 +149,8 @@
         >
           <v-layout 
             v-touch="{
-              left: previous,
-              right: next,
+              left: next,
+              right: previous,
               
             }" 
             row
