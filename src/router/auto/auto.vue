@@ -44,7 +44,7 @@ export default {
             this.$nextTick(() => {
               this.$store.commit('bShowStage', true)
               // if (this.$store.state.player.current_index === -1 && this.$UTILS.isMobile) 
-              this.$DCPlayer.eAudio.play()
+              this.$DCPlayer.ePlayer().play()
             })
           }, true, 50)
         }, '')
