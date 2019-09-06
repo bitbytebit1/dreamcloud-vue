@@ -65,7 +65,7 @@
 
             <!-- CLOSED CAPTIONS -->
             <v-tooltip 
-              v-if="ytUseVideo" 
+              v-if="$vuetify.breakpoint.lgAndUp && ytUseVideo" 
               top
             >
               <v-btn 
@@ -115,6 +115,7 @@
             </v-tooltip> -->
             <!-- OPEN MINI PLAYER BUTTON -->
             <v-tooltip 
+              v-if="$vuetify.breakpoint.lgAndUp" 
               top
             >
               <v-btn 

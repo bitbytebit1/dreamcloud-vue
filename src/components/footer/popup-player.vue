@@ -2,7 +2,7 @@
 
   <!-- <v-expand-transition v-if="$vuetify.breakpoint.mdAndUp"> -->
   <div 
-    v-show="show_pop" 
+    v-show="show_pop && $vuetify.breakpoint.smAndUp" 
     :class="size" 
     class="pop"
     xs12
@@ -269,30 +269,12 @@ export default {
 .pop-sm{
   height: 330px;
 }
-  @media only screen and (min-width: 600px){
-    .pop-sm{
-      height: 330px;
-      
-    }
-    .pop{
-      right: 18px;
-    }
-  }
-  @media only screen and (max-width: 599px){
-    .pop-sm{
-      height: 330px;
-    }
-    .pop{
-      left: 0;
-      right: 0;
-      margin: 0 auto;
-    }
-  }
 .pop{
   /* width: 240px; */
   width: 350px;
   position: fixed;
   bottom: 0;
+  right: 18px;
   /* right: 8%; */
   /* left: 0; */
   z-index: 3;
