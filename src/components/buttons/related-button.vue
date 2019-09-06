@@ -1,7 +1,6 @@
 <template>
   <v-list-tile 
     v-if="!hasList"
-    ripple 
     @click.stop="open"
   >
     <v-list-tile-title>Go to related</v-list-tile-title>

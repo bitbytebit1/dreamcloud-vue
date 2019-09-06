@@ -1,7 +1,6 @@
 <template>
   <v-list-tile 
     v-if="inList" 
-    ripple 
     @click.stop="add"
   >
     <v-list-tile-title>Add to queue</v-list-tile-title>

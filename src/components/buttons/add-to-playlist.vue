@@ -6,7 +6,6 @@
     <!-- LIST -->
     <v-list-tile 
       v-if="inList" 
-      ripple 
       class="w100" 
       @click.stop="openMenu"
     >

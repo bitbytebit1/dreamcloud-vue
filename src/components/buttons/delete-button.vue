@@ -2,7 +2,6 @@
   <v-list-tile 
     v-if="inList" 
     :class="color" 
-    ripple
     @click.capture="emitDelete" 
     @mouseleave="clicks = clickedTwice ? 2 : 0"
   >
