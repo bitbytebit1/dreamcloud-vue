@@ -351,7 +351,7 @@ export default {
       isYT: 'isYT'
     }),
     videoClass () {
-      return {'video-wrapper': !this.show_pop, 'pop-wrapper' : this.show_pop, 'pop-hi': this.show_pop && this.show_pop_list}
+      return {'video-wrapper': !this.show_pop, 'pop-wrapper' : this.show_pop, 'pop-hi': this.show_pop && this.show_pop_list, 'hideOffScreen': this.show_pop == 'first'}
     },
     stageBorderStyle () {
       return {
