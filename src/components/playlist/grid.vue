@@ -147,10 +147,9 @@
                 v-for="n in 36" 
                 :key="n" 
                 xs12
-                sm6
+                sm4
                 md4
                 lg2
-                xl2
                 class="ma-0"
                 @contextmenu="$event.preventDefault()"
               >

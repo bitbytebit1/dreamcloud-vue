@@ -230,7 +230,6 @@ export default {
     }),
     ...mapGetters(['next_song', 'current_song', 'isPlaying']),
     size () {
-      console.log((this.show_pop == 'first' ? ' hideOffScreen' : this.show_pop_list ? 'pop-lg':'pop-sm'))
       return (this.show_pop == 'first' ? ' hideOffScreen' : this.show_pop_list ? 'pop-lg':'pop-sm')
     },
     aspect () {
