@@ -754,7 +754,7 @@ class DCAPIClass {
         var ret = resp.data.items.map((item) => {
           return {
             artist: item.snippet.topLevelComment.snippet.authorDisplayName,
-            artistID: item.snippet.topLevelComment.snippet.authorChannelId.value,
+            artistID: item.snippet.topLevelComment.snippet.authorChannelId ? item.snippet.topLevelComment.snippet.authorChannelId.value : '',// fixes weird edge case (2K7TU1Hh_3U)
             artistIMG: item.snippet.topLevelComment.snippet.authorProfileImageUrl,
             comment: item.snippet.topLevelComment.snippet.textDisplay,
             commentCreated: item.snippet.topLevelComment.snippet.publishedAt,
