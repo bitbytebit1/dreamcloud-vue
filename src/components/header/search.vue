@@ -1,6 +1,9 @@
 <template>
   <v-toolbar-items class="ml-3">
-    <autocomplete @search="search($event)"/>
+    <autocomplete 
+      ref="autocomp" 
+      @search="search($event)"
+    />
 
     <v-menu
       v-model="showMenu"
@@ -12,7 +15,7 @@
       <v-toolbar-title slot="activator">
         <v-btn icon>
           <v-icon>
-            search
+            arrow_drop_down_circle
           </v-icon>
         </v-btn>
       </v-toolbar-title>
@@ -110,6 +113,14 @@
         </v-list>
       </v-card>
     </v-menu>    
+    <v-btn 
+      icon 
+      @click="search($refs.autocomp.search)"
+    >
+      <v-icon>
+        search
+      </v-icon>
+    </v-btn>
   </v-toolbar-items>
 </template>
 
