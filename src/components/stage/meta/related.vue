@@ -67,20 +67,66 @@
       class="text-xs-left subheading mt-2"
     >
       Related
-    </div>
+    </div> 
+    <!-- TEMPLATE -->
     <v-flex 
       v-if="loading"
-      xs2
-      offset-xs5 
+      xs12
     >
-      <orbit/>
+
+      <!-- related song -->
+      <v-flex 
+        v-for="i in 20"
+        :key="i"
+        xs12
+      >
+        <v-card 
+          class="mb-2 pointer" 
+          color=""
+        >
+          <v-layout row>
+            <v-flex xs5>
+              <!-- image -->
+              <v-img
+                :aspect-ratio="16/9"
+                class="fillPlace"
+              >
+                <v-layout
+                  slot="placeholder"
+                  fill-height
+                  align-center
+                  justify-center
+                  ma-0
+                  class="grey--text"
+                />
+              </v-img>
+            </v-flex>
+            <v-flex 
+              xs7 
+              class="ma-2 text-xs-left"
+            >
+              <!-- title -->
+              <div 
+                style="height:21px; width:200px;" 
+                class="fillPlace mb-2"
+              />
+              <!-- artist -->
+
+              <!-- duration -->
+              <div 
+                style="height:21px; width:150px;" 
+                class="fillPlace"
+              />
+            </v-flex>
+          </v-layout>
+        </v-card>
+      </v-flex>
     </v-flex>
     <!-- v-data-iterator -->
     <v-data-iterator
       :items='items'
       :rows-per-page-items='rowsPerPageItems'
       :pagination.sync='pagination'
-      :id='String(song.trackID)'
       hide-actions
       content-tag='v-layout'
       row
@@ -164,17 +210,20 @@ export default {
   },
   watch: {
     trackID: {
-      handler: 'getRelated'
+      handler: 'getRelated',
+      immediate: true
     }
   },
-  data: () => ({
-    loading: true,
-    rowsPerPageItems: [4, 8, 12],
-    pagination: {
-      rowsPerPage: -1
-    },
-    items: []
-  }),
+  data () {
+    return {
+      loading: true,
+      rowsPerPageItems: [4, 8, 12],
+      pagination: {
+        rowsPerPage: -1
+      },
+      items: []
+    }
+  },
   computed: {
     ...mapGetters({
       isYT: 'isYT',
