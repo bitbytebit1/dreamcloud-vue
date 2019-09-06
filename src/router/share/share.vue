@@ -25,10 +25,11 @@ export default {
     if (url.indexOf('youtu.be') > -1) {
       this.getYTID(url).then(trackID => {
         // this.$store.commit('ytUseVideo', true) // would be awesome, only if youtube autoplayed on mobile
-        this.$router.push({name: 'auto', params: { artist: 'share',  trackID: trackID,  source: 'YouTube' }})
+        this.$router.push({name: 'auto', params: { artist: 'N/A',  trackID: trackID,  source: 'YouTube' }})
       })
     } 
-    else if (url.indexOf('soundcloud') > -1) {
+    else if (url.indexOf('soundcloud.com') > -1) {
+      url = url.split('\n')[1]
       this.$DCAPI.getSCID(url).then(d => {
         this.$router.push({name: 'auto', params: { artist: d[1].user.username,  trackID: d[0],  source: 'SoundCloud' }})
       })
