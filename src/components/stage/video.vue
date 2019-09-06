@@ -236,7 +236,7 @@
         
         <!-- RELATED -->
         <relatedd 
-          v-if="$vuetify.breakpoint.lgAndUp && bShowStage" 
+          v-if="$vuetify.breakpoint.lgAndUp"
           :trackID="metaSong.trackID"
           @conmen="$emit('conmen', $event)" 
         />
@@ -306,7 +306,6 @@ export default {
           this.$nextTick(() => {
             this.$nextTick(() => {
               if (this.metaSong.trackID != this.song.trackID) {
-                // console.log('showing', this.song.trackID)
                 this.metaSong = this.song
                 this.description = this.song.description
                 this.getPlays()
