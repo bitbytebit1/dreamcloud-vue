@@ -4,7 +4,7 @@ self.__precacheManifest = [
     "url": "css/playlistsAll.cb1bf88d.css"
   },
   {
-    "revision": "269cb0df6c94d491fc9882f27b03a1c7",
+    "revision": "965176bc1a9ef46e7ade8f8efefbfbcf",
     "url": "index.html"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = [
     "url": "js/userSubOverview-legacy.772a30ba.js"
   },
   {
-    "revision": "7041004b356c79567441",
-    "url": "js/app-legacy.b658e8cd.js"
+    "revision": "856f118672183db71e4b",
+    "url": "js/app-legacy.299002c7.js"
   },
   {
     "revision": "2066c7f1c8ccb9e8b65e",
@@ -96,8 +96,8 @@ self.__precacheManifest = [
     "url": "js/share-legacy.df5c3799.js"
   },
   {
-    "revision": "53eda1c1cb86729a89c8",
-    "url": "js/searchQuery-legacy.ef42e06d.js"
+    "revision": "11119484a49da41c952f",
+    "url": "js/searchQuery-legacy.c0a54fd1.js"
   },
   {
     "revision": "f78b55523faf194c89d6",
@@ -132,7 +132,7 @@ self.__precacheManifest = [
     "url": "css/searchpage.cb1bf88d.css"
   },
   {
-    "revision": "53eda1c1cb86729a89c8",
+    "revision": "11119484a49da41c952f",
     "url": "css/searchQuery.cb1bf88d.css"
   },
   {
@@ -160,8 +160,8 @@ self.__precacheManifest = [
     "url": "css/artist.88d9c49e.css"
   },
   {
-    "revision": "7041004b356c79567441",
-    "url": "css/app.95490f50.css"
+    "revision": "856f118672183db71e4b",
+    "url": "css/app.af983b38.css"
   },
   {
     "revision": "28b4cbdcdd47e3f02bb9",
