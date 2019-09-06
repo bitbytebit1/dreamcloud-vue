@@ -51,11 +51,12 @@ export default {
   },
   data () {
     return {
-      loading: false,
+      loading: true,
       searchResults: [],
       iPage: 0,
       oldQ: '',
-      bFailed: false
+      bFailed: false,
+      infState: ''
     }
   },
   components: {
@@ -63,10 +64,6 @@ export default {
     'loading': loading,
     'jumbo': jumbo
   },
-  // created () {
-  //   console.log('created')
-  //   this.searchInt(this.query, this.source, 0)
-  // },
   beforeRouteUpdate (to, from, next) {
     this.searchInt(to.params.query, to.params.source)
     next();
@@ -78,32 +75,31 @@ export default {
   },
   methods: {
     infiniteHandler ($state) {
+      this.infState = $state
       this.search(this.query, this.source, ++this.iPage).then(function () {
         $state.loaded()
       })
     },
     searchInt (query, source) {
       if (this.oldQ != query + source) {
-        // this.$store.dispatch('loadIndeterm', true)
         this.bFailed = false
         this.search(query, source, 0)
       }
     },
     search (query, source, iPage) {
-
+      
       this.searchResults = !iPage ? [] : this.searchResults
       this.oldQ = query + source
       return this.$DCAPI.searchInt(query, iPage, source.split('-'), '', (d) => {
-        this.loading = false
-        // if (iPage === 0) {
-        //   this.$store.dispatch('loadIndeterm', false)
-        // }
         // If no results stop infinite loading
         if (!d.length && !this.searchResults.length) {
-          this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete')
+          this.infState.complete()
           this.bFailed = true
+        }else if (!d.length){
+          this.infState.complete()
         } else {
           this.searchResults.push(...d)
+          this.loading = false
         }
       }, '')
     }

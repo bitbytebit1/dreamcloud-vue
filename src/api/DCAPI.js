@@ -35,8 +35,9 @@ class DCAPIClass {
 
   searchInt(sQuery, iPage, aSource, sArtist, hCallback, bRelated = false, iLimit = 50, bArtist = false) {
     // if (bRelated && aSource[0].toLowerCase() === 'bandcamp') {
-    //   return
-    // }
+      //   return
+      // }
+      
     if (!iPage) {
       this.SCnextPageToken = ''
       this.nextPageToken = ''
@@ -273,7 +274,7 @@ class DCAPIClass {
 
   yt(uid) {
     this.YTnextPageTokenString = this.nextPageToken ? '&pageToken=' + this.nextPageToken : ''
-    if (!this.YTnextPageTokenString && this.aQuery[uid].iPage > 1) {
+    if (!this.YTnextPageTokenString && this.aQuery[uid].iPage > 0) {
       return
     }
     var a
@@ -374,6 +375,8 @@ class DCAPIClass {
               }).catch((err) => {
                 console.log(err)
               })
+            } else {
+              resolve()
             }
           }
         } catch (e) {
