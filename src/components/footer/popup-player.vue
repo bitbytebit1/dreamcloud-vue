@@ -230,7 +230,7 @@ export default {
     }),
     ...mapGetters(['next_song', 'current_song', 'isPlaying']),
     size () {
-      return this.show_pop_list ? 'pop-lg':'pop-sm'
+      return (this.show_pop == 'first' ? ' hideOffScreen' : this.show_pop_list ? 'pop-lg':'pop-sm')
     },
     aspect () {
       return 16/9
@@ -240,6 +240,11 @@ export default {
 </script>
 
 <style>
+.hideOffScreen {
+   position: absolute !important;
+   top: -9999px !important;
+   left: -9999px !important;
+}
 .scroll-y{
   overflow-y: scroll;
 }

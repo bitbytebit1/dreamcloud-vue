@@ -53,7 +53,7 @@
 
       <!-- CURRENTLY PLAYING -->
       <v-list-tile 
-        :to="{name: 'auto', params: { artist: this.$store.getters.current_song.artist, trackID: this.$store.getters.current_song.trackID, source: this.$store.getters.current_song.source }}" 
+        :to="{name: 'auto', params: { artist: $store.getters.current_artist, trackID: $store.getters.current_trackID, source: $store.getters.current_source }}" 
         :active-class="isPorA('auto')"
         @click="closeLeft"
       >

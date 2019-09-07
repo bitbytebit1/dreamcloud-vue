@@ -3,7 +3,6 @@
     v-if="inList" 
     :disabled="disabled" 
     :id="trackID"
-    ripple 
     @click.stop="toggleOffline"
   >
     <v-list-tile-title>Save offline</v-list-tile-title>

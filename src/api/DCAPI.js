@@ -33,10 +33,11 @@ class DCAPIClass {
     this.aQuery = []
   }
 
-  searchInt(sQuery, iPage, aSource, sArtist, hCallback, bRelated, iLimit = 50, bArtist = false) {
+  searchInt(sQuery, iPage, aSource, sArtist, hCallback, bRelated = false, iLimit = 50, bArtist = false) {
     // if (bRelated && aSource[0].toLowerCase() === 'bandcamp') {
-    //   return
-    // }
+      //   return
+      // }
+      
     if (!iPage) {
       this.SCnextPageToken = ''
       this.nextPageToken = ''
@@ -273,7 +274,7 @@ class DCAPIClass {
 
   yt(uid) {
     this.YTnextPageTokenString = this.nextPageToken ? '&pageToken=' + this.nextPageToken : ''
-    if (!this.YTnextPageTokenString && this.aQuery[uid].iPage > 1) {
+    if (!this.YTnextPageTokenString && this.aQuery[uid].iPage > 0) {
       return
     }
     var a
@@ -374,6 +375,8 @@ class DCAPIClass {
               }).catch((err) => {
                 console.log(err)
               })
+            } else {
+              resolve()
             }
           }
         } catch (e) {
@@ -754,7 +757,7 @@ class DCAPIClass {
         var ret = resp.data.items.map((item) => {
           return {
             artist: item.snippet.topLevelComment.snippet.authorDisplayName,
-            artistID: item.snippet.topLevelComment.snippet.authorChannelId.value,
+            artistID: item.snippet.topLevelComment.snippet.authorChannelId ? item.snippet.topLevelComment.snippet.authorChannelId.value : '',// fixes weird edge case (2K7TU1Hh_3U)
             artistIMG: item.snippet.topLevelComment.snippet.authorProfileImageUrl,
             comment: item.snippet.topLevelComment.snippet.textDisplay,
             commentCreated: item.snippet.topLevelComment.snippet.publishedAt,

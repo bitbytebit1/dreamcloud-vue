@@ -47,11 +47,12 @@ export default {
   data () {
     return {
       aSongs: [],
-      oldPlaylist:' '
+      oldPlaylist:''
     }
   },
   methods: {
     bind (user, playlist) {
+      // SANITY CHECK have we already loaded this playlist?
       if (this.oldPlaylist == playlist) {
         return
       }

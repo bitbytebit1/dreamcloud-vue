@@ -1,7 +1,6 @@
 <template>
   <v-list-tile 
     v-if="inList"
-    ripple 
     @click.stop="open"
   >
     <!--  -->

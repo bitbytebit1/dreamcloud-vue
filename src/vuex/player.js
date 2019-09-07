@@ -31,8 +31,9 @@ export default {
     current_index: (state) => state.current_index,
     hash: (state) => state.current_hash,
     current_playlist: state => state.current_playlist,
-    current_trackID: (state) => { return state.current_index > -1 ? state.current_playlist[state.current_index].trackID : '' },
-    current_source: (state) => { return state.current_index > -1 ? state.current_playlist[state.current_index].source : '' },
+    current_artist: (state) => { return state.current_index > -1 ? state.current_playlist[state.current_index].trackID : -1 },
+    current_trackID: (state) => { return state.current_index > -1 ? state.current_playlist[state.current_index].trackID : -1 },
+    current_source: (state) => { return state.current_index > -1 ? state.current_playlist[state.current_index].source : -1 },
     current_song: (state) => { return state.current_index > -1 ? state.current_playlist[state.current_index] : '' },
     next_song: (state) => { return state.current_index < 0 ? '' : state.current_index + 1 < state.current_playlist.length ? state.current_playlist[state.current_index + 1] : state.current_playlist[0] }
   }

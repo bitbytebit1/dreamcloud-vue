@@ -147,10 +147,9 @@
                 v-for="n in 36" 
                 :key="n" 
                 xs12
-                sm6
+                sm4
                 md4
                 lg2
-                xl2
                 class="ma-0"
                 @contextmenu="$event.preventDefault()"
               >
@@ -398,6 +397,7 @@ export default {
     ...mapGetters({
       current_trackID: 'current_trackID',
       showVideo: 'showVideo',
+      ytUseVideo: 'ytUseVideo',
       // index: 'index',
       hash: 'hash',
       current_song: 'current_song',
@@ -470,9 +470,10 @@ export default {
         // which is called on click is important the first time on movbile
         this.$DCPlayer.eAudio.play()
         // hacky bug fix, need to 'see' the player first time before it will load
-      } else if (!this.showVideo && this.sorted[newi].source == 'YouTube' && typeof this.$store.getters.ytState.data === 'number') {
+      } 
+      else if (this.ytUseVideo &&!this.showVideo && this.sorted[newi].source == 'YouTube' && typeof this.$store.getters.ytState.data === 'number') {
         this.$nextTick(() => {
-          this.$store.commit('show_pop', true)
+          this.$store.commit('show_pop', 'first')
           let f = () => setTimeout(() => { 
             this.$store.getters.ytIsPlaying ? this.$store.commit('show_pop', false) : f()
           }, 150)
@@ -524,11 +525,11 @@ export default {
     .dc-crd .men {
       display:flex !important;
     }
-  .v-card--reveal div.playBtn{
-    top: 0;
-    right: 0;
-    position: absolute;
-  }
+    .v-card--reveal div.playBtn{
+      top: 0;
+      right: 0;
+      position: absolute;
+    }
   }
   @media only screen and (min-width: 1263px){
     .v-card--reveal div.playBtn{

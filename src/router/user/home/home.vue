@@ -23,27 +23,18 @@
       title="We wanted to recommend you some music based on your history"
       subheading="But you haven't listened to any music yet"
     /> -->
-    <template 
-      v-else
-    >      
-      <div 
-        class="headline fwl text-xs-left pl-2 pt-2"
-      >Explore</div>
-      <genres />
-    </template>
+
   </v-flex>
 </template>
 <script>
 import axios from 'axios'
 /* eslint-disable */
-import genres from '@/router/genres/genres'
 import jumbo from '@/components/misc/jumbo'
 import deleteButton from '@/components/buttons/delete-button'
 import { mapState } from 'vuex'
 export default {
   name: 'home',
   components: {
-    'genres': genres,
     'jumbo': jumbo
   },
   props: {
@@ -84,7 +75,16 @@ export default {
       if (!this.aHistory.length) {
         // this.$store.commit('loadActive', false)
         this.bLoading = false
-        this.bFailed = !this.aHistory.length
+        // this.bFailed = !this.aHistory.length
+        this.$DCAPI.searchInt(' ', 0, ['YouTube'], false, (d) => {
+                  this.iLoaded++
+                  if (d.length) {
+                    this.aRecommended.push(...d)
+                    // if (d.length > 1 ) {
+                      // this.aRecommended.push(d[1])
+                    // }
+                  }
+                }, false, 50)
         return
       }
       this.bLoading = true
@@ -94,7 +94,7 @@ export default {
       var aRecommended = this.aHistory.reverse()
       // strip out duplicates
       // reset counter
-      this.iLoaded = 1
+      // this.iLoaded = 1
 
       aRecommended = this.$DCAPI.uniqueArray(aRecommended)
 
@@ -102,8 +102,8 @@ export default {
       for (var i = 0; i < aRecommended.length - 1; i++) {
         // get 2 recommended songs for each item in history
         aAjax.push(this.$DCAPI.searchInt('', 0, [aRecommended[i].source], aRecommended[i].trackID, (d) => {
-          this.iLoaded++
-          this.$store.commit('loadValue',  (100 / aRecommended.length) * this.iLoaded)
+          // this.iLoaded++
+          // this.$store.commit('loadValue',  (100 / aRecommended.length) * this.iLoaded)
           if (d.length) {
             this.aRecommended.push(...d)
             // if (d.length > 1 ) {

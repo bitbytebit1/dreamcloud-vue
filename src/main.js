@@ -92,7 +92,7 @@ Vue.use(VueLazyload, {
 
   // optional
   observerOptions: {
-    rootMargin: '250px',
+    rootMargin: '250px 0px 0px 0px',
     threshold: 0.1
   }
 })

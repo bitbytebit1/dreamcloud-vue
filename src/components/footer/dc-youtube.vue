@@ -138,9 +138,10 @@
               <v-slider 
                 :max="iDuration" 
                 :label="iCurrent" 
-                v-model="iProgress" 
+                :value="iProgress" 
                 color="primary" 
                 hide-details
+                @change="progressClick"
               >
                 <!-- <template
                   slot="thumb-label"
@@ -201,11 +202,6 @@ export default {
       },
       // setter
       set (newValue) {
-        let i = Math.floor(this.iProgress)
-        if (i !== newValue && i + 1 !== newValue) {
-          this.$store.commit('ytCurrentTime', newValue)
-          this.$store.getters.ytObject.seekTo(newValue)
-        }
       }
     },
     iDuration () {
@@ -231,6 +227,9 @@ export default {
     }
   },
   methods: {
+    progressClick(newValue) {
+      this.$store.getters.ytObject.seekTo(newValue)
+    },
     onWheel (e) {
       if (e.deltaX > e.deltaY) {
         this.volume = this.$DCPlayer.volUp()

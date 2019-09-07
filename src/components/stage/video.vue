@@ -17,8 +17,8 @@
     <!-- OR POSTER -->
     <v-flex 
       v-touch="{
-        left: $DCPlayer.next,
-        right: $DCPlayer.previous
+        left: next,
+        right: previous
       }" 
       v-show="!(ytUseVideo && isYT) && !show_pop"
       class="nosel" 
@@ -58,26 +58,14 @@
         >
           <!-- FLOAT LEFT -->
           <div class="fl-l blue-grey--text text--lighten-1 mt-3">
-            {{ iViews ? iViews + ' • ' : '' }}{{ $DCAPI.calcDate('', song.uploaded) }}
+            {{ iViews > -1 ? iViews + ' • ' : '' }}{{ $DCAPI.calcDate('', song.uploaded) }}
           </div>
           <!-- FLOAT RIGHT -->
           <div class="fl-r">
-            <!-- LINK -->
-            <!-- <v-btn :color="btnCol" @click="($UTILS.copyToClipboard(song.mp32), btnFeedback())" icon>
-              <v-icon>link</v-icon>
-            </v-btn> -->
 
-
-            <!-- YT BUTTON -->
-            <youtube-button slot="activator" />
-
-            <!-- Open in a new tab -->
-            <new-tab
-              :song="song"
-            />
             <!-- CLOSED CAPTIONS -->
             <v-tooltip 
-              v-if="$vuetify.breakpoint.lgAndUp" 
+              v-if="$vuetify.breakpoint.lgAndUp && ytUseVideo" 
               top
             >
               <v-btn 
@@ -89,6 +77,18 @@
               </v-btn>
               <span>Subtitles</span>
             </v-tooltip>
+
+            <!--  QUALITY BUTTON -->
+            <qualityButton/>
+
+            <!-- YT BUTTON -->
+            <youtube-button slot="activator" />
+
+            <!-- Open in a new tab -->
+            <new-tab
+              :song="song"
+            />
+
             <!-- SHARE BUTTON -->
             <share-button 
               :song="song" 
@@ -121,7 +121,8 @@
               <v-btn 
                 slot="activator" 
                 icon 
-                @click="$store.commit('show_pop', true)"
+                small
+                @click="$store.commit('show_pop', !show_pop)"
               >
                 <v-icon>picture_in_picture_alt</v-icon>
               </v-btn>
@@ -149,8 +150,8 @@
         >
           <v-layout 
             v-touch="{
-              left: previous,
-              right: next,
+              left: next,
+              right: previous,
               
             }" 
             row
@@ -235,7 +236,7 @@
         
         <!-- RELATED -->
         <relatedd 
-          v-if="$vuetify.breakpoint.lgAndUp && bShowStage" 
+          v-if="$vuetify.breakpoint.lgAndUp"
           :trackID="metaSong.trackID"
           @conmen="$emit('conmen', $event)" 
         />
@@ -255,6 +256,7 @@ import lyrics from '@/components/stage/meta/lyrics'
 import addToPlaylist from '@/components/buttons/add-to-playlist.vue'
 import shareButton from '@/components/buttons/share-button'
 import downloadButton from '@/components/buttons/download-button'
+import qualityButton from '@/components/buttons/youtube-quality-button'
 // import current from '@/components/stage/meta/current'
 import { mapState } from 'vuex'
 import { mapGetters } from 'vuex'
@@ -304,7 +306,6 @@ export default {
           this.$nextTick(() => {
             this.$nextTick(() => {
               if (this.metaSong.trackID != this.song.trackID) {
-                // console.log('showing', this.song.trackID)
                 this.metaSong = this.song
                 this.description = this.song.description
                 this.getPlays()
@@ -318,6 +319,7 @@ export default {
     },
   },
   components: {
+    'qualityButton': qualityButton,
     'newTab': newTab,
     // 'current': current,
     'artist-mini': artistMini,
@@ -348,7 +350,7 @@ export default {
       isYT: 'isYT'
     }),
     videoClass () {
-      return {'video-wrapper': !this.show_pop, 'pop-wrapper' : this.show_pop, 'pop-hi': this.show_pop && this.show_pop_list}
+      return {'video-wrapper': !this.show_pop, 'pop-wrapper' : this.show_pop, 'pop-hi': this.show_pop && this.show_pop_list, 'hideOffScreen': this.show_pop == 'first'}
     },
     stageBorderStyle () {
       return {
@@ -576,8 +578,15 @@ export default {
 .stage-btn{
   float: right;
 }
-#dc-padding{
-  padding: 0 8px;
+@media only screen and (min-width: 600px){
+  #dc-padding{
+    padding: 0 16px;
+  }
+}
+@media only screen and (max-width: 599px){
+  #dc-padding{
+    padding: 0 8px;
+  }
 }
 /* .slider-wrapper{ */
   /* display: inherit; */
