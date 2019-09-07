@@ -1,10 +1,10 @@
 self.__precacheManifest = [
   {
-    "revision": "4428929aada52df3262b",
+    "revision": "1f66c987db2dc585c35e",
     "url": "css/playlistsAll.cb1bf88d.css"
   },
   {
-    "revision": "5eddacf077d556949d71c75d97166c77",
+    "revision": "064d51ad47145e493bc118033211a9b5",
     "url": "index.html"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = [
     "url": "js/userSubOverview-legacy.772a30ba.js"
   },
   {
-    "revision": "4224460be2025aa28432",
-    "url": "js/app-legacy.306db3c1.js"
+    "revision": "9cb7be2f8c347bdf6e5f",
+    "url": "js/app-legacy.64d02a5f.js"
   },
   {
     "revision": "2066c7f1c8ccb9e8b65e",
@@ -28,8 +28,8 @@ self.__precacheManifest = [
     "url": "js/auto-legacy.b3130c97.js"
   },
   {
-    "revision": "f48421caca9106a4bae7",
-    "url": "js/channelPlaylist-legacy.3539ffc0.js"
+    "revision": "54b653f88cbac7218803",
+    "url": "js/channelPlaylist-legacy.4a5eedc2.js"
   },
   {
     "revision": "a2d20a7064b059b4c1cf",
@@ -44,7 +44,7 @@ self.__precacheManifest = [
     "url": "js/trending-legacy.58c5a986.js"
   },
   {
-    "revision": "648687e3b36f3d4f87f7",
+    "revision": "ee30fea4e94829588188",
     "url": "js/chunk-vendors-legacy.602e32f8.js"
   },
   {
@@ -56,8 +56,8 @@ self.__precacheManifest = [
     "url": "js/genre-legacy.639372cf.js"
   },
   {
-    "revision": "d8e2460d2cd6e396ca9d",
-    "url": "js/home-legacy.e2575e4d.js"
+    "revision": "6f13a35057286ea92b01",
+    "url": "js/home-legacy.b4630b28.js"
   },
   {
     "revision": "e6a59efec7fed662a7d2",
@@ -88,16 +88,16 @@ self.__precacheManifest = [
     "url": "js/about-legacy.1d9c6a9f.js"
   },
   {
-    "revision": "4428929aada52df3262b",
-    "url": "js/playlistsAll-legacy.7a12e60f.js"
+    "revision": "1f66c987db2dc585c35e",
+    "url": "js/playlistsAll-legacy.89f52a48.js"
   },
   {
     "revision": "4d868e8ad5690064e1c4",
     "url": "js/share-legacy.48427f88.js"
   },
   {
-    "revision": "11119484a49da41c952f",
-    "url": "js/searchQuery-legacy.c0a54fd1.js"
+    "revision": "1dd6e1af7b9f13f901ae",
+    "url": "js/searchQuery-legacy.d21077eb.js"
   },
   {
     "revision": "f78b55523faf194c89d6",
@@ -132,7 +132,7 @@ self.__precacheManifest = [
     "url": "css/searchpage.cb1bf88d.css"
   },
   {
-    "revision": "11119484a49da41c952f",
+    "revision": "1dd6e1af7b9f13f901ae",
     "url": "css/searchQuery.cb1bf88d.css"
   },
   {
@@ -148,8 +148,8 @@ self.__precacheManifest = [
     "url": "css/login.6fcd4d13.css"
   },
   {
-    "revision": "648687e3b36f3d4f87f7",
-    "url": "css/chunk-vendors.444b8d62.css"
+    "revision": "ee30fea4e94829588188",
+    "url": "css/chunk-vendors.61a2e49b.css"
   },
   {
     "revision": "86f098f15df1bb88600b",
@@ -160,8 +160,8 @@ self.__precacheManifest = [
     "url": "css/artist.88d9c49e.css"
   },
   {
-    "revision": "4224460be2025aa28432",
-    "url": "css/app.af983b38.css"
+    "revision": "9cb7be2f8c347bdf6e5f",
+    "url": "css/app.5db9e704.css"
   },
   {
     "revision": "28b4cbdcdd47e3f02bb9",
