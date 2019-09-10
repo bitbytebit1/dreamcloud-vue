@@ -12,7 +12,7 @@ self.__precacheManifest = [
     "url": "js/share.dba7bcd1.js"
   },
   {
-    "revision": "037121792c9c3b3fc280",
+    "revision": "8f4751607457538d5429",
     "url": "css/app.5db9e704.css"
   },
   {
@@ -56,8 +56,8 @@ self.__precacheManifest = [
     "url": "js/genre.9fdaa557.js"
   },
   {
-    "revision": "227390be2fbeb4fb52bf",
-    "url": "js/home.b70c929b.js"
+    "revision": "ecb5fba3c53b2b32a0b3",
+    "url": "js/home.a143587b.js"
   },
   {
     "revision": "31a70de1ba7565a6b1c7",
@@ -116,8 +116,8 @@ self.__precacheManifest = [
     "url": "js/about.90019e66.js"
   },
   {
-    "revision": "037121792c9c3b3fc280",
-    "url": "js/app.84806cd9.js"
+    "revision": "8f4751607457538d5429",
+    "url": "js/app.f5eab1cf.js"
   },
   {
     "revision": "9a0b585e039ed5b5797b",
@@ -164,32 +164,32 @@ self.__precacheManifest = [
     "url": "img/logo-blue.17e91fdf.png"
   },
   {
-    "revision": "394464fccc2c14701042790d1fd46cbb",
+    "revision": "855f0fbae97ad2b620f9e7ebb706f7ea",
     "url": "index.html"
-  },
-  {
-    "revision": "6e8f93d644595cffa1946ff5b9ef6fab",
-    "url": "img/about/cloud.png"
   },
   {
     "revision": "0cce8c41ed55610a3e3403a9fcf1c7a0",
     "url": "img/about/dart.png"
   },
   {
-    "revision": "eb8a18708085fd38b78d9932eb0da14c",
-    "url": "img/about/discord.png"
+    "revision": "6e8f93d644595cffa1946ff5b9ef6fab",
+    "url": "img/about/cloud.png"
   },
   {
     "revision": "229113e2fc54268b38173a0d27708b76",
     "url": "img/about/analytics.png"
   },
   {
-    "revision": "b617abbd90e4e3786ef1d460ef6b08c4",
-    "url": "img/about/energy.png"
+    "revision": "d1fecc01213fc8d8077921201dba3707",
+    "url": "img/about/pacman.png"
   },
   {
-    "revision": "6737924ee68ba5067b55860cc5963b41",
-    "url": "img/about/satellite.png"
+    "revision": "eb8a18708085fd38b78d9932eb0da14c",
+    "url": "img/about/discord.png"
+  },
+  {
+    "revision": "b617abbd90e4e3786ef1d460ef6b08c4",
+    "url": "img/about/energy.png"
   },
   {
     "revision": "21a470e3fb2c59e7b680ffeaa49c99bb",
@@ -204,12 +204,12 @@ self.__precacheManifest = [
     "url": "img/about/share.png"
   },
   {
-    "revision": "fb4ccf6f74aea76928895144aee245c6",
-    "url": "img/about/star.png"
+    "revision": "6737924ee68ba5067b55860cc5963b41",
+    "url": "img/about/satellite.png"
   },
   {
-    "revision": "d1fecc01213fc8d8077921201dba3707",
-    "url": "img/about/pacman.png"
+    "revision": "fb4ccf6f74aea76928895144aee245c6",
+    "url": "img/about/star.png"
   },
   {
     "revision": "990b6be85eac8746b4f32dce99bb40b9",
