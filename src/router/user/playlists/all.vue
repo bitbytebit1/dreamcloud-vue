@@ -53,7 +53,6 @@ export default {
         for (const i2 in this.userlist[i1].songs) {
           this.aSongs.push(this.userlist[i1].songs[i2])
         }
-        this.$store.commit('loadValue', (100 / this.userlist.length) * i1)
       }
     },
     bind () {

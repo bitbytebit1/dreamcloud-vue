@@ -157,9 +157,6 @@ export default {
     }
   },
   methods: {
-    commentClick(d){
-      console.log('show event', d)
-    },
     reset () {
       this.aComments = []
       this.iPage = 0

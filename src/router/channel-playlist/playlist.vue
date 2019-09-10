@@ -5,7 +5,7 @@
     lg10 
     flexbox
   >
-    <div class="headline fwl text-xs-center pb-2">{{ title }}</div>
+    <div class="headline fwl text-xs-left pl-2 pt-2">{{ title }}</div>
 
     <!-- show all items since it's a user playlist -->
     <playlist 

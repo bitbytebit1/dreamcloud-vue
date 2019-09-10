@@ -87,7 +87,6 @@ export default {
       }
     },
     search (query, source, iPage) {
-      
       this.searchResults = !iPage ? [] : this.searchResults
       this.oldQ = query + source
       return this.$DCAPI.searchInt(query, iPage, source.split('-'), '', (d) => {

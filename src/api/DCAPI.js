@@ -708,7 +708,6 @@ class DCAPIClass {
     var uid = this.genUID()
     if (source.toLowerCase().indexOf('youtube') > -1) {
       return axios.get(`https://www.googleapis.com/youtube/v3/comments?part=snippet&pageToken=${nextPage}&maxResults=${maxRes}&parentId=${trackID}&key=${this.sYtKey}`).then((resp) => {
-        console.log(resp.data.items)
         var ret = {
           nextPage: resp.data.nextPageToken,
           data: resp.data.items.map((item) => {
