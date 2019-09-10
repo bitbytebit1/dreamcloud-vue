@@ -10,7 +10,7 @@
       v-if="!loading && !bFailed"
       :show-uploaded="!0" 
       :songs="searchResults" 
-      rows-per-page='-1' 
+      infinite
       @conmen="$emit('conmen', $event)"
     /> 
     <infinite-loading 
@@ -82,6 +82,7 @@ export default {
     },
     searchInt (query, source) {
       if (this.oldQ != query + source) {
+        typeof this.infState.reset == 'function' ? this.infState.reset() : ''
         this.bFailed = false
         this.search(query, source, 0)
       }
