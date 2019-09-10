@@ -10,6 +10,7 @@ module.exports = {
         fix: true,
     });
   },
+
   configureWebpack: {
     plugins: [
       new VuetifyLoaderPlugin()
@@ -19,7 +20,10 @@ module.exports = {
       alias: {
         styles: path.resolve(__dirname, 'src/assets/scss'),
       }
-    }
+    },
+    performance: {
+      hints: process.env.NODE_ENV === 'production' ? "warning" : false
+    },
   },
   // chainWebpack: config => {
   //   config.module
