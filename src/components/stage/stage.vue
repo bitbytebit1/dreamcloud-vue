@@ -8,7 +8,7 @@
     <jumbo
       :discover="false"
       :error="err"
-      :subheading="this.$route.params.artist ? 'Loading song by ' + this.$route.params.artist : 'Try searching for your favourite artist'"
+      :subheading="this.$route.params.artist != -1 ? 'Loading song by ' + this.$route.params.artist : 'Try searching for your favourite artist'"
     />
     <v-layout 
       row 
