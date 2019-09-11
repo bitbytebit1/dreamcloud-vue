@@ -179,7 +179,13 @@ export default {
   @media only screen and (min-width: 600px){
     .comMor{
       position: relative;
-      left: 67px !important;
+      left: 60px !important;
+    }
+    .comThr{
+      position: relative;
+      left: 56px !important;
+      margin-right: 21px;
+      padding-right: 21px;
     }
   }
   @media only screen and (max-width: 599px){
@@ -189,7 +195,7 @@ export default {
     }
     .comThr{
       position: relative;
-      left: 21px !important;
+      left: 56px !important;
       margin-right: 21px;
       padding-right: 21px;
     }
