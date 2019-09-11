@@ -1,6 +1,7 @@
 <template>
   <v-menu 
     v-model="showMenu"
+    :close-on-content-click="false"
     open-on-hover
   >
     <template v-slot:activator="{ on }">
@@ -25,7 +26,7 @@
           <v-list-tile-title>{{ item.n }}</v-list-tile-title>
         </v-list-tile-content>
         <v-list-tile-action>
-          <v-icon>{{ item.active ? item.on ? 'keyboard_arrow_up' : 'keyboard_arrow_down' : '' }}</v-icon>
+          <v-icon>{{ item.active ? item.on ? 'keyboard_arrow_down' : 'keyboard_arrow_up' : '' }}</v-icon>
         </v-list-tile-action>
       </v-list-tile>
       <v-list-tile 
@@ -68,29 +69,29 @@ export default {
     return {
       showMenu: false,
       items: [
-        { n: 'Artist', active: false, on: true, cb: ()=>{
+        { n: 'Artist', active: false, on: false, cb: ()=>{
           this.toggleItems(0)
-          this.sortByKey('artist', this.items[0].on);
+          this.sortByKey('artist', !this.items[0].on)
         }},
-        { n: 'Date', active: false, on: true, cb: ()=>{
+        { n: 'Date', active: false, on: false, cb: ()=>{
           this.toggleItems(1)
-          this.sortByDate(this.items[1].on);
+          this.sortByDate(!this.items[1].on)
         }},
-        { n: 'Description', active: false, on: true, cb: ()=>{
+        { n: 'Description', active: false, on: false, cb: ()=>{
           this.toggleItems(2)
-          this.sortByKey('description', this.items[2].on);
+          this.sortByKey('description',!this.items[2].on)
         }},
-        { n: 'Duration', active: false, on: true, cb: ()=>{
+        { n: 'Duration', active: false, on: false, cb: ()=>{
           this.toggleItems(3)
-          this.sortByDuration(this.items[3].on);
+          this.sortByDuration(!this.items[3].on)
         }},
-        { n: 'Source', active: false, on: true, cb: ()=>{
+        { n: 'Source', active: false, on: false, cb: ()=>{
           this.toggleItems(4)
-          this.sortByKey('source', this.items[4].on);
+          this.sortByKey('source', !this.items[4].on)
         }},
-        { n: 'Title', active: false, on: true, cb: ()=>{
+        { n: 'Title', active: false, on: false, cb: ()=>{
           this.toggleItems(5)
-          this.sortByKey('title', this.items[5].on);
+          this.sortByKey('title', !this.items[5].on)
         }},
         // { active: false, on: true, n: 'Default', cb: ()=>{
         //   this.toggleItems(6)
@@ -140,7 +141,7 @@ export default {
     },
     sortSongsByDuration() {
       return this.songs.sort((a,b) => {
-        // || 0 (bc) Reality often doesn't meet our expectations.
+        // || 0 (bc) Reality often doesn't meet our expectations. AKA Playlists
         a = this.hms2s(a.duration || 0), b = this.hms2s(b.duration || 0);
         if (a > b) return 1;
         if (a < b) return -1;
