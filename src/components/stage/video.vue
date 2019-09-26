@@ -272,7 +272,7 @@ export default {
   },
   watch: {
     trackID: {
-      handler: function(id) {
+      handler: function(id, oldID) {
         if(id && this.song){
           // On track change update metaSong
           // Otherwise update metaSong when bShowStage = true
@@ -284,7 +284,8 @@ export default {
             this.description = this.song.description
           }
           // what does this do? updates the router with the proper route.
-          if (this.$route.name === 'auto') {
+          console.log(this.$route.params.trackID, oldID)
+          if (this.$route.name === 'auto' && oldID && this.$route.params.trackID != oldID) {
             this.$router.replace({name: 'auto', params: { artist: this.song.artist,  trackID: this.song.trackID,  source: this.song.source }})
           }
           if (this.isYT && this.ytUseVideo) {
@@ -360,7 +361,7 @@ export default {
   },
   data () {
     return {
-      metaSong: {title: '', artist: '', trackID: '', source: '', poster: ''},
+        metaSong: {title: '', artist: '', trackID: '', source: '', poster: ''},
       tab: 1,
       bWide: false,
       btnCol: '',
@@ -377,15 +378,15 @@ export default {
   },
   methods: {
     next(e) {
-      // console.log('next', -(e.touchstartX  - e.touchendX)) 
-      if (-(e.touchstartX  - e.touchendX) > 35) 
+      // console.log('right', e.touchstartX  - e.touchendX > 35)
+      if (e.touchstartX  - e.touchendX > 35) 
       { 
         this.$DCPlayer.next()
       }
     },
     previous(e) {
-      // console.log('previous', e.touchstartX  - e.touchendX) 
-      if (e.touchstartX  - e.touchendX > 35) 
+      // console.log('left', -(e.touchstartX  - e.touchendX) > 35) 
+      if (-(e.touchstartX  - e.touchendX) > 35) 
       { 
         this.$DCPlayer.previous()
       }
@@ -464,8 +465,8 @@ export default {
         return
       }
       
-      this.$DCPlayer.pause()
       if (!this.yt) {
+        this.$DCPlayer.pause()
         this.yt = new YT.Player('player', {
           width: '100%',
           height: '196',

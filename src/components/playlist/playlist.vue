@@ -44,7 +44,7 @@
     <infinite-loading 
       v-if="infinite && aSongs.length" 
       ref="infiniteLoading22"
-      :distance="999" 
+      :distance="$vuetify.clientHeight" 
       class="flex xs12" 
       spinner="default"
       @infinite="infiniteHandler"
@@ -102,7 +102,7 @@ export default {
       showScrollToTop: false,
       // fixd: this.songs,
       aSongs: this.songs,
-      chunk: 60,
+      chunk: this.$vuetify.breakpoint.xsOnly ? 48 : 72,
       rpp: 48
     }
   },

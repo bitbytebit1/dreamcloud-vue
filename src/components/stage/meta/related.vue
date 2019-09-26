@@ -115,6 +115,10 @@
               <!-- duration -->
               <div 
                 style="height:21px; width:150px;" 
+                class="fillPlace mb-2"
+              />
+              <div 
+                style="height:21px; width:50px;" 
                 class="fillPlace"
               />
             </v-flex>

@@ -1,17 +1,14 @@
 <template>
-  <v-toolbar-items class="ml-3">
-    <autocomplete 
-      ref="autocomp" 
-      @search="search($event)"
-    />
-
+  <v-toolbar-items>
     <v-menu
       v-model="showMenu"
       :close-on-content-click="false"
       :open-on-hover="$vuetify.breakpoint.mdAndUp"
-      :nudge-bottom="25"
+      :nudge-bottom="40"
+      :nudge-left="35"
       z-index="10"
     >
+      <v-spacer/>
       <v-toolbar-title slot="activator">
         <v-btn icon>
           <v-icon>
@@ -104,15 +101,18 @@
             @click="showMenu = false"
           >
             <v-btn 
-              flat 
               block 
-              color="primary"
+              color="primary "
               @click="showMenu = false"
             >Close</v-btn>
           </v-list-tile>
         </v-list>
       </v-card>
-    </v-menu>    
+    </v-menu>
+    <autocomplete 
+      ref="autocomp" 
+      @search="search($event)"
+    />
     <v-btn 
       icon 
       @click="search($refs.autocomp.search)"
@@ -194,11 +194,27 @@ export default {
 }
 </script>
 
-<!-- Add 'scoped' attribute to limit CSS to this component only -->
+<!-- Add 'scoped' attribute to limit CSS to this component only 
 <style scoped>
 img{
   height: 25px;
   margin-right: 25px;
   max-width: 25px;
 }
+</style>
+// *[@id="navbar"]/div/div[3]/div[2]/div/div/div[1]/input
+-->
+<style>
+  @media only screen and (min-width: 1000px){
+    #navbar .v-toolbar__items {
+        min-width: 650px !important;
+        max-width: 1000px;
+    }
+  }
+  @media only screen and (min-width: 600px){
+    #navbar .v-toolbar__items {
+        min-width: 500px;
+        max-width: 1000px !important;
+    }
+  }
 </style>

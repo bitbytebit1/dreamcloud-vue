@@ -191,6 +191,7 @@
           <!-- imsert transition here -->
           <!-- ITEM SLOT -->
           <!-- v-ripple="{ center: true }" -->
+          <!-- :key="props.item.trackID + props.index" -->
           <v-flex 
             slot='item'
             slot-scope='props'
@@ -471,7 +472,7 @@ export default {
         this.$DCPlayer.eAudio.play()
         // hacky bug fix, need to 'see' the player first time before it will load
       } 
-      else if (this.ytUseVideo &&!this.showVideo && this.sorted[newi].source == 'YouTube' && typeof this.$store.getters.ytState.data === 'number') {
+      else if (this.ytUseVideo && !this.showVideo && !this.$route.name == 'auto' && this.sorted[newi].source == 'YouTube' && typeof this.$store.getters.ytState.data === 'number') {
         this.$nextTick(() => {
           this.$store.commit('show_pop', 'first')
           let f = () => setTimeout(() => { 

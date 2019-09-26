@@ -88,9 +88,9 @@
       </div>
       <!-- END_CHIPS -->
 
-
     </v-flex>
     <playlist 
+      v-if="aFiltered.length"
       :songs="aFiltered"
       :show-uploaded="!0"
       class="pt-2" 
@@ -98,8 +98,6 @@
       sort-by="uploaded" 
       @conmen="$emit('conmen', $event)"
     />
-
-
     <jumbo 
       v-if="!bLoading && subscriptions.length > 0"
       title="We wanted grab the latest songs from your subscriptions"

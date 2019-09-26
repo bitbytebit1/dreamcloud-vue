@@ -73,18 +73,18 @@
       <v-toolbar-side-icon @click.stop="leftTog"/>
       
       <!-- title -->
-      <v-toolbar-title 
-        style="width: 121px" 
-        class="hidden-sm-and-down fwl title" 
+      <v-toolbar-title  
+        class="hidden-xs-only fwl title" 
       >
         <router-link 
           :class="textClass" 
           :to="{name:'home', params: {user: uid}}"
         >
-          dreamcloud
+          DC
         </router-link>
       </v-toolbar-title>
 
+      <v-spacer/>
       <search/>
 
       <v-spacer/>
@@ -271,7 +271,7 @@ export default {
       return this.$vuetify.breakpoint.name === 'xs' || this.$vuetify.breakpoint.name === 'sm'
     },
     textClass () {
-      return 'noDeco pointer hidden-sm-and-down ' + this.$store.getters.textColor
+      return 'noDeco pointer hidden-xs-only ' + this.$store.getters.textColor
     },
     currentActive () {
       return this.$route.name === 'stage'
@@ -309,7 +309,7 @@ export default {
       })
     }
     // Set theme
-    this.$vuetify.theme.primary = '#710000'
+    this.$vuetify.theme.primary = '#AA0000'
     this.$store.commit('ytUseVideo', !this.bMobi)
     // On Firebase auth state change
     this.$DCFB.fb.auth().onAuthStateChanged((user) => {
