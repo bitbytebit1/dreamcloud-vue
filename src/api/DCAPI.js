@@ -17,16 +17,11 @@ class DCAPIClass {
   constructor() {
     // this.bcBase = 'https://dc-nodejs-backend-ftjhiqutmh.now.sh/' old
     this.bcBase = 'https://dc-nodejs-backend-ftjhiqutmh.now.sh/'
+    
     this.sYtKey = process.env.VUE_APP_YT_KEY
-    // if(process.env.NODE_ENV == 'production'){
-    // // RESTRICTED
-    //   this.sYtKey = 'AIzaSyCP80R2V5WHPm09Rvi6hSBHTlrsGtmWeJ8'
-    // } else {
-    //   // UNRESTRICTED
-    //   this.sYtKey = 'AIzaSyCP80R2V5WHPm09Rvi6hSBHTlrsGtmWeJ8'
-    // }
-    this.sScKey = '***REMOVED***'
-    this.sVimeoKey = '***REMOVED***'
+    this.sScKey = process.env.VUE_APP_SC_KEY
+    this.sVimeoKey = process.env.VUE_APP_VM_KEY
+
     this.YTnextPageTokenString = 0
     this.YTCommentNext = 0
     this.nextPageToken = 0
