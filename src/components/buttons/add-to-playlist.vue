@@ -157,23 +157,23 @@ export default {
         this.$refs.auto.$children[0].isActive = false
       })
     },
-    emit (v) {z
-              // if (!v) {
-              //   return
-              // }
-              this.menuOpen = false
-              this.$DCFB.playlistGet(this.$route.params.user, this.$route.params.playlist).once('value')
-                .then((d) =>{
-                  if (typeof v === 'object') {
-                    this.$DCFB.playlistSongAdd(v['.key'], this.song)
-                    // state.snacku[0].user, state.snacku[0].playlist).set(state.snacku[0].songs)
-                    this.$store.dispatch('snack', { b: true, c:'primary', s:'Added to playlist', u: [{songs: d.val(), user: this.$route.params.user, playlist: v['.key']}]})
-                  } else {
-                    this.$store.dispatch('snack', { b: true, c:'primary', s:`Created new playlist`})
-                    this.$DCFB.createNewPlaylist(this.select || this.search, this.song)
-                  }
-                  // this.$store.dispatch('snack', { b: true, c:'primary', s:'Added to playlist' })
-                })
+    emit (v) {
+      // if (!v) {
+      //   return
+      // }
+      this.menuOpen = false
+      this.$DCFB.playlistGet(this.$route.params.user, this.$route.params.playlist).once('value')
+        .then((d) =>{
+          if (typeof v === 'object') {
+            this.$DCFB.playlistSongAdd(v['.key'], this.song)
+            // state.snacku[0].user, state.snacku[0].playlist).set(state.snacku[0].songs)
+            this.$store.dispatch('snack', { b: true, c:'primary', s:'Added to playlist', u: [{songs: d.val(), user: this.$route.params.user, playlist: v['.key']}]})
+          } else {
+            this.$store.dispatch('snack', { b: true, c:'primary', s:`Created new playlist`})
+            this.$DCFB.createNewPlaylist(this.select || this.search, this.song)
+          }
+          // this.$store.dispatch('snack', { b: true, c:'primary', s:'Added to playlist' })
+        })
     },
     openMenu () {
       this.$emit('clicked')
