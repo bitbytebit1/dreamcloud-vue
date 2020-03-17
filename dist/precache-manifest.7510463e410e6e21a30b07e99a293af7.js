@@ -12,8 +12,8 @@ self.__precacheManifest = [
     "url": "update-available.js"
   },
   {
-    "revision": "5fa4fffcc985ea760147",
-    "url": "js/app.ce99a20f.js"
+    "revision": "5594cd3d92bd3ece6c10",
+    "url": "js/app.337bfff8.js"
   },
   {
     "revision": "735ab4f94fbcd57074377afca324c813",
@@ -32,8 +32,8 @@ self.__precacheManifest = [
     "url": "js/channelPlaylist.f5055d6a.js"
   },
   {
-    "revision": "20eb006ea0294e851afe5dea83e72b26",
-    "url": "img/about/share.png"
+    "revision": "fb4ccf6f74aea76928895144aee245c6",
+    "url": "img/about/star.png"
   },
   {
     "revision": "86f098f15df1bb88600b",
@@ -44,12 +44,12 @@ self.__precacheManifest = [
     "url": "img/about/webcam.png"
   },
   {
-    "revision": "461a4295d62c3beffd69",
-    "url": "js/chunk-vendors.8fd3e018.js"
+    "revision": "bfe7047ce8653f09e5c0",
+    "url": "js/chunk-vendors.cee90391.js"
   },
   {
-    "revision": "fb4ccf6f74aea76928895144aee245c6",
-    "url": "img/about/star.png"
+    "revision": "20eb006ea0294e851afe5dea83e72b26",
+    "url": "img/about/share.png"
   },
   {
     "revision": "3f175be8c3af21672a23",
@@ -60,16 +60,16 @@ self.__precacheManifest = [
     "url": "js/home.cb68e265.js"
   },
   {
-    "revision": "990b6be85eac8746b4f32dce99bb40b9",
-    "url": "img/about/turntable.png"
+    "revision": "6737924ee68ba5067b55860cc5963b41",
+    "url": "img/about/satellite.png"
   },
   {
     "revision": "859424ed443393739a12",
     "url": "js/login.95ee795e.js"
   },
   {
-    "revision": "6737924ee68ba5067b55860cc5963b41",
-    "url": "img/about/satellite.png"
+    "revision": "990b6be85eac8746b4f32dce99bb40b9",
+    "url": "img/about/turntable.png"
   },
   {
     "revision": "cd5986d7ebf0e34ae577",
@@ -84,7 +84,7 @@ self.__precacheManifest = [
     "url": "js/playlistOverview.f7b58e11.js"
   },
   {
-    "revision": "d31cf3130b6ca2d80822242b42f5db7d",
+    "revision": "cbb3faeba74f333681f46651e8c11db8",
     "url": "index.html"
   },
   {
@@ -144,8 +144,8 @@ self.__precacheManifest = [
     "url": "js/trending.d80f4424.js"
   },
   {
-    "revision": "859424ed443393739a12",
-    "url": "css/login.6fcd4d13.css"
+    "revision": "b617abbd90e4e3786ef1d460ef6b08c4",
+    "url": "img/about/energy.png"
   },
   {
     "revision": "51ec288fb5980c11d353",
@@ -164,6 +164,10 @@ self.__precacheManifest = [
     "url": "img/about/analytics.png"
   },
   {
+    "revision": "21a470e3fb2c59e7b680ffeaa49c99bb",
+    "url": "img/about/dream.css"
+  },
+  {
     "revision": "6e8f93d644595cffa1946ff5b9ef6fab",
     "url": "img/about/cloud.png"
   },
@@ -172,28 +176,16 @@ self.__precacheManifest = [
     "url": "img/about/dart.png"
   },
   {
-    "revision": "b617abbd90e4e3786ef1d460ef6b08c4",
-    "url": "img/about/energy.png"
-  },
-  {
-    "revision": "21a470e3fb2c59e7b680ffeaa49c99bb",
-    "url": "img/about/dream.css"
-  },
-  {
-    "revision": "86f098f15df1bb88600b",
-    "url": "css/chunk-76d4c477.031beb83.css"
-  },
-  {
-    "revision": "cd5986d7ebf0e34ae577",
-    "url": "css/password.a5ce5c20.css"
-  },
-  {
-    "revision": "c4c931f1ad2a28df1772",
-    "url": "css/playlistOverview.0e6c7e7a.css"
+    "revision": "bfe7047ce8653f09e5c0",
+    "url": "css/chunk-vendors.61a2e49b.css"
   },
   {
     "revision": "4748ea2d18fb2ed59ba0",
     "url": "css/playlistsAll.cb1bf88d.css"
+  },
+  {
+    "revision": "ef11aaa9677cabd07bac",
+    "url": "css/settings.a6c228ab.css"
   },
   {
     "revision": "f5d1b5441eb797d6bd8d",
@@ -204,23 +196,31 @@ self.__precacheManifest = [
     "url": "css/searchQuery.cb1bf88d.css"
   },
   {
-    "revision": "ef11aaa9677cabd07bac",
-    "url": "css/settings.a6c228ab.css"
+    "revision": "c4c931f1ad2a28df1772",
+    "url": "css/playlistOverview.0e6c7e7a.css"
+  },
+  {
+    "revision": "cd5986d7ebf0e34ae577",
+    "url": "css/password.a5ce5c20.css"
+  },
+  {
+    "revision": "859424ed443393739a12",
+    "url": "css/login.6fcd4d13.css"
   },
   {
     "revision": "3f175be8c3af21672a23",
     "url": "css/genre.4b0f9126.css"
   },
   {
-    "revision": "461a4295d62c3beffd69",
-    "url": "css/chunk-vendors.61a2e49b.css"
+    "revision": "86f098f15df1bb88600b",
+    "url": "css/chunk-76d4c477.031beb83.css"
   },
   {
     "revision": "8156d1308ae675f430fd",
     "url": "css/artist.88d9c49e.css"
   },
   {
-    "revision": "5fa4fffcc985ea760147",
+    "revision": "5594cd3d92bd3ece6c10",
     "url": "css/app.5db9e704.css"
   },
   {
