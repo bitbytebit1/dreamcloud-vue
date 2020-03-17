@@ -17,13 +17,8 @@ class DCAPIClass {
   constructor() {
     // this.bcBase = 'https://dc-nodejs-backend-ftjhiqutmh.now.sh/' old
     this.bcBase = 'https://dc-nodejs-backend-ftjhiqutmh.now.sh/'
-    // if(process.env.NODE_ENV == 'production'){
-    // RESTRICTED
-    this.sYtKey = '***REMOVED***'
-    // } else {
-      // UNRESTRICTED
-    this.sYtKey = '***REMOVED***'
-    // }
+    this.sYtKey = process.env.VUE_APP_YT_KEY
+
     this.sScKey = '***REMOVED***'
     this.sVimeoKey = '***REMOVED***'
     this.YTnextPageTokenString = 0
