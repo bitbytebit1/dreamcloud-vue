@@ -35,7 +35,7 @@
 
           <autocomplete
             ref="auto" 
-            @search="$router.push({name: 'searchQuery', params: {query: $event , 'source': 'all'}})"
+            @search="$router.push({name: 'searchQuery', params: {query: $event , 'source': 'youtube'}})"
           />
         </v-flex>
         <!-- ABOUT FEATURE DIALOG -->
