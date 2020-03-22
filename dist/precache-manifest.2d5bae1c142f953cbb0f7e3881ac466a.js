@@ -12,12 +12,12 @@ self.__precacheManifest = [
     "url": "img/about/webcam.png"
   },
   {
-    "revision": "57ba1985b3c5c6997ca1",
-    "url": "js/app.5fd9e0f9.js"
+    "revision": "51aca0c0b36193f47703",
+    "url": "js/app.35d1c153.js"
   },
   {
-    "revision": "fb4ccf6f74aea76928895144aee245c6",
-    "url": "img/about/star.png"
+    "revision": "20eb006ea0294e851afe5dea83e72b26",
+    "url": "img/about/share.png"
   },
   {
     "revision": "8156d1308ae675f430fd",
@@ -32,8 +32,8 @@ self.__precacheManifest = [
     "url": "js/channelPlaylist.f5055d6a.js"
   },
   {
-    "revision": "20eb006ea0294e851afe5dea83e72b26",
-    "url": "img/about/share.png"
+    "revision": "fb4ccf6f74aea76928895144aee245c6",
+    "url": "img/about/star.png"
   },
   {
     "revision": "86f098f15df1bb88600b",
@@ -44,8 +44,8 @@ self.__precacheManifest = [
     "url": "update-available.js"
   },
   {
-    "revision": "bfe7047ce8653f09e5c0",
-    "url": "js/chunk-vendors.cee90391.js"
+    "revision": "cb843a75dd40f6fd29dc",
+    "url": "js/chunk-vendors.16557b8d.js"
   },
   {
     "revision": "735ab4f94fbcd57074377afca324c813",
@@ -84,7 +84,7 @@ self.__precacheManifest = [
     "url": "js/playlistOverview.f7b58e11.js"
   },
   {
-    "revision": "5c6fc5fb3c809a15053b513357c22cab",
+    "revision": "b1157b1d5fd977647ff9fe0cc8942f3b",
     "url": "index.html"
   },
   {
@@ -144,8 +144,8 @@ self.__precacheManifest = [
     "url": "js/trending.d80f4424.js"
   },
   {
-    "revision": "0cce8c41ed55610a3e3403a9fcf1c7a0",
-    "url": "img/about/dart.png"
+    "revision": "21a470e3fb2c59e7b680ffeaa49c99bb",
+    "url": "img/about/dream.css"
   },
   {
     "revision": "51ec288fb5980c11d353",
@@ -164,19 +164,19 @@ self.__precacheManifest = [
     "url": "img/about/analytics.png"
   },
   {
-    "revision": "21a470e3fb2c59e7b680ffeaa49c99bb",
-    "url": "img/about/dream.css"
+    "revision": "b617abbd90e4e3786ef1d460ef6b08c4",
+    "url": "img/about/energy.png"
   },
   {
     "revision": "6e8f93d644595cffa1946ff5b9ef6fab",
     "url": "img/about/cloud.png"
   },
   {
-    "revision": "b617abbd90e4e3786ef1d460ef6b08c4",
-    "url": "img/about/energy.png"
+    "revision": "0cce8c41ed55610a3e3403a9fcf1c7a0",
+    "url": "img/about/dart.png"
   },
   {
-    "revision": "bfe7047ce8653f09e5c0",
+    "revision": "cb843a75dd40f6fd29dc",
     "url": "css/chunk-vendors.61a2e49b.css"
   },
   {
@@ -220,7 +220,7 @@ self.__precacheManifest = [
     "url": "css/artist.88d9c49e.css"
   },
   {
-    "revision": "57ba1985b3c5c6997ca1",
+    "revision": "51aca0c0b36193f47703",
     "url": "css/app.5db9e704.css"
   },
   {
