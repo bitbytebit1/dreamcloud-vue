@@ -12,8 +12,8 @@ self.__precacheManifest = [
     "url": "img/about/webcam.png"
   },
   {
-    "revision": "6749179f02d1e2526d94",
-    "url": "js/app.ce119cad.js"
+    "revision": "383e912c2ac0f8bfebaf",
+    "url": "js/app.cdd324d8.js"
   },
   {
     "revision": "fb4ccf6f74aea76928895144aee245c6",
@@ -40,16 +40,16 @@ self.__precacheManifest = [
     "url": "js/chunk-76d4c477.94209908.js"
   },
   {
-    "revision": "735ab4f94fbcd57074377afca324c813",
-    "url": "robots.txt"
-  },
-  {
-    "revision": "5cd32e28d4f5991f5d2d",
-    "url": "js/chunk-vendors.cee90391.js"
-  },
-  {
     "revision": "71c947380cbc877a1e9f7c11f478d760",
     "url": "update-available.js"
+  },
+  {
+    "revision": "94c5dcbc2ce80c454a12",
+    "url": "js/chunk-vendors.0649ffe5.js"
+  },
+  {
+    "revision": "735ab4f94fbcd57074377afca324c813",
+    "url": "robots.txt"
   },
   {
     "revision": "3b378ce1abce2e337a6a",
@@ -60,16 +60,16 @@ self.__precacheManifest = [
     "url": "js/home.e2575e4d.js"
   },
   {
-    "revision": "990b6be85eac8746b4f32dce99bb40b9",
-    "url": "img/about/turntable.png"
+    "revision": "6737924ee68ba5067b55860cc5963b41",
+    "url": "img/about/satellite.png"
   },
   {
     "revision": "177fff2429301acf9625",
     "url": "js/login.d2a69d77.js"
   },
   {
-    "revision": "6737924ee68ba5067b55860cc5963b41",
-    "url": "img/about/satellite.png"
+    "revision": "990b6be85eac8746b4f32dce99bb40b9",
+    "url": "img/about/turntable.png"
   },
   {
     "revision": "c75d49f2c7d6229fa783",
@@ -84,7 +84,7 @@ self.__precacheManifest = [
     "url": "js/playlistOverview.d9cd1a2e.js"
   },
   {
-    "revision": "2b6e1e13c07316724e816719a2eb2634",
+    "revision": "7ce1df2bedccf26e75988e206067bda2",
     "url": "index.html"
   },
   {
@@ -164,20 +164,20 @@ self.__precacheManifest = [
     "url": "img/about/analytics.png"
   },
   {
-    "revision": "0cce8c41ed55610a3e3403a9fcf1c7a0",
-    "url": "img/about/dart.png"
+    "revision": "b617abbd90e4e3786ef1d460ef6b08c4",
+    "url": "img/about/energy.png"
   },
   {
     "revision": "6e8f93d644595cffa1946ff5b9ef6fab",
     "url": "img/about/cloud.png"
   },
   {
-    "revision": "b617abbd90e4e3786ef1d460ef6b08c4",
-    "url": "img/about/energy.png"
-  },
-  {
     "revision": "21a470e3fb2c59e7b680ffeaa49c99bb",
     "url": "img/about/dream.css"
+  },
+  {
+    "revision": "0cce8c41ed55610a3e3403a9fcf1c7a0",
+    "url": "img/about/dart.png"
   },
   {
     "revision": "86f098f15df1bb88600b",
@@ -212,7 +212,7 @@ self.__precacheManifest = [
     "url": "css/genre.4b0f9126.css"
   },
   {
-    "revision": "5cd32e28d4f5991f5d2d",
+    "revision": "94c5dcbc2ce80c454a12",
     "url": "css/chunk-vendors.444b8d62.css"
   },
   {
@@ -220,7 +220,7 @@ self.__precacheManifest = [
     "url": "css/artist.88d9c49e.css"
   },
   {
-    "revision": "6749179f02d1e2526d94",
+    "revision": "383e912c2ac0f8bfebaf",
     "url": "css/app.af983b38.css"
   },
   {
