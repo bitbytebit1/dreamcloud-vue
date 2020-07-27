@@ -175,7 +175,7 @@ class DCAPIClass {
       a = 'https://api.soundcloud.com/tracks/' + this.aQuery[uid].sArtist + '/related?linked_partitioning=1&limit=' + this.aQuery[uid].iLimit + '&client_id=' + this.sScKey
     } else if (this.aQuery[uid].bArtist) {
       a = 'https://api.soundcloud.com/users.json?q=' + this.aQuery[uid].sQuery +'&linked_partitioning=1&limit=' + this.aQuery[uid].iLimit + '&client_id=' + this.sScKey
-      // https://api.soundcloud.com/users.json?linked_partitioning=1&limit=50&q=joyner%20lucas&client_id=***REMOVED***
+      // 'https://api.soundcloud.com/users.json?linked_partitioning=1&limit=50&q=joyner%20lucas&client_id=' + this.sScKey
     } else if (this.aQuery[uid].sArtist) {
       a = 'https://api.soundcloud.com/users/' + this.aQuery[uid].sArtist + '/tracks.json?linked_partitioning=1&limit=' + this.aQuery[uid].iLimit + '&client_id=' + this.sScKey
     } else {
